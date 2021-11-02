@@ -1,5 +1,7 @@
 pipeline {
-    agent any 
+    agent{
+        label 'jenkins-workers'
+    }
     stages {
         stage('Stage 1') {
             steps {
