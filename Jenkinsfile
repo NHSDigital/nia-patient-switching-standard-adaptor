@@ -3,12 +3,13 @@ pipeline {
         label 'jenkins-workers'
     }
 
-        options {
+    options {
         timestamps()
         buildDiscarder(logRotator(numToKeepStr: "10"))
     }
 
-    environment {}
+    environment {
+    }
     
     stages {
         stage('Stage 1') {
