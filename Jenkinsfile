@@ -9,6 +9,7 @@ pipeline {
     }
 
     environment {
+        ECR_REPO_DIR = "pss"
     }
     
     stages {
