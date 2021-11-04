@@ -13,7 +13,7 @@ and could work with the incumbent’s GPC < 1.6.0.
 
 ## Requirements:
 
-* JDK 14 - We develop the adaptor in Java with Spring Boot
+* JDK 17 - We develop the adaptor in Java with Spring Boot
 
 ### Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).

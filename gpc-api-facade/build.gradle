@@ -14,7 +14,12 @@ apply plugin: "com.github.spotbugs"
 apply plugin: 'application'
 
 group 'uk.nhs.adaptors'
-sourceCompatibility = '14'
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
 
 application {
     mainClass = 'uk.nhs.adaptors.gpc.GpcFacadeApplication'
@@ -67,7 +72,7 @@ configurations {
 }
 
 tasks.withType(Copy) {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    duplicatesStrategy = DuplicatesStrategy.WARN
 }
 
 task integrationTest(type: Test) {
