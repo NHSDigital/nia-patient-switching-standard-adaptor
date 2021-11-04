@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run all services" type="CompoundRunConfigurationType">
+    <toRun name="Gp2gpTranslatorApplication" type="Application" />
+    <toRun name="GpcFacadeApplication" type="Application" />
+    <method v="2" />
+  </configuration>
+</component>
