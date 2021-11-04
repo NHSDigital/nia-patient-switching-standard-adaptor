@@ -14,6 +14,7 @@ apply plugin: "com.github.spotbugs"
 apply plugin: 'application'
 
 group 'uk.nhs.adaptors'
+sourceCompatibility = '14'
 
 application {
     mainClass = 'uk.nhs.adaptors.gpc.GpcFacadeApplication'
