@@ -32,6 +32,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
@@ -55,6 +57,17 @@ sourceSets {
             srcDir file('src/integrationTest/resources')
         }
     }
+}
+
+configurations {
+    integrationTestCompileOnly.extendsFrom testCompileOnly
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntime.extendsFrom testRuntime
+    integrationTestAnnotationProcessor.extendsFrom testAnnotationProcessor
+}
+
+tasks.withType(Copy) {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 task integrationTest(type: Test) {
