@@ -1,8 +1,8 @@
-# GPC API Facade
+# GP2GP Translator
 
-GPC API Facade - HTTP FHIR API that is similar to GPC 1.6.0 standard.
-It enables NME to request and fetch patient data in the FHIR format.
-This facade only serves light tasks, delegating all the work to the async GP2GP Translator component.
+GP2GP Translator - new system that is the heart of the PSS Adaptor.
+It is responsible for GPC ↔︎ GP2GP translations, assembly of binary document data,
+communication with the incumbent system via MHS Adaptor and data cleanup.
 
 ## How to run tests
 
