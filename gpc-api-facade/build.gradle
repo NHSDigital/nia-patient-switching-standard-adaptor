@@ -15,12 +15,6 @@ apply plugin: 'application'
 
 group 'uk.nhs.adaptors'
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
 application {
     mainClass = 'uk.nhs.adaptors.gpc.GpcFacadeApplication'
 }
