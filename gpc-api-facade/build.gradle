@@ -19,10 +19,6 @@ application {
     mainClass = 'uk.nhs.adaptors.gpc.GpcFacadeApplication'
 }
 
-lombok {
-    config['lombok.log.fieldName'] = 'LOGGER'
-}
-
 repositories {
     mavenCentral()
 }
