@@ -47,10 +47,6 @@ sourceSets {
             runtimeClasspath += main.output + test.output
             srcDir file('src/integrationTest/java')
         }
-
-        resources {
-            srcDir file('src/integrationTest/resources')
-        }
     }
 }
 
@@ -59,10 +55,6 @@ configurations {
     integrationTestImplementation.extendsFrom testImplementation
     integrationTestRuntime.extendsFrom testRuntime
     integrationTestAnnotationProcessor.extendsFrom testAnnotationProcessor
-}
-
-tasks.withType(Copy) {
-    duplicatesStrategy = DuplicatesStrategy.WARN
 }
 
 task integrationTest(type: Test) {
