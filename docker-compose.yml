@@ -1,0 +1,8 @@
+version: '1'
+services:
+    pss_db:
+        build: ./db
+        environment:
+            POSTGRES_HOST_AUTH_METHOD: "trust"
+        ports:
+            - "5436:5432"
