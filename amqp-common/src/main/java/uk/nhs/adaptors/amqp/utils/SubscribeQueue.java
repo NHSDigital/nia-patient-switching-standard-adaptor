@@ -3,15 +3,24 @@ package uk.nhs.adaptors.amqp.utils;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 
+import uk.nhs.adaptors.amqp.utils.task.TestTask;
+
 public class SubscribeQueue {
+    @Autowired
+    private ObjectMapper objectMapper;
+    
     @JmsListener(destination = "${amqp.taskQueueName}")
     @SneakyThrows
     public void receive(Message message) {
-        System.out.println("Received message: " + ((TextMessage) message).getText());
+        String payload = ((TextMessage) message).getText();
+        TestTask testTask = objectMapper.readValue(payload, TestTask.class);
+        System.out.println("Received message = TaskID:" + testTask.getTaskId());
     }
 }
