@@ -1,5 +1,6 @@
 amqp:
-  taskQueueName: testqueue
+  gpcFacadeQueue: testGPC
+  mhsAdaptorQueue: testMHS
   broker: amqp://localhost:5672
   username: admin
   password: admin

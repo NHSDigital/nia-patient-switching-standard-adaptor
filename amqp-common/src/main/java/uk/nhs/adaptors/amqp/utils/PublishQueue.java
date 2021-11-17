@@ -15,15 +15,22 @@ public class PublishQueue {
     private JmsTemplate jmsTemplate;
     @Autowired
     private ObjectMapper objectMapper;
-    @Value("${amqp.taskQueueName}")
-    private String queueName;
+    @Value("${amqp.gpcFacadeQueue}")
+    private String gpcFacadeQueue;
+    @Value("${amqp.mhsAdaptorQueue}")
+    private String mhsAdaptorQueue;
 
-    public void sendToQueue(String messageContent) throws JmsException {
-        jmsTemplate.send(queueName, session -> session.createTextMessage(messageContent));
+    private void sendToQueue(String destination, String messageContent) throws JmsException {
+        jmsTemplate.send(destination, session -> session.createTextMessage(messageContent));
     }
 
-    public void sendTask(TaskDefinition taskDefinition) throws JsonProcessingException {
+    public void sendToGpcFacadeQueue(TaskDefinition taskDefinition) throws JsonProcessingException {
         String messagePayload = objectMapper.writeValueAsString(taskDefinition);
-        sendToQueue(messagePayload);
+        sendToQueue(gpcFacadeQueue, messagePayload);
+    }
+
+    public void sendToMhsAdaptorQueue(TaskDefinition taskDefinition) throws JsonProcessingException {
+        String messagePayload = objectMapper.writeValueAsString(taskDefinition);
+        sendToQueue(mhsAdaptorQueue, messagePayload);
     }
 }
