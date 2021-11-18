@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import uk.nhs.adaptors.amqp.task.TaskDefinition;
+import uk.nhs.adaptors.amqp.task.TaskHandlerException;
 
 public class PublishQueue {
     @Autowired
@@ -20,17 +21,20 @@ public class PublishQueue {
     @Value("${amqp.mhsAdaptorQueue}")
     private String mhsAdaptorQueue;
 
-    private void sendToQueue(String destination, String messageContent) throws JmsException {
-        jmsTemplate.send(destination, session -> session.createTextMessage(messageContent));
+    private void sendToQueue(String destination, TaskDefinition taskDefinition) throws JmsException {
+        try {
+            String messagePayload = objectMapper.writeValueAsString(taskDefinition);
+            jmsTemplate.send(destination, session -> session.createTextMessage(messagePayload));
+        } catch (JsonProcessingException e) {
+            throw new TaskHandlerException("Unable to serialise task definition to JSON", e);
+        }
     }
 
-    public void sendToGpcFacadeQueue(TaskDefinition taskDefinition) throws JsonProcessingException {
-        String messagePayload = objectMapper.writeValueAsString(taskDefinition);
-        sendToQueue(gpcFacadeQueue, messagePayload);
+    public void sendToGpcFacadeQueue(TaskDefinition taskDefinition) {
+        sendToQueue(gpcFacadeQueue, taskDefinition);
     }
 
-    public void sendToMhsAdaptorQueue(TaskDefinition taskDefinition) throws JsonProcessingException {
-        String messagePayload = objectMapper.writeValueAsString(taskDefinition);
-        sendToQueue(mhsAdaptorQueue, messagePayload);
+    public void sendToMhsAdaptorQueue(TaskDefinition taskDefinition) {
+        sendToQueue(mhsAdaptorQueue, taskDefinition);
     }
 }

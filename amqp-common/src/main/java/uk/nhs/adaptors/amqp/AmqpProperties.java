@@ -14,5 +14,7 @@ public class AmqpProperties {
     private String broker;
     private String username;
     private String password;
-    private String taskQueueName;
+    private String gpcFacadeQueue;
+    private String mhsAdaptorQueue;
+    private int maxRedeliveries;
 }
