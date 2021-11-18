@@ -12,8 +12,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 
-import uk.nhs.adaptors.amqp.utils.task.TaskDefinition;
-import uk.nhs.adaptors.amqp.utils.task.TestTask;
+import uk.nhs.adaptors.amqp.PublishQueue;
+import uk.nhs.adaptors.amqp.task.TaskDefinition;
+import uk.nhs.adaptors.amqp.task.TestTask;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

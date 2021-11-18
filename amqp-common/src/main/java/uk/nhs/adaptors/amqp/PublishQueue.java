@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp.utils;
+package uk.nhs.adaptors.amqp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,7 +8,7 @@ import org.springframework.jms.core.JmsTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import uk.nhs.adaptors.amqp.utils.task.TaskDefinition;
+import uk.nhs.adaptors.amqp.task.TaskDefinition;
 
 public class PublishQueue {
     @Autowired

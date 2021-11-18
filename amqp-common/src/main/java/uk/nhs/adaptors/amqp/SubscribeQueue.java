@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp.utils;
+package uk.nhs.adaptors.amqp;
 
 import javax.jms.Message;
 import javax.jms.TextMessage;
@@ -9,8 +9,7 @@ import org.springframework.jms.annotation.JmsListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
-
-import uk.nhs.adaptors.amqp.utils.task.TestTask;
+import uk.nhs.adaptors.amqp.task.TestTask;
 
 public class SubscribeQueue {
     @Autowired

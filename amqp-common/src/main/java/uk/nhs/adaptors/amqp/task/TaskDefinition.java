@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp.utils.task;
+package uk.nhs.adaptors.amqp.task;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

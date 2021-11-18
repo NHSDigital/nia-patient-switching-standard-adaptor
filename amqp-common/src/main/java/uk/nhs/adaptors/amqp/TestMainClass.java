@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp.utils;
+package uk.nhs.adaptors.amqp;
 
 
 import org.springframework.boot.SpringApplication;

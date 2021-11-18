@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp.utils;
+package uk.nhs.adaptors.amqp;
 
 import static org.springframework.util.StringUtils.isEmpty;
 

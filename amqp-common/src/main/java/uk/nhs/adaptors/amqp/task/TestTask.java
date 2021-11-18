@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp.utils.task;
+package uk.nhs.adaptors.amqp.task;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.extern.jackson.Jacksonized;
 @SuperBuilder
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class TestTask extends TaskDefinition{
+public class TestTask extends TaskDefinition {
     @Override
     public TaskType getTaskType() {
         return TaskType.TEST_TASK;
