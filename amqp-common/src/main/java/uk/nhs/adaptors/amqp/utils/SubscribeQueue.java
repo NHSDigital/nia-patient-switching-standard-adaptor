@@ -19,7 +19,7 @@ public class SubscribeQueue {
     @JmsListener(destination = "${amqp.gpcFacadeQueue}")
     @JmsListener(destination = "${amqp.mhsAdaptorQueue}")
     @SneakyThrows
-    public void subscribeToQueue(Message message) {
+    private void subscribeToQueue(Message message) {
         String payload = ((TextMessage) message).getText();
         TestTask testTask = objectMapper.readValue(payload, TestTask.class);
         System.out.println("Received message = TaskID:" + testTask.getTaskId());
