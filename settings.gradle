@@ -1,0 +1,3 @@
+rootProject.name = 'patient-switching-adaptor'
+include 'db-connector'
+include 'gpc-api-facade', 'gp2gp-translator'

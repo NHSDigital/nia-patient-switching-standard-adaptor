@@ -1,5 +1,5 @@
 # nia-patient-switching-standard-adaptor
-National Integration Adaptor - Switching Standard Adaptor
+National Integration Adaptor - Patient Switching Standard Adaptor
 
 Incumbent providers (e.g. TPP, EMIS, SystemOne) in order to deploy GP2GP Adaptor in their infrastructure
 to support losing practice scenario - i.e. whereby a different practice transfers patient data from the incumbent
@@ -11,9 +11,32 @@ The motivation for the Switching Standard Adaptor is to remove the dependency fr
 The idea is to build an adaptor that could be installed and configured in a New Market Entrant (NME) infrastructure,
 and could work with the incumbent’s GPC < 1.6.0.
 
+Adaptor consists of two main components:
+- GPC API Facade
+- GP2GP Translator
+They are Java Spring Boot applications, released as separate docker images.
+
 ## Requirements:
 
 * JDK 17 - We develop the adaptor in Java with Spring Boot
+
+## Project structure
+
+    .
+    ├── db                          # Dockerfile and scripts for local database setup
+    ├── db-connector                # Common module used by gp2gp-translator and gpc-api-facade
+    ├── gp2gp-translator            # GP2GP Translator
+    ├── gpc-api-facade              # GPC API Facade
+    └── mhs-adaptor-mock            # Dockerfile and required files for mock of MHS Adaptor
+
+## How to start local environment
+1. Start the database by running 
+    ```shell script
+    docker-compose up
+    ```
+   command in the root directory.
+2. Start GPC Api Facade application in IntelliJ (it will run the migrations as well).
+3. Start GP2GP Translator application in IntelliJ
 
 ### Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).

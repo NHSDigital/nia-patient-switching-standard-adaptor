@@ -1,3 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: migration/001-test.sql
