@@ -1,17 +1,26 @@
 package uk.nhs.adaptors.amqp.utils;
 
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+
+import javax.jms.Session;
+import javax.jms.TextMessage;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,35 +40,38 @@ public class PublishQueueTest {
     private PublishQueue publishQueue;
 
     @Autowired
-    private ObjectMapper objectMapper;
-    
+    private ObjectMapper mapper;
+
     @Autowired
     private SubscribeQueue subscribeQueue;
+    
+    @Mock
+    private JmsTemplate jmsTemplate;
+    
+    @Mock
+    private Session session;
+    
+    @Mock
+    private TextMessage textMessage;
+    
+    private final String TEST_PAYLOAD = "{\"taskId\":\"123\",\"requestId\":null,\"conversationId\":null," +
+        "\"toAsid\":null,\"fromAsid\":null,\"fromOdsCode\":null,\"toOdsCode\":null," +
+        "\"taskType\":\"TEST_TASK\"}";
 
     @Test
     @SneakyThrows
-    public void testTaskSend() {
+    public void When_TaskIsSentToGpcFacadeQueue_Expect_MessageIsSentToQueue() {
         TaskDefinition taskDefinition = TestTask.builder()
             .taskId("123")
             .build();
         publishQueue.sendToGpcFacadeQueue(taskDefinition);
+        when(session.createTextMessage(TEST_PAYLOAD)).thenReturn(textMessage);
 
-        taskDefinition = TestTask.builder()
-            .taskId("456")
-            .build();
-        publishQueue.sendToMhsAdaptorQueue(taskDefinition);
-    }
-
-    @Test
-    @SneakyThrows
-    public void When_OneTaskIsSentToGpcFacadeQueue_Expect_MessageIsDequeued() {
-        TaskDefinition taskDefinition = TestTask.builder()
-            .taskId("123")
-            .build();
-        
-        publishQueue.sendToGpcFacadeQueue(taskDefinition);
-        
-        verify(subscribeQueue, times(1)).subscribeToQueue(ArgumentMatchers.any());
+        var messageCreatorArgumentCaptor = ArgumentCaptor.forClass(MessageCreator.class);
+        verify(jmsTemplate, times(1))
+            .send(ArgumentMatchers.anyString(), messageCreatorArgumentCaptor.capture());
+        messageCreatorArgumentCaptor.getValue().createMessage(session);
+        verify(textMessage).setStringProperty(TEST_PAYLOAD, "TEST");
     }
     
     //send to mhs
