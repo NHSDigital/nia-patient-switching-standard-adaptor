@@ -33,6 +33,7 @@ They are Java Spring Boot applications, released as separate docker images.
 1. Export following env variables:
     - POSTGRES_PASSWORD: Password to be set for default postgres user. 
       This user is used to run the init script on the database. It is required during database creation.
+    - PS_DB_OWNER_NAME: Username of user used to run migrations.
     - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations.
     - GPC_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
     - GP2GP_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
