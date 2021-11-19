@@ -1,9 +1,7 @@
 package uk.nhs.adaptors.amqp;
 
 import javax.jms.Message;
-import javax.jms.TextMessage;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.amqp.task.TestTask;
 
 @Component
 @AllArgsConstructor
