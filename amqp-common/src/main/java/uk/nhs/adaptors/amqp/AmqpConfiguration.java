@@ -50,16 +50,6 @@ public class AmqpConfiguration {
         return factory;
     }
 
-    @Bean
-    public PublishQueue publishQueue() {
-        return new PublishQueue();
-    }
-
-    @Bean
-    public SubscribeQueue subscribeQueue() {
-        return new SubscribeQueue();
-    }
-
     private void configureRedeliveryPolicy(AmqpProperties properties, JmsConnectionFactory factory) {
         factory.setRedeliveryPolicy(new CustomRedeliveryPolicy(
             properties.getMaxRedeliveries(), JmsMessageSupport.MODIFIED_FAILED_UNDELIVERABLE));

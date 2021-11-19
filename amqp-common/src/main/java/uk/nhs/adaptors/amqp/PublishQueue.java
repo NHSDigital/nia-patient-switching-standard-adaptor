@@ -1,25 +1,22 @@
 package uk.nhs.adaptors.amqp;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.amqp.task.TaskDefinition;
 import uk.nhs.adaptors.amqp.task.TaskHandlerException;
 
+@Component
+@AllArgsConstructor
 public class PublishQueue {
-    @Autowired
-    private JmsTemplate jmsTemplate;
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Value("${amqp.gpcFacadeQueue}")
-    private String gpcFacadeQueue;
-    @Value("${amqp.mhsAdaptorQueue}")
-    private String mhsAdaptorQueue;
+    private final JmsTemplate jmsTemplate;
+    private final ObjectMapper objectMapper;
+    private final AmqpProperties properties;
 
     private void sendToQueue(String destination, TaskDefinition taskDefinition) throws JmsException {
         try {
@@ -31,10 +28,10 @@ public class PublishQueue {
     }
 
     public void sendToGpcFacadeQueue(TaskDefinition taskDefinition) {
-        sendToQueue(gpcFacadeQueue, taskDefinition);
+        sendToQueue(properties.getGpcFacadeQueue(), taskDefinition);
     }
 
     public void sendToMhsAdaptorQueue(TaskDefinition taskDefinition) {
-        sendToQueue(mhsAdaptorQueue, taskDefinition);
+        sendToQueue(properties.getMhsAdaptorQueue(), taskDefinition);
     }
 }

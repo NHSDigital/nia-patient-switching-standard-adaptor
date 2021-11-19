@@ -20,13 +20,8 @@ import uk.nhs.adaptors.amqp.task.TestTask;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TestQueue {
-
     @Autowired
     private PublishQueue publishQueue;
-    @Autowired
-    private JmsTemplate jmsTemplate;
-    @Autowired
-    private ObjectMapper objectMapper;
     
     @Test
     @SneakyThrows
