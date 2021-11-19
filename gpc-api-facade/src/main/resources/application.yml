@@ -3,11 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5436/pss
-    username: pss
-    password:
-  liquibase:
-    default-schema: public
+    url: jdbc:postgresql://localhost:5436/patient_switching
+    username: gpc_user
+    password: ${GPC_USER_DB_PASSWORD:pass}
 
 management:
   endpoints:

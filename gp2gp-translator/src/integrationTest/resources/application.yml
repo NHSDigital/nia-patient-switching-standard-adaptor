@@ -5,6 +5,12 @@ logging:
   level:
     com.nhs.adaptors.gpc: DEBUG
 
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5436/patient_switching
+    username: gp2gp_user
+    password: ${GP2GP_USER_DB_PASSWORD}
+
 management:
   endpoints:
     web:

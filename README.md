@@ -30,13 +30,24 @@ They are Java Spring Boot applications, released as separate docker images.
     └── mhs-adaptor-mock            # Dockerfile and required files for mock of MHS Adaptor
 
 ## How to start local environment
-1. Start the database by running 
+1. Export following env variables:
+    - POSTGRES_PASSWORD: Password to be set for default postgres user. 
+      This user is used to run the init script on the database. It is required during database creation.
+    - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations.
+    - GPC_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
+    - GP2GP_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
+2. Start the database by running 
     ```shell script
     docker-compose up
     ```
    command in the root directory.
-2. Start GPC Api Facade application in IntelliJ (it will run the migrations as well).
-3. Start GP2GP Translator application in IntelliJ
+3. Start GPC Api Facade application in IntelliJ
+4. Start GP2GP Translator application in IntelliJ
+5. Run migrations by running
+    ```shell script
+    ./gradlew update
+    ```
+    command in db-connector folder.
 
 ### Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).

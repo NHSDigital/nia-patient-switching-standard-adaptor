@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.spi.JdbiPlugin;
+import org.jdbi.v3.postgres.PostgresPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +34,11 @@ public class BaseConfiguration {
     @Bean
     public JdbiPlugin sqlObjectPlugin() {
         return new SqlObjectPlugin();
+    }
+
+    @Bean
+    public JdbiPlugin postgresPlugin() {
+        return new PostgresPlugin();
     }
 
     @Bean

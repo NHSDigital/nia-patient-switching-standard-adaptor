@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.liquibase:liquibase-gradle-plugin:2.1.0"
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '2.5.6'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -10,7 +19,8 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'checkstyle'
-apply plugin: "com.github.spotbugs"
+apply plugin: 'com.github.spotbugs'
+apply plugin: 'org.liquibase.gradle'
 
 repositories {
     mavenCentral()
@@ -19,8 +29,17 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.5.6'
     implementation 'org.postgresql:postgresql:42.3.1'
-    implementation 'org.jdbi:jdbi3-core:3.24.0'
-    implementation 'org.jdbi:jdbi3-sqlobject:3.24.0'
+    implementation 'org.jdbi:jdbi3-core:3.24.1'
+    implementation 'org.jdbi:jdbi3-sqlobject:3.24.1'
+    implementation 'org.jdbi:jdbi3-postgres:3.24.1'
+
+    liquibaseRuntime 'org.liquibase:liquibase-core:4.6.1'
+    liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:3.0.0'
+    liquibaseRuntime 'info.picocli:picocli:4.6.1'
+    liquibaseRuntime 'org.postgresql:postgresql:42.3.1'
+    liquibaseRuntime 'org.yaml:snakeyaml:1.17'
+//    classpath "org.liquibase:liquibase-gradle-plugin:2.1.0"
+//    implementation 'org.liquibase:liquibase-core:4.6.1'
 
     testImplementation 'junit:junit:4.13.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -53,6 +72,17 @@ spotbugsMain {
         }
         xml {
             enabled = true
+        }
+    }
+}
+
+liquibase {
+    activities {
+        main {
+            changeLogFile 'changelog/db.changelog-master.xml'
+            url 'jdbc:postgresql://localhost:5436/patient_switching'
+            username System.getenv('PS_DB_OWNER_NAME')
+            password System.getenv('PS_DB_OWNER_PASSWORD')
         }
     }
 }

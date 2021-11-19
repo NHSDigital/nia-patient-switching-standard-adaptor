@@ -1,4 +1,0 @@
-databaseChangeLog:
-  - include:
-      relativeToChangelogFile: true
-      file: migration/01-create-patient_migration_request.sql
