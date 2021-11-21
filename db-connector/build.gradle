@@ -78,7 +78,7 @@ liquibase {
     activities {
         main {
             changeLogFile 'changelog/db.changelog-master.xml'
-            url 'jdbc:postgresql://localhost:5436/patient_switching'
+            url System.getenv('PS_DB_URL')
             username System.getenv('PS_DB_OWNER_NAME')
             password System.getenv('PS_DB_OWNER_PASSWORD')
         }

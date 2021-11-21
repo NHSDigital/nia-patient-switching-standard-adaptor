@@ -31,6 +31,7 @@ They are Java Spring Boot applications, released as separate docker images.
 
 ## How to start local environment
 1. Export following env variables:
+    - PS_DB_URL: Database URL required to run migrations (for local environment set 'jdbc:postgresql://localhost:5436/patient_switching')
     - POSTGRES_PASSWORD: Password to be set for default postgres user. 
       This user is used to run the init script on the database. It is required during database creation.
     - PS_DB_OWNER_NAME: Username of user used to run migrations.
