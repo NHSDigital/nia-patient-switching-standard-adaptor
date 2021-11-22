@@ -5,6 +5,12 @@ logging:
   level:
     com.nhs.adaptors.gpc: DEBUG
 
+spring:
+  datasource:
+    url: ${PS_DB_URL:jdbc:postgresql://localhost:5436/patient_switching}
+    username: gpc_user
+    password: ${GPC_USER_DB_PASSWORD}
+
 management:
   endpoints:
     web:
