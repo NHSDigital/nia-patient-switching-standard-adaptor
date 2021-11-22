@@ -43,13 +43,13 @@ They are Java Spring Boot applications, released as separate docker images.
     docker-compose up
     ```
    command in the root directory.
-3. Start GPC Api Facade application in IntelliJ
-4. Start GP2GP Translator application in IntelliJ
-5. Run migrations by running
+3. Run migrations by executing
     ```shell script
     ./gradlew update
     ```
     command in db-connector folder.
+4. Start GPC Api Facade application in IntelliJ
+5. Start GP2GP Translator application in IntelliJ
 
 ### Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).
