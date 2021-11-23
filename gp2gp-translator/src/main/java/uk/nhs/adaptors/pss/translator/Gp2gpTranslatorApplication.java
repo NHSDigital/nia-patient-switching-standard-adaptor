@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.gp2gp;
+package uk.nhs.adaptors.pss.translator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
