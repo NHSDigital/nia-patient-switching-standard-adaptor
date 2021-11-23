@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 psql --username "postgres" --dbname "postgres" <<-EOSQL
-  CREATE USER patient_switching_owner WITH PASSWORD '$PS_DB_OWNER_PASSWORD' CREATEROLE;
-  CREATE DATABASE patient_switching WITH OWNER patient_switching_owner;
-  GRANT ALL PRIVILEGES ON DATABASE patient_switching TO patient_switching_owner;
+  CREATE USER '$PS_DB_OWNER_NAME' WITH PASSWORD '$PS_DB_OWNER_PASSWORD' CREATEROLE;
+  CREATE DATABASE patient_switching WITH OWNER '$PS_DB_OWNER_NAME';
+  GRANT ALL PRIVILEGES ON DATABASE patient_switching TO '$PS_DB_OWNER_NAME';
 EOSQL
