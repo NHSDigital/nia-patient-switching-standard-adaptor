@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp;
+package uk.nhs.adaptors.pss.translator.amqp;
 
 
 import org.springframework.boot.SpringApplication;

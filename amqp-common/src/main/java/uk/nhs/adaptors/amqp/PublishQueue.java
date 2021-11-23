@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp;
+package uk.nhs.adaptors.pss.translator.amqp;
 
 import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
@@ -8,8 +8,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.amqp.task.TaskDefinition;
-import uk.nhs.adaptors.amqp.task.TaskHandlerException;
+import uk.nhs.adaptors.pss.translator.amqp.task.TaskDefinition;
+import uk.nhs.adaptors.pss.translator.amqp.task.TaskHandlerException;
 
 @Component
 @AllArgsConstructor

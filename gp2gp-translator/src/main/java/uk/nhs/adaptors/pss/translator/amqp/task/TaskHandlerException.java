@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp.task;
+package uk.nhs.adaptors.pss.translator.amqp.task;
 
 public class TaskHandlerException extends RuntimeException {
     public TaskHandlerException(String message) {

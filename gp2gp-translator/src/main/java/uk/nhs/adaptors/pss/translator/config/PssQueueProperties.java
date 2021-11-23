@@ -1,14 +1,16 @@
-package uk.nhs.adaptors.amqp;
+package uk.nhs.adaptors.pss.translator.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import lombok.Getter;
 import lombok.Setter;
 
+@Component
+@ConfigurationProperties(prefix = "amqp.pss")
 @Getter
 @Setter
-@Component
-public abstract class AmqpProperties {
+public class PssQueueProperties {
     private String queueName;
     private String broker;
     private String username;

@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp;
+package uk.nhs.adaptors.pss.translator.amqp;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.eq;
@@ -25,9 +25,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.amqp.task.TaskDefinition;
-import uk.nhs.adaptors.amqp.task.TaskHandlerException;
-import uk.nhs.adaptors.gpc.Gp2gpTranslatorApplication;
+import uk.nhs.adaptors.pss.translator.Gp2gpTranslatorApplication;
+import uk.nhs.adaptors.pss.translator.amqp.task.TaskDefinition;
+import uk.nhs.adaptors.pss.translator.amqp.task.TaskHandlerException;
+import uk.nhs.adaptors.pss.translator.config.MhsQueueProperties;
+import uk.nhs.adaptors.pss.translator.config.PssQueueProperties;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {Gp2gpTranslatorApplication.class})

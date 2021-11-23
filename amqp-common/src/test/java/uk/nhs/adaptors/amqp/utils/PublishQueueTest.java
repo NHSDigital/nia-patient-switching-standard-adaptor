@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp.utils;
+package uk.nhs.adaptors.pss.translator.amqp.utils;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.eq;
@@ -28,10 +28,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 
-import uk.nhs.adaptors.amqp.AmqpProperties;
-import uk.nhs.adaptors.amqp.PublishQueue;
-import uk.nhs.adaptors.amqp.task.TaskDefinition;
-import uk.nhs.adaptors.amqp.task.TaskHandlerException;
+import uk.nhs.adaptors.pss.translator.amqp.AmqpProperties;
+import uk.nhs.adaptors.pss.translator.amqp.PublishQueue;
+import uk.nhs.adaptors.pss.translator.amqp.task.TaskDefinition;
+import uk.nhs.adaptors.pss.translator.amqp.task.TaskHandlerException;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

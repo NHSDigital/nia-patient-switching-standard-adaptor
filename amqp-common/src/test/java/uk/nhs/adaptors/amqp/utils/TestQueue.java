@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.amqp.utils;
+package uk.nhs.adaptors.pss.translator.amqp.utils;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,9 +9,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import lombok.SneakyThrows;
 
-import uk.nhs.adaptors.amqp.PublishQueue;
-import uk.nhs.adaptors.amqp.task.TaskDefinition;
-import uk.nhs.adaptors.amqp.task.TestTask;
+import uk.nhs.adaptors.pss.translator.amqp.PublishQueue;
+import uk.nhs.adaptors.pss.translator.amqp.task.TaskDefinition;
+import uk.nhs.adaptors.pss.translator.amqp.task.TestTask;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

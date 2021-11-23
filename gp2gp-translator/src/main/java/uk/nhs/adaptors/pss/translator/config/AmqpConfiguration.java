@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.amqp;
+package uk.nhs.adaptors.pss.translator.config;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -6,23 +6,24 @@ import org.apache.qpid.jms.JmsConnectionFactory;
 import org.apache.qpid.jms.JmsDestination;
 import org.apache.qpid.jms.message.JmsMessageSupport;
 import org.apache.qpid.jms.policy.JmsRedeliveryPolicy;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
+import org.springframework.jms.config.JmsListenerContainerFactory;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 
 @Configuration
-@EnableJms
 public class AmqpConfiguration {
     @Bean
     public MessageConverter jsonMessageConverter() {
         return new MappingJackson2MessageConverter();
     }
 
-    @Bean
-    public JmsConnectionFactory jmsConnectionFactory(AmqpProperties properties) {
+    @Bean("pssQueueConnectionFactory")
+    public JmsConnectionFactory jmsConnectionFactoryPssQueue(PssQueueProperties properties) {
         JmsConnectionFactory factory = new JmsConnectionFactory();
 
         factory.setRemoteURI(properties.getBroker());
@@ -34,23 +35,60 @@ public class AmqpConfiguration {
         if (!isEmpty(properties.getPassword())) {
             factory.setPassword(properties.getPassword());
         }
-        
+
         configureRedeliveryPolicy(properties, factory);
 
         return factory;
     }
 
-    @Bean
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
-        DefaultJmsListenerContainerFactory factory =
-            new DefaultJmsListenerContainerFactory();
-        factory
-            .setConnectionFactory(jmsConnectionFactory(new AmqpProperties()));
+    @Bean("mhsInboundQueueConnectionFactory")
+    public JmsConnectionFactory jmsConnectionFactoryMhsInboundQueue(MhsQueueProperties properties) {
+        JmsConnectionFactory factory = new JmsConnectionFactory();
+
+        factory.setRemoteURI(properties.getBroker());
+
+        if (!isEmpty(properties.getUsername())) {
+            factory.setUsername(properties.getUsername());
+        }
+
+        if (!isEmpty(properties.getPassword())) {
+            factory.setPassword(properties.getPassword());
+        }
+
+        //        configureRedeliveryPolicy(properties, factory);
 
         return factory;
     }
 
-    private void configureRedeliveryPolicy(AmqpProperties properties, JmsConnectionFactory factory) {
+    @Bean("pssQueueJmsListenerFactory")
+    public JmsListenerContainerFactory<?> jmsListenerContainerFactory(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
+        DefaultJmsListenerContainerFactory factory =
+            new DefaultJmsListenerContainerFactory();
+        factory
+            .setConnectionFactory(connectionFactory);
+
+        return factory;
+    }
+
+    @Bean("jmsTemplatePssQueue")
+    public JmsTemplate jmsTemplatePssQueue(@Qualifier("mhsInboundQueueConnectionFactory") JmsConnectionFactory connectionFactory,
+        PssQueueProperties properties) {
+        JmsTemplate jmsTemplate = new JmsTemplate();
+        jmsTemplate.setConnectionFactory(connectionFactory);
+        jmsTemplate.setDefaultDestinationName(properties.getQueueName());
+        return jmsTemplate;
+    }
+
+    @Bean("jmsTemplateMhsQueue")
+    public JmsTemplate jmsTemplateMhsQueue(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory,
+        MhsQueueProperties properties) {
+        JmsTemplate jmsTemplate = new JmsTemplate();
+        jmsTemplate.setConnectionFactory(connectionFactory);
+        jmsTemplate.setDefaultDestinationName(properties.getQueueName());
+        return jmsTemplate;
+    }
+
+    private void configureRedeliveryPolicy(PssQueueProperties properties, JmsConnectionFactory factory) {
         factory.setRedeliveryPolicy(new CustomRedeliveryPolicy(
             properties.getMaxRedeliveries(), JmsMessageSupport.MODIFIED_FAILED_UNDELIVERABLE));
     }
