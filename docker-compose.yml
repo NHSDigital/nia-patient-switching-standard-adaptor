@@ -1,9 +1,16 @@
 version: '3.8'
 services:
-    pss_db:
-        build: ./db
-        environment:
-            - POSTGRES_PASSWORD=${POSTGRES_DEFAULT_DB_PASSWORD}
-            - PS_DB_OWNER_PASSWORD=${PS_DB_OWNER_PASSWORD}
-        ports:
-            - "5436:5432"
+
+
+  pss_db:
+    build: ./db
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_DEFAULT_DB_PASSWORD}
+      - PS_DB_OWNER_PASSWORD=${PS_DB_OWNER_PASSWORD}
+    ports:
+      - "5436:5432"
+
+  mhs-adaptor-mock:
+    build: ./mhs-adaptor-mock
+    ports:
+      - "8081:8081"
