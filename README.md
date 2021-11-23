@@ -42,7 +42,7 @@ They are Java Spring Boot applications, released as separate docker images.
     ```shell script
     docker-compose up
     ```
-   command in the root directory.
+   command in the root directory. It will create a default postgres database and patient_switching database.
 3. Run migrations by executing
     ```shell script
     ./gradlew update
