@@ -41,7 +41,7 @@ public class AmqpConfiguration {
         return factory;
     }
 
-    @Bean("mhsInboundQueueConnectionFactory")
+    @Bean("mhsQueueConnectionFactory")
     public JmsConnectionFactory jmsConnectionFactoryMhsInboundQueue(MhsQueueProperties properties) {
         JmsConnectionFactory factory = new JmsConnectionFactory();
 
@@ -55,13 +55,21 @@ public class AmqpConfiguration {
             factory.setPassword(properties.getPassword());
         }
 
-        //        configureRedeliveryPolicy(properties, factory);
-
         return factory;
     }
 
     @Bean("pssQueueJmsListenerFactory")
-    public JmsListenerContainerFactory<?> jmsListenerContainerFactory(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
+    public JmsListenerContainerFactory<?> jmsListenerContainerFactoryPssQueue(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
+        DefaultJmsListenerContainerFactory factory =
+            new DefaultJmsListenerContainerFactory();
+        factory
+            .setConnectionFactory(connectionFactory);
+
+        return factory;
+    }
+
+    @Bean("mhsQueueJmsListenerFactory")
+    public JmsListenerContainerFactory<?> jmsListenerContainerFactoryMhsQueue(@Qualifier("mhsQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory =
             new DefaultJmsListenerContainerFactory();
         factory
@@ -71,7 +79,7 @@ public class AmqpConfiguration {
     }
 
     @Bean("jmsTemplatePssQueue")
-    public JmsTemplate jmsTemplatePssQueue(@Qualifier("mhsInboundQueueConnectionFactory") JmsConnectionFactory connectionFactory,
+    public JmsTemplate jmsTemplatePssQueue(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory,
         PssQueueProperties properties) {
         JmsTemplate jmsTemplate = new JmsTemplate();
         jmsTemplate.setConnectionFactory(connectionFactory);
@@ -80,7 +88,7 @@ public class AmqpConfiguration {
     }
 
     @Bean("jmsTemplateMhsQueue")
-    public JmsTemplate jmsTemplateMhsQueue(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory,
+    public JmsTemplate jmsTemplateMhsQueue(@Qualifier("mhsQueueConnectionFactory") JmsConnectionFactory connectionFactory,
         MhsQueueProperties properties) {
         JmsTemplate jmsTemplate = new JmsTemplate();
         jmsTemplate.setConnectionFactory(connectionFactory);
