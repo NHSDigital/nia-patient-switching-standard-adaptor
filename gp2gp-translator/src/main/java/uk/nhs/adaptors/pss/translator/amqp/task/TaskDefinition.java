@@ -3,10 +3,11 @@ package uk.nhs.adaptors.pss.translator.amqp.task;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
-@Getter
+@Jacksonized
 @SuperBuilder
-@EqualsAndHashCode
-public abstract class TaskDefinition {
+@Getter
+public class TaskDefinition {
     private final String taskName;
 }

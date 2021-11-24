@@ -7,6 +7,6 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @SuperBuilder
 @EqualsAndHashCode
-public abstract class TaskDefinition {
+public class TaskDefinition {
     private final String taskName;
 }

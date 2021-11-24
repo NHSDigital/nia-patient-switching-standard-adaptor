@@ -10,7 +10,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import uk.nhs.adaptors.gpc.amqp.task.TaskDefinition;
-import uk.nhs.adaptors.gpc.amqp.task.TestTask;
 
 @ExtendWith({SpringExtension.class})
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -21,7 +20,7 @@ public class PssQueuePublisherTest {
 
     @Test
     public void When_TaskIsSentToPssQueue_Expect_MessageIsSentToQueue() {
-        TaskDefinition taskDefinition = TestTask.builder()
+        TaskDefinition taskDefinition = TaskDefinition.builder()
             .taskName("123")
             .build();
         pssQueuePublisher.sendToPssQueue(taskDefinition);

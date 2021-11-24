@@ -25,7 +25,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.gpc.GpcFacadeApplication;
-import uk.nhs.adaptors.gpc.amqp.PssQueuePublisher;
 import uk.nhs.adaptors.gpc.amqp.task.TaskDefinition;
 import uk.nhs.adaptors.gpc.amqp.task.TaskHandlerException;
 import uk.nhs.adaptors.gpc.config.PssQueueProperties;
