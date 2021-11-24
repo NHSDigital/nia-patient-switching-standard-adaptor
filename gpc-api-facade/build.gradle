@@ -26,6 +26,10 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework:spring-jms:5.2.6.RELEASE'
+    implementation ('org.apache.qpid:qpid-jms-client:1.2.0') {
+        exclude group: 'io.netty', module: 'netty-codec-http'
+    }
 
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
