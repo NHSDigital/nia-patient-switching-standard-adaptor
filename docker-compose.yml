@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  pss_db:
+    build: ./db
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PS_DB_OWNER_NAME=${PS_DB_OWNER_NAME}
+      - PS_DB_OWNER_PASSWORD=${PS_DB_OWNER_PASSWORD}
+    ports:
+      - "5436:5432"

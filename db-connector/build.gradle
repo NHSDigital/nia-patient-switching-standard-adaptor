@@ -1,0 +1,86 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.liquibase:liquibase-gradle-plugin:2.1.0"
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.5.6'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'checkstyle'
+    id 'io.freefair.lombok' version '6.2.0'
+    id 'com.github.spotbugs' version '4.7.9'
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'checkstyle'
+apply plugin: 'com.github.spotbugs'
+apply plugin: 'org.liquibase.gradle'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.5.6'
+    implementation 'org.postgresql:postgresql:42.3.1'
+    implementation 'org.jdbi:jdbi3-core:3.24.1'
+    implementation 'org.jdbi:jdbi3-sqlobject:3.24.1'
+    implementation 'org.jdbi:jdbi3-postgres:3.24.1'
+
+    liquibaseRuntime 'org.liquibase:liquibase-core:4.6.1'
+    liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:3.0.0'
+    liquibaseRuntime 'info.picocli:picocli:4.6.1'
+    liquibaseRuntime 'org.postgresql:postgresql:42.3.1'
+    liquibaseRuntime 'org.yaml:snakeyaml:1.17'
+
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs += [ "src/main/java" ]
+        }
+    }
+}
+
+bootJar {
+    enabled = false
+}
+
+
+spotbugsTest.enabled = false
+spotbugsMain {
+    reports {
+        html {
+            enabled = true
+        }
+        xml {
+            enabled = true
+        }
+    }
+}
+
+liquibase {
+    activities {
+        main {
+            changeLogFile 'changelog/db.changelog-master.xml'
+            url System.getenv('PS_DB_URL')
+            username System.getenv('PS_DB_OWNER_NAME')
+            password System.getenv('PS_DB_OWNER_PASSWORD')
+        }
+    }
+}
