@@ -41,16 +41,6 @@ public class AmqpConfiguration {
         return factory;
     }
 
-    @Bean("pssQueueJmsListenerFactory")
-    public JmsListenerContainerFactory<?> jmsListenerContainerFactoryPssQueue(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
-        DefaultJmsListenerContainerFactory factory =
-            new DefaultJmsListenerContainerFactory();
-        factory
-            .setConnectionFactory(connectionFactory);
-
-        return factory;
-    }
-
     @Bean("jmsTemplatePssQueue")
     public JmsTemplate jmsTemplatePssQueue(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory,
         PssQueueProperties properties) {

@@ -36,8 +36,6 @@ public class AmqpConfiguration {
             factory.setPassword(properties.getPassword());
         }
 
-        configureRedeliveryPolicy(properties, factory);
-
         return factory;
     }
 
@@ -76,53 +74,5 @@ public class AmqpConfiguration {
             .setConnectionFactory(connectionFactory);
 
         return factory;
-    }
-
-    @Bean("jmsTemplatePssQueue")
-    public JmsTemplate jmsTemplatePssQueue(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory,
-        PssQueueProperties properties) {
-        JmsTemplate jmsTemplate = new JmsTemplate();
-        jmsTemplate.setConnectionFactory(connectionFactory);
-        jmsTemplate.setDefaultDestinationName(properties.getQueueName());
-        return jmsTemplate;
-    }
-
-    @Bean("jmsTemplateMhsQueue")
-    public JmsTemplate jmsTemplateMhsQueue(@Qualifier("mhsQueueConnectionFactory") JmsConnectionFactory connectionFactory,
-        MhsQueueProperties properties) {
-        JmsTemplate jmsTemplate = new JmsTemplate();
-        jmsTemplate.setConnectionFactory(connectionFactory);
-        jmsTemplate.setDefaultDestinationName(properties.getQueueName());
-        return jmsTemplate;
-    }
-
-    private void configureRedeliveryPolicy(PssQueueProperties properties, JmsConnectionFactory factory) {
-        factory.setRedeliveryPolicy(new CustomRedeliveryPolicy(
-            properties.getMaxRedeliveries(), JmsMessageSupport.MODIFIED_FAILED_UNDELIVERABLE));
-    }
-
-    static final class CustomRedeliveryPolicy implements JmsRedeliveryPolicy {
-        private final int maxRedeliveries;
-        private final int outcome;
-
-        private CustomRedeliveryPolicy(int maxRedeliveries, int outcome) {
-            this.maxRedeliveries = maxRedeliveries;
-            this.outcome = outcome;
-        }
-
-        @Override
-        public JmsRedeliveryPolicy copy() {
-            return new CustomRedeliveryPolicy(this.maxRedeliveries, this.outcome);
-        }
-
-        @Override
-        public int getMaxRedeliveries(JmsDestination destination) {
-            return this.maxRedeliveries;
-        }
-
-        @Override
-        public int getOutcome(JmsDestination destination) {
-            return this.outcome;
-        }
     }
 }
