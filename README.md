@@ -32,7 +32,8 @@ They are Java Spring Boot applications, released as separate docker images.
 
 ## Local development
 ### How to start local environment
-1. Set following env variables inside `vars.sh` file:
+1. Go to `docker` directory
+2. Set following env variables inside `vars.sh` file:
     - PS_DB_URL: Database URL required to run migrations (for local environment set 'jdbc:postgresql://localhost:5436/patient_switching')
     - POSTGRES_PASSWORD: Password to be set for default postgres user. 
       This user is used to run the init script on the database. It is required during database creation.
@@ -40,7 +41,7 @@ They are Java Spring Boot applications, released as separate docker images.
     - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations.
     - GPC_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
     - GP2GP_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
-2. Run `start-local-environment.sh` script:
+3. Run `start-local-environment.sh` script:
    ```shell script
     ./start-local-environment.sh
    ```

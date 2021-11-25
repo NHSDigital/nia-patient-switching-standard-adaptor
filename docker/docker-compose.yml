@@ -2,8 +2,8 @@ version: '3.8'
 services:
   gpc_facade:
     build:
-      context: ./
-      dockerfile: ./Dockerfile.gpc
+      context: ../
+      dockerfile: ./docker/Dockerfile.gpc
     ports:
       - "8080:8080"
     environment:
@@ -13,8 +13,8 @@ services:
 
   gp2gp_translator:
     build:
-      context: ./
-      dockerfile: ./Dockerfile.translator
+      context: ../
+      dockerfile: ./docker/Dockerfile.translator
     ports:
       - "8085:8085"
     environment:
@@ -23,7 +23,7 @@ services:
       - GP2GP_USER_DB_PASSWORD
 
   pss_db:
-    build: ./db
+    build: ../db
     ports:
       - "5436:5432"
     environment:
@@ -32,6 +32,6 @@ services:
       - PS_DB_OWNER_PASSWORD=${PS_DB_OWNER_PASSWORD}
 
   mhs-adaptor-mock:
-    build: ./mhs-adaptor-mock
+    build: ../mhs-adaptor-mock
     ports:
       - "8081:8081"
