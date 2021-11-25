@@ -16,8 +16,6 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.gpc.GpcFacadeApplication;
 import uk.nhs.adaptors.gpc.config.PssQueueProperties;
@@ -30,7 +28,7 @@ public class PssQueuePublisherTest {
 
     @Mock
     private Session session;
-    
+
     @Mock
     private PssQueueProperties pssQueueProperties;
 

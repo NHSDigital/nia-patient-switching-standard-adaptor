@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.gpc.config;
 
-import static org.springframework.util.StringUtils.isEmpty;
-
 import org.apache.qpid.jms.JmsConnectionFactory;
 import org.apache.qpid.jms.JmsDestination;
 import org.apache.qpid.jms.message.JmsMessageSupport;
@@ -9,8 +7,6 @@ import org.apache.qpid.jms.policy.JmsRedeliveryPolicy;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
-import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
