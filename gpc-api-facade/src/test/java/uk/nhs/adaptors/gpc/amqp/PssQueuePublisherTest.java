@@ -1,11 +1,7 @@
 package uk.nhs.adaptors.gpc.amqp;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import javax.jms.Session;
@@ -20,13 +16,10 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.gpc.GpcFacadeApplication;
-import uk.nhs.adaptors.gpc.amqp.task.TaskDefinition;
-import uk.nhs.adaptors.gpc.amqp.task.TaskHandlerException;
 import uk.nhs.adaptors.gpc.config.PssQueueProperties;
 
 @ExtendWith(SpringExtension.class)
@@ -37,9 +30,6 @@ public class PssQueuePublisherTest {
 
     @Mock
     private Session session;
-
-    @Mock
-    private ObjectMapper objectMapper;
     
     @Mock
     private PssQueueProperties pssQueueProperties;
@@ -47,41 +37,21 @@ public class PssQueuePublisherTest {
     @InjectMocks
     private PssQueuePublisher pssQueuePublisher;
 
-    private final String TEST_PAYLOAD = "{\"taskName\":\"123\"}";
-
     @Test
     @SneakyThrows
     public void When_TaskIsSentToPssQueue_Expect_MessageIsSentToQueue() {
-        TaskDefinition taskDefinition = mock(TaskDefinition.class);
+        String message = "Test Message";
         String queueName = "testQueue";
 
-        when(objectMapper.writeValueAsString(taskDefinition)).thenReturn(TEST_PAYLOAD);
         when(pssQueueProperties.getQueueName()).thenReturn(queueName);
 
-        pssQueuePublisher.sendToPssQueue(taskDefinition);
+        pssQueuePublisher.sendToPssQueue(message);
 
         var messageCreatorArgumentCaptor = ArgumentCaptor.forClass(MessageCreator.class);
         verify(jmsTemplate).send(messageCreatorArgumentCaptor.capture());
 
         messageCreatorArgumentCaptor.getValue().createMessage(session);
 
-        verify(session, times(1)).createTextMessage(TEST_PAYLOAD);
-    }
-
-    @Test
-    @SneakyThrows
-    public void When_PssQueueTaskNotParsed_Expect_ExceptionThrown() {
-        TaskDefinition taskDefinition = mock(TaskDefinition.class);
-        String queueName = "testQueue";
-
-        doThrow(JsonProcessingException.class)
-            .when(objectMapper).writeValueAsString(taskDefinition);
-        when(pssQueueProperties.getQueueName()).thenReturn(queueName);
-
-        assertThatExceptionOfType(TaskHandlerException.class)
-            .isThrownBy(() -> pssQueuePublisher.sendToPssQueue(taskDefinition))
-            .withMessageContaining("Unable to serialise task definition to JSON");
-
-        verifyNoInteractions(jmsTemplate);
+        verify(session, times(1)).createTextMessage(message);
     }
 }

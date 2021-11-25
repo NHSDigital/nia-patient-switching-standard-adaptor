@@ -28,11 +28,11 @@ public class AmqpConfiguration {
 
         factory.setRemoteURI(properties.getBroker());
 
-        if (!isEmpty(properties.getUsername())) {
+        if (properties.getUsername().isEmpty()) {
             factory.setUsername(properties.getUsername());
         }
 
-        if (!isEmpty(properties.getPassword())) {
+        if (properties.getPassword().isEmpty()) {
             factory.setPassword(properties.getPassword());
         }
 
