@@ -15,6 +15,8 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 
+import io.micrometer.core.instrument.util.StringUtils;
+
 @Configuration
 public class AmqpConfiguration {
     @Bean
@@ -28,11 +30,11 @@ public class AmqpConfiguration {
 
         factory.setRemoteURI(properties.getBroker());
 
-        if (properties.getUsername().isEmpty()) {
+        if (StringUtils.isEmpty(properties.getUsername())) {
             factory.setUsername(properties.getUsername());
         }
 
-        if (properties.getPassword().isEmpty()) {
+        if (StringUtils.isEmpty(properties.getPassword())) {
             factory.setPassword(properties.getPassword());
         }
 
@@ -45,11 +47,11 @@ public class AmqpConfiguration {
 
         factory.setRemoteURI(properties.getBroker());
 
-        if (properties.getUsername().isEmpty()) {
+        if (StringUtils.isEmpty(properties.getUsername())) {
             factory.setUsername(properties.getUsername());
         }
 
-        if (properties.getPassword().isEmpty()) {
+        if (StringUtils.isEmpty(properties.getPassword())) {
             factory.setPassword(properties.getPassword());
         }
 

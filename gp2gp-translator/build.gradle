@@ -32,6 +32,7 @@ dependencies {
         exclude group: 'io.netty', module: 'netty-codec-http'
     }
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.apache.commons:commons-lang3:3.11'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
