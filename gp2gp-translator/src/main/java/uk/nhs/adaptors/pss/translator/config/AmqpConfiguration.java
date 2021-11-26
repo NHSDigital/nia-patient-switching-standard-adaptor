@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.config;
 
+import javax.jms.Session;
+
 import org.apache.qpid.jms.JmsConnectionFactory;
 import org.apache.qpid.jms.JmsDestination;
 import org.apache.qpid.jms.message.JmsMessageSupport;
@@ -63,6 +65,7 @@ public class AmqpConfiguration {
     public JmsListenerContainerFactory<?> jmsListenerContainerFactoryPssQueue(
         @Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);
         factory.setConnectionFactory(connectionFactory);
 
         return factory;
@@ -72,6 +75,7 @@ public class AmqpConfiguration {
     public JmsListenerContainerFactory<?> jmsListenerContainerFactoryMhsQueue(
         @Qualifier("mhsQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);
         factory.setConnectionFactory(connectionFactory);
 
         return factory;
