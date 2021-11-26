@@ -16,7 +16,7 @@ apply plugin: 'application'
 group 'uk.nhs.adaptors'
 
 application {
-    mainClass = 'uk.nhs.adaptors.Gp2gpTranslatorApplication'
+    mainClass = 'uk.nhs.adaptors.pss.translator.Gp2gpTranslatorApplication'
 }
 
 repositories {
@@ -27,8 +27,8 @@ dependencies {
     implementation project(':db-connector')
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework:spring-jms:5.3.13'
-    implementation ('org.apache.qpid:qpid-jms-client:1.3.0') {
+    implementation 'org.springframework:spring-jms:5.2.6.RELEASE'
+    implementation ('org.apache.qpid:qpid-jms-client:1.2.0') {
         exclude group: 'io.netty', module: 'netty-codec-http'
     }
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
