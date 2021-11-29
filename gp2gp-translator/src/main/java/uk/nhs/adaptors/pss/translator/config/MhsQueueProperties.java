@@ -15,4 +15,5 @@ public class MhsQueueProperties {
     private String broker;
     private String username;
     private String password;
+    private int maxRedeliveries;
 }
