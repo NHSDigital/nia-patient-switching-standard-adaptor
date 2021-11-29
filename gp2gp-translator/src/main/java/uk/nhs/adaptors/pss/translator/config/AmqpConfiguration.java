@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.config;
 
+import static org.springframework.jms.listener.DefaultMessageListenerContainer.CACHE_CONSUMER;
+
 import javax.jms.Session;
 
 import org.apache.qpid.jms.JmsConnectionFactory;
@@ -66,6 +68,7 @@ public class AmqpConfiguration {
         @Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);
+        factory.setCacheLevel(CACHE_CONSUMER);
         factory.setConnectionFactory(connectionFactory);
 
         return factory;
@@ -76,6 +79,7 @@ public class AmqpConfiguration {
         @Qualifier("mhsQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);
+        factory.setCacheLevel(CACHE_CONSUMER);
         factory.setConnectionFactory(connectionFactory);
 
         return factory;
