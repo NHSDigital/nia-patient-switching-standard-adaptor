@@ -4,7 +4,7 @@ COPY --chown=gradle:gradle ./gp2gp-translator /home/gradle/service/gp2gp-transla
 COPY --chown=gradle:gradle ./db-connector /home/gradle/service/db-connector
 
 WORKDIR /home/gradle/service/gp2gp-translator
-RUN ./gradlew --build-cache bootJar
+RUN ./gradlew test --build-cache bootJar
 
 FROM openjdk:17
 

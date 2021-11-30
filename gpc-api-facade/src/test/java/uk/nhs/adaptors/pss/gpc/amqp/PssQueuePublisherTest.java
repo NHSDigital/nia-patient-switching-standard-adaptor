@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.gpc.amqp;
+package uk.nhs.adaptors.pss.gpc.amqp;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,8 +17,8 @@ import org.springframework.jms.core.MessageCreator;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.gpc.GpcFacadeApplication;
-import uk.nhs.adaptors.gpc.config.PssQueueProperties;
+import uk.nhs.adaptors.pss.gpc.GpcFacadeApplication;
+import uk.nhs.adaptors.pss.gpc.config.PssQueueProperties;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {GpcFacadeApplication.class})

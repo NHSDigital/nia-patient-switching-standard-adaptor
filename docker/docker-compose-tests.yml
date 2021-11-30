@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  gpc_facade:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.tests-gpc
+    ports:
+      - "8080:8080"
+    environment:
+      - GPC_SERVER_PORT
+      - PS_DB_URL
+      - GPC_USER_DB_PASSWORD
+
+  gp2gp_translator:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.tests-translator
+    ports:
+      - "8085:8085"
+    environment:
+      - GP2GP_SERVER_PORT
+      - PS_DB_URL
+      - GP2GP_USER_DB_PASSWORD
+      - PS_DB_OWNER_NAME
+      - PS_DB_OWNER_PASSWORD
