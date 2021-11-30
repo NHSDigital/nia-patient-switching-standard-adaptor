@@ -10,7 +10,11 @@ services:
       - GPC_SERVER_PORT
       - PS_DB_URL
       - GPC_USER_DB_PASSWORD
-      - PSS_AMQP_BROKER=amqp://activemq:5672
+      - PSS_AMQP_BROKER
+      - PSS_QUEUE_NAME
+      - PSS_AMQP_USERNAME
+      - PSS_AMQP_PASSWORD
+      - PSS_AMQP_MAX_REDELIVERIES
     networks:
       - pss-network
 
@@ -24,8 +28,16 @@ services:
       - GP2GP_SERVER_PORT
       - PS_DB_URL
       - GP2GP_USER_DB_PASSWORD
-      - PSS_AMQP_BROKER=amqp://activemq:5672
-      - MHS_AMQP_BROKER=amqp://activemq:5672
+      - PSS_AMQP_BROKER
+      - MHS_AMQP_BROKER
+      - PSS_QUEUE_NAME
+      - MHS_QUEUE_NAME
+      - PSS_AMQP_USERNAME
+      - PSS_AMQP_PASSWORD
+      - PSS_AMQP_MAX_REDELIVERIES
+      - MHS_AMQP_USERNAME
+      - MHS_AMQP_PASSWORD
+      - MHS_AMQP_MAX_REDELIVERIES
     networks:
       - pss-network
 
