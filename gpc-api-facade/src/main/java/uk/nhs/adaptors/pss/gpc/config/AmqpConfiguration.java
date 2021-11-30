@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.gpc.config;
+package uk.nhs.adaptors.pss.gpc.config;
 
 import org.apache.qpid.jms.JmsConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

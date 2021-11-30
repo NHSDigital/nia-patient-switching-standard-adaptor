@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.gpc;
+package uk.nhs.adaptors.pss.translator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;

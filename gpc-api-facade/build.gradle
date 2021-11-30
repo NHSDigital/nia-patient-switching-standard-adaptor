@@ -16,7 +16,7 @@ apply plugin: 'application'
 group 'uk.nhs.adaptors'
 
 application {
-    mainClass = 'uk.nhs.adaptors.gpc.GpcFacadeApplication'
+    mainClass = 'uk.nhs.adaptors.pss.gpc.GpcFacadeApplication'
 }
 
 repositories {

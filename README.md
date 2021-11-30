@@ -19,6 +19,7 @@ They are Java Spring Boot applications, released as separate docker images.
 ## Requirements:
 
 * JDK 17 - We develop the adaptor in Java with Spring Boot
+* Docker
 
 ## Project structure
 
@@ -29,8 +30,10 @@ They are Java Spring Boot applications, released as separate docker images.
     ├── gpc-api-facade              # GPC API Facade
     └── mhs-adaptor-mock            # Dockerfile and required files for mock of MHS Adaptor
 
-## How to start local environment
-1. Export following env variables:
+## Local development
+### How to start local environment
+1. Go to `docker` directory
+2. Set following env variables inside `vars.sh` file:
     - PS_DB_URL: Database URL required to run migrations (for local environment set 'jdbc:postgresql://localhost:5436/patient_switching')
     - POSTGRES_PASSWORD: Password to be set for default postgres user. 
       This user is used to run the init script on the database. It is required during database creation.
@@ -38,18 +41,44 @@ They are Java Spring Boot applications, released as separate docker images.
     - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations.
     - GPC_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
     - GP2GP_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
-2. Start the database by running 
-    ```shell script
-    docker-compose up
-    ```
-   command in the root directory. It will create a default postgres database and patient_switching database.
-3. Run migrations by executing
-    ```shell script
-    ./gradlew update
-    ```
-    command in db-connector folder.
-4. Start GPC Api Facade application in IntelliJ
-5. Start GP2GP Translator application in IntelliJ
+    - PSS_AMQP_BROKER: Address of the broker with the pss queue
+    - MHS_AMQP_BROKER: Address of the broker with the mhs queue 
+    - PSS_QUEUE_NAME: Name of the pss queue
+    - MHS_QUEUE_NAME: Name of the mhs queue 
+    - PSS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on pss queue
+    - MHS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on mhs queue
+   If you plan to use external queues (like ActiveMQ on AWS), you also need to set credentials for those queues:
+    - PSS_AMQP_USERNAME
+    - PSS_AMQP_PASSWORD
+    - MHS_AMQP_USERNAME
+    - MHS_AMQP_PASSWORD
+3. Run `start-local-environment.sh` script:
+   ```shell script
+    ./start-local-environment.sh
+   ```
+   It will execute following steps:
+   - create a default postgres database and patient_switching database,
+   - start MHS Adaptor mock,
+   - start ActiveMQ,
+   - run migrations,
+   - build and start GPC Api Facade service,
+   - build and start GP2GP Translator application.
+   All components will run in Docker.
+### Rebuilding services
+To rebuild the GPC Api Facade run
+```shell script
+ ./rebuild-and-restart-gpc-facade.sh
+```
+
+To rebuild the GP2GP Translator run
+```shell script
+ ./rebuild-and-restart-gp2gp-translator.sh
+```
+
+To clean all containers run
+```shell script
+ ./clean-docker.sh
+```
 
 ### Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).

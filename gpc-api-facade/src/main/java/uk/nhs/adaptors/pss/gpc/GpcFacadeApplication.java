@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.gpc;
+package uk.nhs.adaptors.pss.gpc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,0 +1,72 @@
+version: '3.8'
+services:
+  gpc_facade:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.gpc
+    ports:
+      - "8080:8080"
+    environment:
+      - GPC_SERVER_PORT
+      - PS_DB_URL
+      - GPC_USER_DB_PASSWORD
+      - PSS_AMQP_BROKER
+      - PSS_QUEUE_NAME
+      - PSS_AMQP_USERNAME
+      - PSS_AMQP_PASSWORD
+      - PSS_AMQP_MAX_REDELIVERIES
+    networks:
+      - pss-network
+
+  gp2gp_translator:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.translator
+    ports:
+      - "8085:8085"
+    environment:
+      - GP2GP_SERVER_PORT
+      - PS_DB_URL
+      - GP2GP_USER_DB_PASSWORD
+      - PSS_AMQP_BROKER
+      - MHS_AMQP_BROKER
+      - PSS_QUEUE_NAME
+      - MHS_QUEUE_NAME
+      - PSS_AMQP_USERNAME
+      - PSS_AMQP_PASSWORD
+      - PSS_AMQP_MAX_REDELIVERIES
+      - MHS_AMQP_USERNAME
+      - MHS_AMQP_PASSWORD
+      - MHS_AMQP_MAX_REDELIVERIES
+    networks:
+      - pss-network
+
+  pss_db:
+    build: ../db
+    ports:
+      - "5436:5432"
+    environment:
+      - POSTGRES_PASSWORD
+      - PS_DB_OWNER_NAME
+      - PS_DB_OWNER_PASSWORD
+    networks:
+      - pss-network
+
+  mhs-adaptor-mock:
+    build: ../mhs-adaptor-mock
+    ports:
+      - "8081:8081"
+    networks:
+      - pss-network
+
+  activemq:
+    build: ../activemq
+    ports:
+      - "5672:5672"
+      - "8161:8161"
+    networks:
+      - pss-network
+
+networks:
+  pss-network:
+    external: true

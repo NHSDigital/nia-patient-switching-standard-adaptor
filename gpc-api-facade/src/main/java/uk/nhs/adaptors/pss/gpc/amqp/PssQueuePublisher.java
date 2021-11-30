@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.gpc.amqp;
+package uk.nhs.adaptors.pss.gpc.amqp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
