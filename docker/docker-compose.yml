@@ -3,7 +3,7 @@ services:
   gpc_facade:
     build:
       context: ../
-      dockerfile: ./docker/Dockerfile.gpc
+      dockerfile: ./docker/gpc-facade/Dockerfile
     ports:
       - "8080:8080"
     environment:
@@ -21,7 +21,7 @@ services:
   gp2gp_translator:
     build:
       context: ../
-      dockerfile: ./docker/Dockerfile.translator
+      dockerfile: ./docker/gp2gp-translator/Dockerfile
     ports:
       - "8085:8085"
     environment:
@@ -42,7 +42,7 @@ services:
       - pss-network
 
   pss_db:
-    build: ../db
+    build: ./db
     ports:
       - "5436:5432"
     environment:
@@ -53,14 +53,14 @@ services:
       - pss-network
 
   mhs-adaptor-mock:
-    build: ../mhs-adaptor-mock
+    build: ./mhs-adaptor-mock
     ports:
       - "8081:8081"
     networks:
       - pss-network
 
   activemq:
-    build: ../activemq
+    build: ./activemq
     ports:
       - "5672:5672"
       - "8161:8161"
