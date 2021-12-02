@@ -21,8 +21,8 @@ pipeline {
     environment {
         BUILD_TAG = sh label: 'Generating build tag', returnStdout: true, script: 'python3 scripts/tag.py ${GIT_BRANCH} ${BUILD_NUMBER} ${GIT_COMMIT}'
         
-        GPC_FACADE_ECR_REPO_DIR = "gpc_facade"
-        GP2GP_TRANSLATOR_ECR_REPO_DIR = "gp2gp-translator"
+        GPC_FACADE_ECR_REPO_DIR = "pss_gpc_facade"
+        GP2GP_TRANSLATOR_ECR_REPO_DIR = "pss_gp2gp-translator"
         MHS_MOCK_ECR_REPO_DIR = "pss-mock-mhs"
         
         GPC_FACADE_DOCKER_IMAGE = "${DOCKER_REGISTRY}/${GPC_FACADE_ECR_REPO_DIR}:${BUILD_TAG}"
