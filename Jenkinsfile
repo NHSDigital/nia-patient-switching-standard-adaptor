@@ -33,7 +33,7 @@ pipeline {
     stages {
         stage('Build') {
             stages {
-                stage('Tests') {
+                /*stage('Tests') {
                     steps {
                         script {
                             sh '''
@@ -45,7 +45,7 @@ pipeline {
                                 docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gpc_facade
                             '''
                         }
-                    }
+                    */}
 
                 stage('Build Docker Images') {
                     steps {
