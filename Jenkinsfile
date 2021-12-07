@@ -87,11 +87,10 @@ pipeline {
                         }
                     }
                 }
-             }
-          } //stages 
-       } //Stage Build 
-    } //Stages
-} //Pipeline   
+             } //stages
+        } //Stage Build 
+    } //Stages 
+} //Pipeline  
     
 int ecrLogin(String aws_region) {
     String ecrCommand = "aws ecr get-login --region ${aws_region}"
