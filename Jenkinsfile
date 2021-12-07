@@ -77,7 +77,7 @@ pipeline {
                             }
 
                             if (publishMhsMockImage) {
-                                if (sh(label: "Pushing MHS Mock image", script: "docker push ${MHS_MOCK_DOCKER_IMAGE}", returnStatus: true) != 0) {error("Docker push ${MHS_MOCK_ECR_REPO_DIR} image failed") }
+                                if (sh(label: "Pushing MHS Mock image", script: "docker push ${MHS_MOCK_DOCKER_IMAGE}" docker/mhs-adaptor-mock, returnStatus: true) != 0) {error("Docker push ${MHS_MOCK_ECR_REPO_DIR} image failed") }
                             }
 
                             if (publishGP2GP_TranslatorImage) {
