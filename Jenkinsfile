@@ -72,7 +72,7 @@ pipeline {
                         script {
                             if (ecrLogin(TF_STATE_BUCKET_REGION) != 0 )  { error("Docker login to ECR failed")
 
-                            if (publishWiremockImage) {
+                            if (publishGPC_FacadeImage) {
                                 if (sh (label: "Pushing Wiremock image", script: "docker push ${GPC_FACADE_DOCKER_IMAGE}", returnStatus: true) !=0) { error("Docker push ${GPC_FACADE_ECR_REPO_DIR} image failed") }
                             }
 
@@ -80,7 +80,7 @@ pipeline {
                                 if (sh(label: "Pushing MHS Mock image", script: "docker push ${MHS_MOCK_DOCKER_IMAGE}", returnStatus: true) != 0) {error("Docker push ${MHS_MOCK_ECR_REPO_DIR} image failed") }
                             }*/
 
-                            if (publishGpccMockImage) {
+                            if (publishGP2GP_TranslatorImage) {
                                 if (sh(label: "Pushing GPCC Mock image", script: "docker push ${GP2GP_TRANSLATOR_DOCKER_IMAGE}", returnStatus: true) != 0) {error("Docker push ${GP2GP_TRANSLATOR_ECR_REPO_DIR} image failed") }
                             }
 
