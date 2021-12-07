@@ -64,7 +64,7 @@ pipeline {
                     }
                 }
                 
-                 stage('Push Image') {
+                stage('Push Image') {
                     when {
                         expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
                     }
