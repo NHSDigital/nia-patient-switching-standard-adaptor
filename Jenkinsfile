@@ -45,7 +45,7 @@ pipeline {
                                 docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gpc_facade
                             '''
                         }
-                    */}
+                    }*/
 
                 stage('Build Docker Images') {
                     steps {
