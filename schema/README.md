@@ -24,3 +24,9 @@ Schema files can be found inside src/resources directory.
 4. Generated classes should be under `build/generated/sourced/xjc/java/main` path.
    Copy them to `src/main/java` directory. Modify generated classes as needed.
    Execute gradle `clean` task and remove changes added to build.gradle file.
+   
+## Manually modified classes
+
+Those classes had to be changed to allow for correct unmarshalling xml files to java objects:
+- EN.java 
+- RCMRMT030101UK04Place.java
