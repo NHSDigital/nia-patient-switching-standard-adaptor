@@ -33,20 +33,6 @@ pipeline {
     stages {
         stage('Build') {
             stages {
-                /*stage('Tests') {
-                    steps {
-                        script {
-                            sh '''
-                                source docker/vars.sh
-                                docker network create pss-network || true
-                                docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml stop
-                                docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml rm -f
-                                docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build
-                                docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gpc_facade
-                            '''
-                        }
-                    }*/
-
                 stage('Build Docker Images') {
                     steps {
                         script {
