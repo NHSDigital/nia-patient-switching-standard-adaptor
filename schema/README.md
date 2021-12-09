@@ -30,3 +30,4 @@ Schema files can be found inside src/resources directory.
 Please make sure you don't override the following classes with the generated ones. They had to be manually changed to allow correct unmarshalling xml files to java objects:
 - EN.java 
 - RCMRMT030101UK04Place.java
+- IVLTS.java

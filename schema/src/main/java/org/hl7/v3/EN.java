@@ -72,7 +72,7 @@ public class EN {
     protected String given;
     protected String prefix;
     protected String suffix;
-    protected String validTime;
+    protected IVLTS validTime;
     protected String id;
 
     /**
@@ -144,11 +144,11 @@ public class EN {
         this.suffix = suffix;
     }
 
-    public String getValidTime() {
+    public IVLTS getValidTime() {
         return validTime;
     }
 
-    public void setValidTime(String validTime) {
+    public void setValidTime(IVLTS validTime) {
         this.validTime = validTime;
     }
 

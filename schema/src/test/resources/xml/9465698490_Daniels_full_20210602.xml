@@ -119,6 +119,9 @@
                 <prefix>Dr</prefix>
                 <given>Peter</given>
                 <family>Whitcombe</family>
+                <validTime>
+                    <center value="20100114"/>
+                </validTime>
             </name>
         </agentPerson>
         <representedOrganization classCode="ORG" determinerCode="INSTANCE">
