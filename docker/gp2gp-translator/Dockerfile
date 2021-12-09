@@ -2,6 +2,7 @@ FROM gradle:jdk17 AS build
 COPY --chown=gradle:gradle settings.gradle /home/gradle/service/
 COPY --chown=gradle:gradle ./gp2gp-translator /home/gradle/service/gp2gp-translator
 COPY --chown=gradle:gradle ./db-connector /home/gradle/service/db-connector
+COPY --chown=gradle:gradle ./schema /home/gradle/service/schema
 
 WORKDIR /home/gradle/service/gp2gp-translator
 RUN ./gradlew --build-cache bootJar
