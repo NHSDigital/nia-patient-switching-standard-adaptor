@@ -27,6 +27,6 @@ Schema files can be found inside src/resources directory.
    
 ## Manually modified classes
 
-Those classes had to be changed to allow for correct unmarshalling xml files to java objects:
+Please make sure you don't override the following classes with the generated ones. They had to be manually changed to allow correct unmarshalling xml files to java objects:
 - EN.java 
 - RCMRMT030101UK04Place.java
