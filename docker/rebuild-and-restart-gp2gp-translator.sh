@@ -3,4 +3,7 @@ set -x
 
 docker-compose stop -t 1 gp2gp_translator
 docker-compose rm --force gp2gp_translator
+
+source vars.sh
+
 docker-compose up --build --force-recreate --detach gp2gp_translator

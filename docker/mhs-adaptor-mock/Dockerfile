@@ -1,5 +1,5 @@
 FROM wiremock/wiremock
 
-EXPOSE 8081
+EXPOSE 8080
 
 COPY stubs /home/wiremock
