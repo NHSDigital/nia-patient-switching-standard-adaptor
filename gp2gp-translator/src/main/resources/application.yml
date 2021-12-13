@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: ${PS_DB_URL:jdbc:postgresql://localhost:5436/patient_switching}
+    url: ${PS_DB_DOCKER_URL:jdbc:postgresql://localhost:5436/patient_switching}
     username: gp2gp_user
     password: ${GP2GP_USER_DB_PASSWORD}
 
