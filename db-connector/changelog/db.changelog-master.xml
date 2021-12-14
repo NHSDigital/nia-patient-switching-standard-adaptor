@@ -10,6 +10,8 @@
     http://www.liquibase.org/xml/ns/pro
 	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
 
+    <property name="now" value="sysdate" dbms="oracle"/>
+    <property name="now" value="now()" dbms="postgresql,mysql"/>
 
     <changeSet id="1" author="mrogowska">
         <createTable tableName="patient_migration_request">
@@ -23,6 +25,90 @@
             CREATE ROLE application_user;
             GRANT application_user TO gp2gp_user, gpc_user;
             GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO application_user;
+        </sql>
+    </changeSet>
+    <changeSet id="2" author="mrogowska">
+        <sql>
+            CREATE SCHEMA audit;
+            REVOKE CREATE ON SCHEMA audit FROM public;
+        </sql>
+        <createTable schemaName="audit" tableName="logged_actions">
+            <column name="schema_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="table_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_name" type="varchar(255)"/>
+            <column name="action_timestamp" type="DATETIME" defaultValueComputed="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="original_data" type="text"/>
+            <column name="new_data" type="text"/>
+            <column name="query" type="text"/>
+        </createTable>
+        <sql>
+            ALTER TABLE audit.logged_actions ADD CONSTRAINT action_check CHECK (action in ('I','D','U'));
+            REVOKE ALL ON audit.logged_actions FROM public;
+            GRANT SELECT ON audit.logged_actions TO ${PS_DB_OWNER_NAME};
+            GRANT SELECT ON audit.logged_actions TO postgres;
+        </sql>
+        <createIndex schemaName="audit" indexName="logged_actions_schema_table_idx" tableName="logged_actions">
+            <column computed="true" name="((schema_name||'.'||table_name)::TEXT)"/>
+        </createIndex>
+        <createIndex schemaName="audit" indexName="logged_actions_timestamp_idx" tableName="logged_actions">
+            <column name="action_timestamp"/>
+        </createIndex>
+        <createIndex schemaName="audit" indexName="logged_actions_action_idx" tableName="logged_actions">
+            <column name="action"/>
+        </createIndex>
+        <sql>
+            CREATE OR REPLACE FUNCTION audit.create_audit_entry_function() RETURNS trigger AS '
+            DECLARE
+            v_old_data TEXT;
+            v_new_data TEXT;
+            BEGIN
+            if (TG_OP = ''UPDATE'') then
+            v_old_data := ROW(OLD.*);
+            v_new_data := ROW(NEW.*);
+            insert into audit.logged_actions (schema_name,table_name,user_name,action,original_data,new_data,query)
+            values (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,session_user::TEXT,substring(TG_OP,1,1),v_old_data,v_new_data, current_query());
+            RETURN NEW;
+            elsif (TG_OP = ''DELETE'') then
+            v_old_data := ROW(OLD.*);
+            insert into audit.logged_actions (schema_name,table_name,user_name,action,original_data,query)
+            values (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,session_user::TEXT,substring(TG_OP,1,1),v_old_data, current_query());
+            RETURN OLD;
+            elsif (TG_OP = ''INSERT'') then
+            v_new_data := ROW(NEW.*);
+            insert into audit.logged_actions (schema_name,table_name,user_name,action,new_data,query)
+            values (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,session_user::TEXT,substring(TG_OP,1,1),v_new_data, current_query());
+            RETURN NEW;
+            else
+            RAISE WARNING ''[AUDIT.CREATE_AUDIT_ENTRY_FUNCTION] - Other action occurred: %, at %'',TG_OP,now();
+            RETURN NULL;
+            end if;
+
+            EXCEPTION
+            WHEN data_exception THEN
+            RAISE WARNING ''[AUDIT.CREATE_AUDIT_ENTRY_FUNCTION] - UDF ERROR [DATA EXCEPTION] - SQLSTATE: %, SQLERRM: %'',SQLSTATE,SQLERRM;
+            RETURN NULL;
+            WHEN unique_violation THEN
+            RAISE WARNING ''[AUDIT.CREATE_AUDIT_ENTRY_FUNCTION] - UDF ERROR [UNIQUE] - SQLSTATE: %, SQLERRM: %'',SQLSTATE,SQLERRM;
+            RETURN NULL;
+            WHEN others THEN
+            RAISE WARNING ''[AUDIT.CREATE_AUDIT_ENTRY_FUNCTION] - UDF ERROR [OTHER] - SQLSTATE: %, SQLERRM: %'',SQLSTATE,SQLERRM;
+            RETURN NULL;
+            END;'
+            LANGUAGE plpgsql SECURITY DEFINER
+            SET search_path = pg_catalog, audit;
+
+            CREATE TRIGGER patient_migration_request_if_modified_trigger
+            AFTER INSERT OR UPDATE OR DELETE ON public.patient_migration_request
+            FOR EACH ROW EXECUTE PROCEDURE audit.create_audit_entry_function();
         </sql>
     </changeSet>
 </databaseChangeLog>
