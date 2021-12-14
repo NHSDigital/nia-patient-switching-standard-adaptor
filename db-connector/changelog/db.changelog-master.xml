@@ -10,19 +10,5 @@
     http://www.liquibase.org/xml/ns/pro
 	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
 
-
-    <changeSet id="1" author="mrogowska">
-        <createTable tableName="patient_migration_request">
-            <column name="id" type="int" autoIncrement="true" startWith="1" incrementBy="1">
-                <constraints primaryKey="true"/>
-            </column>
-        </createTable>
-        <sql>
-            CREATE USER gp2gp_user WITH PASSWORD '${GP2GP_USER_DB_PASSWORD}';
-            CREATE USER gpc_user WITH PASSWORD '${GPC_USER_DB_PASSWORD}';
-            CREATE ROLE application_user;
-            GRANT application_user TO gp2gp_user, gpc_user;
-            GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO application_user;
-        </sql>
-    </changeSet>
+    <includeAll path="migration/" relativeToChangelogFile="true" errorIfMissingOrEmpty="true"/>
 </databaseChangeLog>

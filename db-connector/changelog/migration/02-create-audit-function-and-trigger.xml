@@ -1,0 +1,57 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+	http://www.liquibase.org/xml/ns/dbchangelog-ext
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/pro
+	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+    <changeSet id="2" author="mrogowska">
+        <sql dbms="postgresql">
+            CREATE SCHEMA audit;
+            REVOKE CREATE ON SCHEMA audit FROM public;
+        </sql>
+        <createTable schemaName="audit" tableName="logged_actions">
+            <column name="schema_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="table_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_name" type="varchar(255)"/>
+            <column name="action_timestamp" type="DATETIME" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="original_data" type="text"/>
+            <column name="new_data" type="text"/>
+            <column name="query" type="text"/>
+        </createTable>
+        <sql dbms="postgresql">
+            ALTER TABLE audit.logged_actions ADD CONSTRAINT action_check CHECK (action in ('I','D','U'));
+            REVOKE ALL ON audit.logged_actions FROM public;
+            GRANT SELECT ON audit.logged_actions TO ${PS_DB_OWNER_NAME};
+            GRANT SELECT ON audit.logged_actions TO postgres;
+        </sql>
+        <createIndex schemaName="audit" indexName="logged_actions_schema_table_idx" tableName="logged_actions">
+            <column computed="true" name="((schema_name||'.'||table_name)::TEXT)"/>
+        </createIndex>
+        <createIndex schemaName="audit" indexName="logged_actions_timestamp_idx" tableName="logged_actions">
+            <column name="action_timestamp"/>
+        </createIndex>
+        <createIndex schemaName="audit" indexName="logged_actions_action_idx" tableName="logged_actions">
+            <column name="action"/>
+        </createIndex>
+        <sqlFile dbms="postgresql" encoding="UTF-8" path="../sql/create-audit-function.sql" relativeToChangelogFile="true"/>
+        <sql dbms="postgresql">
+            CREATE TRIGGER patient_migration_request_if_modified_trigger
+            AFTER INSERT OR UPDATE OR DELETE ON public.patient_migration_request
+            FOR EACH ROW EXECUTE PROCEDURE audit.create_audit_entry_function();
+        </sql>
+    </changeSet>
+</databaseChangeLog>
