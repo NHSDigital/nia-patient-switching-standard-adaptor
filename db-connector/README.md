@@ -16,7 +16,10 @@ To run the migrations use following command:
 ./gradlew update
 ```
 Changelog can be found under /changelog path.
-To add a new migration, add a new `<changeSet>` tag to the `db.changelog-master.xml` file.
+
+### How to add migrations
+To add a new migration, create a new xml file inside `/changelog/migration` directory.
+All files from this directory are included in the `db.changelog-master.xml` file.
 
 ## How to run tests
 
