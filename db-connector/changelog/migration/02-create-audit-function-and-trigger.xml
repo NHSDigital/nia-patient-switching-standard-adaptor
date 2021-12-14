@@ -47,6 +47,11 @@
         <createIndex schemaName="audit" indexName="logged_actions_action_idx" tableName="logged_actions">
             <column name="action"/>
         </createIndex>
-        <sqlFile dbms="postgresql" encoding="UTF-8" path="../sql/create-audit-function-and-trigger.sql" relativeToChangelogFile="true"/>
+        <sqlFile dbms="postgresql" encoding="UTF-8" path="../sql/create-audit-function.sql" relativeToChangelogFile="true"/>
+        <sql dbms="postgresql">
+            CREATE TRIGGER patient_migration_request_if_modified_trigger
+            AFTER INSERT OR UPDATE OR DELETE ON public.patient_migration_request
+            FOR EACH ROW EXECUTE PROCEDURE audit.create_audit_entry_function();
+        </sql>
     </changeSet>
 </databaseChangeLog>
