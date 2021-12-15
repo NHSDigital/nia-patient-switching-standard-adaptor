@@ -6,8 +6,8 @@ source vars.sh
 if [[ "$(docker network ls | grep "pss-network")" == "" ]] ; then
     docker network create pss-network
 fi
-docker-compose build pss_db mhs-adaptor-mock activemq;
-docker-compose up -d pss_db mhs-adaptor-mock activemq;
+docker-compose build ps_db mhs-adaptor-mock activemq;
+docker-compose up -d ps_db mhs-adaptor-mock activemq;
 
 cd ../db-connector
 ./gradlew update

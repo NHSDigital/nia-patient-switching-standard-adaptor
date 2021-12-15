@@ -1,11 +1,11 @@
 server:
-  port: ${GPC_SERVER_PORT:8080}
+  port: ${GPC_FACADE_SERVER_PORT:8080}
 
 spring:
   datasource:
     url: ${PS_DB_URL:jdbc:postgresql://localhost:5436/patient_switching}
     username: gpc_user
-    password: ${GPC_USER_DB_PASSWORD}
+    password: ${GPC_FACADE_USER_DB_PASSWORD}
 
 management:
   endpoints:
@@ -17,8 +17,8 @@ management:
 
 amqp:
   pss:
-    queueName: ${PSS_QUEUE_NAME:pssQueue}
-    broker: ${PSS_AMQP_BROKER:amqp://localhost:5672}
-    username: ${PSS_AMQP_USERNAME:}
-    password: ${PSS_AMQP_PASSWORD:}
-    maxRedeliveries: ${PSS_AMQP_MAX_REDELIVERIES:3}
+    queueName: ${PS_QUEUE_NAME:pssQueue}
+    broker: ${PS_AMQP_BROKER:amqp://localhost:5672}
+    username: ${PS_AMQP_USERNAME:}
+    password: ${PS_AMQP_PASSWORD:}
+    maxRedeliveries: ${PS_AMQP_MAX_REDELIVERIES:3}
