@@ -1,0 +1,25 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+	http://www.liquibase.org/xml/ns/dbchangelog-ext
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/pro
+	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+    <changeSet id="3" author="mrogowska">
+        <addColumn schemaName="public" tableName="patient_migration_request">
+            <columns>
+                <column name="patient_nhs_number" type="varchar(255)">
+                    <constraints nullable="false" unique="true"/>
+                </column>
+                <column name="status" type="varchar(255)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="date" type="datetime" defaultValueComputed="now()"/>
+            </columns>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
