@@ -7,7 +7,7 @@ services:
     entrypoint: "gradle test"
     environment:
       - GPC_FACADE_SERVER_PORT
-      - PSS_DB_URL
+      - PS_DB_URL
       - GPC_FACADE_USER_DB_PASSWORD
 
   gp2gp_translator:
@@ -17,7 +17,7 @@ services:
     entrypoint: "gradle test"
     environment:
       - GP2GP_TRANSLATOR_SERVER_PORT
-      - PSS_DB_URL
+      - PS_DB_URL
       - GP2GP_TRANSLATOR_USER_DB_PASSWORD
-      - PSS_DB_OWNER_NAME
-      - PSS_DB_OWNER_PASSWORD
+      - PS_DB_OWNER_NAME
+      - PS_DB_OWNER_PASSWORD

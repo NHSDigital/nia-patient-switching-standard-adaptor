@@ -78,9 +78,9 @@ liquibase {
     activities {
         main {
             changeLogFile 'changelog/db.changelog-master.xml'
-            url System.getenv('PSS_DB_URL')
-            username System.getenv('PSS_DB_OWNER_NAME')
-            password System.getenv('PSS_DB_OWNER_PASSWORD')
+            url System.getenv('PS_DB_URL')
+            username System.getenv('PS_DB_OWNER_NAME')
+            password System.getenv('PS_DB_OWNER_PASSWORD')
         }
     }
 }
