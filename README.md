@@ -39,17 +39,17 @@ They are Java Spring Boot applications, released as separate docker images.
       This user is used to run the init script on the database. It is required during database creation.
     - PS_DB_OWNER_NAME: Username of user used to run migrations.
     - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations.
-    - GPC_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
-    - GP2GP_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
-    - PSS_AMQP_BROKER: Address of the broker with the pss queue
+    - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
+    - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
+    - PS_AMQP_BROKER: Address of the broker with the pss queue
     - MHS_AMQP_BROKER: Address of the broker with the mhs queue 
-    - PSS_QUEUE_NAME: Name of the pss queue
+    - PS_QUEUE_NAME: Name of the pss queue
     - MHS_QUEUE_NAME: Name of the mhs queue 
-    - PSS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on pss queue
+    - PS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on pss queue
     - MHS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on mhs queue
    If you plan to use external queues (like ActiveMQ on AWS), you also need to set credentials for those queues:
-    - PSS_AMQP_USERNAME
-    - PSS_AMQP_PASSWORD
+    - PS_AMQP_USERNAME
+    - PS_AMQP_PASSWORD
     - MHS_AMQP_USERNAME
     - MHS_AMQP_PASSWORD
 3. Run `start-local-environment.sh` script:

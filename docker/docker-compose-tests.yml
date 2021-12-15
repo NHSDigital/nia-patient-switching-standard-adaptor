@@ -6,9 +6,9 @@ services:
       target: build
     entrypoint: "gradle test"
     environment:
-      - GPC_SERVER_PORT
+      - GPC_FACADE_SERVER_PORT
       - PS_DB_URL
-      - GPC_USER_DB_PASSWORD
+      - GPC_FACADE_USER_DB_PASSWORD
 
   gp2gp_translator:
     container_name: gp2gp_translator_tests
@@ -16,8 +16,8 @@ services:
       target: build
     entrypoint: "gradle test"
     environment:
-      - GP2GP_SERVER_PORT
+      - GP2GP_TRANSLATOR_SERVER_PORT
       - PS_DB_URL
-      - GP2GP_USER_DB_PASSWORD
+      - GP2GP_TRANSLATOR_USER_DB_PASSWORD
       - PS_DB_OWNER_NAME
       - PS_DB_OWNER_PASSWORD
