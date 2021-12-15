@@ -7,9 +7,9 @@ It holds services needed for communication with the database.
 Migrations are implemented using Liquibase and need to be run manually before starting applications.
 To run migrations, you need to specify the database URL and credentials of the database user
 that will be used to run the migrations. Set the following env variables:
-- PS_DB_OWNER_NAME
-- PS_DB_OWNER_PASSWORD
-- PS_DB_URL
+- PSS_DB_OWNER_NAME
+- PSS_DB_OWNER_PASSWORD
+- PSS_DB_URL
 
 To run the migrations use following command:
 ```shell script

@@ -7,9 +7,9 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - GPC_SERVER_PORT
-      - PS_DB_URL=jdbc:postgresql://pss_db:5432/patient_switching
-      - GPC_USER_DB_PASSWORD
+      - GPC_FACADE_SERVER_PORT
+      - PSS_DB_URL=jdbc:postgresql://pss_db:5432/patient_switching
+      - GPC_FACADE_USER_DB_PASSWORD
       - PSS_AMQP_BROKER=amqp://activemq:5672
       - PSS_QUEUE_NAME
       - PSS_AMQP_USERNAME
@@ -25,9 +25,9 @@ services:
     ports:
       - "8085:8085"
     environment:
-      - GP2GP_SERVER_PORT
-      - PS_DB_URL=jdbc:postgresql://pss_db:5432/patient_switching
-      - GP2GP_USER_DB_PASSWORD
+      - GP2GP_TRANSLATOR_SERVER_PORT
+      - PSS_DB_URL=jdbc:postgresql://pss_db:5432/patient_switching
+      - GP2GP_TRANSLATOR_USER_DB_PASSWORD
       - PSS_AMQP_BROKER=amqp://activemq:5672
       - MHS_AMQP_BROKER=amqp://activemq:5672
       - PSS_QUEUE_NAME
@@ -47,8 +47,8 @@ services:
       - "5436:5432"
     environment:
       - POSTGRES_PASSWORD
-      - PS_DB_OWNER_NAME
-      - PS_DB_OWNER_PASSWORD
+      - PSS_DB_OWNER_NAME
+      - PSS_DB_OWNER_PASSWORD
     networks:
       - pss-network
 

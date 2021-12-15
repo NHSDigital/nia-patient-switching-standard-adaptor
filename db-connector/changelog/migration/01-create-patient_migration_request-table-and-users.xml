@@ -17,8 +17,8 @@
             </column>
         </createTable>
         <sql dbms="postgresql">
-            CREATE USER gp2gp_user WITH PASSWORD '${GP2GP_USER_DB_PASSWORD}';
-            CREATE USER gpc_user WITH PASSWORD '${GPC_USER_DB_PASSWORD}';
+            CREATE USER gp2gp_user WITH PASSWORD '${GP2GP_TRANSLATOR_USER_DB_PASSWORD}';
+            CREATE USER gpc_user WITH PASSWORD '${GPC_FACADE_USER_DB_PASSWORD}';
             CREATE ROLE application_user;
             GRANT application_user TO gp2gp_user, gpc_user;
             GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO application_user;
