@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum Status {
+public enum RequestStatus {
     RECEIVED("RECEIVED"),
     IN_PROGRESS("IN_PROGRESS"),
     EXTRACT_RECEIVED("EXTRACT_RECEIVED"),

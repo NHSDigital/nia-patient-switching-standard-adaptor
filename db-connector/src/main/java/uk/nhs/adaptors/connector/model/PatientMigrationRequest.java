@@ -11,6 +11,6 @@ public class PatientMigrationRequest {
     private String id;
     private String patientNhsNumber;
     @EnumByName
-    private Status status;
+    private RequestStatus requestStatus;
     private OffsetDateTime date;
 }

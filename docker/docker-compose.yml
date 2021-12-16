@@ -16,7 +16,7 @@ services:
       - PS_AMQP_PASSWORD
       - PS_AMQP_MAX_REDELIVERIES
     networks:
-      - pss-network
+      - ps-network
 
   gp2gp_translator:
     build:
@@ -39,7 +39,7 @@ services:
       - MHS_AMQP_PASSWORD
       - MHS_AMQP_MAX_REDELIVERIES
     networks:
-      - pss-network
+      - ps-network
 
   ps_db:
     build: ./db
@@ -50,14 +50,14 @@ services:
       - PS_DB_OWNER_NAME
       - PS_DB_OWNER_PASSWORD
     networks:
-      - pss-network
+      - ps-network
 
   mhs-adaptor-mock:
     build: ./mhs-adaptor-mock
     ports:
       - "8080:8080"
     networks:
-      - pss-network
+      - ps-network
 
   activemq:
     build: ./activemq
@@ -65,8 +65,8 @@ services:
       - "5672:5672"
       - "8161:8161"
     networks:
-      - pss-network
+      - ps-network
 
 networks:
-  pss-network:
+  ps-network:
     external: true

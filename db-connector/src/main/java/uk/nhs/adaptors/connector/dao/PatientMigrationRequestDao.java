@@ -9,6 +9,6 @@ public interface PatientMigrationRequestDao {
     @SqlUpdate("INSERT INTO patient_migration_request(patient_nhs_number, status) VALUES (:nhsNumber, :status);")
     void addNewRequest(@Bind("nhsNumber") String patientNhsNumber, @Bind("status") String status);
 
-    @SqlQuery("SELECT EXISTS(SELECT 1 FROM patient_migration_request WHERE patient_nhs_number = :nhsNumber AND (status == 'IN_PROGRESS' or status == 'RECEIVED'))")
+    @SqlQuery("SELECT EXISTS(SELECT 1 FROM patient_migration_request WHERE patient_nhs_number = :nhsNumber AND status IN ('IN_PROGRESS','RECEIVED'))")
     boolean isRequestInProgress(@Bind("nhsNumber") String patientNhsNumber);
 }

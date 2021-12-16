@@ -3,8 +3,8 @@ set -x -e
 
 source vars.sh
 
-if [[ "$(docker network ls | grep "pss-network")" == "" ]] ; then
-    docker network create pss-network
+if [[ "$(docker network ls | grep "ps-network")" == "" ]] ; then
+    docker network create ps-network
 fi
 docker-compose build ps_db mhs-adaptor-mock activemq;
 docker-compose up -d ps_db mhs-adaptor-mock activemq;
