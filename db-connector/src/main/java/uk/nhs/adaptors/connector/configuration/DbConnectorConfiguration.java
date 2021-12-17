@@ -20,7 +20,7 @@ import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 @Configuration
 @EntityScan(basePackages = {"uk.nhs.adaptors.connector"})
 @ComponentScan(basePackages = {"uk.nhs.adaptors.connector"})
-public class BaseConfiguration {
+public class DbConnectorConfiguration {
 
     @Bean
     public Jdbi jdbi(DataSource ds, List<JdbiPlugin> jdbiPlugins, List<RowMapper<?>> rowMappers) {

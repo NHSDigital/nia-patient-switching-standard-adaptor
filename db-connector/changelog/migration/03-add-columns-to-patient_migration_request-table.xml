@@ -10,14 +10,17 @@
     http://www.liquibase.org/xml/ns/pro
 	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
     <changeSet id="3" author="mrogowska">
+        <dropPrimaryKey schemaName="public" tableName="patient_migration_request"/>
         <addColumn schemaName="public" tableName="patient_migration_request">
             <column name="patient_nhs_number" type="varchar(255)">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="false" unique="true" primaryKey="true"/>
             </column>
             <column name="status" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="date" type="datetime" defaultValueComputed="now()"/>
+            <column name="date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

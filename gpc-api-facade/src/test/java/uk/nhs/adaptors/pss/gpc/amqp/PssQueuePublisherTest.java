@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.gpc.amqp;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import javax.jms.Session;
 
@@ -11,26 +10,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.gpc.GpcFacadeApplication;
-import uk.nhs.adaptors.pss.gpc.config.PssQueueProperties;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {GpcFacadeApplication.class})
+@ExtendWith(MockitoExtension.class)
 public class PssQueuePublisherTest {
     @Mock
     private JmsTemplate jmsTemplate;
 
     @Mock
     private Session session;
-
-    @Mock
-    private PssQueueProperties pssQueueProperties;
 
     @InjectMocks
     private PssQueuePublisher pssQueuePublisher;
@@ -39,9 +31,6 @@ public class PssQueuePublisherTest {
     @SneakyThrows
     public void When_TaskIsSentToPssQueue_Expect_MessageIsSentToQueue() {
         String message = "Test Message";
-        String queueName = "testQueue";
-
-        when(pssQueueProperties.getQueueName()).thenReturn(queueName);
 
         pssQueuePublisher.sendToPssQueue(message);
 

@@ -4,11 +4,15 @@ import java.time.OffsetDateTime;
 
 import org.jdbi.v3.core.enums.EnumByName;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@Builder
 public class PatientMigrationRequest {
-    private String id;
+    private int id;
     private String patientNhsNumber;
     @EnumByName
     private RequestStatus requestStatus;

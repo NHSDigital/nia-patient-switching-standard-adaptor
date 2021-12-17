@@ -6,20 +6,15 @@ import org.springframework.stereotype.Service;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.parser.StrictErrorHandler;
-import uk.nhs.adaptors.pss.gpc.exception.FhirValidationException;
 
 @Service
-public class FhirParseService {
+public class FhirParser {
     public <T extends IBaseResource> T parseResource(String body, Class<T> fhirClass) {
         IParser jsonParser = prepareParser();
-        try {
-            return jsonParser.parseResource(fhirClass, body);
-        } catch (Exception ex) {
-            throw new FhirValidationException(ex.getMessage());
-        }
+        return jsonParser.parseResource(fhirClass, body);
     }
 
-    public String parseResourceToString(IBaseResource resource) {
+    public String encodeToJson(IBaseResource resource) {
         IParser jsonParser = prepareParser();
         return jsonParser
             .setPrettyPrint(true)
