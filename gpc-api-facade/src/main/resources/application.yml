@@ -1,6 +1,10 @@
 server:
   port: ${GPC_FACADE_SERVER_PORT:8081}
 
+logging:
+  level:
+    uk.nhs.adaptors.pss.gpc: ${LOG_LEVEL:INFO}
+
 spring:
   datasource:
     url: ${PS_DB_URL:jdbc:postgresql://localhost:5436/patient_switching}
