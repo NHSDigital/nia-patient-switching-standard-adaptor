@@ -28,9 +28,9 @@ public class PatientTransferService {
         var patientNhsNumber = retrievePatientNhsNumber(parameters);
         PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
 
-        if (patientMigrationRequest != null) {
+        if (patientMigrationRequest == null) {
             pssQueuePublisher.sendToPssQueue(fhirParser.encodeToJson(parameters));
-            patientMigrationRequestDao.addNewRequest(patientNhsNumber, RECEIVED.getValue(), OffsetDateTime.now());
+            patientMigrationRequestDao.addNewRequest(patientNhsNumber, RECEIVED.name(), OffsetDateTime.now());
         }
 
         return patientMigrationRequest;

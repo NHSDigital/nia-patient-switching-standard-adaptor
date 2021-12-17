@@ -1,7 +1,15 @@
 package uk.nhs.adaptors.pss.gpc.controller;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.when;
+
+import static uk.nhs.adaptors.connector.model.RequestStatus.COMPLETED;
+import static uk.nhs.adaptors.connector.model.RequestStatus.ERROR;
+import static uk.nhs.adaptors.connector.model.RequestStatus.IN_PROGRESS;
+import static uk.nhs.adaptors.connector.model.RequestStatus.RECEIVED;
+
+import java.time.OffsetDateTime;
 
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +21,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import uk.nhs.adaptors.pss.gpc.model.TransferStatus;
+import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
+import uk.nhs.adaptors.connector.model.RequestStatus;
 import uk.nhs.adaptors.pss.gpc.service.FhirParser;
 import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 
@@ -40,20 +49,55 @@ public class PatientTransferControllerTest {
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsNew() {
-        when(patientTransferService.getEmptyBundle()).thenReturn(RESPONSE_BODY);
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(TransferStatus.NEW);
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(null);
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(REQUEST_BODY);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.ACCEPTED);
-        assertThat(response.getBody()).isEqualTo(RESPONSE_BODY);
+        assertThat(response.getBody()).isNull();
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsInProgress() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(TransferStatus.IN_PROGRESS);
+    public void migratePatientStructuredRecordWhenTransferStatusIsReceived() {
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createPatientMigrationRequest(RECEIVED));
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(REQUEST_BODY);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(response.getBody()).isNull();
+    }
+
+    @Test
+    public void migratePatientStructuredRecordWhenTransferStatusIsInProgress() {
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createPatientMigrationRequest(IN_PROGRESS));
+
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(REQUEST_BODY);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        assertThat(response.getBody()).isNull();
+    }
+
+    @Test
+    public void migratePatientStructuredRecordWhenTransferStatusIsCompleted() {
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createPatientMigrationRequest(COMPLETED));
+        when(patientTransferService.getEmptyBundle()).thenReturn(RESPONSE_BODY);
+
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(REQUEST_BODY);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(RESPONSE_BODY);
+    }
+
+    @Test
+    public void migratePatientStructuredRecordWhenTransferStatusIsUnsupported() {
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createPatientMigrationRequest(ERROR));
+
+        Exception exception = assertThrows(IllegalStateException.class, () -> controller.migratePatientStructuredRecord(REQUEST_BODY));
+        assertThat(exception.getMessage()).isEqualTo("Unsupported transfer status: ERROR");
+    }
+
+    private PatientMigrationRequest createPatientMigrationRequest(RequestStatus status) {
+        return PatientMigrationRequest.builder()
+            .id(1)
+            .patientNhsNumber("123456789")
+            .requestStatus(status)
+            .date(OffsetDateTime.now())
+            .build();
     }
 }

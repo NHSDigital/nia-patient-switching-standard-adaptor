@@ -24,7 +24,6 @@ import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.model.RequestStatus;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
-import uk.nhs.adaptors.pss.gpc.model.TransferStatus;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferServiceTest {
@@ -57,20 +56,21 @@ public class PatientTransferServiceTest {
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(null);
         when(fhirParser.encodeToJson(parameters)).thenReturn(REQUEST_BODY);
 
-        TransferStatus transferStatus = service.handlePatientMigrationRequest(parameters);
+        PatientMigrationRequest patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
 
-        assertThat(transferStatus).isEqualTo(TransferStatus.NEW);
+        assertThat(patientMigrationRequest).isEqualTo(null);
         verify(pssQueuePublisher).sendToPssQueue(REQUEST_BODY);
-        verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, RequestStatus.RECEIVED.getValue(), now);
+        verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, RequestStatus.RECEIVED.name(), now);
     }
 
     @Test
     public void handlePatientMigrationRequestWhenRequestIsInProgress() {
-        when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(createPatientMigrationRequest());
+        PatientMigrationRequest expectedPatientMigrationRequest = createPatientMigrationRequest();
+        when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(expectedPatientMigrationRequest);
 
-        TransferStatus transferStatus = service.handlePatientMigrationRequest(parameters);
+        PatientMigrationRequest patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
 
-        assertThat(transferStatus).isEqualTo(TransferStatus.IN_PROGRESS);
+        assertThat(patientMigrationRequest).isEqualTo(expectedPatientMigrationRequest);
         verifyNoInteractions(pssQueuePublisher);
         verify(patientMigrationRequestDao).getMigrationRequest(PATIENT_NHS_NUMBER);
         verifyNoMoreInteractions(patientMigrationRequestDao);

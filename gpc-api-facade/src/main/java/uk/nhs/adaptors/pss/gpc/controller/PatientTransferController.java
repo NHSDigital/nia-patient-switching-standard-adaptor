@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,7 +50,7 @@ public class PatientTransferController {
         } else if (COMPLETED == request.getRequestStatus()) {
             return new ResponseEntity<>(patientTransferService.getEmptyBundle(), OK);
         } else {
-            throw new IllegalStateException("Unsupported trasnfer status: " + request.getRequestStatus());
+            throw new IllegalStateException("Unsupported transfer status: " + request.getRequestStatus());
         }
     }
 }
