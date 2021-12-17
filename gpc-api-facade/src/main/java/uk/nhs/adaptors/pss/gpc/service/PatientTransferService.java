@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.gpc.service;
 
+import static uk.nhs.adaptors.connector.model.RequestStatus.RECEIVED;
+
 import java.time.OffsetDateTime;
 
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -11,9 +13,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.connector.model.RequestStatus;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
-import uk.nhs.adaptors.pss.gpc.model.TransferStatus;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -24,17 +24,16 @@ public class PatientTransferService {
     private final PatientMigrationRequestDao patientMigrationRequestDao;
     private final PssQueuePublisher pssQueuePublisher;
 
-    public TransferStatus handlePatientMigrationRequest(Parameters parameters) {
+    public PatientMigrationRequest handlePatientMigrationRequest(Parameters parameters) {
         var patientNhsNumber = retrievePatientNhsNumber(parameters);
-        var isRequestInProgress = isRequestInProgress(patientNhsNumber);
+        PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
 
-        if (isRequestInProgress) {
-            return TransferStatus.IN_PROGRESS;
-        } else {
+        if (patientMigrationRequest != null) {
             pssQueuePublisher.sendToPssQueue(fhirParser.encodeToJson(parameters));
-            patientMigrationRequestDao.addNewRequest(patientNhsNumber, RequestStatus.RECEIVED.getValue(), OffsetDateTime.now());
-            return TransferStatus.NEW;
+            patientMigrationRequestDao.addNewRequest(patientNhsNumber, RECEIVED.getValue(), OffsetDateTime.now());
         }
+
+        return patientMigrationRequest;
     }
 
     public String getEmptyBundle() {
@@ -50,11 +49,5 @@ public class PatientTransferService {
             .get();
 
         return identifier.getValue();
-    }
-
-    private boolean isRequestInProgress(String patientNhsNumber) {
-        PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
-
-        return patientMigrationRequest != null;
     }
 }

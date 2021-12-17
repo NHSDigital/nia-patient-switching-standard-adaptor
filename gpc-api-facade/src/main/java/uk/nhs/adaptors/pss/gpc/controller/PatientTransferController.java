@@ -1,5 +1,15 @@
 package uk.nhs.adaptors.pss.gpc.controller;
 
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
+
+import static uk.nhs.adaptors.connector.model.RequestStatus.COMPLETED;
+import static uk.nhs.adaptors.connector.model.RequestStatus.IN_PROGRESS;
+import static uk.nhs.adaptors.connector.model.RequestStatus.RECEIVED;
+
+import java.util.List;
+
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.pss.gpc.model.TransferStatus;
+import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
+import uk.nhs.adaptors.connector.model.RequestStatus;
 import uk.nhs.adaptors.pss.gpc.service.FhirParser;
 import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 
@@ -22,6 +33,7 @@ public class PatientTransferController {
 
     private final PatientTransferService patientTransferService;
     private final FhirParser fhirParser;
+    private static final List<RequestStatus> IN_PROGRESS_STATUSES = List.of(RECEIVED, IN_PROGRESS);
 
     @PostMapping(
         path = "/Patient/$gpc.migratestructuredrecord",
@@ -31,12 +43,15 @@ public class PatientTransferController {
         LOGGER.info("Received patient transfer request");
 
         Parameters parameters = fhirParser.parseResource(body, Parameters.class);
-        TransferStatus transferStatus = patientTransferService.handlePatientMigrationRequest(parameters);
-        if (transferStatus == TransferStatus.NEW) {
-            String responseBody = patientTransferService.getEmptyBundle();
-            return new ResponseEntity<>(responseBody, HttpStatus.ACCEPTED);
+        PatientMigrationRequest request = patientTransferService.handlePatientMigrationRequest(parameters);
+        if (request == null) {
+            return new ResponseEntity<>(ACCEPTED);
+        } else if (IN_PROGRESS_STATUSES.contains(request.getRequestStatus())) {
+            return new ResponseEntity<>(NO_CONTENT);
+        } else if (COMPLETED == request.getRequestStatus()) {
+            return new ResponseEntity<>(patientTransferService.getEmptyBundle(), OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            throw new IllegalStateException("Unsupported trasnfer status: " + request.getRequestStatus());
         }
     }
 }
