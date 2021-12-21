@@ -3,7 +3,7 @@ server:
 
 logging:
   level:
-    com.nhs.adaptors.gpc: DEBUG
+    uk.nhs.adaptors.pss.translator: DEBUG
 
 spring:
   datasource:
