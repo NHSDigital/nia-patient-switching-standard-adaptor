@@ -14,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class IntegrationTestsExtension implements BeforeAllCallback, BeforeEachCallback {
+public class ActiveMqExtension implements BeforeAllCallback, BeforeEachCallback {
 
     private static final String DLQ_PREFIX = "DLQ.";
 

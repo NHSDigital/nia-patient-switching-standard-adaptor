@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.gpc.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
@@ -39,6 +37,9 @@ public class PatientTransferServiceTest {
     @Mock
     private PssQueuePublisher pssQueuePublisher;
 
+    @Mock
+    private DateUtils dateUtils;
+
     @InjectMocks
     private PatientTransferService service;
 
@@ -52,7 +53,7 @@ public class PatientTransferServiceTest {
     @Test
     public void handlePatientMigrationRequestWhenRequestIsNew() {
         OffsetDateTime now = OffsetDateTime.now();
-        mockOffsetDateTimeNow(now);
+        when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(null);
         when(fhirParser.encodeToJson(parameters)).thenReturn(REQUEST_BODY);
 
@@ -112,10 +113,5 @@ public class PatientTransferServiceTest {
             .requestStatus(RequestStatus.RECEIVED)
             .date(OffsetDateTime.now())
             .build();
-    }
-
-    private void mockOffsetDateTimeNow(OffsetDateTime offsetDateTime) {
-        MockedStatic<OffsetDateTime> mockedStatic = mockStatic(OffsetDateTime.class);
-        mockedStatic.when(OffsetDateTime::now).thenReturn(offsetDateTime);
     }
 }

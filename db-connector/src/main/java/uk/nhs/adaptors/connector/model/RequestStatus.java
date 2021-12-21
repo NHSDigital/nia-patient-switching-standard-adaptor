@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum RequestStatus {
-    RECEIVED(),
-    IN_PROGRESS(),
-    EXTRACT_RECEIVED(),
-    COMPLETED(),
-    ERROR();
+    RECEIVED,
+    IN_PROGRESS,
+    EXTRACT_RECEIVED,
+    COMPLETED,
+    ERROR;
 }

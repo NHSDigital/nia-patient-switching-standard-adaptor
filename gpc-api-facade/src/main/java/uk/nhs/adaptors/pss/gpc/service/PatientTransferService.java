@@ -2,8 +2,6 @@ package uk.nhs.adaptors.pss.gpc.service;
 
 import static uk.nhs.adaptors.connector.model.RequestStatus.RECEIVED;
 
-import java.time.OffsetDateTime;
-
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Parameters;
@@ -23,6 +21,7 @@ public class PatientTransferService {
     private final FhirParser fhirParser;
     private final PatientMigrationRequestDao patientMigrationRequestDao;
     private final PssQueuePublisher pssQueuePublisher;
+    private final DateUtils dateUtils;
 
     public PatientMigrationRequest handlePatientMigrationRequest(Parameters parameters) {
         var patientNhsNumber = retrievePatientNhsNumber(parameters);
@@ -30,7 +29,7 @@ public class PatientTransferService {
 
         if (patientMigrationRequest == null) {
             pssQueuePublisher.sendToPssQueue(fhirParser.encodeToJson(parameters));
-            patientMigrationRequestDao.addNewRequest(patientNhsNumber, RECEIVED.name(), OffsetDateTime.now());
+            patientMigrationRequestDao.addNewRequest(patientNhsNumber, RECEIVED.name(), dateUtils.getCurrentOffsetDateTime());
         }
 
         return patientMigrationRequest;

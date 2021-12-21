@@ -12,7 +12,7 @@ import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 public interface PatientMigrationRequestDao {
 
     @SqlUpdate("insert_patient_migration_request")
-    @UseClasspathSqlLocator()
+    @UseClasspathSqlLocator
     void addNewRequest(@Bind("nhsNumber") String patientNhsNumber, @Bind("status") String status, @Bind("date") OffsetDateTime date);
 
     @SqlQuery("select_patient_migration_request")
