@@ -29,10 +29,10 @@ import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 @Slf4j
 public class PatientTransferController {
     private static final String APPLICATION_FHIR_JSON_VALUE = "application/fhir+json";
+    private static final List<RequestStatus> IN_PROGRESS_STATUSES = List.of(RECEIVED, IN_PROGRESS);
 
     private final PatientTransferService patientTransferService;
     private final FhirParser fhirParser;
-    private static final List<RequestStatus> IN_PROGRESS_STATUSES = List.of(RECEIVED, IN_PROGRESS);
 
     @PostMapping(
         path = "/Patient/$gpc.migratestructuredrecord",

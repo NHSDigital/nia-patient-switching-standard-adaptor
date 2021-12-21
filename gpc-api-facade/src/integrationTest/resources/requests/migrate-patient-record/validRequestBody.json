@@ -1,0 +1,21 @@
+{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "patientNHSNumber",
+      "valueIdentifier": {
+        "system": "https://fhir.nhs.uk/Id/nhs-number",
+        "value": "{{nhsNumber}}"
+      }
+    },
+    {
+      "name": "includeFullRecord",
+      "part": [
+        {
+          "name": "includeSensitiveInformation",
+          "valueBoolean": true
+        }
+      ]
+    }
+  ]
+}
