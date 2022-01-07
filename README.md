@@ -33,7 +33,8 @@ They are Java Spring Boot applications, released as separate docker images.
 ## Local development
 ### How to start local environment
 1. Go to `docker` directory
-2. Fill in the passwords inside `vars.sh` file:
+2. Create a copy of `example.vars.sh`, name it `vars.sh`
+3. Fill in the passwords inside `vars.sh` file:
    - POSTGRES_PASSWORD: Password to be set for default postgres user.
      - This user is used to run the init script on the database. It is required during database creation.
    - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations.
