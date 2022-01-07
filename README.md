@@ -36,7 +36,7 @@ They are Java Spring Boot applications, released as separate docker images.
 2. Create a copy of `example.vars.sh`, name it `vars.sh`
 3. Fill in the passwords inside `vars.sh` file:
    - POSTGRES_PASSWORD: Password to be set for default postgres user.
-     - This user is used to run the init script on the database. It is required during database creation.
+   This user is used to run the init script on the database. It is required during database creation.
    - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations.
    - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
    - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
