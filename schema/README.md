@@ -4,6 +4,10 @@ This module holds xsd schemas and java classes generated based on those schemas.
 Schema files can be found inside src/resources directory.
 
 ## Generating java classes
+
+#### NOTE: Please use the newest version of the plugin: [gradle-xjc-plugin](https://github.com/unbroken-dome/gradle-xjc-plugin)
+
+
 1. Add `org.unbroken-dome.xjc` plugin in build.gradle:
     ```groovy
     plugins {
