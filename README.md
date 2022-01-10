@@ -33,25 +33,37 @@ They are Java Spring Boot applications, released as separate docker images.
 ## Local development
 ### How to start local environment
 1. Go to `docker` directory
-2. Set following env variables inside `vars.sh` file:
-    - PS_DB_URL: Database URL required to run migrations (for local environment set 'jdbc:postgresql://localhost:5436/patient_switching')
-    - POSTGRES_PASSWORD: Password to be set for default postgres user. 
-      This user is used to run the init script on the database. It is required during database creation.
-    - PS_DB_OWNER_NAME: Username of user used to run migrations.
-    - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations.
-    - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
-    - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
-    - PS_AMQP_BROKER: Address of the broker with the pss queue
-    - MHS_AMQP_BROKER: Address of the broker with the mhs queue 
-    - PS_QUEUE_NAME: Name of the pss queue
-    - MHS_QUEUE_NAME: Name of the mhs queue 
-    - PS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on pss queue
-    - MHS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on mhs queue
-   If you plan to use external queues (like ActiveMQ on AWS), you also need to set credentials for those queues:
-    - PS_AMQP_USERNAME
-    - PS_AMQP_PASSWORD
-    - MHS_AMQP_USERNAME
-    - MHS_AMQP_PASSWORD
+2. Create a copy of `example.vars.sh`, name it `vars.sh`
+3. Fill in the passwords inside `vars.sh` file:
+   - POSTGRES_PASSWORD: Password to be set for default postgres user.
+   This user is used to run the init script on the database. It is required during database creation.
+   - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations.
+   - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
+   - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
+   
+   There is an option to set following env variables when needed:
+   - PS_DB_URL: Database URL required to run migrations (for local environment set 'jdbc:postgresql://localhost:5436/patient_switching')
+   - POSTGRES_PASSWORD: Password to be set for default postgres user.
+     This user is used to run the init script on the database. It is required during database creation.
+   - PS_DB_OWNER_NAME: Username of user used to run migrations.
+   - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations.
+   - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
+   - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
+   - PS_AMQP_BROKER: Address of the broker with the pss queue
+   - MHS_AMQP_BROKER: Address of the broker with the mhs queue
+   - PS_QUEUE_NAME: Name of the pss queue
+   - MHS_QUEUE_NAME: Name of the mhs queue
+   - PS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on pss queue
+   - MHS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on mhs queue
+   - GPC_FACADE_SERVER_PORT: port of the GPC API Facade application
+   - GP2GP_TRANSLATOR_SERVER_PORT: port of the GP2GP Translator application
+     If you plan to use external queues (like ActiveMQ on AWS), you also need to set credentials for those queues:
+   - PS_AMQP_USERNAME
+   - PS_AMQP_PASSWORD
+   - MHS_AMQP_USERNAME
+   - MHS_AMQP_PASSWORD
+   
+
 3. Run `start-local-environment.sh` script:
    ```shell script
     ./start-local-environment.sh
