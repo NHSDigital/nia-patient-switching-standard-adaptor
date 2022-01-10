@@ -12,7 +12,7 @@ import uk.nhs.adaptors.pss.gpc.controller.PatientTransferControllerIT;
 public class TestResourceUtils {
     @SneakyThrows
     public static String readResourceAsString(String path) {
-        URL resource = PatientTransferControllerIT.class.getResource(path);
+        URL resource = TestResourceUtils.class.getResource(path);
         return Files.readString(Paths.get(resource.getPath()), UTF_8);
     }
 }

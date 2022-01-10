@@ -6,12 +6,14 @@ import static java.util.stream.Collectors.joining;
 import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueSeverity.ERROR;
 import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueSeverity.INFORMATION;
 import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueType.EXCEPTION;
+import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueType.INVALID;
 import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueType.NOTFOUND;
 import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueType.NOTSUPPORTED;
 import static org.springframework.http.HttpHeaders.ALLOW;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 import static uk.nhs.adaptors.pss.gpc.controller.handler.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 import static uk.nhs.adaptors.pss.gpc.util.CodeableConceptUtils.createCodeableConcept;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.OperationOutcome;
@@ -34,19 +37,16 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.gpc.service.FhirParser;
 
 @ControllerAdvice
-@RestController
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String ISSUE_SYSTEM = "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1";
@@ -54,6 +54,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         "/Patient/$gpc.migratestructuredrecord", List.of(POST)
     );
 
+    @Autowired
     private FhirParser fhirParser;
 
     @Override
@@ -62,7 +63,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         HttpServletRequest servletReq = ((ServletWebRequest) request).getRequest();
         String errorMessage = servletReq.getRequestURI() + " not found";
         CodeableConcept details = createCodeableConcept("RESOURCE_NOT_FOUND", ISSUE_SYSTEM, "Resource not found", errorMessage);
-        OperationOutcome operationOutcome = createOperationOutcome(NOTFOUND, INFORMATION, details, null); // czy "information" jak w przykladzie?
+        OperationOutcome operationOutcome = createOperationOutcome(NOTFOUND, INFORMATION, details, null); // zapytac czy ok, bo odwrotnie code i severity
         return errorResponse(requestHeaders, status, operationOutcome);
     }
 
@@ -70,8 +71,8 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
         HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         headers.put(ALLOW, List.of(getAllowedMethods(request)));
-        CodeableConcept details = createCodeableConcept("METHOD_NOT_SUPPORTED", ISSUE_SYSTEM, "Method not supported", ex.getMessage()); // czy tak moze byc?
-        OperationOutcome operationOutcome = createOperationOutcome(NOTSUPPORTED, ERROR, details, null);
+        CodeableConcept details = createCodeableConcept("METHOD_NOT_SUPPORTED", ISSUE_SYSTEM, "Method not supported", null);
+        OperationOutcome operationOutcome = createOperationOutcome(NOTSUPPORTED, ERROR, details, ex.getMessage());
         return errorResponse(headers, status, operationOutcome);
     }
 
@@ -89,20 +90,19 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         return handleAllExceptions(ex);
     }
 
+    @SneakyThrows
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
+        CodeableConcept details = createCodeableConcept("INVALID_RESOURCE", ISSUE_SYSTEM, "Submitted resource is not valid", null);
+        OperationOutcome operationOutcome = createOperationOutcome(INVALID, ERROR, details, ex.getMessage());
+        return errorResponse(new HttpHeaders(), UNPROCESSABLE_ENTITY, operationOutcome);
+    }
+
     @ExceptionHandler(Exception.class)
     private ResponseEntity<Object> handleAllExceptions(Exception ex) {
         LOGGER.error("Error occurred: {}", ex.getMessage());
-//        OperationOutcome operationOutcome;
-//        HttpStatus httpStatus;
-//        if (ex instanceof OperationOutcomeError) {
-//            OperationOutcomeError error = (OperationOutcomeError) ex;
-//            operationOutcome = error.getOperationOutcome();
-//            httpStatus = error.getStatusCode();
-//        } else {
         CodeableConcept details = createCodeableConcept("INTERNAL_SERVER_ERROR", ISSUE_SYSTEM, "Internal server error", null);
         OperationOutcome operationOutcome = createOperationOutcome(EXCEPTION, ERROR, details, ex.getMessage());
-//        HttpStatus httpStatus = INTERNAL_SERVER_ERROR;
-//        }
         return errorResponse(new HttpHeaders(), INTERNAL_SERVER_ERROR, operationOutcome);
     }
 

@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
-import uk.nhs.adaptors.pss.gpc.exception.FhirValidationException;
 import uk.nhs.adaptors.pss.gpc.util.DateUtils;
 
 @Component
@@ -47,7 +46,7 @@ public class PatientTransferService {
             .filter(it -> PATIENT_NHS_NUMBER_PARAM_NAME.equals(it.getName()))
             .map(Parameters.ParametersParameterComponent::getValue)
             .findFirst()
-            .orElseThrow(() -> new FhirValidationException("patientNHSNumber parameter is missing"));
+            .get();
 
         return identifier.getValue();
     }

@@ -14,6 +14,7 @@ import java.util.List;
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,7 @@ import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
+@Validated
 public class PatientTransferController {
     private static final List<RequestStatus> IN_PROGRESS_STATUSES = List.of(RECEIVED, IN_PROGRESS);
 
