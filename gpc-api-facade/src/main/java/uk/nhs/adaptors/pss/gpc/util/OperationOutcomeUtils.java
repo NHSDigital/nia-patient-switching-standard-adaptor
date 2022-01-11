@@ -14,7 +14,8 @@ import org.hl7.fhir.dstu3.model.UriType;
 public class OperationOutcomeUtils {
     private static final String URI_TYPE = "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-OperationOutcome-1";
 
-    public static OperationOutcome createOperationOutcome(IssueType type, IssueSeverity severity, CodeableConcept details, String diagnostics) {
+    public static OperationOutcome createOperationOutcome(
+        IssueType type, IssueSeverity severity, CodeableConcept details, String diagnostics) {
         var operationOutcome = new OperationOutcome();
         Meta meta = new Meta();
         meta.setProfile(Collections.singletonList(new UriType(URI_TYPE)));

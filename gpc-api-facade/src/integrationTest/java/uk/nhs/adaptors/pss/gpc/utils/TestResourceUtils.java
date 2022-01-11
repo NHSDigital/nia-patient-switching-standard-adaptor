@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.gpc.controller.PatientTransferControllerIT;
 
 public class TestResourceUtils {
     @SneakyThrows

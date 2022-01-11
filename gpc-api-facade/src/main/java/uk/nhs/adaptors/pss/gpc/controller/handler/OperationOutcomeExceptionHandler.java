@@ -63,7 +63,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         HttpServletRequest servletReq = ((ServletWebRequest) request).getRequest();
         String errorMessage = servletReq.getRequestURI() + " not found";
         CodeableConcept details = createCodeableConcept("RESOURCE_NOT_FOUND", ISSUE_SYSTEM, "Resource not found", errorMessage);
-        OperationOutcome operationOutcome = createOperationOutcome(NOTFOUND, INFORMATION, details, null); // zapytac czy ok, bo odwrotnie code i severity
+        OperationOutcome operationOutcome = createOperationOutcome(NOTFOUND, INFORMATION, details, null);
         return errorResponse(requestHeaders, status, operationOutcome);
     }
 
