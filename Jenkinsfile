@@ -74,7 +74,7 @@ pipeline {
                     }
                 }
 
-                 stage('Deploy & Test') {
+                 stage('Deploy') {
                     options {
                         lock("${tfProject}-${tfEnvironment}-${tfComponent}")
                     }
@@ -104,6 +104,8 @@ pipeline {
                                 }  //script
                             } // steps
                         } // Stage Deploy using Terraform
+                    }//Stages
+                 }//Deploy
              } //stages
         } //Stage Build 
     } //Stages 
