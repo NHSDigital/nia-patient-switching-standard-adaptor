@@ -36,7 +36,6 @@
             ALTER TABLE audit.logged_actions ADD CONSTRAINT action_check CHECK (action in ('I','D','U'));
             REVOKE ALL ON audit.logged_actions FROM public;
             GRANT SELECT ON audit.logged_actions TO ${PS_DB_OWNER_NAME};
-            GRANT SELECT ON audit.logged_actions TO postgres;
         </sql>
         <createIndex schemaName="audit" indexName="logged_actions_schema_table_idx" tableName="logged_actions">
             <column computed="true" name="((schema_name||'.'||table_name)::TEXT)"/>

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-export PS_DB_URL="jdbc:postgresql://localhost:5436/patient_switching"
+export PS_DB_URL="jdbc:postgresql://localhost:5436"
 export POSTGRES_PASSWORD=
-export PS_DB_OWNER_NAME="db_owner"
+export PS_DB_OWNER_NAME="postgres"
 export PS_DB_OWNER_PASSWORD=
 export GPC_FACADE_USER_DB_PASSWORD=
 export GP2GP_TRANSLATOR_USER_DB_PASSWORD=

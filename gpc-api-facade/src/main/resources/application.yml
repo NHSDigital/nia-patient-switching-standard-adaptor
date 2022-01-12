@@ -7,7 +7,7 @@ logging:
 
 spring:
   datasource:
-    url: ${PS_DB_URL:jdbc:postgresql://localhost:5436/patient_switching}
+    url: ${PS_DB_URL:jdbc:postgresql://localhost:5436}/patient_switching
     username: gpc_user
     password: ${GPC_FACADE_USER_DB_PASSWORD}
 
