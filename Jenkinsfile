@@ -98,7 +98,7 @@ pipeline {
                                       dir ("terraform/aws") {
                                         if (terraformInit(TF_STATE_BUCKET, tfProject, tfEnvironment, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
                                         if (terraform('plan', TF_STATE_BUCKET, tfProject, tfEnvironment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Plan failed")}
-                                        if (terraform('apply', TF_STATE_BUCKET, tfProject, tfEnvironment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
+                                        //if (terraform('apply', TF_STATE_BUCKET, tfProject, tfEnvironment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
                                       }
                                     }
                                 }  //script
@@ -107,13 +107,7 @@ pipeline {
              } //stages
         } //Stage Build 
     } //Stages 
-} //Pipeline  
-    
-int ecrLogin(String aws_region) {
-    String ecrCommand = "aws ecr get-login --region ${aws_region}"
-    String dockerLogin = sh (label: "Getting Docker login from ECR", script: ecrCommand, returnStdout: true).replace("-e none","") // some parameters that AWS provides and docker does not recognize
-    return sh(label: "Logging in with Docker", script: dockerLogin, returnStatus: true)
-}
+} //Pipeline
 
 String tfEnv(String tfEnvRepo="https://github.com/tfutils/tfenv.git", String tfEnvPath="~/.tfenv") {
   sh(label: "Get tfenv" ,  script: "git clone ${tfEnvRepo} ${tfEnvPath}", returnStatus: true)
