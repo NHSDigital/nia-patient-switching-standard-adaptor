@@ -1,8 +1,10 @@
-String tfProject      = "nia"
-String tfEnvironment  = "build1"
-String tfComponent    = "pss"
-String redirectEnv    = "build1"          // Name of environment where TF deployment needs to be re-directed
-String redirectBranch = "main"      // When deploying branch name matches, TF deployment gets redirected to environment defined in variable "redirectEnv"
+String tfProject             = "nia"
+String tfEnvironment         = "build1"
+String tfEnvironmentKdev     = "kdev"
+String tfComponent           = "pss"
+String redirectEnv           = "build1"          // Name of environment where TF deployment needs to be re-directed
+String redirectBranch        = "main"      // When deploying branch name matches, TF deployment gets redirected to environment defined in variable "redirectEnv"
+String redirectEnvKdev       = "kdev"          // Name of environment where TF deployment needs to be re-directed
 Boolean publishGPC_FacadeImage  = true // true: to publsh gpc_facade image to AWS ECR gpc_facade
 Boolean publishGP2GP_TranslatorImage  = true // true: to publsh gp2gp_translator image to AWS ECR gp2gp-translator
 Boolean publishMhsMockImage  = true // true: to publsh mhs mock image to AWS ECR pss-mock-mhs
@@ -74,13 +76,13 @@ pipeline {
                     }
                 }
 
-                 stage('Deploy') {
+                 stage('Deploy to build1') {
                     options {
                         lock("${tfProject}-${tfEnvironment}-${tfComponent}")
                     }
                     stages {
 
-                        stage('Deploy using Terraform') {
+                        stage('Deploy to build1 using Terraform') {
                             steps {
                                 script {
                                     
@@ -103,9 +105,44 @@ pipeline {
                                     }
                                 }  //script
                             } // steps
-                        } // Stage Deploy using Terraform
+                        } // Stage Deploy build1 using Terraform
+                      }//Stages
+                   }//Deploy to build1
+
+                 stage('Deploy to kdev') {
+                    when {
+                        expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( !awsDeployOnlyMain || GIT_BRANCH == 'main'  )  }
+                    }
+                    options {
+                        lock("${tfProject}-${tfEnvironmentKdev}-${tfComponent}")
+                    }
+                    stages {
+                        stage('Deploy to kdev using Terraform') {
+                            steps {
+                                script {
+                                    
+                                    // Check if TF deployment environment needs to be redirected
+                                    if (GIT_BRANCH == redirectBranch) { tfEnvironment = redirectEnvKdev }
+                                    
+                                    String tfCodeBranch  = "develop"
+                                    String tfCodeRepo    = "https://github.com/nhsconnect/integration-adaptors"
+                                    String tfRegion      = "${TF_STATE_BUCKET_REGION}"
+                                    List<String> tfParams = []
+                                    Map<String,String> tfVariables = ["${tfComponent}_build_id": BUILD_TAG]
+
+                                    dir ("integration-adaptors") {
+                                      git (branch: tfCodeBranch, url: tfCodeRepo)
+                                      dir ("terraform/aws") {
+                                        if (terraformInit(TF_STATE_BUCKET, tfProject, tfEnvironment, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
+                                        if (terraform('plan', TF_STATE_BUCKET, tfProject, tfEnvironment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Plan failed")}
+                                        //if (terraform('apply', TF_STATE_BUCKET, tfProject, tfEnvironment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
+                                      }
+                                    }
+                                }  //script
+                            } // steps
+                        } // Stage Deploy kdev using Terraform
                     }//Stages
-                 }//Deploy
+                 }//Deploy to kdev
              } //stages
         } //Stage Build 
     } //Stages 
