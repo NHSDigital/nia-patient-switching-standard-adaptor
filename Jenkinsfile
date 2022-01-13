@@ -76,7 +76,7 @@ pipeline {
                     }
                 }
 
-                 stage('Deploy to build1') {
+                 stage('Deploy') {
                     options {
                         lock("${tfProject}-${tfEnvironment}-${tfComponent}")
                     }
@@ -106,18 +106,14 @@ pipeline {
                                 }  //script
                             } // steps
                         } // Stage Deploy build1 using Terraform
-                      }//Stages
-                   }//Deploy to build1
 
-                 stage('Deploy to kdev') {
-                    when {
-                        expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( !awsDeployOnlyMain || GIT_BRANCH == 'main'  )  }
-                    }
-                    options {
-                        lock("${tfProject}-${tfEnvironmentKdev}-${tfComponent}")
-                    }
-                    stages {
                         stage('Deploy to kdev using Terraform') {
+                           when {
+                              expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+                    }
+                           options {
+                               lock("${tfProject}-${tfEnvironmentKdev}-${tfComponent}")
+                    }
                             steps {
                                 script {
                                     
@@ -142,7 +138,7 @@ pipeline {
                             } // steps
                         } // Stage Deploy kdev using Terraform
                     }//Stages
-                 }//Deploy to kdev
+                 }//Deploy
              } //stages
         } //Stage Build 
     } //Stages 
