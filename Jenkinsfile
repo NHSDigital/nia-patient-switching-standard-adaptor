@@ -126,7 +126,7 @@ pipeline {
                                     dir ("integration-adaptors") {
                                       git (branch: tfCodeBranch, url: tfCodeRepo)
                                       dir ("terraform/aws") {
-                                        if (terraformInit -reconfigure(TF_STATE_BUCKET, tfProject, tfEnvironment , tfComponent, tfRegion) !=0) { error("Terraform init failed")}
+                                        if (terraformInitreconfigure(TF_STATE_BUCKET, tfProject, tfEnvironment , tfComponent, tfRegion) !=0) { error("Terraform init failed")}
                                         if (terraform('plan', TF_STATE_BUCKET, tfProject, tfEnvironment , tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Plan failed")}
                                         //if (terraform('apply', TF_STATE_BUCKET, tfProject, tfEnvironment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
                                       }
@@ -151,6 +151,15 @@ int terraformInit(String tfStateBucket, String project, String environment, Stri
   String terraformBinPath = tfEnv()
   println("Terraform Init for Environment: ${environment} Component: ${component} in region: ${region} using bucket: ${tfStateBucket}")
   String command = "${terraformBinPath} init -backend-config='bucket=${tfStateBucket}' -backend-config='region=${region}' -backend-config='key=${project}-${environment}-${component}.tfstate' -input=false -no-color"
+  dir("components/${component}") {
+    return( sh( label: "Terraform Init", script: command, returnStatus: true))
+  } // dir
+} // int TerraformInit
+
+int terraformInitreconfigure(String tfStateBucket, String project, String environment, String component, String region) {
+  String terraformBinPath = tfEnv()
+  println("Terraform Init for Environment: ${environment} Component: ${component} in region: ${region} using bucket: ${tfStateBucket}")
+  String command = "${terraformBinPath} init -reconfigure -backend-config='bucket=${tfStateBucket}' -backend-config='region=${region}' -backend-config='key=${project}-${environment}-${component}.tfstate' -input=false -no-color"
   dir("components/${component}") {
     return( sh( label: "Terraform Init", script: command, returnStatus: true))
   } // dir
