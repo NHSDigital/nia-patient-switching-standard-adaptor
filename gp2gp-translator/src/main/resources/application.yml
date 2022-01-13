@@ -32,3 +32,6 @@ amqp:
     username: ${MHS_AMQP_USERNAME:}
     password: ${MHS_AMQP_PASSWORD:}
     maxRedeliveries: ${MHS_AMQP_MAX_REDELIVERIES:3}
+
+mhs:
+  outboundUrl: ${MHS_OUTBOUND_URL:http://localhost:8081/mhs/outbound}
