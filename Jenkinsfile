@@ -120,7 +120,6 @@ pipeline {
                                     String tfCodeBranch  = "develop"
                                     String tfCodeRepo    = "https://github.com/nhsconnect/integration-adaptors"
                                     String tfRegion      = "${TF_STATE_BUCKET_REGION}"
-                                    String tfEnvironment = "kdev"
                                     List<String> tfParams = []
                                     Map<String,String> tfVariables = ["${tfComponent}_build_id": BUILD_TAG]
 
