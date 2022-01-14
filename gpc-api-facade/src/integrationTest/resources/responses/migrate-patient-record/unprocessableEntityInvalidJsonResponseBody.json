@@ -18,7 +18,7 @@
           }
         ]
       },
-      "diagnostics": "migratePatientStructuredRecord.body: Failed to parse JSON encoded FHIR content: Unexpected character ('}' (code 125)): was expecting double-quote to start field name\n at [Source: UNKNOWN; line: 9, column: 8]"
+      "diagnostics": "Unexpected character ('}' (code 125)): was expecting double-quote to start field name\n at [Source: (PushbackInputStream); line: 9, column: 8]"
     }
   ]
 }

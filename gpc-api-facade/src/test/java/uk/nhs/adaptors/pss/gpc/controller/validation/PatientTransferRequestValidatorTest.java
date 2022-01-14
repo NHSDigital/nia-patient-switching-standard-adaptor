@@ -15,15 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import uk.nhs.adaptors.pss.gpc.service.FhirParser;
-
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferRequestValidatorTest {
-    private static final String REQUEST_BODY = "{}";
     private static final String NHS_NUMBER = "123456789";
-
-    @Mock
-    private FhirParser fhirParser;
 
     @Mock
     private ConstraintValidatorContext constraintValidatorContext;
@@ -37,18 +31,16 @@ public class PatientTransferRequestValidatorTest {
     @Test
     public void isValidShouldReturnTrueForValidParameters() {
         var validParameters = createValidParametersResource(NHS_NUMBER);
-        when(fhirParser.parseResource(REQUEST_BODY, Parameters.class)).thenReturn(validParameters);
 
-        assertThat(validator.isValid(REQUEST_BODY, constraintValidatorContext)).isTrue();
+        assertThat(validator.isValid(validParameters, constraintValidatorContext)).isTrue();
     }
 
     @Test
     public void isValidShouldReturnFalseWhenNhsNumberComponentIsMissing() {
         var invalidParameters = createParametersResourceWithoutNhsNumberComponent();
-        when(fhirParser.parseResource(REQUEST_BODY, Parameters.class)).thenReturn(invalidParameters);
         when(constraintValidatorContext.buildConstraintViolationWithTemplate(anyString())).thenReturn(constraintViolationBuilder);
 
-        assertThat(validator.isValid(REQUEST_BODY, constraintValidatorContext)).isFalse();
+        assertThat(validator.isValid(invalidParameters, constraintValidatorContext)).isFalse();
     }
 
     @Test
@@ -57,38 +49,34 @@ public class PatientTransferRequestValidatorTest {
         Parameters.ParametersParameterComponent nhsNumberComponent = new Parameters.ParametersParameterComponent();
         nhsNumberComponent.setName("patientNHSNumber");
         invalidParameters.addParameter(nhsNumberComponent);
-        when(fhirParser.parseResource(REQUEST_BODY, Parameters.class)).thenReturn(invalidParameters);
         when(constraintValidatorContext.buildConstraintViolationWithTemplate(anyString())).thenReturn(constraintViolationBuilder);
 
-        assertThat(validator.isValid(REQUEST_BODY, constraintValidatorContext)).isFalse();
+        assertThat(validator.isValid(invalidParameters, constraintValidatorContext)).isFalse();
     }
 
     @Test
     public void isValidShouldReturnFalseWhenNhsNumberComponentIsAddedTwice() {
         var invalidParameters = createValidParametersResource(NHS_NUMBER);
         invalidParameters.addParameter(createNhsNumberComponent("987654321"));
-        when(fhirParser.parseResource(REQUEST_BODY, Parameters.class)).thenReturn(invalidParameters);
         when(constraintValidatorContext.buildConstraintViolationWithTemplate(anyString())).thenReturn(constraintViolationBuilder);
 
-        assertThat(validator.isValid(REQUEST_BODY, constraintValidatorContext)).isFalse();
+        assertThat(validator.isValid(invalidParameters, constraintValidatorContext)).isFalse();
     }
 
     @Test
     public void isValidShouldReturnFalseWhenValueIdentifierValueIsNull() {
         var invalidParameters = createValidParametersResource(null);
-        when(fhirParser.parseResource(REQUEST_BODY, Parameters.class)).thenReturn(invalidParameters);
         when(constraintValidatorContext.buildConstraintViolationWithTemplate(anyString())).thenReturn(constraintViolationBuilder);
 
-        assertThat(validator.isValid(REQUEST_BODY, constraintValidatorContext)).isFalse();
+        assertThat(validator.isValid(invalidParameters, constraintValidatorContext)).isFalse();
     }
 
     @Test
     public void isValidShouldReturnFalseWhenValueIdentifierValueIsEmpty() {
         var invalidParameters = createValidParametersResource("");
-        when(fhirParser.parseResource(REQUEST_BODY, Parameters.class)).thenReturn(invalidParameters);
         when(constraintValidatorContext.buildConstraintViolationWithTemplate(anyString())).thenReturn(constraintViolationBuilder);
 
-        assertThat(validator.isValid(REQUEST_BODY, constraintValidatorContext)).isFalse();
+        assertThat(validator.isValid(invalidParameters, constraintValidatorContext)).isFalse();
     }
 
     private Parameters createValidParametersResource(String nhsNumberValue) {
