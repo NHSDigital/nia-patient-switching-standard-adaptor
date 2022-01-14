@@ -44,6 +44,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.pss.gpc.exception.FhirValidationException;
 import uk.nhs.adaptors.pss.gpc.service.FhirParser;
 
 @ControllerAdvice
@@ -93,9 +94,13 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     @SneakyThrows
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
-        CodeableConcept details = createCodeableConcept("INVALID_RESOURCE", ISSUE_SYSTEM, "Submitted resource is not valid", null);
-        OperationOutcome operationOutcome = createOperationOutcome(INVALID, ERROR, details, ex.getMessage());
-        return errorResponse(new HttpHeaders(), UNPROCESSABLE_ENTITY, operationOutcome);
+        return unprocessableEntityResponse(ex);
+    }
+
+    @SneakyThrows
+    @ExceptionHandler(FhirValidationException.class)
+    public ResponseEntity<Object> handleFhirValidationException(FhirValidationException ex) {
+        return unprocessableEntityResponse(ex);
     }
 
     @ExceptionHandler(Exception.class)
@@ -104,6 +109,12 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         CodeableConcept details = createCodeableConcept("INTERNAL_SERVER_ERROR", ISSUE_SYSTEM, "Internal server error", null);
         OperationOutcome operationOutcome = createOperationOutcome(EXCEPTION, ERROR, details, ex.getMessage());
         return errorResponse(new HttpHeaders(), INTERNAL_SERVER_ERROR, operationOutcome);
+    }
+
+    private ResponseEntity<Object> unprocessableEntityResponse(Exception ex) {
+        CodeableConcept details = createCodeableConcept("INVALID_RESOURCE", ISSUE_SYSTEM, "Submitted resource is not valid", null);
+        OperationOutcome operationOutcome = createOperationOutcome(INVALID, ERROR, details, ex.getMessage());
+        return errorResponse(new HttpHeaders(), UNPROCESSABLE_ENTITY, operationOutcome);
     }
 
     private ResponseEntity<Object> errorResponse(HttpHeaders headers, HttpStatus status, OperationOutcome operationOutcome) {

@@ -24,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.model.RequestStatus;
 import uk.nhs.adaptors.pss.gpc.controller.validation.PatientTransferRequest;
-import uk.nhs.adaptors.pss.gpc.service.FhirParser;
 import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 
 @RestController
@@ -35,18 +34,16 @@ public class PatientTransferController {
     private static final List<RequestStatus> IN_PROGRESS_STATUSES = List.of(RECEIVED, IN_PROGRESS);
 
     private final PatientTransferService patientTransferService;
-    private final FhirParser fhirParser;
 
     @PostMapping(
         path = "/Patient/$gpc.migratestructuredrecord",
         consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE}
     )
-    public ResponseEntity<String> migratePatientStructuredRecord(@RequestBody @PatientTransferRequest String body) {
+    public ResponseEntity<String> migratePatientStructuredRecord(@RequestBody @PatientTransferRequest Parameters body) {
         LOGGER.info("Received patient transfer request");
 
-        Parameters parameters = fhirParser.parseResource(body, Parameters.class);
-        PatientMigrationRequest request = patientTransferService.handlePatientMigrationRequest(parameters);
+        PatientMigrationRequest request = patientTransferService.handlePatientMigrationRequest(body);
         if (request == null) {
             return new ResponseEntity<>(ACCEPTED);
         } else if (IN_PROGRESS_STATUSES.contains(request.getRequestStatus())) {

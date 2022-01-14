@@ -7,22 +7,16 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Parameters;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import io.micrometer.core.instrument.util.StringUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.gpc.exception.FhirValidationException;
-import uk.nhs.adaptors.pss.gpc.service.FhirParser;
 
 @Component
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class PatientTransferRequestValidator implements ConstraintValidator<PatientTransferRequest, String> {
+public class PatientTransferRequestValidator implements ConstraintValidator<PatientTransferRequest, Parameters> {
     private static final String NHS_NUMBER_PART_NAME = "patientNHSNumber";
-
-    private final FhirParser fhirParser;
 
     @Override
     public void initialize(PatientTransferRequest constraintAnnotation) {
@@ -30,10 +24,9 @@ public class PatientTransferRequestValidator implements ConstraintValidator<Pati
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
+    public boolean isValid(Parameters value, ConstraintValidatorContext context) {
         try {
-            Parameters parameters = fhirParser.parseResource(value, Parameters.class);
-            checkNhsNumber(parameters);
+            checkNhsNumber(value);
         } catch (FhirValidationException exception) {
             setErrorMessage(context, exception.getMessage());
             return false;
