@@ -11,7 +11,7 @@
 	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
 
     <changeSet id="1" author="mrogowska">
-        <createTable tableName="patient_migration_request">
+        <createTable schemaName="public" tableName="patient_migration_request">
             <column name="id" type="int" autoIncrement="true" startWith="1" incrementBy="1">
                 <constraints primaryKey="true"/>
             </column>
