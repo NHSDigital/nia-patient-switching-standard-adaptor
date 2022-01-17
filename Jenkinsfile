@@ -128,7 +128,6 @@ pipeline {
                                       git (branch: tfCodeBranch, url: tfCodeRepo)
                                       dir ("terraform/aws") {
                                         if (terraformInitreconfigure(TF_STATE_BUCKET, tfProject, tfEnvironmentKdev, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
-                                        if (terraform('plan', TF_STATE_BUCKET, tfProject, tfEnvironmentKdev, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Plan failed")}
                                         if (terraform('apply', TF_STATE_BUCKET, tfProject, tfEnvironmentKdev, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
                                       }
                                     }
