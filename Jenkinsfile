@@ -109,10 +109,10 @@ pipeline {
                         stage('Deploy to kdev using Terraform') {
                            when {
                               expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
-                    }
+                            }
                            options {
                                lock("${tfProject}-${tfEnvironmentKdev}-${tfComponent}")
-                    }
+                            }
                             steps {
                                 script {
                                     
