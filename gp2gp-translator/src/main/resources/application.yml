@@ -33,5 +33,9 @@ amqp:
     password: ${MHS_AMQP_PASSWORD:}
     maxRedeliveries: ${MHS_AMQP_MAX_REDELIVERIES:3}
 
+pss:
+  from-ods-code: ${PS_FROM_ODS_CODE:PSS_001}
+
 mhs:
-  outboundUrl: ${MHS_OUTBOUND_URL:http://localhost:8081/mhs/outbound}
+  outbound:
+    url: ${MHS_OUTBOUND_URL:http://localhost:8080/mhs/outbound}
