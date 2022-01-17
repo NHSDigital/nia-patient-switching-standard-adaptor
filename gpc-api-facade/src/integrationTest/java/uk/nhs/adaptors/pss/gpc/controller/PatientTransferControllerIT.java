@@ -157,6 +157,19 @@ public class PatientTransferControllerIT {
             .andExpect(content().json(expectedResponseBody));
     }
 
+    @Test
+    public void sendPatientTransferRequestWithEmptyBody() throws Exception {
+        var expectedResponseBody = readResourceAsString(
+            "/responses/migrate-patient-record/unprocessableEntityEmptyBodyResponseBody.json");
+
+        mockMvc.perform(
+            post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .content(""))
+            .andExpect(status().isUnprocessableEntity())
+            .andExpect(content().json(expectedResponseBody));
+    }
+
     private String getRequestBody(String path, String patientNhsNumber) {
         return readResourceAsString(path).replace("{{nhsNumber}}", patientNhsNumber);
     }

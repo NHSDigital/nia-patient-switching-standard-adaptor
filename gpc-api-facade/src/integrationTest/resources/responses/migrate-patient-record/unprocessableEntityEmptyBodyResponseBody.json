@@ -1,0 +1,24 @@
+{
+  "resourceType": "OperationOutcome",
+  "meta": {
+    "profile": [
+      "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-OperationOutcome-1"
+    ]
+  },
+  "issue": [
+    {
+      "severity": "error",
+      "code": "invalid",
+      "details": {
+        "coding": [
+          {
+            "system": "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1",
+            "code": "INVALID_RESOURCE",
+            "display": "Submitted resource is not valid"
+          }
+        ]
+      },
+      "diagnostics": "Required request body is missing: public org.springframework.http.ResponseEntity<java.lang.String> uk.nhs.adaptors.pss.gpc.controller.PatientTransferController.migratePatientStructuredRecord(org.hl7.fhir.dstu3.model.Parameters)"
+    }
+  ]
+}
