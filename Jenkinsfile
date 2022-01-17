@@ -110,7 +110,7 @@ pipeline {
 
                         stage('Deploy to kdev using Terraform') {
                                     // Check if TF deployment environment needs to be redirected
-                                    if (GIT_BRANCH == redirectBranch) { tfEnvironment = redirectEnv }
+                                    if (GIT_BRANCH == redirectBranch) { tfEnvironment = redirectEnvkdev }
                            when {
                               expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( !awsDeployOnlyMain || GIT_BRANCH == 'main'  )  }
                     }
