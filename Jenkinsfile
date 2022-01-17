@@ -142,8 +142,8 @@ pipeline {
        always {
             sh label: 'Remove exited containers', script: 'docker container prune --force'
             sh label: 'Remove images tagged with current BUILD_TAG', script: 'docker image rm -f $(docker images "*/*:*${BUILD_TAG}" -q) $(docker images "*/*/*:*${BUILD_TAG}" -q) || true'
-        }
-      }
+        } // always
+      } // post
 } //Pipeline
 
 String tfEnv(String tfEnvRepo="https://github.com/tfutils/tfenv.git", String tfEnvPath="~/.tfenv") {
