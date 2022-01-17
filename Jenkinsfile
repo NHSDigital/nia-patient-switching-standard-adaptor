@@ -2,7 +2,8 @@ String tfProject             = "nia"
 String tfEnvironment         = "build1"
 String tfEnvironmentKdev     = "kdev"
 String tfComponent           = "pss"
-String redirectEnv           = "build1"          // Name of environment where TF deployment needs to be re-directed
+String redirectEnv           = "build1"         // Name of environment where TF deployment needs to be re-directed
+String redirectEnvkdev       = "kdev"          // Name of environment where TF deployment needs to be re-directed
 String redirectBranch        = "main"      // When deploying branch name matches, TF deployment gets redirected to environment defined in variable "redirectEnv"
 Boolean publishGPC_FacadeImage  = true // true: to publsh gpc_facade image to AWS ECR gpc_facade
 Boolean publishGP2GP_TranslatorImage  = true // true: to publsh gp2gp_translator image to AWS ECR gp2gp-translator
@@ -108,6 +109,8 @@ pipeline {
                         } // Stage Deploy build1 using Terraform
 
                         stage('Deploy to kdev using Terraform') {
+                                    // Check if TF deployment environment needs to be redirected
+                                    if (GIT_BRANCH == redirectBranch) { tfEnvironment = redirectEnv }
                            when {
                               expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( !awsDeployOnlyMain || GIT_BRANCH == 'main'  )  }
                     }
@@ -117,7 +120,6 @@ pipeline {
                             steps {
                                 script {
                                     
-                                    // Check if TF deployment environment needs to be redirected
                                     
                                     String tfCodeBranch  = "develop"
                                     String tfCodeRepo    = "https://github.com/nhsconnect/integration-adaptors"
