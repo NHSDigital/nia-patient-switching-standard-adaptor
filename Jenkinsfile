@@ -7,6 +7,7 @@ String redirectBranch        = "main"      // When deploying branch name matches
 Boolean publishGPC_FacadeImage  = true // true: to publsh gpc_facade image to AWS ECR gpc_facade
 Boolean publishGP2GP_TranslatorImage  = true // true: to publsh gp2gp_translator image to AWS ECR gp2gp-translator
 Boolean publishMhsMockImage  = true // true: to publsh mhs mock image to AWS ECR pss-mock-mhs
+Boolean awsDeployOnlyMain = true // true: Skip AWS deployment for all branches other than 'main' ; false: Allow AWS Deployment for all branches
 
 
 pipeline {
