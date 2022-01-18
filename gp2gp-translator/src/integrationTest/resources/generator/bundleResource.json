@@ -1,0 +1,10 @@
+{
+    "resourceType": "Bundle",
+    "id": "219b7cb8-da9e-447a-b279-82be7a3299da",
+    "meta": {
+        "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1"
+        ]
+    },
+    "type": "collection"
+}
