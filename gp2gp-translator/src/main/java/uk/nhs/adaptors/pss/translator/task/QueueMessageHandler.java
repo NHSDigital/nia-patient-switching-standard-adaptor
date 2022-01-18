@@ -35,6 +35,7 @@ public class QueueMessageHandler {
         String conversationId = UUID.randomUUID().toString();
         String nhsNumber = ((Identifier) parsed.getParameterFirstRep().getValue()).getValue();
         String fromOdsCode = "ODS_CODE_HERE"; //@TODO: Figure it later
+        String fromOdsCode = pssConfiguration.getFromOdsCode();
 
         String ehrExtractRequest = ehrExtractRequestService.buildEhrExtractRequest(
             conversationId,
