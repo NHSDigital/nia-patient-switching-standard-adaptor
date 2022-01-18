@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static uk.nhs.adaptors.pss.gpc.utils.TestResourceUtils.readResourceAsString;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,7 +166,7 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .content(""))
+                .content(StringUtils.EMPTY))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(content().json(expectedResponseBody));
     }
