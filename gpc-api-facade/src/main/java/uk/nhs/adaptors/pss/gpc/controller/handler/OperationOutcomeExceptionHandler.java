@@ -120,8 +120,9 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     }
 
     private ResponseEntity<Object> unprocessableEntityResponse(Exception ex) {
+        LOGGER.error("Error occurred: {}", ex.getMessage());
         CodeableConcept details = createCodeableConcept("INVALID_RESOURCE", ISSUE_SYSTEM, "Submitted resource is not valid", null);
-        OperationOutcome operationOutcome = createOperationOutcome(INVALID, ERROR, details, ex.getMessage());
+        OperationOutcome operationOutcome = createOperationOutcome(INVALID, ERROR, details, "Failed to parse request payload");
         return errorResponse(new HttpHeaders(), UNPROCESSABLE_ENTITY, operationOutcome);
     }
 

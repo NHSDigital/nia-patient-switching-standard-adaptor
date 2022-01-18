@@ -18,7 +18,7 @@
           }
         ]
       },
-      "diagnostics": "migratePatientStructuredRecord.body: Missing value for Parameter 'patientNHSNumber'"
+      "diagnostics": "Failed to parse request payload"
     }
   ]
 }
