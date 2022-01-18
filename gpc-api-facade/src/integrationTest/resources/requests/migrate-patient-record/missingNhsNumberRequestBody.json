@@ -1,0 +1,14 @@
+{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "includeFullRecord",
+      "part": [
+        {
+          "name": "includeSensitiveInformation",
+          "valueBoolean": true
+        }
+      ]
+    }
+  ]
+}

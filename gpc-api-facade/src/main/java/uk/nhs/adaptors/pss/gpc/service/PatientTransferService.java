@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
+import uk.nhs.adaptors.pss.gpc.util.DateUtils;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
