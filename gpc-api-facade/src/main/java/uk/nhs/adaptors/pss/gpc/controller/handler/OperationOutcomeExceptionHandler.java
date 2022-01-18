@@ -32,6 +32,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -91,6 +92,12 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         return handleAllExceptions(ex);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(
+        HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return unprocessableEntityResponse(ex);
+    }
+
     @SneakyThrows
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
@@ -107,13 +114,15 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     private ResponseEntity<Object> handleAllExceptions(Exception ex) {
         LOGGER.error("Error occurred: {}", ex.getMessage());
         CodeableConcept details = createCodeableConcept("INTERNAL_SERVER_ERROR", ISSUE_SYSTEM, "Internal server error", null);
-        OperationOutcome operationOutcome = createOperationOutcome(EXCEPTION, ERROR, details, ex.getMessage());
+        OperationOutcome operationOutcome = createOperationOutcome(
+            EXCEPTION, ERROR, details, "Internal server error. Please contact the administrator.");
         return errorResponse(new HttpHeaders(), INTERNAL_SERVER_ERROR, operationOutcome);
     }
 
     private ResponseEntity<Object> unprocessableEntityResponse(Exception ex) {
+        LOGGER.error("Error occurred: {}", ex.getMessage());
         CodeableConcept details = createCodeableConcept("INVALID_RESOURCE", ISSUE_SYSTEM, "Submitted resource is not valid", null);
-        OperationOutcome operationOutcome = createOperationOutcome(INVALID, ERROR, details, ex.getMessage());
+        OperationOutcome operationOutcome = createOperationOutcome(INVALID, ERROR, details, "Failed to parse request payload");
         return errorResponse(new HttpHeaders(), UNPROCESSABLE_ENTITY, operationOutcome);
     }
 

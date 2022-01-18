@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static uk.nhs.adaptors.pss.gpc.utils.TestResourceUtils.readResourceAsString;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class PatientTransferControllerIT {
     private static final String APPLICATION_FHIR_JSON_VALUE = "application/fhir+json";
     private static final String MIGRATE_PATIENT_RECORD_ENDPOINT = "/Patient/$gpc.migratestructuredrecord";
     private static final String VALID_REQUEST_BODY_PATH = "/requests/migrate-patient-record/validRequestBody.json";
+    private static final String UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH =
+        "/responses/migrate-patient-record/unprocessableEntityResponseBody.json";
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -132,8 +135,7 @@ public class PatientTransferControllerIT {
     @Test
     public void sendPatientTransferRequestWithoutNhsNumber() throws Exception {
         var requestBody = readResourceAsString("/requests/migrate-patient-record/missingNhsNumberRequestBody.json");
-        var expectedResponseBody = readResourceAsString(
-            "/responses/migrate-patient-record/unprocessableEntityMissingNhsNumberResponseBody.json");
+        var expectedResponseBody = readResourceAsString(UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH);
 
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
@@ -146,13 +148,24 @@ public class PatientTransferControllerIT {
     @Test
     public void sendPatientTransferRequestWithInvalidBody() throws Exception {
         var requestBody = getRequestBody("/requests/migrate-patient-record/invalidRequestBody.json", generatePatientNhsNumber());
-        var expectedResponseBody = readResourceAsString(
-            "/responses/migrate-patient-record/unprocessableEntityInvalidJsonResponseBody.json");
+        var expectedResponseBody = readResourceAsString(UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH);
 
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
                 .content(requestBody))
+            .andExpect(status().isUnprocessableEntity())
+            .andExpect(content().json(expectedResponseBody));
+    }
+
+    @Test
+    public void sendPatientTransferRequestWithEmptyBody() throws Exception {
+        var expectedResponseBody = readResourceAsString(UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH);
+
+        mockMvc.perform(
+            post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .content(StringUtils.EMPTY))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(content().json(expectedResponseBody));
     }
