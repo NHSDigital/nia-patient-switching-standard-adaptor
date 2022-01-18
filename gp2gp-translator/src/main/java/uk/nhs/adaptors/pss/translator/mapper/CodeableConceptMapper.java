@@ -10,17 +10,16 @@ public class CodeableConceptMapper {
 
     public CodeableConcept mapToCodeableConcept(CV codedData) {
         if (hasSnomedCodeInMainCode(codedData)) {
-            var text = getText(codedData);
-            return createCodeableConcept(codedData.getCode(), SNOMED_SYSTEM, codedData.getDisplayName(), text);
+            var display = getText(codedData);
+            return createCodeableConcept(codedData.getCode(), SNOMED_SYSTEM, display);
         } else if (hasSnomedCodeInTranslationElement(codedData)) {
             var translation = getSnomedTranslationElement(codedData);
-            var text = getTextForSnomedTranslationElement(codedData, translation)
-            return createCodeableConcept(translation.getCode(), SNOMED_SYSTEM, translation.getDisplayName(), text);
-        } else {
-            // todo co z tym originaltextem
-            var text = getText(codedData);
-            return createCodeableConcept(codedData.getCode(), codedData.getCodeSystem(), codedData.getDisplayName(), text);
+            var display = getDisplayForSnomedTranslationElement(codedData, translation);
+            return createCodeableConcept(translation.getCode(), SNOMED_SYSTEM, display);
         }
+
+        var text = getText(codedData);
+        return new CodeableConcept().setText(text);
     }
 
     private boolean hasSnomedCodeInMainCode(CV codedData) {
@@ -45,14 +44,17 @@ public class CodeableConceptMapper {
         return codedData.getOriginalText() != null ? codedData.getOriginalText().toString() : codedData.getDisplayName();
     }
 
-    private String getTextForSnomedTranslationElement(CV codedData, CD translation) {
-        // todo
+    private String getDisplayForSnomedTranslationElement(CV codedData, CD translation) {
+        if (codedData.getOriginalText() != null) {
+            return codedData.getOriginalText().toString();
+        }
+
+        return translation.getDisplayName().isEmpty() ? codedData.getDisplayName() : translation.getDisplayName();
     }
 
-    private CodeableConcept createCodeableConcept(String code, String system, String display, String text) {
+    private CodeableConcept createCodeableConcept(String code, String system, String display) {
         var codeableConcept = new CodeableConcept();
         codeableConcept
-            .setText(text)
             .getCodingFirstRep()
             .setCode(code)
             .setSystem(system)
