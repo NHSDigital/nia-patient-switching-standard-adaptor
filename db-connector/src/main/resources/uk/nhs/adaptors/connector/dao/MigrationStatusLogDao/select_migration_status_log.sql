@@ -1,0 +1,1 @@
+SELECT * FROM migration_status_log WHERE patient_nhs_number = :nhsNumber;
