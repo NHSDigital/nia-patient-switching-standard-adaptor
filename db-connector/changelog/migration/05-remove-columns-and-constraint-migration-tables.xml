@@ -1,0 +1,28 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+	http://www.liquibase.org/xml/ns/dbchangelog-ext
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/pro
+	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+    <changeSet id="5" author="bchotkowski">
+        <dropColumn schemaName="public" tableName="patient_migration_request" columnName="status" />
+        <dropColumn schemaName="public" tableName="patient_migration_request" columnName="date" />
+
+        <addColumn schemaName="public" tableName="migration_status_log">
+            <column name="migration_request_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint constraintName="fk_migrationrequest2log"
+                                 baseTableName="migration_status_log"
+                                 baseColumnNames="migration_request_id"
+                                 referencedTableName="patient_migration_request"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
