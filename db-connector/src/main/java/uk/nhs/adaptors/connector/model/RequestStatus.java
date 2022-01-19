@@ -6,6 +6,8 @@ import lombok.Getter;
 public enum RequestStatus {
     RECEIVED,
     IN_PROGRESS,
+    MHS_ACCEPTED,
+    MHS_BAD_REQUEST,
     EXTRACT_RECEIVED,
     COMPLETED,
     ERROR;

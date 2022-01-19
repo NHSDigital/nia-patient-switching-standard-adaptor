@@ -1,4 +1,6 @@
 package uk.nhs.adaptors.pss.translator.task;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 import javax.jms.Message;
@@ -7,10 +9,15 @@ import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
+import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.RequestStatus;
+import uk.nhs.adaptors.pss.translator.config.PssConfiguration;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
@@ -25,6 +32,9 @@ public class QueueMessageHandler {
     private final EhrExtractRequestService ehrExtractRequestService;
     private final MhsRequestBuilder requestBuilder;
     private final MhsClientService mhsClientService;
+    private final PssConfiguration pssConfiguration;
+    private final PatientMigrationRequestDao patientMigrationRequestDao;
+    private final MigrationStatusLogDao migrationStatusLogDao;
 
     @SneakyThrows
     public boolean handle(Message message) {
@@ -34,7 +44,6 @@ public class QueueMessageHandler {
 
         String conversationId = UUID.randomUUID().toString();
         String nhsNumber = ((Identifier) parsed.getParameterFirstRep().getValue()).getValue();
-        String fromOdsCode = "ODS_CODE_HERE"; //@TODO: Figure it later
         String fromOdsCode = pssConfiguration.getFromOdsCode();
 
         String ehrExtractRequest = ehrExtractRequestService.buildEhrExtractRequest(
@@ -44,10 +53,30 @@ public class QueueMessageHandler {
         );
 
         var request = requestBuilder.buildSendEhrExtractRequest(conversationId, fromOdsCode, ehrExtractRequest);
-        var response = mhsClientService.send(request);
-        LOGGER.info("Got response from MHS -> [{}]", response);
+        int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(nhsNumber);
+
+        try{
+            mhsClientService.send(request);
+        } catch (WebClientResponseException wcre) {
+            LOGGER.error("Received an ERROR in response from MHS: [{}]", wcre.getMessage());
+            handleResponse(nhsNumber, migrationRequestId, RequestStatus.MHS_BAD_REQUEST);
+            return false;
+        }
+
+        LOGGER.info("Got response from MHS - 202 Accepted");
+        LOGGER.debug("RequestStatus of PatientMigrationRequest with id=[{}] : [{}]", migrationRequestId, RequestStatus.MHS_ACCEPTED.name());
+        handleResponse(nhsNumber, migrationRequestId, RequestStatus.MHS_ACCEPTED);
 
         return true;
+    }
+
+    private void handleResponse(String nhsNumber, int migrationRequestId, RequestStatus requestStatus) {
+        migrationStatusLogDao.addMigrationStatusLog(
+            nhsNumber,
+            requestStatus.name(),
+            OffsetDateTime.now(ZoneOffset.UTC),
+            migrationRequestId
+        );
     }
 
 }

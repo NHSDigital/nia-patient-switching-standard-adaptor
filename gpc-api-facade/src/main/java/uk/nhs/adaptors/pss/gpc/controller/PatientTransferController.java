@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.model.RequestStatus;
 import uk.nhs.adaptors.pss.gpc.service.FhirParser;
@@ -42,7 +43,7 @@ public class PatientTransferController {
         LOGGER.info("Received patient transfer request");
 
         Parameters parameters = fhirParser.parseResource(body, Parameters.class);
-        PatientMigrationRequest request = patientTransferService.handlePatientMigrationRequest(parameters);
+        MigrationStatusLog request = patientTransferService.handlePatientMigrationRequest(parameters);
         if (request == null) {
             return new ResponseEntity<>(ACCEPTED);
         } else if (IN_PROGRESS_STATUSES.contains(request.getRequestStatus())) {

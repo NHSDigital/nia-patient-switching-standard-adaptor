@@ -16,4 +16,10 @@ public interface PatientMigrationRequestDao {
     @SqlQuery("select_patient_migration_request")
     @UseClasspathSqlLocator
     PatientMigrationRequest getMigrationRequest(@Bind("nhsNumber") String patientNhsNumber);
+
+    @SqlQuery("select_patient_migration_request_id")
+    @UseClasspathSqlLocator
+    int getMigrationRequestId(@Bind("nhsNumber") String patientNhsNumber);
+
+
 }
