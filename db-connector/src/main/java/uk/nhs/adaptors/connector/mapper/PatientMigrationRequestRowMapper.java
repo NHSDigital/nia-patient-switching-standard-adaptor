@@ -19,8 +19,6 @@ public class PatientMigrationRequestRowMapper implements RowMapper<PatientMigrat
         return PatientMigrationRequest.builder()
             .id(rs.getInt("id"))
             .patientNhsNumber(rs.getString("patient_nhs_number"))
-            .requestStatus(RequestStatus.valueOf(rs.getString("status")))
-            .date(rs.getObject("date", OffsetDateTime.class))
             .build();
     }
 }

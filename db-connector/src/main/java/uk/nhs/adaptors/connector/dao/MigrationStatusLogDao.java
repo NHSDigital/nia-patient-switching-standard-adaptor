@@ -13,7 +13,9 @@ public interface MigrationStatusLogDao {
 
     @SqlUpdate("insert_migration_status_log")
     @UseClasspathSqlLocator
-    void addMigrationStatusLog(@Bind("nhsNumber") String patientNhsNumber, @Bind("status") String status, @Bind("date") OffsetDateTime date);
+    void addMigrationStatusLog(@Bind("nhsNumber") String patientNhsNumber, @Bind("status") String status,
+        @Bind("date") OffsetDateTime date, @Bind("migrationRequestId") int migrationRequestId
+    );
 
     @SqlQuery("select_migration_status_log")
     @UseClasspathSqlLocator
