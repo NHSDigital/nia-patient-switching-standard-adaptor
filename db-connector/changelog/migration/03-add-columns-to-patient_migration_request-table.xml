@@ -9,12 +9,17 @@
 	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
     http://www.liquibase.org/xml/ns/pro
 	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
-
-    <changeSet id="3" author="bchotkowski">
-        <addForeignKeyConstraint constraintName="fk_migrationrequest2log"
-                                 baseTableName="patient_migration_request"
-                                 baseColumnNames="patient_nhs_number"
-                                 referencedTableName="migration_status_log"
-                                 referencedColumnNames="patient_nhs_number"/>
+    <changeSet id="3" author="mrogowska">
+        <addColumn schemaName="public" tableName="patient_migration_request">
+            <column name="patient_nhs_number" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>

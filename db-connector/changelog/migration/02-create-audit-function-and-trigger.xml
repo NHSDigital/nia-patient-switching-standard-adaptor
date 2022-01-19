@@ -9,7 +9,7 @@
 	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
     http://www.liquibase.org/xml/ns/pro
 	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
-    <changeSet id="4" author="mrogowska">
+    <changeSet id="2" author="mrogowska">
         <sql dbms="postgresql">
             CREATE SCHEMA audit;
             REVOKE CREATE ON SCHEMA audit FROM public;
