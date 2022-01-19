@@ -33,7 +33,7 @@ public class CodeableConceptMapper {
     private CD getSnomedTranslationElement(CD codedData) {
         return codedData.getTranslation()
             .stream()
-            .filter(t -> t.getCodeSystem().equals(SNOMED_SYSTEM_CODE))
+            .filter(translation -> translation.getCodeSystem().equals(SNOMED_SYSTEM_CODE))
             .findFirst()
             .get();
     }
