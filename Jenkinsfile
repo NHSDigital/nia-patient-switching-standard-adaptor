@@ -78,7 +78,7 @@ pipeline {
 
                  stage('Deploy') {
                     options {
-                        lock("${tfProject}-${tfEnvironment}-${tfComponent}")
+                        lock("${tfProject}-${tfPrimaryEnvironment}-${tfComponent}")
                     }
                     stages {
 
@@ -87,7 +87,7 @@ pipeline {
                                 script {
                                     
                                     // Check if TF deployment environment needs to be redirected
-                                    if (GIT_BRANCH == redirectBranch) { tfEnvironment = redirectEnv }
+                                    if (GIT_BRANCH == redirectBranch) { tfPrimaryEnvironment = redirectEnv }
                                     
                                     String tfCodeBranch  = "develop"
                                     String tfCodeRepo    = "https://github.com/nhsconnect/integration-adaptors"
