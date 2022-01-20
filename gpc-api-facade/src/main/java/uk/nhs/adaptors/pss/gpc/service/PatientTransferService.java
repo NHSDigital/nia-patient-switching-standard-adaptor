@@ -29,17 +29,18 @@ public class PatientTransferService {
     public MigrationStatusLog handlePatientMigrationRequest(Parameters parameters) {
         var patientNhsNumber = retrievePatientNhsNumber(parameters);
         PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
-        MigrationStatusLog migrationStatusLog = migrationStatusLogDao.getMigrationStatusLog(patientNhsNumber);
+
 
         if (patientMigrationRequest == null) {
             pssQueuePublisher.sendToPssQueue(fhirParser.encodeToJson(parameters));
             patientMigrationRequestDao.addNewRequest(patientNhsNumber);
 
             int addedId = patientMigrationRequestDao.getMigrationRequestId(patientNhsNumber);
-            migrationStatusLogDao.addMigrationStatusLog(patientNhsNumber, RECEIVED.name(), dateUtils.getCurrentOffsetDateTime(), addedId);
+            migrationStatusLogDao.addMigrationStatusLog(RECEIVED.name(), dateUtils.getCurrentOffsetDateTime(), addedId);
+        } else {
+            return migrationStatusLogDao.getMigrationStatusLog(patientMigrationRequest.getId());
         }
-
-        return migrationStatusLog;
+        return null;
     }
 
     public String getEmptyBundle() {

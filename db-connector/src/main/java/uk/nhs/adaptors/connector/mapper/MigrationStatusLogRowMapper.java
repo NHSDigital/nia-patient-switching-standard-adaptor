@@ -19,7 +19,6 @@ public class MigrationStatusLogRowMapper implements RowMapper<MigrationStatusLog
     public MigrationStatusLog map(ResultSet rs, StatementContext ctx) throws SQLException {
         return MigrationStatusLog.builder()
             .id(rs.getInt("id"))
-            .patientNhsNumber(rs.getString("patient_nhs_number"))
             .requestStatus(RequestStatus.valueOf(rs.getString("status")))
             .date(rs.getObject("date", OffsetDateTime.class))
             .migrationRequestId(rs.getInt("migration_request_id"))

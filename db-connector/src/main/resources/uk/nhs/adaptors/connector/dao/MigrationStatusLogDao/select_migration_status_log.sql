@@ -1,1 +1,1 @@
-SELECT * FROM migration_status_log WHERE patient_nhs_number = :nhsNumber;
+SELECT * FROM migration_status_log WHERE migration_request_id = :migrationRequestId;

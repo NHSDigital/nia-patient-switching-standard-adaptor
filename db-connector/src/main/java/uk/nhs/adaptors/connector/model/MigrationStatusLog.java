@@ -14,7 +14,6 @@ import lombok.Setter;
 public class MigrationStatusLog {
 
     private int id;
-    private String patientNhsNumber;
 
     @EnumByName
     private RequestStatus requestStatus;
