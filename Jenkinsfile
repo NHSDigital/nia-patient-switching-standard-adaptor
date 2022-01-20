@@ -111,8 +111,6 @@ pipeline {
                            when {
                               expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && (secondarydeployment == 'true') && ( GIT_BRANCH == 'main' )  }
                             }
-                           options {
-                               lock("${tfProject}-${tfSecondaryEnvironment}-${tfComponent}")
                             }
                             steps {
                                 script {
