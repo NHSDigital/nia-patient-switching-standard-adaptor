@@ -19,6 +19,7 @@ import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.RequestStatus;
 import uk.nhs.adaptors.pss.translator.config.PssConfiguration;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
+import uk.nhs.adaptors.pss.translator.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 import uk.nhs.adaptors.pss.translator.utils.FhirParser;
@@ -52,27 +53,30 @@ public class QueueMessageHandler {
             fromOdsCode
         );
 
-        var request = requestBuilder.buildSendEhrExtractRequest(conversationId, fromOdsCode, ehrExtractRequest);
+        var outboundMessage = OutboundMessage.builder()
+            .payload(ehrExtractRequest)
+            .build();
+
+        var request = requestBuilder.buildSendEhrExtractRequest(conversationId, fromOdsCode, outboundMessage);
         int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(nhsNumber);
 
         try{
             mhsClientService.send(request);
         } catch (WebClientResponseException wcre) {
             LOGGER.error("Received an ERROR in response from MHS: [{}]", wcre.getMessage());
-            handleResponse(nhsNumber, migrationRequestId, RequestStatus.MHS_BAD_REQUEST);
+            handleResponse(migrationRequestId, RequestStatus.MHS_BAD_REQUEST);
             return false;
         }
 
         LOGGER.info("Got response from MHS - 202 Accepted");
         LOGGER.debug("RequestStatus of PatientMigrationRequest with id=[{}] : [{}]", migrationRequestId, RequestStatus.MHS_ACCEPTED.name());
-        handleResponse(nhsNumber, migrationRequestId, RequestStatus.MHS_ACCEPTED);
+        handleResponse(migrationRequestId, RequestStatus.MHS_ACCEPTED);
 
         return true;
     }
 
-    private void handleResponse(String nhsNumber, int migrationRequestId, RequestStatus requestStatus) {
+    private void handleResponse(int migrationRequestId, RequestStatus requestStatus) {
         migrationStatusLogDao.addMigrationStatusLog(
-            nhsNumber,
             requestStatus.name(),
             OffsetDateTime.now(ZoneOffset.UTC),
             migrationRequestId

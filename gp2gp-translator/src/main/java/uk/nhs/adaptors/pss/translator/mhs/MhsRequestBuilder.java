@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.netty.http.client.HttpClient;
 import uk.nhs.adaptors.pss.translator.config.MhsOutboundConfiguration;
+import uk.nhs.adaptors.pss.translator.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.RequestBuilderService;
 
 @Slf4j
@@ -33,19 +34,18 @@ public class MhsRequestBuilder {
     private static final String WAIT_FOR_RESPONSE = "wait-for-response";
     private static final String FALSE = "false";
     private static final String CONTENT_TYPE = "Content-type";
-    private static final String MESSAGE_ID = "Message-Id";
 
     private final RequestBuilderService requestBuilderService;
     private final MhsOutboundConfiguration mhsOutboundConfiguration;
 
-    public WebClient.RequestHeadersSpec<?> buildSendEhrExtractRequest(String conversationId, String fromOdsCode, String ehrExtractMessage) {
+    public WebClient.RequestHeadersSpec<?> buildSendEhrExtractRequest(String conversationId, String fromOdsCode, OutboundMessage outboundMessage) {
         SslContext sslContext = requestBuilderService.buildSSLContext();
         HttpClient httpClient = HttpClient.create().secure(t -> t.sslContext(sslContext));
         WebClient client = buildWebClient(httpClient);
 
         WebClient.RequestBodySpec uri = client.method(HttpMethod.POST).uri(mhsOutboundConfiguration.getUrl());
 
-        BodyInserter<Object, ReactiveHttpOutputMessage> bodyInserter = BodyInserters.fromValue(ehrExtractMessage);
+        BodyInserter<Object, ReactiveHttpOutputMessage> bodyInserter = BodyInserters.fromValue(outboundMessage);
 
         return uri
             .accept(APPLICATION_JSON)

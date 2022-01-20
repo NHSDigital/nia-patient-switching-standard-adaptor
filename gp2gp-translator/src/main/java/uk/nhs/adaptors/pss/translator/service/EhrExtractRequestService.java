@@ -11,7 +11,7 @@ import uk.nhs.adaptors.pss.translator.utils.FileUtils;
 @Slf4j
 public class EhrExtractRequestService {
 
-    private static final String EHR_EXTRACT_REQUEST_TEST_FILE = "/ehr/ehrExtractRequest.json";
+    private static final String EHR_EXTRACT_REQUEST_TEST_FILE = "/ehr/ehrExtractRequest.xml";
     private static final String CONVERSATION_ID_PLACEHOLDER = "%%ConversationId%%";
     private static final String FROM_ODS_CODE_PLACEHOLDER = "%%From_ODS_Code%%";
     private static final String NHS_NUMBER_PLACEHOLDER = "%%NHSNumber%%";
