@@ -2,7 +2,7 @@ String tfProject             = "nia"
 String tfPrimaryEnvironment       = "kdev"
 String tfSecondaryEnvironment     = "kdev"
 String tfComponent           = "pss"
-String redirectEnv           = "build1"         // Name of environment where TF deployment needs to be re-directed
+String redirectEnv           = "kdev"         // Name of environment where TF deployment needs to be re-directed
 String redirectBranch        = "main"      // When deploying branch name matches, TF deployment gets redirected to environment defined in variable "redirectEnv"
 Boolean publishGPC_FacadeImage  = true // true: to publsh gpc_facade image to AWS ECR gpc_facade
 Boolean publishGP2GP_TranslatorImage  = true // true: to publsh gp2gp_translator image to AWS ECR gp2gp-translator
@@ -82,7 +82,7 @@ pipeline {
                     }
                     stages {
 
-                        stage('Deploy to build1 using Terraform') {
+                        stage('Deploy to Primary Environment using Terraform') {
                             steps {
                                 script {
                                     
@@ -105,9 +105,9 @@ pipeline {
                                     }
                                 }  //script
                             } // steps
-                        } // Stage Deploy build1 using Terraform
+                        } // Stage Deploy Primary Environment using Terraform
 
-                        stage('Deploy to kdev using Terraform') {
+                        stage('Deploy to Secondary Deployment using Terraform') {
                            if (secondarydeployment !=true) {
                            when {
                               expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
@@ -135,7 +135,7 @@ pipeline {
                                     } //script
                               }  // steps
                             } // if
-                        } // Stage Deploy kdev using Terraform
+                        } // Stage Deploy Secondary Deployment using Terraform
                     }//Stages
                  }//Deploy
              } //stages
