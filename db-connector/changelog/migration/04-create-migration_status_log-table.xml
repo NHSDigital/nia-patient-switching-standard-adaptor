@@ -14,9 +14,6 @@
             <column name="id" type="int" autoIncrement="true" startWith="1" incrementBy="1">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="patient_nhs_number" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
             <column name="status" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
