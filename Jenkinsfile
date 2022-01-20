@@ -111,7 +111,6 @@ pipeline {
                            when {
                               expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && (secondarydeployment == 'true') && ( GIT_BRANCH == 'main' )  }
                             }
-                            }
                             steps {
                                 script {
                                     
