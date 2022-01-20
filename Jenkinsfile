@@ -109,14 +109,13 @@ pipeline {
 
                         stage('Deploy to Secondary Deployment using Terraform') {
                            when {
-                              expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
+                              expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && (secondarydeployment == 'true') && ( GIT_BRANCH == 'main' )  }
                             }
                            options {
                                lock("${tfProject}-${tfSecondaryEnvironment}-${tfComponent}")
                             }
                             steps {
                                 script {
-                                  if (secondarydeployment ==true) {
                                     
                                     
                                     String tfCodeBranch  = "develop"
@@ -132,7 +131,6 @@ pipeline {
                                         if (terraform('apply', TF_STATE_BUCKET, tfProject, tfSecondaryEnvironment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
                                       }
                                     }
-                                    } // if
                               }  // script
                             } // steps
                         } // Stage Deploy Secondary Deployment using Terraform
