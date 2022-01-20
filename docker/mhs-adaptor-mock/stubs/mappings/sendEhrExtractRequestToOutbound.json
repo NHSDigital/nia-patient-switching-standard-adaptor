@@ -18,7 +18,10 @@
                     "Wait-For-Response": {
                         "equalTo": "false"
                     }
-                }
+                },
+                "bodyPatterns": [
+                    { "matchesJsonPath": "$.payload" }
+                ]
             },
             "response": {
                 "status": 202,
@@ -70,6 +73,26 @@
                 "headers": {
                     "Wait-For-Response": { "equalTo": "true" }
                 }
+            },
+            "response": {
+                "status": 400,
+                "bodyFileName": "InternalServerError.html",
+                "headers": {
+                    "Content-Type": "text/html"
+                }
+            }
+        },
+        {
+            "scenarioName": "NoPayloadRequest",
+            "request": {
+                "method": "POST",
+                "url": "/mhs/outbound",
+                "bodyPatterns":[{
+                    "matchesJsonPath": {
+                        "expression": "$.payload",
+                        "absent": true
+                    }
+                }]
             },
             "response": {
                 "status": 400,
