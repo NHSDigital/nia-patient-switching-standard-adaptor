@@ -18,7 +18,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.model.RequestStatus;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
@@ -33,6 +35,9 @@ public class PatientTransferServiceTest {
 
     @Mock
     private PatientMigrationRequestDao patientMigrationRequestDao;
+
+    @Mock
+    private MigrationStatusLogDao migrationStatusLogDao;
 
     @Mock
     private PssQueuePublisher pssQueuePublisher;
@@ -57,11 +62,11 @@ public class PatientTransferServiceTest {
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(null);
         when(fhirParser.encodeToJson(parameters)).thenReturn(REQUEST_BODY);
 
-        PatientMigrationRequest patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
+        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
 
         assertThat(patientMigrationRequest).isEqualTo(null);
         verify(pssQueuePublisher).sendToPssQueue(REQUEST_BODY);
-        verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, RequestStatus.RECEIVED.name(), now);
+        verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER);
     }
 
     @Test
@@ -69,7 +74,8 @@ public class PatientTransferServiceTest {
         PatientMigrationRequest expectedPatientMigrationRequest = createPatientMigrationRequest();
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(expectedPatientMigrationRequest);
 
-        PatientMigrationRequest patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
+        //TODO: Fix this test
+        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
 
         assertThat(patientMigrationRequest).isEqualTo(expectedPatientMigrationRequest);
         verifyNoInteractions(pssQueuePublisher);
@@ -110,8 +116,6 @@ public class PatientTransferServiceTest {
         return PatientMigrationRequest.builder()
             .id(1)
             .patientNhsNumber(PATIENT_NHS_NUMBER)
-            .requestStatus(RequestStatus.RECEIVED)
-            .date(OffsetDateTime.now())
             .build();
     }
 }

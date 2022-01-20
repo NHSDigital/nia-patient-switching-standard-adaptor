@@ -21,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.model.RequestStatus;
 import uk.nhs.adaptors.pss.gpc.service.FhirParser;
@@ -58,7 +59,7 @@ public class PatientTransferControllerTest {
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsReceived() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createPatientMigrationRequest(RECEIVED));
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(RECEIVED));
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(REQUEST_BODY);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -67,7 +68,7 @@ public class PatientTransferControllerTest {
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsInProgress() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createPatientMigrationRequest(IN_PROGRESS));
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(IN_PROGRESS));
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(REQUEST_BODY);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -76,7 +77,7 @@ public class PatientTransferControllerTest {
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsCompleted() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createPatientMigrationRequest(COMPLETED));
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(COMPLETED));
         when(patientTransferService.getEmptyBundle()).thenReturn(RESPONSE_BODY);
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(REQUEST_BODY);
@@ -86,16 +87,23 @@ public class PatientTransferControllerTest {
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsUnsupported() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createPatientMigrationRequest(ERROR));
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(ERROR));
 
         Exception exception = assertThrows(IllegalStateException.class, () -> controller.migratePatientStructuredRecord(REQUEST_BODY));
         assertThat(exception.getMessage()).isEqualTo("Unsupported transfer status: ERROR");
     }
 
-    private PatientMigrationRequest createPatientMigrationRequest(RequestStatus status) {
+    //TODO: Check if this will ever be needed again
+    private PatientMigrationRequest createPatientMigrationRequest() {
         return PatientMigrationRequest.builder()
             .id(1)
             .patientNhsNumber("123456789")
+            .build();
+    }
+
+    private MigrationStatusLog createMigrationStatusLog(RequestStatus status) {
+        return MigrationStatusLog.builder()
+            .id(1)
             .requestStatus(status)
             .date(OffsetDateTime.now())
             .build();
