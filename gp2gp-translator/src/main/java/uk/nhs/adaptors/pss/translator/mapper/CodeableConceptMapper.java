@@ -27,7 +27,7 @@ public class CodeableConceptMapper {
     private boolean hasSnomedCodeInTranslationElement(CD codedData) {
         return codedData.getTranslation()
             .stream()
-            .anyMatch(t -> t.getCodeSystem().equals(SNOMED_SYSTEM_CODE));
+            .anyMatch(translation -> translation.getCodeSystem().equals(SNOMED_SYSTEM_CODE));
     }
 
     private CD getSnomedTranslationElement(CD codedData) {
