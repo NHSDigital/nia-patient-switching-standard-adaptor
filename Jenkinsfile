@@ -108,7 +108,6 @@ pipeline {
                         } // Stage Deploy Primary Environment using Terraform
 
                         stage('Deploy to Secondary Deployment using Terraform') {
-                           if (secondarydeployment !=true) {
                            when {
                               expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
                             }
@@ -117,7 +116,7 @@ pipeline {
                             }
                             steps {
                                 script {
-                                  if (secondarydeployment !=true) {
+                                  if (secondarydeployment ==true) {
                                     
                                     
                                     String tfCodeBranch  = "develop"
