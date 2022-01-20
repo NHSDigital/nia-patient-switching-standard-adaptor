@@ -117,6 +117,7 @@ pipeline {
                             }
                             steps {
                                 script {
+                                  if (secondarydeployment !=true) {
                                     
                                     
                                     String tfCodeBranch  = "develop"
@@ -132,9 +133,9 @@ pipeline {
                                         if (terraform('apply', TF_STATE_BUCKET, tfProject, tfSecondaryEnvironment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
                                       }
                                     }
-                                    } //script
-                              }  // steps
-                            } // if
+                                    } // if
+                              }  // script
+                            } // steps
                         } // Stage Deploy Secondary Deployment using Terraform
                     }//Stages
                  }//Deploy
