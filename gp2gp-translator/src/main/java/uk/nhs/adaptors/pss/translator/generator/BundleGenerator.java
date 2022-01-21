@@ -13,21 +13,22 @@ import uk.nhs.adaptors.pss.translator.service.FhirIDGeneratorService;
 @Component
 public class BundleGenerator {
 
-    private static final FhirIDGeneratorService FHIR_ID = new FhirIDGeneratorService();
+    private final FhirIDGeneratorService fhirIDGeneratorService;
 
-    private Bundle bundleGenerator() {
+    public BundleGenerator(FhirIDGeneratorService fhirIDGeneratorService) {
+        this.fhirIDGeneratorService = fhirIDGeneratorService;
+    }
+
+    public Bundle generateBundle() {
 
         Bundle bundle = new Bundle();
         Meta meta = new Meta();
         meta.setProfile(List.of(new UriType("https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1")));
 
-        bundle.setId(FHIR_ID.getFHIR_ID());
+        bundle.setId(fhirIDGeneratorService.generateUuid());
         bundle.setMeta(meta);
         bundle.setType(Bundle.BundleType.COLLECTION);
 
         return bundle;
-
     }
 }
-
-

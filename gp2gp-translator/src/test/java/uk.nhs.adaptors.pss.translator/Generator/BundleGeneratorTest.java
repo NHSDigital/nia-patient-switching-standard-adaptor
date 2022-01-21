@@ -14,6 +14,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
+import uk.nhs.adaptors.pss.translator.service.FhirIDGeneratorService;
 import uk.nhs.adaptors.pss.translator.utils.ResourceTestFileUtils;
 
 @SpringBootTest
@@ -21,8 +22,9 @@ import uk.nhs.adaptors.pss.translator.utils.ResourceTestFileUtils;
 @DirtiesContext
 public class BundleGeneratorTest {
 
-    private static final BundleGenerator BUNDLE = new BundleGenerator();
-    private static final String BUNDLE_RESOURCE = "/generator/bundleResource.json";
+    private static final FhirIDGeneratorService fhirIDGeneratorService = new FhirIDGeneratorService();
+    private static final BundleGenerator bundleGenerator = new BundleGenerator(fhirIDGeneratorService);
+    private static final String BUNDLE_RESOURCE = "resources/generator/bundleResource.json";
 
     private static Stream<Arguments> resourceFileParams() {
         return Stream.of(
@@ -34,8 +36,9 @@ public class BundleGeneratorTest {
     @MethodSource("resourceFileParams")
     public void When_GeneratingBundleResource_Expect_BundleResourceJson(String outputBundle)
         throws IOException {
+
         CharSequence expectedOutputJson = ResourceTestFileUtils.getFileContent(outputBundle);
-        assertThat(BUNDLE).isEqualTo(expectedOutputJson);
+        assertThat(bundleGenerator.generateBundle()).isEqualTo(expectedOutputJson);
 
     }
 }
