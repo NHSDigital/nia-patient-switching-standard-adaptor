@@ -81,7 +81,7 @@ public class CD
     extends ANY
 {
 
-    protected ED originalText;
+    protected String originalText;
     protected List<CR> qualifier;
     protected List<CD.Group> group;
     protected List<CD> translation;
@@ -102,10 +102,10 @@ public class CD
      * 
      * @return
      *     possible object is
-     *     {@link ED }
+     *     {@link String }
      *     
      */
-    public ED getOriginalText() {
+    public String getOriginalText() {
         return originalText;
     }
 
@@ -114,10 +114,10 @@ public class CD
      * 
      * @param value
      *     allowed object is
-     *     {@link ED }
+     *     {@link String }
      *     
      */
-    public void setOriginalText(ED value) {
+    public void setOriginalText(String value) {
         this.originalText = value;
     }
 
