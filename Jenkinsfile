@@ -1,12 +1,13 @@
 String tfProject             = "nia"
-String tfEnvironment         = "build1"
-String tfEnvironmentKdev     = "kdev"
+String tfPrimaryDeploymentEnv     = "kdev"
+String tfSecondaryDeploymentEnv   = "kdev"
 String tfComponent           = "pss"
-String redirectEnv           = "build1"         // Name of environment where TF deployment needs to be re-directed
+String redirectEnv           = "kdev"         // Name of environment where TF deployment needs to be re-directed
 String redirectBranch        = "main"      // When deploying branch name matches, TF deployment gets redirected to environment defined in variable "redirectEnv"
 Boolean publishGPC_FacadeImage  = true // true: to publsh gpc_facade image to AWS ECR gpc_facade
 Boolean publishGP2GP_TranslatorImage  = true // true: to publsh gp2gp_translator image to AWS ECR gp2gp-translator
 Boolean publishMhsMockImage  = true // true: to publsh mhs mock image to AWS ECR pss-mock-mhs
+Boolean secondarydeployment  = false // 
 
 
 pipeline {
@@ -77,16 +78,16 @@ pipeline {
 
                  stage('Deploy') {
                     options {
-                        lock("${tfProject}-${tfEnvironment}-${tfComponent}")
+                        lock("${tfProject}-${tfPrimaryDeploymentEnv}-${tfComponent}")
                     }
                     stages {
 
-                        stage('Deploy to build1 using Terraform') {
+                        stage('Deploy to Primary Environment using Terraform') {
                             steps {
                                 script {
                                     
                                     // Check if TF deployment environment needs to be redirected
-                                    if (GIT_BRANCH == redirectBranch) { tfEnvironment = redirectEnv }
+                                    if (GIT_BRANCH == redirectBranch) { tfPrimaryDeploymentEnv = redirectEnv }
                                     
                                     String tfCodeBranch  = "develop"
                                     String tfCodeRepo    = "https://github.com/nhsconnect/integration-adaptors"
@@ -97,21 +98,18 @@ pipeline {
                                     dir ("integration-adaptors") {
                                       git (branch: tfCodeBranch, url: tfCodeRepo)
                                       dir ("terraform/aws") {
-                                        if (terraformInit(TF_STATE_BUCKET, tfProject, tfEnvironment, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
-                                        if (terraform('plan', TF_STATE_BUCKET, tfProject, tfEnvironment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Plan failed")}
-                                        if (terraform('apply', TF_STATE_BUCKET, tfProject, tfEnvironment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
+                                        if (terraformInit(TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
+                                        if (terraform('plan', TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Plan failed")}
+                                        if (terraform('apply', TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
                                       }
                                     }
                                 }  //script
                             } // steps
-                        } // Stage Deploy build1 using Terraform
+                        } // Stage Deploy Primary Environment using Terraform
 
-                        stage('Deploy to kdev using Terraform') {
+                        stage('Deploy to Secondary Deployment using Terraform') {
                            when {
-                              expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
-                            }
-                           options {
-                               lock("${tfProject}-${tfEnvironmentKdev}-${tfComponent}")
+                              expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && (secondarydeployment == 'true') && ( GIT_BRANCH == 'main' )  }
                             }
                             steps {
                                 script {
@@ -126,13 +124,13 @@ pipeline {
                                     dir ("integration-adaptors") {
                                       git (branch: tfCodeBranch, url: tfCodeRepo)
                                       dir ("terraform/aws") {
-                                        if (terraformInitreconfigure(TF_STATE_BUCKET, tfProject, tfEnvironmentKdev, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
-                                        if (terraform('apply', TF_STATE_BUCKET, tfProject, tfEnvironmentKdev, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
+                                        if (terraformInitreconfigure(TF_STATE_BUCKET, tfProject, tfSecondaryDeploymentEnv, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
+                                        if (terraform('apply', TF_STATE_BUCKET, tfProject, tfSecondaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
                                       }
                                     }
-                                }  //script
+                              }  // script
                             } // steps
-                        } // Stage Deploy kdev using Terraform
+                        } // Stage Deploy Secondary Deployment using Terraform
                     }//Stages
                  }//Deploy
              } //stages
