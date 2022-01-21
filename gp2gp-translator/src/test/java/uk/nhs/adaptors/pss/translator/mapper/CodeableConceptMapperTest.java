@@ -1,21 +1,21 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import javax.xml.bind.JAXBException;
-
+import lombok.SneakyThrows;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.v3.CD;
 import org.junit.jupiter.api.Test;
 
-import uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.util.ResourceUtils.getFile;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 public class CodeableConceptMapperTest {
-    private static final String XML_RESOURCES_PATH = "src/test/resources/xml/";
+    private static final String XML_RESOURCES_BASE = "xml/CD/";
+
     private final CodeableConceptMapper codeableConceptMapper = new CodeableConceptMapper();
 
     @Test
-    public void mapNoSnomedCodeWithOriginalText() throws JAXBException {
+    public void mapNoSnomedCodeWithOriginalText() {
         var codedData = unmarshallCodeElement("no_snomed_code_with_original_text_example.xml");
 
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
@@ -25,7 +25,7 @@ public class CodeableConceptMapperTest {
     }
 
     @Test
-    public void mapNoSnomedCodeWithoutOriginalText() throws JAXBException {
+    public void mapNoSnomedCodeWithoutOriginalText() {
         var codedData = unmarshallCodeElement("no_snomed_code_without_original_text_example.xml");
 
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
@@ -35,7 +35,7 @@ public class CodeableConceptMapperTest {
     }
 
     @Test
-    public void mapSnomedCodeInMainWithOriginalText() throws JAXBException {
+    public void mapSnomedCodeInMainWithOriginalText() {
         var codedData = unmarshallCodeElement("snomed_code_with_original_text_example.xml");
 
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
@@ -47,7 +47,7 @@ public class CodeableConceptMapperTest {
     }
 
     @Test
-    public void mapSnomedCodeInMainWithoutOriginalText() throws JAXBException {
+    public void mapSnomedCodeInMainWithoutOriginalText() {
         var codedData = unmarshallCodeElement("snomed_code_without_original_text_example.xml");
 
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
@@ -59,7 +59,7 @@ public class CodeableConceptMapperTest {
     }
 
     @Test
-    public void mapSnomedCodeInTranslationWithoutDisplayName() throws JAXBException {
+    public void mapSnomedCodeInTranslationWithoutDisplayName() {
         var codedData = unmarshallCodeElement("snomed_code_in_translation_without_display_name_example.xml");
 
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
@@ -71,7 +71,7 @@ public class CodeableConceptMapperTest {
     }
 
     @Test
-    public void mapSnomedCodeInTranslationWithDisplayName() throws JAXBException {
+    public void mapSnomedCodeInTranslationWithDisplayName() {
         var codedData = unmarshallCodeElement("snomed_code_in_translation_with_display_name_example.xml");
 
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
@@ -83,7 +83,7 @@ public class CodeableConceptMapperTest {
     }
 
     @Test
-    public void mapSnomedCodeInTranslationWithDisplayNameWithOriginalText() throws JAXBException {
+    public void mapSnomedCodeInTranslationWithDisplayNameWithOriginalText() {
         var codedData = unmarshallCodeElement("snomed_code_in_translation_with_display_name_and_original_text_example.xml");
 
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
@@ -94,7 +94,8 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("blood pressure reading");
     }
 
-    private CD unmarshallCodeElement(String fileName) throws JAXBException {
-        return XmlUnmarshallUtil.unmarshallFile(XML_RESOURCES_PATH + fileName, CD.class);
+    @SneakyThrows
+    private CD unmarshallCodeElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), CD.class);
     }
 }
