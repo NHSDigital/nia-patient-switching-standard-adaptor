@@ -49,21 +49,23 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IVL_PQ", propOrder = {
-    "rest"
+    "rest",
+    "low",
+    "high",
+    "translation",
+    "unit"
 })
 public class IVLPQ
     extends ANY
 {
 
-    @XmlElementRefs({
-        @XmlElementRef(name = "low", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "width", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "high", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "center", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false)
-    })
     protected List<JAXBElement<?>> rest;
     @XmlAttribute(name = "operator")
     protected CsSetOperator operator;
+    protected String unit;
+    protected String high;
+    protected String low;
+    protected List<PQR> translation;
 
     /**
      * Gets the rest of the content model. 
@@ -135,4 +137,35 @@ public class IVLPQ
         this.operator = value;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getHigh() {
+        return high;
+    }
+
+    public void setHigh(String high) {
+        this.high = high;
+    }
+
+    public String getLow() {
+        return low;
+    }
+
+    public void setLow(String low) {
+        this.low = low;
+    }
+
+    public List<PQR> getTranslation() {
+        return translation;
+    }
+
+    public void setTranslation(List<PQR> translation) {
+        this.translation = translation;
+    }
 }
