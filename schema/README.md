@@ -41,14 +41,14 @@ This will require you add these elements directly to the `ObjectFactory.java` cl
 
 1. In `ObjectFactory.java`, register your element's QNAME in the custom made QNAME area.
 ```
-    private final static QName _LOCATION_QNAME = new QName("urn:hl7-org:v3", "location");
+   private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
 ```
 
-2. Then at the bottom of the same file, created the required JAXB element, using the already registered QNAME.
+2. Then at the bottom of the same file, create the required JAXB element, using the already registered QNAME.
 ```
-@XmlElementDecl(namespace = "", name = "location")
-    public JAXBElement<RCMRMT030101UK04Location> createLocation(RCMRMT030101UK04Location value) {
-        return new JAXBElement<RCMRMT030101UK04Location>(_LOCATION_QNAME, RCMRMT030101UK04Location.class, null, value);
+@XmlElementDecl(namespace = "", name = "ehrComposition")
+    public JAXBElement<RCMRMT030101UK04EhrComposition> createLocation(RCMRMT030101UK04EhrComposition value) {
+        return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
     }
 ```
 
