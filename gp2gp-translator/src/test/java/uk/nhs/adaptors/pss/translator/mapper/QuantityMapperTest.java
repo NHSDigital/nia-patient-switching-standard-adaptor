@@ -1,14 +1,11 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
-import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Quantity;
-import org.hl7.v3.CD;
-import org.hl7.v3.PQ;
+import org.hl7.v3.Value;
 import org.junit.jupiter.api.Test;
 
 import lombok.SneakyThrows;
@@ -19,14 +16,21 @@ public class QuantityMapperTest {
     private final QuantityMapper quantityMapper = new QuantityMapper();
 
     @Test
-    public void test() {
-        var pq = unmarshallCodeElement("test.xml");
+    public void testPq() {
+        var value = unmarshallValueElement("test_PQ.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(pq);
+//        Quantity quantity = quantityMapper.mapQuantity(value);
+    }
+
+    @Test
+    public void testIvlpq() {
+        var value = unmarshallValueElement("test_IVL_PQ.xml");
+
+//        Quantity quantity = quantityMapper.mapQuantity(value);
     }
 
     @SneakyThrows
-    private PQ unmarshallCodeElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), PQ.class);
+    private Value unmarshallValueElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), Value.class);
     }
 }

@@ -38,3 +38,9 @@ Please make sure you don't override the following classes with the generated one
 - CD.java
 - ObjectFactory.java
 - package-info.java
+- ANY.java
+- IVLPQ.java
+- RCMRMT030101UK04ObservationStatement.java
+
+New file:
+- Value.java (joined class containing fields from IVLPQ and PQ classes)
