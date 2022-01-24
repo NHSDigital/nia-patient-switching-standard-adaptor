@@ -1,11 +1,18 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hl7.fhir.dstu3.model.*;
-import org.hl7.v3.*;
+import org.hl7.fhir.dstu3.model.Address;
+import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.ContactPoint;
+import org.hl7.fhir.dstu3.model.UriType;
+import org.hl7.v3.RCMRMT030101UK04Location;
+import org.hl7.v3.RCMRMT030101UK04Place;
+import org.hl7.v3.CsTelecommunicationAddressUse;
+import org.hl7.v3.TEL;
+import org.hl7.v3.AD;
 
 import java.util.List;
-import java.util.UUID;
 
 public class LocationMapper {
     private static final String UNKNOWN_NAME = "Unknown";
@@ -14,6 +21,7 @@ public class LocationMapper {
     private static final String LOCATION_ID_EXTENSION = "-LOC";
     private static final String WORK_PLACE = "WP";
     private static final int TELECOM_RANK = 1;
+    private static final int TEL_PREFIX_INT = 4;
 
 
     public Location mapToLocation(RCMRMT030101UK04Location location, String rootId) {
@@ -30,8 +38,7 @@ public class LocationMapper {
     }
 
     private Identifier getIdentifier(String id) {
-        var identifier = new Identifier();
-        identifier
+        Identifier identifier = new Identifier()
                 .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL
                 .setValue(id);
         return identifier;
@@ -74,32 +81,28 @@ public class LocationMapper {
     }
 
     private String stripTelPrefix(String value) {
-        return value.substring(4); // strips the 'tel:' prefix on phone numbers
+        return value.substring(TEL_PREFIX_INT); // strips the 'tel:' prefix on phone numbers
     }
 
     private Address getAddress(RCMRMT030101UK04Place locatedPlace) {
-        var AD = locatedPlace.getAddr();
-        if (isValidAddress(AD)) {
-            var address = new Address();
-            if (AD.getStreetAddressLine() != null) {
-                AD.getStreetAddressLine()
-                        .forEach(addressLine -> address.addLine(addressLine));
+        var address = locatedPlace.getAddr();
+        if (isValidAddress(address)) {
+            var mappedAddress = new Address();
+            if (address.getStreetAddressLine() != null) {
+                address.getStreetAddressLine()
+                        .forEach(addressLine -> mappedAddress.addLine(addressLine));
             }
-            if (StringUtils.isNotEmpty(AD.getPostalCode())) {
-                address.setPostalCode(AD.getPostalCode());
+            if (StringUtils.isNotEmpty(address.getPostalCode())) {
+                mappedAddress.setPostalCode(address.getPostalCode());
             }
 
-            return address;
+            return mappedAddress;
         }
         return null;
     }
 
-    private String getPostalCode(String postalCode) {
-        return StringUtils.isNotEmpty(postalCode) ? postalCode : StringUtils.EMPTY;
-    }
-
     private boolean isValidAddress(AD address) {
-        if (address != null && address.getUse() != null){
+        if (address != null && address.getUse() != null) {
             var use = address.getUse().stream().findFirst();
             return use.isPresent() && use.get().value().equals(WORK_PLACE);
         }
