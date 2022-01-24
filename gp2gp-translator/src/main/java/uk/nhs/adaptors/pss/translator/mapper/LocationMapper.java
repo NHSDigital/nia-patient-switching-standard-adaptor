@@ -29,12 +29,16 @@ public class LocationMapper {
         var id = rootId + LOCATION_ID_EXTENSION;
         var identifier = getIdentifier(id);
 
-        var locatedPlace = location.getLocatedEntity().getLocatedPlace();
-        var name = getName(locatedPlace);
-        var telecom = getTelecom(locatedPlace);
-        var address = getAddress(locatedPlace);
+        if (location.getLocatedEntity() != null && location.getLocatedEntity().getLocatedPlace() != null) {
+            var locatedPlace = location.getLocatedEntity().getLocatedPlace();
+            var name = getName(locatedPlace);
+            var telecom = getTelecom(locatedPlace);
+            var address = getAddress(locatedPlace);
 
-        return createLocation(id, identifier, name, telecom, address);
+            return createLocation(id, identifier, name, telecom, address);
+        }
+
+        return createLocation(id, identifier, null, null, null);
     }
 
     private Identifier getIdentifier(String id) {
@@ -110,8 +114,7 @@ public class LocationMapper {
         return false;
     }
 
-    private Location createLocation(String id, Identifier identifier, String name, ContactPoint telecom,
-                                    Address address) {
+    private Location createLocation(String id, Identifier identifier, String name, ContactPoint telecom, Address address) {
         var location = new Location();
         location.getIdentifier().add(identifier);
         location.getMeta().getProfile().add(new UriType(META_PROFILE));

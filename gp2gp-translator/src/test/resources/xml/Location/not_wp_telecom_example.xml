@@ -4,7 +4,10 @@
     <location typeCode="LOC">
         <locatedEntity classCode="LOCE">
             <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
-            <locatedPlace classCode="PLC" determinerCode="INSTANCE"></locatedPlace>
+            <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                <name>EMIS Test Practice Location</name>
+                <telecom value="tel:01414221031"/>
+            </locatedPlace>
         </locatedEntity>
     </location>
 </ehrComposition>
