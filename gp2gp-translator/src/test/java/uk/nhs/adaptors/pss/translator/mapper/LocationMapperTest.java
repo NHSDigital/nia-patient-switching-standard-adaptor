@@ -14,6 +14,8 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 
 public class LocationMapperTest {
     private static final String XML_RESOURCES_BASE = "XML/Location/";
+    private static final String LOCATION_ID_EXTENSION = "-LOC";
+    private static final String UNKNOWN_NAME = "Unknown";
 
     private final LocationMapper locationMapper = new LocationMapper();
 
@@ -24,6 +26,28 @@ public class LocationMapperTest {
         Location outputLocation = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot());
 
         assertThat(outputLocation).isNotNull();
+    }
+
+    @Test
+    public void mapLocationWithKnownName() {
+        var ehrComposition = unmarshallCodeElement("known_name_example.xml");
+
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot());
+
+        assertThat(location.getId()).isEqualTo(ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION);
+        assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
+
+        assertThat(location.getName()).isEqualTo(ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName());
+    }
+
+    @Test
+    public void mapLocationWithUnknownName() {
+        var ehrComposition = unmarshallCodeElement("unknown_name_example.xml");
+
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot());
+
+        assertThat(location.getId()).isEqualTo(ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION);
+        assertThat(location.getName()).isEqualTo(UNKNOWN_NAME);
     }
 
     @SneakyThrows
