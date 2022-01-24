@@ -1,14 +1,11 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import lombok.SneakyThrows;
-import org.hl7.fhir.dstu3.model.*;
-import org.hl7.v3.CD;
+import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04Location;
-import org.hl7.v3.TEL;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.ResourceUtils.getFile;
