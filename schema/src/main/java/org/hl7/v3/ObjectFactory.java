@@ -73,6 +73,7 @@ public class ObjectFactory {
     private final static QName _StrucDocItemTable_QNAME = new QName("urn:hl7-org:v3", "table");
 
     private final static QName _CD_QNAME = new QName("urn:hl7-org:v3", "code");
+    private final static QName _VALUE_QNAME = new QName("urn:hl7-org:v3", "value");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
@@ -3485,5 +3486,10 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "code")
     public JAXBElement<CD> createCode(CD value) {
         return new JAXBElement<CD>(_CD_QNAME, CD.class, null, value);
+    }
+
+    @XmlElementDecl(namespace = "", name = "value")
+    public JAXBElement<PQ> createPQValue(PQ value) {
+        return new JAXBElement<PQ>(_VALUE_QNAME, PQ.class, null, value);
     }
 }
