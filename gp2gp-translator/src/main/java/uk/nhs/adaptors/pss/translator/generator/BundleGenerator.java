@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.service.FhirIDGeneratorService;
+import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BundleGenerator {
 
-    private final FhirIDGeneratorService fhirIDGeneratorService;
+    private final FhirIdGeneratorService fhirIDGeneratorService;
 
     public Bundle generateBundle() {
 

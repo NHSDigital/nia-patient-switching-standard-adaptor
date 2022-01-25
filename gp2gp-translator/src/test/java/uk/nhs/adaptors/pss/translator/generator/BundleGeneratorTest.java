@@ -12,25 +12,25 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import uk.nhs.adaptors.pss.translator.service.FhirIDGeneratorService;
+import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
 
 @SpringBootTest
 public class BundleGeneratorTest {
 
     @Mock
-    private FhirIDGeneratorService FhirIdGeneratorService;
+    private FhirIdGeneratorService fhirIdGeneratorService;
 
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1";
     private static final String BUNDLE_ID = "219b7cb8-da9e-447a-b279-82be7a3299da";
 
     @BeforeEach
     public void setUp() throws IOException {
-        when(FhirIdGeneratorService.generateUuid()).thenReturn(BUNDLE_ID);
+        when(fhirIdGeneratorService.generateUuid()).thenReturn(BUNDLE_ID);
     }
 
     @Test
     public void When_GeneratingBundleResource_Expect_BundleResourceJson() throws IOException {
-        BundleGenerator bundleGenerator = new BundleGenerator(FhirIdGeneratorService);
+        BundleGenerator bundleGenerator = new BundleGenerator(fhirIdGeneratorService);
         var bundle = bundleGenerator.generateBundle();
 
         assertThat(bundle.getResourceType().toString()).isEqualTo(ResourceType.Bundle.name());

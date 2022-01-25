@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FhirIDGeneratorService {
+public class FhirIdGeneratorService {
 
     public String generateUuid() {
         return UUID.randomUUID().toString();
