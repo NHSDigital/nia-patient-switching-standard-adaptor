@@ -263,22 +263,9 @@ public class AD {
     @XmlAttribute(name = "isNotOrdered")
     protected Boolean isNotOrdered;
 
-    public List<String> getStreetAddressLine() {
-        return streetAddressLine;
-    }
-
-    public void setStreetAddressLine(List<String> streetAddressLine) {
-        this.streetAddressLine = streetAddressLine;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
+    /**
+     * Custom-made AD attributes used when mapping Location elements
+     */
     protected List<String> streetAddressLine;
     protected String postalCode;
 
@@ -1039,6 +1026,22 @@ public class AD {
     {
 
 
+    }
+
+    public List<String> getStreetAddressLine() {
+        return streetAddressLine;
+    }
+
+    public void setStreetAddressLine(List<String> streetAddressLine) {
+        this.streetAddressLine = streetAddressLine;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
 }

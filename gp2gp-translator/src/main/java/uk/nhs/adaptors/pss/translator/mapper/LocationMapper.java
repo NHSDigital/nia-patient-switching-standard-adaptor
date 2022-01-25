@@ -23,7 +23,6 @@ public class LocationMapper {
     private static final int TELECOM_RANK = 1;
     private static final int TEL_PREFIX_INT = 4;
 
-
     public Location mapToLocation(RCMRMT030101UK04Location location, String rootId) {
 
         var id = rootId + LOCATION_ID_EXTENSION;
@@ -77,11 +76,8 @@ public class LocationMapper {
     }
 
     private boolean isWorkPlaceValue(List<CsTelecommunicationAddressUse> use) {
-        if (!use.isEmpty()) {
-            return use.stream().findFirst().get().value().equals(WORK_PLACE);
-        }
-
-        return false;
+        return use.stream()
+                .anyMatch(addressUse -> WORK_PLACE.equals(addressUse.value()));
     }
 
     private String stripTelPrefix(String value) {
@@ -108,7 +104,7 @@ public class LocationMapper {
     private boolean isValidAddress(AD address) {
         if (address != null && address.getUse() != null) {
             var use = address.getUse().stream().findFirst();
-            return use.isPresent() && use.get().value().equals(WORK_PLACE);
+            return use.isPresent() && use.stream().anyMatch(addressUse -> WORK_PLACE.equals(addressUse.value()));
         }
 
         return false;
