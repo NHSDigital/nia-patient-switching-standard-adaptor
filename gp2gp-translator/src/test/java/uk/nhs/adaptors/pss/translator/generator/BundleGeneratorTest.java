@@ -3,8 +3,6 @@ package uk.nhs.adaptors.pss.translator.generator;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
-
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,12 +27,12 @@ public class BundleGeneratorTest {
     private static final String BUNDLE_ID = "219b7cb8-da9e-447a-b279-82be7a3299da";
 
     @BeforeEach
-    public void setUp() throws IOException {
+    public void setUp() {
         when(fhirIdGeneratorService.generateUuid()).thenReturn(BUNDLE_ID);
     }
 
     @Test
-    public void When_GeneratingBundleResource_Expect_BundleResourceJson() throws IOException {
+    public void When_GeneratingBundleResource_Expect_BundleResourceJson() {
         var bundle = bundleGenerator.generateBundle();
 
         assertThat(bundle.getResourceType().toString()).isEqualTo(ResourceType.Bundle.name());
