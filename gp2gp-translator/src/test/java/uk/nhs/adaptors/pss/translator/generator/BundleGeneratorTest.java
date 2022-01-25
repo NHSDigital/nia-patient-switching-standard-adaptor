@@ -9,17 +9,12 @@ import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import uk.nhs.adaptors.pss.translator.service.FhirIDGeneratorService;
 
 @SpringBootTest
-@ExtendWith({SpringExtension.class})
-@DirtiesContext
 public class BundleGeneratorTest {
 
     @Mock
