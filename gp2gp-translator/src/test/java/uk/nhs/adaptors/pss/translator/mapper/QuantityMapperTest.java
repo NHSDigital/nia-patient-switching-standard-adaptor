@@ -21,8 +21,14 @@ public class QuantityMapperTest {
     private Value unmarshallValueElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), Value.class);
     }
-    
-    private void assertQuantity(Quantity quantity, String value, String unit, String system, String code, Quantity.QuantityComparator comparator) {
+
+    private void assertQuantity(
+            Quantity quantity,
+            String value,
+            String unit,
+            String system,
+            String code,
+            Quantity.QuantityComparator comparator) {
         assertThat(quantity.getValue()).isEqualTo(value);
         assertThat(quantity.getUnit()).isEqualTo(unit);
         assertThat(quantity.getSystem()).isEqualTo(system);
@@ -35,7 +41,7 @@ public class QuantityMapperTest {
         var value = unmarshallValueElement("no_type_standard_unit.xml");
 
         Quantity quantity = quantityMapper.mapQuantity(value);
-        
+
         assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", null);
     }
 
@@ -53,7 +59,7 @@ public class QuantityMapperTest {
         var value = unmarshallValueElement("pq_standard_unit.xml");
 
         Quantity quantity = quantityMapper.mapQuantity(value);
-        
+
         assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", null);
     }
 
