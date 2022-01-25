@@ -170,4 +170,13 @@ public class QuantityMapperTest {
 
         assertQuantity(quantity, "100", null, null, null, Quantity.QuantityComparator.LESS_THAN);
     }
+
+    @Test
+    public void mapQuantityUnitIsUnity() {
+        var value = unmarshallValueElement("unit_is_unity.xml");
+
+        Quantity quantity = quantityMapper.mapQuantity(value);
+
+        assertQuantity(quantity, "100", "1", UNIT_SYSTEM, "1", null);
+    }
 }
