@@ -72,12 +72,14 @@ public class PatientTransferServiceTest {
     @Test
     public void handlePatientMigrationRequestWhenRequestIsInProgress() {
         PatientMigrationRequest expectedPatientMigrationRequest = createPatientMigrationRequest();
-        when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(expectedPatientMigrationRequest);
+        MigrationStatusLog expectedMigrationStatusLog = createMigrationStatusLog();
 
-        //TODO: Fix this test
+        when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(expectedPatientMigrationRequest);
+        when(migrationStatusLogDao.getMigrationStatusLog(expectedPatientMigrationRequest.getId())).thenReturn(expectedMigrationStatusLog);
+
         MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
 
-        assertThat(patientMigrationRequest).isEqualTo(expectedPatientMigrationRequest);
+        assertThat(patientMigrationRequest).isEqualTo(expectedMigrationStatusLog);
         verifyNoInteractions(pssQueuePublisher);
         verify(patientMigrationRequestDao).getMigrationRequest(PATIENT_NHS_NUMBER);
         verifyNoMoreInteractions(patientMigrationRequestDao);
@@ -116,6 +118,15 @@ public class PatientTransferServiceTest {
         return PatientMigrationRequest.builder()
             .id(1)
             .patientNhsNumber(PATIENT_NHS_NUMBER)
+            .build();
+    }
+
+    private MigrationStatusLog createMigrationStatusLog() {
+        return MigrationStatusLog.builder()
+            .id(1)
+            .requestStatus(RequestStatus.MHS_ACCEPTED)
+            .date(OffsetDateTime.now())
+            .migrationRequestId(1)
             .build();
     }
 }
