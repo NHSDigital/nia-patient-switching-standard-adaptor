@@ -87,7 +87,7 @@ To rebuild the GP2GP Translator run
 
 To clean all containers run
 ```shell script
- ./clean-docker.sh
+ ./clear-docker.sh
 ```
 
 ### Licensing
