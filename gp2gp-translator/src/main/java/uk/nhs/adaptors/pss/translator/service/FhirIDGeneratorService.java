@@ -10,6 +10,4 @@ public class FhirIDGeneratorService {
     public String generateUuid() {
         return UUID.randomUUID().toString();
     }
-
 }
-

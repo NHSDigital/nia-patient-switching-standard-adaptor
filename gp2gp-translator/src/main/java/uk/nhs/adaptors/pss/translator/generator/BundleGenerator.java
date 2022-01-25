@@ -6,18 +6,17 @@ import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.UriType;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.service.FhirIDGeneratorService;
 
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BundleGenerator {
 
     private final FhirIDGeneratorService fhirIDGeneratorService;
-
-    public BundleGenerator(FhirIDGeneratorService fhirIDGeneratorService) {
-        this.fhirIDGeneratorService = fhirIDGeneratorService;
-    }
 
     public Bundle generateBundle() {
 
