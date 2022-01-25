@@ -9,7 +9,6 @@ import org.hl7.v3.Value;
 
 public class QuantityMapper {
     private static final String UNIT_SYSTEM = "http://unitsofmeasure.org";
-    private static final String UNITY_UNIT = "1";
     private static final String TYPE_IVL_PQ = "IVL_PQ";
     
 
