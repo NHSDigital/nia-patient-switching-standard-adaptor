@@ -74,8 +74,6 @@ public class ObjectFactory {
 
     private final static QName _CD_QNAME = new QName("urn:hl7-org:v3", "code");
     private final static QName _VALUE_QNAME = new QName("urn:hl7-org:v3", "value");
-    private final static QName _ObservationStatement_QNAME = new QName("urn:hl7-org:v3", "ObservationStatement");
-
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
@@ -3493,10 +3491,5 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "value")
     public JAXBElement<Value> createValue(Value value) {
         return (JAXBElement<Value>) new JAXBElement<Value>(_VALUE_QNAME, Value.class, null, value);
-    }
-
-    @XmlElementDecl(namespace = "", name = "ObservationStatement")
-    public JAXBElement<RCMRMT030101UK04ObservationStatement> createObservationStatement(RCMRMT030101UK04ObservationStatement value) {
-        return new JAXBElement<RCMRMT030101UK04ObservationStatement>(_ObservationStatement_QNAME, RCMRMT030101UK04ObservationStatement.class, null, value);
     }
 }
