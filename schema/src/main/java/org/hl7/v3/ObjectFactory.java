@@ -72,7 +72,13 @@ public class ObjectFactory {
     private final static QName _StrucDocParagraphCaption_QNAME = new QName("urn:hl7-org:v3", "caption");
     private final static QName _StrucDocItemTable_QNAME = new QName("urn:hl7-org:v3", "table");
 
+    /**
+     * List of custom built QName objects that weren't pre-generated. These are being used in unit tests to test specific
+     * deeply nested elements.
+     *
+     */
     private final static QName _CD_QNAME = new QName("urn:hl7-org:v3", "code");
+    private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
@@ -3482,8 +3488,19 @@ public class ObjectFactory {
         return new JAXBElement<StrucDocTable>(_StrucDocItemTable_QNAME, StrucDocTable.class, StrucDocText.class, value);
     }
 
+
+    /**
+     * List of custom built JAXB elements that weren't pre-generated. These are being used in unit tests to test specific
+     * deeply nested elements.
+     *
+     */
     @XmlElementDecl(namespace = "", name = "code")
     public JAXBElement<CD> createCode(CD value) {
         return new JAXBElement<CD>(_CD_QNAME, CD.class, null, value);
+    }
+
+    @XmlElementDecl(namespace = "", name = "ehrComposition")
+    public JAXBElement<RCMRMT030101UK04EhrComposition> createLocation(RCMRMT030101UK04EhrComposition value) {
+        return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
     }
 }

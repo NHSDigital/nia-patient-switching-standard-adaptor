@@ -28,6 +28,30 @@ Schema files can be found inside src/resources directory.
 4. Generated classes should be under `build/generated/sourced/xjc/java/main` path.
    Copy them to `src/main/java` directory. Modify generated classes as needed.
    Execute gradle `clean` task and remove changes added to build.gradle file.
+
+## Generating individual JAXB elements for testing
+
+When writing unit tests, you may be required to unmarshall code elements that haven't been pre-generated. The error you will see if this is the case will follow the general pattern of: 
+
+```
+unexpected element (uri:"", local:"YOUR_ELEMENT"). Expected elements are <{urn:hl7-org:v3}PARENT_ELEMENT>
+```
+
+This will require you add these elements directly to the `ObjectFactory.java` class independently.
+
+1. In `ObjectFactory.java`, register your element's QNAME in the custom made QNAME area.
+```
+   private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
+```
+
+2. Then at the bottom of the same file, create the required JAXB element, using the already registered QNAME.
+```
+@XmlElementDecl(namespace = "", name = "ehrComposition")
+    public JAXBElement<RCMRMT030101UK04EhrComposition> createLocation(RCMRMT030101UK04EhrComposition value) {
+        return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
+    }
+```
+
    
 ## Manually modified classes
 
@@ -38,3 +62,4 @@ Please make sure you don't override the following classes with the generated one
 - CD.java
 - ObjectFactory.java
 - package-info.java
+- AD.java
