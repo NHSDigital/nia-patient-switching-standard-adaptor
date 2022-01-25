@@ -100,11 +100,7 @@ public class Value extends ANY {
      *
      */
     public String getUnit() {
-        if (unit == null) {
-            return "1";
-        } else {
-            return unit;
-        }
+        return unit;
     }
 
     /**

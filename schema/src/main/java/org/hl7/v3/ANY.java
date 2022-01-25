@@ -45,13 +45,13 @@ import javax.xml.bind.annotation.XmlType;
     IVLPQ.class,
     QTY.class
 })
-public class ANY {
+public abstract class ANY {
 
     @XmlAttribute(name = "nullFlavor")
     protected CsNullFlavor nullFlavor;
     @XmlAttribute(name = "updateMode")
     protected CsUpdateMode updateMode;
-    @XmlAttribute(name = "type")
+    @XmlAttribute(name = "type", namespace = "http://www.w3.org/2001/XMLSchema-instance")
     protected String type;
 
     /**
