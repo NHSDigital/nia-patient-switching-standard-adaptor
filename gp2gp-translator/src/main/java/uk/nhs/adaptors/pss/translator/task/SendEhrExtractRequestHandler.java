@@ -47,7 +47,6 @@ public class SendEhrExtractRequestHandler {
         String fromOdsCode = pssConfiguration.getFromOdsCode();
 
         String ehrExtractRequest = ehrExtractRequestService.buildEhrExtractRequest(
-            conversationId,
             nhsNumber,
             fromOdsCode
         );
