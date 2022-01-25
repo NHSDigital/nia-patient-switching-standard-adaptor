@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class FhirIDGeneratorService {
 
     public String generateUuid() {
-        return UUID.randomUUID().toString().toUpperCase();
+        return UUID.randomUUID().toString();
     }
 
 }
