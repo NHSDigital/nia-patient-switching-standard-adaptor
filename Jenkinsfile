@@ -1,11 +1,13 @@
-String tfProject      = "nia"
-String tfEnvironment  = "build1"
-String tfComponent    = "pss"
-String redirectEnv    = "build1"          // Name of environment where TF deployment needs to be re-directed
-String redirectBranch = "main"      // When deploying branch name matches, TF deployment gets redirected to environment defined in variable "redirectEnv"
+String tfProject             = "nia"
+String tfPrimaryDeploymentEnv     = "kdev"
+String tfSecondaryDeploymentEnv   = "kdev"
+String tfComponent           = "pss"
+String redirectEnv           = "kdev"         // Name of environment where TF deployment needs to be re-directed
+String redirectBranch        = "main"      // When deploying branch name matches, TF deployment gets redirected to environment defined in variable "redirectEnv"
 Boolean publishGPC_FacadeImage  = true // true: to publsh gpc_facade image to AWS ECR gpc_facade
 Boolean publishGP2GP_TranslatorImage  = true // true: to publsh gp2gp_translator image to AWS ECR gp2gp-translator
 Boolean publishMhsMockImage  = true // true: to publsh mhs mock image to AWS ECR pss-mock-mhs
+Boolean secondarydeployment  = false // 
 
 
 pipeline {
@@ -73,13 +75,196 @@ pipeline {
                         }
                     }
                 }
+
+                 stage('Deploy') {
+                    options {
+                        lock("${tfProject}-${tfPrimaryDeploymentEnv}-${tfComponent}")
+                    }
+                    stages {
+
+                        stage('Deploy to Primary Environment using Terraform') {
+                            steps {
+                                script {
+                                    
+                                    // Check if TF deployment environment needs to be redirected
+                                    if (GIT_BRANCH == redirectBranch) { tfPrimaryDeploymentEnv = redirectEnv }
+                                    
+                                    String tfCodeBranch  = "develop"
+                                    String tfCodeRepo    = "https://github.com/nhsconnect/integration-adaptors"
+                                    String tfRegion      = "${TF_STATE_BUCKET_REGION}"
+                                    List<String> tfParams = []
+                                    Map<String,String> tfVariables = ["${tfComponent}_build_id": BUILD_TAG]
+
+                                    dir ("integration-adaptors") {
+                                      git (branch: tfCodeBranch, url: tfCodeRepo)
+                                      dir ("terraform/aws") {
+                                        if (terraformInit(TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
+                                        if (terraform('plan', TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Plan failed")}
+                                        if (terraform('apply', TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
+                                      }
+                                    }
+                                }  //script
+                            } // steps
+                        } // Stage Deploy Primary Environment using Terraform
+
+                        stage('Deploy to Secondary Deployment using Terraform') {
+                           when {
+                              expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && (secondarydeployment == 'true') && ( GIT_BRANCH == 'main' )  }
+                            }
+                            steps {
+                                script {
+                                    
+                                    
+                                    String tfCodeBranch  = "develop"
+                                    String tfCodeRepo    = "https://github.com/nhsconnect/integration-adaptors"
+                                    String tfRegion      = "${TF_STATE_BUCKET_REGION}"
+                                    List<String> tfParams = []
+                                    Map<String,String> tfVariables = ["${tfComponent}_build_id": BUILD_TAG]
+
+                                    dir ("integration-adaptors") {
+                                      git (branch: tfCodeBranch, url: tfCodeRepo)
+                                      dir ("terraform/aws") {
+                                        if (terraformInitreconfigure(TF_STATE_BUCKET, tfProject, tfSecondaryDeploymentEnv, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
+                                        if (terraform('apply', TF_STATE_BUCKET, tfProject, tfSecondaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
+                                      }
+                                    }
+                              }  // script
+                            } // steps
+                        } // Stage Deploy Secondary Deployment using Terraform
+                    }//Stages
+                 }//Deploy
              } //stages
         } //Stage Build 
-    } //Stages 
-} //Pipeline  
-    
+    } //Stages
+      post {
+       always {
+            sh label: 'Remove exited containers', script: 'docker container prune --force'
+            sh label: 'Remove images tagged with current BUILD_TAG', script: 'docker image rm -f $(docker images "*/*:*${BUILD_TAG}" -q) $(docker images "*/*/*:*${BUILD_TAG}" -q) || true'
+        } // always
+      } // post
+} //Pipeline
+
+String tfEnv(String tfEnvRepo="https://github.com/tfutils/tfenv.git", String tfEnvPath="~/.tfenv") {
+  sh(label: "Get tfenv" ,  script: "git clone ${tfEnvRepo} ${tfEnvPath}", returnStatus: true)
+  sh(label: "Install TF",  script: "${tfEnvPath}/bin/tfenv install"     , returnStatus: true)
+  return "${tfEnvPath}/bin/terraform"
+}
+
+int terraformInit(String tfStateBucket, String project, String environment, String component, String region) {
+  String terraformBinPath = tfEnv()
+  println("Terraform Init for Environment: ${environment} Component: ${component} in region: ${region} using bucket: ${tfStateBucket}")
+  String command = "${terraformBinPath} init -backend-config='bucket=${tfStateBucket}' -backend-config='region=${region}' -backend-config='key=${project}-${environment}-${component}.tfstate' -input=false -no-color"
+  dir("components/${component}") {
+    return( sh( label: "Terraform Init", script: command, returnStatus: true))
+  } // dir
+} // int TerraformInit
+
+int terraformInitreconfigure(String tfStateBucket, String project, String environment, String component, String region) {
+  String terraformBinPath = tfEnv()
+  println("Terraform Init for Environment: ${environment} Component: ${component} in region: ${region} using bucket: ${tfStateBucket}")
+  String command = "${terraformBinPath} init -reconfigure -backend-config='bucket=${tfStateBucket}' -backend-config='region=${region}' -backend-config='key=${project}-${environment}-${component}.tfstate' -input=false -no-color"
+  dir("components/${component}") {
+    return( sh( label: "Terraform Init", script: command, returnStatus: true))
+  } // dir
+} // int TerraformInit
+
+int terraform(String action, String tfStateBucket, String project, String environment, String component, String region, Map<String, String> variables=[:], List<String> parameters=[]) {
+    println("Running Terraform ${action} in region ${region} with: \n Project: ${project} \n Environment: ${environment} \n Component: ${component}")
+    variablesMap = variables
+    variablesMap.put('region',region)
+    variablesMap.put('project', project)
+    variablesMap.put('environment', environment)
+    variablesMap.put('tf_state_bucket',tfStateBucket)
+    parametersList = parameters
+    parametersList.add("-no-color")
+
+    // Get the secret variables for global
+    String secretsFile = "etc/secrets.tfvars"
+    writeVariablesToFile(secretsFile,getAllSecretsForEnvironment(environment,"nia",region))
+    String terraformBinPath = tfEnv()
+    List<String> variableFilesList = [
+      "-var-file=../../etc/global.tfvars",
+      "-var-file=../../etc/${region}_${environment}.tfvars",
+      "-var-file=../../${secretsFile}"
+    ]
+    if (action == "apply"|| action == "destroy") {parametersList.add("-auto-approve")}
+    List<String> variablesList=variablesMap.collect { key, value -> "-var ${key}=${value}" }
+    String command = "${terraformBinPath} ${action} ${variableFilesList.join(" ")} ${parametersList.join(" ")} ${variablesList.join(" ")} "
+    dir("components/${component}") {
+      return sh(label:"Terraform: "+action, script: command, returnStatus: true)
+    } // dir
+} // int Terraform
+
+Map<String,String> collectTfOutputs(String component) {
+  Map<String,String> returnMap = [:]
+  dir("components/${component}") {
+    String terraformBinPath = tfEnv()
+    List<String> outputsList = sh (label: "Listing TF outputs", script: "${terraformBinPath} output", returnStdout: true).split("\n")
+    outputsList.each {
+      returnMap.put(it.split("=")[0].trim(),it.split("=")[1].trim())
+    }
+  } // dir
+  return returnMap
+}
+
 int ecrLogin(String aws_region) {
     String ecrCommand = "aws ecr get-login --region ${aws_region}"
     String dockerLogin = sh (label: "Getting Docker login from ECR", script: ecrCommand, returnStdout: true).replace("-e none","") // some parameters that AWS provides and docker does not recognize
     return sh(label: "Logging in with Docker", script: dockerLogin, returnStatus: true)
+}
+
+// Retrieving Secrets from AWS Secrets
+String getSecretValue(String secretName, String region) {
+  String awsCommand = "aws secretsmanager get-secret-value --region ${region} --secret-id ${secretName} --query SecretString --output text"
+  return sh(script: awsCommand, returnStdout: true).trim()
+}
+
+Map<String,Object> decodeSecretKeyValue(String rawSecret) {
+  List<String> secretsSplit = rawSecret.replace("{","").replace("}","").split(",")
+  Map<String,Object> secretsDecoded = [:]
+  secretsSplit.each {
+    String key = it.split(":")[0].trim().replace("\"","")
+    Object value = it.split(":")[1]
+    secretsDecoded.put(key,value)
+  }
+  return secretsDecoded
+}
+
+List<String> getSecretsByPrefix(String prefix, String region) {
+  String awsCommand = "aws secretsmanager list-secrets --region ${region} --query SecretList[].Name --output text"
+  List<String> awsReturnValue = sh(script: awsCommand, returnStdout: true).split()
+  return awsReturnValue.findAll { it.startsWith(prefix) }
+}
+
+Map<String,Object> getAllSecretsForEnvironment(String environment, String secretsPrefix, String region) {
+  List<String> globalSecrets = getSecretsByPrefix("${secretsPrefix}-global",region)
+  println "global secrets:" + globalSecrets
+  List<String> environmentSecrets = getSecretsByPrefix("${secretsPrefix}-${environment}",region)
+  println "env secrets:" + environmentSecrets
+  Map<String,Object> secretsMerged = [:]
+  globalSecrets.each {
+    String rawSecret = getSecretValue(it,region)
+    if (it.contains("-kvp")) {
+      secretsMerged << decodeSecretKeyValue(rawSecret)
+    } else {
+      secretsMerged.put(it.replace("${secretsPrefix}-global-",""),rawSecret)
+    }
+  }
+  environmentSecrets.each {
+    String rawSecret = getSecretValue(it,region)
+    if (it.contains("-kvp")) {
+      secretsMerged << decodeSecretKeyValue(rawSecret)
+    } else {
+      secretsMerged.put(it.replace("${secretsPrefix}-${environment}-",""),rawSecret)
+    }
+  }
+  return secretsMerged
+}
+
+void writeVariablesToFile(String fileName, Map<String,Object> variablesMap) {
+  List<String> variablesList=variablesMap.collect { key, value -> "${key} = ${value}" }
+  sh (script: "touch ${fileName} && echo '\n' > ${fileName}")
+  variablesList.each {
+    sh (script: "echo '${it}' >> ${fileName}")
+  }
 }

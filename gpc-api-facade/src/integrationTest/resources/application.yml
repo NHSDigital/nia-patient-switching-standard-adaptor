@@ -6,8 +6,12 @@ logging:
     uk.nhs.adaptors.pss.gpc: DEBUG
 
 spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
   datasource:
-    url: ${PS_DB_URL:jdbc:postgresql://localhost:5436/patient_switching}
+    url: ${PS_DB_URL:jdbc:postgresql://localhost:5436}/patient_switching
     username: ${GPC_FACADE_USER_NAME:gpc_user}
     password: ${GPC_FACADE_USER_DB_PASSWORD:}
 

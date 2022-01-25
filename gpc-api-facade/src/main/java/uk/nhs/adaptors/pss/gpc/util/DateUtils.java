@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.gpc.service;
+package uk.nhs.adaptors.pss.gpc.util;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;

@@ -12,7 +12,6 @@ import static uk.nhs.adaptors.connector.model.RequestStatus.RECEIVED;
 import java.time.OffsetDateTime;
 
 import org.hl7.fhir.dstu3.model.Parameters;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,35 +23,24 @@ import org.springframework.http.ResponseEntity;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.model.RequestStatus;
-import uk.nhs.adaptors.pss.gpc.service.FhirParser;
 import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferControllerTest {
-    private static final String REQUEST_BODY = "{testBody}";
     private static final String RESPONSE_BODY = "{responseBody}";
     private static final Parameters PARAMETERS = new Parameters();
 
     @Mock
     private PatientTransferService patientTransferService;
 
-    @Mock
-    private FhirParser fhirParser;
-
     @InjectMocks
     private PatientTransferController controller;
-
-
-    @BeforeEach
-    void setUp() {
-        when(fhirParser.parseResource(REQUEST_BODY, Parameters.class)).thenReturn(PARAMETERS);
-    }
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsNew() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(null);
 
-        ResponseEntity<String> response = controller.migratePatientStructuredRecord(REQUEST_BODY);
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(PARAMETERS);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.ACCEPTED);
         assertThat(response.getBody()).isNull();
     }
@@ -61,7 +49,7 @@ public class PatientTransferControllerTest {
     public void migratePatientStructuredRecordWhenTransferStatusIsReceived() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(RECEIVED));
 
-        ResponseEntity<String> response = controller.migratePatientStructuredRecord(REQUEST_BODY);
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(PARAMETERS);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(response.getBody()).isNull();
     }
@@ -70,7 +58,7 @@ public class PatientTransferControllerTest {
     public void migratePatientStructuredRecordWhenTransferStatusIsInProgress() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(IN_PROGRESS));
 
-        ResponseEntity<String> response = controller.migratePatientStructuredRecord(REQUEST_BODY);
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(PARAMETERS);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(response.getBody()).isNull();
     }
@@ -80,7 +68,7 @@ public class PatientTransferControllerTest {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(COMPLETED));
         when(patientTransferService.getEmptyBundle()).thenReturn(RESPONSE_BODY);
 
-        ResponseEntity<String> response = controller.migratePatientStructuredRecord(REQUEST_BODY);
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(PARAMETERS);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(RESPONSE_BODY);
     }
@@ -89,7 +77,7 @@ public class PatientTransferControllerTest {
     public void migratePatientStructuredRecordWhenTransferStatusIsUnsupported() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(ERROR));
 
-        Exception exception = assertThrows(IllegalStateException.class, () -> controller.migratePatientStructuredRecord(REQUEST_BODY));
+        Exception exception = assertThrows(IllegalStateException.class, () -> controller.migratePatientStructuredRecord(PARAMETERS));
         assertThat(exception.getMessage()).isEqualTo("Unsupported transfer status: ERROR");
     }
 

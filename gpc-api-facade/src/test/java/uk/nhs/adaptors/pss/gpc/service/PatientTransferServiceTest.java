@@ -24,6 +24,7 @@ import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.model.RequestStatus;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
+import uk.nhs.adaptors.pss.gpc.util.DateUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferServiceTest {
