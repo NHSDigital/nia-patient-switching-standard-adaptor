@@ -35,6 +35,5 @@ public class PssQueueConsumer {
         } catch (JMSException e) {
             LOGGER.error("Error while processing PSSQueue message_id=[{}]", messageId, e);
         }
-
     }
 }

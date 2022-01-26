@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.pss.translator.utils.FileUtils;
+import uk.nhs.adaptors.pss.translator.util.FileUtils;
 
 @Service
 @Slf4j
@@ -16,7 +16,7 @@ public class EhrExtractRequestService {
     private static final String NHS_NUMBER_PLACEHOLDER = "%%NHSNumber%%";
 
     public String buildEhrExtractRequest(String nhsNumber, String fromODSCode) throws IOException{
-        LOGGER.info(
+        LOGGER.debug(
             "Building EHRExtractRequest with nhsNumber=[{}], fromODSCode=[{}]",
             nhsNumber, fromODSCode
         );

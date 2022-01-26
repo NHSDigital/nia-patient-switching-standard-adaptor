@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.utils;
+package uk.nhs.adaptors.pss.translator.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

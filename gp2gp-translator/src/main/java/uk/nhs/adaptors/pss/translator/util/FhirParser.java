@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.utils;
+package uk.nhs.adaptors.pss.translator.util;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.stereotype.Service;

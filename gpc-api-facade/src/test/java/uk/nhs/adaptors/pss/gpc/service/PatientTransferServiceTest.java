@@ -8,8 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.time.OffsetDateTime;
 
-import org.hl7.fhir.dstu3.model.BooleanType;
-import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +22,7 @@ import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.model.RequestStatus;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
+import uk.nhs.adaptors.pss.gpc.testutil.CreateParametersUtil;
 import uk.nhs.adaptors.pss.gpc.util.DateUtils;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,7 +52,7 @@ public class PatientTransferServiceTest {
 
     @BeforeEach
     void setUp() {
-        parameters = createParametersResource();
+        parameters = CreateParametersUtil.createValidParametersResource(PATIENT_NHS_NUMBER);
     }
 
     @Test
@@ -86,35 +85,6 @@ public class PatientTransferServiceTest {
         verifyNoMoreInteractions(patientMigrationRequestDao);
     }
 
-    private Parameters createParametersResource() {
-        Parameters parameters = new Parameters();
-
-        Parameters.ParametersParameterComponent nhsNumberComponent = new Parameters.ParametersParameterComponent();
-        nhsNumberComponent.setName("patientNHSNumber");
-        Identifier identifier = new Identifier();
-        identifier
-            .setSystem("https://fhir.nhs.uk/Id/nhs-number")
-            .setValue(PATIENT_NHS_NUMBER);
-        nhsNumberComponent.setValue(identifier);
-
-        BooleanType booleanType = new BooleanType();
-        booleanType.setValue(true);
-        Parameters.ParametersParameterComponent sensitiveInformationPart = new Parameters.ParametersParameterComponent();
-        sensitiveInformationPart
-            .setName("includeSensitiveInformation")
-            .setValue(booleanType);
-        Parameters.ParametersParameterComponent fullRecordComponent = new Parameters.ParametersParameterComponent();
-        fullRecordComponent
-            .setName("includeFullRecord")
-            .addPart(sensitiveInformationPart);
-
-        parameters
-            .addParameter(nhsNumberComponent)
-            .addParameter(fullRecordComponent);
-
-        return parameters;
-    }
-
     private PatientMigrationRequest createPatientMigrationRequest() {
         return PatientMigrationRequest.builder()
             .id(1)
@@ -125,7 +95,7 @@ public class PatientTransferServiceTest {
     private MigrationStatusLog createMigrationStatusLog() {
         return MigrationStatusLog.builder()
             .id(1)
-            .requestStatus(RequestStatus.IN_PROGRESS)
+            .requestStatus(RequestStatus.RECEIVED)
             .date(OffsetDateTime.now())
             .migrationRequestId(1)
             .build();

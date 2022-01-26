@@ -6,14 +6,14 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import static uk.nhs.adaptors.pss.translator.testutil.CreateParametersUtil.createValidParametersResource;
+
 import java.nio.charset.Charset;
 import java.time.OffsetDateTime;
 
 
 import javax.jms.Message;
 
-import org.hl7.fhir.dstu3.model.BooleanType;
-import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,13 +29,13 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.RequestStatus;
-import uk.nhs.adaptors.pss.translator.config.PssConfiguration;
+import uk.nhs.adaptors.pss.translator.config.ApplicationConfiguration;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
-import uk.nhs.adaptors.pss.translator.utils.DateUtils;
-import uk.nhs.adaptors.pss.translator.utils.FhirParser;
+import uk.nhs.adaptors.pss.translator.util.DateUtils;
+import uk.nhs.adaptors.pss.translator.util.FhirParser;
 
 @ExtendWith(MockitoExtension.class)
 public class SendEhrExtractRequestHandlerTest {
@@ -54,7 +54,7 @@ public class SendEhrExtractRequestHandlerTest {
     private Message message;
 
     @Mock
-    private PssConfiguration pssConfiguration;
+    private ApplicationConfiguration applicationConfiguration;
 
     @Mock
     private WebClient.RequestHeadersSpec request;
@@ -83,7 +83,7 @@ public class SendEhrExtractRequestHandlerTest {
     public void setup() {
         when(message.getBody(String.class)).thenReturn("MESSAGE_BODY");
         when(fhirParser.parseResource(message.getBody(String.class), Parameters.class)).thenReturn(createValidParametersResource(TEST_NHS_NUMBER));
-        when(pssConfiguration.getFromOdsCode()).thenReturn(TEST_FROM_ODS_CODE);
+        when(applicationConfiguration.getFromOdsCode()).thenReturn(TEST_FROM_ODS_CODE);
         when(ehrExtractRequestService.buildEhrExtractRequest(TEST_NHS_NUMBER, TEST_FROM_ODS_CODE)).thenReturn(TEST_PAYLOAD_BODY);
         when(builder.buildSendEhrExtractRequest(anyString(), anyString(), any(OutboundMessage.class))).thenReturn(request);
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(OffsetDateTime.MIN);
@@ -123,47 +123,5 @@ public class SendEhrExtractRequestHandlerTest {
             0
         );
     }
-
-    private Parameters createValidParametersResource(String nhsNumberValue) {
-        Parameters parameters = new Parameters();
-
-        parameters
-            .addParameter(createNhsNumberComponent(nhsNumberValue))
-            .addParameter(createFullRecordComponent());
-
-        return parameters;
-    }
-
-    private Parameters.ParametersParameterComponent createFullRecordComponent() {
-        BooleanType booleanType = new BooleanType();
-        booleanType.setValue(true);
-        Parameters.ParametersParameterComponent sensitiveInformationPart = new Parameters.ParametersParameterComponent();
-        sensitiveInformationPart
-            .setName("includeSensitiveInformation")
-            .setValue(booleanType);
-        Parameters.ParametersParameterComponent fullRecordComponent = new Parameters.ParametersParameterComponent();
-        fullRecordComponent
-            .setName("includeFullRecord")
-            .addPart(sensitiveInformationPart);
-
-        return fullRecordComponent;
-    }
-
-    private Parameters.ParametersParameterComponent createNhsNumberComponent(String nhsNumberValue) {
-        Parameters.ParametersParameterComponent nhsNumberComponent = new Parameters.ParametersParameterComponent();
-        nhsNumberComponent.setName("patientNHSNumber");
-        Identifier identifier = new Identifier();
-        identifier
-            .setSystem("https://fhir.nhs.uk/Id/nhs-number")
-            .setValue(nhsNumberValue);
-        nhsNumberComponent.setValue(identifier);
-
-        return nhsNumberComponent;
-    }
-
-
-
-
-
 
 }
