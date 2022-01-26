@@ -51,6 +51,8 @@ public abstract class ANY {
     protected CsNullFlavor nullFlavor;
     @XmlAttribute(name = "updateMode")
     protected CsUpdateMode updateMode;
+    @XmlAttribute(name = "type", namespace = "http://www.w3.org/2001/XMLSchema-instance")
+    protected String type;
 
     /**
      * Gets the value of the nullFlavor property.
@@ -100,4 +102,11 @@ public abstract class ANY {
         this.updateMode = value;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

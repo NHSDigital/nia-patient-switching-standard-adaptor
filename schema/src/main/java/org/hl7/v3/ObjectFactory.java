@@ -78,6 +78,7 @@ public class ObjectFactory {
      *
      */
     private final static QName _CD_QNAME = new QName("urn:hl7-org:v3", "code");
+    private final static QName _VALUE_QNAME = new QName("urn:hl7-org:v3", "value");
     private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
 
     /**
@@ -3497,6 +3498,11 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "code")
     public JAXBElement<CD> createCode(CD value) {
         return new JAXBElement<CD>(_CD_QNAME, CD.class, null, value);
+    }
+
+    @XmlElementDecl(namespace = "", name = "value")
+    public JAXBElement<Value> createValue(Value value) {
+        return new JAXBElement<Value>(_VALUE_QNAME, Value.class, null, value);
     }
 
     @XmlElementDecl(namespace = "", name = "ehrComposition")
