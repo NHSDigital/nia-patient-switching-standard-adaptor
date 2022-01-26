@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Quantity;
+import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
 import org.hl7.v3.PQInc;
 import org.hl7.v3.PQR;
 import org.hl7.v3.Value;
@@ -11,7 +12,6 @@ import org.hl7.v3.Value;
 public class QuantityMapper {
     private static final String UNIT_SYSTEM = "http://unitsofmeasure.org";
     private static final String TYPE_IVL_PQ = "IVL_PQ";
-
 
     public Quantity mapQuantity(Value value) {
         Quantity quantity = new Quantity();
@@ -43,9 +43,9 @@ public class QuantityMapper {
 
     private void setQuantityWithHighComparator(Quantity quantity, PQInc high) {
         if (high.isInclusive()) {
-            quantity.setComparator(Quantity.QuantityComparator.LESS_OR_EQUAL);
+            quantity.setComparator(QuantityComparator.LESS_OR_EQUAL);
         } else {
-            quantity.setComparator(Quantity.QuantityComparator.LESS_THAN);
+            quantity.setComparator(QuantityComparator.LESS_THAN);
         }
 
         setQuantityValueAndUnit(quantity, high.getValue(), high.getUnit(), high.getTranslation());
@@ -53,9 +53,9 @@ public class QuantityMapper {
 
     private void setQuantityWithLowComparator(Quantity quantity, PQInc low) {
         if (low.isInclusive()) {
-            quantity.setComparator(Quantity.QuantityComparator.GREATER_OR_EQUAL);
+            quantity.setComparator(QuantityComparator.GREATER_OR_EQUAL);
         } else {
-            quantity.setComparator(Quantity.QuantityComparator.GREATER_THAN);
+            quantity.setComparator(QuantityComparator.GREATER_THAN);
         }
 
         setQuantityValueAndUnit(quantity, low.getValue(), low.getUnit(), low.getTranslation());

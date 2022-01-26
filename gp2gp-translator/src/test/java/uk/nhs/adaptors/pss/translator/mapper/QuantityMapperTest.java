@@ -6,6 +6,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import org.hl7.fhir.dstu3.model.Quantity;
+import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
 import org.hl7.v3.Value;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,7 @@ public class QuantityMapperTest {
             String unit,
             String system,
             String code,
-            Quantity.QuantityComparator comparator) {
+            QuantityComparator comparator) {
         assertThat(quantity.getValue()).isEqualTo(value);
         assertThat(quantity.getUnit()).isEqualTo(unit);
         assertThat(quantity.getSystem()).isEqualTo(system);
@@ -78,7 +79,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", Quantity.QuantityComparator.LESS_THAN);
+        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_THAN);
     }
 
     @Test
@@ -87,7 +88,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapQuantity(value);
 
-        assertQuantity(quantity, "100", "kua/L", null, null, Quantity.QuantityComparator.LESS_THAN);
+        assertQuantity(quantity, "100", "kua/L", null, null, QuantityComparator.LESS_THAN);
     }
 
     @Test
@@ -96,7 +97,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", Quantity.QuantityComparator.GREATER_THAN);
+        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_THAN);
     }
 
     @Test
@@ -105,7 +106,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapQuantity(value);
 
-        assertQuantity(quantity, "100", "kua/L", null, null, Quantity.QuantityComparator.GREATER_THAN);
+        assertQuantity(quantity, "100", "kua/L", null, null, QuantityComparator.GREATER_THAN);
     }
 
     @Test
@@ -114,7 +115,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", Quantity.QuantityComparator.LESS_OR_EQUAL);
+        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_OR_EQUAL);
     }
 
     @Test
@@ -123,7 +124,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", Quantity.QuantityComparator.LESS_THAN);
+        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_THAN);
     }
 
     @Test
@@ -132,7 +133,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", Quantity.QuantityComparator.GREATER_OR_EQUAL);
+        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_OR_EQUAL);
     }
 
     @Test
@@ -141,7 +142,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", Quantity.QuantityComparator.GREATER_THAN);
+        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_THAN);
     }
 
     @Test
@@ -168,7 +169,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapQuantity(value);
 
-        assertQuantity(quantity, "100", null, null, null, Quantity.QuantityComparator.LESS_THAN);
+        assertQuantity(quantity, "100", null, null, null, QuantityComparator.LESS_THAN);
     }
 
     @Test
