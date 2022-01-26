@@ -16,7 +16,6 @@ import org.hl7.fhir.dstu3.model.InstantType;
 
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
 import lombok.experimental.UtilityClass;
-import lombok.Getter;
 
 
 @UtilityClass
@@ -146,16 +145,5 @@ public class DateFormatUtil {
         formatter.setTimeZone(TimeZone.getTimeZone(UK_ZONE_ID));
 
         return formatter;
-    }
-
-    @Getter
-    public class DateFormat {
-        private final String dateFormat;
-        private final TemporalPrecisionEnum precision;
-
-        public DateFormat(String dateFormat, TemporalPrecisionEnum precision) {
-            this.dateFormat = dateFormat;
-            this.precision = precision;
-        }
     }
 }

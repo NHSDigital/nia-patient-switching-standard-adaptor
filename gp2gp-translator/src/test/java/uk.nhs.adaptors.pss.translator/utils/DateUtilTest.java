@@ -9,7 +9,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.stream.Stream;
 
-import org.assertj.core.util.DateUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -23,7 +22,7 @@ public class DateUtilTest {
     @ParameterizedTest(name = "parseDate")
     @MethodSource("dates")
     public void shouldParseForCorrectDateFormat(String inputString, String expectedDate) {
-        assertThat(DateFormatUtil.parse(inputString).toString()).isEqualTo(expectedDate);
+        assertThat(DateFormatUtil.parse(inputString).asStringValue()).isEqualTo(expectedDate);
     }
 
     @ParameterizedTest(name = "parseDateToInstantType")
@@ -35,13 +34,13 @@ public class DateUtilTest {
     @Test
     public void shouldThrowExceptionForEmptyString() {
         String dateAsString = "";
-        assertThrows(IllegalStateException.class, () -> DateUtil.parse(dateAsString));
+        assertThrows(IllegalStateException.class, () -> DateFormatUtil.parse(dateAsString));
     }
 
     @Test
     public void shouldThrowExceptionForIncorrectDateFormat() {
         String dateAsString = "202019891898.00";
-        assertThrows(IllegalStateException.class, () -> DateUtil.parse(dateAsString));
+        assertThrows(IllegalStateException.class, () -> DateFormatUtil.parse(dateAsString));
     }
 
     @Test
