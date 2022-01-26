@@ -1,18 +1,20 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import lombok.SneakyThrows;
-import org.hl7.fhir.dstu3.model.Location;
-import org.hl7.fhir.dstu3.model.Identifier;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.util.ResourceUtils.getFile;
+
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+
 import org.hl7.fhir.dstu3.model.ContactPoint;
+import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.util.ResourceUtils.getFile;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+import lombok.SneakyThrows;
 
 public class LocationMapperTest {
-    private static final String XML_RESOURCES_BASE = "XML/Location/";
+    private static final String XML_RESOURCES_BASE = "xml/Location/";
     private static final String LOCATION_ID_EXTENSION = "-LOC";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";

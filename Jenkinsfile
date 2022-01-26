@@ -33,6 +33,40 @@ pipeline {
     }
     
     stages {
+        stage('Tests setup') {
+            steps {
+                script {
+                    sh '''
+                        source docker/vars.local.tests.sh
+                        docker network create ps-network || true
+                        docker-compose -f docker/docker-compose.yml up -d ps_db activemq
+                        docker-compose -f docker/docker-compose.yml up db_migration
+                    '''
+                }
+            }
+        }
+        stage('GPC API Facade Tests') {
+            steps {
+                script {
+                    sh '''
+                        source docker/vars.local.tests.sh
+                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gpc_facade
+                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up gpc_facade
+                    '''
+                }
+            }
+        }
+        stage('GP2GP Translator Tests') {
+             steps {
+                script {
+                    sh '''
+                       source docker/vars.local.tests.sh
+                       docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gp2gp_translator
+                       docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up gp2gp_translator
+                   '''
+               }
+           }
+       }
         stage('Build') {
             stages {
                 stage('Build Docker Images') {
