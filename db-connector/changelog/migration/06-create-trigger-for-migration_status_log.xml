@@ -10,7 +10,6 @@
     http://www.liquibase.org/xml/ns/pro
 	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
     <changeSet id="6" author="bchotkowski">
-        <sqlFile dbms="postgresql" encoding="UTF-8" path="../sql/create-audit-function.sql" relativeToChangelogFile="true"/>
         <sql dbms="postgresql">
             CREATE TRIGGER migration_status_log_if_modified_trigger
             AFTER INSERT OR UPDATE OR DELETE ON public.migration_status_log
