@@ -81,7 +81,7 @@ public class PatientTransferControllerTest {
         assertThat(exception.getMessage()).isEqualTo("Unsupported transfer status: ERROR");
     }
 
-    //TODO: Check if this will ever be needed again
+
     private PatientMigrationRequest createPatientMigrationRequest() {
         return PatientMigrationRequest.builder()
             .id(1)
@@ -94,6 +94,7 @@ public class PatientTransferControllerTest {
             .id(1)
             .requestStatus(status)
             .date(OffsetDateTime.now())
+            .migrationRequestId(1)
             .build();
     }
 }

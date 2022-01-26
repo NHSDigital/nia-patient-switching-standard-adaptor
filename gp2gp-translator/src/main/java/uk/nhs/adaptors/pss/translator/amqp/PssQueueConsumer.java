@@ -24,13 +24,13 @@ public class PssQueueConsumer {
     @SneakyThrows
     public void receive(Message message) {
         String messageId = message.getJMSMessageID();
-        LOGGER.info("Received a message from PSSQueue, message_id=[{}], body=[{}]", messageId, ((TextMessage) message).getText());
+        LOGGER.debug("Received a message from PSSQueue, message_id=[{}], body=[{}]", messageId, ((TextMessage) message).getText());
         try {
             if (queueMessageHandler.handle(message)) {
                 message.acknowledge();
-                LOGGER.info("Acknowledged PSSQueue message_id=[{}]", messageId);
+                LOGGER.debug("Acknowledged PSSQueue message_id=[{}]", messageId);
             } else {
-                LOGGER.info("Leaving Message of message_id=[{}] on the PSSQueue", messageId);
+                LOGGER.debug("Leaving Message of message_id=[{}] on the PSSQueue", messageId);
             }
         } catch (JMSException e) {
             LOGGER.error("Error while processing PSSQueue message_id=[{}]", messageId, e);

@@ -125,7 +125,7 @@ public class PatientTransferServiceTest {
     private MigrationStatusLog createMigrationStatusLog() {
         return MigrationStatusLog.builder()
             .id(1)
-            .requestStatus(RequestStatus.MHS_ACCEPTED)
+            .requestStatus(RequestStatus.IN_PROGRESS)
             .date(OffsetDateTime.now())
             .migrationRequestId(1)
             .build();
