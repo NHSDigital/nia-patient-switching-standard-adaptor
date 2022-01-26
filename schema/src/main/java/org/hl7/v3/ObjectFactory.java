@@ -73,13 +73,14 @@ public class ObjectFactory {
     private final static QName _StrucDocItemTable_QNAME = new QName("urn:hl7-org:v3", "table");
 
     /**
-     * List of custom built QName objects that weren't pre-generated. These are being used in unit tests to test specific
+     * List of custom-built QName objects that weren't pre-generated. These are being used in unit tests to test specific
      * deeply nested elements.
      *
      */
     private final static QName _CD_QNAME = new QName("urn:hl7-org:v3", "code");
     private final static QName _VALUE_QNAME = new QName("urn:hl7-org:v3", "value");
     private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
+    private final static QName _PLAN_STATEMENT_QNAME = new QName("urn:hl7-org:v3", "PlanStatement");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
@@ -3506,7 +3507,12 @@ public class ObjectFactory {
     }
 
     @XmlElementDecl(namespace = "", name = "ehrComposition")
-    public JAXBElement<RCMRMT030101UK04EhrComposition> createLocation(RCMRMT030101UK04EhrComposition value) {
+    public JAXBElement<RCMRMT030101UK04EhrComposition> createEhrComposition(RCMRMT030101UK04EhrComposition value) {
         return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
+    }
+
+    @XmlElementDecl(namespace = "", name = "PlanStatement")
+    public JAXBElement<RCMRMT030101UK04PlanStatement> createPlanStatement(RCMRMT030101UK04PlanStatement value) {
+        return new JAXBElement<RCMRMT030101UK04PlanStatement>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04PlanStatement.class, null, value);
     }
 }

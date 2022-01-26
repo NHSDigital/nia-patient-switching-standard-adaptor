@@ -19,7 +19,6 @@ public class BundleGenerator {
     private final FhirIdGeneratorService fhirIDGeneratorService;
 
     public Bundle generateBundle() {
-
         Bundle bundle = new Bundle();
         Meta meta = new Meta();
         meta.setProfile(List.of(new UriType("https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1")));
