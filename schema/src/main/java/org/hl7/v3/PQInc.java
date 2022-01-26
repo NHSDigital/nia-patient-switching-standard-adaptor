@@ -125,11 +125,7 @@ public class PQInc {
      *     
      */
     public String getUnit() {
-        if (unit == null) {
-            return "1";
-        } else {
-            return unit;
-        }
+        return unit;
     }
 
     /**

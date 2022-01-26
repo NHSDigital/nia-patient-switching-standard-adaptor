@@ -99,7 +99,7 @@ public class RCMRMT030101UK04ObservationStatement {
     protected TS availabilityTime;
     protected CV priorityCode;
     protected CV uncertaintyCode;
-    protected ANY value;
+    protected Value value;
     protected CV interpretationCode;
     protected RCMRMT030101UK04Subject subject;
     protected List<RCMRMT030101UK04Specimen> specimen;
@@ -294,31 +294,6 @@ public class RCMRMT030101UK04ObservationStatement {
     public void setUncertaintyCode(CV value) {
         this.uncertaintyCode = value;
     }
-
-    /**
-     * Gets the value of the value property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ANY }
-     *     
-     */
-    public ANY getValue() {
-        return value;
-    }
-
-    /**
-     * Sets the value of the value property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ANY }
-     *     
-     */
-    public void setValue(ANY value) {
-        this.value = value;
-    }
-
     /**
      * Gets the value of the interpretationCode property.
      * 
@@ -796,4 +771,11 @@ public class RCMRMT030101UK04ObservationStatement {
         this.nullFlavor = value;
     }
 
+    public Value getValue() {
+        return value;
+    }
+
+    public void setValue(Value value) {
+        this.value = value;
+    }
 }
