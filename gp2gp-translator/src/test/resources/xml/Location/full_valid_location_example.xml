@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehrComposition classCode="COMPOSITION" moodCode="EVN">
+    <id root="CA4AD477-C33B-4FE7-8417-A242BB3D23AF" />
+    <location typeCode="LOC">
+        <locatedEntity classCode="LOCE">
+            <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
+            <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                <name>EMIS Test Practice Location</name>
+                <telecom use="WP" value="tel:01414221031"/>
+                <addr use="WP">
+                    <streetAddressLine>Fulford Grange</streetAddressLine>
+                    <streetAddressLine>Micklefield Lane</streetAddressLine>
+                    <streetAddressLine>Rawdon</streetAddressLine>
+                    <streetAddressLine>Leeds</streetAddressLine>
+                    <postalCode>LS19 6BA</postalCode>
+                </addr>
+            </locatedPlace>
+        </locatedEntity>
+    </location>
+</ehrComposition>
