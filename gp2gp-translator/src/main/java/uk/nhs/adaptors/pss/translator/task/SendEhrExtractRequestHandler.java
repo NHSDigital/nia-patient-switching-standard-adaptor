@@ -62,14 +62,12 @@ public class SendEhrExtractRequestHandler {
             mhsClientService.send(request);
         } catch (WebClientResponseException wcre) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", wcre.getMessage());
-            handleResponse(migrationRequestId, RequestStatus.MHS_BAD_REQUEST);
+            handleResponse(migrationRequestId, RequestStatus.EHR_EXTRACT_REQUEST_ERROR);
             return false;
         }
 
         LOGGER.info("Got response from MHS - 202 Accepted");
-        LOGGER.debug("RequestStatus of PatientMigrationRequest with id=[{}] : [{}]", migrationRequestId, RequestStatus.MHS_ACCEPTED.name());
-        handleResponse(migrationRequestId, RequestStatus.MHS_ACCEPTED);
-
+        handleResponse(migrationRequestId, RequestStatus.EHR_EXTRACT_REQUEST_ACCEPTED);
         return true;
     }
 
@@ -79,6 +77,7 @@ public class SendEhrExtractRequestHandler {
             OffsetDateTime.now(ZoneOffset.UTC),
             migrationRequestId
         );
+        LOGGER.debug("Changed RequestStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, requestStatus.name());
     }
 
 }
