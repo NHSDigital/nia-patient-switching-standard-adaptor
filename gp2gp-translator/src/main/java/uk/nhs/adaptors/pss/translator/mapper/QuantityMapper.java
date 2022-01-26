@@ -18,9 +18,9 @@ public class QuantityMapper {
 
         if (TYPE_IVL_PQ.equals(value.getType())) {
             if (value.getHigh() != null) {
-                setHighComparator(quantity, value.getHigh());
+                setQuantityWithHighComparator(quantity, value.getHigh());
             } else if (value.getLow() != null) {
-                setLowComparator(quantity, value.getLow());
+                setQuantityWithLowComparator(quantity, value.getLow());
             }
         } else {
             setQuantityValueAndUnit(quantity, value.getValue(), value.getUnit(), value.getTranslation());
@@ -41,7 +41,7 @@ public class QuantityMapper {
         }
     }
 
-    private void setHighComparator(Quantity quantity, PQInc high) {
+    private void setQuantityWithHighComparator(Quantity quantity, PQInc high) {
         if (high.isInclusive()) {
             quantity.setComparator(Quantity.QuantityComparator.LESS_OR_EQUAL);
         } else {
@@ -51,7 +51,7 @@ public class QuantityMapper {
         setQuantityValueAndUnit(quantity, high.getValue(), high.getUnit(), high.getTranslation());
     }
 
-    private void setLowComparator(Quantity quantity, PQInc low) {
+    private void setQuantityWithLowComparator(Quantity quantity, PQInc low) {
         if (low.isInclusive()) {
             quantity.setComparator(Quantity.QuantityComparator.GREATER_OR_EQUAL);
         } else {
