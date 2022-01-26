@@ -32,7 +32,7 @@ public class BundleGeneratorTest {
     }
 
     @Test
-    public void generateBundleWithCorrectDetailsWithMockID() {
+    public void generateBundleWithCorrectDetails() {
         var bundle = bundleGenerator.generateBundle();
 
         assertThat(bundle.getResourceType().toString()).isEqualTo(ResourceType.Bundle.name());
