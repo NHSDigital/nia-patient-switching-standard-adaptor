@@ -23,6 +23,7 @@ import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
+import uk.nhs.adaptors.pss.translator.utils.DateUtils;
 import uk.nhs.adaptors.pss.translator.utils.FhirParser;
 
 @Slf4j
@@ -37,6 +38,7 @@ public class SendEhrExtractRequestHandler {
     private final PssConfiguration pssConfiguration;
     private final PatientMigrationRequestDao patientMigrationRequestDao;
     private final MigrationStatusLogDao migrationStatusLogDao;
+    private final DateUtils dateUtils;
 
     @SneakyThrows
     public boolean prepareAndSendRequest(Message message) {
@@ -74,7 +76,7 @@ public class SendEhrExtractRequestHandler {
     private void handleResponse(int migrationRequestId, RequestStatus requestStatus) {
         migrationStatusLogDao.addMigrationStatusLog(
             requestStatus.name(),
-            OffsetDateTime.now(ZoneOffset.UTC),
+            dateUtils.getCurrentOffsetDateTime(),
             migrationRequestId
         );
         LOGGER.debug("Changed RequestStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, requestStatus.name());
