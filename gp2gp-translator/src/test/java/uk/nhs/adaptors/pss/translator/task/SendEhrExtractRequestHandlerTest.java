@@ -1,0 +1,169 @@
+package uk.nhs.adaptors.pss.translator.task;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.nio.charset.Charset;
+import java.time.OffsetDateTime;
+
+
+import javax.jms.Message;
+
+import org.hl7.fhir.dstu3.model.BooleanType;
+import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.dstu3.model.Parameters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+
+import lombok.SneakyThrows;
+import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
+import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.RequestStatus;
+import uk.nhs.adaptors.pss.translator.config.PssConfiguration;
+import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
+import uk.nhs.adaptors.pss.translator.model.OutboundMessage;
+import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
+import uk.nhs.adaptors.pss.translator.service.MhsClientService;
+import uk.nhs.adaptors.pss.translator.utils.DateUtils;
+import uk.nhs.adaptors.pss.translator.utils.FhirParser;
+
+@ExtendWith(MockitoExtension.class)
+public class SendEhrExtractRequestHandlerTest {
+
+
+    @Mock
+    private FhirParser fhirParser;
+
+    @Mock
+    private MhsRequestBuilder builder;
+
+    @Mock
+    private EhrExtractRequestService ehrExtractRequestService;
+
+    @Mock
+    private Message message;
+
+    @Mock
+    private PssConfiguration pssConfiguration;
+
+    @Mock
+    private WebClient.RequestHeadersSpec request;
+
+    @Mock
+    private PatientMigrationRequestDao patientMigrationRequestDao;
+
+    @Mock
+    private MigrationStatusLogDao migrationStatusLogDao;
+
+    @Mock
+    private MhsClientService mhsClientService;
+
+    @Mock
+    private DateUtils dateUtils;
+
+    @InjectMocks
+    private SendEhrExtractRequestHandler sendEhrExtractRequestHandler;
+
+    private static final String TEST_NHS_NUMBER = "123456";
+    private static final String TEST_FROM_ODS_CODE = "TEST_FROM_ODS";
+    private static final String TEST_PAYLOAD_BODY = "TEST_PAYLOAD_BODY";
+
+    @BeforeEach
+    @SneakyThrows
+    public void setup() {
+        when(message.getBody(String.class)).thenReturn("MESSAGE_BODY");
+        when(fhirParser.parseResource(message.getBody(String.class), Parameters.class)).thenReturn(createValidParametersResource(TEST_NHS_NUMBER));
+        when(pssConfiguration.getFromOdsCode()).thenReturn(TEST_FROM_ODS_CODE);
+        when(ehrExtractRequestService.buildEhrExtractRequest(TEST_NHS_NUMBER, TEST_FROM_ODS_CODE)).thenReturn(TEST_PAYLOAD_BODY);
+        when(builder.buildSendEhrExtractRequest(anyString(), anyString(), any(OutboundMessage.class))).thenReturn(request);
+        when(dateUtils.getCurrentOffsetDateTime()).thenReturn(OffsetDateTime.MIN);
+    }
+
+    @Test
+    public void whenSendMessageThenTrueIsReturned() {
+        var isMessageSentSuccessfully = sendEhrExtractRequestHandler.prepareAndSendRequest(message);
+
+        assertTrue(isMessageSentSuccessfully);
+        verify(patientMigrationRequestDao).getMigrationRequestId(TEST_NHS_NUMBER);
+        verify(migrationStatusLogDao).addMigrationStatusLog(
+            RequestStatus.EHR_EXTRACT_REQUEST_ACCEPTED.name(),
+            dateUtils.getCurrentOffsetDateTime(),
+            0
+        );
+    }
+
+    @Test
+    public void whenSendMessageThenErrorFalseIsReturned() {
+        when(mhsClientService.send(request)).thenThrow(
+            new WebClientResponseException(
+                400,
+                "BAD REQUEST",
+                new HttpHeaders(),
+                new byte[]{},
+                Charset.defaultCharset())
+        );
+
+        var isMessageSentSuccessfully = sendEhrExtractRequestHandler.prepareAndSendRequest(message);
+
+        assertFalse(isMessageSentSuccessfully);
+        verify(patientMigrationRequestDao).getMigrationRequestId(TEST_NHS_NUMBER);
+        verify(migrationStatusLogDao).addMigrationStatusLog(
+            RequestStatus.EHR_EXTRACT_REQUEST_ERROR.name(),
+            dateUtils.getCurrentOffsetDateTime(),
+            0
+        );
+    }
+
+    private Parameters createValidParametersResource(String nhsNumberValue) {
+        Parameters parameters = new Parameters();
+
+        parameters
+            .addParameter(createNhsNumberComponent(nhsNumberValue))
+            .addParameter(createFullRecordComponent());
+
+        return parameters;
+    }
+
+    private Parameters.ParametersParameterComponent createFullRecordComponent() {
+        BooleanType booleanType = new BooleanType();
+        booleanType.setValue(true);
+        Parameters.ParametersParameterComponent sensitiveInformationPart = new Parameters.ParametersParameterComponent();
+        sensitiveInformationPart
+            .setName("includeSensitiveInformation")
+            .setValue(booleanType);
+        Parameters.ParametersParameterComponent fullRecordComponent = new Parameters.ParametersParameterComponent();
+        fullRecordComponent
+            .setName("includeFullRecord")
+            .addPart(sensitiveInformationPart);
+
+        return fullRecordComponent;
+    }
+
+    private Parameters.ParametersParameterComponent createNhsNumberComponent(String nhsNumberValue) {
+        Parameters.ParametersParameterComponent nhsNumberComponent = new Parameters.ParametersParameterComponent();
+        nhsNumberComponent.setName("patientNHSNumber");
+        Identifier identifier = new Identifier();
+        identifier
+            .setSystem("https://fhir.nhs.uk/Id/nhs-number")
+            .setValue(nhsNumberValue);
+        nhsNumberComponent.setValue(identifier);
+
+        return nhsNumberComponent;
+    }
+
+
+
+
+
+
+}
