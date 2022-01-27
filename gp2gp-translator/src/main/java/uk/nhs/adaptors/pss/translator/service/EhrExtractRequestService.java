@@ -10,12 +10,11 @@ import uk.nhs.adaptors.pss.translator.util.FileUtils;
 @Service
 @Slf4j
 public class EhrExtractRequestService {
-
     private static final String EHR_EXTRACT_REQUEST_TEST_FILE = "/ehr/ehrExtractRequest.xml";
     private static final String FROM_ODS_CODE_PLACEHOLDER = "%%From_ODS_Code%%";
     private static final String NHS_NUMBER_PLACEHOLDER = "%%NHSNumber%%";
 
-    public String buildEhrExtractRequest(String nhsNumber, String fromODSCode) throws IOException{
+    public String buildEhrExtractRequest(String nhsNumber, String fromODSCode) throws IOException {
         LOGGER.debug(
             "Building EHRExtractRequest with nhsNumber=[{}], fromODSCode=[{}]",
             nhsNumber, fromODSCode
@@ -28,5 +27,4 @@ public class EhrExtractRequestService {
             .replace(NHS_NUMBER_PLACEHOLDER, nhsNumber)
             .replace(FROM_ODS_CODE_PLACEHOLDER, fromODSCode);
     }
-
 }

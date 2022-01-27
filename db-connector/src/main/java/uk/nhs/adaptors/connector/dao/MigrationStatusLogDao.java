@@ -20,5 +20,4 @@ public interface MigrationStatusLogDao {
     @SqlQuery("select_migration_status_log")
     @UseClasspathSqlLocator
     MigrationStatusLog getMigrationStatusLog(@Bind("migrationRequestId") int migrationRequestId);
-
 }

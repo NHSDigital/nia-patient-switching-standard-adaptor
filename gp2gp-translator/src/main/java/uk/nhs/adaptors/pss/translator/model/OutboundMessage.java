@@ -7,21 +7,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.extern.jackson.Jacksonized;
 
-@Getter
-@Setter
 @Jacksonized
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@EqualsAndHashCode
+@Data
 public class OutboundMessage {
-    
     private String payload;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Attachment> attachments;
@@ -29,13 +24,11 @@ public class OutboundMessage {
     @JsonProperty("external_attachments")
     private List<ExternalAttachment> externalAttachments;
 
-    @Getter
-    @Setter
     @Jacksonized
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    @EqualsAndHashCode
+    @Data
     public static class Attachment {
         @JsonProperty("content_type")
         private String contentType;
@@ -45,13 +38,11 @@ public class OutboundMessage {
         private String payload;
     }
 
-    @Getter
-    @Setter
     @Jacksonized
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    @EqualsAndHashCode
+    @Data
     public static class ExternalAttachment {
         @JsonProperty("document_id")
         private String documentId;

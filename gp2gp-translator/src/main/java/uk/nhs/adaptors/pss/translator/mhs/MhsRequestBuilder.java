@@ -38,7 +38,8 @@ public class MhsRequestBuilder {
     private final RequestBuilderService requestBuilderService;
     private final MhsOutboundConfiguration mhsOutboundConfiguration;
 
-    public WebClient.RequestHeadersSpec<?> buildSendEhrExtractRequest(String conversationId, String fromOdsCode, OutboundMessage outboundMessage) {
+    public WebClient.RequestHeadersSpec<?> buildSendEhrExtractRequest(
+        String conversationId, String fromOdsCode, OutboundMessage outboundMessage) {
         SslContext sslContext = requestBuilderService.buildSSLContext();
         HttpClient httpClient = HttpClient.create().secure(t -> t.sslContext(sslContext));
         WebClient client = buildWebClient(httpClient);
@@ -66,5 +67,4 @@ public class MhsRequestBuilder {
             .defaultUriVariables(Collections.singletonMap("url", mhsOutboundConfiguration.getUrl()))
             .build();
     }
-
 }

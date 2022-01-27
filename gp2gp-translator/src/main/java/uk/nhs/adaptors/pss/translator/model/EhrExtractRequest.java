@@ -8,8 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class EhrExtractRequest {
-
     private String patientNHSNumber;
     private Boolean includeSensitiveInformation;
-
 }

@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class QueueMessageHandler {
-
     private final SendEhrExtractRequestHandler sendEhrExtractRequestHandler;
 
     @SneakyThrows
@@ -21,5 +20,4 @@ public class QueueMessageHandler {
         LOGGER.info("Handling message with message_id=[{}]", message.getJMSMessageID());
         return sendEhrExtractRequestHandler.prepareAndSendRequest(message);
     }
-
 }

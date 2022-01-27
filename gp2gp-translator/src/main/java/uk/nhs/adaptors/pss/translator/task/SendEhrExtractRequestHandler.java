@@ -58,7 +58,7 @@ public class SendEhrExtractRequestHandler {
         var request = requestBuilder.buildSendEhrExtractRequest(conversationId, fromOdsCode, outboundMessage);
         int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(nhsNumber);
 
-        try{
+        try {
             mhsClientService.send(request);
         } catch (WebClientResponseException wcre) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", wcre.getMessage());
@@ -79,5 +79,4 @@ public class SendEhrExtractRequestHandler {
         );
         LOGGER.debug("Changed RequestStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, requestStatus.name());
     }
-
 }

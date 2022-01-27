@@ -21,6 +21,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.model.RequestStatus;
@@ -41,6 +42,9 @@ public class PatientTransferControllerIT {
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
+
+    @Autowired
+    private MigrationStatusLogDao migrationStatusLogDao;
 
     @Autowired
     private FhirParser fhirParser;
@@ -175,8 +179,9 @@ public class PatientTransferControllerIT {
     }
 
     private void verifyPatientMigrationRequest(PatientMigrationRequest patientMigrationRequest, RequestStatus status) {
+        var migrationStatusLog = migrationStatusLogDao.getMigrationStatusLog(patientMigrationRequest.getId());
         assertThat(patientMigrationRequest).isNotNull();
-        assertThat(patientMigrationRequest.getRequestStatus()).isEqualTo(status);
+        assertThat(migrationStatusLog.getRequestStatus()).isEqualTo(status);
     }
 
     private String generatePatientNhsNumber() {

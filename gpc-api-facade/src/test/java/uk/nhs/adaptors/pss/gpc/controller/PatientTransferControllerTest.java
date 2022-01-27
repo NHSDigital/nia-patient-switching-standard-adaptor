@@ -55,7 +55,8 @@ public class PatientTransferControllerTest {
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsInProgress() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED));
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS))
+            .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED));
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(PARAMETERS);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -74,10 +75,11 @@ public class PatientTransferControllerTest {
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsUnsupported() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_ERROR));
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS))
+            .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_ERROR));
 
         Exception exception = assertThrows(IllegalStateException.class, () -> controller.migratePatientStructuredRecord(PARAMETERS));
-        assertThat(exception.getMessage()).isEqualTo("Unsupported transfer status: ERROR");
+        assertThat(exception.getMessage()).isEqualTo("Unsupported transfer status: EHR_EXTRACT_REQUEST_ERROR");
     }
 
     private MigrationStatusLog createMigrationStatusLog(RequestStatus status) {

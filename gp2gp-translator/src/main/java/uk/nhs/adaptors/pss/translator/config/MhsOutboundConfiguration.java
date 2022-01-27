@@ -11,8 +11,6 @@ import lombok.Setter;
 @Component
 @ConfigurationProperties(prefix = "mhs.outbound")
 public class MhsOutboundConfiguration {
-
     private String url;
-
 }
 

@@ -57,9 +57,11 @@ public class PatientTransferServiceTest {
 
     @Test
     public void handlePatientMigrationRequestWhenRequestIsNew() {
+        var migrationRequestId = 1;
         OffsetDateTime now = OffsetDateTime.now();
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(null);
+        when(patientMigrationRequestDao.getMigrationRequestId(PATIENT_NHS_NUMBER)).thenReturn(migrationRequestId);
         when(fhirParser.encodeToJson(parameters)).thenReturn(REQUEST_BODY);
 
         MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
@@ -67,6 +69,7 @@ public class PatientTransferServiceTest {
         assertThat(patientMigrationRequest).isEqualTo(null);
         verify(pssQueuePublisher).sendToPssQueue(REQUEST_BODY);
         verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER);
+        verify(migrationStatusLogDao).addMigrationStatusLog(RequestStatus.RECEIVED.name(), now, migrationRequestId);
     }
 
     @Test

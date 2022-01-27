@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -10,7 +11,6 @@ import static uk.nhs.adaptors.pss.translator.testutil.CreateParametersUtil.creat
 
 import java.nio.charset.Charset;
 import java.time.OffsetDateTime;
-
 
 import javax.jms.Message;
 
@@ -22,6 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -39,8 +40,6 @@ import uk.nhs.adaptors.pss.translator.util.FhirParser;
 
 @ExtendWith(MockitoExtension.class)
 public class SendEhrExtractRequestHandlerTest {
-
-
     @Mock
     private FhirParser fhirParser;
 
@@ -82,7 +81,8 @@ public class SendEhrExtractRequestHandlerTest {
     @SneakyThrows
     public void setup() {
         when(message.getBody(String.class)).thenReturn("MESSAGE_BODY");
-        when(fhirParser.parseResource(message.getBody(String.class), Parameters.class)).thenReturn(createValidParametersResource(TEST_NHS_NUMBER));
+        when(fhirParser.parseResource(message.getBody(String.class), Parameters.class))
+            .thenReturn(createValidParametersResource(TEST_NHS_NUMBER));
         when(applicationConfiguration.getFromOdsCode()).thenReturn(TEST_FROM_ODS_CODE);
         when(ehrExtractRequestService.buildEhrExtractRequest(TEST_NHS_NUMBER, TEST_FROM_ODS_CODE)).thenReturn(TEST_PAYLOAD_BODY);
         when(builder.buildSendEhrExtractRequest(anyString(), anyString(), any(OutboundMessage.class))).thenReturn(request);
@@ -106,7 +106,7 @@ public class SendEhrExtractRequestHandlerTest {
     public void whenSendMessageThenErrorFalseIsReturned() {
         when(mhsClientService.send(request)).thenThrow(
             new WebClientResponseException(
-                400,
+                HttpStatus.BAD_REQUEST.value(),
                 "BAD REQUEST",
                 new HttpHeaders(),
                 new byte[]{},
@@ -123,5 +123,4 @@ public class SendEhrExtractRequestHandlerTest {
             0
         );
     }
-
 }

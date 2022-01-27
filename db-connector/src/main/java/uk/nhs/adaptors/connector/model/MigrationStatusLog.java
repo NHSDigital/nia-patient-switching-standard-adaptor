@@ -12,14 +12,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class MigrationStatusLog {
-
     private int id;
-
     @EnumByName
     private RequestStatus requestStatus;
-
     private OffsetDateTime date;
-
     private int migrationRequestId;
-
 }

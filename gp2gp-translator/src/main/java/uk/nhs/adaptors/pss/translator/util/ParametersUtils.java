@@ -17,5 +17,4 @@ public class ParametersUtils {
             .map(Identifier.class::cast)
             .findFirst();
     }
-
 }

@@ -9,9 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MhsClientService {
 
-    public String send(WebClient.RequestHeadersSpec<? extends WebClient.RequestHeadersSpec<?>> request){
+    public String send(WebClient.RequestHeadersSpec<? extends WebClient.RequestHeadersSpec<?>> request) {
         LOGGER.info("Sending MHS Outbound Request");
         return request.retrieve().bodyToMono(String.class).block();
     }
-
 }
