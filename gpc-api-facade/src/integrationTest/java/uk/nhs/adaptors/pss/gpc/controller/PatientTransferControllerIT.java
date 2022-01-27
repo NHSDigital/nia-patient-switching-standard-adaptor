@@ -24,11 +24,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.model.RequestStatus;
-import uk.nhs.adaptors.pss.gpc.containers.ActiveMqExtension;
 import uk.nhs.adaptors.pss.gpc.service.FhirParser;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-@ExtendWith({SpringExtension.class, ActiveMqExtension.class})
+@ExtendWith({SpringExtension.class})
 @DirtiesContext
 @AutoConfigureMockMvc
 public class PatientTransferControllerIT {
