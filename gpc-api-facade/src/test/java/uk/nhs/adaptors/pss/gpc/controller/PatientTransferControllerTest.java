@@ -1,7 +1,7 @@
 package uk.nhs.adaptors.pss.gpc.controller;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.connector.model.RequestStatus.COMPLETED;
