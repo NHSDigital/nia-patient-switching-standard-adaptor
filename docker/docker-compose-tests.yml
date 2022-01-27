@@ -4,20 +4,29 @@ services:
     container_name: gpc_facade_tests
     build:
       target: build
-    entrypoint: "gradle test"
+    entrypoint: "gradle -i test integrationTest"
     environment:
       - GPC_FACADE_SERVER_PORT
       - PS_DB_URL
       - GPC_FACADE_USER_DB_PASSWORD
+      - PS_AMQP_BROKER
 
   gp2gp_translator:
     container_name: gp2gp_translator_tests
     build:
       target: build
-    entrypoint: "gradle test"
+    entrypoint: "gradle -i test integrationTest"
     environment:
       - GP2GP_TRANSLATOR_SERVER_PORT
       - PS_DB_URL
       - GP2GP_TRANSLATOR_USER_DB_PASSWORD
-      - PS_DB_OWNER_NAME
-      - PS_DB_OWNER_PASSWORD
+      - PS_AMQP_BROKER
+      - MHS_AMQP_BROKER
+      - PS_QUEUE_NAME
+      - MHS_QUEUE_NAME
+      - PS_AMQP_USERNAME
+      - PS_AMQP_PASSWORD
+      - PS_AMQP_MAX_REDELIVERIES
+      - MHS_AMQP_USERNAME
+      - MHS_AMQP_PASSWORD
+      - MHS_AMQP_MAX_REDELIVERIES

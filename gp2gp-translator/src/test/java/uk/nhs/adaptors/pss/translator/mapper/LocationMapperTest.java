@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import lombok.SneakyThrows;
 
 public class LocationMapperTest {
-    private static final String XML_RESOURCES_BASE = "XML/Location/";
+    private static final String XML_RESOURCES_BASE = "xml/Location/";
     private static final String LOCATION_ID_EXTENSION = "-LOC";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
