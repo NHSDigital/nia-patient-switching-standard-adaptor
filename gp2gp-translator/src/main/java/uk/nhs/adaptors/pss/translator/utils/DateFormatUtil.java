@@ -68,6 +68,15 @@ public class DateFormatUtil {
         }
     }
 
+    public static Date parsePathwaysDate(String dateStr) {
+        try {
+            return Date.from(Instant.parse(dateStr));
+        } catch (DateTimeParseException exc) {
+            LocalDateTime parse = LocalDateTime.parse(dateStr);
+            return Date.from(Instant.from(parse.atZone(UK_ZONE_ID)));
+        }
+    }
+
     private DateFormat getFormat(String date) {
         if (containsOffset(date)) {
             return getFormatWithTimezone(date);

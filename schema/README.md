@@ -1,4 +1,3 @@
-
 # Schema module
 
 This module holds xsd schemas and java classes generated based on those schemas.
