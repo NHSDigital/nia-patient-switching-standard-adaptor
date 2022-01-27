@@ -3513,6 +3513,6 @@ public class ObjectFactory {
 
     @XmlElementDecl(namespace = "", name = "PlanStatement")
     public JAXBElement<RCMRMT030101UK04PlanStatement> createPlanStatement(RCMRMT030101UK04PlanStatement value) {
-        return new JAXBElement<RCMRMT030101UK04PlanStatement>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04PlanStatement.class, null, value);
+        return new JAXBElement<RCMRMT030101UK04PlanStatement>(_PLAN_STATEMENT_QNAME, RCMRMT030101UK04PlanStatement.class, null, value);
     }
 }

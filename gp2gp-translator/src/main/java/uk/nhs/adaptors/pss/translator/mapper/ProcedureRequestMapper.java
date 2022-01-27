@@ -9,7 +9,6 @@ import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CV;
-import org.hl7.v3.ED;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.TS;
@@ -17,15 +16,14 @@ import org.hl7.v3.TS;
 public class ProcedureRequestMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
-    private static final String PRIORITY_PREFIX = "Priority: ";
-    private static final String ACTION_DATE_PREFIX = "Action Date: ";
 
     public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04PlanStatement planStatement) {
         var id = planStatement.getId().getRoot();
         var identifier = getIdentifier(id);
-        var note = getNote(planStatement);
+        var note = getNote(planStatement.getText());
         var reasonCode = new CodeableConceptMapper().mapToCodeableConcept(planStatement.getCode());
         var authoredOn = getAuthoredOn(planStatement.getAvailabilityTime());
+        var occurrence = getOccurenceDate(planStatement.getEffectiveTime());
 
         /**
          * TODO: Implement future referencing
@@ -33,7 +31,7 @@ public class ProcedureRequestMapper {
          * - context: references an encounter resource if it has been generated from the ehrComposition
          */
 
-        return createProcedureRequest(id, identifier, note, reasonCode, authoredOn);
+        return createProcedureRequest(id, identifier, note, reasonCode, authoredOn, occurrence);
     }
 
     private Identifier getIdentifier(String id) {
@@ -43,41 +41,13 @@ public class ProcedureRequestMapper {
         return identifier;
     }
 
-    private Annotation getNote(RCMRMT030101UK04PlanStatement planStatement) {
-        var priority = getPriority(planStatement.getPriorityCode());
-        var actionDate = getActionDate(planStatement.getEffectiveTime());
-        var text = getText(planStatement.getText()); // TODO: Add value to ED class
-
-        var note = new Annotation();
-        note.setText(priority + actionDate + text);
-
-        return note;
-    }
-
-    private String getPriority(CV priorityCode) {
-        if (priorityCode != null) {
-            var originalText = priorityCode.getOriginalText();
-            var displayName = priorityCode.getDisplayName();
-
-            if (StringUtils.isNotEmpty(originalText)) {
-                return PRIORITY_PREFIX + originalText + StringUtils.LF;
-            } else if (StringUtils.isNotEmpty(displayName)) {
-                return PRIORITY_PREFIX + displayName + StringUtils.LF;
-            }
-        }
-        return StringUtils.EMPTY;
-    }
-
-    private String getActionDate(IVLTS effectiveTime) {
-        if (effectiveTime != null && effectiveTime.getCenter() != null) {
-            return ACTION_DATE_PREFIX + effectiveTime.getCenter().getValue() + StringUtils.LF; // TODO convert to Instant
+    private Annotation getNote(String text) {
+        if (StringUtils.isNotEmpty(text)) {
+            var note = new Annotation();
+            return note.setText(text.trim()); // TODO: check how to deal with line breaks
         }
 
-        return StringUtils.EMPTY;
-    }
-
-    private String getText(ED text) {
-        return StringUtils.EMPTY;
+        return null;
     }
 
     private String getAuthoredOn(TS availabilityTime) {
@@ -88,14 +58,22 @@ public class ProcedureRequestMapper {
         return null;
     }
 
-    private ProcedureRequest createProcedureRequest(String id, Identifier identifier, Annotation note, CodeableConcept reasonCode,
-                                                    String authoredOn) {
-        var procedureRequest = new ProcedureRequest();
+    private String getOccurenceDate(IVLTS effectiveTime) {
+        if (effectiveTime != null && effectiveTime.getCenter() != null) {
+            return effectiveTime.getCenter().getValue();
+        }
 
+        return null;
+    }
+
+    private ProcedureRequest createProcedureRequest(String id, Identifier identifier, Annotation note, CodeableConcept reasonCode,
+                                                    String authoredOn, String occurrence) {
+        var procedureRequest = new ProcedureRequest();
         procedureRequest
-                .setStatus(ProcedureRequestStatus.UNKNOWN)
-                .setIntent(ProcedureRequestIntent.ORDER)
+                .setStatus(ProcedureRequestStatus.ACTIVE)
+                .setIntent(ProcedureRequestIntent.PLAN)
 //                .setAuthoredOn(authoredOn) needs DateUtil story for String -> Date
+//                .setOccurrence(occurrence) needs formatted appropriately with same story ^
                 .setId(id);
         procedureRequest.getMeta().getProfile().add(new UriType(META_PROFILE));
         procedureRequest.getIdentifier().add(identifier);
