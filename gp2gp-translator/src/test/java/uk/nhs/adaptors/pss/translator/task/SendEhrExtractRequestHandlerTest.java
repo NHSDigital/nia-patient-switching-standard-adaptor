@@ -30,7 +30,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.RequestStatus;
-import uk.nhs.adaptors.pss.translator.config.ApplicationConfiguration;
+import uk.nhs.adaptors.pss.translator.config.GeneralProperties;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
@@ -53,7 +53,7 @@ public class SendEhrExtractRequestHandlerTest {
     private Message message;
 
     @Mock
-    private ApplicationConfiguration applicationConfiguration;
+    private GeneralProperties generalProperties;
 
     @Mock
     private WebClient.RequestHeadersSpec request;
@@ -83,7 +83,7 @@ public class SendEhrExtractRequestHandlerTest {
         when(message.getBody(String.class)).thenReturn("MESSAGE_BODY");
         when(fhirParser.parseResource(message.getBody(String.class), Parameters.class))
             .thenReturn(createValidParametersResource(TEST_NHS_NUMBER));
-        when(applicationConfiguration.getFromOdsCode()).thenReturn(TEST_FROM_ODS_CODE);
+        when(generalProperties.getFromOdsCode()).thenReturn(TEST_FROM_ODS_CODE);
         when(ehrExtractRequestService.buildEhrExtractRequest(TEST_NHS_NUMBER, TEST_FROM_ODS_CODE)).thenReturn(TEST_PAYLOAD_BODY);
         when(builder.buildSendEhrExtractRequest(anyString(), anyString(), any(OutboundMessage.class))).thenReturn(request);
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(OffsetDateTime.MIN);

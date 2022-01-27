@@ -38,6 +38,7 @@ services:
       - MHS_AMQP_USERNAME
       - MHS_AMQP_PASSWORD
       - MHS_AMQP_MAX_REDELIVERIES
+      - MHS_OUTBOUND_URL=http://mhs-adaptor-mock/mhs/outbound
     networks:
       - ps-network
 

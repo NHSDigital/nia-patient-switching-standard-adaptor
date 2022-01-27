@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.RequestStatus;
-import uk.nhs.adaptors.pss.translator.config.ApplicationConfiguration;
+import uk.nhs.adaptors.pss.translator.config.GeneralProperties;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
@@ -33,7 +33,7 @@ public class SendEhrExtractRequestHandler {
     private final EhrExtractRequestService ehrExtractRequestService;
     private final MhsRequestBuilder requestBuilder;
     private final MhsClientService mhsClientService;
-    private final ApplicationConfiguration applicationConfiguration;
+    private final GeneralProperties generalProperties;
     private final PatientMigrationRequestDao patientMigrationRequestDao;
     private final MigrationStatusLogDao migrationStatusLogDao;
     private final DateUtils dateUtils;
@@ -44,7 +44,7 @@ public class SendEhrExtractRequestHandler {
 
         String conversationId = UUID.randomUUID().toString();
         String nhsNumber = ParametersUtils.getNhsNumberFromParameters(parsedParameters).get().getValue();
-        String fromOdsCode = applicationConfiguration.getFromOdsCode();
+        String fromOdsCode = generalProperties.getFromOdsCode();
 
         String ehrExtractRequest = ehrExtractRequestService.buildEhrExtractRequest(
             nhsNumber,
