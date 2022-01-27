@@ -2,28 +2,29 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.pss.translator.utils.IsoDateTimeFormatter.toIsoDateTimeString;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
-import java.time.format.DateTimeParseException;
-import java.util.Date;
 import java.util.stream.Stream;
 
+import org.hl7.v3.IVLTS;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.runner.RunWith;
 
-import junitparams.JUnitParamsRunner;
+import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.utils.DateFormatUtil;
 
-@RunWith(JUnitParamsRunner.class)
+
 public class DateUtilTest {
+    private static final String XML_RESOURCES_BASE = "xml/DateFormat/";
+
     @ParameterizedTest(name = "parseDate")
     @MethodSource("dates")
-    public void shouldParseForCorrectDateFormat(String inputString, String expectedDate) {
-        assertThat(DateFormatUtil.parse(inputString).asStringValue()).isEqualTo(expectedDate);
+    public void shouldParseForCorrectDateFormat(String inputDate, String expectedDate) {
+        assertThat(DateFormatUtil.parse(inputDate).asStringValue()).isEqualTo(expectedDate);
     }
 
     @ParameterizedTest(name = "parseDateToInstantType")
@@ -44,96 +45,43 @@ public class DateUtilTest {
         assertThrows(IllegalStateException.class, () -> DateFormatUtil.parse(dateAsString));
     }
 
-    @Test
-    public void shouldThrowExceptionForWrongPathwaysDateFormat() {
-        String dateAsString = "30/01/2020";
-        assertThrows(DateTimeParseException.class, () -> DateFormatUtil.parsePathwaysDate(dateAsString));
-    }
-
-    @ParameterizedTest(name = "parsePathwaysDate")
-    @MethodSource("pathwaysDates")
-    public void shouldParsePathwaysDateFormatCorrectly(String inputString, String parsedDate) {
-        Date pathwaysDate = DateFormatUtil.parsePathwaysDate(inputString);
-        assertThat(toIsoDateTimeString(pathwaysDate)).isEqualTo(parsedDate);
-    }
-
     private static Stream<Arguments> dates() {
         return Stream.of(
             Arguments.of(
-                "2011",
+                unmarshallDateElement("Year.xml"),
                 "2011"
             ),
             Arguments.of(
-                "201502",
+                unmarshallDateElement("YearMonth.xml"),
                 "2015-02"
             ),
             Arguments.of(
-                "201504",
-                "2015-04"
-            ),
-            Arguments.of(
-                "20170322",
+                unmarshallDateElement("YearMonthDay.xml"),
                 "2017-03-22"
             ),
             Arguments.of(
-                "20170422",
-                "2017-04-22"
-            ),
-            Arguments.of(
-                "2018072518",
+                unmarshallDateElement("Hour.xml"),
                 "2018-07-25T17:00:00+00:00"
             ),
             Arguments.of(
-                "201812251820",
+                unmarshallDateElement("HourMinute.xml"),
                 "2018-12-25T18:20:00+00:00"
             ),
             Arguments.of(
-                "20180725182021",
-                "2018-07-25T17:20:21+00:00"
-            ),
-            Arguments.of(
-                "20180625182021+01",
+                unmarshallDateElement("DateTimeWithPositiveTimezone.xml"),
                 "2018-06-25T17:20:21+00:00"
             ),
             Arguments.of(
-                "201801251820+00",
-                "2018-01-25T18:20:00+00:00"
-            ),
-            Arguments.of(
-                "2019072518+01",
-                "2019-07-25T17:00:00+00:00"
-            ),
-            Arguments.of(
-                "20170725182021+0100",
-                "2017-07-25T17:20:21+00:00"
-            ),
-            Arguments.of(
-                "20200725182021-0400",
+                unmarshallDateElement("DateTimeWithNegativeTimezone.xml"),
                 "2020-07-25T22:20:21+00:00"
             ),
             Arguments.of(
-                "20170725182021+0130",
-                "2017-07-25T16:50:21+00:00"
-            ),
-            Arguments.of(
-                "201802251820+0100",
-                "2018-02-25T17:20:00+00:00"
-            ),
-            Arguments.of(
-                "2019122518-0100",
-                "2019-12-25T19:00:00+00:00"
-            ),
-            Arguments.of(
-                "20040225120530.055",
+                unmarshallDateElement("DateTimeWithDot.xml"),
                 "2004-02-25T12:05:30.055+00:00"
             ),
             Arguments.of(
-                "20030625120530.055+03",
+                unmarshallDateElement("DateTimeWithDotPositiveTimezone.xml"),
                 "2003-06-25T09:05:30.055+00:00"
-            ),
-            Arguments.of(
-                "20050625120530.055+0300",
-                "2005-06-25T09:05:30.055+00:00"
             )
         );
     }
@@ -141,114 +89,50 @@ public class DateUtilTest {
     private static Stream<Arguments> datesToInstant() {
         return Stream.of(
             Arguments.of(
-                "2011",
+                unmarshallDateElement("Year.xml"),
                 "2011-01-01T00:00:00.000+00:00"
             ),
             Arguments.of(
-                "201502",
+                unmarshallDateElement("YearMonth.xml"),
                 "2015-02-01T00:00:00.000+00:00"
             ),
             Arguments.of(
-                "201504",
-                "2015-04-01T00:00:00.000+00:00"
-            ),
-            Arguments.of(
-                "20170322",
+                unmarshallDateElement("YearMonthDay.xml"),
                 "2017-03-22T00:00:00.000+00:00"
             ),
             Arguments.of(
-                "20170422",
-                "2017-04-22T00:00:00.000+00:00"
-            ),
-            Arguments.of(
-                "2018072518",
+                unmarshallDateElement("Hour.xml"),
                 "2018-07-25T17:00:00.000+00:00"
             ),
             Arguments.of(
-                "201812251820",
+                unmarshallDateElement("HourMinute.xml"),
                 "2018-12-25T18:20:00.000+00:00"
             ),
             Arguments.of(
-                "20180725182021",
+                unmarshallDateElement("HourMinuteSecond.xml"),
                 "2018-07-25T17:20:21.000+00:00"
             ),
             Arguments.of(
-                "20180625182021+01",
+                unmarshallDateElement("DateTimeWithPositiveTimezone.xml"),
                 "2018-06-25T17:20:21.000+00:00"
             ),
             Arguments.of(
-                "201801251820+00",
-                "2018-01-25T18:20:00.000+00:00"
-            ),
-            Arguments.of(
-                "2019072518+01",
-                "2019-07-25T17:00:00.000+00:00"
-            ),
-            Arguments.of(
-                "20170725182021+0100",
-                "2017-07-25T17:20:21.000+00:00"
-            ),
-            Arguments.of(
-                "20200725182021-0400",
+                unmarshallDateElement("DateTimeWithNegativeTimezone.xml"),
                 "2020-07-25T22:20:21.000+00:00"
             ),
             Arguments.of(
-                "20170725182021+0130",
-                "2017-07-25T16:50:21.000+00:00"
-            ),
-            Arguments.of(
-                "201802251820+0100",
-                "2018-02-25T17:20:00.000+00:00"
-            ),
-            Arguments.of(
-                "2019122518-0100",
-                "2019-12-25T19:00:00.000+00:00"
-            ),
-            Arguments.of(
-                "20040225120530.055",
+                unmarshallDateElement("DateTimeWithDot.xml"),
                 "2004-02-25T12:05:30.055+00:00"
             ),
             Arguments.of(
-                "20030625120530.055+03",
+                unmarshallDateElement("DateTimeWithDotPositiveTimezone.xml"),
                 "2003-06-25T09:05:30.055+00:00"
-            ),
-            Arguments.of(
-                "20050625120530.055+0300",
-                "2005-06-25T09:05:30.055+00:00"
             )
         );
     }
 
-    private static Stream<Arguments> pathwaysDates() {
-        return Stream.of(
-            Arguments.of(
-                "2011-02-17T17:31:14.313+01:00",
-                "2011-02-17T16:31:14.313Z"
-            ),
-            Arguments.of(
-                "2015-06-11T16:22:44.959Z",
-                "2015-06-11T16:22:44.959Z"
-            ),
-            Arguments.of(
-                "2017-01-22T03:21:33.443+00:00",
-                "2017-01-22T03:21:33.443Z"
-            ),
-            Arguments.of(
-                "2018-07-24T18:51:41.854-07:00",
-                "2018-07-25T01:51:41.854Z"
-            ),
-            Arguments.of(
-                "2018-07-24T18:51:41.854",
-                "2018-07-24T17:51:41.854Z"
-            ),
-            Arguments.of(
-                "2018-07-24T18:51:41",
-                "2018-07-24T17:51:41.000Z"
-            ),
-            Arguments.of(
-                "2018-01-24T18:51:41.854",
-                "2018-01-24T18:51:41.854Z"
-            )
-        );
+    @SneakyThrows
+    private static String unmarshallDateElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), IVLTS.class).getCenter().getValue();
     }
 }
