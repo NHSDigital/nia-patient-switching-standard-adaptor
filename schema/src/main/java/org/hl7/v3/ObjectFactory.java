@@ -1782,7 +1782,7 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link RCMRMT030101UK04EhrExtract }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "EhrExtract")
+    @XmlElementDecl(namespace = "", name = "EhrExtract")
     public JAXBElement<RCMRMT030101UK04EhrExtract> createEhrExtract(RCMRMT030101UK04EhrExtract value) {
         return new JAXBElement<RCMRMT030101UK04EhrExtract>(_EhrExtract_QNAME, RCMRMT030101UK04EhrExtract.class, null, value);
     }
@@ -3509,10 +3509,5 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "ehrComposition")
     public JAXBElement<RCMRMT030101UK04EhrComposition> createEhrComposition(RCMRMT030101UK04EhrComposition value) {
         return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
-    }
-
-    @XmlElementDecl(namespace = "", name = "EhrExtract")
-    public JAXBElement<RCMRMT030101UK04EhrExtract> createPlanStatement(RCMRMT030101UK04EhrExtract value) {
-        return new JAXBElement<RCMRMT030101UK04EhrExtract>(_EhrExtract_QNAME, RCMRMT030101UK04EhrExtract.class, null, value);
     }
 }

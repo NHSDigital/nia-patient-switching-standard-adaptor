@@ -5,7 +5,7 @@
         <ehrFolder classCode="FOLDER" moodCode="EVN">
             <component typeCode="COMP">
                 <ehrComposition classCode="COMPOSITION" moodCode="EVN">
-                    <availabilityTime value="20190708143500"/>
+<!--                    <availabilityTime value="20190708143500"/>-->
                     <Participant2 typeCode="PRF" contextControlCode="OP">
                         <agentRef classCode="AGNT">
                             <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
@@ -23,7 +23,7 @@
                             <effectiveTime>
                                 <center value="20221117"/>
                             </effectiveTime>
-                            <availabilityTime value="20201117133032"/>
+<!--                            <availabilityTime value="20201117133032"/>-->
                             <Participant typeCode="PRF" contextControlCode="OP">
                                 <agentRef classCode="AGNT">
                                     <id root="8D1610C2-5E48-4ED5-882B-5A4A172AFA35"/>
