@@ -52,6 +52,20 @@ services:
     networks:
       - ps-network
 
+  db_migration:
+    build:
+      context: ../
+      dockerfile: ./docker/db-migration/Dockerfile
+    environment:
+      - POSTGRES_PASSWORD
+      - PS_DB_OWNER_NAME
+      - PS_DB_OWNER_PASSWORD
+      - PS_DB_URL
+      - GPC_FACADE_USER_DB_PASSWORD
+      - GP2GP_TRANSLATOR_USER_DB_PASSWORD
+    networks:
+      - ps-network
+
   mhs-adaptor-mock:
     build: ./mhs-adaptor-mock
     ports:
