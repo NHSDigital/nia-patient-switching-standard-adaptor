@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.amqp;
 
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 
@@ -25,15 +24,11 @@ public class PssQueueConsumer {
     public void receive(Message message) {
         String messageId = message.getJMSMessageID();
         LOGGER.debug("Received a message from PSSQueue, message_id=[{}], body=[{}]", messageId, ((TextMessage) message).getText());
-        try {
-            if (queueMessageHandler.handle(message)) {
-                message.acknowledge();
-                LOGGER.debug("Acknowledged PSSQueue message_id=[{}]", messageId);
-            } else {
-                LOGGER.debug("Leaving Message of message_id=[{}] on the PSSQueue", messageId);
-            }
-        } catch (JMSException e) {
-            LOGGER.error("Error while processing PSSQueue message_id=[{}]", messageId, e);
+        if (queueMessageHandler.handle(message)) {
+            message.acknowledge();
+            LOGGER.debug("Acknowledged PSSQueue message_id=[{}]", messageId);
+        } else {
+            LOGGER.debug("Leaving Message of message_id=[{}] on the PSSQueue", messageId);
         }
     }
 }
