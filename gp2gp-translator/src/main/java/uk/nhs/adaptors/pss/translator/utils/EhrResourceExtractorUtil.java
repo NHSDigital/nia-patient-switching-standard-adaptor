@@ -29,9 +29,7 @@ public class EhrResourceExtractorUtil {
     private static boolean filterForMatchingEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
         return ehrComposition.getComponent()
                 .stream()
-                .filter(component -> validPlanStatement(component, resourceId))
-                .findFirst()
-                .isPresent();
+                .anyMatch(component -> validPlanStatement(component, resourceId));
     }
 
     private static boolean validPlanStatement(RCMRMT030101UK04Component4 component, II resourceId) {
