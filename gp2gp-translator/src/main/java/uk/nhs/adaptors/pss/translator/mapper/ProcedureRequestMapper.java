@@ -8,8 +8,8 @@ import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.UriType;
-import org.hl7.v3.CV;
 import org.hl7.v3.IVLTS;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.TS;
 
@@ -17,12 +17,13 @@ public class ProcedureRequestMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
 
-    public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04PlanStatement planStatement) {
+    public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04PlanStatement planStatement) {
+
         var id = planStatement.getId().getRoot();
         var identifier = getIdentifier(id);
         var note = getNote(planStatement.getText());
         var reasonCode = new CodeableConceptMapper().mapToCodeableConcept(planStatement.getCode());
-        var authoredOn = getAuthoredOn(planStatement.getAvailabilityTime());
+        var authoredOn = getAuthoredOn(ehrExtract, planStatement.getAvailabilityTime());
         var occurrence = getOccurenceDate(planStatement.getEffectiveTime());
 
         /**
@@ -50,7 +51,7 @@ public class ProcedureRequestMapper {
         return null;
     }
 
-    private String getAuthoredOn(TS availabilityTime) {
+    private String getAuthoredOn(RCMRMT030101UK04EhrExtract ehrExtract, TS availabilityTime) {
         if (availabilityTime != null) {
             return availabilityTime.getValue();
         }

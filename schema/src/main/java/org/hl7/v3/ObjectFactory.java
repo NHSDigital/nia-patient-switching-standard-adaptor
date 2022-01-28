@@ -3511,8 +3511,8 @@ public class ObjectFactory {
         return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "", name = "PlanStatement")
-    public JAXBElement<RCMRMT030101UK04PlanStatement> createPlanStatement(RCMRMT030101UK04PlanStatement value) {
-        return new JAXBElement<RCMRMT030101UK04PlanStatement>(_PLAN_STATEMENT_QNAME, RCMRMT030101UK04PlanStatement.class, null, value);
+    @XmlElementDecl(namespace = "", name = "EhrExtract")
+    public JAXBElement<RCMRMT030101UK04EhrExtract> createPlanStatement(RCMRMT030101UK04EhrExtract value) {
+        return new JAXBElement<RCMRMT030101UK04EhrExtract>(_EhrExtract_QNAME, RCMRMT030101UK04EhrExtract.class, null, value);
     }
 }
