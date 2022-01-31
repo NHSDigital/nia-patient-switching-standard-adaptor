@@ -80,7 +80,6 @@ public class ObjectFactory {
     private final static QName _CD_QNAME = new QName("urn:hl7-org:v3", "code");
     private final static QName _VALUE_QNAME = new QName("urn:hl7-org:v3", "value");
     private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
-    private final static QName _PLAN_STATEMENT_QNAME = new QName("urn:hl7-org:v3", "PlanStatement");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
