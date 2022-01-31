@@ -19,6 +19,7 @@ import org.hl7.v3.RCMRMT030101UK04Participant;
 import org.hl7.v3.RCMRMT030101UK04Participant2;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.TS;
+
 import uk.nhs.adaptors.pss.translator.utils.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.utils.EhrResourceExtractorUtil;
 
@@ -56,8 +57,8 @@ public class ProcedureRequestMapper {
 
     private Identifier getIdentifier(String id) {
         Identifier identifier = new Identifier()
-                .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL
-                .setValue(id);
+            .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL
+            .setValue(id);
         return identifier;
     }
 
@@ -94,11 +95,11 @@ public class ProcedureRequestMapper {
     }
 
     private Reference getAgentReference(List<RCMRMT030101UK04Participant> participantList, RCMRMT030101UK04EhrExtract ehrExtract,
-                                        II planStatementID) {
+        II planStatementID) {
         Reference reference = new Reference();
         var nonNullFlavorParticipants = participantList.stream()
-                .filter(this::isNotNullFlavour)
-                .collect(Collectors.toList());
+            .filter(this::isNotNullFlavour)
+            .collect(Collectors.toList());
 
         var pprfParticipants = getParticipantReference(nonNullFlavorParticipants, PPRF_PERFORMER);
         if (pprfParticipants.isPresent()) {
@@ -153,7 +154,7 @@ public class ProcedureRequestMapper {
     }
 
     private ProcedureRequest createProcedureRequest(String id, Identifier identifier, Annotation note, CodeableConcept reasonCode,
-                                                    Date authoredOn, DateTimeType occurrence, Reference agentReference) {
+        Date authoredOn, DateTimeType occurrence, Reference agentReference) {
         var procedureRequest = new ProcedureRequest();
         procedureRequest
             .setStatus(ProcedureRequestStatus.ACTIVE)

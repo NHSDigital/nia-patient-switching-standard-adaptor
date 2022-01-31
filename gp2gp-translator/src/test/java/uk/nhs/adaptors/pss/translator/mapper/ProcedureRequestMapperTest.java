@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import lombok.SneakyThrows;
+
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -8,10 +9,12 @@ import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
 import org.junit.jupiter.api.Test;
+
 import uk.nhs.adaptors.pss.translator.utils.DateFormatUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.ResourceUtils.getFile;
+
 import static uk.nhs.adaptors.pss.translator.testutil.XmlUnmarshallUtil.unmarshallFile;
 
 public class ProcedureRequestMapperTest {
@@ -31,11 +34,11 @@ public class ProcedureRequestMapperTest {
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getNoteFirstRep().getText()).isEqualTo(planStatement.getText());
         assertThat(procedureRequest.getOccurrenceDateTimeType().getValue()).isEqualTo(
-                DateFormatUtil.parse(planStatement.getEffectiveTime().getCenter().getValue()).getValue());
+            DateFormatUtil.parse(planStatement.getEffectiveTime().getCenter().getValue()).getValue());
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
-                DateFormatUtil.parse(planStatement.getAvailabilityTime().getValue()).getValue());
+            DateFormatUtil.parse(planStatement.getAvailabilityTime().getValue()).getValue());
         assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
-                planStatement.getCode().getDisplayName());
+            planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getRequester().getAgent().getReference()).isEqualTo("8D1610C2-5E48-4ED5-882B-5A4A172AFA35");
     }
 
@@ -61,7 +64,7 @@ public class ProcedureRequestMapperTest {
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
-                planStatement.getCode().getDisplayName());
+            planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getRequester().getAgent().getReference()).isEqualTo("9C1610C2-5E48-4ED5-882B-5A4A172AFA35");
     }
 
@@ -74,7 +77,7 @@ public class ProcedureRequestMapperTest {
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
-                planStatement.getCode().getDisplayName());
+            planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getRequester().getAgent().getReference()).isEqualTo("2D70F602-6BB1-47E0-B2EC-39912A59787D");
     }
 
@@ -88,9 +91,9 @@ public class ProcedureRequestMapperTest {
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
-                DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue()).getValue());
+            DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue()).getValue());
         assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
-                planStatement.getCode().getDisplayName());
+            planStatement.getCode().getDisplayName());
     }
 
     @Test
@@ -102,9 +105,9 @@ public class ProcedureRequestMapperTest {
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
-                DateFormatUtil.parse(ehrExtract.getAvailabilityTime().getValue()).getValue());
+            DateFormatUtil.parse(ehrExtract.getAvailabilityTime().getValue()).getValue());
         assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
-                planStatement.getCode().getDisplayName());
+            planStatement.getCode().getDisplayName());
     }
 
     private void assertFixedValues(RCMRMT030101UK04PlanStatement planStatement, ProcedureRequest procedureRequest) {
@@ -118,15 +121,15 @@ public class ProcedureRequestMapperTest {
 
     private RCMRMT030101UK04PlanStatement getPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0)
-                .getEhrFolder().getComponent().get(0)
-                .getEhrComposition().getComponent().get(0)
-                .getPlanStatement();
+            .getEhrFolder().getComponent().get(0)
+            .getEhrComposition().getComponent().get(0)
+            .getPlanStatement();
     }
 
     private RCMRMT030101UK04EhrComposition getEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0)
-                .getEhrFolder().getComponent().get(0)
-                .getEhrComposition();
+            .getEhrFolder().getComponent().get(0)
+            .getEhrComposition();
     }
 
     @SneakyThrows
