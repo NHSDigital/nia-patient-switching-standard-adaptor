@@ -15,7 +15,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.testutil.XmlUnmarshallUtil.unmarshallFile;
 
 public class ProcedureRequestMapperTest {
-    private static final String XML_RESOURCES_BASE = "XML/ProcedureRequest/";
+    private static final String XML_RESOURCES_BASE = "xml/ProcedureRequest/";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
 

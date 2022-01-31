@@ -15,22 +15,22 @@ public class EhrResourceExtractorUtil {
     public static RCMRMT030101UK04EhrComposition extractEhrCompositionForPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract,
                                                                                        II resourceId) {
         return ehrExtract.getComponent()
-                .stream()
-                .filter(component -> hasEhrFolder(component))
-                .map(RCMRMT030101UK04Component::getEhrFolder)
-                .map(RCMRMT030101UK04EhrFolder::getComponent)
-                .flatMap(List::stream)
-                .filter(component -> hasEhrComposition(component))
-                .map(RCMRMT030101UK04Component3::getEhrComposition)
-                .filter(ehrComposition -> filterForMatchingEhrComposition(ehrComposition, resourceId))
-                .findFirst()
-                .get();
+            .stream()
+            .filter(EhrResourceExtractorUtil::hasEhrFolder)
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .filter(EhrResourceExtractorUtil::hasEhrComposition)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .filter(ehrComposition -> filterForMatchingEhrComposition(ehrComposition, resourceId))
+            .findFirst()
+            .get();
     }
 
     private static boolean filterForMatchingEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
         return ehrComposition.getComponent()
-                .stream()
-                .anyMatch(component -> validPlanStatement(component, resourceId));
+            .stream()
+            .anyMatch(component -> validPlanStatement(component, resourceId));
     }
 
     private static boolean validPlanStatement(RCMRMT030101UK04Component4 component, II resourceId) {

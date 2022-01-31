@@ -97,7 +97,7 @@ public class ProcedureRequestMapper {
                                         II planStatementID) {
         Reference reference = new Reference();
         var nonNullFlavorParticipants = participantList.stream()
-                .filter(participant -> isNotNullFlavour(participant))
+                .filter(this::isNotNullFlavour)
                 .collect(Collectors.toList());
 
         var pprfParticipants = getParticipantReference(nonNullFlavorParticipants, PPRF_PERFORMER);
@@ -123,21 +123,21 @@ public class ProcedureRequestMapper {
 
     private Optional<String> getParticipantReference(List<RCMRMT030101UK04Participant> participantList, String typeCode) {
         return participantList.stream()
-                .filter(participant -> hasTypeCode(participant, typeCode))
-                .filter(participant -> hasAgentReference(participant))
-                .map(RCMRMT030101UK04Participant::getAgentRef)
-                .map(RCMRMT030101UK04AgentRef::getId)
-                .map(II::getRoot)
-                .findFirst();
+            .filter(participant -> hasTypeCode(participant, typeCode))
+            .filter(this::hasAgentReference)
+            .map(RCMRMT030101UK04Participant::getAgentRef)
+            .map(RCMRMT030101UK04AgentRef::getId)
+            .map(II::getRoot)
+            .findFirst();
     }
 
     private Optional<String> getParticipant2Reference(RCMRMT030101UK04EhrComposition ehrComposition) {
         return ehrComposition.getParticipant2().stream()
-                .filter(participant2 -> participant2.getNullFlavor() == null)
-                .map(RCMRMT030101UK04Participant2::getAgentRef)
-                .map(RCMRMT030101UK04AgentRef::getId)
-                .map(II::getRoot)
-                .findFirst();
+            .filter(participant2 -> participant2.getNullFlavor() == null)
+            .map(RCMRMT030101UK04Participant2::getAgentRef)
+            .map(RCMRMT030101UK04AgentRef::getId)
+            .map(II::getRoot)
+            .findFirst();
     }
 
     private boolean hasAgentReference(RCMRMT030101UK04Participant participant) {
@@ -145,7 +145,7 @@ public class ProcedureRequestMapper {
     }
 
     private boolean hasTypeCode(RCMRMT030101UK04Participant participant, String typeCode) {
-        return participant.getTypeCode().get(0).equals(typeCode);
+        return participant.getTypeCode() != null && participant.getTypeCode().get(0).equals(typeCode);
     }
 
     private boolean isNotNullFlavour(RCMRMT030101UK04Participant participant) {
@@ -156,11 +156,11 @@ public class ProcedureRequestMapper {
                                                     Date authoredOn, DateTimeType occurrence, Reference agentReference) {
         var procedureRequest = new ProcedureRequest();
         procedureRequest
-                .setStatus(ProcedureRequestStatus.ACTIVE)
-                .setIntent(ProcedureRequestIntent.PLAN)
-                .setAuthoredOn(authoredOn)
-                .setOccurrence(occurrence)
-                .setId(id);
+            .setStatus(ProcedureRequestStatus.ACTIVE)
+            .setIntent(ProcedureRequestIntent.PLAN)
+            .setAuthoredOn(authoredOn)
+            .setOccurrence(occurrence)
+            .setId(id);
         procedureRequest.getMeta().getProfile().add(new UriType(META_PROFILE));
         procedureRequest.getIdentifier().add(identifier);
         procedureRequest.getNote().add(note);
