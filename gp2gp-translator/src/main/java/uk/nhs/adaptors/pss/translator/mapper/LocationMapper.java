@@ -41,7 +41,7 @@ public class LocationMapper {
 
     private Identifier getIdentifier(String id) {
         Identifier identifier = new Identifier()
-                .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL
+                .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
                 .setValue(id);
         return identifier;
     }

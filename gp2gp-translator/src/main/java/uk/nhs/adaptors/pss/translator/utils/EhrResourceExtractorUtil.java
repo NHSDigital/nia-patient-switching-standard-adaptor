@@ -12,7 +12,8 @@ import java.util.List;
 
 public class EhrResourceExtractorUtil {
 
-    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract, II resourceId) {
+    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract,
+                                                                                       II resourceId) {
         return ehrExtract.getComponent()
                 .stream()
                 .filter(component -> hasEhrFolder(component))
