@@ -116,7 +116,7 @@ public class ProcedureRequestMapper {
             return reference.setReference(participant2Reference.get());
         }
 
-        // TODO: if none of these are present, then we should reference an 'Unknown User' Practitioner (NIAD-XXXX)
+        // TODO: if none of these are present, then we should reference an 'Unknown User' Practitioner (NIAD-2026)
 
         return reference;
     }
