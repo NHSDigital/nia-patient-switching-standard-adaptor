@@ -21,9 +21,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.connector.model.RequestStatus;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.pss.gpc.service.FhirParser;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -40,6 +41,9 @@ public class PatientTransferControllerIT {
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
+
+    @Autowired
+    private MigrationStatusLogDao migrationStatusLogDao;
 
     @Autowired
     private FhirParser fhirParser;
@@ -62,7 +66,7 @@ public class PatientTransferControllerIT {
             .andExpect(status().isAccepted());
 
         var migrationRequestAfterFirstRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
-        verifyPatientMigrationRequest(migrationRequestAfterFirstRequest, RequestStatus.RECEIVED);
+        verifyPatientMigrationRequest(migrationRequestAfterFirstRequest, MigrationStatus.REQUEST_RECEIVED);
     }
 
     @Test
@@ -86,7 +90,7 @@ public class PatientTransferControllerIT {
             .andExpect(status().isNoContent());
 
         var migrationRequestAfterSecondRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
-        verifyPatientMigrationRequest(migrationRequestAfterSecondRequest, RequestStatus.RECEIVED);
+        verifyPatientMigrationRequest(migrationRequestAfterSecondRequest, MigrationStatus.REQUEST_RECEIVED);
     }
 
     @Test
@@ -173,9 +177,10 @@ public class PatientTransferControllerIT {
         return readResourceAsString(path).replace("{{nhsNumber}}", patientNhsNumber);
     }
 
-    private void verifyPatientMigrationRequest(PatientMigrationRequest patientMigrationRequest, RequestStatus status) {
+    private void verifyPatientMigrationRequest(PatientMigrationRequest patientMigrationRequest, MigrationStatus status) {
+        var migrationStatusLog = migrationStatusLogDao.getMigrationStatusLog(patientMigrationRequest.getId());
         assertThat(patientMigrationRequest).isNotNull();
-        assertThat(patientMigrationRequest.getRequestStatus()).isEqualTo(status);
+        assertThat(migrationStatusLog.getMigrationStatus()).isEqualTo(status);
     }
 
     private String generatePatientNhsNumber() {

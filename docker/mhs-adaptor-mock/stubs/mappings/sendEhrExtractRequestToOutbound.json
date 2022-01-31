@@ -1,0 +1,106 @@
+{
+    "mappings":[
+        {
+            "scenarioName": "CorrectRequest",
+            "request": {
+                "method": "POST",
+                "url": "/mhs/outbound",
+                "headers": {
+                    "Content-Type": {
+                        "equalTo": "application/json"
+                    },
+                    "Interaction-Id": {
+                        "equalTo": "RCMR_IN030000UK06"
+                    },
+                    "Ods-Code": {
+                        "matches": ".*"
+                    },
+                    "Wait-For-Response": {
+                        "equalTo": "false"
+                    }
+                },
+                "bodyPatterns": [
+                    { "matchesJsonPath": "$.payload" }
+                ]
+            },
+            "response": {
+                "status": 202,
+                "bodyFileName": "StubEbXmlResponse.xml",
+                "headers": {
+                    "Content-Type": "text/xml"
+                }
+            }
+        },
+        {
+            "scenarioName": "BadRequestNoWaitForResponse",
+            "request": {
+                "method": "POST",
+                "url": "/mhs/outbound",
+                "headers": {
+                    "Wait-For-Response": { "absent": true }
+                }
+            },
+            "response": {
+                "status": 400,
+                "bodyFileName": "InternalServerError.html",
+                "headers": {
+                    "Content-Type": "text/html"
+                }
+            }
+        },
+        {
+            "scenarioName": "BadRequestNoOdsCode",
+            "request": {
+                "method": "POST",
+                "url": "/mhs/outbound",
+                "headers": {
+                    "Ods-Code": { "absent": true }
+                }
+            },
+            "response": {
+                "status": 400,
+                "bodyFileName": "InternalServerError.html",
+                "headers": {
+                    "Content-Type": "text/html"
+                }
+            }
+        },
+        {
+            "scenarioName": "BadRequestInvalidWaitForResponse",
+            "request": {
+                "method": "POST",
+                "url": "/mhs/outbound",
+                "headers": {
+                    "Wait-For-Response": { "equalTo": "true" }
+                }
+            },
+            "response": {
+                "status": 400,
+                "bodyFileName": "InternalServerError.html",
+                "headers": {
+                    "Content-Type": "text/html"
+                }
+            }
+        },
+        {
+            "scenarioName": "NoPayloadRequest",
+            "request": {
+                "method": "POST",
+                "url": "/mhs/outbound",
+                "bodyPatterns":[{
+                    "matchesJsonPath": {
+                        "expression": "$.payload",
+                        "absent": true
+                    }
+                }]
+            },
+            "response": {
+                "status": 400,
+                "bodyFileName": "InternalServerError.html",
+                "headers": {
+                    "Content-Type": "text/html"
+                }
+            }
+        }
+    ]
+}
