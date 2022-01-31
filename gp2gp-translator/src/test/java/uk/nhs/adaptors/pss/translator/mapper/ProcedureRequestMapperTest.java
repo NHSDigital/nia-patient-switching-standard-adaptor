@@ -12,7 +12,7 @@ import uk.nhs.adaptors.pss.translator.utils.DateFormatUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.ResourceUtils.getFile;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+import static uk.nhs.adaptors.pss.translator.testutil.XmlUnmarshallUtil.unmarshallFile;
 
 public class ProcedureRequestMapperTest {
     private static final String XML_RESOURCES_BASE = "XML/ProcedureRequest/";
