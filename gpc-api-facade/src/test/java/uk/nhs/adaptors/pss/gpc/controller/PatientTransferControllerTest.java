@@ -4,10 +4,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-import static uk.nhs.adaptors.connector.model.RequestStatus.COMPLETED;
-import static uk.nhs.adaptors.connector.model.RequestStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
-import static uk.nhs.adaptors.connector.model.RequestStatus.EHR_EXTRACT_REQUEST_ERROR;
-import static uk.nhs.adaptors.connector.model.RequestStatus.RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ERROR;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 
 import java.time.OffsetDateTime;
 
@@ -21,7 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
-import uk.nhs.adaptors.connector.model.RequestStatus;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,7 +46,7 @@ public class PatientTransferControllerTest {
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsReceived() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(RECEIVED));
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(REQUEST_RECEIVED));
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(PARAMETERS);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -65,7 +65,7 @@ public class PatientTransferControllerTest {
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsCompleted() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(COMPLETED));
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS)).thenReturn(createMigrationStatusLog(MIGRATION_COMPLETED));
         when(patientTransferService.getEmptyBundle()).thenReturn(RESPONSE_BODY);
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(PARAMETERS);
@@ -82,10 +82,10 @@ public class PatientTransferControllerTest {
         assertThat(exception.getMessage()).isEqualTo("Unsupported transfer status: EHR_EXTRACT_REQUEST_ERROR");
     }
 
-    private MigrationStatusLog createMigrationStatusLog(RequestStatus status) {
+    private MigrationStatusLog createMigrationStatusLog(MigrationStatus status) {
         return MigrationStatusLog.builder()
             .id(1)
-            .requestStatus(status)
+            .migrationStatus(status)
             .date(OffsetDateTime.now())
             .migrationRequestId(1)
             .build();

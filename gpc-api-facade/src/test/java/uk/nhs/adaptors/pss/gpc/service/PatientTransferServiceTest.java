@@ -20,10 +20,10 @@ import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.connector.model.RequestStatus;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.connector.util.DateUtils;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 import uk.nhs.adaptors.pss.gpc.testutil.CreateParametersUtil;
-import uk.nhs.adaptors.pss.gpc.util.DateUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferServiceTest {
@@ -69,7 +69,7 @@ public class PatientTransferServiceTest {
         assertThat(patientMigrationRequest).isEqualTo(null);
         verify(pssQueuePublisher).sendToPssQueue(REQUEST_BODY);
         verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER);
-        verify(migrationStatusLogDao).addMigrationStatusLog(RequestStatus.RECEIVED.name(), now, migrationRequestId);
+        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId);
     }
 
     @Test
@@ -98,7 +98,7 @@ public class PatientTransferServiceTest {
     private MigrationStatusLog createMigrationStatusLog() {
         return MigrationStatusLog.builder()
             .id(1)
-            .requestStatus(RequestStatus.RECEIVED)
+            .migrationStatus(MigrationStatus.REQUEST_RECEIVED)
             .date(OffsetDateTime.now())
             .migrationRequestId(1)
             .build();

@@ -24,5 +24,26 @@
         <sql dbms="postgresql">
             GRANT SELECT, INSERT, UPDATE, DELETE ON migration_status_log TO application_user;
         </sql>
+
+        <dropColumn schemaName="public" tableName="patient_migration_request" columnName="status" />
+        <dropColumn schemaName="public" tableName="patient_migration_request" columnName="date" />
+
+        <addColumn schemaName="public" tableName="migration_status_log">
+            <column name="migration_request_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint constraintName="fk_migrationrequest2log"
+                                 baseTableName="migration_status_log"
+                                 baseColumnNames="migration_request_id"
+                                 referencedTableName="patient_migration_request"
+                                 referencedColumnNames="id"/>
+
+        <sql dbms="postgresql">
+            CREATE TRIGGER migration_status_log_if_modified_trigger
+            AFTER INSERT OR UPDATE OR DELETE ON public.migration_status_log
+            FOR EACH ROW EXECUTE PROCEDURE audit.create_audit_entry_function();
+        </sql>
     </changeSet>
 </databaseChangeLog>

@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.connector.model.RequestStatus;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.config.GeneralProperties;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
@@ -48,12 +48,12 @@ public class SendEhrExtractRequestHandler {
             mhsClientService.send(request);
         } catch (WebClientResponseException wcre) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", wcre.getMessage());
-            migrationStatusLogService.addMigrationStatusLog(RequestStatus.EHR_EXTRACT_REQUEST_ERROR, nhsNumber);
+            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.EHR_EXTRACT_REQUEST_ERROR, nhsNumber);
             return false;
         }
 
         LOGGER.info("Got response from MHS - 202 Accepted");
-        migrationStatusLogService.addMigrationStatusLog(RequestStatus.EHR_EXTRACT_REQUEST_ACCEPTED, nhsNumber);
+        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED, nhsNumber);
         return true;
     }
 }

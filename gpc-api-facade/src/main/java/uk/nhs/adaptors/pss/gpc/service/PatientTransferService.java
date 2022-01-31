@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.pss.gpc.service;
 
-import static uk.nhs.adaptors.connector.model.RequestStatus.RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -13,8 +13,8 @@ import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
+import uk.nhs.adaptors.connector.util.DateUtils;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
-import uk.nhs.adaptors.pss.gpc.util.DateUtils;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -36,7 +36,7 @@ public class PatientTransferService {
             patientMigrationRequestDao.addNewRequest(patientNhsNumber);
 
             int addedId = patientMigrationRequestDao.getMigrationRequestId(patientNhsNumber);
-            migrationStatusLogDao.addMigrationStatusLog(RECEIVED.name(), dateUtils.getCurrentOffsetDateTime(), addedId);
+            migrationStatusLogDao.addMigrationStatusLog(REQUEST_RECEIVED, dateUtils.getCurrentOffsetDateTime(), addedId);
         } else {
             return migrationStatusLogDao.getMigrationStatusLog(patientMigrationRequest.getId());
         }

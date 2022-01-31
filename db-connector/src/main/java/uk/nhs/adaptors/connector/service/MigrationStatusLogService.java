@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
-import uk.nhs.adaptors.connector.model.RequestStatus;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.util.DateUtils;
 
 @Slf4j
@@ -18,13 +18,13 @@ public class MigrationStatusLogService {
     private final MigrationStatusLogDao migrationStatusLogDao;
     private final DateUtils dateUtils;
 
-    public void addMigrationStatusLog(RequestStatus requestStatus, String nhsNumber) {
+    public void addMigrationStatusLog(MigrationStatus migrationStatus, String nhsNumber) {
         int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(nhsNumber);
         migrationStatusLogDao.addMigrationStatusLog(
-            requestStatus.name(),
+            migrationStatus,
             dateUtils.getCurrentOffsetDateTime(),
             migrationRequestId
         );
-        LOGGER.debug("Changed RequestStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, requestStatus.name());
+        LOGGER.debug("Changed RequestStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, migrationStatus.name());
     }
 }

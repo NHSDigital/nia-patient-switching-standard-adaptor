@@ -21,7 +21,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.connector.model.RequestStatus;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.config.GeneralProperties;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
@@ -70,7 +70,7 @@ public class SendEhrExtractRequestHandlerTest {
 
         assertTrue(isMessageSentSuccessfully);
         verify(migrationStatusLogService).addMigrationStatusLog(
-            RequestStatus.EHR_EXTRACT_REQUEST_ACCEPTED,
+            MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED,
             TEST_NHS_NUMBER
         );
     }
@@ -90,7 +90,7 @@ public class SendEhrExtractRequestHandlerTest {
 
         assertFalse(isMessageSentSuccessfully);
         verify(migrationStatusLogService).addMigrationStatusLog(
-            RequestStatus.EHR_EXTRACT_REQUEST_ERROR,
+            MigrationStatus.EHR_EXTRACT_REQUEST_ERROR,
             TEST_NHS_NUMBER
         );
     }

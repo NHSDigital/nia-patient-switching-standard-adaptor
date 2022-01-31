@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
-import uk.nhs.adaptors.connector.model.RequestStatus;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.util.DateUtils;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,8 +40,8 @@ public class MigrationStatusLogServiceTest {
         when(patientMigrationRequestDao.getMigrationRequestId(nhsNumber)).thenReturn(migrationRequestId);
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
 
-        migrationStatusLogService.addMigrationStatusLog(RequestStatus.COMPLETED, nhsNumber);
+        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, nhsNumber);
 
-        verify(migrationStatusLogDao).addMigrationStatusLog(RequestStatus.COMPLETED.name(), now, migrationRequestId);
+        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, now, migrationRequestId);
     }
 }

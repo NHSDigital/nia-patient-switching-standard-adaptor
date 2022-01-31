@@ -14,7 +14,7 @@ import lombok.Setter;
 public class MigrationStatusLog {
     private int id;
     @EnumByName
-    private RequestStatus requestStatus;
+    private MigrationStatus migrationStatus;
     private OffsetDateTime date;
     private int migrationRequestId;
 }
