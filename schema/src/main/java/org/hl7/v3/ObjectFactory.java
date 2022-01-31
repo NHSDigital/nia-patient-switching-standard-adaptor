@@ -80,6 +80,7 @@ public class ObjectFactory {
     private final static QName _CD_QNAME = new QName("urn:hl7-org:v3", "code");
     private final static QName _VALUE_QNAME = new QName("urn:hl7-org:v3", "value");
     private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
+    private final static QName _REQUEST_STATEMENT_QNAME = new QName("urn:hl7-org:v3", "RequestStatement");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
@@ -3508,5 +3509,10 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "ehrComposition")
     public JAXBElement<RCMRMT030101UK04EhrComposition> createLocation(RCMRMT030101UK04EhrComposition value) {
         return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
+    }
+
+    @XmlElementDecl(namespace = "", name = "RequestStatement")
+    public JAXBElement<RCMRMT030101UK04RequestStatement> createLocation(RCMRMT030101UK04RequestStatement value) {
+        return new JAXBElement<RCMRMT030101UK04RequestStatement>(_REQUEST_STATEMENT_QNAME, RCMRMT030101UK04RequestStatement.class, null, value);
     }
 }

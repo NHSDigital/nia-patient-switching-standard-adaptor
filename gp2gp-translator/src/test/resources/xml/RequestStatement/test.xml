@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RequestStatement classCode="OBS" moodCode="RQO">
+    <id root="B4303C92-4D1C-11E3-A2DD-010000000161"/>
+    <code code="8HV6." codeSystem="2.16.840.1.113883.2.1.3.2.4.14" displayName="Private referral to obstetrician">
+        <translation code="183885007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Private referral to obstetrician"/>
+        <translation code="8HV6.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Private referral to obstetrician"/>
+    </code>
+    <text>Referrer: WHITCOMBE, Peter at Testvale Surgery (New Forest PCT)
+        Referral Recipient Other ID: JIM99
+        Referral Type: Hospital
+        Reason: Concerned other
+        Service: Acute Hospital
+        Urgency: 1-3 Weeks
+        Summary: This is a referal summary note
+        Recipient: Mr Jim Consultant (Fictional Hospital)</text>
+    <statusCode code="COMPLETE"/>
+    <effectiveTime>
+        <center value="20050406" nullFlavor="NI"/>
+    </effectiveTime>
+    <availabilityTime value="20101216110942"/>
+    <responsibleParty typeCode="RESP">
+        <agentRef classCode="AGNT">
+            <id root="B8CA3710-4D1C-11E3-9E6B-010000001205"/>
+        </agentRef>
+    </responsibleParty>
+</RequestStatement>
