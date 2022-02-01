@@ -37,5 +37,6 @@ general:
   from-ods-code: ${PS_FROM_ODS_CODE:PSS_001}
 
 mhs:
+  url: ${MHS_BASE_URL:http://localhost:8080/}
   outbound:
-    url: ${MHS_OUTBOUND_URL:http://localhost:8080/mhs/outbound}
+    url: ${mhs.url}${MHS_OUTBOUND_URL:mhs/outbound}
