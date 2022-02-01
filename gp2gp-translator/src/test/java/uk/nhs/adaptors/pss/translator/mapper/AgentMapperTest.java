@@ -2,16 +2,8 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import lombok.SneakyThrows;
 
-import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04PlanStatement;
-import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
-import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
 import org.junit.jupiter.api.Test;
-
-import uk.nhs.adaptors.pss.translator.utils.DateFormatUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -29,7 +21,7 @@ public class AgentMapperTest {
     public void mapAgent() {
         var agentDirectory = unmarshallCodeElement("test.xml");
 
-        List agent = agentMapper.mapToAgent(agentDirectory);
+        List agent = agentMapper.mapAgentDirectory(agentDirectory);
 
         assertThat(agent).isNull();
     }
