@@ -14,4 +14,4 @@ export MHS_QUEUE_NAME="mhsQueue"
 export PS_AMQP_MAX_REDELIVERIES="3"
 export MHS_AMQP_MAX_REDELIVERIES="3"
 
-export MHS_OUTBOUND_URL="http://localhost:8080/mhs/outbound"
+export MHS_BASE_URL="http://localhost:8080"
