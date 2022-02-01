@@ -31,6 +31,6 @@ public class HealthCheckTest {
             .bodyToMono(String.class)
             .block();
 
-        assertThat(response).contains("UP");
+        assertThat(response).contains("Test pipeline fail");
     }
 }
