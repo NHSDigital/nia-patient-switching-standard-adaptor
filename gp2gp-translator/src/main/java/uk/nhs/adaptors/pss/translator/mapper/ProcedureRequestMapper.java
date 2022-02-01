@@ -146,7 +146,7 @@ public class ProcedureRequestMapper {
     }
 
     private boolean hasTypeCode(RCMRMT030101UK04Participant participant, String typeCode) {
-        return participant.getTypeCode() != null && participant.getTypeCode().get(0).equals(typeCode);
+        return !participant.getTypeCode().isEmpty() && participant.getTypeCode().get(0).equals(typeCode);
     }
 
     private boolean isNotNullFlavour(RCMRMT030101UK04Participant participant) {
