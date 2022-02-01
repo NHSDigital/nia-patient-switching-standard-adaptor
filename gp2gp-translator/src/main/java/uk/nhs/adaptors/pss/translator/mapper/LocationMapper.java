@@ -24,7 +24,6 @@ public class LocationMapper {
     private static final int TEL_PREFIX_INT = 4;
 
     public Location mapToLocation(RCMRMT030101UK04Location location, String rootId) {
-
         var id = rootId + LOCATION_ID_EXTENSION;
         var identifier = getIdentifier(id);
 
@@ -42,7 +41,7 @@ public class LocationMapper {
 
     private Identifier getIdentifier(String id) {
         Identifier identifier = new Identifier()
-                .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL
+                .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
                 .setValue(id);
         return identifier;
     }
