@@ -53,7 +53,7 @@ pipeline {
                             sh '''
                                 source docker/vars.local.tests.sh
                                 docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gpc_facade
-                                docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up gpc_facade
+                                docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gpc_facade gpc_facade
                             '''
                         }
                     }
@@ -64,7 +64,7 @@ pipeline {
                             sh '''
                                source docker/vars.local.tests.sh
                                docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gp2gp_translator
-                               docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up gp2gp_translator
+                               docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gp2gp_translator gp2gp_translator
                            '''
                        }
                    }
