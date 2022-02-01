@@ -1,13 +1,15 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import lombok.SneakyThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.util.ResourceUtils.getFile;
+
+import static uk.nhs.adaptors.pss.translator.testutil.XmlUnmarshallUtil.unmarshallFile;
+
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.v3.CD;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.util.ResourceUtils.getFile;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+import lombok.SneakyThrows;
 
 public class CodeableConceptMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/CD/";

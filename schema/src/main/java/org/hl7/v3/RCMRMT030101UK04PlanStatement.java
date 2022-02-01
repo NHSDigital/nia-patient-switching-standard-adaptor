@@ -79,7 +79,7 @@ public class RCMRMT030101UK04PlanStatement {
     protected II id;
     @XmlElement(required = true)
     protected CD code;
-    protected ED text;
+    protected String text;
     @XmlElement(required = true)
     protected CS statusCode;
     @XmlElement(required = true)
@@ -165,7 +165,7 @@ public class RCMRMT030101UK04PlanStatement {
      *     {@link ED }
      *     
      */
-    public ED getText() {
+    public String getText() {
         return text;
     }
 
@@ -177,7 +177,7 @@ public class RCMRMT030101UK04PlanStatement {
      *     {@link ED }
      *     
      */
-    public void setText(ED value) {
+    public void setText(String value) {
         this.text = value;
     }
 

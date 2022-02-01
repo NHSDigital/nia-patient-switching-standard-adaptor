@@ -45,6 +45,12 @@ public class DateUtilTest {
     }
 
     @Test
+    public void shouldThrowExceptionForIncorrectInstantFormat() {
+        String dateAsString = "202019891898.00";
+        assertThrows(IllegalStateException.class, () -> DateFormatUtil.parseToInstantType(dateAsString));
+    }
+
+    @Test
     public void shouldThrowExceptionForWrongPathwaysDateFormat() {
         String dateAsString = "30/01/2020";
         assertThrows(DateTimeParseException.class, () -> DateFormatUtil.parsePathwaysDate(dateAsString));
