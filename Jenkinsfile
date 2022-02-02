@@ -35,40 +35,50 @@ pipeline {
     stages {
         stage('Build') {
             stages {
-                stage('Tests setup') {
-                    steps {
-                        script {
-                            sh '''
-                                source docker/vars.local.tests.sh
-                                docker network create ps-network || true
-                                docker-compose -f docker/docker-compose.yml up -d ps_db activemq
-                                docker-compose -f docker/docker-compose.yml up db_migration
-                            '''
+                stage('Tests') {
+                    stages {
+                        stage('Tests setup') {
+                            steps {
+                                script {
+                                    sh '''
+                                        source docker/vars.local.tests.sh
+                                        docker network create ps-network || true
+                                        docker-compose -f docker/docker-compose.yml up -d ps_db activemq
+                                        docker-compose -f docker/docker-compose.yml up db_migration
+                                    '''
+                                }
+                            }
                         }
-                    }
-                }
-                stage('GPC API Facade Tests') {
-                    steps {
-                        script {
-                            sh '''
-                                source docker/vars.local.tests.sh
-                                docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gpc_facade
-                                docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gpc_facade gpc_facade
-                            '''
+                        stage('GPC API Facade Tests') {
+                            steps {
+                                script {
+                                    sh '''
+                                        source docker/vars.local.tests.sh
+                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gpc_facade
+                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gpc_facade gpc_facade
+                                    '''
+                                }
+                            }
                         }
-                    }
-                }
-                stage('GP2GP Translator Tests') {
-                     steps {
-                        script {
-                            sh '''
-                               source docker/vars.local.tests.sh
-                               docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gp2gp_translator
-                               docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gp2gp_translator gp2gp_translator
-                           '''
+                        stage('GP2GP Translator Tests') {
+                             steps {
+                                script {
+                                    sh '''
+                                       source docker/vars.local.tests.sh
+                                       docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gp2gp_translator
+                                       docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gp2gp_translator gp2gp_translator
+                                   '''
+                               }
+                           }
                        }
-                   }
-               }
+                    }
+                    post {
+                        always {
+                            sh "docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml down"
+                            sh "docker network rm ps-network"
+                        }
+                    }
+                }
                 stage('Build Docker Images') {
                     steps {
                         script {
