@@ -3,7 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.InstantType;
 
-import uk.nhs.adaptors.pss.translator.utils.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 public class DateTimeMapper {
 

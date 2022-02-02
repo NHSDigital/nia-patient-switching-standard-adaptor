@@ -5,13 +5,19 @@ It holds services needed for communication with the database.
 
 ## Migrations
 Migrations are implemented using Liquibase and need to be run manually before starting applications.
-To run migrations, you need to specify the database URL and credentials of the database user
-that will be used to run the migrations. Set the following env variables:
+
+To run the migrations, you need to specify the database URL and credentials of the database user
+that will be used to run the migrations. **This user needs to have permissions to create a database.**
+The first migration will try to connect to the default postgres database, to be able to create
+the patient_switching database used by the adapter. Then, the next set of the migrations
+will be executed on the patient_switching database.
+
+Set the following env variables:
 - PS_DB_OWNER_NAME
 - PS_DB_OWNER_PASSWORD
 - PS_DB_URL
 
-To run the migrations use following command:
+To run the migrations use the following command:
 ```shell script
 ./gradlew update
 ```

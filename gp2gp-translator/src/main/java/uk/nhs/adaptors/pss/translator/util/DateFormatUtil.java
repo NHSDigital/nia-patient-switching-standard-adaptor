@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.utils;
+package uk.nhs.adaptors.pss.translator.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,7 +16,7 @@ import org.hl7.fhir.dstu3.model.InstantType;
 
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
 import lombok.experimental.UtilityClass;
-
+import uk.nhs.adaptors.pss.translator.model.DateFormat;
 
 @UtilityClass
 public class DateFormatUtil {

@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.gpc.exception;
+package uk.nhs.adaptors.common.exception;
 
 public class FhirValidationException extends RuntimeException {
     public FhirValidationException(String message) {
