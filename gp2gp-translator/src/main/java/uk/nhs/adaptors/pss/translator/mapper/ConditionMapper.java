@@ -51,7 +51,6 @@ public class ConditionMapper {
     private CodeableConceptMapper codeableConceptMapper;
     private DateTimeMapper dateTimeMapper;
 
-    // TODO Create function that passes in relevant mapped resources to condition mapper (NIAD-XXXX )
     public Condition mapToCondition(
         RCMRMT030101UK04EhrComposition ehrComposition,
         Optional<RCMRMT030101UK04ObservationStatement> linkedObservationStatement,
