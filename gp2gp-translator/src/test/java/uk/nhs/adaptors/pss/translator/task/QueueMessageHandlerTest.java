@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-import static uk.nhs.adaptors.pss.translator.testutil.CreateParametersUtil.createValidParametersResource;
+import static uk.nhs.adaptors.common.testutil.CreateParametersUtil.createValidParametersResource;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.util.FhirParser;
+import uk.nhs.adaptors.common.util.FhirParser;
 
 @ExtendWith(MockitoExtension.class)
 public class QueueMessageHandlerTest {

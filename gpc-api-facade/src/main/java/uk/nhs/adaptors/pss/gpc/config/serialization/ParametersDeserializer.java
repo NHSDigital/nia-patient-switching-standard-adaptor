@@ -10,8 +10,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-import uk.nhs.adaptors.pss.gpc.exception.FhirValidationException;
-import uk.nhs.adaptors.pss.gpc.service.FhirParser;
+import uk.nhs.adaptors.common.exception.FhirValidationException;
+import uk.nhs.adaptors.common.util.FhirParser;
 
 @Component
 public class ParametersDeserializer extends JsonDeserializer<Parameters> {

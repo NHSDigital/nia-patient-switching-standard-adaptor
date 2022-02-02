@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.testutil;
+package uk.nhs.adaptors.common.testutil;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;

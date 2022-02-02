@@ -9,12 +9,13 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import uk.nhs.adaptors.connector.configuration.DbConnectorConfiguration;
+import uk.nhs.adaptors.common.config.CommonConfiguration;
+import uk.nhs.adaptors.common.util.FhirParser;
+import uk.nhs.adaptors.connector.config.DbConnectorConfiguration;
 import uk.nhs.adaptors.pss.gpc.config.serialization.ParametersDeserializer;
-import uk.nhs.adaptors.pss.gpc.service.FhirParser;
 
 @Configuration
-@Import(DbConnectorConfiguration.class)
+@Import({DbConnectorConfiguration.class, CommonConfiguration.class})
 public class ApplicationConfiguration {
     @Bean
     public ObjectMapper objectMapper(FhirParser fhirParser) {

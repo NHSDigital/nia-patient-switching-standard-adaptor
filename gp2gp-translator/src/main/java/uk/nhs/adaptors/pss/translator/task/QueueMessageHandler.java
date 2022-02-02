@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.pss.translator.util.FhirParser;
-import uk.nhs.adaptors.pss.translator.util.ParametersUtils;
+import uk.nhs.adaptors.common.util.FhirParser;
+import uk.nhs.adaptors.common.util.ParametersUtils;
 
 @Slf4j
 @Component

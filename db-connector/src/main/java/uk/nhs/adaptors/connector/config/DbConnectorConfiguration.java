@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.connector.configuration;
+package uk.nhs.adaptors.connector.config;
 
 import java.util.List;
 

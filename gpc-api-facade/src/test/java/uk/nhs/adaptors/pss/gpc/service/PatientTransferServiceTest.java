@@ -16,14 +16,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import uk.nhs.adaptors.common.testutil.CreateParametersUtil;
+import uk.nhs.adaptors.common.util.DateUtils;
+import uk.nhs.adaptors.common.util.FhirParser;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.connector.model.MigrationStatus;
-import uk.nhs.adaptors.connector.util.DateUtils;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
-import uk.nhs.adaptors.pss.gpc.testutil.CreateParametersUtil;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferServiceTest {
