@@ -26,7 +26,6 @@ public class AgentMapperTest {
         assertThat(agent).isNull();
     }
 
-
     @SneakyThrows
     private RCMRMT030101UK04AgentDirectory unmarshallCodeElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04AgentDirectory.class);
