@@ -74,7 +74,10 @@ pipeline {
                     }
                     post {
                         always {
-                            sh "docker/clear-docker.sh"
+                            sh '''
+                               docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml down --rmi all --remove-orphans
+                               docker network rm ps-network
+                            '''
                         }
                     }
                 }
