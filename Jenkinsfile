@@ -74,8 +74,7 @@ pipeline {
                     }
                     post {
                         always {
-                            sh "docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml down"
-                            sh "docker network rm ps-network"
+                            sh "docker/clear-docker.sh"
                         }
                     }
                 }
