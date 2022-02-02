@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.common.util;
+package uk.nhs.adaptors.common.util.fhir;
 
 import java.util.Optional;
 

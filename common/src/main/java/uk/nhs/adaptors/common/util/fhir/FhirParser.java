@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.common.util;
+package uk.nhs.adaptors.common.util.fhir;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.stereotype.Service;

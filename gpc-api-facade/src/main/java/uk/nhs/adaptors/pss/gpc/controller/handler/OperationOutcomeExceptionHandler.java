@@ -46,7 +46,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.exception.FhirValidationException;
-import uk.nhs.adaptors.common.util.FhirParser;
+import uk.nhs.adaptors.common.util.fhir.FhirParser;
 
 @ControllerAdvice
 @Slf4j

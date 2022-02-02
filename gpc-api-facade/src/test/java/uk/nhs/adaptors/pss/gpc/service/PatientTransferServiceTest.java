@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import uk.nhs.adaptors.common.testutil.CreateParametersUtil;
 import uk.nhs.adaptors.common.util.DateUtils;
-import uk.nhs.adaptors.common.util.FhirParser;
+import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;

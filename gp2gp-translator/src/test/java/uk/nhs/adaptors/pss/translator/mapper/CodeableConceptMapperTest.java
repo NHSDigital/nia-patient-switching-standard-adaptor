@@ -3,7 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.common.testutil.XmlUnmarshallUtil.unmarshallFile;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.v3.CD;

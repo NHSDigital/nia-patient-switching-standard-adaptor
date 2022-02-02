@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.common.util.DateUtils;
-import uk.nhs.adaptors.common.util.FhirParser;
-import uk.nhs.adaptors.common.util.ParametersUtils;
+import uk.nhs.adaptors.common.util.fhir.FhirParser;
+import uk.nhs.adaptors.common.util.fhir.ParametersUtils;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;

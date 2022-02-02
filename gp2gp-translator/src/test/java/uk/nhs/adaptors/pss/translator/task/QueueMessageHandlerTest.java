@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.common.util.FhirParser;
+import uk.nhs.adaptors.common.util.fhir.FhirParser;
 
 @ExtendWith(MockitoExtension.class)
 public class QueueMessageHandlerTest {

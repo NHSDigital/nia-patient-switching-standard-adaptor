@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import uk.nhs.adaptors.common.exception.FhirValidationException;
-import uk.nhs.adaptors.common.util.FhirParser;
+import uk.nhs.adaptors.common.util.fhir.FhirParser;
 
 @Component
 public class ParametersDeserializer extends JsonDeserializer<Parameters> {
