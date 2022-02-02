@@ -8,8 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.time.OffsetDateTime;
 
-import org.hl7.fhir.dstu3.model.BooleanType;
-import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,11 +16,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.connector.model.RequestStatus;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.connector.util.DateUtils;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
-import uk.nhs.adaptors.pss.gpc.util.DateUtils;
+import uk.nhs.adaptors.pss.gpc.testutil.CreateParametersUtil;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferServiceTest {
@@ -34,6 +35,9 @@ public class PatientTransferServiceTest {
 
     @Mock
     private PatientMigrationRequestDao patientMigrationRequestDao;
+
+    @Mock
+    private MigrationStatusLogDao migrationStatusLogDao;
 
     @Mock
     private PssQueuePublisher pssQueuePublisher;
@@ -48,71 +52,55 @@ public class PatientTransferServiceTest {
 
     @BeforeEach
     void setUp() {
-        parameters = createParametersResource();
+        parameters = CreateParametersUtil.createValidParametersResource(PATIENT_NHS_NUMBER);
     }
 
     @Test
     public void handlePatientMigrationRequestWhenRequestIsNew() {
+        var migrationRequestId = 1;
         OffsetDateTime now = OffsetDateTime.now();
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(null);
+        when(patientMigrationRequestDao.getMigrationRequestId(PATIENT_NHS_NUMBER)).thenReturn(migrationRequestId);
         when(fhirParser.encodeToJson(parameters)).thenReturn(REQUEST_BODY);
 
-        PatientMigrationRequest patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
+        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
 
         assertThat(patientMigrationRequest).isEqualTo(null);
         verify(pssQueuePublisher).sendToPssQueue(REQUEST_BODY);
-        verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, RequestStatus.RECEIVED.name(), now);
+        verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER);
+        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId);
     }
 
     @Test
     public void handlePatientMigrationRequestWhenRequestIsInProgress() {
         PatientMigrationRequest expectedPatientMigrationRequest = createPatientMigrationRequest();
+        MigrationStatusLog expectedMigrationStatusLog = createMigrationStatusLog();
+
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(expectedPatientMigrationRequest);
+        when(migrationStatusLogDao.getMigrationStatusLog(expectedPatientMigrationRequest.getId())).thenReturn(expectedMigrationStatusLog);
 
-        PatientMigrationRequest patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
+        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
 
-        assertThat(patientMigrationRequest).isEqualTo(expectedPatientMigrationRequest);
+        assertThat(patientMigrationRequest).isEqualTo(expectedMigrationStatusLog);
         verifyNoInteractions(pssQueuePublisher);
         verify(patientMigrationRequestDao).getMigrationRequest(PATIENT_NHS_NUMBER);
         verifyNoMoreInteractions(patientMigrationRequestDao);
-    }
-
-    private Parameters createParametersResource() {
-        Parameters parameters = new Parameters();
-
-        Parameters.ParametersParameterComponent nhsNumberComponent = new Parameters.ParametersParameterComponent();
-        nhsNumberComponent.setName("patientNHSNumber");
-        Identifier identifier = new Identifier();
-        identifier
-            .setSystem("https://fhir.nhs.uk/Id/nhs-number")
-            .setValue(PATIENT_NHS_NUMBER);
-        nhsNumberComponent.setValue(identifier);
-
-        BooleanType booleanType = new BooleanType();
-        booleanType.setValue(true);
-        Parameters.ParametersParameterComponent sensitiveInformationPart = new Parameters.ParametersParameterComponent();
-        sensitiveInformationPart
-            .setName("includeSensitiveInformation")
-            .setValue(booleanType);
-        Parameters.ParametersParameterComponent fullRecordComponent = new Parameters.ParametersParameterComponent();
-        fullRecordComponent
-            .setName("includeFullRecord")
-            .addPart(sensitiveInformationPart);
-
-        parameters
-            .addParameter(nhsNumberComponent)
-            .addParameter(fullRecordComponent);
-
-        return parameters;
     }
 
     private PatientMigrationRequest createPatientMigrationRequest() {
         return PatientMigrationRequest.builder()
             .id(1)
             .patientNhsNumber(PATIENT_NHS_NUMBER)
-            .requestStatus(RequestStatus.RECEIVED)
+            .build();
+    }
+
+    private MigrationStatusLog createMigrationStatusLog() {
+        return MigrationStatusLog.builder()
+            .id(1)
+            .migrationStatus(MigrationStatus.REQUEST_RECEIVED)
             .date(OffsetDateTime.now())
+            .migrationRequestId(1)
             .build();
     }
 }

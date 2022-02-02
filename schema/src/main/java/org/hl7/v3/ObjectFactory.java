@@ -73,7 +73,7 @@ public class ObjectFactory {
     private final static QName _StrucDocItemTable_QNAME = new QName("urn:hl7-org:v3", "table");
 
     /**
-     * List of custom built QName objects that weren't pre-generated. These are being used in unit tests to test specific
+     * List of custom-built QName objects that weren't pre-generated. These are being used in unit tests to test specific
      * deeply nested elements.
      *
      */
@@ -1783,7 +1783,7 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link RCMRMT030101UK04EhrExtract }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "EhrExtract")
+    @XmlElementDecl(namespace = "", name = "EhrExtract")
     public JAXBElement<RCMRMT030101UK04EhrExtract> createEhrExtract(RCMRMT030101UK04EhrExtract value) {
         return new JAXBElement<RCMRMT030101UK04EhrExtract>(_EhrExtract_QNAME, RCMRMT030101UK04EhrExtract.class, null, value);
     }
@@ -3508,7 +3508,7 @@ public class ObjectFactory {
     }
 
     @XmlElementDecl(namespace = "", name = "ehrComposition")
-    public JAXBElement<RCMRMT030101UK04EhrComposition> createLocation(RCMRMT030101UK04EhrComposition value) {
+    public JAXBElement<RCMRMT030101UK04EhrComposition> createEhrComposition(RCMRMT030101UK04EhrComposition value) {
         return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
     }
 

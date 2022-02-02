@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
+import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 
 @Configuration
@@ -44,5 +45,10 @@ public class DbConnectorConfiguration {
     @Bean
     public PatientMigrationRequestDao patientMigrationRequestDao(Jdbi jdbi) {
         return jdbi.onDemand(PatientMigrationRequestDao.class);
+    }
+
+    @Bean
+    public MigrationStatusLogDao migrationStatusLogDao(Jdbi jdbi) {
+        return jdbi.onDemand(MigrationStatusLogDao.class);
     }
 }
