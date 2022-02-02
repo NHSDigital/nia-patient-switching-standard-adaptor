@@ -1,14 +1,19 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeType;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Condition;
+import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -19,14 +24,23 @@ import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
+import org.hl7.v3.IVLTS;
+import org.hl7.v3.RCMRMT030101UK04Annotation;
+import org.hl7.v3.RCMRMT030101UK04Component4;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
-import org.hl7.v3.RCMRMT030101UK04StatementRef;
+import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.hl7.v3.TS;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class ConditionMapper {
-
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1";
-    private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1";
+    private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/{practiseCode}";
+    private static final String PRACTISE_CODE = "{practiseCode}";
     private static final String ACTUAL_PROBLEM_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1";
     private static final String PROBLEM_SIGNIFICANCE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1";
     private static final String MAJOR_CODE = "386134007";
@@ -35,43 +49,103 @@ public class ConditionMapper {
     private static final String DEFAULT_CLINICAL_STATUS = "Defaulted status to active : Unknown status at source";
 
     private CodeableConceptMapper codeableConceptMapper;
+    private DateTimeMapper dateTimeMapper;
 
+    // TODO Create function that passes in relevant mapped resources to condition mapper (NIAD-XXXX )
     public Condition mapToCondition(
-        RCMRMT030101UK04LinkSet linkSet,
-        Resource actualProblem,
+        RCMRMT030101UK04EhrComposition ehrComposition,
+        Optional<RCMRMT030101UK04ObservationStatement> linkedObservationStatement,
+        Date ehrExtractAvailabilityTime,
+        Optional<Resource> actualProblem,
         List<Resource> relatedClinicalContent,
         String patientId,
-        String encounterId,
-        String asserterId) {
+        Optional<String> encounterId,
+        String asserterId,
+        String practiseCode) {
 
-        var condition = new Condition();
-        var id = linkSet.getId().getRoot();
+        var linkSetOpt = ehrComposition.getComponent().stream()
+            .map(RCMRMT030101UK04Component4::getLinkSet)
+            .filter(Objects::nonNull)
+            .findFirst();
 
-        condition.setId(id);
-        condition.setMeta(generateConditionMeta());
-        condition.addIdentifier(buildIdentifier(id));
+        if (linkSetOpt.isPresent()) {
+            RCMRMT030101UK04LinkSet linkSet = linkSetOpt.get();
+            Condition condition = new Condition();
+            String id = linkSet.getId().getRoot();
 
-        condition.addExtension(
-            buildActualProblem(linkSet.getConditionNamed().getNamedStatementRef(), actualProblem)
-        );
-        condition.addExtension(
-            buildProblemSignificance(linkSet.getCode())
-        );
-        buildRelatedClinicalContent(linkSet, relatedClinicalContent).forEach(condition::addExtension);
+            condition.setId(id);
+            condition.setMeta(generateConditionMeta());
+            condition.addIdentifier(buildIdentifier(id, practiseCode));
+            condition.addCategory(generateCategory());
 
-        buildClinicalStatus(linkSet.getCode()).ifPresentOrElse(
-            condition::setClinicalStatus,
-            () -> {
-                condition.setClinicalStatus(Condition.ConditionClinicalStatus.ACTIVE);
-                condition.addNote(new Annotation(new StringType(DEFAULT_CLINICAL_STATUS)));
-        });
+            actualProblem.ifPresent((resource) -> {
+                condition.addExtension(
+                    buildActualProblem(resource)
+                );
+            });
+            condition.addExtension(
+                buildProblemSignificance(linkSet.getCode())
+            );
+            buildRelatedClinicalContent(relatedClinicalContent).forEach(condition::addExtension);
 
-        condition.setCode(codeableConceptMapper.mapToCodeableConcept(linkSet.getCode()));
-        condition.setSubject(new Reference(new IdType(ResourceType.Patient.name(), patientId)));
-        condition.setContext(new Reference(new IdType(ResourceType.Encounter.name(), encounterId)));
-        condition.setAsserter(new Reference(new IdType(ResourceType.Practitioner.name(), asserterId)));
+            buildClinicalStatus(linkSet.getCode()).ifPresentOrElse(
+                condition::setClinicalStatus,
+                () -> {
+                    condition.setClinicalStatus(Condition.ConditionClinicalStatus.ACTIVE);
+                    condition.addNote(new Annotation(new StringType(DEFAULT_CLINICAL_STATUS)));
+                });
 
-        return condition;
+            condition.setCode(codeableConceptMapper.mapToCodeableConcept(linkSet.getCode()));
+            condition.setSubject(new Reference(new IdType(ResourceType.Patient.name(), patientId)));
+            encounterId.ifPresent(
+                value -> condition.setContext(new Reference(new IdType(ResourceType.Encounter.name(), value)))
+            );
+
+            buildOnsetDateTimeType(linkSet).ifPresent(condition::setOnset);
+            buildAbatementDateTimeType(linkSet.getEffectiveTime()).ifPresent(condition::setAbatement);
+
+            buildAssertedDateTimeType(ehrComposition).ifPresentOrElse(
+                condition::setAssertedDate,
+                () -> {
+                    condition.setAssertedDate(ehrExtractAvailabilityTime);
+                });
+            condition.setAsserter(new Reference(new IdType(ResourceType.Practitioner.name(), asserterId)));
+
+            buildNotes(linkedObservationStatement, linkSet).forEach(condition::addNote);
+
+            return condition;
+        }
+        return null;
+    }
+
+    private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UK04LinkSet linkSet) {
+        IVLTS effectiveTime = linkSet.getEffectiveTime();
+        TS availabilityTime = linkSet.getAvailabilityTime();
+
+        if (effectiveTime.hasLow() && effectiveTime.getLow().getValue() != null) {
+            return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getLow().getValue()));
+        } else if (effectiveTime.hasCenter() && effectiveTime.getCenter().getValue() != null) {
+            return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getCenter().getValue()));
+        } else if (availabilityTime != null && availabilityTime.getValue() != null) {
+            return Optional.of(dateTimeMapper.mapDateTime(availabilityTime.getValue()));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<DateTimeType> buildAbatementDateTimeType(IVLTS abatementDateTime) {
+        if (abatementDateTime.hasHigh() && abatementDateTime.getHigh().getValue() != null) {
+            return Optional.of(dateTimeMapper.mapDateTime(abatementDateTime.getHigh().getValue()));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<Date> buildAssertedDateTimeType(RCMRMT030101UK04EhrComposition ehrComposition) {
+        if (ehrComposition.getAuthor() != null && ehrComposition.getAuthor().getTime() != null) {
+            return Optional.of(
+                dateTimeMapper.mapDateTime(ehrComposition.getAuthor().getTime().getValue()).getValue()
+            );
+        }
+        return Optional.empty();
     }
 
     private Meta generateConditionMeta() {
@@ -81,22 +155,22 @@ public class ConditionMapper {
         return meta;
     }
 
-    private Identifier buildIdentifier(String rootId) {
+    private Identifier buildIdentifier(String rootId, String practiseCode) {
         Identifier identifier = new Identifier();
-        identifier.setSystem(IDENTIFIER_SYSTEM);
+        identifier.setSystem(IDENTIFIER_SYSTEM.replace(PRACTISE_CODE, practiseCode));
         identifier.setValue(rootId);
 
         return identifier;
     }
 
-    private Extension buildActualProblem(RCMRMT030101UK04StatementRef namedStatementRef, Resource actualProblem) {
+    private Extension buildActualProblem(Resource actualProblem) {
         Reference reference = buildResourceReference(actualProblem);
         return buildReferenceExtension(ACTUAL_PROBLEM_URL, reference);
     }
 
     private Extension buildProblemSignificance(CD linksetCode) {
-        var code = Optional.ofNullable(linksetCode.getQualifier().get(0).getName().getCode());
-        var extension = new Extension();
+        Optional<String> code = Optional.ofNullable(linksetCode.getQualifier().get(0).getName().getCode());
+        Extension extension = new Extension();
         extension.setUrl(PROBLEM_SIGNIFICANCE_URL);
 
         if (code.isPresent() && code.get().equals(MAJOR_CODE)) {
@@ -127,11 +201,32 @@ public class ConditionMapper {
             .addCoding(coding);
     }
 
-    private List<Extension> buildRelatedClinicalContent(RCMRMT030101UK04LinkSet linkSet, List<Resource> relatedClinicalResources) {
+    private List<Extension> buildRelatedClinicalContent(List<Resource> relatedClinicalResources) {
         return relatedClinicalResources.stream()
             .map(ConditionMapper::buildResourceReference)
             .map(reference -> buildReferenceExtension(RELATED_CLINICAL_CONTENT_URL, reference))
             .collect(Collectors.toList());
+    }
+
+    private List<Annotation> buildNotes(Optional<RCMRMT030101UK04ObservationStatement> observationStatement, RCMRMT030101UK04LinkSet linkSet) {
+        List<Annotation> annotationList = new ArrayList<>();
+
+        observationStatement.ifPresent(observationStatement1 -> observationStatement1.getPertinentInformation()
+            .stream()
+            .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
+            .filter(Objects::nonNull)
+            .map(RCMRMT030101UK04Annotation::getText)
+            .filter(StringUtils::isNotBlank)
+            .map(StringType::new)
+            .map(Annotation::new)
+            .forEach(annotationList::add));
+
+        if (linkSet.getCode().getOriginalText() != null) {
+            StringType text = new StringType(linkSet.getCode().getOriginalText());
+            annotationList.add(new Annotation(text));
+        }
+
+        return annotationList;
     }
 
     private static Reference buildResourceReference(Resource resource) {

@@ -52,7 +52,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class RCMRMT030101UK04Annotation {
 
     @XmlElement(required = true)
-    protected ST text;
+    protected String text;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -76,7 +76,7 @@ public class RCMRMT030101UK04Annotation {
      *     {@link ST }
      *     
      */
-    public ST getText() {
+    public String getText() {
         return text;
     }
 
@@ -88,7 +88,7 @@ public class RCMRMT030101UK04Annotation {
      *     {@link ST }
      *     
      */
-    public void setText(ST value) {
+    public void setText(String value) {
         this.text = value;
     }
 

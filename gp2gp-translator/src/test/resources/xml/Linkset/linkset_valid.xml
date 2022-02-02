@@ -1,0 +1,60 @@
+<LinkSet classCode="OBS" moodCode="EVN">
+    <id root="DCC26FC9-4D1C-11E3-A2DD-010000000161"/>
+    <code code="394774009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Active problem">
+        <originalText>Active Problem, Significant</originalText>
+        <qualifier inverted="false">
+            <name code="386134007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Significant" />
+        </qualifier>
+    </code>
+    <statusCode code="COMPLETE"/>
+    <effectiveTime>
+        <low value="20101209000000"/>
+        <high value="20101209000000"/>
+    </effectiveTime>
+    <availabilityTime value="20101209114846"/>
+    <component typeCode="COMP">
+        <statementRef classCode="OBS" moodCode="EVN">
+            <id root="DCC26FC8-4D1C-11E3-A2DD-010000000161"/>
+        </statementRef>
+    </component>
+    <component typeCode="COMP">
+        <statementRef classCode="OBS" moodCode="EVN">
+            <id root="DCE89569-4D1C-11E3-A2DD-010000000161"/>
+        </statementRef>
+    </component>
+    <component typeCode="COMP">
+        <statementRef classCode="OBS" moodCode="EVN">
+            <id root="DCE89569-4D1C-11E3-A2DD-010000000161"/>
+        </statementRef>
+    </component>
+    <component typeCode="COMP">
+        <statementRef classCode="OBS" moodCode="EVN">
+            <id root="DCE89568-4D1C-11E3-A2DD-010000000161"/>
+        </statementRef>
+    </component>
+    <component typeCode="COMP">
+        <statementRef classCode="OBS" moodCode="EVN">
+            <id root="DCE89567-4D1C-11E3-A2DD-010000000161"/>
+        </statementRef>
+    </component>
+    <component typeCode="COMP">
+        <statementRef classCode="OBS" moodCode="EVN">
+            <id root="DD04A8E6-4D1C-11E3-A2DD-010000000161"/>
+        </statementRef>
+    </component>
+    <component typeCode="COMP">
+        <statementRef classCode="SBADM" moodCode="INT">
+            <id root="DD315E33-4D1C-11E3-A2DD-010000000161"/>
+        </statementRef>
+    </component>
+    <component typeCode="COMP">
+        <statementRef classCode="SBADM" moodCode="ORD">
+            <id root="DD315E31-4D1C-11E3-A2DD-010000000161"/>
+        </statementRef>
+    </component>
+    <conditionNamed typeCode="NAME" inversionInd="true">
+        <namedStatementRef classCode="OBS" moodCode="EVN">
+            <id root="DCB8ABC0-4D1C-11E3-A2DD-010000000161"/>
+        </namedStatementRef>
+    </conditionNamed>
+</LinkSet>

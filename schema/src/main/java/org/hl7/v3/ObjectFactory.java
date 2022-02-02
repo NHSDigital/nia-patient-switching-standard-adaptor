@@ -80,6 +80,8 @@ public class ObjectFactory {
     private final static QName _CD_QNAME = new QName("urn:hl7-org:v3", "code");
     private final static QName _VALUE_QNAME = new QName("urn:hl7-org:v3", "value");
     private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
+    private final static QName _LINKSET_QNAME = new QName("urn:hl7-org:v3", "LinkSet");
+    private final static QName _OBSERVATION_STATEMENT_QNAME = new QName("urn:hl7-org:v3", "ObservationStatement");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
@@ -3508,5 +3510,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "ehrComposition")
     public JAXBElement<RCMRMT030101UK04EhrComposition> createLocation(RCMRMT030101UK04EhrComposition value) {
         return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
+    }
+
+    @XmlElementDecl(namespace = "", name = "LinkSet")
+    public JAXBElement<RCMRMT030101UK04LinkSet> createLinkset(RCMRMT030101UK04LinkSet value) {
+        return new JAXBElement<RCMRMT030101UK04LinkSet>(_LINKSET_QNAME, RCMRMT030101UK04LinkSet.class, null, value);
+    }
+
+    @XmlElementDecl(namespace = "", name = "ObservationStatement")
+    public JAXBElement<RCMRMT030101UK04ObservationStatement> createLinkset(RCMRMT030101UK04ObservationStatement value) {
+        return new JAXBElement<RCMRMT030101UK04ObservationStatement>(_LINKSET_QNAME, RCMRMT030101UK04ObservationStatement.class, null, value);
     }
 }

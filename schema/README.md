@@ -67,6 +67,8 @@ Please make sure you don't override the following classes with the generated one
 - IVLPQ.java
 - RCMRMT030101UK04ObservationStatement.java
 - PQInc.java
+- RCMRMT030101UK04Annotation.java
+- RCMRMT030101UK04EhrComposition.java
 
 New file:
 - Value.java (joined class containing fields from IVLPQ and PQ classes)
