@@ -35,8 +35,8 @@ import io.micrometer.core.instrument.util.StringUtils;
 public class AgentDirectoryMapper {
     private static final String PRACT_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1";
     private static final String ORG_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1";
-    private static final String PRACT_ROLE_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC" +
-        "-PractitionerRole-1";
+    private static final String PRACT_ROLE_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC"
+        + "-PractitionerRole-1";
     private static final String ORG_IDENTIFIER_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
     private static final String ORG_PREFIX = "Organization/";
     private static final String PRACT_PREFIX = "Practitioner/";
