@@ -26,6 +26,33 @@ public class AgentDirectoryMapperTest {
         assertThat(mappedAgents).isNotNull();
     }
 
+    @Test
+    public void mapAgentDirectoryWithAgentPersonAndRepresentedOrganization() {
+        var agentDirectory = unmarshallCodeElement("test.xml");
+
+        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+
+        assertThat(mappedAgents).isNotNull();
+    }
+
+    @Test
+    public void mapAgentDirectoryOnlyAgentPerson() {
+        var agentDirectory = unmarshallCodeElement("test.xml");
+
+        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+
+        assertThat(mappedAgents).isNotNull();
+    }
+
+    @Test
+    public void mapAgentDirectoryOnlyAgentOrganization() {
+        var agentDirectory = unmarshallCodeElement("test.xml");
+
+        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+
+        assertThat(mappedAgents).isNotNull();
+    }
+
     @SneakyThrows
     private RCMRMT030101UK04AgentDirectory unmarshallCodeElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04AgentDirectory.class);

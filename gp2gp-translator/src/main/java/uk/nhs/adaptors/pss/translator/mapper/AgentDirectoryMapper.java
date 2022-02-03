@@ -124,7 +124,7 @@ public class AgentDirectoryMapper {
             .setName(getOrganizationName(representedOrg.getName()))
             .setId(id + ORG_ID_SUFFIX);
         organization.getMeta().getProfile().add(new UriType(ORG_META_PROFILE));
-        organization.getIdentifier().add(getOrganizationIdentifier(representedOrg.getId())); // fix
+        organization.getIdentifier().add(getOrganizationIdentifier(representedOrg.getId()));
         organization.getTelecom().add(getOrganizationTelecom(representedOrg.getTelecom()));
         organization.getAddress().add(getOrganizationAddress(representedOrg.getAddr()));
 
@@ -137,7 +137,7 @@ public class AgentDirectoryMapper {
             .setName(getOrganizationName(agentOrg.getName()))
             .setId(id);
         organization.getMeta().getProfile().add(new UriType(ORG_META_PROFILE));
-        organization.getIdentifier().add(getOrganizationIdentifier(agentOrg.getId())); // fix
+        organization.getIdentifier().add(getOrganizationIdentifier(agentOrg.getId()));
         organization.getType().add(getText(code));
         organization.getTelecom().add(getOrganizationTelecom(agentOrg.getTelecom()));
         organization.getAddress().add(getOrganizationAddress(agentOrg.getAddr()));
@@ -247,7 +247,7 @@ public class AgentDirectoryMapper {
         practitionerRole.setId(id + PRACT_ROLE_SUFFIX);
         practitionerRole.getMeta().getProfile().add(new UriType(PRACT_ROLE_META_PROFILE));
         practitionerRole.setPractitioner(new Reference(PRACT_PREFIX + id));
-        practitionerRole.setOrganization(new Reference(ORG_PREFIX + id));
+        practitionerRole.setOrganization(new Reference(ORG_PREFIX + id + ORG_ID_SUFFIX));
         practitionerRole.getCode().add(getText(code));
 
         return practitionerRole;
