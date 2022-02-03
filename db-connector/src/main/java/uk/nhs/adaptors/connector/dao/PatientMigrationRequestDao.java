@@ -20,4 +20,8 @@ public interface PatientMigrationRequestDao {
     @SqlQuery("select_patient_migration_request_id")
     @UseClasspathSqlLocator
     int getMigrationRequestId(@Bind("nhsNumber") String patientNhsNumber);
+
+    @SqlUpdate("save_fhir_resource")
+    @UseClasspathSqlLocator
+    void saveFhirResource(@Bind("nhsNumber") String patientNhsNumber, @Bind("resource") String fhirResource);
 }
