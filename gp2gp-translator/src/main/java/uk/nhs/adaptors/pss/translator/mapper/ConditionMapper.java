@@ -1,5 +1,8 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildReferenceExtension;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildResourceReference;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +37,9 @@ import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.TS;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import uk.nhs.adaptors.pss.translator.util.ResourceUtil;
 
 @AllArgsConstructor
 public class ConditionMapper {
@@ -51,18 +57,9 @@ public class ConditionMapper {
     private CodeableConceptMapper codeableConceptMapper;
     private DateTimeMapper dateTimeMapper;
 
-    public Condition mapToCondition(
-        RCMRMT030101UK04EhrComposition ehrComposition,
-        Optional<RCMRMT030101UK04ObservationStatement> linkedObservationStatement,
-        Date ehrExtractAvailabilityTime,
-        Optional<Resource> actualProblem,
-        List<Resource> relatedClinicalContent,
-        String patientId,
-        Optional<String> encounterId,
-        String asserterId,
-        String practiseCode) {
+    public Condition mapToCondition(ConditionMapperParameters conditionMapperParameters) {
 
-        var linkSetOpt = ehrComposition.getComponent().stream()
+        Optional<RCMRMT030101UK04LinkSet> linkSetOpt = conditionMapperParameters.getEhrComposition().getComponent().stream()
             .map(RCMRMT030101UK04Component4::getLinkSet)
             .filter(Objects::nonNull)
             .findFirst();
@@ -74,10 +71,10 @@ public class ConditionMapper {
 
             condition.setId(id);
             condition.setMeta(generateConditionMeta());
-            condition.addIdentifier(buildIdentifier(id, practiseCode));
+            condition.addIdentifier(buildIdentifier(id, conditionMapperParameters.getPractiseCode()));
             condition.addCategory(generateCategory());
 
-            actualProblem.ifPresent((resource) -> {
+            conditionMapperParameters.getActualProblem().ifPresent((resource) -> {
                 condition.addExtension(
                     buildActualProblem(resource)
                 );
@@ -85,7 +82,7 @@ public class ConditionMapper {
             condition.addExtension(
                 buildProblemSignificance(linkSet.getCode())
             );
-            buildRelatedClinicalContent(relatedClinicalContent).forEach(condition::addExtension);
+            buildRelatedClinicalContent(conditionMapperParameters.getRelatedClinicalContent()).forEach(condition::addExtension);
 
             buildClinicalStatus(linkSet.getCode()).ifPresentOrElse(
                 condition::setClinicalStatus,
@@ -95,22 +92,22 @@ public class ConditionMapper {
                 });
 
             condition.setCode(codeableConceptMapper.mapToCodeableConcept(linkSet.getCode()));
-            condition.setSubject(new Reference(new IdType(ResourceType.Patient.name(), patientId)));
-            encounterId.ifPresent(
+            condition.setSubject(new Reference(new IdType(ResourceType.Patient.name(), conditionMapperParameters.getPatientId())));
+            conditionMapperParameters.getEncounterId().ifPresent(
                 value -> condition.setContext(new Reference(new IdType(ResourceType.Encounter.name(), value)))
             );
 
             buildOnsetDateTimeType(linkSet).ifPresent(condition::setOnset);
             buildAbatementDateTimeType(linkSet.getEffectiveTime()).ifPresent(condition::setAbatement);
 
-            buildAssertedDateTimeType(ehrComposition).ifPresentOrElse(
+            buildAssertedDateTimeType(conditionMapperParameters.getEhrComposition()).ifPresentOrElse(
                 condition::setAssertedDate,
                 () -> {
-                    condition.setAssertedDate(ehrExtractAvailabilityTime);
+                    condition.setAssertedDate(conditionMapperParameters.getEhrExtractAvailabilityTime());
                 });
-            condition.setAsserter(new Reference(new IdType(ResourceType.Practitioner.name(), asserterId)));
+            condition.setAsserter(new Reference(new IdType(ResourceType.Practitioner.name(), conditionMapperParameters.getAsserterId())));
 
-            buildNotes(linkedObservationStatement, linkSet).forEach(condition::addNote);
+            buildNotes(conditionMapperParameters.getLinkedObservationStatement(), linkSet).forEach(condition::addNote);
 
             return condition;
         }
@@ -202,12 +199,13 @@ public class ConditionMapper {
 
     private List<Extension> buildRelatedClinicalContent(List<Resource> relatedClinicalResources) {
         return relatedClinicalResources.stream()
-            .map(ConditionMapper::buildResourceReference)
+            .map(ResourceUtil::buildResourceReference)
             .map(reference -> buildReferenceExtension(RELATED_CLINICAL_CONTENT_URL, reference))
             .collect(Collectors.toList());
     }
 
-    private List<Annotation> buildNotes(Optional<RCMRMT030101UK04ObservationStatement> observationStatement, RCMRMT030101UK04LinkSet linkSet) {
+    private List<Annotation> buildNotes(Optional<RCMRMT030101UK04ObservationStatement> observationStatement,
+        RCMRMT030101UK04LinkSet linkSet) {
         List<Annotation> annotationList = new ArrayList<>();
 
         observationStatement.ifPresent(observationStatement1 -> observationStatement1.getPertinentInformation()
@@ -228,15 +226,17 @@ public class ConditionMapper {
         return annotationList;
     }
 
-    private static Reference buildResourceReference(Resource resource) {
-        IdType idType = new IdType(resource.getResourceType().name(), resource.getId());
-        return new Reference(idType);
-    }
-
-    private Extension buildReferenceExtension(String url, Reference reference) {
-        Extension extension = new Extension();
-        extension.setUrl(url);
-        extension.setValue(reference);
-        return extension;
+    @Builder
+    @Getter
+    public static class ConditionMapperParameters {
+        private RCMRMT030101UK04EhrComposition ehrComposition;
+        private Optional<RCMRMT030101UK04ObservationStatement> linkedObservationStatement;
+        private Date ehrExtractAvailabilityTime;
+        private Optional<Resource> actualProblem;
+        private List<Resource> relatedClinicalContent;
+        private String patientId;
+        private Optional<String> encounterId;
+        private String asserterId;
+        private String practiseCode;
     }
 }

@@ -73,7 +73,7 @@ public class RCMRMT030101UK04Annotation {
      * 
      * @return
      *     possible object is
-     *     {@link ST }
+     *     {@link String }
      *     
      */
     public String getText() {
@@ -85,7 +85,7 @@ public class RCMRMT030101UK04Annotation {
      * 
      * @param value
      *     allowed object is
-     *     {@link ST }
+     *     {@link String }
      *     
      */
     public void setText(String value) {

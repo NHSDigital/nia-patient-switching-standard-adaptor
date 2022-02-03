@@ -19,15 +19,15 @@ import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
-import static uk.nhs.adaptors.pss.translator.testutil.XmlUnmarshallUtil.unmarshallFile;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import lombok.SneakyThrows;
 
@@ -44,6 +44,9 @@ public class ConditionMapperTest {
     private static final Date EHR_EXTRACT_AVAILABILITY = new Date(2022, Calendar.JANUARY, 1);
     private static final DateTimeType EHR_EXTRACT_AVAILABILITY_DATETIME = new DateTimeType(EHR_EXTRACT_AVAILABILITY);
 
+    private static final int RELATED_CLINICAL_CONTENT_COUNT = 3;
+    private static final int NOTES_COUNT = 4;
+
     private static final String ACTUAL_PROBLEM_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1";
     private static final String PROBLEM_SIGNIFICANCE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1";
     private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1";
@@ -53,10 +56,8 @@ public class ConditionMapperTest {
     @Mock
     private DateTimeMapper dateTimeMapper;
 
+    @InjectMocks
     private ConditionMapper conditionMapper;
-
-//    List<Resource> relatedClinicalContent,
-//    Optional<String> encounterId,
 
     @BeforeEach
     public void setUp() {
@@ -66,13 +67,11 @@ public class ConditionMapperTest {
         codeableConcept.addCoding(coding);
 
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
-        lenient().when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
-
-        conditionMapper = new ConditionMapper(codeableConceptMapper, dateTimeMapper);
     }
 
     @Test
     public void When_MappingAllValidData_Expect_AppropriateOutput() {
+        when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
         var linkset = unmarshallLinkset("linkset_valid.xml");
         var observationStatement = unmarshallObservationStatement("observationStatement_1.xml");
         var ehrComposition = new RCMRMT030101UK04EhrComposition();
@@ -81,28 +80,30 @@ public class ConditionMapperTest {
         component.setLinkSet(linkset);
         ehrComposition.setComponent(List.of(component));
 
-        var result = conditionMapper.mapToCondition(
-            ehrComposition,
-            Optional.of(observationStatement),
-            EHR_EXTRACT_AVAILABILITY,
-            Optional.of(createObservationWithId()),
-            List.of(
-                createObservationWithId(),
-                createImmunizationWithId(),
-                createReferralRequestWithId()
-            ),
-            PATIENT_ID,
-            Optional.of(ENCOUNTER_ID),
-            ASSERTER_ID,
-            PRACTISE_CODE
-        );
+        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder();
+
+        paramsBuilder.ehrComposition(ehrComposition);
+        paramsBuilder.linkedObservationStatement(Optional.of(observationStatement));
+        paramsBuilder.ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY);
+        paramsBuilder.actualProblem(Optional.of(createObservationWithId()));
+        paramsBuilder.relatedClinicalContent(List.of(
+            createObservationWithId(),
+            createImmunizationWithId(),
+            createReferralRequestWithId()
+        ));
+        paramsBuilder.patientId(PATIENT_ID);
+        paramsBuilder.encounterId(Optional.of(ENCOUNTER_ID));
+        paramsBuilder.asserterId(ASSERTER_ID);
+        paramsBuilder.practiseCode(PRACTISE_CODE);
+
+        var result = conditionMapper.mapToCondition(paramsBuilder.build());
 
         assertGeneratedComponentsAreCorrect(result);
         assertThat(result.getId()).isEqualTo(LINKSET_ID);
 
         assertThat(result.getExtensionsByUrl(ACTUAL_PROBLEM_URL).size()).isEqualTo(1);
         assertThat(result.getExtensionsByUrl(PROBLEM_SIGNIFICANCE_URL).size()).isEqualTo(1);
-        assertThat(result.getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL).size()).isEqualTo(3);
+        assertThat(result.getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL).size()).isEqualTo(RELATED_CLINICAL_CONTENT_COUNT);
 
         assertThat(result.getClinicalStatus().getDisplay()).isEqualTo("Active");
         assertThat(result.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY);
@@ -115,11 +116,12 @@ public class ConditionMapperTest {
         assertThat(result.getAbatementDateTimeType()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME);
         assertThat(result.getAssertedDate()).isEqualTo(EHR_EXTRACT_AVAILABILITY);
 
-        assertThat(result.getNote().size()).isEqualTo(4);
+        assertThat(result.getNote().size()).isEqualTo(NOTES_COUNT);
     }
 
     @Test
     public void When_MappingMinimalValidData_Expect_AppropriateOutput() {
+        when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
         var linkset = unmarshallLinkset("linkset_valid.xml");
         var observationStatement = unmarshallObservationStatement("observationStatement_1.xml");
         var ehrComposition = new RCMRMT030101UK04EhrComposition();
@@ -128,17 +130,19 @@ public class ConditionMapperTest {
         component.setLinkSet(linkset);
         ehrComposition.setComponent(List.of(component));
 
-        var result = conditionMapper.mapToCondition(
-            ehrComposition,
-            Optional.empty(),
-            EHR_EXTRACT_AVAILABILITY,
-            Optional.empty(),
-            List.of(),
-            PATIENT_ID,
-            Optional.empty(),
-            ASSERTER_ID,
-            PRACTISE_CODE
-        );
+        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder();
+
+        paramsBuilder.ehrComposition(ehrComposition);
+        paramsBuilder.linkedObservationStatement(Optional.empty());
+        paramsBuilder.ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY);
+        paramsBuilder.actualProblem(Optional.empty());
+        paramsBuilder.relatedClinicalContent(List.of());
+        paramsBuilder.patientId(PATIENT_ID);
+        paramsBuilder.encounterId(Optional.empty());
+        paramsBuilder.asserterId(ASSERTER_ID);
+        paramsBuilder.practiseCode(PRACTISE_CODE);
+
+        var result = conditionMapper.mapToCondition(paramsBuilder.build());
 
         assertGeneratedComponentsAreCorrect(result);
         assertThat(result.getId()).isEqualTo(LINKSET_ID);
@@ -167,17 +171,19 @@ public class ConditionMapperTest {
         component.setLinkSet(linkset);
         ehrComposition.setComponent(List.of(component));
 
-        var result = conditionMapper.mapToCondition(
-            ehrComposition,
-            Optional.empty(),
-            EHR_EXTRACT_AVAILABILITY,
-            Optional.empty(),
-            List.of(),
-            PATIENT_ID,
-            Optional.empty(),
-            ASSERTER_ID,
-            PRACTISE_CODE
-        );
+        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder();
+
+        paramsBuilder.ehrComposition(ehrComposition);
+        paramsBuilder.linkedObservationStatement(Optional.empty());
+        paramsBuilder.ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY);
+        paramsBuilder.actualProblem(Optional.empty());
+        paramsBuilder.relatedClinicalContent(List.of());
+        paramsBuilder.patientId(PATIENT_ID);
+        paramsBuilder.encounterId(Optional.empty());
+        paramsBuilder.asserterId(ASSERTER_ID);
+        paramsBuilder.practiseCode(PRACTISE_CODE);
+
+        var result = conditionMapper.mapToCondition(paramsBuilder.build());
 
         assertGeneratedComponentsAreCorrect(result);
         assertThat(result.getId()).isEqualTo(LINKSET_ID);
