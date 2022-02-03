@@ -11,10 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
-import uk.nhs.adaptors.connector.util.DateUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class MigrationStatusLogServiceTest {

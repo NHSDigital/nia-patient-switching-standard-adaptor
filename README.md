@@ -25,7 +25,8 @@ They are Java Spring Boot applications, released as separate docker images.
 
     .
     ├── db                          # Dockerfile and scripts for local database setup
-    ├── db-connector                # Common module used by gp2gp-translator and gpc-api-facade
+    ├── common                      # Common module used by gp2gp-translator, gpc-api-facade and db-connector
+    ├── db-connector                # Common module used by gp2gp-translator and gpc-api-facade, used for db-related classes
     ├── gp2gp-translator            # GP2GP Translator
     ├── gpc-api-facade              # GPC API Facade
     └── mhs-adaptor-mock            # Dockerfile and required files for mock of MHS Adaptor
