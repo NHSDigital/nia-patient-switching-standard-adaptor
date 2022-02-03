@@ -81,7 +81,7 @@ public class RCMRMT030101UK04RequestStatement {
     protected List<II> id;
     @XmlElement(required = true)
     protected CD code;
-    protected ED text;
+    protected String text;
     @XmlElement(required = true)
     protected CS statusCode;
     @XmlElement(required = true)
@@ -170,10 +170,10 @@ public class RCMRMT030101UK04RequestStatement {
      * 
      * @return
      *     possible object is
-     *     {@link ED }
+     *     {@link String }
      *     
      */
-    public ED getText() {
+    public String getText() {
         return text;
     }
 
@@ -182,10 +182,10 @@ public class RCMRMT030101UK04RequestStatement {
      * 
      * @param value
      *     allowed object is
-     *     {@link ED }
+     *     {@link String }
      *     
      */
-    public void setText(ED value) {
+    public void setText(String value) {
         this.text = value;
     }
 
