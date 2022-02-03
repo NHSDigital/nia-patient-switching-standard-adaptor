@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.utils;
+package uk.nhs.adaptors.pss.translator.model;
 
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
 import lombok.Getter;

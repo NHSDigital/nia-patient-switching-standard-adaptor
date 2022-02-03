@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.gpc.testutil;
+package uk.nhs.adaptors.common.testutil;
 
 import org.hl7.fhir.dstu3.model.BooleanType;
 import org.hl7.fhir.dstu3.model.Identifier;
