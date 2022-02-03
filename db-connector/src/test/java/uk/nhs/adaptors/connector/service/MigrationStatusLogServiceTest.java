@@ -34,14 +34,14 @@ public class MigrationStatusLogServiceTest {
     @Test
     public void testAddMigrationStatusLog() {
         String nhsNumber = "123456";
-        int migrationRequestId = 10;
+        final int MIGRATION_REQUEST_ID = 10;
         OffsetDateTime now = OffsetDateTime.now();
 
-        when(patientMigrationRequestDao.getMigrationRequestId(nhsNumber)).thenReturn(migrationRequestId);
+        when(patientMigrationRequestDao.getMigrationRequestId(nhsNumber)).thenReturn(MIGRATION_REQUEST_ID);
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
 
         migrationStatusLogService.addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, nhsNumber);
 
-        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, now, migrationRequestId);
+        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, now, MIGRATION_REQUEST_ID);
     }
 }
