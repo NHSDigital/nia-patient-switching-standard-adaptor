@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hl7.fhir.dstu3.model.Address;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.HumanName;
 import org.hl7.fhir.dstu3.model.HumanName.NameUse;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -13,7 +15,9 @@ import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.PractitionerRole;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
+import org.hl7.v3.AD;
 import org.hl7.v3.CV;
+import org.hl7.v3.CsTelecommunicationAddressUse;
 import org.hl7.v3.II;
 import org.hl7.v3.PN;
 import org.hl7.v3.RCCTMT120101UK01Agent;
@@ -21,15 +25,19 @@ import org.hl7.v3.RCCTMT120101UK01Organization;
 import org.hl7.v3.RCCTMT120101UK01Person;
 import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
 import org.hl7.v3.RCMRMT030101UK04Part;
+import org.hl7.v3.TEL;
 import org.springframework.util.CollectionUtils;
 
 import io.micrometer.core.instrument.util.StringUtils;
 
-public class AgentMapper {
+public class AgentDirectoryMapper {
     private static final String PRACTITIONER_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1";
     private static final String ORGANIZATION_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1";
-    private static final String UNKNOWN_FAMILY = "Unknown";
+    private static final String UNKNOWN = "Unknown";
     private static final String ORG_ID_PREFIX = "-ORG";
+    private static final String WORK_PLACE = "WP";
+    private static final int TELECOM_RANK = 1;
+    private static final int TEL_PREFIX_INT = 4;
 
     public List mapAgentDirectory(RCMRMT030101UK04AgentDirectory agentDirectory) {
         var partList = agentDirectory.getPart();
@@ -37,14 +45,15 @@ public class AgentMapper {
         if (!CollectionUtils.isEmpty(partList)) {
             return partList.stream()
                 .map(RCMRMT030101UK04Part::getAgent)
-                .map(this::generateAppropriateResources)
-                .collect(Collectors.toList());
+                .map(this::mapAgent)
+                .flatMap(List::stream)
+                .toList();
         }
 
         return null;
     }
 
-    private List generateAppropriateResources(RCCTMT120101UK01Agent agent) {
+    private List mapAgent(RCCTMT120101UK01Agent agent) {
         var agentResourceList = new ArrayList<>();
         var agentPerson = agent.getAgentPerson();
         var agentOrganization = agent.getAgentOrganization();
@@ -89,7 +98,7 @@ public class AgentMapper {
     }
 
     private String getPractitionerFamily(String family) {
-        return StringUtils.isNotEmpty(family) ? family : UNKNOWN_FAMILY;
+        return StringUtils.isNotEmpty(family) ? family : UNKNOWN;
     }
 
     private StringType getPractitionerGiven(String given) {
@@ -103,14 +112,94 @@ public class AgentMapper {
     private Organization createRepresentedOrganization(RCCTMT120101UK01Organization representedOrg, String id) {
         var organization = new Organization();
 
-        organization.setId(id + ORG_ID_PREFIX);
+        organization
+            .setName(getOrganizationName(representedOrg.getName()))
+            .setId(id + ORG_ID_PREFIX);
         organization.getMeta().getProfile().add(new UriType(ORGANIZATION_META_PROFILE));
         organization.getIdentifier().add(getOrganizationIdentifier(representedOrg.getId())); // fix
-        // name
-        // telecom
-        // address
+        organization.getTelecom().add(getOrganizationTelecom(representedOrg.getTelecom()));
+        organization.getAddress().add(getOrganizationAddress(representedOrg.getAddr()));
 
         return organization;
+    }
+
+    private Organization createAgentOrganization(RCCTMT120101UK01Organization agentOrg, String id,
+        RCCTMT120101UK01Agent agent) {
+        var organization = new Organization();
+
+        organization
+            .setName(getOrganizationName(agentOrg.getName()))
+            .setId(id);
+        organization.getMeta().getProfile().add(new UriType(ORGANIZATION_META_PROFILE));
+        organization.getType().add(getText(agent.getCode()));
+        organization.getTelecom().add(getOrganizationTelecom(agentOrg.getTelecom()));
+        organization.getAddress().add(getOrganizationAddress(agentOrg.getAddr()));
+
+        return organization;
+    }
+
+    private String getOrganizationName(String name) {
+        return name != null ? name : UNKNOWN;
+    }
+
+    private ContactPoint getOrganizationTelecom(List<TEL> telecomList) {
+        var telecom = telecomList.stream().findFirst();
+        if (telecom.isPresent()) {
+            var contactPoint = new ContactPoint();
+            return contactPoint
+                .setValue(getValue(telecom.get()))
+                .setSystem(ContactPoint.ContactPointSystem.PHONE)
+                .setUse(ContactPoint.ContactPointUse.WORK)
+                .setRank(TELECOM_RANK);
+        }
+
+        return null;
+    }
+
+    private String getValue(TEL telecom) {
+        var value = telecom.getValue();
+        if (value != null) {
+            return isWorkPlaceValue(telecom.getUse()) ? stripTelPrefix(value) : value;
+        }
+
+        return null;
+    }
+
+    private boolean isWorkPlaceValue(List<CsTelecommunicationAddressUse> use) {
+        return use.stream()
+            .anyMatch(addressUse -> WORK_PLACE.equals(addressUse.value()));
+    }
+
+    private String stripTelPrefix(String value) {
+        return value.substring(TEL_PREFIX_INT); // strips the 'tel:' prefix on phone numbers
+    }
+
+    private Address getOrganizationAddress(List<AD> addr) {
+        var address = addr.stream().filter(this::isValidAddress).findFirst();
+        if (address.isPresent()) {
+            var mappedAddress = new Address();
+            var validAddress = address.get();
+
+            if (validAddress.getStreetAddressLine() != null) {
+                validAddress.getStreetAddressLine()
+                    .forEach(addressLine -> mappedAddress.addLine(addressLine));
+            }
+            if (StringUtils.isNotEmpty(validAddress.getPostalCode())) {
+                mappedAddress.setPostalCode(validAddress.getPostalCode());
+            }
+
+            return mappedAddress;
+        }
+        return null;
+    }
+
+    private boolean isValidAddress(AD address) {
+        if (address != null && address.getUse() != null) {
+            var use = address.getUse().stream().findFirst();
+            return use.isPresent() && use.stream().anyMatch(addressUse -> WORK_PLACE.equals(addressUse.value()));
+        }
+
+        return false;
     }
 
     private CodeableConcept getText(CV code) {
@@ -118,25 +207,12 @@ public class AgentMapper {
         if (code != null) {
             if (StringUtils.isNotEmpty(code.getOriginalText())) {
                 return codeableConcept.setText(code.getOriginalText());
-            }
-            else if (StringUtils.isNotEmpty(code.getDisplayName())) {
+            } else if (StringUtils.isNotEmpty(code.getDisplayName())) {
                 return codeableConcept.setText(code.getDisplayName());
             }
         }
 
         return null;
-    }
-
-    private Organization createAgentOrganization(RCCTMT120101UK01Organization agentOrg, String id,
-        RCCTMT120101UK01Agent agent) {
-        var organization = new Organization();
-
-        organization.setId(id);
-        organization.getMeta().getProfile().add(new UriType(ORGANIZATION_META_PROFILE));
-        organization.getType().add(getText(agent.getCode()));
-        // identifier?
-
-        return organization;
     }
 
     private Identifier getOrganizationIdentifier(II id) {

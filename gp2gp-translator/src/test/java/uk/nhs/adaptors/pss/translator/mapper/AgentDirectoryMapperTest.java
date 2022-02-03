@@ -12,16 +12,16 @@ import static uk.nhs.adaptors.pss.translator.testutil.XmlUnmarshallUtil.unmarsha
 
 import java.util.List;
 
-public class AgentMapperTest {
+public class AgentDirectoryMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/Agent/";
 
-    private final AgentMapper agentMapper = new AgentMapper();
+    private final AgentDirectoryMapper agentDirectoryMapper = new AgentDirectoryMapper();
 
     @Test
-    public void mapAgent() {
+    public void mapAgentDirectory() {
         var agentDirectory = unmarshallCodeElement("test.xml");
 
-        List agent = agentMapper.mapAgentDirectory(agentDirectory);
+        List agent = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertThat(agent).isNull();
     }

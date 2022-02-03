@@ -21,7 +21,7 @@
             <agentPerson classCode="PSN" determinerCode="INSTANCE">
                 <name>
                     <prefix>Mr</prefix>
-<!--                    <given>NHS</given>-->
+                    <given>NHS</given>
                     <family>Test</family>
                 </name>
             </agentPerson>
@@ -42,7 +42,7 @@
     <part typeCode="PART">
         <Agent classCode="AGNT">
             <id root="1D9BDC28-50AB-440D-B421-0E5E049526FA"/>
-            <code code="394745000" displayName="General practice (organisation)" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
+<!--            <code code="394745000" displayName="General practice (organisation)" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>-->
             <agentOrganization classCode="ORG" determinerCode="INSTANCE"><id extension="A81001" root="2.16.840.1.113883.2.1.4.3"/>
                 <name>The Health Centre</name><telecom value="tel:01234567890" use="WP"/>
                 <addr>
