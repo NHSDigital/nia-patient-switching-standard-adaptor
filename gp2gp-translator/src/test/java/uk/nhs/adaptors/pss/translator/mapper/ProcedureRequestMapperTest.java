@@ -150,7 +150,7 @@ public class ProcedureRequestMapperTest {
             .getEhrFolder().getComponent().get(0)
             .getEhrComposition();
     }
-    
+
     private void setUpCodeableConceptMock() {
         var codeableConcept = new CodeableConcept();
         var coding = new Coding();

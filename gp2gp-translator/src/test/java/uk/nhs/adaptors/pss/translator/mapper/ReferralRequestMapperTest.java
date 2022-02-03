@@ -13,7 +13,6 @@ import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
