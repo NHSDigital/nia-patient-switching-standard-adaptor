@@ -27,8 +27,10 @@ import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.hl7.v3.RCMRMT030101UK04ResponsibleParty3;
 import org.hl7.v3.TS;
 
+import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
+@AllArgsConstructor
 public class ReferralRequestMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ReferralRequest-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
@@ -38,6 +40,8 @@ public class ReferralRequestMapper {
     private static final String RESP_PARTY_TYPE_CODE = "RESP";
     private static final String PRF_TYPE_CODE = "PRF";
     private static final String PPRF_TYPE_CODE = "PPRF";
+
+    private CodeableConceptMapper codeableConceptMapper;
 
     public ReferralRequest mapToReferralRequest(RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04RequestStatement requestStatement) {
@@ -68,7 +72,7 @@ public class ReferralRequestMapper {
 
     private CodeableConcept getReasonCode(CD reasonCode) {
         if (reasonCode != null) {
-            return new CodeableConceptMapper().mapToCodeableConcept(reasonCode);
+            return codeableConceptMapper.mapToCodeableConcept(reasonCode);
         }
         return null;
     }

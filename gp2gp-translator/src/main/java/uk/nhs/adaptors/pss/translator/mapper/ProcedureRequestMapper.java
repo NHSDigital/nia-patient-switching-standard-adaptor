@@ -20,6 +20,7 @@ import org.hl7.v3.RCMRMT030101UK04Participant2;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.TS;
 
+import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 
@@ -28,11 +29,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 public class ProcedureRequestMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String PPRF_PERFORMER = "PPRF";
     private static final String PRF_PERFORMER = "PRF";
+
+    private CodeableConceptMapper codeableConceptMapper;
 
     public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04PlanStatement planStatement) {
 
@@ -47,7 +51,7 @@ public class ProcedureRequestMapper {
         var id = planStatement.getId().getRoot();
         var identifier = getIdentifier(id);
         var note = getNote(planStatement.getText());
-        var reasonCode = new CodeableConceptMapper().mapToCodeableConcept(planStatement.getCode());
+        var reasonCode = codeableConceptMapper.mapToCodeableConcept(planStatement.getCode());
         var authoredOn = getAuthoredOn(planStatement.getAvailabilityTime(), ehrExtract, planStatement.getId());
         var occurrence = getOccurrenceDate(planStatement.getEffectiveTime());
         var agentReference = getAgentReference(planStatement.getParticipant(), ehrExtract, planStatement.getId());

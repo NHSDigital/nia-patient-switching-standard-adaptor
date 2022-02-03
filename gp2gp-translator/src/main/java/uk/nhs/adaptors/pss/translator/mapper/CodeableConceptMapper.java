@@ -2,7 +2,9 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.v3.CD;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CodeableConceptMapper {
     private static final String SNOMED_SYSTEM_CODE = "2.16.840.1.113883.2.1.3.2.4.15";
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
