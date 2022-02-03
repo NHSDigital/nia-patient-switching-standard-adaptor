@@ -23,7 +23,7 @@ public class AgentDirectoryMapperTest {
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
-        assertThat(mappedAgents).isNull();
+        assertThat(mappedAgents).isNotNull();
     }
 
     @SneakyThrows
