@@ -80,7 +80,7 @@ public class ConditionMapperTest {
         component.setLinkSet(linkset);
         ehrComposition.setComponent(List.of(component));
 
-        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder()
+        var params = ConditionMapper.ConditionMapperParameters.builder()
             .ehrComposition(ehrComposition)
             .linkedObservationStatement(Optional.of(observationStatement))
             .ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY)
@@ -96,7 +96,7 @@ public class ConditionMapperTest {
             .practiseCode(PRACTISE_CODE)
             .build();
 
-        var result = conditionMapper.mapToCondition(paramsBuilder);
+        var result = conditionMapper.mapToCondition(params);
 
         assertGeneratedComponentsAreCorrect(result);
         assertThat(result.getId()).isEqualTo(LINKSET_ID);
@@ -130,7 +130,7 @@ public class ConditionMapperTest {
         component.setLinkSet(linkset);
         ehrComposition.setComponent(List.of(component));
 
-        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder()
+        var params = ConditionMapper.ConditionMapperParameters.builder()
             .ehrComposition(ehrComposition)
             .linkedObservationStatement(Optional.empty())
             .ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY)
@@ -142,7 +142,7 @@ public class ConditionMapperTest {
             .practiseCode(PRACTISE_CODE)
             .build();
 
-        var result = conditionMapper.mapToCondition(paramsBuilder);
+        var result = conditionMapper.mapToCondition(params);
 
         assertGeneratedComponentsAreCorrect(result);
         assertThat(result.getId()).isEqualTo(LINKSET_ID);
@@ -171,7 +171,7 @@ public class ConditionMapperTest {
         component.setLinkSet(linkset);
         ehrComposition.setComponent(List.of(component));
 
-        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder()
+        var params = ConditionMapper.ConditionMapperParameters.builder()
             .ehrComposition(ehrComposition)
             .linkedObservationStatement(Optional.empty())
             .ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY)
@@ -183,7 +183,7 @@ public class ConditionMapperTest {
             .practiseCode(PRACTISE_CODE)
             .build();
 
-        var result = conditionMapper.mapToCondition(paramsBuilder);
+        var result = conditionMapper.mapToCondition(params);
 
         assertGeneratedComponentsAreCorrect(result);
         assertThat(result.getId()).isEqualTo(LINKSET_ID);
