@@ -27,7 +27,7 @@ import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.hl7.v3.RCMRMT030101UK04ResponsibleParty3;
 import org.hl7.v3.TS;
 
-import uk.nhs.adaptors.pss.translator.utils.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 public class ReferralRequestMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ReferralRequest-1";
@@ -50,9 +50,10 @@ public class ReferralRequestMapper {
         var requester = getRequesterAgentReference(requestStatement.getParticipant(), ehrComposition);
 
         /**
-         * TODO: Implement future referencing
-         * - subject: references a global patient resource for the transaction
-         * - context: references an encounter resource if it has been generated from the ehrComposition
+         * TODO: Known future implementations to this mapper
+         * - subject: references a global patient resource for the transaction (NIAD-2024)
+         * - context: references an encounter resource if it has been generated from the ehrComposition (NIAD-2025)
+         * - concatenate source practice org id to identifier URL (NIAD-2021)
          */
 
         return createRequestStatement(id, identifier, notes, reasonCode, authoredOn, recipient, requester);
@@ -60,8 +61,8 @@ public class ReferralRequestMapper {
 
     private Identifier getIdentifier(String id) {
         Identifier identifier = new Identifier()
-                .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL
-                .setValue(id);
+            .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
+            .setValue(id);
         return identifier;
     }
 
@@ -81,16 +82,14 @@ public class ReferralRequestMapper {
 
     private Reference getRecipient(RCMRMT030101UK04ResponsibleParty3 responsibleParty) {
         if (responsiblePartyAgentRefHasIdValue(responsibleParty)) {
-            return new Reference(PRACTITIONER_REFERENCE_PREFIX
-                + responsibleParty.getAgentRef().getId().getRoot());
+            return new Reference(PRACTITIONER_REFERENCE_PREFIX + responsibleParty.getAgentRef().getId().getRoot());
         }
         return null;
     }
 
     private boolean responsiblePartyAgentRefHasIdValue(RCMRMT030101UK04ResponsibleParty3 responsibleParty) {
         return responsibleParty != null
-            && !responsibleParty.getTypeCode().isEmpty()
-            && RESP_PARTY_TYPE_CODE.equals(responsibleParty.getTypeCode().get(0))
+            && responsibleParty.getTypeCode().stream().anyMatch(RESP_PARTY_TYPE_CODE::equals)
             && responsibleParty.getAgentRef() != null
             && responsibleParty.getAgentRef().getId() != null;
     }
@@ -143,7 +142,9 @@ public class ReferralRequestMapper {
     }
 
     private boolean hasTypeCode(RCMRMT030101UK04Participant participant, String typeCode) {
-        return !participant.getTypeCode().isEmpty() && participant.getTypeCode().get(0).equals(typeCode);
+        return participant.getTypeCode()
+            .stream()
+            .anyMatch(typeCode::equals);
     }
 
     private boolean isNotNullFlavourParticipant(RCMRMT030101UK04Participant participant) {
@@ -204,26 +205,11 @@ public class ReferralRequestMapper {
         referralRequest.getIdentifier().add(identifier);
         referralRequest.setStatus(ReferralRequestStatus.UNKNOWN);
         referralRequest.setIntent(ReferralCategory.ORDER);
-
-        if (requester != null) {
-            referralRequest.getRequester().setAgent(requester);
-        }
-
-        if (authoredOn != null) {
-            referralRequest.setAuthoredOn(authoredOn);
-        }
-
-        if (!notes.isEmpty()) {
-            referralRequest.setNote(notes);
-        }
-
-        if (reasonCode != null) {
-            referralRequest.getReasonCode().add(reasonCode);
-        }
-
-        if (recipient != null) {
-            referralRequest.getRecipient().add(recipient);
-        }
+        referralRequest.getRequester().setAgent(requester);
+        referralRequest.setAuthoredOn(authoredOn);
+        referralRequest.setNote(notes);
+        referralRequest.getReasonCode().add(reasonCode);
+        referralRequest.getRecipient().add(recipient);
 
         return referralRequest;
     }
