@@ -2,9 +2,10 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.hl7.fhir.dstu3.model.Address;
+import org.hl7.fhir.dstu3.model.Address.AddressUse;
+import org.hl7.fhir.dstu3.model.Address.AddressType;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.HumanName;
@@ -33,6 +34,8 @@ import io.micrometer.core.instrument.util.StringUtils;
 public class AgentDirectoryMapper {
     private static final String PRACTITIONER_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1";
     private static final String ORGANIZATION_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1";
+    private static final String ORGANIZATION_IDENTIFIER_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
+    private static final String ORGANIZATION_ROOT = "2.16.840.1.113883.2.1.4.3";
     private static final String UNKNOWN = "Unknown";
     private static final String ORG_ID_PREFIX = "-ORG";
     private static final String WORK_PLACE = "WP";
@@ -131,6 +134,7 @@ public class AgentDirectoryMapper {
             .setName(getOrganizationName(agentOrg.getName()))
             .setId(id);
         organization.getMeta().getProfile().add(new UriType(ORGANIZATION_META_PROFILE));
+        organization.getIdentifier().add(getOrganizationIdentifier(agentOrg.getId())); // fix
         organization.getType().add(getText(agent.getCode()));
         organization.getTelecom().add(getOrganizationTelecom(agentOrg.getTelecom()));
         organization.getAddress().add(getOrganizationAddress(agentOrg.getAddr()));
@@ -147,7 +151,7 @@ public class AgentDirectoryMapper {
         if (telecom.isPresent()) {
             var contactPoint = new ContactPoint();
             return contactPoint
-                .setValue(getValue(telecom.get()))
+                .setValue(getTelecomValue(telecom.get()))
                 .setSystem(ContactPoint.ContactPointSystem.PHONE)
                 .setUse(ContactPoint.ContactPointUse.WORK)
                 .setRank(TELECOM_RANK);
@@ -156,7 +160,7 @@ public class AgentDirectoryMapper {
         return null;
     }
 
-    private String getValue(TEL telecom) {
+    private String getTelecomValue(TEL telecom) {
         var value = telecom.getValue();
         if (value != null) {
             return isWorkPlaceValue(telecom.getUse()) ? stripTelPrefix(value) : value;
@@ -188,7 +192,9 @@ public class AgentDirectoryMapper {
                 mappedAddress.setPostalCode(validAddress.getPostalCode());
             }
 
-            return mappedAddress;
+            return mappedAddress
+                .setUse(AddressUse.WORK)
+                .setType(AddressType.PHYSICAL);
         }
         return null;
     }
@@ -217,8 +223,17 @@ public class AgentDirectoryMapper {
 
     private Identifier getOrganizationIdentifier(II id) {
         var identifier = new Identifier();
+        if (isValidIdentifier(id) ) {
+            return identifier
+                .setSystem(ORGANIZATION_IDENTIFIER_SYSTEM)
+                .setValue(id.getRoot());
+        }
 
-        return identifier;
+        return null;
+    }
+
+    private boolean isValidIdentifier(II id) {
+        return id != null && id.getRoot() != null && id.getExtension() != null && ORGANIZATION_ROOT.equals(id.getExtension());
     }
 
     private PractitionerRole createPractitionerRole() {

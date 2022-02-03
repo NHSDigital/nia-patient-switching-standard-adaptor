@@ -2,6 +2,8 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Address;
+import org.hl7.fhir.dstu3.model.Address.AddressUse;
+import org.hl7.fhir.dstu3.model.Address.AddressType;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.ContactPoint;
@@ -95,7 +97,9 @@ public class LocationMapper {
                 mappedAddress.setPostalCode(address.getPostalCode());
             }
 
-            return mappedAddress;
+            return mappedAddress
+                .setUse(AddressUse.WORK)
+                .setType(AddressType.PHYSICAL);
         }
         return null;
     }

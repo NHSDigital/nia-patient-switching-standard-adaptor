@@ -21,9 +21,9 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectory() {
         var agentDirectory = unmarshallCodeElement("test.xml");
 
-        List agent = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
-        assertThat(agent).isNull();
+        assertThat(mappedAgents).isNull();
     }
 
     @SneakyThrows
