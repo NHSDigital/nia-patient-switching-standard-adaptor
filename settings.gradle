@@ -1,3 +1,2 @@
 rootProject.name = 'patient-switching-adaptor'
-include 'schema', 'db-connector', 'gpc-api-facade', 'gp2gp-translator'
-
+include 'schema', 'common', 'db-connector', 'gpc-api-facade', 'gp2gp-translator'

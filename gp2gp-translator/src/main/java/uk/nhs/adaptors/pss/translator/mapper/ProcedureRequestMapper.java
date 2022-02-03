@@ -20,8 +20,8 @@ import org.hl7.v3.RCMRMT030101UK04Participant2;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.TS;
 
-import uk.nhs.adaptors.pss.translator.utils.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.utils.EhrResourceExtractorUtil;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 
 import java.util.Date;
 import java.util.List;

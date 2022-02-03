@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.utils;
+package uk.nhs.adaptors.pss.translator.util;
 
 import static java.time.ZoneOffset.UTC;
 

@@ -25,7 +25,8 @@ They are Java Spring Boot applications, released as separate docker images.
 
     .
     ├── db                          # Dockerfile and scripts for local database setup
-    ├── db-connector                # Common module used by gp2gp-translator and gpc-api-facade
+    ├── common                      # Common module used by gp2gp-translator, gpc-api-facade and db-connector
+    ├── db-connector                # Common module used by gp2gp-translator and gpc-api-facade, used for db-related classes
     ├── gp2gp-translator            # GP2GP Translator
     ├── gpc-api-facade              # GPC API Facade
     └── mhs-adaptor-mock            # Dockerfile and required files for mock of MHS Adaptor
@@ -55,7 +56,10 @@ They are Java Spring Boot applications, released as separate docker images.
    - MHS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on mhs queue
    - GPC_FACADE_SERVER_PORT: port of the GPC API Facade application
    - GP2GP_TRANSLATOR_SERVER_PORT: port of the GP2GP Translator application
-     If you plan to use external queues (like ActiveMQ on AWS), you also need to set credentials for those queues:
+   - MHS_BASE_URL: base URL of the MHS Adapter
+   - MHS_OUTBOUND_URL: path of the MHS Adapter's outbound endpoint
+
+   If you plan to use external queues (like ActiveMQ on AWS), you also need to set credentials for those queues:
    - PS_AMQP_USERNAME
    - PS_AMQP_PASSWORD
    - MHS_AMQP_USERNAME

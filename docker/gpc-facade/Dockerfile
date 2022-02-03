@@ -1,6 +1,7 @@
 FROM gradle:jdk17 AS build
 COPY --chown=gradle:gradle settings.gradle /home/gradle/service/
 COPY --chown=gradle:gradle ./gpc-api-facade /home/gradle/service/gpc-api-facade
+COPY --chown=gradle:gradle ./common /home/gradle/service/common
 COPY --chown=gradle:gradle ./db-connector /home/gradle/service/db-connector
 
 WORKDIR /home/gradle/service/gpc-api-facade
