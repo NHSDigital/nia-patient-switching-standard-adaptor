@@ -179,9 +179,9 @@ public class ConditionMapper {
     }
 
     private Optional<Condition.ConditionClinicalStatus> buildClinicalStatus(CD linksetCode) {
-        if (linksetCode.getCode().equals(CLINICAL_STATUS_ACTIVE_CODE)) {
+        if (CLINICAL_STATUS_ACTIVE_CODE.equals(linksetCode.getCode())) {
             return Optional.of(Condition.ConditionClinicalStatus.ACTIVE);
-        } else if (linksetCode.getCode().equals(CLINICAL_STATUS_INACTIVE_CODE)) {
+        } else if (CLINICAL_STATUS_INACTIVE_CODE.equals(linksetCode.getCode())) {
             return Optional.of(Condition.ConditionClinicalStatus.INACTIVE);
         }
         return Optional.empty();

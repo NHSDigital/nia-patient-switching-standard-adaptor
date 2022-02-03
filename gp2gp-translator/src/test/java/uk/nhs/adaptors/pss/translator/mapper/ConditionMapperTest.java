@@ -80,23 +80,23 @@ public class ConditionMapperTest {
         component.setLinkSet(linkset);
         ehrComposition.setComponent(List.of(component));
 
-        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder();
+        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder()
+            .ehrComposition(ehrComposition)
+            .linkedObservationStatement(Optional.of(observationStatement))
+            .ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY)
+            .actualProblem(Optional.of(createObservationWithId()))
+            .relatedClinicalContent(List.of(
+                createObservationWithId(),
+                createImmunizationWithId(),
+                createReferralRequestWithId()
+            ))
+            .patientId(PATIENT_ID)
+            .encounterId(Optional.of(ENCOUNTER_ID))
+            .asserterId(ASSERTER_ID)
+            .practiseCode(PRACTISE_CODE)
+            .build();
 
-        paramsBuilder.ehrComposition(ehrComposition);
-        paramsBuilder.linkedObservationStatement(Optional.of(observationStatement));
-        paramsBuilder.ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY);
-        paramsBuilder.actualProblem(Optional.of(createObservationWithId()));
-        paramsBuilder.relatedClinicalContent(List.of(
-            createObservationWithId(),
-            createImmunizationWithId(),
-            createReferralRequestWithId()
-        ));
-        paramsBuilder.patientId(PATIENT_ID);
-        paramsBuilder.encounterId(Optional.of(ENCOUNTER_ID));
-        paramsBuilder.asserterId(ASSERTER_ID);
-        paramsBuilder.practiseCode(PRACTISE_CODE);
-
-        var result = conditionMapper.mapToCondition(paramsBuilder.build());
+        var result = conditionMapper.mapToCondition(paramsBuilder);
 
         assertGeneratedComponentsAreCorrect(result);
         assertThat(result.getId()).isEqualTo(LINKSET_ID);
@@ -130,19 +130,19 @@ public class ConditionMapperTest {
         component.setLinkSet(linkset);
         ehrComposition.setComponent(List.of(component));
 
-        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder();
+        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder()
+            .ehrComposition(ehrComposition)
+            .linkedObservationStatement(Optional.empty())
+            .ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY)
+            .actualProblem(Optional.empty())
+            .relatedClinicalContent(List.of())
+            .patientId(PATIENT_ID)
+            .encounterId(Optional.empty())
+            .asserterId(ASSERTER_ID)
+            .practiseCode(PRACTISE_CODE)
+            .build();
 
-        paramsBuilder.ehrComposition(ehrComposition);
-        paramsBuilder.linkedObservationStatement(Optional.empty());
-        paramsBuilder.ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY);
-        paramsBuilder.actualProblem(Optional.empty());
-        paramsBuilder.relatedClinicalContent(List.of());
-        paramsBuilder.patientId(PATIENT_ID);
-        paramsBuilder.encounterId(Optional.empty());
-        paramsBuilder.asserterId(ASSERTER_ID);
-        paramsBuilder.practiseCode(PRACTISE_CODE);
-
-        var result = conditionMapper.mapToCondition(paramsBuilder.build());
+        var result = conditionMapper.mapToCondition(paramsBuilder);
 
         assertGeneratedComponentsAreCorrect(result);
         assertThat(result.getId()).isEqualTo(LINKSET_ID);
@@ -171,19 +171,19 @@ public class ConditionMapperTest {
         component.setLinkSet(linkset);
         ehrComposition.setComponent(List.of(component));
 
-        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder();
+        var paramsBuilder = ConditionMapper.ConditionMapperParameters.builder()
+            .ehrComposition(ehrComposition)
+            .linkedObservationStatement(Optional.empty())
+            .ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY)
+            .actualProblem(Optional.empty())
+            .relatedClinicalContent(List.of())
+            .patientId(PATIENT_ID)
+            .encounterId(Optional.empty())
+            .asserterId(ASSERTER_ID)
+            .practiseCode(PRACTISE_CODE)
+            .build();
 
-        paramsBuilder.ehrComposition(ehrComposition);
-        paramsBuilder.linkedObservationStatement(Optional.empty());
-        paramsBuilder.ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY);
-        paramsBuilder.actualProblem(Optional.empty());
-        paramsBuilder.relatedClinicalContent(List.of());
-        paramsBuilder.patientId(PATIENT_ID);
-        paramsBuilder.encounterId(Optional.empty());
-        paramsBuilder.asserterId(ASSERTER_ID);
-        paramsBuilder.practiseCode(PRACTISE_CODE);
-
-        var result = conditionMapper.mapToCondition(paramsBuilder.build());
+        var result = conditionMapper.mapToCondition(paramsBuilder);
 
         assertGeneratedComponentsAreCorrect(result);
         assertThat(result.getId()).isEqualTo(LINKSET_ID);
