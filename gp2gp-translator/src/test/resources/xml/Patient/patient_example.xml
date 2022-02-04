@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EhrExtract classCode="EXTRACT" moodCode="EVN">
-    <id root="F5C1FDBB-A948-43BB-AB30-CEAA51FC0CC0" />
     <recordTarget typeCode="RCT">
         <patient classCode="PAT">
             <id root="2.16.840.1.113883.2.1.4.1" extension="1234567890" />
