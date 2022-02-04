@@ -11,6 +11,7 @@ import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04Patient;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientMapperTest {
@@ -37,6 +39,8 @@ public class PatientMapperTest {
     private static final String EXPECTED_ORGANIZATION_REFERENCE = ORGANIZATION_CLASS_NAME + SLASH + TEST_ORGANIZATION_ID;
     private static final String EXPECTED_META_VERSION_ID = "1521806400000";
 
+    @Mock
+    private FhirIdGeneratorService idGenerator;
 
     @Mock
     private Organization organization;
@@ -44,13 +48,18 @@ public class PatientMapperTest {
     @InjectMocks
     private PatientMapper patientMapper;
 
+    @BeforeEach
+    public void setup() {
+        when(idGenerator.generateUuid()).thenReturn(TEST_PATIENT_ID);
+    }
+
     @Test
-    public void testNhsNumberIsAddedToPatient() {
+    public void testIdAndNhsNumberIsAddedToPatient() {
         RCMRMT030101UK04Patient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML).getRecordTarget().getPatient();
 
         Patient patient = patientMapper.mapToPatient(patientXml);
 
-//        assertThat(patient.getId()).isEqualTo(TEST_PATIENT_ID);
+        assertThat(patient.getId()).isEqualTo(TEST_PATIENT_ID);
         assertThat(patient.hasIdentifier()).isTrue();
         assertThat(patient.getIdentifier().stream().anyMatch(identifier -> EXPECTED_NHS_NUMBER_SYSTEM_URL.equals(identifier.getSystem()))).isTrue();
 

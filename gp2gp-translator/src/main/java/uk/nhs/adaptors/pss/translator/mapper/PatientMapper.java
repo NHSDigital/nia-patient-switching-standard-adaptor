@@ -1,17 +1,22 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import java.util.UUID;
-
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04Patient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
+
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientMapper {
+
+    private final FhirIdGeneratorService idGenerator;
 
     private static final String NHS_NUMBER_SYSTEM_URL = "https://fhir.nhs.uk/Id/nhs-number";
     private static final String META_PROFILE_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1";
@@ -48,7 +53,7 @@ public class PatientMapper {
         return (Patient) new Patient()
             .addIdentifier(identifier)
             .setManagingOrganization(managingOrganizationReference)
-            .setId(UUID.randomUUID().toString())
+            .setId(idGenerator.generateUuid())
             .setMeta(createMeta());
     }
 }
