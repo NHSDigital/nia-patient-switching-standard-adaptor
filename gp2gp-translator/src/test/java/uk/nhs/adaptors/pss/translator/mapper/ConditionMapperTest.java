@@ -9,8 +9,10 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.DateTimeType;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Immunization;
 import org.hl7.fhir.dstu3.model.Observation;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -59,6 +61,9 @@ public class ConditionMapperTest {
     @InjectMocks
     private ConditionMapper conditionMapper;
 
+    private Encounter encounter;
+    private Patient patient;
+
     @BeforeEach
     public void setUp() {
         var codeableConcept = new CodeableConcept();
@@ -67,6 +72,11 @@ public class ConditionMapperTest {
         codeableConcept.addCoding(coding);
 
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+
+        patient = new Patient();
+        patient.setId(PATIENT_ID);
+        encounter = new Encounter();
+        encounter.setId(ENCOUNTER_ID);
     }
 
     @Test
@@ -78,11 +88,11 @@ public class ConditionMapperTest {
         var component = new RCMRMT030101UK04Component4();
 
         component.setLinkSet(linkset);
+        component.setObservationStatement(observationStatement);
         ehrComposition.setComponent(List.of(component));
 
         var params = ConditionMapper.ConditionMapperParameters.builder()
             .ehrComposition(ehrComposition)
-            .linkedObservationStatement(Optional.of(observationStatement))
             .ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY)
             .actualProblem(Optional.of(createObservationWithId()))
             .relatedClinicalContent(List.of(
@@ -90,8 +100,8 @@ public class ConditionMapperTest {
                 createImmunizationWithId(),
                 createReferralRequestWithId()
             ))
-            .patientId(PATIENT_ID)
-            .encounterId(Optional.of(ENCOUNTER_ID))
+            .patient(patient)
+            .encounter(Optional.of(encounter))
             .asserterId(ASSERTER_ID)
             .practiseCode(PRACTISE_CODE)
             .build();
@@ -108,9 +118,9 @@ public class ConditionMapperTest {
         assertThat(result.getClinicalStatus().getDisplay()).isEqualTo("Active");
         assertThat(result.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY);
 
-        assertThat(result.getSubject().getReferenceElement().getIdPart()).isEqualTo(PATIENT_ID);
+        assertThat(result.getSubject().getResource().getIdElement().getIdPart()).isEqualTo(PATIENT_ID);
         assertThat(result.getAsserter().getReferenceElement().getIdPart()).isEqualTo(ASSERTER_ID);
-        assertThat(result.getContext().getReferenceElement().getIdPart()).isEqualTo(ENCOUNTER_ID);
+        assertThat(result.getContext().getResource().getIdElement().getIdPart()).isEqualTo(ENCOUNTER_ID);
 
         assertThat(result.getOnsetDateTimeType()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME);
         assertThat(result.getAbatementDateTimeType()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME);
@@ -123,7 +133,6 @@ public class ConditionMapperTest {
     public void When_MappingMinimalValidData_Expect_AppropriateOutput() {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
         var linkset = unmarshallLinkset("linkset_valid.xml");
-        var observationStatement = unmarshallObservationStatement("observationStatement_1.xml");
         var ehrComposition = new RCMRMT030101UK04EhrComposition();
         var component = new RCMRMT030101UK04Component4();
 
@@ -132,12 +141,11 @@ public class ConditionMapperTest {
 
         var params = ConditionMapper.ConditionMapperParameters.builder()
             .ehrComposition(ehrComposition)
-            .linkedObservationStatement(Optional.empty())
             .ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY)
             .actualProblem(Optional.empty())
             .relatedClinicalContent(List.of())
-            .patientId(PATIENT_ID)
-            .encounterId(Optional.empty())
+            .patient(patient)
+            .encounter(Optional.empty())
             .asserterId(ASSERTER_ID)
             .practiseCode(PRACTISE_CODE)
             .build();
@@ -154,7 +162,7 @@ public class ConditionMapperTest {
         assertThat(result.getClinicalStatus().getDisplay()).isEqualTo("Active");
         assertThat(result.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY);
 
-        assertThat(result.getSubject().getReferenceElement().getIdPart()).isEqualTo(PATIENT_ID);
+        assertThat(result.getSubject().getResource().getIdElement().getIdPart()).isEqualTo(PATIENT_ID);
         assertThat(result.getAsserter().getReferenceElement().getIdPart()).isEqualTo(ASSERTER_ID);
         assertThat(result.getContext().getReferenceElement()).isNotNull();
 
@@ -164,7 +172,6 @@ public class ConditionMapperTest {
     @Test
     public void When_MappingLinksetWithNoDates_Expect_AppropriateOutput() {
         var linkset = unmarshallLinkset("linkset_no_dates.xml");
-        var observationStatement = unmarshallObservationStatement("observationStatement_1.xml");
         var ehrComposition = new RCMRMT030101UK04EhrComposition();
         var component = new RCMRMT030101UK04Component4();
 
@@ -173,12 +180,11 @@ public class ConditionMapperTest {
 
         var params = ConditionMapper.ConditionMapperParameters.builder()
             .ehrComposition(ehrComposition)
-            .linkedObservationStatement(Optional.empty())
             .ehrExtractAvailabilityTime(EHR_EXTRACT_AVAILABILITY)
             .actualProblem(Optional.empty())
             .relatedClinicalContent(List.of())
-            .patientId(PATIENT_ID)
-            .encounterId(Optional.empty())
+            .patient(patient)
+            .encounter(Optional.empty())
             .asserterId(ASSERTER_ID)
             .practiseCode(PRACTISE_CODE)
             .build();
