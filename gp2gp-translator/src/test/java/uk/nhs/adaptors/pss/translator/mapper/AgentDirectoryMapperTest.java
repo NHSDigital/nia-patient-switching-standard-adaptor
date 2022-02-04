@@ -36,7 +36,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryWithMultipleAgents() {
-        var agentDirectory = unmarshallCodeElement("test.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("test.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -46,7 +46,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryWithAgentPersonAndRepresentedOrganizationNoCode() {
-        var agentDirectory = unmarshallCodeElement("agent_person_and_represented_org_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_person_and_represented_org_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -74,7 +74,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryWithAgentPersonAndRepresentedOrganizationWithOriginalText() {
-        var agentDirectory = unmarshallCodeElement("agent_person_and_represented_org_with_original_text_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_person_and_represented_org_with_original_text_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -102,7 +102,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryWithAgentPersonAndRepresentedOrganizationWithDisplayName() {
-        var agentDirectory = unmarshallCodeElement("agent_person_and_represented_org_with_display_name_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_person_and_represented_org_with_display_name_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -130,7 +130,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryOnlyAgentPersonNoOptionalFields() {
-        var agentDirectory = unmarshallCodeElement("agent_person_only_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_person_only_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -147,7 +147,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryOnlyAgentPersonUnknownName() {
-        var agentDirectory = unmarshallCodeElement("agent_person_only_no_name_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_person_only_no_name_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -164,7 +164,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryOnlyAgentPersonFullName() {
-        var agentDirectory = unmarshallCodeElement("agent_person_only_full_name_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_person_only_full_name_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -181,7 +181,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryOnlyAgentOrganizationNoOptionalFields() {
-        var agentDirectory = unmarshallCodeElement("agent_org_only_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_org_only_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -198,7 +198,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryOnlyAgentOrganizationUnknownName() {
-        var agentDirectory = unmarshallCodeElement("agent_org_no_name_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_org_no_name_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -215,7 +215,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryOnlyAgentOrganizationWithValidIdentifier() {
-        var agentDirectory = unmarshallCodeElement("agent_org_valid_identifier_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_org_valid_identifier_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -233,7 +233,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryOnlyAgentOrganizationWithInvalidIdentifier() {
-        var agentDirectory = unmarshallCodeElement("agent_org_invalid_identifier_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_org_invalid_identifier_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -250,7 +250,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryOnlyAgentOrganizationWithNonWPAddressAndTelecom() {
-        var agentDirectory = unmarshallCodeElement("agent_org_non_wp_address_and_telecom_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_org_non_wp_address_and_telecom_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -267,7 +267,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryOnlyAgentOrganizationWithWPTelecom() {
-        var agentDirectory = unmarshallCodeElement("agent_org_wp_telecom_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_org_wp_telecom_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -284,7 +284,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryOnlyAgentOrganizationWithWPAddress() {
-        var agentDirectory = unmarshallCodeElement("agent_org_wp_address_example.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("agent_org_wp_address_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
@@ -315,7 +315,7 @@ public class AgentDirectoryMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04AgentDirectory unmarshallCodeElement(String fileName) {
+    private RCMRMT030101UK04AgentDirectory unmarshallAgentDirectoryElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04AgentDirectory.class);
     }
 }

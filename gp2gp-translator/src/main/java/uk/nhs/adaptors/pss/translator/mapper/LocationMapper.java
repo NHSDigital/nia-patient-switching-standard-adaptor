@@ -1,20 +1,15 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Address;
-import org.hl7.fhir.dstu3.model.Address.AddressUse;
-import org.hl7.fhir.dstu3.model.Address.AddressType;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.RCMRMT030101UK04Location;
 import org.hl7.v3.RCMRMT030101UK04Place;
-import org.hl7.v3.CsTelecommunicationAddressUse;
-import org.hl7.v3.TEL;
-import org.hl7.v3.AD;
 
-import java.util.List;
+import uk.nhs.adaptors.pss.translator.util.AddressUtil;
+import uk.nhs.adaptors.pss.translator.util.TelecomUtil;
 
 public class LocationMapper {
     private static final String UNKNOWN_NAME = "Unknown";
@@ -32,8 +27,8 @@ public class LocationMapper {
         if (location.getLocatedEntity() != null && location.getLocatedEntity().getLocatedPlace() != null) {
             var locatedPlace = location.getLocatedEntity().getLocatedPlace();
             var name = getName(locatedPlace);
-            var telecom = getTelecom(locatedPlace);
-            var address = getAddress(locatedPlace);
+            var telecom = getLocationTelecom(locatedPlace);
+            var address = getLocationAddress(locatedPlace);
 
             return createLocation(id, identifier, name, telecom, address);
         }
@@ -53,64 +48,22 @@ public class LocationMapper {
         return name != null ? name : UNKNOWN_NAME;
     }
 
-    private ContactPoint getTelecom(RCMRMT030101UK04Place locatedPlace) {
+    private ContactPoint getLocationTelecom(RCMRMT030101UK04Place locatedPlace) {
         var telecom = locatedPlace.getTelecom().stream().findFirst();
         if (telecom.isPresent()) {
-            var contactPoint = new ContactPoint();
-            return contactPoint
-                    .setValue(getValue(telecom.get()))
-                    .setSystem(ContactPoint.ContactPointSystem.PHONE)
-                    .setUse(ContactPoint.ContactPointUse.WORK)
-                    .setRank(TELECOM_RANK);
+            return TelecomUtil.getTelecom(telecom.get());
         }
 
         return null;
     }
 
-    private String getValue(TEL telecom) {
-        var value = telecom.getValue();
-        if (value != null) {
-            return isWorkPlaceValue(telecom.getUse()) ? stripTelPrefix(value) : value;
-        }
-
-        return null;
-    }
-
-    private boolean isWorkPlaceValue(List<CsTelecommunicationAddressUse> use) {
-        return use.stream()
-                .anyMatch(addressUse -> WORK_PLACE.equals(addressUse.value()));
-    }
-
-    private String stripTelPrefix(String value) {
-        return value.substring(TEL_PREFIX_INT); // strips the 'tel:' prefix on phone numbers
-    }
-
-    private Address getAddress(RCMRMT030101UK04Place locatedPlace) {
+    private Address getLocationAddress(RCMRMT030101UK04Place locatedPlace) {
         var address = locatedPlace.getAddr();
-        if (isValidAddress(address)) {
-            var mappedAddress = new Address();
-            if (address.getStreetAddressLine() != null) {
-                address.getStreetAddressLine()
-                        .forEach(addressLine -> mappedAddress.addLine(addressLine));
-            }
-            if (StringUtils.isNotEmpty(address.getPostalCode())) {
-                mappedAddress.setPostalCode(address.getPostalCode());
-            }
-
-            return mappedAddress
-                .setUse(AddressUse.WORK)
-                .setType(AddressType.PHYSICAL);
+        if (address != null) {
+            return AddressUtil.getAddress(address);
         }
+
         return null;
-    }
-
-    private boolean isValidAddress(AD address) {
-        if (address != null && address.getUse() != null) {
-            var use = address.getUse().stream().findFirst();
-            return use.isPresent() && use.stream().anyMatch(addressUse -> WORK_PLACE.equals(addressUse.value()));
-        }
-
-        return false;
     }
 
     private Location createLocation(String id, Identifier identifier, String name, ContactPoint telecom, Address address) {

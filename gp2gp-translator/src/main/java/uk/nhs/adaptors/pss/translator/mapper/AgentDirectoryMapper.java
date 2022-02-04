@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.Address;
-import org.hl7.fhir.dstu3.model.Address.AddressUse;
-import org.hl7.fhir.dstu3.model.Address.AddressType;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.ContactPoint;
+import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.HumanName;
 import org.hl7.fhir.dstu3.model.HumanName.NameUse;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -19,7 +18,6 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.AD;
 import org.hl7.v3.CV;
-import org.hl7.v3.CsTelecommunicationAddressUse;
 import org.hl7.v3.II;
 import org.hl7.v3.PN;
 import org.hl7.v3.RCCTMT120101UK01Agent;
@@ -31,6 +29,8 @@ import org.hl7.v3.TEL;
 import org.springframework.util.CollectionUtils;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import uk.nhs.adaptors.pss.translator.util.AddressUtil;
+import uk.nhs.adaptors.pss.translator.util.TelecomUtil;
 
 public class AgentDirectoryMapper {
     private static final String PRACT_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1";
@@ -45,10 +45,8 @@ public class AgentDirectoryMapper {
     private static final String ORG_ROOT = "2.16.840.1.113883.2.1.4.3";
     private static final String UNKNOWN = "Unknown";
     private static final String WORK_PLACE = "WP";
-    private static final int TELECOM_RANK = 1;
-    private static final int TEL_PREFIX_INT = 4;
 
-    public List mapAgentDirectory(RCMRMT030101UK04AgentDirectory agentDirectory) {
+    public List<? extends DomainResource> mapAgentDirectory(RCMRMT030101UK04AgentDirectory agentDirectory) {
         var partList = agentDirectory.getPart();
         if (!CollectionUtils.isEmpty(partList)) {
             return partList.stream()
@@ -61,8 +59,8 @@ public class AgentDirectoryMapper {
         return null;
     }
 
-    private List mapAgent(RCCTMT120101UK01Agent agent) {
-        var agentResourceList = new ArrayList<>();
+    private List<? extends DomainResource> mapAgent(RCCTMT120101UK01Agent agent) {
+        var agentResourceList = new ArrayList<DomainResource>();
         var agentPerson = agent.getAgentPerson();
         var agentOrganization = agent.getAgentOrganization();
         var representedOrganization = agent.getRepresentedOrganization();
@@ -92,7 +90,7 @@ public class AgentDirectoryMapper {
     }
 
     private List<HumanName> getPractitionerName(PN name) {
-        var nameList = new ArrayList();
+        var nameList = new ArrayList<HumanName>();
         var humanName = new HumanName();
 
         humanName
@@ -145,72 +143,24 @@ public class AgentDirectoryMapper {
         return organization;
     }
 
+    private ContactPoint getOrganizationTelecom(List<TEL> telecomList) {
+        if (!telecomList.isEmpty()) {
+            return TelecomUtil.getTelecom(telecomList.get(0));
+        }
+
+        return null;
+    }
+
+    private Address getOrganizationAddress(List<AD> addressList) {
+        if (!addressList.isEmpty()) {
+            return AddressUtil.getAddress(addressList.get(0));
+        }
+
+        return null;
+    }
+
     private String getOrganizationName(String name) {
         return name != null ? name : UNKNOWN;
-    }
-
-    private ContactPoint getOrganizationTelecom(List<TEL> telecomList) {
-        var telecom = telecomList.stream().findFirst();
-        if (telecom.isPresent()) {
-            var contactPoint = new ContactPoint();
-            return contactPoint
-                .setValue(getTelecomValue(telecom.get()))
-                .setSystem(ContactPoint.ContactPointSystem.PHONE)
-                .setUse(ContactPoint.ContactPointUse.WORK)
-                .setRank(TELECOM_RANK);
-        }
-
-        return null;
-    }
-
-    private String getTelecomValue(TEL telecom) {
-        var value = telecom.getValue();
-        if (value != null) {
-            return isWorkPlaceValue(telecom.getUse()) ? stripTelPrefix(value) : value;
-        }
-
-        return null;
-    }
-
-    private boolean isWorkPlaceValue(List<CsTelecommunicationAddressUse> use) {
-        return use.stream()
-            .anyMatch(addressUse -> WORK_PLACE.equals(addressUse.value()));
-    }
-
-    private String stripTelPrefix(String value) {
-        return value.substring(TEL_PREFIX_INT); // strips the 'tel:' prefix on phone numbers
-    }
-
-    private Address getOrganizationAddress(List<AD> addr) {
-        var address = addr.stream()
-            .filter(this::isValidAddress)
-            .findFirst();
-        if (address.isPresent()) {
-            var mappedAddress = new Address();
-            var validAddress = address.get();
-
-            if (validAddress.getStreetAddressLine() != null) {
-                validAddress.getStreetAddressLine()
-                    .forEach(addressLine -> mappedAddress.addLine(addressLine));
-            }
-            if (StringUtils.isNotEmpty(validAddress.getPostalCode())) {
-                mappedAddress.setPostalCode(validAddress.getPostalCode());
-            }
-
-            return mappedAddress
-                .setUse(AddressUse.WORK)
-                .setType(AddressType.PHYSICAL);
-        }
-        return null;
-    }
-
-    private boolean isValidAddress(AD address) {
-        if (address != null && address.getUse() != null) {
-            var use = address.getUse().stream().findFirst();
-            return use.isPresent() && use.stream().anyMatch(addressUse -> WORK_PLACE.equals(addressUse.value()));
-        }
-
-        return false;
     }
 
     private CodeableConcept getText(CV code) {
