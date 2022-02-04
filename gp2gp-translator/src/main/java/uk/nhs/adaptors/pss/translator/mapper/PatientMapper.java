@@ -22,15 +22,17 @@ public class PatientMapper {
     private static final String META_PROFILE_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1";
     private static final String META_VERSION_ID = "1521806400000";
 
-    public Patient mapToPatient(RCMRMT030101UK04Patient patient) {
-        var identifier = createIdentifier(patient.getId().getExtension());
-        return createPatient(identifier, null);
-    }
 
     public Patient mapToPatient(RCMRMT030101UK04Patient patient, Organization organization) {
-        var identifier = createIdentifier(patient.getId().getExtension());
-        var managingOrganization = createManagingOrganizationReference(organization);
-        return createPatient(identifier, managingOrganization);
+        String nhsNumber = patient.getId().getExtension();
+        Patient mappedPatient = createPatient(nhsNumber);
+
+        if(organization != null && organization.hasIdElement()) {
+            Reference managingOrganizationReference = createManagingOrganizationReference(organization);
+            mappedPatient.setManagingOrganization(managingOrganizationReference);
+        }
+
+        return mappedPatient;
     }
 
     private Identifier createIdentifier(String nhsNumber) {
@@ -49,10 +51,9 @@ public class PatientMapper {
         return new Reference(organization.getIdElement());
     }
 
-    private Patient createPatient(Identifier identifier, Reference managingOrganizationReference) {
+    private Patient createPatient(String nhsNumber) {
         return (Patient) new Patient()
-            .addIdentifier(identifier)
-            .setManagingOrganization(managingOrganizationReference)
+            .addIdentifier(createIdentifier(nhsNumber))
             .setId(idGenerator.generateUuid())
             .setMeta(createMeta());
     }
