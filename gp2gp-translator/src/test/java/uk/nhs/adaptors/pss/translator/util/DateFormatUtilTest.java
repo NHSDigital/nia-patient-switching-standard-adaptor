@@ -3,7 +3,7 @@ package uk.nhs.adaptors.pss.translator.util;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static uk.nhs.adaptors.pss.translator.utils.IsoDateTimeFormatter.toIsoDateTimeString;
+import static uk.nhs.adaptors.pss.translator.util.IsoDateTimeFormatter.toIsoDateTimeString;
 
 import java.time.format.DateTimeParseException;
 import java.util.Date;
@@ -16,10 +16,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
 
 import junitparams.JUnitParamsRunner;
-import uk.nhs.adaptors.pss.translator.utils.DateFormatUtil;
 
 @RunWith(JUnitParamsRunner.class)
-public class DateUtilTest {
+public class DateFormatUtilTest {
     @ParameterizedTest(name = "parseDate")
     @MethodSource("dates")
     public void shouldParseForCorrectDateFormat(String inputString, String expectedDate) {

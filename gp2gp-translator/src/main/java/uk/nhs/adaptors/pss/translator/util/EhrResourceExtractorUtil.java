@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.utils;
+package uk.nhs.adaptors.pss.translator.util;
 
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Component;

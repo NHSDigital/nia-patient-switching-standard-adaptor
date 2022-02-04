@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.util;
+package uk.nhs.adaptors.common.util.fhir;
 
 import java.util.Optional;
 

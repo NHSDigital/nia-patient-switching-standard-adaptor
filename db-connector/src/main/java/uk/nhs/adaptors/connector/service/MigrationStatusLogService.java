@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
-import uk.nhs.adaptors.connector.util.DateUtils;
 
 @Slf4j
 @Service
