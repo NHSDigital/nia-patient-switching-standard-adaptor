@@ -231,14 +231,14 @@ public class AgentDirectoryMapper {
         if (isValidIdentifier(id)) {
             return identifier
                 .setSystem(ORG_IDENTIFIER_SYSTEM)
-                .setValue(id.getRoot());
+                .setValue(id.getExtension());
         }
 
         return null;
     }
 
     private boolean isValidIdentifier(II id) {
-        return id != null && id.getRoot() != null && id.getExtension() != null && ORG_ROOT.equals(id.getExtension());
+        return id != null && id.getRoot() != null && id.getExtension() != null && ORG_ROOT.equals(id.getRoot());
     }
 
     private PractitionerRole createPractitionerRole(String id, CV code) {

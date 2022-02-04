@@ -1,0 +1,11 @@
+<agentDirectory classCode="AGNT">
+    <part typeCode="PART">
+        <Agent classCode="AGNT">
+            <id root="1D9BDC28-50AB-440D-B421-0E5E049526FA"/>
+            <agentOrganization classCode="ORG" determinerCode="INSTANCE">
+                <id extension="A81001" root="2.16.840.1.113883.2.1.4.3"/>
+                <name>The Health Centre</name>
+            </agentOrganization>
+        </Agent>
+    </part>
+</agentDirectory>
