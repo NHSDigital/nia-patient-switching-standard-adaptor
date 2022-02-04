@@ -22,6 +22,7 @@ import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.ResourceType;
@@ -110,7 +111,7 @@ public class ConditionMapper {
                 () -> {
                     condition.setAssertedDate(conditionMapperParameters.getEhrExtractAvailabilityTime());
                 });
-            condition.setAsserter(new Reference(new IdType(ResourceType.Practitioner.name(), conditionMapperParameters.getAsserterId())));
+            condition.setAsserter(new Reference(conditionMapperParameters.getAsserter()));
 
             buildNotes(observationStatementOpt, linkSet).forEach(condition::addNote);
 
@@ -239,7 +240,7 @@ public class ConditionMapper {
         private List<Resource> relatedClinicalContent;
         private Patient patient;
         private Optional<Encounter> encounter;
-        private String asserterId;
+        private Practitioner asserter;
         private String practiseCode;
     }
 }

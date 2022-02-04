@@ -13,6 +13,7 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Immunization;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -63,6 +64,7 @@ public class ConditionMapperTest {
 
     private Encounter encounter;
     private Patient patient;
+    private Practitioner practitioner;
 
     @BeforeEach
     public void setUp() {
@@ -77,6 +79,8 @@ public class ConditionMapperTest {
         patient.setId(PATIENT_ID);
         encounter = new Encounter();
         encounter.setId(ENCOUNTER_ID);
+        practitioner = new Practitioner();
+        practitioner.setId(ASSERTER_ID);
     }
 
     @Test
@@ -102,7 +106,7 @@ public class ConditionMapperTest {
             ))
             .patient(patient)
             .encounter(Optional.of(encounter))
-            .asserterId(ASSERTER_ID)
+            .asserter(practitioner)
             .practiseCode(PRACTISE_CODE)
             .build();
 
@@ -119,7 +123,7 @@ public class ConditionMapperTest {
         assertThat(result.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY);
 
         assertThat(result.getSubject().getResource().getIdElement().getIdPart()).isEqualTo(PATIENT_ID);
-        assertThat(result.getAsserter().getReferenceElement().getIdPart()).isEqualTo(ASSERTER_ID);
+        assertThat(result.getAsserter().getResource().getIdElement().getIdPart()).isEqualTo(ASSERTER_ID);
         assertThat(result.getContext().getResource().getIdElement().getIdPart()).isEqualTo(ENCOUNTER_ID);
 
         assertThat(result.getOnsetDateTimeType()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME);
@@ -146,7 +150,7 @@ public class ConditionMapperTest {
             .relatedClinicalContent(List.of())
             .patient(patient)
             .encounter(Optional.empty())
-            .asserterId(ASSERTER_ID)
+            .asserter(practitioner)
             .practiseCode(PRACTISE_CODE)
             .build();
 
@@ -163,7 +167,7 @@ public class ConditionMapperTest {
         assertThat(result.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY);
 
         assertThat(result.getSubject().getResource().getIdElement().getIdPart()).isEqualTo(PATIENT_ID);
-        assertThat(result.getAsserter().getReferenceElement().getIdPart()).isEqualTo(ASSERTER_ID);
+        assertThat(result.getAsserter().getResource().getIdElement().getIdPart()).isEqualTo(ASSERTER_ID);
         assertThat(result.getContext().getReferenceElement()).isNotNull();
 
         assertThat(result.getNote().size()).isEqualTo(1);
@@ -185,7 +189,7 @@ public class ConditionMapperTest {
             .relatedClinicalContent(List.of())
             .patient(patient)
             .encounter(Optional.empty())
-            .asserterId(ASSERTER_ID)
+            .asserter(practitioner)
             .practiseCode(PRACTISE_CODE)
             .build();
 
