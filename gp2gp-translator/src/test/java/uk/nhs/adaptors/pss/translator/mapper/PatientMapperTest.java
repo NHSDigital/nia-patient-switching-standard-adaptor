@@ -64,12 +64,8 @@ public class PatientMapperTest {
         assertThat(patient.getMeta().getProfile().stream().findFirst().get().getValue()).isEqualTo(EXPECTED_META_PROFILE_URL);
 
         assertThat(patient.hasIdentifier()).isTrue();
-        assertThat(patient.getIdentifier().stream()
-            .anyMatch(identifier -> EXPECTED_NHS_NUMBER_SYSTEM_URL.equals(identifier.getSystem()))
-        ).isTrue();
-        assertThat(patient.getIdentifier().stream()
-            .filter(identifier -> identifier.getSystem().equals(EXPECTED_NHS_NUMBER_SYSTEM_URL)).findFirst().get().getValue()
-        ).isEqualTo(EXPECTED_NHS_NUMBER);
+        assertThat(patient.getIdentifierFirstRep().getSystem()).isEqualTo(EXPECTED_NHS_NUMBER_SYSTEM_URL);
+        assertThat(patient.getIdentifierFirstRep().getValue()).isEqualTo(EXPECTED_NHS_NUMBER);
     }
 
     @Test
