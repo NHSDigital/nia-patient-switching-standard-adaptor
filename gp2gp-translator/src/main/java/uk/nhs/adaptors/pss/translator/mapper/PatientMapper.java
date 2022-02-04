@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import java.util.UUID;
+
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Organization;
@@ -46,6 +48,7 @@ public class PatientMapper {
         return (Patient) new Patient()
             .addIdentifier(identifier)
             .setManagingOrganization(managingOrganizationReference)
+            .setId(UUID.randomUUID().toString())
             .setMeta(createMeta());
     }
 }

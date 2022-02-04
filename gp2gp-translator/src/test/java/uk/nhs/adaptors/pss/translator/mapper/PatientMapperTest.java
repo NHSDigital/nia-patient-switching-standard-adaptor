@@ -6,15 +6,20 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.testutil.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.UUID;
+
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04Patient;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
@@ -27,14 +32,16 @@ public class PatientMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/Patient/";
     private static final String PATIENT_EXAMPLE_XML = "patient_example.xml";
 
-    private static final String NHS_NUMBER_SYSTEM_URL = "https://fhir.nhs.uk/Id/nhs-number";
-    private static final String EXPECTED_META_PROFILE_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1";
-
-    private static final String EXPECTED_NHS_NUMBER = "1234567890";
+    private static final String TEST_PATIENT_ID = "TEST_PATIENT_ID";
     private static final String ORGANIZATION_CLASS_NAME = "Organization";
     private static final String TEST_ORGANIZATION_ID = "TEST_ORGANIZATION_ID";
+
+    private static final String EXPECTED_NHS_NUMBER_SYSTEM_URL = "https://fhir.nhs.uk/Id/nhs-number";
+    private static final String EXPECTED_META_PROFILE_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1";
+    private static final String EXPECTED_NHS_NUMBER = "1234567890";
     private static final String EXPECTED_ORGANIZATION_REFERENCE = ORGANIZATION_CLASS_NAME + SLASH + TEST_ORGANIZATION_ID;
     private static final String EXPECTED_META_VERSION_ID = "1521806400000";
+
 
     @Mock
     private Organization organization;
@@ -48,11 +55,12 @@ public class PatientMapperTest {
 
         Patient patient = patientMapper.mapToPatient(patientXml);
 
+//        assertThat(patient.getId()).isEqualTo(TEST_PATIENT_ID);
         assertThat(patient.hasIdentifier()).isTrue();
-        assertThat(patient.getIdentifier().stream().anyMatch(identifier -> NHS_NUMBER_SYSTEM_URL.equals(identifier.getSystem()))).isTrue();
+        assertThat(patient.getIdentifier().stream().anyMatch(identifier -> EXPECTED_NHS_NUMBER_SYSTEM_URL.equals(identifier.getSystem()))).isTrue();
 
         assertThat(patient.getIdentifier().stream()
-            .filter(identifier -> identifier.getSystem().equals(NHS_NUMBER_SYSTEM_URL)).findFirst().get().getValue()
+            .filter(identifier -> identifier.getSystem().equals(EXPECTED_NHS_NUMBER_SYSTEM_URL)).findFirst().get().getValue()
         ).isEqualTo(EXPECTED_NHS_NUMBER);
     }
 
