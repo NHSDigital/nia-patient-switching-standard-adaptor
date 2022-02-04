@@ -22,12 +22,11 @@ public class PatientMapper {
     private static final String META_PROFILE_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1";
     private static final String META_VERSION_ID = "1521806400000";
 
-
     public Patient mapToPatient(RCMRMT030101UK04Patient patient, Organization organization) {
         String nhsNumber = patient.getId().getExtension();
         Patient mappedPatient = createPatient(nhsNumber);
 
-        if(organization != null && organization.hasIdElement()) {
+        if (organization != null && organization.hasIdElement()) {
             Reference managingOrganizationReference = createManagingOrganizationReference(organization);
             mappedPatient.setManagingOrganization(managingOrganizationReference);
         }

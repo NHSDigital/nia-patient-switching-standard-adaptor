@@ -34,7 +34,7 @@ public class PatientMapperTest {
     private static final String EXPECTED_NHS_NUMBER_SYSTEM_URL = "https://fhir.nhs.uk/Id/nhs-number";
     private static final String EXPECTED_META_PROFILE_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1";
     private static final String EXPECTED_NHS_NUMBER = "1234567890";
-    private static final String EXPECTED_ORGANIZATION_REFERENCE = "%s/%s".formatted(ORGANIZATION_CLASS_NAME,TEST_ORGANIZATION_ID);
+    private static final String EXPECTED_ORGANIZATION_REFERENCE = "%s/%s".formatted(ORGANIZATION_CLASS_NAME, TEST_ORGANIZATION_ID);
     private static final String EXPECTED_META_VERSION_ID = "1521806400000";
 
     @Mock
