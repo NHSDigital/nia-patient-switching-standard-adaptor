@@ -186,6 +186,9 @@ pipeline {
                  }//Deploy
 
                 stage('PSS DB Migration') {
+                  when {
+                    expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
+                    }
                   steps {
                       script {
                         pwd
