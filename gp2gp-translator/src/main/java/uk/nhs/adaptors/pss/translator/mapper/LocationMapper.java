@@ -51,7 +51,7 @@ public class LocationMapper {
     private ContactPoint getLocationTelecom(RCMRMT030101UK04Place locatedPlace) {
         var telecom = locatedPlace.getTelecom().stream().findFirst();
         if (telecom.isPresent()) {
-            return TelecomUtil.getTelecom(telecom.get());
+            return TelecomUtil.mapTelecom(telecom.get());
         }
 
         return null;
@@ -60,7 +60,7 @@ public class LocationMapper {
     private Address getLocationAddress(RCMRMT030101UK04Place locatedPlace) {
         var address = locatedPlace.getAddr();
         if (address != null) {
-            return AddressUtil.getAddress(address);
+            return AddressUtil.mapAddress(address);
         }
 
         return null;

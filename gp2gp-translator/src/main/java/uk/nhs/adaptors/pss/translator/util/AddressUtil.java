@@ -8,7 +8,7 @@ import io.micrometer.core.instrument.util.StringUtils;
 public class AddressUtil {
     private static final String WORK_PLACE = "WP";
 
-    public static Address getAddress(AD address) {
+    public static Address mapAddress(AD address) {
         if (isValidAddress(address)) {
             var mappedAddress = new Address();
 

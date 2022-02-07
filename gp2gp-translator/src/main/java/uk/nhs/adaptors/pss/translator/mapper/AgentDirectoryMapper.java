@@ -145,7 +145,7 @@ public class AgentDirectoryMapper {
 
     private ContactPoint getOrganizationTelecom(List<TEL> telecomList) {
         if (!telecomList.isEmpty()) {
-            return TelecomUtil.getTelecom(telecomList.get(0));
+            return TelecomUtil.mapTelecom(telecomList.get(0));
         }
 
         return null;
@@ -153,7 +153,7 @@ public class AgentDirectoryMapper {
 
     private Address getOrganizationAddress(List<AD> addressList) {
         if (!addressList.isEmpty()) {
-            return AddressUtil.getAddress(addressList.get(0));
+            return AddressUtil.mapAddress(addressList.get(0));
         }
 
         return null;

@@ -82,6 +82,8 @@ public class ObjectFactory {
     private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
     private final static QName _AGENT_DIRECTORY_QNAME = new QName("urn:hl7-org:v3", "agentDirectory");
     private final static QName _PATIENT_QNAME = new QName("urn:hl7-org:v3", "patient");
+    private final static QName _ADDRESS_QNAME = new QName("urn:hl7-org:v3", "addr");
+    private final static QName _TELECOM_QNAME = new QName("urn:hl7-org:v3", "telecom");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
@@ -3520,5 +3522,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "patient")
     public JAXBElement<RCMRMT030101UK04Patient> createPatient(RCMRMT030101UK04Patient patient) {
         return new JAXBElement<RCMRMT030101UK04Patient>(_PATIENT_QNAME, RCMRMT030101UK04Patient.class, null, patient);
+    }
+
+    @XmlElementDecl(namespace = "", name = "addr")
+    public JAXBElement<AD> createPatient(AD address) {
+        return new JAXBElement<AD>(_PATIENT_QNAME, AD.class, null, address);
+    }
+
+    @XmlElementDecl(namespace = "", name = "telecom")
+    public JAXBElement<TEL> createTelecom(TEL telecom) {
+        return new JAXBElement<TEL>(_TELECOM_QNAME, TEL.class, null, telecom);
     }
 }

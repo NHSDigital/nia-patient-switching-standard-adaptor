@@ -11,7 +11,7 @@ public class TelecomUtil {
     private static final int TELECOM_RANK = 1;
     private static final int TEL_PREFIX_INT = 4;
 
-    public static ContactPoint getTelecom(TEL telecom) {
+    public static ContactPoint mapTelecom(TEL telecom) {
         var contactPoint = new ContactPoint();
         return contactPoint
             .setValue(getTelecomValue(telecom))
