@@ -1785,7 +1785,7 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link RCMRMT030101UK04EhrExtract }{@code >}
      */
-    @XmlElementDecl(namespace = "", name = "EhrExtract")
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "EhrExtract")
     public JAXBElement<RCMRMT030101UK04EhrExtract> createEhrExtract(RCMRMT030101UK04EhrExtract value) {
         return new JAXBElement<RCMRMT030101UK04EhrExtract>(_EhrExtract_QNAME, RCMRMT030101UK04EhrExtract.class, null, value);
     }
@@ -3499,38 +3499,39 @@ public class ObjectFactory {
      * deeply nested elements.
      *
      */
-    @XmlElementDecl(namespace = "", name = "code")
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "code")
     public JAXBElement<CD> createCode(CD value) {
         return new JAXBElement<CD>(_CD_QNAME, CD.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "", name = "value")
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "value")
     public JAXBElement<Value> createValue(Value value) {
         return new JAXBElement<Value>(_VALUE_QNAME, Value.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "", name = "ehrComposition")
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "ehrComposition")
     public JAXBElement<RCMRMT030101UK04EhrComposition> createEhrComposition(RCMRMT030101UK04EhrComposition value) {
         return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "", name = "agentDirectory")
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "agentDirectory")
     public JAXBElement<RCMRMT030101UK04AgentDirectory> createAgentDirectory(RCMRMT030101UK04AgentDirectory value) {
         return new JAXBElement<RCMRMT030101UK04AgentDirectory>(_AGENT_DIRECTORY_QNAME, RCMRMT030101UK04AgentDirectory.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "", name = "patient")
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "patient")
     public JAXBElement<RCMRMT030101UK04Patient> createPatient(RCMRMT030101UK04Patient patient) {
         return new JAXBElement<RCMRMT030101UK04Patient>(_PATIENT_QNAME, RCMRMT030101UK04Patient.class, null, patient);
     }
 
-    @XmlElementDecl(namespace = "", name = "addr")
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "addr")
     public JAXBElement<AD> createPatient(AD address) {
-        return new JAXBElement<AD>(_PATIENT_QNAME, AD.class, null, address);
+        return new JAXBElement<AD>(_ADDRESS_QNAME, AD.class, null, address);
     }
 
-    @XmlElementDecl(namespace = "", name = "telecom")
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "telecom")
     public JAXBElement<TEL> createTelecom(TEL telecom) {
         return new JAXBElement<TEL>(_TELECOM_QNAME, TEL.class, null, telecom);
     }
+
 }
