@@ -68,6 +68,7 @@ Please make sure you don't override the following classes with the generated one
 - RCMRMT030101UK04ObservationStatement.java
 - PQInc.java
 - RCMRMT030101UK04PlanStatement.java
+- RCCTMT120101UK01Organization.java
 - RCMRMT030101UK04RequestStatement.java
 
 New file:
