@@ -222,7 +222,7 @@ public class ConditionMapper {
             .map(Annotation::new)
             .forEach(annotationList::add));
 
-        if (linkSet.getCode().getOriginalText() != null) {
+        if (linkSet.hasCode() && linkSet.getCode().getOriginalText() != null) {
             StringType text = new StringType(linkSet.getCode().getOriginalText());
             annotationList.add(new Annotation(text));
         }
