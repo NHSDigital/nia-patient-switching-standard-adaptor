@@ -36,7 +36,7 @@ public class AgentDirectoryMapperTest {
 
     @Test
     public void mapAgentDirectoryWithMultipleAgents() {
-        var agentDirectory = unmarshallAgentDirectoryElement("test.xml");
+        var agentDirectory = unmarshallAgentDirectoryElement("multiple_agents_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
