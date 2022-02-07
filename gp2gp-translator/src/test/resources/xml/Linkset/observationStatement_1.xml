@@ -1,4 +1,4 @@
-<ObservationStatement classCode="OBS" moodCode="EVN">
+<ObservationStatement xmlns="urn:hl7-org:v3" classCode="OBS" moodCode="EVN">
     <id root="F714B712-A4D8-472E-8690-36118EF398C8" />
     <code code="1926.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Dribbling from mouth">
         <qualifier inverted="false">
