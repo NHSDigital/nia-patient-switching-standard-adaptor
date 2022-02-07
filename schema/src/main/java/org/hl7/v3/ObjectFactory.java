@@ -3521,8 +3521,8 @@ public class ObjectFactory {
     }
 
     @XmlElementDecl(namespace = "", name = "ObservationStatement")
-    public JAXBElement<RCMRMT030101UK04ObservationStatement> createLinkset(RCMRMT030101UK04ObservationStatement value) {
-        return new JAXBElement<RCMRMT030101UK04ObservationStatement>(_LINKSET_QNAME, RCMRMT030101UK04ObservationStatement.class, null, value);
+    public JAXBElement<RCMRMT030101UK04ObservationStatement> createObservationStatement(RCMRMT030101UK04ObservationStatement value) {
+        return new JAXBElement<RCMRMT030101UK04ObservationStatement>(_OBSERVATION_STATEMENT_QNAME, RCMRMT030101UK04ObservationStatement.class, null, value);
     }
 
     @XmlElementDecl(namespace = "", name = "agentDirectory")
@@ -3536,8 +3536,8 @@ public class ObjectFactory {
     }
 
     @XmlElementDecl(namespace = "", name = "addr")
-    public JAXBElement<AD> createPatient(AD address) {
-        return new JAXBElement<AD>(_PATIENT_QNAME, AD.class, null, address);
+    public JAXBElement<AD> createAddress(AD address) {
+        return new JAXBElement<AD>(_ADDRESS_QNAME, AD.class, null, address);
     }
 
     @XmlElementDecl(namespace = "", name = "telecom")
