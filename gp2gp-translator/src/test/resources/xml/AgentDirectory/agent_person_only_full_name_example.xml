@@ -1,0 +1,14 @@
+<agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
+    <part typeCode="PART">
+        <Agent classCode="AGNT">
+            <id root="95D00D99-0601-4A8E-AD1D-1B564307B0A6"/>
+            <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                <name>
+                    <prefix>Mr</prefix>
+                    <given>NHS</given>
+                    <family>Test</family>
+                </name>
+            </agentPerson>
+        </Agent>
+    </part>
+</agentDirectory>
