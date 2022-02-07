@@ -62,7 +62,7 @@ public class RCCTMT120101UK01Organization {
 
     protected II id;
     protected CV code;
-    protected ON name;
+    protected String name;
     protected ST desc;
     protected List<TEL> telecom;
     protected List<AD> addr;
@@ -137,7 +137,7 @@ public class RCCTMT120101UK01Organization {
      *     {@link ON }
      *     
      */
-    public ON getName() {
+    public String getName() {
         return name;
     }
 
@@ -149,7 +149,7 @@ public class RCCTMT120101UK01Organization {
      *     {@link ON }
      *     
      */
-    public void setName(ON value) {
+    public void setName(String value) {
         this.name = value;
     }
 
