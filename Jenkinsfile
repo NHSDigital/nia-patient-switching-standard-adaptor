@@ -129,7 +129,7 @@ pipeline {
                     }
                     stages {
 
-                        stage('Deploy to Kdev Environment using Terraform') {
+                        stage("${tfPrimaryDeploymentEnv}-deployment") {
                             when {
                               expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
                             }
