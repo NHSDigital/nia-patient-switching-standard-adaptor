@@ -1,4 +1,4 @@
-<addr>
+<addr xmlns="urn:hl7-org:v3">
     <streetAddressLine>234 ASHTREE ROAD</streetAddressLine>
     <streetAddressLine>LEEDS</streetAddressLine>
     <streetAddressLine>YORKSHIRE</streetAddressLine>

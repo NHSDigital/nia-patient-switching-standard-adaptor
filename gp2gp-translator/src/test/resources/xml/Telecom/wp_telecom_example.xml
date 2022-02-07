@@ -1,1 +1,1 @@
-<telecom value="tel:01234567890" use="WP" />
+<telecom xmlns="urn:hl7-org:v3" value="tel:01234567890" use="WP" />
