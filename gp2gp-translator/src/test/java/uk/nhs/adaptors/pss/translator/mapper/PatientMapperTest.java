@@ -53,7 +53,7 @@ public class PatientMapperTest {
 
     @Test
     public void testIdMetaAndNhsNumberIsAddedToPatient() {
-        RCMRMT030101UK04Patient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML).getRecordTarget().getPatient();
+        RCMRMT030101UK04Patient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML);
 
         Patient patient = patientMapper.mapToPatient(patientXml, null);
 
@@ -72,7 +72,7 @@ public class PatientMapperTest {
     public void testOrganizationReferenceIsAddedToPatient() {
         when(organization.hasIdElement()).thenReturn(true);
         when(organization.getIdElement()).thenReturn(new IdType(ORGANIZATION_CLASS_NAME, TEST_ORGANIZATION_ID));
-        RCMRMT030101UK04Patient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML).getRecordTarget().getPatient();
+        RCMRMT030101UK04Patient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML);
 
         Patient patient = patientMapper.mapToPatient(patientXml, organization);
 
@@ -82,7 +82,7 @@ public class PatientMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallCodeElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UK04Patient unmarshallCodeElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04Patient.class);
     }
 }
