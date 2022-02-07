@@ -43,7 +43,7 @@ pipeline {
                                     sh '''
                                         source docker/vars.local.tests.sh
                                         docker network create ps-network || true
-                                        docker-compose -f docker/docker-compose.yml up -d ps_db activemq
+                                        docker-compose -f docker/docker-compose.yml up -d ps_db
                                         docker-compose -f docker/docker-compose.yml up db_migration
                                     '''
                                 }
@@ -55,7 +55,7 @@ pipeline {
                                     sh '''
                                         source docker/vars.local.tests.sh
                                         docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gpc_facade
-                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gpc_facade gpc_facade
+                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gpc_facade gpc_facade activemq
                                     '''
                                 }
                             }
@@ -65,6 +65,7 @@ pipeline {
                                 script {
                                     sh '''
                                        source docker/vars.local.tests.sh
+                                       docker-compose up --build --force-recreate --no-deps activemq
                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gp2gp_translator
                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gp2gp_translator gp2gp_translator
                                    '''
