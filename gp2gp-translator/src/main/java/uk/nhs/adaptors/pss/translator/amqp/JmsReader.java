@@ -5,6 +5,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import javax.jms.JMSException;
 import javax.jms.Message;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.qpid.jms.message.JmsBytesMessage;
 import org.apache.qpid.jms.message.JmsTextMessage;
 
@@ -26,10 +27,11 @@ public class JmsReader {
     private static String readBytesMessage(JmsBytesMessage message) throws JMSException {
         byte[] bytes = new byte[(int) message.getBodyLength()];
         message.readBytes(bytes);
-        return new String(bytes, UTF_8);
+        return Base64.isBase64(bytes) ? new String(Base64.decodeBase64(bytes)) : new String(bytes, UTF_8);
     }
 
     private static String readTextMessage(JmsTextMessage message) throws JMSException {
-        return message.getText();
+        var text = message.getText();
+        return Base64.isBase64(text) ? new String(Base64.decodeBase64(text)) : text;
     }
 }

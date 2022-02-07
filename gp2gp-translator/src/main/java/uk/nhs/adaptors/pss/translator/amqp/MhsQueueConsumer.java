@@ -25,6 +25,7 @@ public class MhsQueueConsumer {
         if (mhsQueueMessageHandler.handleMessage(message)) {
             message.acknowledge();
             LOGGER.debug("Acknowledged MSHQueue message_id=[{}]", messageId);
+            // send continue
         } else {
             LOGGER.debug("Leaving message of message_id=[{}] on the MSHQueue", messageId);
         }
