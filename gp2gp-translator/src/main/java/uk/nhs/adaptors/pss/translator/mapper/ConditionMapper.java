@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildReferenceExtension;
+import static uk.nhs.adaptors.pss.translator.util.ExtensionUtil.buildReferenceExtension;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,14 +18,12 @@ import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Resource;
-import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
@@ -65,7 +63,8 @@ public class ConditionMapper {
             .filter(Objects::nonNull)
             .findFirst();
 
-        Optional<RCMRMT030101UK04ObservationStatement> observationStatementOpt = conditionMapperParameters.getEhrComposition().getComponent().stream()
+        Optional<RCMRMT030101UK04ObservationStatement> observationStatementOpt =
+            conditionMapperParameters.getEhrComposition().getComponent().stream()
             .map(RCMRMT030101UK04Component4::getObservationStatement)
             .filter(Objects::nonNull)
             .findFirst();
