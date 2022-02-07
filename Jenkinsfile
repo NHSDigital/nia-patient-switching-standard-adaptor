@@ -43,7 +43,7 @@ pipeline {
                                     sh '''
                                         source docker/vars.local.tests.sh
                                         docker network create ps-network || true
-                                        docker-compose -f docker/docker-compose.yml up -d ps_db
+                                        docker-compose -f docker/docker-compose.yml up -d ps_db activemq
                                         docker-compose -f docker/docker-compose.yml up db_migration
                                     '''
                                 }
@@ -55,7 +55,7 @@ pipeline {
                                     sh '''
                                         source docker/vars.local.tests.sh
                                         docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gpc_facade
-                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gpc_facade gpc_facade activemq
+                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gpc_facade gpc_facade
                                     '''
                                 }
                             }
@@ -65,7 +65,6 @@ pipeline {
                                 script {
                                     sh '''
                                        source docker/vars.local.tests.sh
-                                       docker-compose up --build --force-recreate --no-deps activemq
                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gp2gp_translator
                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gp2gp_translator gp2gp_translator
                                    '''
@@ -148,6 +147,7 @@ pipeline {
                                         if (terraformInit(TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
                                         if (terraform('plan', TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Plan failed")}
                                         if (terraform('apply', TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
+                                        if (terraformOutput(TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion) !=0) { error("Terraform output failed")}
                                       }
                                     }
                                 }  //script
@@ -180,7 +180,25 @@ pipeline {
                         } // Stage Deploy Secondary Deployment using Terraform
                     }//Stages
                  }//Deploy
-             } //stages
+
+                stage('PSS DB Migration') {
+                  steps {
+                      script {
+                        pwd
+                              sh '''
+                                  
+                                  sed -i 's/ = /=/' ~/.psdbsecrets.tfvars
+                                  source ~/.psdbsecrets.tfvars
+                                  sed -i -e 's/^/export /g' -e 's/ = /=/g' ~/.tfoutput.tfvars
+                                  source ~/.tfoutput.tfvars
+                                  set
+                                  cd db-connector
+                                  ./gradlew update
+                              '''
+                          } // PSS DB Migration script
+                  } // steps-PSS DB Migration Code
+                } // stage-PSS DB Migration Code
+            } //stages
         } //Stage Build 
     } //Stages
       post {
@@ -241,6 +259,29 @@ int terraform(String action, String tfStateBucket, String project, String enviro
       return sh(label:"Terraform: "+action, script: command, returnStatus: true)
     } // dir
 } // int Terraform
+
+int terraformOutput(String tfStateBucket, String project, String environment, String component, String region) {
+  List<String> psDbSecretslist = getSecretsByPrefix("postgres",region)
+  Map<String,Object> psDbSecretsExtracted = [:]
+  Map<String,Object> psDbSecrets = [:]
+    psDbSecretslist.each {
+        String rawSecret = getSecretValue(it,region)
+        psDbSecrets.put(it,rawSecret)
+    }
+    psDbSecretsExtracted.put("export PS_DB_OWNER_NAME",psDbSecrets.get('postgres-master-username'))
+    psDbSecretsExtracted.put("export PS_DB_OWNER_PASSWORD",psDbSecrets.get('postgres-master-password'))
+    psDbSecretsExtracted.put("export GP2GP_TRANSLATOR_USER_DB_PASSWORD",psDbSecrets.get('postgres_psdb_gp2gp_translator_user_password'))
+    psDbSecretsExtracted.put("export GPC_FACADE_USER_DB_PASSWORD",psDbSecrets.get('postgres_psdb_gpc_facade_user_password'))
+
+    writeVariablesToFile("~/.psdbsecrets.tfvars",psDbSecretsExtracted)
+  
+  String terraformBinPath = tfEnv()
+  println("Terraform outputs for Environment: ${environment} Component: ${component} in region: ${region} using bucket: ${tfStateBucket}")
+  String command = "${terraformBinPath} output > ~/.tfoutput.tfvars"
+  dir("components/${component}") {
+    return( sh( label: "Terraform Output", script: command, returnStatus: true))
+  } // dir
+} // int TerraformOutput
 
 Map<String,String> collectTfOutputs(String component) {
   Map<String,String> returnMap = [:]
