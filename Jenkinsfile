@@ -1,5 +1,5 @@
 String tfProject             = "nia"
-String kdevdeployment        = "kdev"
+String tfPrimaryDeploymentEnv     = "kdev"
 String tfSecondaryDeploymentEnv   = "kdev"
 String tfComponent           = "pss"
 String redirectEnv           = "kdev"         // Name of environment where TF deployment needs to be re-directed
@@ -125,7 +125,7 @@ pipeline {
 
                  stage('Deploy') {
                     options {
-                        lock("${tfProject}-${kdevdeployment}-${tfComponent}")
+                        lock("${tfProject}-${tfPrimaryDeploymentEnv}-${tfComponent}")
                     }
                     stages {
 
@@ -137,7 +137,7 @@ pipeline {
                                 script {
                                     
                                     // Check if TF deployment environment needs to be redirected
-                                    if (GIT_BRANCH == redirectBranch) { kdevdeployment = redirectEnv }
+                                    if (GIT_BRANCH == redirectBranch) { tfPrimaryDeploymentEnv = redirectEnv }
                                     
                                     String tfCodeBranch  = "develop"
                                     String tfCodeRepo    = "https://github.com/nhsconnect/integration-adaptors"
@@ -148,10 +148,10 @@ pipeline {
                                     dir ("integration-adaptors") {
                                       git (branch: tfCodeBranch, url: tfCodeRepo)
                                       dir ("terraform/aws") {
-                                        if (terraformInit(TF_STATE_BUCKET, tfProject, kdevdeployment, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
-                                        if (terraform('plan', TF_STATE_BUCKET, tfProject, kdevdeployment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Plan failed")}
-                                        if (terraform('apply', TF_STATE_BUCKET, tfProject, kdevdeployment, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
-                                        if (terraformOutput(TF_STATE_BUCKET, tfProject, kdevdeployment, tfComponent, tfRegion) !=0) { error("Terraform output failed")}
+                                        if (terraformInit(TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
+                                        if (terraform('plan', TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Plan failed")}
+                                        if (terraform('apply', TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
+                                        if (terraformOutput(TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion) !=0) { error("Terraform output failed")}
                                       }
                                     }
                                 }  //script
