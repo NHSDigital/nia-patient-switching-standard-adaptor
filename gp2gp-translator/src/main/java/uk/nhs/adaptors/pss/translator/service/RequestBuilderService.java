@@ -6,10 +6,8 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class RequestBuilderService {
 
     private static final int BYTE_COUNT = 16 * 1024 * 1024;

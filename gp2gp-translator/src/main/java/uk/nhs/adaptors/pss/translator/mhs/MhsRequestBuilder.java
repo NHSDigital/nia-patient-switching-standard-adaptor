@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.netty.http.client.HttpClient;
 import uk.nhs.adaptors.pss.translator.config.MhsOutboundConfiguration;
-import uk.nhs.adaptors.pss.translator.model.OutboundMessage;
+import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.RequestBuilderService;
 
 @Slf4j

@@ -6,18 +6,21 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 
 public class EhrExtractRequestServiceTest {
 
     private static final String TEST_NHS_NUMBER = "TEST_NHS_NUMBER";
     private static final String TEST_FROM_ODS_CODE = "TEST_FROM_ODS";
 
+    @InjectMocks
     private EhrExtractRequestService ehrExtractRequestService;
 
-    @BeforeEach
-    public void setup() {
-        ehrExtractRequestService = new EhrExtractRequestService();
-    }
+    //todo add mocks
+//    @BeforeEach
+//    public void setup() {
+//        ehrExtractRequestService = new EhrExtractRequestService();
+//    }
 
     @Test
     public void whenBuildEhrExtractRequestThenTemplateIsFilled() throws IOException {

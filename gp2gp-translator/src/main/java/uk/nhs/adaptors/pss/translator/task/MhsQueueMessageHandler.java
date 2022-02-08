@@ -37,7 +37,7 @@ public class MhsQueueMessageHandler {
 
     public boolean handleMessage(Message message) {
         try {
-            InboundMessage inboundMessage = readMessage(message); // todo moze bez tego potem?
+            InboundMessage inboundMessage = readMessage(message);
             RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
             Envelope ebXml = unmarshallString(inboundMessage.getEbXML(), Envelope.class);
             // todo wyciagnac SOAP env i zapisac info do bazy z ebXML i zdecydowac co jest handlowane

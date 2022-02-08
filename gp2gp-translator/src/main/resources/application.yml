@@ -38,5 +38,3 @@ general:
 
 mhs:
   url: ${MHS_BASE_URL:http://localhost:8080/}
-  outbound:
-    url: ${mhs.url}${MHS_OUTBOUND_URL:mhs/outbound}
