@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+    <availabilityTime value="20200101010101" />
+    <component typeCode="COMP">
+        <ehrFolder classCode="FOLDER" moodCode="EVN">
+            <component typeCode="COMP">
+                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                    <availabilityTime value="20190708143500"/>
+                    <Participant2 typeCode="PRF" contextControlCode="OP">
+                        <agentRef classCode="AGNT">
+                            <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
+                        </agentRef>
+                    </Participant2>
+                    <component typeCode="COMP">
+                        <NarrativeStatement classCode="OBS" moodCode="EVN">
+                            <id root="5E496953-065B-41F2-9577-BE8F2FBD0757"/>
+                            <text mediaType="text/x-h7uk-pmip">
+                                CommentType:LAB SPECIMEN COMMENT(E271)
+                                CommentDate:20100223000000
+
+                                text of the note 2
+                                text of the note 1
+                                Quantity: 28 tablet
+                                Fasting Status: in progress
+                                Received Date: 2010-02-24 15:41
+
+                                Collected By: Mr NHS Test
+                            </text>
+                            <statusCode code="COMPLETE"/>
+                            <availabilityTime value="20201012143344"/>
+                        </NarrativeStatement>
+                    </component>
+                </ehrComposition>
+            </component>
+        </ehrFolder>
+    </component>
+</EhrExtract>
