@@ -32,8 +32,7 @@ public class ParticipantReferenceUtilTest {
         var ehrComposition = unmarshallEhrCompositionElement("pprf_participant.xml");
         var participants = getParticipants(ehrComposition);
 
-        Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition,
-            false);
+        Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition);
 
         assertThat(participantReference.getReference()).isEqualTo("Practitioner/8D1610C2-5E48-4ED5-882B-5A4A172AFA35");
     }
@@ -43,8 +42,7 @@ public class ParticipantReferenceUtilTest {
         var ehrComposition = unmarshallEhrCompositionElement("prf_participant.xml");
         var participants = getParticipants(ehrComposition);
 
-        Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition,
-            false);
+        Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition);
 
         assertThat(participantReference.getReference()).isEqualTo("Practitioner/9C1610C2-5E48-4ED5-882B-5A4A172AFA35");
     }
@@ -54,8 +52,7 @@ public class ParticipantReferenceUtilTest {
         var ehrComposition = unmarshallEhrCompositionElement("participant2_participant.xml");
         var participants = getParticipants(ehrComposition);
 
-        Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition,
-            false);
+        Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition);
 
         assertThat(participantReference.getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
     }
@@ -65,8 +62,7 @@ public class ParticipantReferenceUtilTest {
         var ehrComposition = unmarshallEhrCompositionElement("participant2_participant.xml");
         var participants = getParticipants(ehrComposition);
 
-        Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition,
-            false);
+        Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition);
 
         assertThat(StringUtils.isEmpty(participantReference.getReference()));
     }

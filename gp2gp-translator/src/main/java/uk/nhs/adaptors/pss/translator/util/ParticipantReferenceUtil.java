@@ -15,10 +15,9 @@ public class ParticipantReferenceUtil {
     private static final String PRF_TYPE_CODE = "PRF";
     private static final String PPRF_TYPE_CODE = "PPRF";
     private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/";
-    
+
     public static Reference getParticipantReference(List<RCMRMT030101UK04Participant> participantList,
-        RCMRMT030101UK04EhrComposition ehrComposition,
-        boolean unknownParticipantRequired) {
+        RCMRMT030101UK04EhrComposition ehrComposition) {
         Reference reference = new Reference();
         var nonNullFlavorParticipants = participantList.stream()
             .filter(ParticipantReferenceUtil::isNotNullFlavour)
@@ -39,10 +38,8 @@ public class ParticipantReferenceUtil {
             return reference.setReference(PRACTITIONER_REFERENCE_PREFIX + participant2Reference.get());
         }
 
-        if (unknownParticipantRequired) {
-            // TODO: if none of these are present, then we should reference an 'Unknown User' Practitioner (FOR THOSE
-            //  MAPPERS THAT REQUIRE IT)(NIAD-2026)
-        }
+        // TODO: if none of these are present, then we should reference an 'Unknown User' Practitioner (FOR THOSE
+        //  MAPPERS THAT REQUIRE IT- eg. ReferralRequest does not need unknown user for 'requester') (NIAD-2026)
 
         return reference;
     }

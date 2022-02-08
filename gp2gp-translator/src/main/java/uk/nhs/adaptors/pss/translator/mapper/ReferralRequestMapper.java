@@ -3,8 +3,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
@@ -17,12 +15,9 @@ import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralCategory;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
-import org.hl7.v3.II;
+
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UK04AgentRef;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04Participant;
-import org.hl7.v3.RCMRMT030101UK04Participant2;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.hl7.v3.RCMRMT030101UK04ResponsibleParty3;
 import org.hl7.v3.TS;
@@ -39,8 +34,6 @@ public class ReferralRequestMapper {
     private static final String ACTION_DATE_PREFIX = "Action Date: ";
     private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/";
     private static final String RESP_PARTY_TYPE_CODE = "RESP";
-    private static final String PRF_TYPE_CODE = "PRF";
-    private static final String PPRF_TYPE_CODE = "PPRF";
 
     private CodeableConceptMapper codeableConceptMapper;
 
@@ -52,7 +45,7 @@ public class ReferralRequestMapper {
         var reasonCode = getReasonCode(requestStatement.getCode());
         var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
         var recipient = getRecipient(requestStatement.getResponsibleParty());
-        var requester = ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(), ehrComposition, false);
+        var requester = ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(), ehrComposition);
 
         /**
          * TODO: Known future implementations to this mapper
