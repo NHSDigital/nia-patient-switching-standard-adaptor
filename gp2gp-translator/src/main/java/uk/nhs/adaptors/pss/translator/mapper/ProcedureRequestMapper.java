@@ -23,6 +23,7 @@ import org.hl7.v3.TS;
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
+import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -54,7 +55,9 @@ public class ProcedureRequestMapper {
         var reasonCode = codeableConceptMapper.mapToCodeableConcept(planStatement.getCode());
         var authoredOn = getAuthoredOn(planStatement.getAvailabilityTime(), ehrExtract, planStatement.getId());
         var occurrence = getOccurrenceDate(planStatement.getEffectiveTime());
-        var agentReference = getAgentReference(planStatement.getParticipant(), ehrExtract, planStatement.getId());
+        var agentReference = ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(),
+            EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatement.getId()),
+            true);
 
         return createProcedureRequest(id, identifier, note, reasonCode, authoredOn, occurrence, agentReference);
     }

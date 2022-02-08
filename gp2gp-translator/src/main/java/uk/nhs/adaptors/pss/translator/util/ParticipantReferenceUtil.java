@@ -14,6 +14,7 @@ import org.hl7.v3.RCMRMT030101UK04Participant2;
 public class ParticipantReferenceUtil {
     private static final String PRF_TYPE_CODE = "PRF";
     private static final String PPRF_TYPE_CODE = "PPRF";
+    private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/";
     
     public static Reference getParticipantReference(List<RCMRMT030101UK04Participant> participantList,
         RCMRMT030101UK04EhrComposition ehrComposition,
@@ -25,21 +26,22 @@ public class ParticipantReferenceUtil {
 
         var pprfParticipants = getParticipantReference(nonNullFlavorParticipants, PPRF_TYPE_CODE);
         if (pprfParticipants.isPresent()) {
-            return reference.setReference(pprfParticipants.get());
+            return reference.setReference(PRACTITIONER_REFERENCE_PREFIX + pprfParticipants.get());
         }
 
         var prfParticipants = getParticipantReference(nonNullFlavorParticipants, PRF_TYPE_CODE);
         if (prfParticipants.isPresent()) {
-            return reference.setReference(prfParticipants.get());
+            return reference.setReference(PRACTITIONER_REFERENCE_PREFIX + prfParticipants.get());
         }
 
         var participant2Reference = getParticipant2Reference(ehrComposition);
         if (participant2Reference.isPresent()) {
-            return reference.setReference(participant2Reference.get());
+            return reference.setReference(PRACTITIONER_REFERENCE_PREFIX + participant2Reference.get());
         }
 
         if (unknownParticipantRequired) {
-            // TODO: if none of these are present, then we should reference an 'Unknown User' Practitioner (NIAD-2026)
+            // TODO: if none of these are present, then we should reference an 'Unknown User' Practitioner (FOR THOSE
+            //  MAPPERS THAT REQUIRE IT)(NIAD-2026)
         }
 
         return reference;
