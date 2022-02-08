@@ -62,6 +62,8 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .header("from-asid", "123456")
+                .header("to-asid", "32145")
                 .content(requestBody))
             .andExpect(status().isAccepted());
 
@@ -80,12 +82,16 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .header("from-asid", "123456")
+                .header("to-asid", "32145")
                 .content(requestBody))
             .andExpect(status().isAccepted());
 
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .header("from-asid", "123456")
+                .header("to-asid", "32145")
                 .content(requestBody))
             .andExpect(status().isNoContent());
 
@@ -101,6 +107,8 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(MediaType.TEXT_PLAIN)
+                .header("from-asid", "123456")
+                .header("to-asid", "32145")
                 .content(requestBody))
             .andExpect(status().isUnsupportedMediaType())
             .andExpect(content().json(expectedResponseBody));
@@ -116,6 +124,8 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(nonexistentEndpoint)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .header("from-asid", "123456")
+                .header("to-asid", "32145")
                 .content(requestBody))
             .andExpect(status().isNotFound())
             .andExpect(content().json(expectedResponseBody));
@@ -130,6 +140,8 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             patch(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .header("from-asid", "123456")
+                .header("to-asid", "32145")
                 .content(requestBody))
             .andExpect(status().isMethodNotAllowed())
             .andExpect(content().json(expectedResponseBody));
@@ -143,6 +155,8 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .header("from-asid", "123456")
+                .header("to-asid", "32145")
                 .content(requestBody))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(content().json(expectedResponseBody));
@@ -156,6 +170,8 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .header("from-asid", "123456")
+                .header("to-asid", "32145")
                 .content(requestBody))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(content().json(expectedResponseBody));
@@ -168,8 +184,24 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .header("from-asid", "123456")
+                .header("to-asid", "32145")
                 .content(StringUtils.EMPTY))
             .andExpect(status().isUnprocessableEntity())
+            .andExpect(content().json(expectedResponseBody));
+    }
+
+    @Test
+    public void sendPatientTransferRequestWithoutRequiredHeaders() throws Exception {
+        var patientNhsNumber = generatePatientNhsNumber();
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH, patientNhsNumber);
+        var expectedResponseBody = readResourceAsString("/responses/migrate-patient-record/badRequestResponseBody.json");
+
+        mockMvc.perform(
+            post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .content(requestBody))
+            .andExpect(status().isBadRequest())
             .andExpect(content().json(expectedResponseBody));
     }
 
