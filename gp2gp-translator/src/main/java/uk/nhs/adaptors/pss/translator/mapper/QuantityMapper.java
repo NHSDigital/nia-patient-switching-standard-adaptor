@@ -8,7 +8,9 @@ import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
 import org.hl7.v3.PQInc;
 import org.hl7.v3.PQR;
 import org.hl7.v3.Value;
+import org.springframework.stereotype.Service;
 
+@Service
 public class QuantityMapper {
     private static final String UNIT_SYSTEM = "http://unitsofmeasure.org";
     private static final String TYPE_IVL_PQ = "IVL_PQ";
