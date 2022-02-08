@@ -16,9 +16,6 @@ public class LocationMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String LOCATION_ID_EXTENSION = "-LOC";
-    private static final String WORK_PLACE = "WP";
-    private static final int TELECOM_RANK = 1;
-    private static final int TEL_PREFIX_INT = 4;
 
     public Location mapToLocation(RCMRMT030101UK04Location location, String rootId) {
         var id = rootId + LOCATION_ID_EXTENSION;
