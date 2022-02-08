@@ -156,6 +156,10 @@ public class RCMRMT030101UK04LinkSet {
         this.code = value;
     }
 
+    public boolean hasCode() {
+        return this.code != null;
+    }
+
     /**
      * Gets the value of the statusCode property.
      * 
