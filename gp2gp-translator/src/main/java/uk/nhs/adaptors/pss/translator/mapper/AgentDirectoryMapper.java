@@ -44,7 +44,6 @@ public class AgentDirectoryMapper {
     private static final String PRACT_ROLE_SUFFIX = "-PR";
     private static final String ORG_ROOT = "2.16.840.1.113883.2.1.4.3";
     private static final String UNKNOWN = "Unknown";
-    private static final String WORK_PLACE = "WP";
 
     public List<? extends DomainResource> mapAgentDirectory(RCMRMT030101UK04AgentDirectory agentDirectory) {
         var partList = agentDirectory.getPart();
@@ -96,8 +95,17 @@ public class AgentDirectoryMapper {
         humanName
             .setUse(NameUse.OFFICIAL)
             .setFamily(getPractitionerFamily(name.getFamily()));
-        humanName.getGiven().add(getPractitionerGiven(name.getGiven()));
-        humanName.getPrefix().add(getPractitionerPrefix(name.getPrefix()));
+
+        var given = getPractitionerGiven(name.getGiven());
+        if (given != null) {
+            humanName.getGiven().add(given);
+        }
+
+        var prefix = getPractitionerPrefix(name.getPrefix());
+        if (prefix != null) {
+            humanName.getPrefix().add(prefix);
+        }
+
         nameList.add(humanName);
 
         return nameList;
@@ -123,8 +131,16 @@ public class AgentDirectoryMapper {
             .setId(id + ORG_ID_SUFFIX);
         organization.getMeta().getProfile().add(new UriType(ORG_META_PROFILE));
         organization.getIdentifier().add(getOrganizationIdentifier(representedOrg.getId()));
-        organization.getTelecom().add(getOrganizationTelecom(representedOrg.getTelecom()));
-        organization.getAddress().add(getOrganizationAddress(representedOrg.getAddr()));
+
+        var address = getOrganizationAddress(representedOrg.getAddr());
+        if (address != null) {
+            organization.getAddress().add(address);
+        }
+
+        var telecom = getOrganizationTelecom(representedOrg.getTelecom());
+        if (telecom != null) {
+            organization.getTelecom().add(telecom);
+        }
 
         return organization;
     }
@@ -135,10 +151,26 @@ public class AgentDirectoryMapper {
             .setName(getOrganizationName(agentOrg.getName()))
             .setId(id);
         organization.getMeta().getProfile().add(new UriType(ORG_META_PROFILE));
-        organization.getIdentifier().add(getOrganizationIdentifier(agentOrg.getId()));
-        organization.getType().add(getText(code));
-        organization.getTelecom().add(getOrganizationTelecom(agentOrg.getTelecom()));
-        organization.getAddress().add(getOrganizationAddress(agentOrg.getAddr()));
+
+        var identifier = getOrganizationIdentifier(agentOrg.getId());
+        if (identifier != null) {
+            organization.getIdentifier().add(identifier);
+        }
+
+        var text = getText(code);
+        if (text != null) {
+            organization.getType().add(getText(code));
+        }
+
+        var address = getOrganizationAddress(agentOrg.getAddr());
+        if (address != null) {
+            organization.getAddress().add(address);
+        }
+
+        var telecom = getOrganizationTelecom(agentOrg.getTelecom());
+        if (telecom != null) {
+            organization.getTelecom().add(telecom);
+        }
 
         return organization;
     }
@@ -198,7 +230,11 @@ public class AgentDirectoryMapper {
         practitionerRole.getMeta().getProfile().add(new UriType(PRACT_ROLE_META_PROFILE));
         practitionerRole.setPractitioner(new Reference(PRACT_PREFIX + id));
         practitionerRole.setOrganization(new Reference(ORG_PREFIX + id + ORG_ID_SUFFIX));
-        practitionerRole.getCode().add(getText(code));
+
+        var text = getText(code);
+        if (text != null) {
+            practitionerRole.getCode().add(getText(code));
+        }
 
         return practitionerRole;
     }

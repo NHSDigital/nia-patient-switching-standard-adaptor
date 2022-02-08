@@ -62,14 +62,14 @@ public class AgentDirectoryMapperTest {
         assertThat(organization.getId()).isEqualTo("94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG");
         assertThat(organization.getMeta().getProfile().get(0).getValue()).isEqualTo(ORG_META_PROFILE);
         assertThat(organization.getName()).isEqualTo("TEMPLE SOWERBY MEDICAL PRACTICE");
-        assertThat(organization.getTypeFirstRep().getText()).isNull();
+        assertThat(organization.getType().size()).isEqualTo(0);
 
         var practitionerRole = (PractitionerRole) mappedAgents.get(2);
         assertThat(practitionerRole.getId()).isEqualTo("94F00D99-0601-4A8E-AD1D-1B564307B0A6-PR");
         assertThat(practitionerRole.getMeta().getProfile().get(0).getValue()).isEqualTo(PRACT_ROLE_META_PROFILE);
         assertThat(practitionerRole.getPractitioner().getReference()).isEqualTo("Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6");
         assertThat(practitionerRole.getOrganization().getReference()).isEqualTo("Organization/94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG");
-        assertThat(practitionerRole.getCodeFirstRep()).isNull();
+        assertThat(practitionerRole.getCode().size()).isEqualTo(0);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class AgentDirectoryMapperTest {
         assertThat(organization.getId()).isEqualTo("94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG");
         assertThat(organization.getMeta().getProfile().get(0).getValue()).isEqualTo(ORG_META_PROFILE);
         assertThat(organization.getName()).isEqualTo("TEMPLE SOWERBY MEDICAL PRACTICE");
-        assertThat(organization.getTypeFirstRep().getText()).isNull();
+        assertThat(organization.getType().size()).isEqualTo(0);
 
         var practitionerRole = (PractitionerRole) mappedAgents.get(2);
         assertThat(practitionerRole.getId()).isEqualTo("94F00D99-0601-4A8E-AD1D-1B564307B0A6-PR");
@@ -118,7 +118,7 @@ public class AgentDirectoryMapperTest {
         assertThat(organization.getId()).isEqualTo("94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG");
         assertThat(organization.getMeta().getProfile().get(0).getValue()).isEqualTo(ORG_META_PROFILE);
         assertThat(organization.getName()).isEqualTo("TEMPLE SOWERBY MEDICAL PRACTICE");
-        assertThat(organization.getTypeFirstRep().getText()).isNull();
+        assertThat(organization.getType().size()).isEqualTo(0);
 
         var practitionerRole = (PractitionerRole) mappedAgents.get(2);
         assertThat(practitionerRole.getId()).isEqualTo("94F00D99-0601-4A8E-AD1D-1B564307B0A6-PR");
@@ -141,8 +141,8 @@ public class AgentDirectoryMapperTest {
         assertThat(practitioner.getMeta().getProfile().get(0).getValue()).isEqualTo(PRACT_META_PROFILE);
         assertThat(practitioner.getNameFirstRep().getUse()).isEqualTo(NameUse.OFFICIAL);
         assertThat(practitioner.getNameFirstRep().getFamily()).isEqualTo("Test");
-        assertThat(practitioner.getNameFirstRep().getGiven().get(0)).isNull();
-        assertThat(practitioner.getNameFirstRep().getPrefix().get(0)).isNull();
+        assertThat(practitioner.getNameFirstRep().getGiven().size()).isEqualTo(0);
+        assertThat(practitioner.getNameFirstRep().getPrefix().size()).isEqualTo(0);
     }
 
     @Test
@@ -158,8 +158,8 @@ public class AgentDirectoryMapperTest {
         assertThat(practitioner.getMeta().getProfile().get(0).getValue()).isEqualTo(PRACT_META_PROFILE);
         assertThat(practitioner.getNameFirstRep().getUse()).isEqualTo(NameUse.OFFICIAL);
         assertThat(practitioner.getNameFirstRep().getFamily()).isEqualTo("Unknown");
-        assertThat(practitioner.getNameFirstRep().getGiven().get(0)).isNull();
-        assertThat(practitioner.getNameFirstRep().getPrefix().get(0)).isNull();
+        assertThat(practitioner.getNameFirstRep().getGiven().size()).isEqualTo(0);
+        assertThat(practitioner.getNameFirstRep().getPrefix().size()).isEqualTo(0);
     }
 
     @Test
@@ -191,9 +191,9 @@ public class AgentDirectoryMapperTest {
         assertThat(organization.getId()).isEqualTo("1D9BDC28-50AB-440D-B421-0E5E049526FA");
         assertThat(organization.getMeta().getProfile().get(0).getValue()).isEqualTo(ORG_META_PROFILE);
         assertThat(organization.getName()).isEqualTo("The Health Centre");
-        assertThat(organization.getIdentifierFirstRep()).isNull();
-        assertThat(organization.getTelecomFirstRep()).isNull();
-        assertThat(organization.getAddressFirstRep()).isNull();
+        assertThat(organization.getIdentifier().size()).isEqualTo(0);
+        assertThat(organization.getTelecom().size()).isEqualTo(0);
+        assertThat(organization.getAddress().size()).isEqualTo(0);
     }
 
     @Test
@@ -208,9 +208,9 @@ public class AgentDirectoryMapperTest {
         assertThat(organization.getId()).isEqualTo("1D9BDC28-50AB-440D-B421-0E5E049526FA");
         assertThat(organization.getMeta().getProfile().get(0).getValue()).isEqualTo(ORG_META_PROFILE);
         assertThat(organization.getName()).isEqualTo("Unknown");
-        assertThat(organization.getIdentifierFirstRep()).isNull();
-        assertThat(organization.getTelecomFirstRep()).isNull();
-        assertThat(organization.getAddressFirstRep()).isNull();
+        assertThat(organization.getIdentifier().size()).isEqualTo(0);
+        assertThat(organization.getTelecom().size()).isEqualTo(0);
+        assertThat(organization.getAddress().size()).isEqualTo(0);
     }
 
     @Test
@@ -227,8 +227,8 @@ public class AgentDirectoryMapperTest {
         assertThat(organization.getName()).isEqualTo("The Health Centre");
         assertThat(organization.getIdentifierFirstRep().getSystem()).isEqualTo(ORG_IDENTIFIER_SYSTEM);
         assertThat(organization.getIdentifierFirstRep().getValue()).isEqualTo("A81001");
-        assertThat(organization.getTelecomFirstRep()).isNull();
-        assertThat(organization.getAddressFirstRep()).isNull();
+        assertThat(organization.getTelecom().size()).isEqualTo(0);
+        assertThat(organization.getAddress().size()).isEqualTo(0);
     }
 
     @Test
@@ -243,9 +243,9 @@ public class AgentDirectoryMapperTest {
         assertThat(organization.getId()).isEqualTo("1D9BDC28-50AB-440D-B421-0E5E049526FA");
         assertThat(organization.getMeta().getProfile().get(0).getValue()).isEqualTo(ORG_META_PROFILE);
         assertThat(organization.getName()).isEqualTo("The Health Centre");
-        assertThat(organization.getIdentifierFirstRep()).isNull();
-        assertThat(organization.getTelecomFirstRep()).isNull();
-        assertThat(organization.getAddressFirstRep()).isNull();
+        assertThat(organization.getIdentifier().size()).isEqualTo(0);
+        assertThat(organization.getTelecom().size()).isEqualTo(0);
+        assertThat(organization.getAddress().size()).isEqualTo(0);
     }
 
     @Test
@@ -260,9 +260,9 @@ public class AgentDirectoryMapperTest {
         assertThat(organization.getId()).isEqualTo("1D9BDC28-50AB-440D-B421-0E5E049526FA");
         assertThat(organization.getMeta().getProfile().get(0).getValue()).isEqualTo(ORG_META_PROFILE);
         assertThat(organization.getName()).isEqualTo("The Health Centre");
-        assertThat(organization.getIdentifierFirstRep()).isNull();
+        assertThat(organization.getIdentifier().size()).isEqualTo(0);
         assertTelecom(organization.getTelecomFirstRep(), "01234567890");
-        assertThat(organization.getAddressFirstRep()).isNull();
+        assertThat(organization.getAddress().size()).isEqualTo(0);
     }
 
     @Test
@@ -277,9 +277,9 @@ public class AgentDirectoryMapperTest {
         assertThat(organization.getId()).isEqualTo("1D9BDC28-50AB-440D-B421-0E5E049526FA");
         assertThat(organization.getMeta().getProfile().get(0).getValue()).isEqualTo(ORG_META_PROFILE);
         assertThat(organization.getName()).isEqualTo("The Health Centre");
-        assertThat(organization.getIdentifierFirstRep()).isNull();
+        assertThat(organization.getIdentifier().size()).isEqualTo(0);
         assertTelecom(organization.getTelecomFirstRep(), "01234567890");
-        assertThat(organization.getAddressFirstRep()).isNull();
+        assertThat(organization.getAddress().size()).isEqualTo(0);
     }
 
     @Test
@@ -294,8 +294,8 @@ public class AgentDirectoryMapperTest {
         assertThat(organization.getId()).isEqualTo("1D9BDC28-50AB-440D-B421-0E5E049526FA");
         assertThat(organization.getMeta().getProfile().get(0).getValue()).isEqualTo(ORG_META_PROFILE);
         assertThat(organization.getName()).isEqualTo("The Health Centre");
-        assertThat(organization.getIdentifierFirstRep()).isNull();
-        assertThat(organization.getTelecomFirstRep()).isNull();
+        assertThat(organization.getIdentifier().size()).isEqualTo(0);
+        assertThat(organization.getTelecom().size()).isEqualTo(0);
         assertAddress(organization.getAddressFirstRep());
     }
 
