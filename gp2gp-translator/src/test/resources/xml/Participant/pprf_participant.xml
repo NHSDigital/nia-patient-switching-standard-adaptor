@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
+    <Participant2 typeCode="PRF" contextControlCode="OP">
+        <agentRef classCode="AGNT">
+            <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
+        </agentRef>
+    </Participant2>
+    <component typeCode="COMP">
+        <PlanStatement classCode="OBS" moodCode="INT">
+            <Participant typeCode="PPRF" contextControlCode="OP">
+                <agentRef classCode="AGNT">
+                    <id root="8D1610C2-5E48-4ED5-882B-5A4A172AFA35"/>
+                </agentRef>
+            </Participant>
+        </PlanStatement>
+    </component>
+</ehrComposition>
