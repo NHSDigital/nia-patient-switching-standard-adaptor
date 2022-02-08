@@ -129,13 +129,12 @@ pipeline {
                     }
                     stages {
 
-                        stage('Deploy to Primary Deployment using Terraform') {
+                        stage('Kdev Deployment') {
                             when {
                               expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
                             }
                             steps {
                                 script {
-                                  sh label: "${tfPrimaryDeploymentEnv}-deployment"
                                     
                                     // Check if TF deployment environment needs to be redirected
                                     if (GIT_BRANCH == redirectBranch) { tfPrimaryDeploymentEnv = redirectEnv }
