@@ -329,6 +329,18 @@ public class RCMRMT030101UK04EhrComposition {
     }
 
     /**
+     * Sets the value of the component property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link RCMRMT030101UK04Component4 }
+     *
+     */
+    public void setComponent(List<RCMRMT030101UK04Component4> value) {
+        this.component = value;
+    }
+
+    /**
      * Gets the value of the replacementOf property.
      * 
      * @return

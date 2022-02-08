@@ -63,12 +63,20 @@ public class IVLTS
         this.low = low;
     }
 
+    public boolean hasLow() {
+        return low != null;
+    }
+
     public PQ getWidth() {
         return width;
     }
 
     public void setWidth(PQ width) {
         this.width = width;
+    }
+
+    public boolean hasWidth() {
+        return width != null;
     }
 
     public IVXBTS getHigh() {
@@ -79,11 +87,19 @@ public class IVLTS
         this.high = high;
     }
 
+    public boolean hasHigh() {
+        return high != null;
+    }
+
     public TS getCenter() {
         return center;
     }
 
     public void setCenter(TS center) {
         this.center = center;
+    }
+
+    public boolean hasCenter() {
+        return center != null;
     }
 }

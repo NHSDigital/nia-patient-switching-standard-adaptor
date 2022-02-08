@@ -3,8 +3,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
@@ -17,18 +15,16 @@ import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralCategory;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
-import org.hl7.v3.II;
+
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UK04AgentRef;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04Participant;
-import org.hl7.v3.RCMRMT030101UK04Participant2;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.hl7.v3.RCMRMT030101UK04ResponsibleParty3;
 import org.hl7.v3.TS;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @AllArgsConstructor
 public class ReferralRequestMapper {
@@ -38,8 +34,6 @@ public class ReferralRequestMapper {
     private static final String ACTION_DATE_PREFIX = "Action Date: ";
     private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/";
     private static final String RESP_PARTY_TYPE_CODE = "RESP";
-    private static final String PRF_TYPE_CODE = "PRF";
-    private static final String PPRF_TYPE_CODE = "PPRF";
 
     private CodeableConceptMapper codeableConceptMapper;
 
@@ -51,7 +45,7 @@ public class ReferralRequestMapper {
         var reasonCode = getReasonCode(requestStatement.getCode());
         var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
         var recipient = getRecipient(requestStatement.getResponsibleParty());
-        var requester = getRequesterAgentReference(requestStatement.getParticipant(), ehrComposition);
+        var requester = ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(), ehrComposition);
 
         /**
          * TODO: Known future implementations to this mapper
@@ -96,63 +90,6 @@ public class ReferralRequestMapper {
             && responsibleParty.getTypeCode().stream().anyMatch(RESP_PARTY_TYPE_CODE::equals)
             && responsibleParty.getAgentRef() != null
             && responsibleParty.getAgentRef().getId() != null;
-    }
-
-    private Reference getRequesterAgentReference(List<RCMRMT030101UK04Participant> participantList,
-        RCMRMT030101UK04EhrComposition ehrComposition) {
-        var nonNullFlavorParticipants = participantList.stream()
-            .filter(this::isNotNullFlavourParticipant)
-            .collect(Collectors.toList());
-
-        var pprfParticipants = getParticipantReference(nonNullFlavorParticipants, PPRF_TYPE_CODE);
-        if (pprfParticipants.isPresent()) {
-            return new Reference().setReference(PRACTITIONER_REFERENCE_PREFIX + pprfParticipants.get());
-        }
-
-        var prfParticipants = getParticipantReference(nonNullFlavorParticipants, PRF_TYPE_CODE);
-        if (prfParticipants.isPresent()) {
-            return new Reference().setReference(PRACTITIONER_REFERENCE_PREFIX + prfParticipants.get());
-        }
-
-        var participant2Reference = getParticipant2Reference(ehrComposition);
-        if (participant2Reference.isPresent()) {
-            return new Reference().setReference(PRACTITIONER_REFERENCE_PREFIX + participant2Reference.get());
-        }
-
-        return null;
-    }
-
-    private Optional<String> getParticipantReference(List<RCMRMT030101UK04Participant> participantList, String typeCode) {
-        return participantList.stream()
-            .filter(participant -> hasTypeCode(participant, typeCode))
-            .filter(this::hasAgentReference)
-            .map(RCMRMT030101UK04Participant::getAgentRef)
-            .map(RCMRMT030101UK04AgentRef::getId)
-            .map(II::getRoot)
-            .findFirst();
-    }
-
-    private Optional<String> getParticipant2Reference(RCMRMT030101UK04EhrComposition ehrComposition) {
-        return ehrComposition.getParticipant2().stream()
-            .filter(participant2 -> participant2.getNullFlavor() == null)
-            .map(RCMRMT030101UK04Participant2::getAgentRef)
-            .map(RCMRMT030101UK04AgentRef::getId)
-            .map(II::getRoot)
-            .findFirst();
-    }
-
-    private boolean hasAgentReference(RCMRMT030101UK04Participant participant) {
-        return participant.getAgentRef() != null && participant.getAgentRef().getId() != null;
-    }
-
-    private boolean hasTypeCode(RCMRMT030101UK04Participant participant, String typeCode) {
-        return participant.getTypeCode()
-            .stream()
-            .anyMatch(typeCode::equals);
-    }
-
-    private boolean isNotNullFlavourParticipant(RCMRMT030101UK04Participant participant) {
-        return participant.getNullFlavor() == null;
     }
 
     private List<Annotation> getNotes(RCMRMT030101UK04RequestStatement requestStatement) {

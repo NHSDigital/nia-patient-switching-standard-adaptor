@@ -1,0 +1,6 @@
+<addr xmlns="urn:hl7-org:v3" use="WP">
+    <streetAddressLine>234 ASHTREE ROAD</streetAddressLine>
+    <streetAddressLine>LEEDS</streetAddressLine>
+    <streetAddressLine>YORKSHIRE</streetAddressLine>
+    <postalCode>LS12 3RT</postalCode>
+</addr>
