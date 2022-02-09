@@ -10,6 +10,7 @@ import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Immunization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Practitioner;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.junit.jupiter.api.Test;
 
@@ -27,74 +28,69 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithValidData() {
         var observationStatement = unmarshallCodeElement("full_valid_immunization.xml");
-        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner()).forEach(
+        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner(),
+            new RCMRMT030101UK04EhrComposition()).forEach(
                 immunization -> assertFullValidData(observationStatement, immunization)
         );
     }
 
     @Test
-    public void mapObservationToImmunizationWithIncorrectSnomedCode() {
-        var observationStatement = unmarshallCodeElement("immunization_with_incorrect_SnomedCode.xml");
-        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner()).forEach(
-            immunization -> assertThat(immunization).isNull()
-        );
-
-
-    }
-
-    @Test
     public void mapObservationToImmunizationWithEffectiveTimeCenter() {
         var observationStatement = unmarshallCodeElement("immunization_with_only_center_effective_time.xml");
-        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner()).forEach(
-            immunization -> assertImmunizationWithHighEffectiveTimeCenter(immunization, observationStatement)
-        );
+        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner(),
+            new RCMRMT030101UK04EhrComposition()).forEach(immunization ->
+            assertImmunizationWithHighEffectiveTimeCenter(immunization, observationStatement));
     }
 
     @Test
     public void mapObservationToImmunizationWithEffectiveTimeLow() {
         var observationStatement = unmarshallCodeElement("immunization_with_only_low_effective_time.xml");
-        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner()).forEach(
-            immunization -> assertImmunizationWithEffectiveTimeLow(immunization, observationStatement)
-        );
+        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner(),
+            new RCMRMT030101UK04EhrComposition()).forEach(
+                immunization -> assertImmunizationWithEffectiveTimeLow(immunization, observationStatement));
     }
 
     @Test
     public void mapObservationToImmunizationWithHighAndLowEffectiveTime() {
         var observationStatement = unmarshallCodeElement("immunization_with_high_and_low_effective_time.xml");
-        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner()).forEach(
-            immunization -> assertImmunizationWithHighAndLowEffectiveTime(immunization, observationStatement)
-        );
+        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner(),
+            new RCMRMT030101UK04EhrComposition()).forEach(
+                immunization -> assertImmunizationWithHighAndLowEffectiveTime(immunization, observationStatement));
     }
 
     @Test
     public void mapObservationToImmunizationWithHighEffectiveTime() {
         var observationStatement = unmarshallCodeElement("immunization_with_only_high_effective_time.xml");
-        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner()).forEach(
-            immunization -> assertImmunizationWithHighEffectiveTime(immunization, observationStatement)
-        );
+        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner(),
+            new RCMRMT030101UK04EhrComposition()).forEach(
+                immunization -> assertImmunizationWithHighEffectiveTime(immunization, observationStatement));
     }
 
-    private void assertImmunizationWithHighAndLowEffectiveTime(Immunization immunization, RCMRMT030101UK04ObservationStatement observationStatement) {
+    private void assertImmunizationWithHighAndLowEffectiveTime(Immunization immunization,
+        RCMRMT030101UK04ObservationStatement observationStatement) {
         assertThat(immunization.getDate()).isEqualTo("2011-01-18T11:41:00.000");
         assertThat(immunization.getNote().get(0).getText())
             .isEqualTo(observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText()
                 + " End Date: 20100118114100");
     }
 
-    private void assertImmunizationWithEffectiveTimeLow(Immunization immunization, RCMRMT030101UK04ObservationStatement observationStatement) {
+    private void assertImmunizationWithEffectiveTimeLow(Immunization immunization,
+        RCMRMT030101UK04ObservationStatement observationStatement) {
         assertThat(immunization.getDate()).isEqualTo("2010-01-18T11:41:00.000");
         assertThat(immunization.getNote().get(0).getText())
             .isEqualTo(observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText());
     }
 
-    private void assertImmunizationWithHighEffectiveTime(Immunization immunization, RCMRMT030101UK04ObservationStatement observationStatement) {
+    private void assertImmunizationWithHighEffectiveTime(Immunization immunization,
+        RCMRMT030101UK04ObservationStatement observationStatement) {
         assertThat(immunization.getDate()).isNull();
         assertThat(immunization.getNote().get(0).getText())
             .isEqualTo(observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText()
                 + " End Date: 20100118114100");
     }
 
-    private void assertImmunizationWithHighEffectiveTimeCenter(Immunization immunization, RCMRMT030101UK04ObservationStatement observationStatement) {
+    private void assertImmunizationWithHighEffectiveTimeCenter(Immunization immunization,
+        RCMRMT030101UK04ObservationStatement observationStatement) {
         assertThat(immunization.getDate()).isEqualTo("2010-01-18T11:41:00.000");
         assertThat(immunization.getNote().get(0).getText())
             .isEqualTo(observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText());
@@ -104,7 +100,6 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getId()).isEqualTo(observationStatement.getId().getRoot());
         assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
         assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
-        assertThat(immunization.getExtensionsByUrl(VACCINE_PROCEDURE_URL).get(0).toString()).isEqualTo(observationStatement.getCode().getCodeSystem());
         assertThat(immunization.getStatus()).isEqualTo(Immunization.ImmunizationStatus.COMPLETED);
         assertThat(immunization.getPrimarySource()).isEqualTo(false);
         assertThat(immunization.getDate()).isEqualTo("2010-01-18T11:41:00.000");

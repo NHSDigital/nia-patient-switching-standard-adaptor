@@ -17,6 +17,7 @@ import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 
@@ -34,11 +35,9 @@ public class ImmunizationMapper {
 
 
     public List<Immunization> mapToImmunization(RCMRMT030101UK04ObservationStatement observationStatement, Patient patient,
-        Encounter encounter, Practitioner practitioner) {
-
+        Encounter encounter, Practitioner practitioner, RCMRMT030101UK04EhrComposition ehrComposition) {
 
         if (checkSnomedCode(observationStatement)) {
-
             var id = observationStatement.getId().getRoot();
             var identifier = getIdentifier(id);
             var note = buildNotes(Optional.of(observationStatement));
@@ -51,8 +50,21 @@ public class ImmunizationMapper {
 
             var date = getDate(observationStatement);
 
-            Extension extension = createExtension(observationStatement);
-            return createImmunization(id, identifier, note, extension, date);
+            String recordedTime;
+
+            if (ehrComposition.getAuthor() != null) {
+                recordedTime = ehrComposition.getAuthor().getTime().getValue();
+            } else if (ehrComposition.getEffectiveTime() != null) {
+                recordedTime = DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue()).asStringValue();
+            } else {
+                recordedTime = null;
+            }
+
+            Extension recordedTimeExtension = new Extension()
+                .setValue(new StringType(recordedTime));
+
+            Extension vaccineExtension = createExtension(observationStatement);
+            return createImmunization(id, identifier, note, vaccineExtension, date, recordedTimeExtension);
         }
 
         return null;
@@ -132,7 +144,7 @@ public class ImmunizationMapper {
     }
 
     private List<Immunization> createImmunization(String id, Identifier identifier, List<Annotation> note,
-        Extension extension, Date date) {
+        Extension vaccineExtension, Date date, Extension recordedTimeExtension) {
         var immunization = new Immunization();
 
         immunization.getMeta().getProfile().add(new UriType(META_PROFILE));
@@ -145,7 +157,8 @@ public class ImmunizationMapper {
         }
 
         immunization.setId(id);
-        immunization.getExtension().add(extension);
+        immunization.getExtension().add(vaccineExtension);
+        immunization.getExtension().add(recordedTimeExtension);
 
         immunization
             .setStatus(Immunization.ImmunizationStatus.COMPLETED)
