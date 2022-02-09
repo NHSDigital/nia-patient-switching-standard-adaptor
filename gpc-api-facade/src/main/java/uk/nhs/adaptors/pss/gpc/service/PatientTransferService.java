@@ -1,6 +1,10 @@
 package uk.nhs.adaptors.pss.gpc.service;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
+
+import java.util.Map;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Parameters;
@@ -8,9 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.common.model.PssQueueMessage;
 import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
-import uk.nhs.adaptors.common.util.fhir.ParametersUtils;
+import uk.nhs.adaptors.pss.gpc.util.fhir.ParametersUtils;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
@@ -26,12 +31,13 @@ public class PatientTransferService {
     private final PssQueuePublisher pssQueuePublisher;
     private final DateUtils dateUtils;
 
-    public MigrationStatusLog handlePatientMigrationRequest(Parameters parameters) {
+    public MigrationStatusLog handlePatientMigrationRequest(Parameters parameters, Map<String, String> accreditedSystemsIds) {
         var patientNhsNumber = ParametersUtils.getNhsNumberFromParameters(parameters).get().getValue();
         PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
 
         if (patientMigrationRequest == null) {
-            pssQueuePublisher.sendToPssQueue(fhirParser.encodeToJson(parameters));
+            var pssMessage = createPssMessage(patientNhsNumber, accreditedSystemsIds);
+            pssQueuePublisher.sendToPssQueue(pssMessage);
             patientMigrationRequestDao.addNewRequest(patientNhsNumber);
 
             int addedId = patientMigrationRequestDao.getMigrationRequestId(patientNhsNumber);
@@ -44,5 +50,13 @@ public class PatientTransferService {
 
     public String getEmptyBundle() {
         return fhirParser.encodeToJson(new Bundle());
+    }
+
+    private PssQueueMessage createPssMessage(String patientNhsNumber, Map<String, String> accreditedSystemsIds) {
+        return PssQueueMessage.builder()
+            .patientNhsNumber(patientNhsNumber)
+            .toAsid(accreditedSystemsIds.get(TO_ASID))
+            .fromAsid(accreditedSystemsIds.get(FROM_ASID))
+            .build();
     }
 }
