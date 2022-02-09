@@ -5,9 +5,8 @@
     </code>
     <statusCode code="COMPLETE" />
     <effectiveTime>
-        <high value="20100118114100"/>
+        <center value="20100118114100"/>
     </effectiveTime>
-    <availabilityTime value="20100118114100" />
     <pertinentInformation typeCode="PERT">
         <sequenceNumber value="+1"/>
         <pertinentAnnotation classCode="OBS" moodCode="EVN">
