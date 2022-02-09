@@ -4,33 +4,30 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-import static uk.nhs.adaptors.common.testutil.CreateParametersUtil.createValidParametersResource;
-
 import javax.jms.JMSException;
 import javax.jms.Message;
 
-import org.hl7.fhir.dstu3.model.Parameters;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.common.util.fhir.FhirParser;
+import uk.nhs.adaptors.common.model.PssQueueMessage;
 
 @ExtendWith(MockitoExtension.class)
 public class QueueMessageHandlerTest {
-    private static final String TEST_NHS_NUMBER = "123456";
-
     @Mock
     private Message message;
 
     @Mock
-    private FhirParser fhirParser;
+    private SendEhrExtractRequestHandler sendEhrExtractRequestHandler;
 
     @Mock
-    private SendEhrExtractRequestHandler sendEhrExtractRequestHandler;
+    private ObjectMapper objectMapper;
 
     @InjectMocks
     private QueueMessageHandler queueMessageHandler;
@@ -56,9 +53,10 @@ public class QueueMessageHandlerTest {
 
     @SneakyThrows
     private void prepareMocks(boolean prepareAndSendRequestResult) {
-        when(message.getBody(String.class)).thenReturn("MESSAGE_BODY");
-        when(fhirParser.parseResource(message.getBody(String.class), Parameters.class))
-            .thenReturn(createValidParametersResource(TEST_NHS_NUMBER));
-        when(sendEhrExtractRequestHandler.prepareAndSendRequest(TEST_NHS_NUMBER)).thenReturn(prepareAndSendRequestResult);
+        var messageBody = "MESSAGE_BODY";
+        var pssQueueMessage = PssQueueMessage.builder().build();
+        when(message.getBody(String.class)).thenReturn(messageBody);
+        when(objectMapper.readValue(messageBody, PssQueueMessage.class)).thenReturn(pssQueueMessage);
+        when(sendEhrExtractRequestHandler.prepareAndSendRequest(pssQueueMessage)).thenReturn(prepareAndSendRequestResult);
     }
 }
