@@ -8,9 +8,12 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Immunization;
+import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
@@ -30,32 +33,28 @@ public class ImmunizationMapper {
     private final CodeableConceptMapper codeableConceptMapper = new CodeableConceptMapper();
 
 
-    public Immunization mapToImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
+    public List<Immunization> mapToImmunization(RCMRMT030101UK04ObservationStatement observationStatement, Patient patient,
+        Encounter encounter, Practitioner practitioner) {
 
-        /**
-         * TODO: Known future implementations to this mapper
-         * - Patient: references a global patient resource for the transaction (NIAD-2024)
-         * - Encounter: references an encounter resource if it has been generated from the ehrComposition (NIAD-2025)
-         * - Practitioner: references an Practitioner resource if it has been generated from the any agents (NIAD-1991)
-         */
-
-        var id = observationStatement.getId().getRoot();
-        var identifier = getIdentifier(id);
-        var note = buildNotes(Optional.of(observationStatement));
-
-        if (highValueToNotes(observationStatement) != null) {
-            var newNote = new Annotation(new StringType(note.get(0).getText()
-                + StringUtils.SPACE + (new StringType(END_DATE + highValueToNotes(observationStatement)))));
-            note.add(newNote);
-        }
-
-        var date = getDate(observationStatement);
-
-        Extension extension = createExtension(observationStatement);
 
         if (checkSnomedCode(observationStatement)) {
+
+            var id = observationStatement.getId().getRoot();
+            var identifier = getIdentifier(id);
+            var note = buildNotes(Optional.of(observationStatement));
+
+            if (highValueToNotes(observationStatement) != null) {
+                var newNote = new Annotation(new StringType(note.get(0).getText()
+                    + StringUtils.SPACE + (new StringType(END_DATE + highValueToNotes(observationStatement)))));
+                note.add(newNote);
+            }
+
+            var date = getDate(observationStatement);
+
+            Extension extension = createExtension(observationStatement);
             return createImmunization(id, identifier, note, extension, date);
         }
+
         return null;
     }
 
@@ -132,7 +131,7 @@ public class ImmunizationMapper {
         return annotationList;
     }
 
-    private Immunization createImmunization(String id, Identifier identifier, List<Annotation> note,
+    private List<Immunization> createImmunization(String id, Identifier identifier, List<Annotation> note,
         Extension extension, Date date) {
         var immunization = new Immunization();
 
@@ -154,6 +153,6 @@ public class ImmunizationMapper {
             .setPrimarySource(false)
             .setDate(date);
 
-        return immunization;
+        return List.of(immunization);
     }
 }
