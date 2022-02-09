@@ -10,6 +10,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,11 +39,15 @@ public class ProcedureRequestMapperTest {
     @InjectMocks
     private ProcedureRequestMapper procedureRequestMapper;
 
+    @BeforeEach
+    public void setup() {
+        setUpCodeableConceptMock();
+    }
+
     @Test
     public void mapProcedureRequestWithValidData() {
         var ehrExtract = unmarshallCodeElement("full_valid_data_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
-        setUpCodeableConceptMock();
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement);
 
@@ -75,7 +80,6 @@ public class ProcedureRequestMapperTest {
     public void mapProcedureRequestWithPrfParticipant() {
         var ehrExtract = unmarshallCodeElement("prf_participant_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
-        setUpCodeableConceptMock();
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement);
 
@@ -90,7 +94,6 @@ public class ProcedureRequestMapperTest {
     public void mapProcedureRequestWithParticipant2() {
         var ehrExtract = unmarshallCodeElement("participant2_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
-        setUpCodeableConceptMock();
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement);
 
@@ -106,7 +109,6 @@ public class ProcedureRequestMapperTest {
         var ehrExtract = unmarshallCodeElement("ehr_composition_availability_time_example.xml");
         var ehrComposition = getEhrComposition(ehrExtract);
         var planStatement = getPlanStatement(ehrExtract);
-        setUpCodeableConceptMock();
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement);
 
@@ -121,7 +123,6 @@ public class ProcedureRequestMapperTest {
     public void mapProcedureRequestWithEhrExtractAvailabilityTime() {
         var ehrExtract = unmarshallCodeElement("ehr_extract_availability_time_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
-        setUpCodeableConceptMock();
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement);
 
