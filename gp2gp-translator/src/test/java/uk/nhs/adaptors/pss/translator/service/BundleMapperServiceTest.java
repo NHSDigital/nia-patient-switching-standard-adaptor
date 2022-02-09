@@ -27,7 +27,9 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lombok.SneakyThrows;
@@ -36,7 +38,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
 public class BundleMapperServiceTest {
 
     private static final String XML_RESOURCES_BASE = "xml/RCMRIN030000UK06/";
