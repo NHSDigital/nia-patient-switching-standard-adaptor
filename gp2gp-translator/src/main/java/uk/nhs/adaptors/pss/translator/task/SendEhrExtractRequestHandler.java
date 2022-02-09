@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.common.model.PssQueueMessage;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.config.GeneralProperties;
@@ -29,9 +30,10 @@ public class SendEhrExtractRequestHandler {
     private final MigrationStatusLogService migrationStatusLogService;
 
     @SneakyThrows
-    public boolean prepareAndSendRequest(String nhsNumber) {
+    public boolean prepareAndSendRequest(PssQueueMessage message) {
         String conversationId = UUID.randomUUID().toString();
         String fromOdsCode = generalProperties.getFromOdsCode();
+        String nhsNumber = message.getPatientNhsNumber();
 
         String ehrExtractRequest = ehrExtractRequestService.buildEhrExtractRequest(
             nhsNumber,

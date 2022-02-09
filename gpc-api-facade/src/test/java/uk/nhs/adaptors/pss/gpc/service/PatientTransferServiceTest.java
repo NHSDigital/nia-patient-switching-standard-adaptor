@@ -6,7 +6,11 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
+
 import java.time.OffsetDateTime;
+import java.util.Map;
 
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,9 +20,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import uk.nhs.adaptors.common.model.PssQueueMessage;
 import uk.nhs.adaptors.common.testutil.CreateParametersUtil;
 import uk.nhs.adaptors.common.util.DateUtils;
-import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
@@ -28,11 +32,8 @@ import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferServiceTest {
-    private static final String REQUEST_BODY = "{testBody}";
     private static final String PATIENT_NHS_NUMBER = "123456789";
-
-    @Mock
-    private FhirParser fhirParser;
+    private static final Map<String, String> ASIDS = Map.of(TO_ASID, "1234", FROM_ASID, "5678");
 
     @Mock
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -58,17 +59,21 @@ public class PatientTransferServiceTest {
 
     @Test
     public void handlePatientMigrationRequestWhenRequestIsNew() {
+        var expectedPssQueueMessage = PssQueueMessage.builder()
+            .patientNhsNumber(PATIENT_NHS_NUMBER)
+            .toAsid(ASIDS.get(TO_ASID))
+            .fromAsid(ASIDS.get(FROM_ASID))
+            .build();
         var migrationRequestId = 1;
         OffsetDateTime now = OffsetDateTime.now();
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(null);
         when(patientMigrationRequestDao.getMigrationRequestId(PATIENT_NHS_NUMBER)).thenReturn(migrationRequestId);
-        when(fhirParser.encodeToJson(parameters)).thenReturn(REQUEST_BODY);
 
-        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
+        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, ASIDS);
 
         assertThat(patientMigrationRequest).isEqualTo(null);
-        verify(pssQueuePublisher).sendToPssQueue(REQUEST_BODY);
+        verify(pssQueuePublisher).sendToPssQueue(expectedPssQueueMessage);
         verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER);
         verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId);
     }
@@ -81,7 +86,7 @@ public class PatientTransferServiceTest {
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(expectedPatientMigrationRequest);
         when(migrationStatusLogDao.getMigrationStatusLog(expectedPatientMigrationRequest.getId())).thenReturn(expectedMigrationStatusLog);
 
-        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters);
+        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, ASIDS);
 
         assertThat(patientMigrationRequest).isEqualTo(expectedMigrationStatusLog);
         verifyNoInteractions(pssQueuePublisher);
