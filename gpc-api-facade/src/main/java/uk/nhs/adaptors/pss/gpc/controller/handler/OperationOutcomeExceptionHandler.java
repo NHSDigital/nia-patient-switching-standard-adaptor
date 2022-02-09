@@ -12,12 +12,13 @@ import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueType.NOTSUPPORTED;
 import static org.springframework.http.HttpHeaders.ALLOW;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 import static uk.nhs.adaptors.pss.gpc.controller.handler.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
-import static uk.nhs.adaptors.pss.gpc.util.CodeableConceptUtils.createCodeableConcept;
-import static uk.nhs.adaptors.pss.gpc.util.OperationOutcomeUtils.createOperationOutcome;
+import static uk.nhs.adaptors.pss.gpc.util.fhir.CodeableConceptUtils.createCodeableConcept;
+import static uk.nhs.adaptors.pss.gpc.util.fhir.OperationOutcomeUtils.createOperationOutcome;
 
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -108,6 +110,14 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     @ExceptionHandler(FhirValidationException.class)
     public ResponseEntity<Object> handleFhirValidationException(FhirValidationException ex) {
         return unprocessableEntityResponse(ex);
+    }
+
+    @SneakyThrows
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<Object> handleMissingRequestHeaderException(MissingRequestHeaderException ex) {
+        CodeableConcept details = createCodeableConcept("BAD_REQUEST", ISSUE_SYSTEM, "Bad request", null);
+        OperationOutcome operationOutcome = createOperationOutcome(INVALID, ERROR, details, ex.getMessage());
+        return errorResponse(new HttpHeaders(), BAD_REQUEST, operationOutcome);
     }
 
     @ExceptionHandler(Exception.class)

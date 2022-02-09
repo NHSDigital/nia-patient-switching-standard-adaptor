@@ -129,7 +129,10 @@ pipeline {
                     }
                     stages {
 
-                        stage('Deploy to Primary Environment using Terraform') {
+                        stage('Kdev Deployment') {
+                            when {
+                              expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
+                            }
                             steps {
                                 script {
                                     
@@ -183,16 +186,17 @@ pipeline {
                  }//Deploy
 
                 stage('PSS DB Migration') {
+                  when {
+                    expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
+                    }
                   steps {
                       script {
-                        pwd
                               sh '''
-                                  
+                                  pwd
                                   sed -i 's/ = /=/' ~/.psdbsecrets.tfvars
                                   source ~/.psdbsecrets.tfvars
                                   sed -i -e 's/^/export /g' -e 's/ = /=/g' ~/.tfoutput.tfvars
                                   source ~/.tfoutput.tfvars
-                                  set
                                   cd db-connector
                                   ./gradlew update
                               '''
