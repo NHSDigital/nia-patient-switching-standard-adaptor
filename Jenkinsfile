@@ -191,14 +191,12 @@ pipeline {
                     }
                   steps {
                       script {
-                        pwd
                               sh '''
-                                  
+                                  pwd
                                   sed -i 's/ = /=/' ~/.psdbsecrets.tfvars
                                   source ~/.psdbsecrets.tfvars
                                   sed -i -e 's/^/export /g' -e 's/ = /=/g' ~/.tfoutput.tfvars
                                   source ~/.tfoutput.tfvars
-                                  set
                                   cd db-connector
                                   ./gradlew update
                               '''
