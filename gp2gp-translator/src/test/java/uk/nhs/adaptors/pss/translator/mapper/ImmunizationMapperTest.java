@@ -82,7 +82,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getId()).isEqualTo(observationStatement.getId().getRoot());
         assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
         assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
-        //assertThat(immunization.getExtension()).isEqualTo(observationStatement.getCode());
+        assertThat(immunization.getExtension()).isEqualTo(observationStatement.getCode());
         assertThat(immunization.getStatus()).isEqualTo(Immunization.ImmunizationStatus.COMPLETED);
         assertThat(immunization.getPrimarySource()).isEqualTo(false);
         assertThat(immunization.getDate()).isEqualTo("2010-01-18T11:41:00.000");
