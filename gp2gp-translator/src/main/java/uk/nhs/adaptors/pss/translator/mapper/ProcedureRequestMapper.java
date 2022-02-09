@@ -15,6 +15,7 @@ import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.TS;
+import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -23,6 +24,7 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 import java.util.Date;
 
+@Service
 @AllArgsConstructor
 public class ProcedureRequestMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1";
