@@ -16,6 +16,7 @@ public class ImmunizationMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/Immunization/";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
+    private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1";
 
     private final ImmunizationMapper immunizationMapper = new ImmunizationMapper();
 
@@ -82,7 +83,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getId()).isEqualTo(observationStatement.getId().getRoot());
         assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
         assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
-        assertThat(immunization.getExtension()).isEqualTo(observationStatement.getCode());
+        assertThat(immunization.getExtensionsByUrl(VACCINE_PROCEDURE_URL)).isEqualTo(observationStatement.getCode().getCodeSystem());
         assertThat(immunization.getStatus()).isEqualTo(Immunization.ImmunizationStatus.COMPLETED);
         assertThat(immunization.getPrimarySource()).isEqualTo(false);
         assertThat(immunization.getDate()).isEqualTo("2010-01-18T11:41:00.000");

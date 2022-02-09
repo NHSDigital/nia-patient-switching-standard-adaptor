@@ -23,8 +23,9 @@ public class ImmunizationMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1";
     private static final String SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
-    private static final String URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1";
+    private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1";
     private static final String END_DATE = "End Date: ";
+    private static final String URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid";
 
     private final CodeableConceptMapper codeableConceptMapper = new CodeableConceptMapper();
 
@@ -71,7 +72,12 @@ public class ImmunizationMapper {
     }
 
     private Extension createExtension(RCMRMT030101UK04ObservationStatement observationStatement) {
-        return new Extension(URL, codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
+        return new Extension()
+                    .setUrl(VACCINE_PROCEDURE_URL)
+                    .setValue(new Extension()
+                        .setUrl(URL)
+                        .setValue(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
+                    );
     }
 
     private Date getDate(RCMRMT030101UK04ObservationStatement observationStatement) {
@@ -139,9 +145,8 @@ public class ImmunizationMapper {
             immunization.getNote().add(note.get(0));
         }
 
-
-        immunization.addExtension(extension);
         immunization.setId(id);
+        immunization.getExtension().add(extension);
 
         immunization
             .setStatus(Immunization.ImmunizationStatus.COMPLETED)
