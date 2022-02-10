@@ -38,7 +38,10 @@ public class BundleMapperServiceTest {
     private static final String XML_RESOURCES_BASE = "xml/RCMRIN030000UK06/";
     private static final String EXPECTED_JSON_BASE = "json/RCMRIN030000UK06/";
 
+    private static final String STRUCTURED_RECORD_SMALL_XML = "structuredRecord_small.xml";
     private static final String STRUCTURED_RECORD_XML = "structuredRecord.xml";
+
+
     private static final String EXPECTED_BUNDLE_FROM_STRUCTURED_RECORD = "expected_bundle_from_structuredRecord.json";
 
 
@@ -55,7 +58,7 @@ public class BundleMapperServiceTest {
 
     @Test
     public void testBundleIsGenerated() {
-        final RCMRIN030000UK06Message xml = unmarshallCodeElement("structuredRecord.xml");
+        final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_SMALL_XML);
         final Bundle bundle = bundleMapperService.mapToBundle(xml);
 
         assertThat(bundle.getEntry()).isNotNull();
