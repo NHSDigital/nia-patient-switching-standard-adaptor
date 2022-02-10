@@ -22,8 +22,6 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
-import java.util.Date;
-
 @Service
 @AllArgsConstructor
 public class ProcedureRequestMapper {
@@ -70,15 +68,15 @@ public class ProcedureRequestMapper {
         return null;
     }
 
-    private Date getAuthoredOn(TS availabilityTime, RCMRMT030101UK04EhrExtract ehrExtract, II planStatementID) {
+    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UK04EhrExtract ehrExtract, II planStatementID) {
         if (availabilityTime != null) {
-            return DateFormatUtil.parse(availabilityTime.getValue()).getValue();
+            return DateFormatUtil.parse(availabilityTime.getValue());
         } else {
             var ehrComposition = EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatementID);
             if (ehrComposition.getAvailabilityTime() != null) {
-                return DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue()).getValue();
+                return DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue());
             } else if (ehrExtract.getAvailabilityTime() != null) {
-                return DateFormatUtil.parse(ehrExtract.getAvailabilityTime().getValue()).getValue();
+                return DateFormatUtil.parse(ehrExtract.getAvailabilityTime().getValue());
             }
         }
 
@@ -94,12 +92,12 @@ public class ProcedureRequestMapper {
     }
 
     private ProcedureRequest createProcedureRequest(String id, Identifier identifier, Annotation note, CodeableConcept reasonCode,
-        Date authoredOn, DateTimeType occurrence, Reference agentReference) {
+        DateTimeType authoredOn, DateTimeType occurrence, Reference agentReference) {
         var procedureRequest = new ProcedureRequest();
         procedureRequest
             .setStatus(ProcedureRequestStatus.ACTIVE)
             .setIntent(ProcedureRequestIntent.PLAN)
-            .setAuthoredOn(authoredOn)
+            .setAuthoredOnElement(authoredOn)
             .setOccurrence(occurrence)
             .setId(id);
         procedureRequest.getMeta().getProfile().add(new UriType(META_PROFILE));
