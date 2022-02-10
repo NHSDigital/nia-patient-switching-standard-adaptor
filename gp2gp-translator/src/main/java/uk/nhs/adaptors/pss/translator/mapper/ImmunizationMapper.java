@@ -23,6 +23,8 @@ import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 
@@ -63,6 +65,8 @@ public class ImmunizationMapper {
         RCMRMT030101UK04ObservationStatement observationStatement,
         String patientID, String encounterID) {
 
+        ImmunizationMapperParameters immunizationMapperParameters = new ImmunizationMapperParameters();
+
         var id = observationStatement.getId().getRoot();
         var identifier = getIdentifier(id);
         var note = buildNote(observationStatement);
@@ -74,7 +78,16 @@ public class ImmunizationMapper {
         var patient = new Reference(PATIENT_REFERENCE_PREFIX + patientID);
         var encounter = new Reference(ENCOUNTER_REFERENCE_PREFIX + encounterID);
 
-        return createImmunization(id, identifier, note, vaccineExtension, date, recordedTimeExtension, patient, encounter);
+        immunizationMapperParameters.setId(id);
+        immunizationMapperParameters.setIdentifier(identifier);
+        immunizationMapperParameters.setNote(note);
+        immunizationMapperParameters.setDate(date);
+        immunizationMapperParameters.setRecordedTimeExtension(recordedTimeExtension);
+        immunizationMapperParameters.setVaccineExtension(vaccineExtension);
+        immunizationMapperParameters.setPatient(patient);
+        immunizationMapperParameters.setEncounter(encounter);
+
+        return createImmunization(immunizationMapperParameters);
     }
 
     private List<RCMRMT030101UK04ObservationStatement> getImmunizationObservationStatements(RCMRMT030101UK04EhrComposition ehrComposition) {
@@ -148,7 +161,7 @@ public class ImmunizationMapper {
         var center = getTSStringValue(observationStatement.getEffectiveTime().getCenter());
         var low = getIVXBTSStringValue(observationStatement.getEffectiveTime().getLow());
         var high = getIVXBTSStringValue(observationStatement.getEffectiveTime().getHigh());
-        var availabilityTimeValue = observationStatement.getAvailabilityTime().getValue();
+        var availabilityTimeValue = observationStatement.getAvailabilityTime();
         var effecitveTimeValue = observationStatement.getEffectiveTime();
 
         if (low != null && high != null) {
@@ -157,10 +170,8 @@ public class ImmunizationMapper {
             return DateFormatUtil.parse(center).getValue();
         } else if (low != null) {
             return DateFormatUtil.parse(low).getValue();
-        } else if (high != null) {
-            return DateFormatUtil.parse(availabilityTimeValue).getValue();
-        } else if (effecitveTimeValue != null && availabilityTimeValue != null) {
-            return DateFormatUtil.parse(availabilityTimeValue).getValue();
+        } else if (high != null && availabilityTimeValue.getValue() != null && availabilityTimeValue.getNullFlavor() == null) {
+            return DateFormatUtil.parse(availabilityTimeValue.getValue()).getValue();
         }
 
         return null;
@@ -212,24 +223,41 @@ public class ImmunizationMapper {
         return null;
     }
 
-    private Immunization createImmunization(String id, Identifier identifier, Annotation note,
-        Extension vaccineExtension, Date date, Extension recordedTimeExtension, Reference patient, Reference encounter) {
+    private Immunization createImmunization(ImmunizationMapperParameters immunizationMapperParameters) {
         var immunization = new Immunization();
 
         immunization.getMeta().getProfile().add(new UriType(META_PROFILE));
-        immunization.getIdentifier().add(identifier);
-        immunization.getNote().add(note);
-        immunization.getExtension().add(vaccineExtension);
-        immunization.getExtension().add(recordedTimeExtension);
+        immunization.getIdentifier().add(immunizationMapperParameters.getIdentifier());
+        immunization.getNote().add(immunizationMapperParameters.note);
+        immunization.getExtension().add(immunizationMapperParameters.vaccineExtension);
+        immunization.getExtension().add(immunizationMapperParameters.recordedTimeExtension);
         immunization
             .setStatus(Immunization.ImmunizationStatus.COMPLETED)
             .setNotGiven(false)
             .setPrimarySource(false)
-            .setDate(date)
-            .setPatient(patient)
-            .setEncounter(encounter)
-            .setId(id);
+            .setDate(immunizationMapperParameters.getDate())
+            .setPatient(immunizationMapperParameters.patient)
+            .setEncounter(immunizationMapperParameters.getEncounter())
+            .setId(immunizationMapperParameters.getId());
 
         return immunization;
+    }
+
+
+    @Getter
+    @Setter
+    public static class ImmunizationMapperParameters {
+        private String id;
+        private Identifier identifier;
+        private Annotation note;
+        private Extension vaccineExtension;
+        private Date date;
+        private Extension recordedTimeExtension;
+        private Reference patient;
+        private Reference encounter;
+
+        public ImmunizationMapperParameters() {
+
+        }
     }
 }

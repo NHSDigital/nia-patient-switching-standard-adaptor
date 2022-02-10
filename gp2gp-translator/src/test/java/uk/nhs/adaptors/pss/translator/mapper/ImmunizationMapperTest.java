@@ -13,7 +13,6 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Immunization;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,8 +29,8 @@ public class ImmunizationMapperTest {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String OBSERVATION_ROOT_ID = "82A39454-299F-432E-993E-5A6232B4E099";
-    private static final String OBSERVATION_TEXT = "Primary Source: true Location: EMIS Test Practice Location Manufacturer: " +
-        "another company Batch: past2003 Expiration: 2003-01-17 Site: Right arm GMS : Not GMS";
+    private static final String OBSERVATION_TEXT = "Primary Source: true Location: EMIS Test Practice Location Manufacturer: "
+        + "another company Batch: past2003 Expiration: 2003-01-17 Site: Right arm GMS : Not GMS";
     private static final String CODING_DISPLAY = "Ischaemic heart disease";
 
     @Mock
@@ -57,49 +56,45 @@ public class ImmunizationMapperTest {
         assertFullValidData(immunization);
     }
 
-//    @Test
-//    public void mapObservationToImmunizationWithEffectiveTimeCenter() {
-//        var ehrComposition = unmarshallEhrExtract("immunization_with_only_center_effective_time.xml");
-//        var observationStatement = ehrComposition.getComponent().get(0).getObservationStatement();
-//        List immunizationList = immunizationMapper.mapToImmunization(observationStatement, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
-//            "655D5A78-1F63-434C-9637-1D7E7843341B", ehrComposition);
-//        var immunization = (Immunization) immunizationList.get(0);
-//
-//        assertImmunizationWithHighEffectiveTimeCenter(immunization);
-//    }
-//
-//    @Test
-//    public void mapObservationToImmunizationWithEffectiveTimeLow() {
-//        var ehrComposition = unmarshallEhrExtract("immunization_with_only_low_effective_time.xml");
-//        var observationStatement = ehrComposition.getComponent().get(0).getObservationStatement();
-//        List immunizationList = immunizationMapper.mapToImmunization(observationStatement, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
-//            "655D5A78-1F63-434C-9637-1D7E7843341B", ehrComposition);
-//        var immunization = (Immunization) immunizationList.get(0);
-//
-//        assertImmunizationWithEffectiveTimeLow(immunization);
-//    }
-//
-//    @Test
-//    public void mapObservationToImmunizationWithHighAndLowEffectiveTime() {
-//        var ehrComposition = unmarshallEhrExtract("immunization_with_high_and_low_effective_time.xml");
-//        var observationStatement = ehrComposition.getComponent().get(0).getObservationStatement();
-//        List immunizationList = immunizationMapper.mapToImmunization(observationStatement, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
-//            "655D5A78-1F63-434C-9637-1D7E7843341B", ehrComposition);
-//        var immunization = (Immunization) immunizationList.get(0);
-//
-//        assertImmunizationWithHighAndLowEffectiveTime(immunization);
-//    }
-//
-//    @Test
-//    public void mapObservationToImmunizationWithHighEffectiveTime() {
-//        var ehrComposition = unmarshallEhrExtract("immunization_with_only_high_effective_time.xml");
-//        var observationStatement = ehrComposition.getComponent().get(0).getObservationStatement();
-//        List immunizationList = immunizationMapper.mapToImmunization(observationStatement, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
-//            "655D5A78-1F63-434C-9637-1D7E7843341B", ehrComposition);
-//        var immunization = (Immunization) immunizationList.get(0);
-//
-//        assertImmunizationWithHighEffectiveTime(immunization);
-//    }
+    @Test
+    public void mapObservationToImmunizationWithEffectiveTimeCenter() {
+        var ehrExtract = unmarshallEhrExtract("immunization_with_only_center_effective_time.xml");
+        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
+            "655D5A78-1F63-434C-9637-1D7E7843341B");
+
+        var immunization = (Immunization) immunizationList.get(0);
+        assertImmunizationWithHighEffectiveTimeCenter(immunization);
+    }
+
+    @Test
+    public void mapObservationToImmunizationWithEffectiveTimeLow() {
+        var ehrExtract = unmarshallEhrExtract("immunization_with_only_low_effective_time.xml");
+        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
+            "655D5A78-1F63-434C-9637-1D7E7843341B");
+
+        var immunization = (Immunization) immunizationList.get(0);
+        assertImmunizationWithEffectiveTimeLow(immunization);
+    }
+
+    @Test
+    public void mapObservationToImmunizationWithHighAndLowEffectiveTime() {
+        var ehrExtract = unmarshallEhrExtract("immunization_with_high_and_low_effective_time.xml");
+        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
+            "655D5A78-1F63-434C-9637-1D7E7843341B");
+
+        var immunization = (Immunization) immunizationList.get(0);
+        assertImmunizationWithHighAndLowEffectiveTime(immunization);
+    }
+
+    @Test
+    public void mapObservationToImmunizationWithHighEffectiveTime() {
+        var ehrExtract = unmarshallEhrExtract("immunization_with_only_high_effective_time.xml");
+        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
+            "655D5A78-1F63-434C-9637-1D7E7843341B");
+
+        var immunization = (Immunization) immunizationList.get(0);
+        assertImmunizationWithHighEffectiveTime(immunization);
+    }
 
     private void assertImmunizationWithHighAndLowEffectiveTime(Immunization immunization) {
         assertThat(immunization.getDate()).isEqualTo("2011-01-18T11:41:00.000");
