@@ -1,47 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ehrComposition classCode="COMPOSITION" moodCode="EVN"  xmlns="urn:hl7-org:v3">
-<id root="CED889AB-83CF-4782-8C22-330026C062B7"/>
-<code code="196401000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Non-consultation data">
-    <originalText>Summary Event Entry</originalText>
-</code>
-<statusCode code="COMPLETE"/>
-<effectiveTime>
-    <center nullFlavor="NI"/>
-</effectiveTime>
-<availabilityTime value="20211105"/>
-<author typeCode="AUT" contextControlCode="OP">
-    <time value="20211105122751"/>
-    <agentRef classCode="AGNT">
-        <id root="24159E76-5E1C-9034-2307-A9DEB0B8B14A"/>
-    </agentRef>
-</author>
-<Participant2 typeCode="RESP" contextControlCode="OP">
-    <agentRef classCode="AGNT">
-        <id root="24159E76-5E1C-9034-2307-A9DEB0B8B14A"/>
-    </agentRef>
-</Participant2>
-<component typeCode="COMP">
-    <ObservationStatement classCode="OBS" moodCode="EVN"  xmlns="urn:hl7-org:v3">
-        <id root="82A39454-299F-432E-993E-5A6232B4E099" />
-        <code code="1664081000000114" codeSystem="2.16.840.1.113883.2.1.3.2.3.15"
-              displayName="Haemophilus influenzae type B and meningitis C vaccination">
-        </code>
-        <statusCode code="COMPLETE" />
-        <effectiveTime>
-            <high value="20100118114100"/>
-        </effectiveTime>
-        <availabilityTime value="20100118114100" />
-        <pertinentInformation typeCode="PERT">
-            <sequenceNumber value="+1"/>
-            <pertinentAnnotation classCode="OBS" moodCode="EVN">
-                <text>Primary Source: true Location: EMIS Test Practice Location Manufacturer: another company Batch: past2003 Expiration: 2003-01-17 Site: Right arm GMS : Not GMS</text>
-            </pertinentAnnotation>
-        </pertinentInformation>
-        <Participant typeCode="PRF" contextControlCode="OP">
-            <agentRef classCode="AGNT">
-                <id root="9A5D5A78-1F63-434C-9637-1D7E7843341B"/>
-            </agentRef>
-        </Participant>
-    </ObservationStatement>
-</component>
-</ehrComposition>
+<EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+    <availabilityTime value="20200101010101" />
+    <component typeCode="COMP">
+        <ehrFolder classCode="FOLDER" moodCode="EVN">
+            <component typeCode="COMP">
+                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                    <availabilityTime value="20190708143500"/>
+                    <Participant2 typeCode="PRF" contextControlCode="OP">
+                        <agentRef classCode="AGNT">
+                            <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
+                        </agentRef>
+                    </Participant2>
+                    <component typeCode="COMP" >
+                        <ObservationStatement classCode="OBS" moodCode="EVN"  xmlns="urn:hl7-org:v3">
+                            <id root="82A39454-299F-432E-993E-5A6232B4E099" />
+                            <code code="1664081000000114" codeSystem="2.16.840.1.113883.2.1.3.2.3.15"
+                                  displayName="Haemophilus influenzae type B and meningitis C vaccination">
+                            </code>
+                            <statusCode code="COMPLETE" />
+                            <effectiveTime>
+                                <high value="20100118114100"/>
+                            </effectiveTime>
+                            <availabilityTime value="20100118114100" />
+                            <pertinentInformation typeCode="PERT">
+                                <sequenceNumber value="+1"/>
+                                <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                    <text>Primary Source: true Location: EMIS Test Practice Location Manufacturer: another company Batch: past2003 Expiration: 2003-01-17 Site: Right arm GMS : Not GMS</text>
+                                </pertinentAnnotation>
+                            </pertinentInformation>
+                            <Participant typeCode="PRF" contextControlCode="OP">
+                                <agentRef classCode="AGNT">
+                                    <id root="9A5D5A78-1F63-434C-9637-1D7E7843341B"/>
+                                </agentRef>
+                            </Participant>
+                        </ObservationStatement>
+                    </component>
+                </ehrComposition>
+            </component>
+        </ehrFolder>
+    </component>
+</EhrExtract>

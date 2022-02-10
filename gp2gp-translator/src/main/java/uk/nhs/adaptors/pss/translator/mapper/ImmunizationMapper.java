@@ -1,7 +1,9 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
@@ -13,47 +15,74 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.IVXBTS;
+import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.TS;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 
-@Component
+@Service
+@AllArgsConstructor
 public class ImmunizationMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1";
     private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
-    private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect" +
-        "-VaccinationProcedure-1";
+    private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
+        + "-VaccinationProcedure-1";
     private static final String END_DATE_PREFIX = "End Date: ";
-    private static final String VACCINATION_CODING_EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding" +
-        "-sctdescid";
+    private static final String VACCINATION_CODING_EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding"
+        + "-sctdescid";
     private static final String PATIENT_REFERENCE_PREFIX = "Patient/";
     private static final String ENCOUNTER_REFERENCE_PREFIX = "Encounter/";
 
-    private final CodeableConceptMapper codeableConceptMapper = new CodeableConceptMapper();
+    private CodeableConceptMapper codeableConceptMapper;
 
-    public List<Immunization> mapToImmunization(RCMRMT030101UK04ObservationStatement observationStatement, String patientID,
-        String encounterID, RCMRMT030101UK04EhrComposition ehrComposition) {
+    public List<Immunization> mapToImmunization(RCMRMT030101UK04EhrExtract ehrExtract, String patientID, String encounterID) {
+        List<Immunization> mappedImmunizationResources = new ArrayList<>();
+        var ehrCompositionList = EhrResourceExtractorUtil.extractValidImmunizationEhrCompositions(ehrExtract);
 
-        if (hasImmunizationCode(observationStatement)) {
-            var id = observationStatement.getId().getRoot();
-            var identifier = getIdentifier(id);
-            var note = buildNote(observationStatement);
-            var date = getObservationDate(observationStatement);
+        ehrCompositionList.forEach(ehrComposition -> {
+            var immunizationObservationStatements = getImmunizationObservationStatements(ehrComposition);
 
-            Extension recordedTimeExtension = getRecordedTimeExtension(ehrComposition);
-            Extension vaccineExtension = createVaccineProcedureExtension(observationStatement);
+            immunizationObservationStatements
+                .forEach(observationStatement -> {
+                    var mappedImmunization = mapImmunization(ehrComposition, observationStatement, patientID, encounterID);
+                    mappedImmunizationResources.add(mappedImmunization);
+                });
+        });
 
-            var patient = new Reference(PATIENT_REFERENCE_PREFIX + patientID);
-            var encounter = new Reference(ENCOUNTER_REFERENCE_PREFIX + encounterID);
+        return mappedImmunizationResources;
+    }
 
-            return createImmunization(id, identifier, note, vaccineExtension, date, recordedTimeExtension, patient, encounter);
-        }
+    private Immunization mapImmunization(RCMRMT030101UK04EhrComposition ehrComposition,
+        RCMRMT030101UK04ObservationStatement observationStatement,
+        String patientID, String encounterID) {
 
-        return null;
+        var id = observationStatement.getId().getRoot();
+        var identifier = getIdentifier(id);
+        var note = buildNote(observationStatement);
+        var date = getObservationDate(observationStatement);
+
+        Extension recordedTimeExtension = getRecordedTimeExtension(ehrComposition);
+        Extension vaccineExtension = createVaccineProcedureExtension(observationStatement);
+
+        var patient = new Reference(PATIENT_REFERENCE_PREFIX + patientID);
+        var encounter = new Reference(ENCOUNTER_REFERENCE_PREFIX + encounterID);
+
+        return createImmunization(id, identifier, note, vaccineExtension, date, recordedTimeExtension, patient, encounter);
+    }
+
+    private List<RCMRMT030101UK04ObservationStatement> getImmunizationObservationStatements(RCMRMT030101UK04EhrComposition ehrComposition) {
+        return ehrComposition.getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component4::getObservationStatement)
+            .filter(this::hasImmunizationCode)
+            .collect(Collectors.toList());
     }
 
     private Extension getRecordedTimeExtension(RCMRMT030101UK04EhrComposition ehrComposition) {
@@ -183,7 +212,7 @@ public class ImmunizationMapper {
         return null;
     }
 
-    private List<Immunization> createImmunization(String id, Identifier identifier, Annotation note,
+    private Immunization createImmunization(String id, Identifier identifier, Annotation note,
         Extension vaccineExtension, Date date, Extension recordedTimeExtension, Reference patient, Reference encounter) {
         var immunization = new Immunization();
 
@@ -201,6 +230,6 @@ public class ImmunizationMapper {
             .setEncounter(encounter)
             .setId(id);
 
-        return List.of(immunization);
+        return immunization;
     }
 }
