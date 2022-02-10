@@ -11,8 +11,11 @@ import org.hl7.fhir.dstu3.model.Immunization;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
+import org.hl7.v3.CsNullFlavor;
+import org.hl7.v3.IVXBTS;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.TS;
 import org.springframework.stereotype.Component;
 
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -58,8 +61,10 @@ public class ImmunizationMapper {
             return new Extension()
                 .setValue(new StringType(ehrComposition.getAuthor().getTime().getValue()));
         } else if (ehrComposition.getEffectiveTime() != null) {
-            return new Extension()
-                .setValue(new StringType(DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue()).asStringValue()));
+            if (ehrComposition.getAvailabilityTime().getNullFlavor() == null) {
+                return new Extension()
+                    .setValue(new StringType(DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue()).asStringValue()));
+            }
         }
 
         return null;
@@ -86,33 +91,63 @@ public class ImmunizationMapper {
             );
     }
 
+    private String getTSStringValue(TS ts) {
+        if (ts == null) {
+            return null;
+        } else if (ts.getValue() != null) {
+            return ts.getValue();
+        } else if (ts.getNullFlavor().equals(CsNullFlavor.UNK)) {
+            return CsNullFlavor.UNK.value();
+        }
+
+        return null;
+    }
+
+    private String getIVXBTSStringValue(IVXBTS ivxbts) {
+        if (ivxbts == null) {
+            return null;
+        } else if (ivxbts.getValue() != null) {
+            return ivxbts.getValue();
+        } else if (ivxbts.getNullFlavor().equals(CsNullFlavor.UNK)) {
+            return CsNullFlavor.UNK.value();
+        }
+
+        return null;
+    }
+
     private Date getObservationDate(RCMRMT030101UK04ObservationStatement observationStatement) {
-        if (observationStatement.getEffectiveTime().getLow() != null && observationStatement.getEffectiveTime().getHigh() != null) {
-            return DateFormatUtil.parse(observationStatement.getEffectiveTime().getLow().getValue()).getValue();
-        } else if (observationStatement.getEffectiveTime().getCenter() != null) {
-            return DateFormatUtil.parse(observationStatement.getEffectiveTime().getCenter().getValue()).getValue();
-        } else if (observationStatement.getEffectiveTime().getLow() != null) {
-            return DateFormatUtil.parse(observationStatement.getEffectiveTime().getLow().getValue()).getValue();
-        } else if (observationStatement.getEffectiveTime().getHigh() != null
-            && observationStatement.getAvailabilityTime() != null
-            && observationStatement.getAvailabilityTime().getValue() != null) {
-            return DateFormatUtil.parse(observationStatement.getAvailabilityTime().getValue()).getValue();
-        } else if (observationStatement.getEffectiveTime() == null && observationStatement.getAvailabilityTime().getValue() != null) {
-            return DateFormatUtil.parse(observationStatement.getAvailabilityTime().getValue()).getValue();
+        var center = getTSStringValue(observationStatement.getEffectiveTime().getCenter());
+        var low = getIVXBTSStringValue(observationStatement.getEffectiveTime().getLow());
+        var high = getIVXBTSStringValue(observationStatement.getEffectiveTime().getHigh());
+        var availabilityTimeValue = observationStatement.getAvailabilityTime().getValue();
+        var effecitveTimeValue = observationStatement.getEffectiveTime();
+
+        if (low != null && high != null) {
+            return DateFormatUtil.parse(low).getValue();
+        } else if (center != null) {
+            return DateFormatUtil.parse(center).getValue();
+        } else if (low != null) {
+            return DateFormatUtil.parse(low).getValue();
+        } else if (high != null) {
+            return DateFormatUtil.parse(availabilityTimeValue).getValue();
+        } else if (effecitveTimeValue != null && availabilityTimeValue != null) {
+            return DateFormatUtil.parse(availabilityTimeValue).getValue();
         }
 
         return null;
     }
 
     private String highValueToNotes(RCMRMT030101UK04ObservationStatement observationStatement) {
-        if (observationStatement.getEffectiveTime().getLow() != null && observationStatement.getEffectiveTime().getHigh() != null) {
-            return END_DATE_PREFIX + observationStatement.getEffectiveTime().getHigh().getValue();
-        } else if (observationStatement.getEffectiveTime().getHigh() != null
-            && observationStatement.getAvailabilityTime().getValue() != null) {
-            return END_DATE_PREFIX + observationStatement.getEffectiveTime().getHigh().getValue();
-        } else if (observationStatement.getEffectiveTime().getHigh() != null
-            && observationStatement.getAvailabilityTime().getNullFlavor() != null) {
-            return END_DATE_PREFIX + observationStatement.getEffectiveTime().getHigh().getValue();
+        var low = getIVXBTSStringValue(observationStatement.getEffectiveTime().getLow());
+        var high = getIVXBTSStringValue(observationStatement.getEffectiveTime().getHigh());
+        var availabilityTimeValue = observationStatement.getAvailabilityTime();
+
+        if (low != null && high != null) {
+            return END_DATE_PREFIX + high;
+        } else if (high != null && availabilityTimeValue.getValue() != null) {
+            return END_DATE_PREFIX + high;
+        } else if (high != null && availabilityTimeValue.getNullFlavor() != null) {
+            return END_DATE_PREFIX + high;
         }
 
         return null;
