@@ -14,11 +14,13 @@ import org.hl7.v3.IVLTS;
 import org.hl7.v3.IVXBTS;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.TS;
+import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.IdentifierUtil;
 
+@Service
 @AllArgsConstructor
 public class EncounterMapper {
     private static final List<String> INVALID_CODES = List.of("196401000000100", "196391000000103");
@@ -53,17 +55,17 @@ public class EncounterMapper {
         var availabilityTimeValue = availabilityTime.getValue();
 
         if (validValue(center)) {
-            return period.setStart(DateFormatUtil.parse(center).getValue());
+            return period.setStartElement(DateFormatUtil.parse(center));
         } else if (validValue(low) && validValue(high)) {
-            return period.setStart(DateFormatUtil.parse(low).getValue()).setEnd(DateFormatUtil.parse(high).getValue());
+            return period.setStartElement(DateFormatUtil.parse(low)).setEndElement(DateFormatUtil.parse(high));
         } else if (validValue(low) && !validValue(high)) {
-            return period.setStart(DateFormatUtil.parse(low).getValue());
+            return period.setStartElement(DateFormatUtil.parse(low));
         } else if (!validValue(low) && validValue(high) && !validValue(availabilityTimeValue)) {
-            return period.setEnd(DateFormatUtil.parse(high).getValue());
+            return period.setEndElement(DateFormatUtil.parse(high));
         } else if (CsNullFlavor.UNK.value().equals(center)) {
             return null;
         } else if (validValue(availabilityTimeValue)) {
-            return period.setStart(DateFormatUtil.parse(availabilityTimeValue).getValue());
+            return period.setStartElement(DateFormatUtil.parse(availabilityTimeValue));
         }
 
         return null;
