@@ -52,8 +52,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 })
 public class RCMRMT030101UK04InterpretationRange {
 
-    protected ED text;
-    protected IVLPQ value;
+    protected String text;
+    protected Value value;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -74,10 +74,10 @@ public class RCMRMT030101UK04InterpretationRange {
      * 
      * @return
      *     possible object is
-     *     {@link ED }
+     *     {@link String }
      *     
      */
-    public ED getText() {
+    public String getText() {
         return text;
     }
 
@@ -86,10 +86,10 @@ public class RCMRMT030101UK04InterpretationRange {
      * 
      * @param value
      *     allowed object is
-     *     {@link ED }
+     *     {@link String }
      *     
      */
-    public void setText(ED value) {
+    public void setText(String value) {
         this.text = value;
     }
 
@@ -98,10 +98,10 @@ public class RCMRMT030101UK04InterpretationRange {
      * 
      * @return
      *     possible object is
-     *     {@link IVLPQ }
+     *     {@link Value }
      *     
      */
-    public IVLPQ getValue() {
+    public Value getValue() {
         return value;
     }
 
@@ -110,10 +110,10 @@ public class RCMRMT030101UK04InterpretationRange {
      * 
      * @param value
      *     allowed object is
-     *     {@link IVLPQ }
+     *     {@link Value }
      *     
      */
-    public void setValue(IVLPQ value) {
+    public void setValue(Value value) {
         this.value = value;
     }
 

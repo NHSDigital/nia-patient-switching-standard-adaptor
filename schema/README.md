@@ -72,6 +72,7 @@ Please make sure you don't override the following classes with the generated one
 - RCMRMT030101UK04PlanStatement.java
 - RCCTMT120101UK01Organization.java
 - RCMRMT030101UK04RequestStatement.java
+- RCMRMT030101UK04InterpretationRange.java
 
 New file:
 - Value.java (joined class containing fields from IVLPQ and PQ classes)
