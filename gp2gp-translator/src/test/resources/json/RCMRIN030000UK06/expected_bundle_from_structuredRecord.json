@@ -1,0 +1,423 @@
+{
+    "resourceType": "Bundle",
+    "id": "TEST_ID_123",
+    "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
+    },
+    "type": "collection",
+    "entry": [ {
+        "resource": {
+            "resourceType": "Patient",
+            "id": "TEST_ID_123",
+            "meta": {
+                "versionId": "1521806400000",
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
+            },
+            "identifier": [ {
+                "system": "https://fhir.nhs.uk/Id/nhs-number",
+                "value": "1234567890"
+            } ],
+            "managingOrganization": {
+                "reference": "94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG"
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "Practitioner",
+            "id": "4270599D-C8A2-4AC3-A3E9-DAAAFA96528D",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
+            },
+            "name": [ {
+                "use": "official",
+                "family": "TEMPLE SOWERBY MEDICAL PRACTICE"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Practitioner",
+            "id": "94F00D99-0601-4A8E-AD1D-1B564307B0A6",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
+            },
+            "name": [ {
+                "use": "official",
+                "family": "Test",
+                "given": [ "NHS" ],
+                "prefix": [ "Mr" ]
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Organization",
+            "id": "94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
+            },
+            "name": "TEMPLE SOWERBY MEDICAL PRACTICE",
+            "telecom": [ {
+                "system": "phone",
+                "value": "3800000",
+                "use": "work",
+                "rank": 1
+            } ],
+            "address": [ {
+                "use": "work",
+                "type": "physical",
+                "line": [ "Fulford Grange", "Micklefield Lane", "Rawdon", "Rawdon", "Leeds" ],
+                "postalCode": "LS19 6BA"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "PractitionerRole",
+            "id": "94F00D99-0601-4A8E-AD1D-1B564307B0A6-PR",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1" ]
+            },
+            "practitioner": {
+                "reference": "Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6"
+            },
+            "organization": {
+                "reference": "Organization/94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG"
+            },
+            "code": [ {
+                "text": "General Medical Practitioner"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Practitioner",
+            "id": "BB811863-B9FB-4283-A19E-92D077EA403D",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
+            },
+            "name": [ {
+                "use": "official",
+                "family": "Whitcombe",
+                "given": [ "Peter" ],
+                "prefix": [ "Dr" ]
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Organization",
+            "id": "BB811863-B9FB-4283-A19E-92D077EA403D-ORG",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
+            },
+            "name": "National"
+        }
+    }, {
+        "resource": {
+            "resourceType": "PractitionerRole",
+            "id": "BB811863-B9FB-4283-A19E-92D077EA403D-PR",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1" ]
+            },
+            "practitioner": {
+                "reference": "Practitioner/BB811863-B9FB-4283-A19E-92D077EA403D"
+            },
+            "organization": {
+                "reference": "Organization/BB811863-B9FB-4283-A19E-92D077EA403D-ORG"
+            },
+            "code": [ {
+                "text": "Clerical Worker"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Practitioner",
+            "id": "5F8BBC0E-0FB7-4828-84AA-817F5243A12E",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
+            },
+            "name": [ {
+                "use": "official",
+                "family": "McAvenue",
+                "given": [ "David" ],
+                "prefix": [ "Dr" ]
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Organization",
+            "id": "5F8BBC0E-0FB7-4828-84AA-817F5243A12E-ORG",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
+            },
+            "name": "National"
+        }
+    }, {
+        "resource": {
+            "resourceType": "PractitionerRole",
+            "id": "5F8BBC0E-0FB7-4828-84AA-817F5243A12E-PR",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1" ]
+            },
+            "practitioner": {
+                "reference": "Practitioner/5F8BBC0E-0FB7-4828-84AA-817F5243A12E"
+            },
+            "organization": {
+                "reference": "Organization/5F8BBC0E-0FB7-4828-84AA-817F5243A12E-ORG"
+            },
+            "code": [ {
+                "text": "Clerical Worker"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Practitioner",
+            "id": "72DB5398-C825-4498-88CA-899A3653EC04",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
+            },
+            "name": [ {
+                "use": "official",
+                "family": "Whitcombe",
+                "given": [ "Peter" ],
+                "prefix": [ "Dr" ]
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Organization",
+            "id": "72DB5398-C825-4498-88CA-899A3653EC04-ORG",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
+            },
+            "name": "TEMPLE SOWERBY MEDICAL PRACTICE",
+            "telecom": [ {
+                "system": "phone",
+                "value": "3800000",
+                "use": "work",
+                "rank": 1
+            } ],
+            "address": [ {
+                "use": "work",
+                "type": "physical",
+                "line": [ "Fulford Grange", "Micklefield Lane", "Rawdon", "Rawdon", "Leeds" ],
+                "postalCode": "LS19 6BA"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "PractitionerRole",
+            "id": "72DB5398-C825-4498-88CA-899A3653EC04-PR",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1" ]
+            },
+            "practitioner": {
+                "reference": "Practitioner/72DB5398-C825-4498-88CA-899A3653EC04"
+            },
+            "organization": {
+                "reference": "Organization/72DB5398-C825-4498-88CA-899A3653EC04-ORG"
+            },
+            "code": [ {
+                "text": "General Medical Practitioner"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Practitioner",
+            "id": "884E7627-796C-4C70-870A-D61B88AD2E57",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
+            },
+            "name": [ {
+                "use": "official",
+                "family": "External User"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Organization",
+            "id": "884E7627-796C-4C70-870A-D61B88AD2E57-ORG",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
+            },
+            "name": "National"
+        }
+    }, {
+        "resource": {
+            "resourceType": "PractitionerRole",
+            "id": "884E7627-796C-4C70-870A-D61B88AD2E57-PR",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1" ]
+            },
+            "practitioner": {
+                "reference": "Practitioner/884E7627-796C-4C70-870A-D61B88AD2E57"
+            },
+            "organization": {
+                "reference": "Organization/884E7627-796C-4C70-870A-D61B88AD2E57-ORG"
+            },
+            "code": [ {
+                "text": "Unknown"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Practitioner",
+            "id": "2D70F602-6BB1-47E0-B2EC-39912A59787D",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
+            },
+            "name": [ {
+                "use": "official",
+                "family": "McAvenue",
+                "given": [ "David" ],
+                "prefix": [ "Dr" ]
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Organization",
+            "id": "2D70F602-6BB1-47E0-B2EC-39912A59787D-ORG",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
+            },
+            "name": "TEMPLE SOWERBY MEDICAL PRACTICE",
+            "telecom": [ {
+                "system": "phone",
+                "value": "3800000",
+                "use": "work",
+                "rank": 1
+            } ],
+            "address": [ {
+                "use": "work",
+                "type": "physical",
+                "line": [ "Fulford Grange", "Micklefield Lane", "Rawdon", "Rawdon", "Leeds" ],
+                "postalCode": "LS19 6BA"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "PractitionerRole",
+            "id": "2D70F602-6BB1-47E0-B2EC-39912A59787D-PR",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1" ]
+            },
+            "practitioner": {
+                "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+            },
+            "organization": {
+                "reference": "Organization/2D70F602-6BB1-47E0-B2EC-39912A59787D-ORG"
+            },
+            "code": [ {
+                "text": "General Medical Practitioner"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Location",
+            "id": "CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF-LOC",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF-LOC"
+            } ],
+            "status": "active",
+            "name": "EMIS Test Practice Location"
+        }
+    }, {
+        "resource": {
+            "resourceType": "Location",
+            "id": "3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039-LOC",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039-LOC"
+            } ],
+            "status": "active",
+            "name": "EMIS Test Practice Location"
+        }
+    }, {
+        "resource": {
+            "resourceType": "Location",
+            "id": "8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3-LOC",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3-LOC"
+            } ],
+            "status": "active",
+            "name": "EMIS Test Practice Location"
+        }
+    }, {
+        "resource": {
+            "resourceType": "Location",
+            "id": "9326C01E-488B-4EDF-B9C9-529E69EE0361-LOC",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "9326C01E-488B-4EDF-B9C9-529E69EE0361-LOC"
+            } ],
+            "status": "active",
+            "name": "EMIS Test Practice Location"
+        }
+    }, {
+        "resource": {
+            "resourceType": "Location",
+            "id": "4E95E2AF-BF10-45BB-AAA5-2547BD42C806-LOC",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "4E95E2AF-BF10-45BB-AAA5-2547BD42C806-LOC"
+            } ],
+            "status": "active",
+            "name": "EMIS Test Practice Location"
+        }
+    }, {
+        "resource": {
+            "resourceType": "Location",
+            "id": "DF71EC06-9453-4AE7-9C3C-E42871252772-LOC",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "DF71EC06-9453-4AE7-9C3C-E42871252772-LOC"
+            } ],
+            "status": "active",
+            "name": "EMIS Test Practice Location"
+        }
+    }, {
+        "resource": {
+            "resourceType": "ProcedureRequest",
+            "id": "3316531F-5705-424C-9E1A-EE694FB411B4",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "3316531F-5705-424C-9E1A-EE694FB411B4"
+            } ],
+            "status": "active",
+            "intent": "plan",
+            "occurrenceDateTime": "2011-01-15",
+            "authoredOn": "2010-01-15T11:06:46+01:00",
+            "requester": {
+                "agent": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            },
+            "reasonCode": [ {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "282653015",
+                    "display": "Medication review"
+                } ]
+            } ]
+        }
+    } ]
+}
