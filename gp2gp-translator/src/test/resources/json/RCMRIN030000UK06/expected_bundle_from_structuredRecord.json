@@ -405,7 +405,7 @@
             "status": "active",
             "intent": "plan",
             "occurrenceDateTime": "2011-01-15",
-            "authoredOn": "2010-01-15T11:06:46+01:00",
+            "authoredOn": "2010-01-15T10:06:46+00:00",
             "requester": {
                 "agent": {
                     "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
