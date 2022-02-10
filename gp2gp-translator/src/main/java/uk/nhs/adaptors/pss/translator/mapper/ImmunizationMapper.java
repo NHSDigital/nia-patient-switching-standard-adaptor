@@ -1,10 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
@@ -16,55 +13,49 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
-import org.hl7.v3.RCMRMT030101UK04Annotation;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.springframework.stereotype.Component;
 
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
+@Component
 public class ImmunizationMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1";
-    private static final String SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
+    private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
-    private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1";
-    private static final String END_DATE = "End Date: ";
+    private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect" +
+        "-VaccinationProcedure-1";
+    private static final String END_DATE_PREFIX = "End Date: ";
     private static final String URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid";
 
     private final CodeableConceptMapper codeableConceptMapper = new CodeableConceptMapper();
 
-
     public List<Immunization> mapToImmunization(RCMRMT030101UK04ObservationStatement observationStatement, Patient patient,
         Encounter encounter, Practitioner practitioner, RCMRMT030101UK04EhrComposition ehrComposition) {
 
-        if (checkSnomedCode(observationStatement)) {
+        if (hasImmunizationCode(observationStatement)) {
             var id = observationStatement.getId().getRoot();
             var identifier = getIdentifier(id);
-            var note = buildNotes(Optional.of(observationStatement));
+            var note = buildNote(observationStatement);
+            var date = getObservationDate(observationStatement);
 
-            if (highValueToNotes(observationStatement) != null) {
-                var newNote = new Annotation(new StringType(note.get(0).getText()
-                    + StringUtils.SPACE + (new StringType(END_DATE + highValueToNotes(observationStatement)))));
-                note.add(newNote);
-            }
+            Extension recordedTimeExtension = getRecordedTimeExtension(ehrComposition);
+            Extension vaccineExtension = createVaccineProcedureExtension(observationStatement);
 
-            var date = getDate(observationStatement);
-
-            String recordedTime;
-
-            if (ehrComposition.getAuthor() != null) {
-                recordedTime = ehrComposition.getAuthor().getTime().getValue();
-            } else if (ehrComposition.getEffectiveTime() != null) {
-                recordedTime = DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue()).asStringValue();
-            } else {
-                recordedTime = null;
-            }
-
-            Extension recordedTimeExtension = new Extension()
-                .setValue(new StringType(recordedTime));
-
-            Extension vaccineExtension = createExtension(observationStatement);
             return createImmunization(id, identifier, note, vaccineExtension, date, recordedTimeExtension);
+        }
+
+        return null;
+    }
+
+    private Extension getRecordedTimeExtension(RCMRMT030101UK04EhrComposition ehrComposition) {
+        if (ehrComposition.getAuthor() != null) {
+            return new Extension()
+                .setValue(new StringType(ehrComposition.getAuthor().getTime().getValue()));
+        } else if (ehrComposition.getEffectiveTime() != null) {
+            return new Extension()
+                .setValue(new StringType(DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue()).asStringValue()));
         }
 
         return null;
@@ -76,22 +67,22 @@ public class ImmunizationMapper {
             .setValue(id);
     }
 
-    private boolean checkSnomedCode(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private boolean hasImmunizationCode(RCMRMT030101UK04ObservationStatement observationStatement) {
         String snomedCode = observationStatement.getCode().getCodeSystem();
 
-        return SNOMED_CODE.equals(snomedCode);
+        return IMMUNIZATION_SNOMED_CODE.equals(snomedCode);
     }
 
-    private Extension createExtension(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private Extension createVaccineProcedureExtension(RCMRMT030101UK04ObservationStatement observationStatement) {
         return new Extension()
-                    .setUrl(VACCINE_PROCEDURE_URL)
-                    .setValue(new Extension()
-                        .setUrl(URL)
-                        .setValue(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
-                    );
+            .setUrl(VACCINE_PROCEDURE_URL)
+            .setValue(new Extension()
+                .setUrl(URL)
+                .setValue(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
+            );
     }
 
-    private Date getDate(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private Date getObservationDate(RCMRMT030101UK04ObservationStatement observationStatement) {
         if (observationStatement.getEffectiveTime().getLow() != null && observationStatement.getEffectiveTime().getHigh() != null) {
             return DateFormatUtil.parse(observationStatement.getEffectiveTime().getLow().getValue()).getValue();
         } else if (observationStatement.getEffectiveTime().getCenter() != null) {
@@ -111,50 +102,56 @@ public class ImmunizationMapper {
 
     private String highValueToNotes(RCMRMT030101UK04ObservationStatement observationStatement) {
         if (observationStatement.getEffectiveTime().getLow() != null && observationStatement.getEffectiveTime().getHigh() != null) {
-            return observationStatement.getEffectiveTime().getHigh().getValue();
+            return END_DATE_PREFIX + observationStatement.getEffectiveTime().getHigh().getValue();
         } else if (observationStatement.getEffectiveTime().getHigh() != null
             && observationStatement.getAvailabilityTime().getValue() != null) {
-            return observationStatement.getEffectiveTime().getHigh().getValue();
+            return END_DATE_PREFIX + observationStatement.getEffectiveTime().getHigh().getValue();
         } else if (observationStatement.getEffectiveTime().getHigh() != null
             && observationStatement.getAvailabilityTime().getNullFlavor() != null) {
-            return observationStatement.getEffectiveTime().getHigh().getValue();
+            return END_DATE_PREFIX + observationStatement.getEffectiveTime().getHigh().getValue();
         }
+
         return null;
     }
 
-    private List<Annotation> buildNotes(Optional<RCMRMT030101UK04ObservationStatement> observationStatement) {
-        List<Annotation> annotationList = new ArrayList<>();
+    private Annotation buildNote(RCMRMT030101UK04ObservationStatement observationStatement) {
 
-        observationStatement.ifPresent(observationStatement1 -> observationStatement1.getPertinentInformation()
-            .stream()
-            .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
-            .filter(Objects::nonNull)
-            .map(RCMRMT030101UK04Annotation::getText)
-            .filter(StringUtils::isNotBlank)
-            .map(StringType::new)
-            .map(Annotation::new)
-            .forEach(annotationList::add));
+        var pertinentText = getPertinentAnnotation(observationStatement);
+        var dateText = highValueToNotes(observationStatement);
 
-        if (observationStatement.get().getCode().getOriginalText() != null) {
-            StringType text = new StringType(observationStatement.get().getCode().getOriginalText());
-            annotationList.add(new Annotation(text));
+        if (pertinentText != null && dateText != null) {
+            var noteStringType = new StringType(pertinentText + StringUtils.SPACE + dateText);
+            return new Annotation(noteStringType);
+        } else if (pertinentText != null) {
+            var noteStringType = new StringType(pertinentText);
+            return new Annotation(noteStringType);
+        } else if (dateText != null) {
+            var noteStringType = new StringType(dateText);
+            return new Annotation(noteStringType);
         }
 
-        return annotationList;
+        return null;
     }
 
-    private List<Immunization> createImmunization(String id, Identifier identifier, List<Annotation> note,
+    private String getPertinentAnnotation(RCMRMT030101UK04ObservationStatement observationStatement) {
+        if (observationStatement.getPertinentInformation() != null && observationStatement.getPertinentInformation().size() > 0) {
+            var pertinentInformation = observationStatement.getPertinentInformation().get(0);
+
+            if (pertinentInformation.getPertinentAnnotation() != null && pertinentInformation.getPertinentAnnotation().getText() != null) {
+                return pertinentInformation.getPertinentAnnotation().getText();
+            }
+        }
+
+        return null;
+    }
+
+    private List<Immunization> createImmunization(String id, Identifier identifier, Annotation note,
         Extension vaccineExtension, Date date, Extension recordedTimeExtension) {
         var immunization = new Immunization();
 
         immunization.getMeta().getProfile().add(new UriType(META_PROFILE));
         immunization.getIdentifier().add(identifier);
-
-        try {
-            immunization.getNote().add(note.get(1));
-        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-            immunization.getNote().add(note.get(0));
-        }
+        immunization.getNote().add(note);
 
         immunization.setId(id);
         immunization.getExtension().add(vaccineExtension);
