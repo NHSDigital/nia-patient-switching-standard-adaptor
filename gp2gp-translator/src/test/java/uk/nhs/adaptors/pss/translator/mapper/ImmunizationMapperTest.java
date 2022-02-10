@@ -50,10 +50,21 @@ public class ImmunizationMapperTest {
         List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
             "655D5A78-1F63-434C-9637-1D7E7843341B");
 
-        assertThat(immunizationList.size()).isEqualTo(1);
+        var immunization = (Immunization) immunizationList.get(0);
+        assertFullValidData(immunization, immunizationList);
+    }
+
+    @Test
+    public void mapObservationToImmunizationWithMulptipleObservationStatements() {
+        var ehrExtract = unmarshallEhrExtract("full_valid_immunization_with_multiple_observation_statements.xml");
+        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
+            "655D5A78-1F63-434C-9637-1D7E7843341B");
 
         var immunization = (Immunization) immunizationList.get(0);
-        assertFullValidData(immunization);
+        assertThat(immunizationList.size()).isEqualTo(3);
+        assertThat(immunization.getId()).isEqualTo(OBSERVATION_ROOT_ID);
+        assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
     }
 
     @Test
@@ -119,7 +130,8 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
     }
 
-    private void assertFullValidData(Immunization immunization) {
+    private void assertFullValidData(Immunization immunization, List<Immunization> immunizationList) {
+        assertThat(immunizationList.size()).isEqualTo(1);
         assertThat(immunization.getId()).isEqualTo(OBSERVATION_ROOT_ID);
         assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
         assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
