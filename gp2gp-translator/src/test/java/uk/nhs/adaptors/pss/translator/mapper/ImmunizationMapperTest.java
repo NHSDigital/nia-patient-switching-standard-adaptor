@@ -28,8 +28,8 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithValidData() {
         var observationStatement = unmarshallCodeElement("full_valid_immunization.xml");
-        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner(),
-            new RCMRMT030101UK04EhrComposition()).forEach(
+        immunizationMapper.mapToImmunization(observationStatement, "655D5A78-1F63-434C-9637-1D7E7843341B",
+            "655D5A78-1F63-434C-9637-1D7E7843341B", new RCMRMT030101UK04EhrComposition()).forEach(
                 immunization -> assertFullValidData(observationStatement, immunization)
         );
     }
@@ -37,32 +37,32 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithEffectiveTimeCenter() {
         var observationStatement = unmarshallCodeElement("immunization_with_only_center_effective_time.xml");
-        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner(),
-            new RCMRMT030101UK04EhrComposition()).forEach(immunization ->
+        immunizationMapper.mapToImmunization(observationStatement, "655D5A78-1F63-434C-9637-1D7E7843341B",
+            "655D5A78-1F63-434C-9637-1D7E7843341B", new RCMRMT030101UK04EhrComposition()).forEach(immunization ->
             assertImmunizationWithHighEffectiveTimeCenter(immunization, observationStatement));
     }
 
     @Test
     public void mapObservationToImmunizationWithEffectiveTimeLow() {
         var observationStatement = unmarshallCodeElement("immunization_with_only_low_effective_time.xml");
-        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner(),
-            new RCMRMT030101UK04EhrComposition()).forEach(
+        immunizationMapper.mapToImmunization(observationStatement, "655D5A78-1F63-434C-9637-1D7E7843341B",
+            "655D5A78-1F63-434C-9637-1D7E7843341B", new RCMRMT030101UK04EhrComposition()).forEach(
                 immunization -> assertImmunizationWithEffectiveTimeLow(immunization, observationStatement));
     }
 
     @Test
     public void mapObservationToImmunizationWithHighAndLowEffectiveTime() {
         var observationStatement = unmarshallCodeElement("immunization_with_high_and_low_effective_time.xml");
-        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner(),
-            new RCMRMT030101UK04EhrComposition()).forEach(
+        immunizationMapper.mapToImmunization(observationStatement, "655D5A78-1F63-434C-9637-1D7E7843341B",
+            "655D5A78-1F63-434C-9637-1D7E7843341B", new RCMRMT030101UK04EhrComposition()).forEach(
                 immunization -> assertImmunizationWithHighAndLowEffectiveTime(immunization, observationStatement));
     }
 
     @Test
     public void mapObservationToImmunizationWithHighEffectiveTime() {
         var observationStatement = unmarshallCodeElement("immunization_with_only_high_effective_time.xml");
-        immunizationMapper.mapToImmunization(observationStatement, new Patient(), new Encounter(), new Practitioner(),
-            new RCMRMT030101UK04EhrComposition()).forEach(
+        immunizationMapper.mapToImmunization(observationStatement, "655D5A78-1F63-434C-9637-1D7E7843341B",
+            "655D5A78-1F63-434C-9637-1D7E7843341B", new RCMRMT030101UK04EhrComposition()).forEach(
                 immunization -> assertImmunizationWithHighEffectiveTime(immunization, observationStatement));
     }
 
