@@ -59,6 +59,14 @@ pipeline {
                                     '''
                                 }
                             }
+                            post {
+                                always {
+                                    sh "docker cp gpc_facade_tests:/home/gradle/service/gpc-api-facade/build ."
+                                    archiveArtifacts artifacts: 'build/reports/**/*.*', fingerprint: true
+                                    junit '**/build/test-results/**/*.xml'
+                                    sh "rm -rf build"
+                                }
+                            }
                         }
                         stage('GP2GP Translator Tests') {
                              steps {
