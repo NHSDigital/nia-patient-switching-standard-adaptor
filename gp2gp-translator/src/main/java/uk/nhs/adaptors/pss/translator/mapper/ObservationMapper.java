@@ -61,25 +61,6 @@ public class ObservationMapper {
     private QuantityMapper quantityMapper;
 
     public Observation mapToObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04ObservationStatement observationStatement) {
-        //////// TODO: id
-        //////// TODO: meta
-        //////// TODO: identifier
-        //////// TODO: status
-        //////// TODO: code
-        //////// TODO: subject
-        //////// TODO: context
-        //////// TODO: effective
-        //////// TODO: issued
-        //////// TODO: performer
-        //////// TODO: valueQuantity
-        //////// TODO: valueQuantity.extension
-        //////// TODO: valueString ("Negative")
-        //////// TODO: valueString ("Female")
-        //////// TODO: interpretation
-        //////// TODO: comment 1
-        //////// TODO: comment 2
-        //////// TODO: referenceRange
-
         var id = observationStatement.getId().getRoot();
         var identifier = getIdentifier(id);
         var code = getCode(observationStatement.getCode());
@@ -369,10 +350,10 @@ public class ObservationMapper {
         observation.setId(id);
         observation.getMeta().getProfile().add(new UriType(META_PROFILE));
         observation.setStatus(Observation.ObservationStatus.FINAL);
-        observation.getIdentifier().add(identifier);
+        observation.addIdentifier(identifier);
         observation.setCode(code);
         observation.setIssuedElement(issued);
-        observation.getPerformer().add(performer);
+        observation.addPerformer(performer);
         observation.setInterpretation(interpretation);
         observation.setComment(comment);
         observation.setReferenceRange(referenceRanges);
