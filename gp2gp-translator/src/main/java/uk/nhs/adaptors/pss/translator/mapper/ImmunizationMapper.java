@@ -77,8 +77,7 @@ public class ImmunizationMapper {
         Extension recordedTimeExtension = getRecordedTimeExtension(ehrComposition);
         Extension vaccineExtension = createVaccineProcedureExtension(observationStatement);
 
-        var practitioner = List.of(ParticipantReferenceUtil.getParticipantReference(observationStatement.getParticipant(),
-            ehrComposition));
+        var practitioner = ParticipantReferenceUtil.getParticipantReference(observationStatement.getParticipant(), ehrComposition);
 
         var patient = new Reference(PATIENT_REFERENCE_PREFIX + patientID);
         var encounter = new Reference();
@@ -258,7 +257,7 @@ public class ImmunizationMapper {
             immunization.getNote().add(immunizationMapperParameters.getNoteParam());
         }
         if (immunizationMapperParameters.getPractitionerParam() != null) {
-            immunization.setPractitioner(immunizationMapperParameters.practitionerParam);
+            immunization.addPractitioner(new Immunization.ImmunizationPractitionerComponent(immunizationMapperParameters.getPractitionerParam()));
         }
 
         return immunization;
@@ -276,7 +275,7 @@ public class ImmunizationMapper {
         private Extension recordedTimeExtensionParam;
         private Reference patientParam;
         private Reference encounterParam;
-        private List practitionerParam;
+        private Reference practitionerParam;
 
         public ImmunizationMapperParameters() {
 
