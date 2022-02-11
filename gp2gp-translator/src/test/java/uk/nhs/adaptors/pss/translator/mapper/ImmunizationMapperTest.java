@@ -8,6 +8,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
@@ -48,17 +49,27 @@ public class ImmunizationMapperTest {
     public void mapObservationToImmunizationWithValidData() {
         var ehrExtract = unmarshallEhrExtract("full_valid_immunization.xml");
         List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
-            "655D5A78-1F63-434C-9637-1D7E7843341B");
+            Optional.of("655D5A78-1F63-434C-9637-1D7E7843341B"));
 
         var immunization = (Immunization) immunizationList.get(0);
         assertFullValidData(immunization, immunizationList);
     }
 
     @Test
+    public void mapObservationToImmunizationWithMissingValues() {
+        var ehrExtract = unmarshallEhrExtract("immunization_with_missing_optional_values.xml");
+        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
+            Optional.empty());
+
+        var immunization = (Immunization) immunizationList.get(0);
+        assertMissingData(immunization, immunizationList);
+    }
+
+    @Test
     public void mapObservationToImmunizationWithMulptipleObservationStatements() {
         var ehrExtract = unmarshallEhrExtract("full_valid_immunization_with_multiple_observation_statements.xml");
         List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
-            "655D5A78-1F63-434C-9637-1D7E7843341B");
+            Optional.of("655D5A78-1F63-434C-9637-1D7E7843341B"));
 
         var immunization = (Immunization) immunizationList.get(0);
         assertThat(immunizationList.size()).isEqualTo(3);
@@ -71,7 +82,7 @@ public class ImmunizationMapperTest {
     public void mapObservationToImmunizationWithEffectiveTimeCenter() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_only_center_effective_time.xml");
         List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
-            "655D5A78-1F63-434C-9637-1D7E7843341B");
+            Optional.of("655D5A78-1F63-434C-9637-1D7E7843341B"));
 
         var immunization = (Immunization) immunizationList.get(0);
         assertImmunizationWithHighEffectiveTimeCenter(immunization);
@@ -81,7 +92,7 @@ public class ImmunizationMapperTest {
     public void mapObservationToImmunizationWithEffectiveTimeLow() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_only_low_effective_time.xml");
         List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
-            "655D5A78-1F63-434C-9637-1D7E7843341B");
+            Optional.of("655D5A78-1F63-434C-9637-1D7E7843341B"));
 
         var immunization = (Immunization) immunizationList.get(0);
         assertImmunizationWithEffectiveTimeLow(immunization);
@@ -91,7 +102,7 @@ public class ImmunizationMapperTest {
     public void mapObservationToImmunizationWithHighAndLowEffectiveTime() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_high_and_low_effective_time.xml");
         List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
-            "655D5A78-1F63-434C-9637-1D7E7843341B");
+            Optional.of("655D5A78-1F63-434C-9637-1D7E7843341B"));
 
         var immunization = (Immunization) immunizationList.get(0);
         assertImmunizationWithHighAndLowEffectiveTime(immunization);
@@ -101,7 +112,7 @@ public class ImmunizationMapperTest {
     public void mapObservationToImmunizationWithHighEffectiveTime() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_only_high_effective_time.xml");
         List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, "9A5D5A78-1F63-434C-9637-1D7E7843341B",
-            "655D5A78-1F63-434C-9637-1D7E7843341B");
+            Optional.of("655D5A78-1F63-434C-9637-1D7E7843341B"));
 
         var immunization = (Immunization) immunizationList.get(0);
         assertImmunizationWithHighEffectiveTime(immunization);
@@ -142,6 +153,20 @@ public class ImmunizationMapperTest {
             .isEqualTo(OBSERVATION_TEXT + " End Date: 20100118114100");
         assertThat(immunization.getPatient().getReference()).isEqualTo("Patient/9A5D5A78-1F63-434C-9637-1D7E7843341B");
         assertThat(immunization.getEncounter().getReference()).isEqualTo("Encounter/655D5A78-1F63-434C-9637-1D7E7843341B");
+        assertThat(immunization.getPractitioner().get(0).getActor().getReference()).isEqualTo("Practitioner/9C1610C2-5E48-4ED5-882B-5A4A172AFA35");
+    }
+
+    private void assertMissingData(Immunization immunization, List<Immunization> immunizationList) {
+        assertThat(immunizationList.size()).isEqualTo(1);
+        assertThat(immunization.getId()).isEqualTo(OBSERVATION_ROOT_ID);
+        assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
+        assertThat(immunization.getStatus()).isEqualTo(Immunization.ImmunizationStatus.COMPLETED);
+        assertThat(immunization.getPrimarySource()).isEqualTo(false);
+        assertThat(immunization.getDate()).isNull();
+        assertThat(immunization.getNote()).isEmpty();
+        assertThat(immunization.getPatient().getReference()).isEqualTo("Patient/9A5D5A78-1F63-434C-9637-1D7E7843341B");
+        assertThat(immunization.getEncounter().getReference()).isNull();
     }
 
     private void assertThatIdentifierIsValid(Identifier identifier, String id) {

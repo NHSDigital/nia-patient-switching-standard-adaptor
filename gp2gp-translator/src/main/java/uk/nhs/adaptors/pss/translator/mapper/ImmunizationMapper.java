@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +28,7 @@ import lombok.Getter;
 import lombok.Setter;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
+import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
 @AllArgsConstructor
@@ -44,7 +46,7 @@ public class ImmunizationMapper {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<Immunization> mapToImmunization(RCMRMT030101UK04EhrExtract ehrExtract, String patientID, String encounterID) {
+    public List<Immunization> mapToImmunization(RCMRMT030101UK04EhrExtract ehrExtract, String patientID, Optional<String> encounterID) {
         List<Immunization> mappedImmunizationResources = new ArrayList<>();
         var ehrCompositionList = EhrResourceExtractorUtil.extractValidImmunizationEhrCompositions(ehrExtract);
 
@@ -63,7 +65,7 @@ public class ImmunizationMapper {
 
     private Immunization mapImmunization(RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04ObservationStatement observationStatement,
-        String patientID, String encounterID) {
+        String patientID, Optional<String> encounterID) {
 
         ImmunizationMapperParameters immunizationMapperParameters = new ImmunizationMapperParameters();
 
@@ -75,17 +77,23 @@ public class ImmunizationMapper {
         Extension recordedTimeExtension = getRecordedTimeExtension(ehrComposition);
         Extension vaccineExtension = createVaccineProcedureExtension(observationStatement);
 
-        var patient = new Reference(PATIENT_REFERENCE_PREFIX + patientID);
-        var encounter = new Reference(ENCOUNTER_REFERENCE_PREFIX + encounterID);
+        var practitioner = List.of(ParticipantReferenceUtil.getParticipantReference(observationStatement.getParticipant(),
+            ehrComposition));
 
-        immunizationMapperParameters.setId(id);
-        immunizationMapperParameters.setIdentifier(identifier);
-        immunizationMapperParameters.setNote(note);
-        immunizationMapperParameters.setDate(date);
-        immunizationMapperParameters.setRecordedTimeExtension(recordedTimeExtension);
-        immunizationMapperParameters.setVaccineExtension(vaccineExtension);
-        immunizationMapperParameters.setPatient(patient);
-        immunizationMapperParameters.setEncounter(encounter);
+        var patient = new Reference(PATIENT_REFERENCE_PREFIX + patientID);
+        var encounter = new Reference();
+
+        encounter = new Reference(encounterID.map(encId -> ENCOUNTER_REFERENCE_PREFIX + encId).orElse(null));
+
+        immunizationMapperParameters.setIdParam(id);
+        immunizationMapperParameters.setIdentifierParam(identifier);
+        immunizationMapperParameters.setNoteParam(note);
+        immunizationMapperParameters.setDateParam(date);
+        immunizationMapperParameters.setRecordedTimeExtensionParam(recordedTimeExtension);
+        immunizationMapperParameters.setVaccineExtensionParam(vaccineExtension);
+        immunizationMapperParameters.setPatientParam(patient);
+        immunizationMapperParameters.setEncounterParam(encounter);
+        immunizationMapperParameters.setPractitionerParam(practitioner);
 
         return createImmunization(immunizationMapperParameters);
     }
@@ -105,7 +113,7 @@ public class ImmunizationMapper {
         } else if (ehrComposition.getEffectiveTime() != null) {
             if (ehrComposition.getAvailabilityTime().getNullFlavor() == null) {
                 return new Extension()
-                    .setValue(new StringType(DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue()).asStringValue()));
+                    .setValue(new StringType(DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue()).asStringValue()));
             }
         }
 
@@ -158,36 +166,39 @@ public class ImmunizationMapper {
     }
 
     private Date getObservationDate(RCMRMT030101UK04ObservationStatement observationStatement) {
-        var center = getTSStringValue(observationStatement.getEffectiveTime().getCenter());
-        var low = getIVXBTSStringValue(observationStatement.getEffectiveTime().getLow());
-        var high = getIVXBTSStringValue(observationStatement.getEffectiveTime().getHigh());
-        var availabilityTimeValue = observationStatement.getAvailabilityTime();
-        var effecitveTimeValue = observationStatement.getEffectiveTime();
+        if (observationStatement.getEffectiveTime() != null) {
+            var center = getTSStringValue(observationStatement.getEffectiveTime().getCenter());
+            var low = getIVXBTSStringValue(observationStatement.getEffectiveTime().getLow());
+            var high = getIVXBTSStringValue(observationStatement.getEffectiveTime().getHigh());
+            var availabilityTimeValue = observationStatement.getAvailabilityTime();
 
-        if (low != null && high != null) {
-            return DateFormatUtil.parse(low).getValue();
-        } else if (center != null) {
-            return DateFormatUtil.parse(center).getValue();
-        } else if (low != null) {
-            return DateFormatUtil.parse(low).getValue();
-        } else if (high != null && availabilityTimeValue.getValue() != null && availabilityTimeValue.getNullFlavor() == null) {
-            return DateFormatUtil.parse(availabilityTimeValue.getValue()).getValue();
+            if (center != null) {
+                return DateFormatUtil.parseToDateTimeType(center).getValue();
+            } else if (low != null && high != null) {
+                return DateFormatUtil.parseToDateTimeType(low).getValue();
+            } else if (low != null) {
+                return DateFormatUtil.parseToDateTimeType(low).getValue();
+            } else if (high != null && availabilityTimeValue.getValue() != null && availabilityTimeValue.getNullFlavor() == null) {
+                return DateFormatUtil.parseToDateTimeType(availabilityTimeValue.getValue()).getValue();
+            }
         }
 
         return null;
     }
 
     private String highValueToNotes(RCMRMT030101UK04ObservationStatement observationStatement) {
-        var low = getIVXBTSStringValue(observationStatement.getEffectiveTime().getLow());
-        var high = getIVXBTSStringValue(observationStatement.getEffectiveTime().getHigh());
-        var availabilityTimeValue = observationStatement.getAvailabilityTime();
+        if (observationStatement.getEffectiveTime() != null) {
+            var low = getIVXBTSStringValue(observationStatement.getEffectiveTime().getLow());
+            var high = getIVXBTSStringValue(observationStatement.getEffectiveTime().getHigh());
+            var availabilityTimeValue = observationStatement.getAvailabilityTime();
 
-        if (low != null && high != null) {
-            return END_DATE_PREFIX + high;
-        } else if (high != null && availabilityTimeValue.getValue() != null) {
-            return END_DATE_PREFIX + high;
-        } else if (high != null && availabilityTimeValue.getNullFlavor() != null) {
-            return END_DATE_PREFIX + high;
+            if (low != null && high != null) {
+                return END_DATE_PREFIX + high;
+            } else if (high != null && availabilityTimeValue.getValue() != null) {
+                return END_DATE_PREFIX + high;
+            } else if (high != null && availabilityTimeValue.getNullFlavor() != null) {
+                return END_DATE_PREFIX + high;
+            }
         }
 
         return null;
@@ -227,18 +238,28 @@ public class ImmunizationMapper {
         var immunization = new Immunization();
 
         immunization.getMeta().getProfile().add(new UriType(META_PROFILE));
-        immunization.getIdentifier().add(immunizationMapperParameters.getIdentifier());
-        immunization.getNote().add(immunizationMapperParameters.note);
-        immunization.getExtension().add(immunizationMapperParameters.vaccineExtension);
-        immunization.getExtension().add(immunizationMapperParameters.recordedTimeExtension);
+        immunization.getIdentifier().add(immunizationMapperParameters.getIdentifierParam());
+        immunization.getExtension().add(immunizationMapperParameters.getVaccineExtensionParam());
+        immunization.getExtension().add(immunizationMapperParameters.getRecordedTimeExtensionParam());
         immunization
             .setStatus(Immunization.ImmunizationStatus.COMPLETED)
             .setNotGiven(false)
             .setPrimarySource(false)
-            .setDate(immunizationMapperParameters.getDate())
-            .setPatient(immunizationMapperParameters.patient)
-            .setEncounter(immunizationMapperParameters.getEncounter())
-            .setId(immunizationMapperParameters.getId());
+            .setPatient(immunizationMapperParameters.getPatientParam())
+            .setId(immunizationMapperParameters.getIdParam());
+
+        if (immunizationMapperParameters.getDateParam() != null) {
+            immunization.setDate(immunizationMapperParameters.getDateParam());
+        }
+        if (immunizationMapperParameters.getEncounterParam() != null) {
+            immunization.setEncounter(immunizationMapperParameters.getEncounterParam());
+        }
+        if (immunizationMapperParameters.getNoteParam() != null) {
+            immunization.getNote().add(immunizationMapperParameters.getNoteParam());
+        }
+        if (immunizationMapperParameters.getPractitionerParam() != null) {
+            immunization.setPractitioner(immunizationMapperParameters.practitionerParam);
+        }
 
         return immunization;
     }
@@ -247,14 +268,15 @@ public class ImmunizationMapper {
     @Getter
     @Setter
     public static class ImmunizationMapperParameters {
-        private String id;
-        private Identifier identifier;
-        private Annotation note;
-        private Extension vaccineExtension;
-        private Date date;
-        private Extension recordedTimeExtension;
-        private Reference patient;
-        private Reference encounter;
+        private String idParam;
+        private Identifier identifierParam;
+        private Annotation noteParam;
+        private Extension vaccineExtensionParam;
+        private Date dateParam;
+        private Extension recordedTimeExtensionParam;
+        private Reference patientParam;
+        private Reference encounterParam;
+        private List practitionerParam;
 
         public ImmunizationMapperParameters() {
 
