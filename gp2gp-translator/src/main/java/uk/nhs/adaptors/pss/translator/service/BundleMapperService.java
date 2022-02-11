@@ -7,6 +7,7 @@ import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
@@ -41,6 +43,7 @@ public class BundleMapperService {
     private final LocationMapper locationMapper;
     private final ProcedureRequestMapper procedureRequestMapper;
     private final ReferralRequestMapper referralRequestMapper;
+    private final ObservationMapper observationMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -60,6 +63,9 @@ public class BundleMapperService {
 
         var referralRequests = mapReferralRequests(ehrFolder);
         addEntries(bundle, referralRequests);
+
+        var observations = mapObservations(ehrExtract);
+        addEntries(bundle, observations);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
         return bundle;
@@ -98,6 +104,15 @@ public class BundleMapperService {
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
             .filter(component4 -> component4.getPlanStatement() != null)
             .map(component4 -> procedureRequestMapper.mapToProcedureRequest(ehrExtract, component4.getPlanStatement()))
+            .toList();
+    }
+
+    private List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract) {
+        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
+            .stream()
+            .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
+            .filter(component4 -> component4.getObservationStatement() != null)
+            .map(component4 -> observationMapper.mapToObservation(ehrExtract, component4.getObservationStatement()))
             .toList();
     }
 

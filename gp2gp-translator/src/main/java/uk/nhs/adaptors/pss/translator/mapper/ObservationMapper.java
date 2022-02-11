@@ -39,12 +39,14 @@ import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
 import org.hl7.v3.RCMRMT030101UK04Subject;
 import org.hl7.v3.TS;
 import org.hl7.v3.Value;
+import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
+@Service
 @AllArgsConstructor
 public class ObservationMapper {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
@@ -124,30 +126,30 @@ public class ObservationMapper {
     private Object getEffective(IVLTS effectiveTime, TS availabilityTime) {
         if (effectiveTime != null) {
             if (effectiveTimeHasCenter(effectiveTime)) {
-                return DateFormatUtil.parse(effectiveTime.getCenter().getValue());
+                return DateFormatUtil.parseToDateTimeType(effectiveTime.getCenter().getValue());
             }
 
             var effectivePeriod = new Period();
 
             if (effectiveTimeHasLow(effectiveTime)) {
-                effectivePeriod.setStart(DateFormatUtil.parse(effectiveTime.getLow().getValue()).getValue());
+                effectivePeriod.setStart(DateFormatUtil.parseToDateTimeType(effectiveTime.getLow().getValue()).getValue());
             }
 
             if (effectiveTimeHasHigh(effectiveTime)) {
-                effectivePeriod.setEnd(DateFormatUtil.parse(effectiveTime.getHigh().getValue()).getValue());
+                effectivePeriod.setEnd(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()).getValue());
             }
 
             if (availabilityTimeHasValue(availabilityTime)) {
                 if (effectivePeriod.getStart() == null) {
                     if (effectivePeriod.getEnd() != null) {
-                        effectivePeriod.setStart(DateFormatUtil.parse(availabilityTime.getValue()).getValue());
+                        effectivePeriod.setStart(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()).getValue());
                     }
                 }
             }
 
             return effectivePeriod;
         } else if (availabilityTimeHasValue(availabilityTime)) {
-            return DateFormatUtil.parse(availabilityTime.getValue());
+            return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         }
         return null;
     }
