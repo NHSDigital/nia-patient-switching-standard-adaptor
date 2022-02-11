@@ -401,9 +401,9 @@ public class ObjectFactory {
      * Create an instance of {@link ST }
      * 
      */
-    public ST createST() {
-        return new ST();
-    }
+//    public ST createST() {
+//        return new ST();
+//    }
 
     /**
      * Create an instance of {@link CE }

@@ -21,6 +21,8 @@ import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.SimpleQuantity;
 import org.hl7.fhir.dstu3.model.StringType;
+import org.hl7.v3.IVLPQ;
+import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
@@ -77,7 +79,8 @@ public class ObservationMapperTest {
             .setSystem(QUANTITY_SYSTEM_MOCK)
             .setUnit(QUANTITY_UNIT_CODE_MOCK);
 
-        lenient().when(quantityMapper.mapQuantity(any())).thenReturn(quantity);
+        lenient().when(quantityMapper.mapQuantity(any(PQ.class))).thenCallRealMethod();
+        lenient().when(quantityMapper.mapQuantity(any(IVLPQ.class))).thenCallRealMethod();
     }
 
     @SneakyThrows
@@ -301,7 +304,7 @@ public class ObservationMapperTest {
     @Test
     public void mapObservationWithValueStringUsingValueTypeCVOriginalText() {
         var ehrExtract = unmarshallEhrExtractElement(
-            "value_cv_original_text_observation_example.xml");
+            "value_cv_display_name_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
 
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);

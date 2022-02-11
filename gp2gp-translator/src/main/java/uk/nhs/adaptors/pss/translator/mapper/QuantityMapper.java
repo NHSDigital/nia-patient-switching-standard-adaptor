@@ -5,9 +5,10 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
+import org.hl7.v3.IVLPQ;
+import org.hl7.v3.PQ;
 import org.hl7.v3.PQInc;
 import org.hl7.v3.PQR;
-import org.hl7.v3.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,18 +16,22 @@ public class QuantityMapper {
     private static final String UNIT_SYSTEM = "http://unitsofmeasure.org";
     private static final String TYPE_IVL_PQ = "IVL_PQ";
 
-    public Quantity mapQuantity(Value value) {
+    public Quantity mapQuantity(IVLPQ value) {
         Quantity quantity = new Quantity();
 
-        if (TYPE_IVL_PQ.equals(value.getType())) {
-            if (value.getHigh() != null) {
-                setQuantityWithHighComparator(quantity, value.getHigh());
-            } else if (value.getLow() != null) {
-                setQuantityWithLowComparator(quantity, value.getLow());
-            }
-        } else {
-            setQuantityValueAndUnit(quantity, value.getValue(), value.getUnit(), value.getTranslation());
+        if (value.getHigh() != null) {
+            setQuantityWithHighComparator(quantity, value.getHigh());
+        } else if (value.getLow() != null) {
+            setQuantityWithLowComparator(quantity, value.getLow());
         }
+
+        return quantity;
+    }
+
+    public Quantity mapQuantity(PQ value) {
+        Quantity quantity = new Quantity();
+
+        setQuantityValueAndUnit(quantity, value.getValue(), value.getUnit(), value.getTranslation());
 
         return quantity;
     }

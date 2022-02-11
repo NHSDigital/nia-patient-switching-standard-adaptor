@@ -1,8 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,21 +22,19 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
-import org.hl7.v3.EnFamily;
 import org.hl7.v3.II;
+import org.hl7.v3.IVLPQ;
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.PQR;
+import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04Participant;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
 import org.hl7.v3.RCMRMT030101UK04Subject;
 import org.hl7.v3.TS;
-import org.hl7.v3.Value;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -193,9 +189,14 @@ public class ObservationMapper {
         return author != null && author.getTime() != null && author.getTime().getValue() != null && author.getTime().getNullFlavor() == null;
     }
 
-    private Quantity getValueQuantity(Value value, CV uncertaintyCode) {
+    private Quantity getValueQuantity(Object value, CV uncertaintyCode) {
         if (isValidValueQuantity(value)) {
-            var valueQuantity = quantityMapper.mapQuantity(value);
+            Quantity valueQuantity;
+            if (value instanceof PQ) {
+                valueQuantity = quantityMapper.mapQuantity((PQ) value);
+            } else {
+                valueQuantity = quantityMapper.mapQuantity((IVLPQ) value);
+            }
 
             if (uncertaintyCode != null) {
                 valueQuantity.getExtension().add(new Extension()
@@ -209,33 +210,24 @@ public class ObservationMapper {
         return null;
     }
 
-    private boolean isValidValueQuantity(Value value) {
-        return value != null && (PQ_VALUE.equals(value.getType()) || IVL_PQ_VALUE.equals(value.getType()));
+    private boolean isValidValueQuantity(Object value) {
+        return value instanceof PQ || value instanceof IVLPQ;
     }
 
-    private String getValueString(Value value) {
-        if (value != null) {
-            if (ST_VALUE.equals(value.getType())) {
-                return value.getValue();
-            }
-
-            if (CV_VALUE.equals(value.getType())) {
-                var translation = value.getTranslation();
-                if (valueTranslationHasOriginalText(translation)) {
-                    return translation.get(0).getOriginalText();
-                } else if (valueTranslationHasDisplayName(translation)) {
-                    return translation.get(0).getDisplayName();
-                }
-            }
+    private String getValueString(Object value) {
+        if (value instanceof String) {
+            return (String) value;
+        } else if (value instanceof CV cvValue) {
+            return cvValue.getOriginalText() != null ? cvValue.getOriginalText() : cvValue.getDisplayName();
         }
         return null;
     }
 
-    private boolean valueTranslationHasOriginalText(List<PQR> translation) {
+    private boolean valueTranslationHasOriginalText(List<CD> translation) {
         return !translation.isEmpty() && translation.get(0).getOriginalText() != null;
     }
 
-    private boolean valueTranslationHasDisplayName(List<PQR> translation) {
+    private boolean valueTranslationHasDisplayName(List<CD> translation) {
         return !translation.isEmpty() && translation.get(0).getDisplayName() != null;
     }
 
@@ -327,7 +319,9 @@ public class ObservationMapper {
             var referenceRangeComponent = new ObservationReferenceRangeComponent();
             referenceRangeComponent.setText(referenceRange.getReferenceInterpretationRange().getText().toString());
 
-            var quantity = quantityMapper.mapQuantity(referenceRange.getReferenceInterpretationRange().getValue());
+
+//            var quantity = quantityMapper.mapQuantity(referenceRange.getReferenceInterpretationRange().getValue()); // TODO - Gosia
+            var quantity = new Quantity();
 
             var referenceInterpretationRange = referenceRange.getReferenceInterpretationRange();
             if (referenceInterpretationRangeHasValue(referenceInterpretationRange)) {

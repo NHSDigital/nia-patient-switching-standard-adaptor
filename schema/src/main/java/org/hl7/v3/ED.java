@@ -61,7 +61,7 @@ import org.w3c.dom.Element;
 @XmlSeeAlso({
     EDNPfITTextXHTML.class,
     Thumbnail.class,
-    ST.class
+//    ST.class
 })
 public class ED
     extends BIN

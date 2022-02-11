@@ -36,11 +36,12 @@
                             </Participant>
                             <uncertaintyCode code="U" codeSystem="2.16.840.1.113883.5.1053"
                                              displayName="Recorded as uncertain"/>
-                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="IVL_PQ" value="27.000"
-                                   unit="1">
-                                <translation value="27.000">
-                                    <originalText>kg/m2</originalText>
-                                </translation>
+                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="IVL_PQ">
+                                <high value="100" unit="1" inclusive="false">
+                                    <translation value="100">
+                                        <originalText>kua/L</originalText>
+                                    </translation>
+                                </high>
                             </value>
                         </ObservationStatement>
                     </component>
