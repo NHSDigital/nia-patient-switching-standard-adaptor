@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
@@ -40,8 +39,8 @@ public class EncounterTest {
     }
 
     @Test
-    public void mapEncounter() {
-        var ehrComposition = unmarshallCodeElement("test.xml");
+    public void mapEncounterWithFullData() {
+        var ehrComposition = unmarshallEhrCompositionElement("test.xml");
 
         Encounter encounter = encounterMapper.mapToEncounter(ehrComposition, "BA6EA7CB-3E2F-46FA-918C-C0B5178C1D4E");
 
@@ -57,7 +56,7 @@ public class EncounterTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrComposition unmarshallCodeElement(String fileName) {
+    private RCMRMT030101UK04EhrComposition unmarshallEhrCompositionElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrComposition.class);
     }
 }

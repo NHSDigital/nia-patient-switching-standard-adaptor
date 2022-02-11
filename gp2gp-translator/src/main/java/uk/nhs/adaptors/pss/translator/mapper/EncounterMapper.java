@@ -12,6 +12,7 @@ import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.IVXBTS;
+import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class EncounterMapper {
     private CodeableConceptMapper codeableConceptMapper;
 
     public Encounter mapToEncounter(RCMRMT030101UK04EhrComposition ehrComposition, String patientId) {
-        if (!INVALID_CODES.contains(ehrComposition.getCode().getCode())) { // check if suppressed as well
+        if (isValidEhrComposition(ehrComposition.getCode().getCode(), ehrComposition.getComponent())) {
 
             var id = ehrComposition.getId().getRoot();
             var identifier = IdentifierUtil.getIdentifier(id);
@@ -46,6 +47,22 @@ public class EncounterMapper {
         return null;
     }
 
+    private boolean isValidEhrComposition(String code, List<RCMRMT030101UK04Component4> component) {
+        return !INVALID_CODES.contains(code) && !hasSuppressedContent(component);
+    }
+
+    private boolean hasSuppressedContent(List<RCMRMT030101UK04Component4> component) {
+        return component.stream()
+            .filter(this::getSuppressedFields)
+            .findFirst()
+            .isPresent();
+    }
+
+    private boolean getSuppressedFields(RCMRMT030101UK04Component4 component) {
+        return component.getEhrEmpty() != null || component.getRegistrationStatement() != null;
+    }
+
+
     private Period getPeriod(IVLTS effectiveTime, TS availabilityTime) {
         Period period = new Period();
 
@@ -55,17 +72,17 @@ public class EncounterMapper {
         var availabilityTimeValue = availabilityTime.getValue();
 
         if (validValue(center)) {
-            return period.setStartElement(DateFormatUtil.parse(center));
+            return period.setStartElement(DateFormatUtil.parseToDateTimeType(center));
         } else if (validValue(low) && validValue(high)) {
-            return period.setStartElement(DateFormatUtil.parse(low)).setEndElement(DateFormatUtil.parse(high));
+            return period.setStartElement(DateFormatUtil.parseToDateTimeType(low)).setEndElement(DateFormatUtil.parseToDateTimeType(high));
         } else if (validValue(low) && !validValue(high)) {
-            return period.setStartElement(DateFormatUtil.parse(low));
+            return period.setStartElement(DateFormatUtil.parseToDateTimeType(low));
         } else if (!validValue(low) && validValue(high) && !validValue(availabilityTimeValue)) {
-            return period.setEndElement(DateFormatUtil.parse(high));
+            return period.setEndElement(DateFormatUtil.parseToDateTimeType(high));
         } else if (CsNullFlavor.UNK.value().equals(center)) {
             return null;
         } else if (validValue(availabilityTimeValue)) {
-            return period.setStartElement(DateFormatUtil.parse(availabilityTimeValue));
+            return period.setStartElement(DateFormatUtil.parseToDateTimeType(availabilityTimeValue));
         }
 
         return null;
