@@ -39,7 +39,7 @@ public class MhsRequestBuilder {
     private final MhsOutboundConfiguration mhsOutboundConfiguration;
 
     public WebClient.RequestHeadersSpec<?> buildSendEhrExtractRequest(
-        String conversationId, String fromOdsCode, OutboundMessage outboundMessage) {
+        String conversationId, String toOdsCode, OutboundMessage outboundMessage) {
         SslContext sslContext = requestBuilderService.buildSSLContext();
         HttpClient httpClient = HttpClient.create().secure(t -> t.sslContext(sslContext));
         WebClient client = buildWebClient(httpClient);
@@ -50,7 +50,7 @@ public class MhsRequestBuilder {
 
         return uri
             .accept(APPLICATION_JSON)
-            .header(ODS_CODE, fromOdsCode)
+            .header(ODS_CODE, toOdsCode)
             .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
             .header(INTERACTION_ID, MHS_OUTBOUND_EXTRACT_CORE_INTERACTION_ID)
             .header(WAIT_FOR_RESPONSE, FALSE)

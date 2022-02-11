@@ -9,49 +9,87 @@
     <acceptAckCode code="NE" />
     <communicationFunctionRcv type="CommunicationFunction" typeCode="RCV">
         <device type="Device" classCode="DEV" determinerCode="INSTANCE">
-            <id root="1.2.826.0.1285.0.2.0.107" extension="918999199246" />
+            <id root="1.2.826.0.1285.0.2.0.107" extension="%%toAsid%%" />
         </device>
     </communicationFunctionRcv>
     <communicationFunctionSnd type="CommunicationFunction" typeCode="SND">
         <device type="Device" classCode="DEV" determinerCode="INSTANCE">
-            <id root="1.2.826.0.1285.0.2.0.107" extension="{{asid}}" />
+            <id root="1.2.826.0.1285.0.2.0.107" extension="%%fromAsid%%" />
         </device>
     </communicationFunctionSnd>
     <ControlActEvent classCode="OBS" moodCode="EVN">
         <author1 type="Participation" typeCode="AUT">
             <AgentSystemSDS type="RoleHeir" classCode="AGNT">
                 <agentSystemSDS type="Device" classCode="DEV" determinerCode="INSTANCE">
-                    <id root="1.2.826.0.1285.0.2.0.107" extension="{{asid}}" />
+                    <id root="1.2.826.0.1285.0.2.0.107" extension="%%fromAsid%%" />
                 </agentSystemSDS>
             </AgentSystemSDS>
         </author1>
         <subject typeCode="SUBJ" contextConductionInd="false">
-            <PayloadInformation classCode="OBS" moodCode="EVN">
-                <code code="GP2GPLMATTACHMENTINFO" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.202" displayName="GP2GP Large Message Attachment Information" />
-                <id root="{{uuid}}" />
-                <messageType root="2.16.840.1.113883.2.1.3.2.4.18.17" extension="RCMR_MT000001GB01" xmlns="NPFIT:HL7:Localisation" />
+            <hl7:PayloadInformation classCode="OBS" moodCode="EVN"
+                                    xmlns:npfitct="template:NPFIT:content"
+                                    xmlns:gp="urn:nhs:names:services:gp2gp"
+                                    xmlns:npfitlc="NPFIT:HL7:Localisation"
+                                    xmlns="urn:hl7-org:v3"
+                                    xmlns:hl7="urn:hl7-org:v3"
+                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../../Schemas/COPC_MT000001UK01.xsdurn:nhs:names:services:gp2gp ../../Schemas/GP2GP_LM.xsd">
+                <code code="GP2GP_PI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.202" displayName="GP2GP Payload Information"/>
+                <id root="FA039330-7E63-446A-8CA4-E9E0D00DA6E8"/>
+                <npfitlc:messageType root="2.16.840.1.113883.2.1.3.2.4.18.17" extension="RCMR_MT000002GB01"/>
                 <value>
-                    <Gp2gpfragment xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:nhs:names:services:gp2gp">
-                        <Version xsi:type="xsd:string">01</Version>
-                        <Recipients>
-                            <Recipient>{{to_party_id}}</Recipient>
-                        </Recipients>
-                        <From>{{asid}}</From>
-                        <subject>Attachment:{{file_upload}}</subject>
-                        <message-id>{{uuid}}</message-id>
-                    </Gp2gpfragment>
+                    <gp:Gp2gpfragment>
+                        <gp:Version>01</gp:Version>
+                        <gp:Recipients>
+                            <gp:Recipient>B83002</gp:Recipient>
+                        </gp:Recipients>
+                        <gp:From>C81007</gp:From>
+                        <gp:subject>Continue Acknowledgement</gp:subject>
+                        <gp:message-id>FA039330-7E63-446A-8CA4-E9E0D00DA6E8</gp:message-id>
+                    </gp:Gp2gpfragment>
                 </value>
                 <pertinentInformation typeCode="PERT">
-                    <sequenceNumber value="1" />
-                    <pertinentPayloadBody classCode="OBS" moodCode="EVN">
-                        <code code="GP2GPLMATTACHMENT" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.202" displayName="GP2GP Large Message Attachment" />
-                        <id root="{{uuid}}" />
+                    <sequenceNumber value="1"/>
+                    <pertinentPayloadBody moodCode="EVN" classCode="OBS">
+                        <code code="GP2GP_PB" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.202" displayName="GP2GP Payload Body"/>
+                        <id root="FA039330-7E63-446A-8CA4-E9E0D00DA6E8"/>
                         <value>
-                            <reference value="file://localhost/1E49E84D-B29B-466B-93A5-432459CA549B_Treadmill%20Running%20300fps_12.avi" />
+                            <gp:Gp2gpfragment>
+                                <Message xmlns="urn:hl7-org:v3" type="Message">
+                                    <id root="FA039330-7E63-446A-8CA4-E9E0D00DA6E8"/>
+                                    <code code="0" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.101" displayName="Continue"/>
+                                    <creationTime value="201009201130"/>
+                                    <versionCode code="V3NPfIT3.1.09"/>
+                                    <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="MCCI_IN010000UK13"/>
+                                    <processingCode code="P"/>
+                                    <processingModeCode code="T"/>
+                                    <acceptAckCode code="NE"/>
+                                    <acknowledgement typeCode="AA">
+                                        <acknowledgementDetail typeCode="IF">
+                                            <code code="0" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.101" displayName="Continue"/>
+                                        </acknowledgementDetail>
+                                        <messageRef>
+                                            <id root="6E242658-3D8E-11E3-A7DC-172BDA00FA67"/>
+                                        </messageRef>
+                                    </acknowledgement>
+                                    <communicationFunctionRcv>
+                                        <device>
+                                            <id root="1.2.826.0.1285.0.2.0.107" extension="%%toAsid%%"/>
+                                        </device>
+                                    </communicationFunctionRcv>
+                                    <communicationFunctionSnd>
+                                        <device>
+                                            <id root="1.2.826.0.1285.0.2.0.107" extension="%%fromAsid%%"/>
+                                        </device>
+                                    </communicationFunctionSnd>
+                                </Message>
+                                <gp:acknowledgedMessage>
+                                    <gp:id root="6E242658-3D8E-11E3-A7DC-172BDA00FA67"/>
+                                </gp:acknowledgedMessage>
+                            </gp:Gp2gpfragment>
                         </value>
                     </pertinentPayloadBody>
                 </pertinentInformation>
-            </PayloadInformation>
+            </hl7:PayloadInformation>
         </subject>
     </ControlActEvent>
 </COPC_IN000001UK01>

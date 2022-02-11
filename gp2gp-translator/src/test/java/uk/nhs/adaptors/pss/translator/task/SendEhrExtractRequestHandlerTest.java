@@ -24,7 +24,6 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.model.PssQueueMessage;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
-import uk.nhs.adaptors.pss.translator.config.GeneralProperties;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
@@ -41,9 +40,6 @@ public class SendEhrExtractRequestHandlerTest {
 
     @Mock
     private EhrExtractRequestService ehrExtractRequestService;
-
-    @Mock
-    private GeneralProperties generalProperties;
 
     @Mock
     private WebClient.RequestHeadersSpec request;
@@ -64,9 +60,9 @@ public class SendEhrExtractRequestHandlerTest {
     public void setup() {
         pssQueueMessage = PssQueueMessage.builder()
             .patientNhsNumber(TEST_NHS_NUMBER)
+            .fromOds(TEST_FROM_ODS_CODE)
             .build();
-        when(generalProperties.getFromOdsCode()).thenReturn(TEST_FROM_ODS_CODE);
-        when(ehrExtractRequestService.buildEhrExtractRequest(TEST_NHS_NUMBER, TEST_FROM_ODS_CODE)).thenReturn(TEST_PAYLOAD_BODY);
+        when(ehrExtractRequestService.buildEhrExtractRequest(pssQueueMessage)).thenReturn(TEST_PAYLOAD_BODY);
         when(builder.buildSendEhrExtractRequest(anyString(), anyString(), any(OutboundMessage.class))).thenReturn(request);
     }
 

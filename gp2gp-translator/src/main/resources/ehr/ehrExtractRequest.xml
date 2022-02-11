@@ -9,25 +9,25 @@
     <acceptAckCode code="NE" />
     <communicationFunctionRcv type="CommunicationFunction" typeCode="RCV">
         <device type="Device" classCode="DEV" determinerCode="INSTANCE">
-            <id root="1.2.826.0.1285.0.2.0.107" extension="918999198738" />
+            <id root="1.2.826.0.1285.0.2.0.107" extension="%%toAsid%%" />
         </device>
     </communicationFunctionRcv>
     <communicationFunctionSnd type="CommunicationFunction" typeCode="SND">
         <device type="Device" classCode="DEV" determinerCode="INSTANCE">
-            <id root="1.2.826.0.1285.0.2.0.107" extension="200000000359" />
+            <id root="1.2.826.0.1285.0.2.0.107" extension="%%fromAsid%%" />
         </device>
     </communicationFunctionSnd>
     <ControlActEvent type="ControlAct" classCode="CACT" moodCode="EVN">
         <author1 type="Participation" typeCode="AUT">
             <AgentSystemSDS type="RoleHeir" classCode="AGNT">
                 <agentSystemSDS type="Device" classCode="DEV" determinerCode="INSTANCE">
-                    <id root="1.2.826.0.1285.0.2.0.107" extension="200000000205" />
+                    <id root="1.2.826.0.1285.0.2.0.107" extension="%%fromAsid%%" />
                 </agentSystemSDS>
             </AgentSystemSDS>
         </author1>
         <subject type="ActRelationship" typeCode="SUBJ" contextConductionInd="false">
             <EhrRequest type="ActHeir" classCode="EXTRACT" moodCode="RQO">
-                <id root="%%%%" />
+                <id root="%%ehrRequestId%%" />
                 <recordTarget type="Participation" typeCode="RCT">
                     <patient type="Patient" classCode="PAT">
                         <id root="2.16.840.1.113883.2.1.4.1" extension="%%NHSNumber%%" />
@@ -43,7 +43,7 @@
                 <destination type="Participation" typeCode="DST">
                     <AgentOrgSDS type="RoleHeir" classCode="AGNT">
                         <agentOrganizationSDS type="Organization" classCode="ORG" determinerCode="INSTANCE">
-                            <id root="1.2.826.0.1285.0.1.10" extension="B86041" />
+                            <id root="1.2.826.0.1285.0.1.10" extension="%%toODSCode%%" />
                         </agentOrganizationSDS>
                     </AgentOrgSDS>
                 </destination>

@@ -33,8 +33,5 @@ amqp:
     password: ${MHS_AMQP_PASSWORD:}
     maxRedeliveries: ${MHS_AMQP_MAX_REDELIVERIES:3}
 
-general:
-  from-ods-code: ${PS_FROM_ODS_CODE:PSS_001}
-
 mhs:
   url: ${MHS_BASE_URL:http://localhost:8080/}

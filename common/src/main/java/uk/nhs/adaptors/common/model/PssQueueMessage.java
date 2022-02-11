@@ -9,4 +9,8 @@ public class PssQueueMessage {
     private String patientNhsNumber;
     private String toAsid;
     private String fromAsid;
+    private String toOds;
+    private String fromOds;
+    private String toPartyId;
+    private String fromPartyId;
 }

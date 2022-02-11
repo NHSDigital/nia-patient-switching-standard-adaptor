@@ -2,7 +2,11 @@ package uk.nhs.adaptors.pss.gpc.service;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_PARTY_ID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_PARTY_ID;
 
 import java.util.Map;
 
@@ -31,12 +35,12 @@ public class PatientTransferService {
     private final PssQueuePublisher pssQueuePublisher;
     private final DateUtils dateUtils;
 
-    public MigrationStatusLog handlePatientMigrationRequest(Parameters parameters, Map<String, String> accreditedSystemsIds) {
+    public MigrationStatusLog handlePatientMigrationRequest(Parameters parameters, Map<String, String> headers) {
         var patientNhsNumber = ParametersUtils.getNhsNumberFromParameters(parameters).get().getValue();
         PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
 
         if (patientMigrationRequest == null) {
-            var pssMessage = createPssMessage(patientNhsNumber, accreditedSystemsIds);
+            var pssMessage = createPssMessage(patientNhsNumber, headers);
             pssQueuePublisher.sendToPssQueue(pssMessage);
             patientMigrationRequestDao.addNewRequest(patientNhsNumber);
 
@@ -52,11 +56,15 @@ public class PatientTransferService {
         return fhirParser.encodeToJson(new Bundle());
     }
 
-    private PssQueueMessage createPssMessage(String patientNhsNumber, Map<String, String> accreditedSystemsIds) {
+    private PssQueueMessage createPssMessage(String patientNhsNumber, Map<String, String> headers) {
         return PssQueueMessage.builder()
             .patientNhsNumber(patientNhsNumber)
-            .toAsid(accreditedSystemsIds.get(TO_ASID))
-            .fromAsid(accreditedSystemsIds.get(FROM_ASID))
+            .toAsid(headers.get(TO_ASID))
+            .fromAsid(headers.get(FROM_ASID))
+            .toOds(headers.get(TO_ODS))
+            .fromOds(headers.get(FROM_ODS))
+            .toPartyId(headers.get(TO_PARTY_ID))
+            .fromPartyId(headers.get(FROM_PARTY_ID))
             .build();
     }
 }

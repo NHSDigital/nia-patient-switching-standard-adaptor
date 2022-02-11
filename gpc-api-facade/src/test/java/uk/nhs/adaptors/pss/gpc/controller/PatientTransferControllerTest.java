@@ -9,7 +9,11 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUES
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_PARTY_ID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_PARTY_ID;
 
 import java.time.OffsetDateTime;
 import java.util.Map;
@@ -33,7 +37,18 @@ public class PatientTransferControllerTest {
     private static final Parameters PARAMETERS = new Parameters();
     private static final String TO_ASID_VALUE = "123";
     private static final String FROM_ASID_VALUE = "321";
-    private static final Map<String, String> ASIDS = Map.of(TO_ASID, TO_ASID_VALUE, FROM_ASID, FROM_ASID_VALUE);
+    private static final String TO_ODS_VALUE = "ABC";
+    private static final String FROM_ODS_VALUE = "DEF";
+    private static final String TO_PARTY_ID_VALUE = "ABC-123";
+    private static final String FROM_PARTY_ID_VALUE = "DEF-321";
+    private static final Map<String, String> HEADERS = Map.of(
+        TO_ASID, TO_ASID_VALUE,
+        FROM_ASID, FROM_ASID_VALUE,
+        TO_ODS, TO_ODS_VALUE,
+        FROM_ODS, FROM_ODS_VALUE,
+        TO_PARTY_ID, TO_PARTY_ID_VALUE,
+        FROM_PARTY_ID, FROM_PARTY_ID_VALUE
+    );
 
     @Mock
     private PatientTransferService patientTransferService;
@@ -43,51 +58,55 @@ public class PatientTransferControllerTest {
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsNew() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, ASIDS)).thenReturn(null);
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS)).thenReturn(null);
 
-        ResponseEntity<String> response = controller.migratePatientStructuredRecord(PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE);
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(
+            PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE, TO_PARTY_ID_VALUE, FROM_PARTY_ID_VALUE);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.ACCEPTED);
         assertThat(response.getBody()).isNull();
     }
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsReceived() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, ASIDS))
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(REQUEST_RECEIVED));
 
-        ResponseEntity<String> response = controller.migratePatientStructuredRecord(PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE);
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(
+            PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE, TO_PARTY_ID_VALUE, FROM_PARTY_ID_VALUE);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(response.getBody()).isNull();
     }
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsInProgress() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, ASIDS))
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED));
 
-        ResponseEntity<String> response = controller.migratePatientStructuredRecord(PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE);
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(
+            PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE, TO_PARTY_ID_VALUE, FROM_PARTY_ID_VALUE);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         assertThat(response.getBody()).isNull();
     }
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsCompleted() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, ASIDS))
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(MIGRATION_COMPLETED));
         when(patientTransferService.getEmptyBundle()).thenReturn(RESPONSE_BODY);
 
-        ResponseEntity<String> response = controller.migratePatientStructuredRecord(PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE);
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(
+            PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE, TO_PARTY_ID_VALUE, FROM_PARTY_ID_VALUE);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(RESPONSE_BODY);
     }
 
     @Test
     public void migratePatientStructuredRecordWhenTransferStatusIsUnsupported() {
-        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, ASIDS))
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_ERROR));
 
-        Exception exception = assertThrows(IllegalStateException.class,
-            () -> controller.migratePatientStructuredRecord(PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE));
+        Exception exception = assertThrows(IllegalStateException.class, () -> controller.migratePatientStructuredRecord(
+            PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE, TO_PARTY_ID_VALUE, FROM_PARTY_ID_VALUE));
         assertThat(exception.getMessage()).isEqualTo("Unsupported transfer status: EHR_EXTRACT_REQUEST_ERROR");
     }
 
