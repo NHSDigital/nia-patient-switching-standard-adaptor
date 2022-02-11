@@ -22,7 +22,7 @@ public class DateFormatUtilTest {
     @ParameterizedTest(name = "parseDate")
     @MethodSource("dates")
     public void shouldParseForCorrectDateFormat(String inputString, String expectedDate) {
-        assertThat(DateFormatUtil.parse(inputString).asStringValue()).isEqualTo(expectedDate);
+        assertThat(DateFormatUtil.parseToDateTimeType(inputString).asStringValue()).isEqualTo(expectedDate);
     }
 
     @ParameterizedTest(name = "parseDateToInstantType")
@@ -34,13 +34,13 @@ public class DateFormatUtilTest {
     @Test
     public void shouldThrowExceptionForEmptyString() {
         String dateAsString = "";
-        assertThrows(IllegalStateException.class, () -> DateFormatUtil.parse(dateAsString));
+        assertThrows(IllegalStateException.class, () -> DateFormatUtil.parseToDateTimeType(dateAsString));
     }
 
     @Test
     public void shouldThrowExceptionForIncorrectDateFormat() {
         String dateAsString = "202019891898.00";
-        assertThrows(IllegalStateException.class, () -> DateFormatUtil.parse(dateAsString));
+        assertThrows(IllegalStateException.class, () -> DateFormatUtil.parseToDateTimeType(dateAsString));
     }
 
     @Test

@@ -4,7 +4,7 @@ services:
     container_name: gpc_facade_tests
     build:
       target: build
-    entrypoint: "gradle -i test integrationTest"
+    entrypoint: "gradle check"
     environment:
       - GPC_FACADE_SERVER_PORT
       - PS_DB_URL
@@ -15,7 +15,7 @@ services:
     container_name: gp2gp_translator_tests
     build:
       target: build
-    entrypoint: "gradle -i test integrationTest"
+    entrypoint: "gradle check"
     environment:
       - GP2GP_TRANSLATOR_SERVER_PORT
       - PS_DB_URL
@@ -30,3 +30,12 @@ services:
       - MHS_AMQP_USERNAME
       - MHS_AMQP_PASSWORD
       - MHS_AMQP_MAX_REDELIVERIES
+
+  common_modules:
+    container_name: common_modules_checks
+    build:
+      context: ../
+      dockerfile: ./docker/common-modules/Dockerfile
+
+
+

@@ -4,12 +4,17 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
-import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.handler.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.constraints.NotNull;
 
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +22,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.pss.gpc.controller.validation.PatientTransferRequest;
 import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 
@@ -40,10 +46,14 @@ public class PatientTransferController {
         consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE}
     )
-    public ResponseEntity<String> migratePatientStructuredRecord(@RequestBody @PatientTransferRequest Parameters body) {
+    public ResponseEntity<String> migratePatientStructuredRecord(
+        @RequestBody @PatientTransferRequest Parameters body,
+        @RequestHeader(TO_ASID) @NotNull String toAsid,
+        @RequestHeader(FROM_ASID) @NotNull String fromAsid) {
         LOGGER.info("Received patient transfer request");
+        Map<String, String> accreditedSystemsIds = Map.of(TO_ASID, toAsid, FROM_ASID, fromAsid);
 
-        MigrationStatusLog request = patientTransferService.handlePatientMigrationRequest(body);
+        MigrationStatusLog request = patientTransferService.handlePatientMigrationRequest(body, accreditedSystemsIds);
         if (request == null) {
             return new ResponseEntity<>(ACCEPTED);
         } else if (IN_PROGRESS_STATUSES.contains(request.getMigrationStatus())) {

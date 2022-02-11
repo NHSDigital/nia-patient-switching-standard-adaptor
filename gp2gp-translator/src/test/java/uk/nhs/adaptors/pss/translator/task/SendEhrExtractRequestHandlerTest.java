@@ -21,6 +21,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.common.model.PssQueueMessage;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.config.GeneralProperties;
@@ -31,6 +32,10 @@ import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
 @ExtendWith(MockitoExtension.class)
 public class SendEhrExtractRequestHandlerTest {
+    private static final String TEST_NHS_NUMBER = "123456";
+    private static final String TEST_FROM_ODS_CODE = "TEST_FROM_ODS";
+    private static final String TEST_PAYLOAD_BODY = "TEST_PAYLOAD_BODY";
+
     @Mock
     private MhsRequestBuilder builder;
 
@@ -52,13 +57,14 @@ public class SendEhrExtractRequestHandlerTest {
     @InjectMocks
     private SendEhrExtractRequestHandler sendEhrExtractRequestHandler;
 
-    private static final String TEST_NHS_NUMBER = "123456";
-    private static final String TEST_FROM_ODS_CODE = "TEST_FROM_ODS";
-    private static final String TEST_PAYLOAD_BODY = "TEST_PAYLOAD_BODY";
+    private PssQueueMessage pssQueueMessage;
 
     @BeforeEach
     @SneakyThrows
     public void setup() {
+        pssQueueMessage = PssQueueMessage.builder()
+            .patientNhsNumber(TEST_NHS_NUMBER)
+            .build();
         when(generalProperties.getFromOdsCode()).thenReturn(TEST_FROM_ODS_CODE);
         when(ehrExtractRequestService.buildEhrExtractRequest(TEST_NHS_NUMBER, TEST_FROM_ODS_CODE)).thenReturn(TEST_PAYLOAD_BODY);
         when(builder.buildSendEhrExtractRequest(anyString(), anyString(), any(OutboundMessage.class))).thenReturn(request);
@@ -66,7 +72,7 @@ public class SendEhrExtractRequestHandlerTest {
 
     @Test
     public void whenSendMessageThenTrueIsReturned() {
-        var isMessageSentSuccessfully = sendEhrExtractRequestHandler.prepareAndSendRequest(TEST_NHS_NUMBER);
+        var isMessageSentSuccessfully = sendEhrExtractRequestHandler.prepareAndSendRequest(pssQueueMessage);
 
         assertTrue(isMessageSentSuccessfully);
         verify(migrationStatusLogService).addMigrationStatusLog(
@@ -86,7 +92,7 @@ public class SendEhrExtractRequestHandlerTest {
                 Charset.defaultCharset())
         );
 
-        var isMessageSentSuccessfully = sendEhrExtractRequestHandler.prepareAndSendRequest(TEST_NHS_NUMBER);
+        var isMessageSentSuccessfully = sendEhrExtractRequestHandler.prepareAndSendRequest(pssQueueMessage);
 
         assertFalse(isMessageSentSuccessfully);
         verify(migrationStatusLogService).addMigrationStatusLog(
