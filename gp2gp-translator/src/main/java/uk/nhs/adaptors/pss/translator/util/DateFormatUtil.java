@@ -1,16 +1,19 @@
 package uk.nhs.adaptors.pss.translator.util;
 
+import static java.time.ZoneOffset.UTC;
+import static java.util.TimeZone.getTimeZone;
+
+import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.MILLI;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.InstantType;
@@ -47,13 +50,13 @@ public class DateFormatUtil {
     private static final String HL7_DATETIME_FORMAT = "yyyyMMddHHmmss";
     private static final DateTimeFormatter HL7_SECONDS_COMPUTER_READABLE = DateTimeFormatter.ofPattern(HL7_DATETIME_FORMAT);
 
-    public static DateTimeType parse(String dateToParse) {
+    public static DateTimeType parseToDateTimeType(String dateToParse) {
         DateFormat format = getFormat(dateToParse);
         SimpleDateFormat formatter = getFormatter(format);
 
         try {
             Date date = formatter.parse(dateToParse);
-            return new DateTimeType(date, format.getPrecision(), TimeZone.getTimeZone(ZoneOffset.UTC));
+            return new DateTimeType(date, format.getPrecision(), getTimeZone(UTC));
         } catch (ParseException e) {
             throw new IllegalStateException(String.format(ERROR_MESSAGE, dateToParse), e);
         }
@@ -65,7 +68,7 @@ public class DateFormatUtil {
 
         try {
             Date date = formatter.parse(dateToParse);
-            return new InstantType(date, TemporalPrecisionEnum.MILLI, TimeZone.getTimeZone(ZoneOffset.UTC));
+            return new InstantType(date, MILLI, getTimeZone(UTC));
         } catch (ParseException e) {
             throw new IllegalStateException(String.format(ERROR_MESSAGE, dateToParse), e);
         }
@@ -108,14 +111,14 @@ public class DateFormatUtil {
             return switch (datePart.length()) {
                 case HOUR_PRECISION -> new DateFormat(DATETIME_TIMEZONE_HOURS_FORMAT, TemporalPrecisionEnum.SECOND);
                 case MINUTE_PRECISION -> new DateFormat(DATETIME_TIMEZONE_MINUTES_FORMAT, TemporalPrecisionEnum.SECOND);
-                case MILLISECOND_PRECISION -> new DateFormat(DATETIME_TIMEZONE_MILLISECONDS_FORMAT, TemporalPrecisionEnum.MILLI);
+                case MILLISECOND_PRECISION -> new DateFormat(DATETIME_TIMEZONE_MILLISECONDS_FORMAT, MILLI);
                 default -> new DateFormat(DATETIME_TIMEZONE_SECONDS_FORMAT, TemporalPrecisionEnum.SECOND);
             };
         }
         return switch (datePart.length()) {
             case HOUR_PRECISION -> new DateFormat(DATETIME_TIMEZONE_FULL_HOURS_FORMAT, TemporalPrecisionEnum.SECOND);
             case MINUTE_PRECISION -> new DateFormat(DATETIME_TIMEZONE_FULL_MINUTES_FORMAT, TemporalPrecisionEnum.SECOND);
-            case MILLISECOND_PRECISION -> new DateFormat(DATETIME_TIMEZONE_FULL_MILLISECONDS_FORMAT, TemporalPrecisionEnum.MILLI);
+            case MILLISECOND_PRECISION -> new DateFormat(DATETIME_TIMEZONE_FULL_MILLISECONDS_FORMAT, MILLI);
             default -> new DateFormat(DATETIME_TIMEZONE_FULL_FORMAT, TemporalPrecisionEnum.SECOND);
         };
     }
@@ -127,7 +130,7 @@ public class DateFormatUtil {
             case DAY_PRECISION -> new DateFormat(DATE_FORMAT, TemporalPrecisionEnum.DAY);
             case HOUR_PRECISION -> new DateFormat(DATETIME_HOURS_FORMAT, TemporalPrecisionEnum.SECOND);
             case MINUTE_PRECISION -> new DateFormat(DATETIME_MINUTES_FORMAT, TemporalPrecisionEnum.SECOND);
-            case MILLISECOND_PRECISION -> new DateFormat(DATETIME_MILLISECONDS_FORMAT, TemporalPrecisionEnum.MILLI);
+            case MILLISECOND_PRECISION -> new DateFormat(DATETIME_MILLISECONDS_FORMAT, MILLI);
             default -> new DateFormat(DATETIME_SECONDS_FORMAT, TemporalPrecisionEnum.SECOND);
         };
     }
@@ -136,13 +139,13 @@ public class DateFormatUtil {
         String dateFormat = format.getDateFormat();
         if (dateFormat.equals(DATE_FORMAT) || dateFormat.equals(DATE_MONTH_FORMAT)) {
             SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
-            formatter.setTimeZone(TimeZone.getTimeZone(ZoneOffset.UTC));
+            formatter.setTimeZone(getTimeZone(UTC));
 
             return formatter;
         }
 
         SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
-        formatter.setTimeZone(TimeZone.getTimeZone(UK_ZONE_ID));
+        formatter.setTimeZone(getTimeZone(UK_ZONE_ID));
 
         return formatter;
     }

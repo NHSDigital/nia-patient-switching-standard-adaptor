@@ -37,48 +37,91 @@ pipeline {
             stages {
                 stage('Tests') {
                     stages {
+                        stage('Common modules Check') {
+                            steps {
+                                script {
+                                    sh '''
+                                        docker network create ps-network || true
+                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml up common_modules
+                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml up --exit-code-from common_modules common_modules
+                                    '''
+                                }
+                            }
+                            post {
+                                always {
+                                    sh "docker cp common_modules_checks:/home/gradle/service/db-connector/build db-connector-build"
+                                    sh "docker cp common_modules_checks:/home/gradle/service/common/build common-build"
+                                    archiveArtifacts artifacts: '**/reports/**/*.*', fingerprint: true
+                                    junit '**/**/test-results/**/*.xml'
+                                }
+                            }
+                        }
                         stage('DB setup') {
                             steps {
                                 script {
                                     sh '''
                                         source docker/vars.local.tests.sh
-                                        docker network create ps-network || true
                                         docker-compose -f docker/docker-compose.yml up -d ps_db
                                         docker-compose -f docker/docker-compose.yml up db_migration
                                     '''
                                 }
                             }
                         }
-                        stage('GPC API Facade Tests') {
+                        stage('GPC API Facade Check') {
                             steps {
                                 script {
                                     sh '''
                                         source docker/vars.local.tests.sh
-                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gpc_facade
-                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gpc_facade gpc_facade activemq
+                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml build gpc_facade
+                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml up --exit-code-from gpc_facade gpc_facade activemq
                                     '''
                                 }
                             }
+                            post {
+                                always {
+                                    sh "docker cp gpc_facade_tests:/home/gradle/service/gpc-api-facade/build gpc-facade-build"
+                                    archiveArtifacts artifacts: 'gpc-facade-build/reports/**/*.*', fingerprint: true
+                                    junit '**/gpc-facade-build/test-results/**/*.xml'
+                                }
+                            }
                         }
-                        stage('GP2GP Translator Tests') {
+                        stage('GP2GP Translator Check') {
                              steps {
                                 script {
                                     sh '''
                                        source docker/vars.local.tests.sh
                                        docker-compose -f docker/docker-compose.yml up --build --force-recreate --no-deps -d activemq
-                                       docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml build gp2gp_translator
-                                       docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml up --exit-code-from gp2gp_translator gp2gp_translator
+                                       docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml build gp2gp_translator
+                                       docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml up --exit-code-from gp2gp_translator gp2gp_translator
                                    '''
                                }
+                           }
+                           post {
+                                always {
+                                    sh "docker cp gp2gp_translator_tests:/home/gradle/service/gp2gp-translator/build gp2gp-translator-build"
+                                    archiveArtifacts artifacts: 'gp2gp-translator-build/reports/**/*.*', fingerprint: true
+                                    junit '**/gp2gp-translator-build/test-results/**/*.xml'
+                                }
                            }
                        }
                     }
                     post {
                         always {
+                            recordIssues(
+                                enabledForFailure: true,
+                                tools: [
+                                    checkStyle(pattern: '**/reports/checkstyle/*.xml'),
+                                    spotBugs(pattern: '**/reports/spotbugs/*.xml')
+                                ]
+                            )
                             sh '''
-                               docker-compose -f docker/docker-compose.yml -f docker/docker-compose-tests.yml down --rmi all --remove-orphans
+                               docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml down --rmi all --remove-orphans
                                docker network rm ps-network
                             '''
+                            sh "rm -rf db-connector-build"
+                            sh "rm -rf common-build"
+                            sh "rm -rf gpc-facade-build"
+                            sh "rm -rf gp2gp-translator-build"
                         }
                     }
                 }

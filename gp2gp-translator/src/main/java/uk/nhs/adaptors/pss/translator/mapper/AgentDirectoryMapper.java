@@ -26,12 +26,14 @@ import org.hl7.v3.RCCTMT120101UK01Person;
 import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
 import org.hl7.v3.RCMRMT030101UK04Part;
 import org.hl7.v3.TEL;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import uk.nhs.adaptors.pss.translator.util.AddressUtil;
 import uk.nhs.adaptors.pss.translator.util.TelecomUtil;
 
+@Service
 public class AgentDirectoryMapper {
     private static final String PRACT_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1";
     private static final String ORG_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1";
