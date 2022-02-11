@@ -5,7 +5,7 @@ import lombok.SneakyThrows;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +19,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class EncounterTest {
@@ -40,11 +42,11 @@ public class EncounterTest {
 
     @Test
     public void mapEncounterWithFullData() {
-        var ehrComposition = unmarshallEhrCompositionElement("test.xml");
+        var ehrExtract = unmarshallEhrExtractElement("test.xml");
 
-        Encounter encounter = encounterMapper.mapToEncounter(ehrComposition, "BA6EA7CB-3E2F-46FA-918C-C0B5178C1D4E");
+        List<Encounter> encounterList = encounterMapper.mapAllEncounters(ehrExtract, "BA6EA7CB-3E2F-46FA-918C-C0B5178C1D4E");
 
-        assertThat(encounter).isNotNull();
+        assertThat(encounterList.size()).isEqualTo(1);
     }
 
     private void setUpCodeableConceptMock() {
@@ -56,8 +58,8 @@ public class EncounterTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrComposition unmarshallEhrCompositionElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrComposition.class);
+    private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
     }
 }
 

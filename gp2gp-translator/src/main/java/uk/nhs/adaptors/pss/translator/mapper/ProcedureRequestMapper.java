@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -12,7 +14,12 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.II;
 import org.hl7.v3.IVLTS;
+import org.hl7.v3.RCMRMT030101UK04Component;
+import org.hl7.v3.RCMRMT030101UK04Component3;
+import org.hl7.v3.RCMRMT030101UK04Component4;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
@@ -47,7 +54,7 @@ public class ProcedureRequestMapper {
         var authoredOn = getAuthoredOn(planStatement.getAvailabilityTime(), ehrExtract, planStatement.getId());
         var occurrence = getOccurrenceDate(planStatement.getEffectiveTime());
         var agentReference = ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(),
-            EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatement.getId()));
+            extractEhrCompositionForPlanStatement(ehrExtract, planStatement.getId()));
 
         return createProcedureRequest(id, identifier, note, reasonCode, authoredOn, occurrence, agentReference);
     }
@@ -72,7 +79,7 @@ public class ProcedureRequestMapper {
         if (availabilityTime != null) {
             return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         } else {
-            var ehrComposition = EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatementID);
+            var ehrComposition = extractEhrCompositionForPlanStatement(ehrExtract, planStatementID);
             if (ehrComposition.getAvailabilityTime() != null) {
                 return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
             } else if (ehrExtract.getAvailabilityTime() != null) {
@@ -89,6 +96,31 @@ public class ProcedureRequestMapper {
         }
 
         return null;
+    }
+
+    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract,
+        II resourceId) {
+        return ehrExtract.getComponent()
+            .stream()
+            .filter(EhrResourceExtractorUtil::hasEhrFolder)
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .filter(EhrResourceExtractorUtil::hasEhrComposition)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .filter(ehrComposition -> filterForMatchingEhrComposition(ehrComposition, resourceId))
+            .findFirst()
+            .get();
+    }
+
+    private static boolean filterForMatchingEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
+        return ehrComposition.getComponent()
+            .stream()
+            .anyMatch(component -> validPlanStatement(component, resourceId));
+    }
+
+    private static boolean validPlanStatement(RCMRMT030101UK04Component4 component, II resourceId) {
+        return component.getPlanStatement() != null && component.getPlanStatement().getId() == resourceId;
     }
 
     private ProcedureRequest createProcedureRequest(String id, Identifier identifier, Annotation note, CodeableConcept reasonCode,
