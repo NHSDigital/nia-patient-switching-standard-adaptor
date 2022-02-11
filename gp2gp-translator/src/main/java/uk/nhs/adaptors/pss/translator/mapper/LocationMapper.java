@@ -7,10 +7,12 @@ import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.RCMRMT030101UK04Location;
 import org.hl7.v3.RCMRMT030101UK04Place;
+import org.springframework.stereotype.Service;
 
 import uk.nhs.adaptors.pss.translator.util.AddressUtil;
 import uk.nhs.adaptors.pss.translator.util.TelecomUtil;
 
+@Service
 public class LocationMapper {
     private static final String UNKNOWN_NAME = "Unknown";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1";
