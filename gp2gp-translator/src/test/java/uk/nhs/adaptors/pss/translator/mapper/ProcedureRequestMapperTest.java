@@ -54,9 +54,9 @@ public class ProcedureRequestMapperTest {
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getNoteFirstRep().getText()).isEqualTo(planStatement.getText());
         assertThat(procedureRequest.getOccurrenceDateTimeType().getValue()).isEqualTo(
-            DateFormatUtil.parse(planStatement.getEffectiveTime().getCenter().getValue()).getValue());
+            DateFormatUtil.parseToDateTimeType(planStatement.getEffectiveTime().getCenter().getValue()).getValue());
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
-            DateFormatUtil.parse(planStatement.getAvailabilityTime().getValue()).getValue());
+            DateFormatUtil.parseToDateTimeType(planStatement.getAvailabilityTime().getValue()).getValue());
         assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getRequester().getAgent().getReference())
@@ -114,7 +114,7 @@ public class ProcedureRequestMapperTest {
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
-            DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue()).getValue());
+            DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue()).getValue());
         assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
     }
@@ -128,7 +128,7 @@ public class ProcedureRequestMapperTest {
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
-            DateFormatUtil.parse(ehrExtract.getAvailabilityTime().getValue()).getValue());
+            DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue()).getValue());
         assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
     }
