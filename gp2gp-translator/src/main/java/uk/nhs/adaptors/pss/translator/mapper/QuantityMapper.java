@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuantityMapper {
     private static final String UNIT_SYSTEM = "http://unitsofmeasure.org";
-    private static final String TYPE_IVL_PQ = "IVL_PQ";
 
     public Quantity mapQuantity(IVLPQ value) {
         Quantity quantity = new Quantity();

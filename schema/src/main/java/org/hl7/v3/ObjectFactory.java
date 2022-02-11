@@ -78,7 +78,6 @@ public class ObjectFactory {
      *
      */
     private final static QName _CD_QNAME = new QName("urn:hl7-org:v3", "code");
-    private final static QName _VALUE_QNAME = new QName("urn:hl7-org:v3", "value");
     private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
     private final static QName _LINKSET_QNAME = new QName("urn:hl7-org:v3", "LinkSet");
     private final static QName _OBSERVATION_STATEMENT_QNAME = new QName("urn:hl7-org:v3", "ObservationStatement");
@@ -396,14 +395,6 @@ public class ObjectFactory {
     public Thumbnail createThumbnail() {
         return new Thumbnail();
     }
-
-    /**
-     * Create an instance of {@link ST }
-     * 
-     */
-//    public ST createST() {
-//        return new ST();
-//    }
 
     /**
      * Create an instance of {@link CE }
@@ -3503,11 +3494,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "code")
     public JAXBElement<CD> createCode(CD value) {
         return new JAXBElement<CD>(_CD_QNAME, CD.class, null, value);
-    }
-
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "value")
-    public JAXBElement<Value> createValue(Value value) {
-        return new JAXBElement<Value>(_VALUE_QNAME, Value.class, null, value);
     }
 
     @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "ehrComposition")

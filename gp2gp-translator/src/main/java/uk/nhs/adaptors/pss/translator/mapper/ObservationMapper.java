@@ -49,10 +49,6 @@ public class ObservationMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
     private static final String VALUE_QUANTITY_EXTENSION = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ValueApproximation-1";
-    private static final String PQ_VALUE = "PQ";
-    private static final String IVL_PQ_VALUE = "IVL_PQ";
-    private static final String ST_VALUE = "ST";
-    private static final String CV_VALUE = "CV";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
     private static final String CODING_SYSTEM = "http://hl7.org/fhir/v2/0078";
 
@@ -206,14 +202,6 @@ public class ObservationMapper {
         return null;
     }
 
-    private boolean valueTranslationHasOriginalText(List<CD> translation) {
-        return !translation.isEmpty() && translation.get(0).getOriginalText() != null;
-    }
-
-    private boolean valueTranslationHasDisplayName(List<CD> translation) {
-        return !translation.isEmpty() && translation.get(0).getDisplayName() != null;
-    }
-
     private CodeableConcept getInterpretation(CV interpretationCode) {
         if (interpretationCode != null) {
             var interpretationCodeableConcept = new CodeableConcept();
@@ -302,11 +290,10 @@ public class ObservationMapper {
 
         for (RCMRMT030101UK04ReferenceRange referenceRange : referenceRangeList) {
             var referenceRangeComponent = new ObservationReferenceRangeComponent();
-            referenceRangeComponent.setText(referenceRange.getReferenceInterpretationRange().getText().toString());
+            referenceRangeComponent.setText(referenceRange.getReferenceInterpretationRange().getText());
 
 
-//            var quantity = quantityMapper.mapQuantity(referenceRange.getReferenceInterpretationRange().getValue()); // TODO - Gosia
-            var quantity = new Quantity();
+            var quantity = quantityMapper.mapQuantity(referenceRange.getReferenceInterpretationRange().getValue());
 
             var referenceInterpretationRange = referenceRange.getReferenceInterpretationRange();
             if (referenceInterpretationRangeHasValue(referenceInterpretationRange)) {
