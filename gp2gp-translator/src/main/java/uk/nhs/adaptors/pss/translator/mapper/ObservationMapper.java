@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ import org.hl7.v3.PQR;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04Participant;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
@@ -49,6 +51,8 @@ public class ObservationMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
     private static final String VALUE_QUANTITY_EXTENSION = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect" +
         "-ValueApproximation-1";
+    private static final String PQ_VALUE = "PQ";
+    private static final String IVL_PQ_VALUE = "IVL_PQ";
     private static final String ST_VALUE = "ST";
     private static final String CV_VALUE = "CV";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
@@ -89,7 +93,7 @@ public class ObservationMapper {
         var valueString = getValueString(observationStatement.getValue());
         var interpretation = getInterpretation(observationStatement.getInterpretationCode());
         var comment = getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject());
-        var referenceRange = getReferenceRange(observationStatement.getReferenceRange());
+        var referenceRanges = getReferenceRange(observationStatement.getReferenceRange());
 
         /**
          * TODO: Known future implementations to this mapper
@@ -100,7 +104,7 @@ public class ObservationMapper {
          */
 
         return createObservation(id, identifier, code, effective, issued, performer, valueQuantity, valueString, interpretation, comment,
-            referenceRange);
+            referenceRanges);
     }
 
     private Identifier getIdentifier(String id) {
@@ -135,12 +139,12 @@ public class ObservationMapper {
 
             if (availabilityTimeHasValue(availabilityTime)) {
                 if (effectivePeriod.getStart() == null) {
-                    if (effectivePeriod.getEnd() == null) {
-                        return availabilityTime.getValue();
+                    if (effectivePeriod.getEnd() != null) {
+                        effectivePeriod.setStart(DateFormatUtil.parse(availabilityTime.getValue()).getValue());
                     }
                 }
             }
-            
+
             return effectivePeriod;
         } else if (availabilityTimeHasValue(availabilityTime)) {
             return DateFormatUtil.parse(availabilityTime.getValue());
@@ -149,19 +153,24 @@ public class ObservationMapper {
     }
 
     private boolean effectiveTimeHasCenter(IVLTS effectiveTime) {
-        return effectiveTime.getCenter() != null && effectiveTime.getCenter().getValue() != null;
+        return effectiveTime.getCenter() != null && effectiveTime.getCenter().getValue() != null
+            && !timeHasNullFlavor(effectiveTime.getCenter());
     }
 
     private boolean effectiveTimeHasLow(IVLTS effectiveTime) {
-        return effectiveTime.getLow() != null && effectiveTime.getLow().getValue() != null;
+        return effectiveTime.getLow() != null && effectiveTime.getLow().getValue() != null && !timeHasNullFlavor(effectiveTime.getLow());
     }
 
     private boolean effectiveTimeHasHigh(IVLTS effectiveTime) {
-        return effectiveTime.getHigh() != null && effectiveTime.getHigh().getValue() != null;
+        return effectiveTime.getHigh() != null && effectiveTime.getHigh().getValue() != null && !timeHasNullFlavor(effectiveTime.getHigh());
     }
 
     private boolean availabilityTimeHasValue(TS availabilityTime) {
-        return availabilityTime != null && availabilityTime.getValue() != null;
+        return availabilityTime != null && availabilityTime.getValue() != null && !timeHasNullFlavor(availabilityTime);
+    }
+
+    private boolean timeHasNullFlavor(TS time) {
+        return time.getNullFlavor() != null;
     }
 
     private InstantType getIssued(RCMRMT030101UK04EhrExtract ehrExtract, II observationStatementId) {
@@ -183,7 +192,7 @@ public class ObservationMapper {
     }
 
     private Quantity getValueQuantity(Value value, CV uncertaintyCode) {
-        if (value != null) {
+        if (isValidValueQuantity(value)) {
             var valueQuantity = quantityMapper.mapQuantity(value);
 
             if (uncertaintyCode != null) {
@@ -196,6 +205,10 @@ public class ObservationMapper {
         }
 
         return null;
+    }
+
+    private boolean isValidValueQuantity(Value value) {
+        return value != null && (PQ_VALUE.equals(value.getType()) || IVL_PQ_VALUE.equals(value.getType()));
     }
 
     private String getValueString(Value value) {
@@ -305,31 +318,36 @@ public class ObservationMapper {
             && subject.getPersonalRelationship().getCode() != null && subject.getPersonalRelationship().getCode().getDisplayName() != null;
     }
 
-    private ObservationReferenceRangeComponent getReferenceRange(List<RCMRMT030101UK04ReferenceRange> referenceRangeList) {
-        var referenceRange = referenceRangeList.stream().findFirst();
+    private List<ObservationReferenceRangeComponent> getReferenceRange(List<RCMRMT030101UK04ReferenceRange> referenceRangeList) {
+        var outputReferenceRanges = new ArrayList<ObservationReferenceRangeComponent>();
 
-        if (referenceRange.isPresent()) {
-            var range = referenceRange.get();
-
+        for (RCMRMT030101UK04ReferenceRange referenceRange : referenceRangeList) {
             var referenceRangeComponent = new ObservationReferenceRangeComponent();
-            referenceRangeComponent.setText(range.getReferenceInterpretationRange().getText().toString());
+            referenceRangeComponent.setText(referenceRange.getReferenceInterpretationRange().getText().toString());
 
-            var quantity = quantityMapper.mapQuantity(range.getReferenceInterpretationRange().getValue());
+            var quantity = quantityMapper.mapQuantity(referenceRange.getReferenceInterpretationRange().getValue());
 
-            if (range.getReferenceInterpretationRange().getValue().getLow() != null) {
-                referenceRangeComponent.setLow(getSimpleQuantityFromQuantity(quantity,
-                    Long.parseLong(range.getReferenceInterpretationRange().getValue().getLow().getValue())));
+            var referenceInterpretationRange = referenceRange.getReferenceInterpretationRange();
+            if (referenceInterpretationRangeHasValue(referenceInterpretationRange)) {
+                if (referenceInterpretationRange.getValue().getLow() != null) {
+                    referenceRangeComponent.setLow(getSimpleQuantityFromQuantity(quantity,
+                        Long.parseLong(referenceRange.getReferenceInterpretationRange().getValue().getLow().getValue())));
+                }
+
+                if (referenceInterpretationRange.getValue().getHigh() != null) {
+                    referenceRangeComponent.setHigh(getSimpleQuantityFromQuantity(quantity,
+                        Long.parseLong(referenceRange.getReferenceInterpretationRange().getValue().getHigh().getValue())));
+                }
             }
 
-            if (range.getReferenceInterpretationRange().getValue().getHigh() != null) {
-                referenceRangeComponent.setHigh(getSimpleQuantityFromQuantity(quantity,
-                    Long.parseLong(range.getReferenceInterpretationRange().getValue().getHigh().getValue())));
-            }
-
-            return referenceRangeComponent;
+            outputReferenceRanges.add(referenceRangeComponent);
         }
 
-        return null;
+        return outputReferenceRanges;
+    }
+
+    private boolean referenceInterpretationRangeHasValue(RCMRMT030101UK04InterpretationRange referenceInterpretationRange) {
+        return referenceInterpretationRange != null && referenceInterpretationRange.getValue() != null;
     }
 
     private SimpleQuantity getSimpleQuantityFromQuantity(Quantity quantity, long newValue) {
@@ -343,9 +361,9 @@ public class ObservationMapper {
 
     private Observation createObservation(String id, Identifier identifier, CodeableConcept code, Object effective, InstantType issued,
         Reference performer, Quantity valueQuantity, String valueString, CodeableConcept interpretation, String comment,
-        ObservationReferenceRangeComponent referenceRange) {
+        List<ObservationReferenceRangeComponent> referenceRanges) {
         var observation = new Observation();
-        
+
         observation.setId(id);
         observation.getMeta().getProfile().add(new UriType(META_PROFILE));
         observation.setStatus(Observation.ObservationStatus.FINAL);
@@ -355,14 +373,14 @@ public class ObservationMapper {
         observation.getPerformer().add(performer);
         observation.setInterpretation(interpretation);
         observation.setComment(comment);
-        observation.getReferenceRange().add(referenceRange);
-        
+        observation.setReferenceRange(referenceRanges);
+
         if (valueQuantity != null) {
             observation.setValue(valueQuantity);
         } else if (StringUtils.isNotEmpty(valueString)) {
             observation.setValue(new StringType().setValue(valueString));
         }
-        
+
         if (effective instanceof DateTimeType) {
             observation.setEffective((DateTimeType) effective);
         } else if (effective instanceof Period) {

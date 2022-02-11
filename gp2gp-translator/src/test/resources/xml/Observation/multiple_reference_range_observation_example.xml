@@ -24,12 +24,29 @@
                                   displayName="Test display">
                             </code>
                             <statusCode code="COMPLETE"/>
-                            <effectiveTime><high value="20100522"/></effectiveTime>
                             <subject typeCode="SBJ">
                                 <personalRelationship classCode="PRS">
                                     <code code="38048003" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
                                 </personalRelationship>
                             </subject>
+                            <referenceRange typeCode="REFV">
+                                <referenceInterpretationRange classCode="OBS" moodCode="EVN.CRT">
+                                    <text>Test Range 1</text>
+                                    <value>
+                                        <low value="10" unit="L"/>
+                                        <high value="12" unit="L"/>
+                                    </value>
+                                </referenceInterpretationRange>
+                            </referenceRange>
+                            <referenceRange typeCode="REFV">
+                                <referenceInterpretationRange classCode="OBS" moodCode="EVN.CRT">
+                                    <text>Test Range 2</text>
+                                    <value>
+                                        <low value="20" unit="L"/>
+                                        <high value="22" unit="L"/>
+                                    </value>
+                                </referenceInterpretationRange>
+                            </referenceRange>
                             <Participant typeCode="PPRF" contextControlCode="OP">
                                 <agentRef classCode="AGNT">
                                     <id root="1230F602-6BB1-47E0-B2EC-39912A59787D"/>

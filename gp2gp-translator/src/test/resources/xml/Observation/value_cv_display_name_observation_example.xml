@@ -24,7 +24,7 @@
                                   displayName="Test display">
                             </code>
                             <statusCode code="COMPLETE"/>
-                            <effectiveTime><high value="20100522"/></effectiveTime>
+                            <availabilityTime value="20190708143500"/>
                             <subject typeCode="SBJ">
                                 <personalRelationship classCode="PRS">
                                     <code code="38048003" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
@@ -35,6 +35,7 @@
                                     <id root="1230F602-6BB1-47E0-B2EC-39912A59787D"/>
                                 </agentRef>
                             </Participant>
+                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" code="2" displayName="Test display name" codeSystem="2.16.840.1.113883.2.1.6.6" xsi:type="CV"/>
                         </ObservationStatement>
                     </component>
                 </ehrComposition>
