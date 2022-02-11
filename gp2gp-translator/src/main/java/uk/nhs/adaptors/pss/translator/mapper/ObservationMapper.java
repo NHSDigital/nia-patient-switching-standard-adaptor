@@ -47,8 +47,8 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 public class ObservationMapper {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
-    private static final String VALUE_QUANTITY_EXTENSION = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect" +
-        "-ValueApproximation-1";
+    private static final String VALUE_QUANTITY_EXTENSION = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
+        + "-ValueApproximation-1";
     private static final String PQ_VALUE = "PQ";
     private static final String IVL_PQ_VALUE = "IVL_PQ";
     private static final String ST_VALUE = "ST";
@@ -61,25 +61,6 @@ public class ObservationMapper {
     private QuantityMapper quantityMapper;
 
     public Observation mapToObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04ObservationStatement observationStatement) {
-        //////// TODO: id
-        //////// TODO: meta
-        //////// TODO: identifier
-        //////// TODO: status
-        //////// TODO: code
-        //////// TODO: subject
-        //////// TODO: context
-        //////// TODO: effective
-        //////// TODO: issued
-        //////// TODO: performer
-        //////// TODO: valueQuantity
-        //////// TODO: valueQuantity.extension
-        //////// TODO: valueString ("Negative")
-        //////// TODO: valueString ("Female")
-        //////// TODO: interpretation
-        //////// TODO: comment 1
-        //////// TODO: comment 2
-        //////// TODO: referenceRange
-
         var id = observationStatement.getId().getRoot();
         var identifier = getIdentifier(id);
         var code = getCode(observationStatement.getCode());
@@ -172,7 +153,8 @@ public class ObservationMapper {
     }
 
     private InstantType getIssued(RCMRMT030101UK04EhrExtract ehrExtract, II observationStatementId) {
-        var ehrComposition = EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement(ehrExtract, observationStatementId);
+        var ehrComposition =
+            EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement(ehrExtract, observationStatementId);
 
         if (authorHasValidTimeValue(ehrComposition.getAuthor())) {
             return DateFormatUtil.parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
@@ -186,7 +168,8 @@ public class ObservationMapper {
     }
 
     private boolean authorHasValidTimeValue(RCMRMT030101UK04Author author) {
-        return author != null && author.getTime() != null && author.getTime().getValue() != null && author.getTime().getNullFlavor() == null;
+        return author != null && author.getTime() != null && author.getTime().getValue() != null
+            && author.getTime().getNullFlavor() == null;
     }
 
     private Quantity getValueQuantity(Object value, CV uncertaintyCode) {
@@ -262,8 +245,9 @@ public class ObservationMapper {
                 return "L";
             case ("OR"):
                 return "A";
+            default:
+                return StringUtils.EMPTY;
         }
-        return StringUtils.EMPTY;
     }
 
     private String getInterpretationDisplay(String interpretationCode) {
@@ -274,8 +258,9 @@ public class ObservationMapper {
                 return "Low";
             case ("OR"):
                 return "Abnormal";
+            default:
+                return StringUtils.EMPTY;
         }
-        return StringUtils.EMPTY;
     }
 
     private String getComment(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation, RCMRMT030101UK04Subject subject) {
@@ -363,10 +348,10 @@ public class ObservationMapper {
         observation.setId(id);
         observation.getMeta().getProfile().add(new UriType(META_PROFILE));
         observation.setStatus(Observation.ObservationStatus.FINAL);
-        observation.getIdentifier().add(identifier);
+        observation.addIdentifier(identifier);
         observation.setCode(code);
         observation.setIssuedElement(issued);
-        observation.getPerformer().add(performer);
+        observation.addPerformer(performer);
         observation.setInterpretation(interpretation);
         observation.setComment(comment);
         observation.setReferenceRange(referenceRanges);

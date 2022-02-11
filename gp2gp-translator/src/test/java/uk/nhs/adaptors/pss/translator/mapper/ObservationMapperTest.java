@@ -8,25 +8,19 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
-import java.math.BigDecimal;
-
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
-import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
-import org.hl7.fhir.dstu3.model.ReferralRequest;
-import org.hl7.fhir.dstu3.model.SimpleQuantity;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.IVLPQ;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04Patient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,6 +38,7 @@ public class ObservationMapperTest {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String INTERPRETATION_SYSTEM = "http://hl7.org/fhir/v2/0078";
     private static final String CODING_DISPLAY_MOCK = "Test Display";
+    private static final int QUANTITY_VALUE_MOCK = 100;
     private static final String QUANTITY_UNIT_CODE_MOCK = "ml";
     private static final String QUANTITY_SYSTEM_MOCK = "http://unitsofmeasure.org";
     private static final String QUANTITY_LOW_VALUE = "20";
@@ -56,7 +51,8 @@ public class ObservationMapperTest {
     private static final String PRF_PARTICIPANT_ID = "Practitioner/58341512-03F3-4C8E-B41C-A8FCA3886BBB";
     private static final String PPRF_PARTICIPANT_ID = "Practitioner/1230F602-6BB1-47E0-B2EC-39912A59787D";
     private static final String PARTICIPANT2_PARTICIPANT_ID = "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D";
-    private static final String QUANTITY_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ValueApproximation-1";
+    private static final String QUANTITY_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
+        + "-ValueApproximation-1";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -74,7 +70,7 @@ public class ObservationMapperTest {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var quantity = new Quantity()
-            .setValue(100)
+            .setValue(QUANTITY_VALUE_MOCK)
             .setCode(QUANTITY_UNIT_CODE_MOCK)
             .setSystem(QUANTITY_SYSTEM_MOCK)
             .setUnit(QUANTITY_UNIT_CODE_MOCK);
@@ -163,7 +159,7 @@ public class ObservationMapperTest {
         var observationStatement = getObservationStatement(ehrExtract);
 
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
-        
+
         assertThat(observation.getEffective() instanceof Period);
         assertThat(observation.getEffectivePeriod().getStart().toString()).isEqualTo(EFFECTIVE_PERIOD_START_EXAMPLE_1);
         assertThat(observation.getEffectivePeriod().getEnd().toString()).isEqualTo(EFFECTIVE_PERIOD_END_EXAMPLE);
@@ -176,7 +172,7 @@ public class ObservationMapperTest {
         var observationStatement = getObservationStatement(ehrExtract);
 
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
-        
+
         assertThat(observation.getEffective() instanceof Period);
         assertThat(observation.getEffectivePeriod().getStart().toString()).isEqualTo(EFFECTIVE_PERIOD_START_EXAMPLE_1);
         assertThat(observation.getEffectivePeriod().getEnd()).isNull();
@@ -189,7 +185,7 @@ public class ObservationMapperTest {
         var observationStatement = getObservationStatement(ehrExtract);
 
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
-        
+
         assertThat(observation.getEffective() instanceof Period);
         assertThat(observation.getEffectivePeriod().getStart()).isNull();
         assertThat(observation.getEffectivePeriod().getEnd().toString()).isEqualTo(EFFECTIVE_PERIOD_END_EXAMPLE);
@@ -202,7 +198,7 @@ public class ObservationMapperTest {
         var observationStatement = getObservationStatement(ehrExtract);
 
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
-        
+
         assertThat(observation.getEffective() instanceof Period);
         assertThat(observation.getEffectivePeriod().getStart().toString()).isEqualTo(EFFECTIVE_PERIOD_START_EXAMPLE_2);
         assertThat(observation.getEffectivePeriod().getEnd().toString()).isEqualTo(EFFECTIVE_PERIOD_END_EXAMPLE);
@@ -215,7 +211,7 @@ public class ObservationMapperTest {
         var observationStatement = getObservationStatement(ehrExtract);
 
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
-        
+
         assertThat(observation.getEffective() instanceof DateTimeType);
         assertThat(observation.getEffectiveDateTimeType().getValue()).isEqualTo("2010-05-20T01:00:00.000");
     }
@@ -227,7 +223,7 @@ public class ObservationMapperTest {
         var observationStatement = getObservationStatement(ehrExtract);
 
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
-        
+
         assertThat(observation.getEffective()).isNull();
     }
 
@@ -238,7 +234,7 @@ public class ObservationMapperTest {
         var observationStatement = getObservationStatement(ehrExtract);
 
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
-        
+
         assertThat(observation.getIssuedElement().asStringValue()).isEqualTo(ISSUED_EHR_EXTRACT_EXAMPLE);
     }
 
@@ -249,7 +245,7 @@ public class ObservationMapperTest {
         var observationStatement = getObservationStatement(ehrExtract);
 
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
-        
+
         assertThat(observation.getPerformer().get(0).getReference()).isEqualTo(PRF_PARTICIPANT_ID);
     }
 
