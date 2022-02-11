@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -48,17 +49,17 @@ public class BundleMapperService {
 
         var agents = mapAgentDirectories(ehrFolder);
         var patient = mapPatient(getEhrExtract(xmlMessage), getPatientOrganization(agents));
-        bundle.addEntry(new BundleEntryComponent().setResource(patient));
-        agents.forEach(agent -> bundle.addEntry(new BundleEntryComponent().setResource(agent)));
+        addEntry(bundle, patient);
+        addEntries(bundle, agents);
 
         var locations = mapLocations(ehrFolder);
-        locations.forEach(location -> bundle.addEntry(new BundleEntryComponent().setResource(location)));
+        addEntries(bundle, locations);
 
         var procedureRequests = mapProcedureRequests(ehrExtract);
-        procedureRequests.forEach(procedureRequest -> bundle.addEntry(new BundleEntryComponent().setResource(procedureRequest)));
+        addEntries(bundle, procedureRequests);
 
         var referralRequests = mapReferralRequests(ehrFolder);
-        referralRequests.forEach(referralRequest -> bundle.addEntry(new BundleEntryComponent().setResource(referralRequest)));
+        addEntries(bundle, referralRequests);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
         return bundle;
@@ -113,5 +114,13 @@ public class BundleMapperService {
 
     private RCMRMT030101UK04EhrExtract getEhrExtract(RCMRIN030000UK06Message xmlMessage) {
         return xmlMessage.getControlActEvent().getSubject().getEhrExtract();
+    }
+
+    private <T extends DomainResource> void addEntries(Bundle bundle, Collection<T> resources) {
+        resources.forEach(it -> addEntry(bundle, it));
+    }
+
+    private <T extends DomainResource> void addEntry(Bundle bundle, T resource) {
+        bundle.addEntry(new BundleEntryComponent().setResource(resource));
     }
 }

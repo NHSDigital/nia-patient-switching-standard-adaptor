@@ -11,7 +11,7 @@ public class DateTimeMapper {
 
     public DateTimeType mapDateTime(String dateToMap) {
 
-        return DateFormatUtil.parse(dateToMap);
+        return DateFormatUtil.parseToDateTimeType(dateToMap);
     }
 
     public InstantType mapDateTimeInstant(String dateToMap) {

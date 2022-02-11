@@ -75,7 +75,7 @@ public class ReferralRequestMapper {
 
     private Date getAuthoredOn(TS availabilityTime) {
         if (availabilityTime != null) {
-            return DateFormatUtil.parse(availabilityTime.getValue()).getValue();
+            return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()).getValue();
         }
         return null;
     }
@@ -129,7 +129,7 @@ public class ReferralRequestMapper {
 
     private String getActionDateText(IVLTS effectiveTime) {
         if (hasEffectiveTimeValue(effectiveTime)) {
-            return ACTION_DATE_PREFIX + DateFormatUtil.parse(effectiveTime.getCenter().getValue()).asStringValue();
+            return ACTION_DATE_PREFIX + DateFormatUtil.parseToDateTimeType(effectiveTime.getCenter().getValue()).asStringValue();
         }
 
         return StringUtils.EMPTY;
