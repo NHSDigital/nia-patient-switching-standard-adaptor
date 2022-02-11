@@ -33,6 +33,7 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.model.EbXml;
 import uk.nhs.adaptors.pss.translator.model.Reference;
+import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
 @Slf4j
@@ -51,7 +52,7 @@ public class MhsQueueMessageHandler {
     private final ObjectMapper objectMapper;
     private final XPathService xPathService;
     private final SendContinueRequestHandler sendContinueRequestHandler;
-//    private final BundleMapperService bundleMapperService;
+    private final BundleMapperService bundleMapperService;
 
     public boolean handleMessage(Message message) {
         try {
@@ -59,12 +60,14 @@ public class MhsQueueMessageHandler {
             RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
             EbXml ebXml = getEbXmlData(inboundMessage.getEbXML());
 
-            // todo wyciagnac SOAP env i zapisac info do bazy z ebXML i zdecydowac co jest handlowane
             var patientNhsNumber = retrieveNhsNumber(payload);
             migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, patientNhsNumber);
 
-//            var bundle = bundleMapperService.mapToBundle(payload);
-//            patientMigrationRequestDao.saveFhirResource(patientNhsNumber, fhirParser.encodeToJson(bundle));
+            var bundle = bundleMapperService.mapToBundle(payload);
+            patientMigrationRequestDao.saveBundleAndEbXmlData(
+                patientNhsNumber,
+                fhirParser.encodeToJson(bundle),
+                objectMapper.writeValueAsString(ebXml));
             migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_TRANSLATED, patientNhsNumber);
 
             return sendContinueRequest(payload, ebXml, patientNhsNumber);

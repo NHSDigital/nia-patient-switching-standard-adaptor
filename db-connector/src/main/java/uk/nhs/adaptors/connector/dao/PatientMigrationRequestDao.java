@@ -21,7 +21,7 @@ public interface PatientMigrationRequestDao {
     @UseClasspathSqlLocator
     int getMigrationRequestId(@Bind("nhsNumber") String patientNhsNumber);
 
-    @SqlUpdate("save_fhir_resource")
+    @SqlUpdate("save_bundle_resource_and_ebxml_data")
     @UseClasspathSqlLocator
-    void saveFhirResource(@Bind("nhsNumber") String patientNhsNumber, @Bind("resource") String fhirResource);
+    void saveBundleAndEbXmlData(@Bind("nhsNumber") String patientNhsNumber, @Bind("bundle") String bundle, @Bind("ebXmlData") String ebXmlData);
 }

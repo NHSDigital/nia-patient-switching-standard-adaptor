@@ -30,6 +30,7 @@ public class MhsRequestBuilder {
     private static final String ODS_CODE = "ods-code";
     private static final String INTERACTION_ID = "Interaction-Id";
     private static final String MHS_OUTBOUND_EXTRACT_CORE_INTERACTION_ID = "RCMR_IN030000UK06";
+    private static final String MHS_OUTBOUND_COMMON_INTERACTION_ID = "COPC_IN000001UK01";
     private static final String CORRELATION_ID = "Correlation-Id";
     private static final String WAIT_FOR_RESPONSE = "wait-for-response";
     private static final String FALSE = "false";
@@ -40,6 +41,16 @@ public class MhsRequestBuilder {
 
     public WebClient.RequestHeadersSpec<?> buildSendEhrExtractRequest(
         String conversationId, String toOdsCode, OutboundMessage outboundMessage) {
+        return buildSendRequest(conversationId, toOdsCode, outboundMessage, MHS_OUTBOUND_EXTRACT_CORE_INTERACTION_ID);
+    }
+
+    public WebClient.RequestHeadersSpec<?> buildSendContinueRequest(
+        String conversationId, String toOdsCode, OutboundMessage outboundMessage) {
+        return buildSendRequest(conversationId, toOdsCode, outboundMessage, MHS_OUTBOUND_COMMON_INTERACTION_ID);
+    }
+
+    private WebClient.RequestHeadersSpec<?> buildSendRequest(
+        String conversationId, String toOdsCode, OutboundMessage outboundMessage, String interactionId) {
         SslContext sslContext = requestBuilderService.buildSSLContext();
         HttpClient httpClient = HttpClient.create().secure(t -> t.sslContext(sslContext));
         WebClient client = buildWebClient(httpClient);
@@ -52,7 +63,7 @@ public class MhsRequestBuilder {
             .accept(APPLICATION_JSON)
             .header(ODS_CODE, toOdsCode)
             .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-            .header(INTERACTION_ID, MHS_OUTBOUND_EXTRACT_CORE_INTERACTION_ID)
+            .header(INTERACTION_ID, interactionId)
             .header(WAIT_FOR_RESPONSE, FALSE)
             .header(CORRELATION_ID, conversationId)
             .body(bodyInserter);

@@ -31,7 +31,7 @@ public class SendContinueRequestHandler {
 
         var outboundMessage = new OutboundMessage(continueRequest);
 
-        var request = requestBuilder.buildSendEhrExtractRequest(data.getConversationId(), data.getToOdsCode(), outboundMessage);
+        var request = requestBuilder.buildSendContinueRequest(data.getConversationId(), data.getToOdsCode(), outboundMessage);
 
         try {
             mhsClientService.send(request);

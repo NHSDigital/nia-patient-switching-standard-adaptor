@@ -10,5 +10,6 @@ import lombok.Setter;
 public class PatientMigrationRequest {
     private int id;
     private String patientNhsNumber;
-    private String fhirResource;
+    private String bundleResource;
+    private String ebXmlData;
 }

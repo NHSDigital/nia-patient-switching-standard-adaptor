@@ -4,7 +4,10 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
+import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.handler.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
@@ -41,7 +44,13 @@ import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 @Slf4j
 @Validated
 public class PatientTransferController {
-    private static final List<MigrationStatus> IN_PROGRESS_STATUSES = List.of(REQUEST_RECEIVED, EHR_EXTRACT_REQUEST_ACCEPTED);
+    private static final List<MigrationStatus> IN_PROGRESS_STATUSES = List.of(
+        REQUEST_RECEIVED,
+        EHR_EXTRACT_REQUEST_ACCEPTED,
+        EHR_EXTRACT_RECEIVED,
+        EHR_EXTRACT_TRANSLATED,
+        CONTINUE_REQUEST_ACCEPTED
+    );
 
     private final PatientTransferService patientTransferService;
 
