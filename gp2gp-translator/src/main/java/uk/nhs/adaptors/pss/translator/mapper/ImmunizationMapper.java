@@ -3,18 +3,20 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Immunization;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CsNullFlavor;
+import org.hl7.v3.II;
 import org.hl7.v3.IVXBTS;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -41,12 +43,11 @@ public class ImmunizationMapper {
     private static final String END_DATE_PREFIX = "End Date: ";
     private static final String VACCINATION_CODING_EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding"
         + "-sctdescid";
-    private static final String PATIENT_REFERENCE_PREFIX = "Patient/";
-    private static final String ENCOUNTER_REFERENCE_PREFIX = "Encounter/";
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<Immunization> mapToImmunization(RCMRMT030101UK04EhrExtract ehrExtract, String patientID, Optional<String> encounterID) {
+    public List<Immunization> mapToImmunization(RCMRMT030101UK04EhrExtract ehrExtract, Patient patientResource,
+        List<Encounter> encounterList) {
         List<Immunization> mappedImmunizationResources = new ArrayList<>();
         var ehrCompositionList = EhrResourceExtractorUtil.extractValidImmunizationEhrCompositions(ehrExtract);
 
@@ -55,7 +56,8 @@ public class ImmunizationMapper {
 
             immunizationObservationStatements
                 .forEach(observationStatement -> {
-                    var mappedImmunization = mapImmunization(ehrComposition, observationStatement, patientID, encounterID);
+                    var mappedImmunization = mapImmunization(ehrComposition, observationStatement, patientResource,
+                        encounterList);
                     mappedImmunizationResources.add(mappedImmunization);
                 });
         });
@@ -65,7 +67,7 @@ public class ImmunizationMapper {
 
     private Immunization mapImmunization(RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04ObservationStatement observationStatement,
-        String patientID, Optional<String> encounterID) {
+        Patient patientResource, List<Encounter> encounterList) {
 
         ImmunizationMapperParameters immunizationMapperParameters = new ImmunizationMapperParameters();
 
@@ -79,10 +81,8 @@ public class ImmunizationMapper {
 
         var practitioner = ParticipantReferenceUtil.getParticipantReference(observationStatement.getParticipant(), ehrComposition);
 
-        var patient = new Reference(PATIENT_REFERENCE_PREFIX + patientID);
-        var encounter = new Reference();
-
-        encounter = new Reference(encounterID.map(encId -> ENCOUNTER_REFERENCE_PREFIX + encId).orElse(null));
+        var patient = new Reference(patientResource.getIdElement());
+        var encounter = getEncounterReference(encounterList, ehrComposition.getId());
 
         immunizationMapperParameters.setIdParam(id);
         immunizationMapperParameters.setIdentifierParam(identifier);
@@ -95,6 +95,24 @@ public class ImmunizationMapper {
         immunizationMapperParameters.setPractitionerParam(practitioner);
 
         return createImmunization(immunizationMapperParameters);
+    }
+
+    private Reference getEncounterReference(List<Encounter> encounterList, II ehrCompositionId) {
+        if (ehrCompositionId != null) {
+            var matchingEncounter = encounterList.stream()
+                .filter(encounter -> matchingIds(encounter.getId(), ehrCompositionId))
+                .findFirst();
+
+            if (matchingEncounter.isPresent()) {
+                return new Reference(matchingEncounter.get().getIdElement());
+            }
+        }
+
+        return null;
+    }
+
+    private boolean matchingIds(String encounterId, II ehrCompositionId) {
+        return encounterId.equals(ehrCompositionId.getRoot());
     }
 
     private List<RCMRMT030101UK04ObservationStatement> getImmunizationObservationStatements(RCMRMT030101UK04EhrComposition ehrComposition) {
@@ -112,7 +130,8 @@ public class ImmunizationMapper {
         } else if (ehrComposition.getEffectiveTime() != null) {
             if (ehrComposition.getAvailabilityTime().getNullFlavor() == null) {
                 return new Extension()
-                    .setValue(new StringType(DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue()).asStringValue()));
+                    .setValue(new StringType(DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue())
+                        .asStringValue()));
             }
         }
 
@@ -257,12 +276,12 @@ public class ImmunizationMapper {
             immunization.getNote().add(immunizationMapperParameters.getNoteParam());
         }
         if (immunizationMapperParameters.getPractitionerParam() != null) {
-            immunization.addPractitioner(new Immunization.ImmunizationPractitionerComponent(immunizationMapperParameters.getPractitionerParam()));
+            immunization.addPractitioner(new Immunization.ImmunizationPractitionerComponent(
+                immunizationMapperParameters.getPractitionerParam()));
         }
 
         return immunization;
     }
-
 
     @Getter
     @Setter
