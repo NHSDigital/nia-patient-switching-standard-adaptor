@@ -1,8 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +22,6 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
-import org.hl7.v3.EnFamily;
 import org.hl7.v3.II;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.PQR;
@@ -33,7 +30,6 @@ import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04Participant;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
 import org.hl7.v3.RCMRMT030101UK04Subject;
@@ -51,8 +47,8 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 public class ObservationMapper {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
-    private static final String VALUE_QUANTITY_EXTENSION = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect" +
-        "-ValueApproximation-1";
+    private static final String VALUE_QUANTITY_EXTENSION = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
+        + "-ValueApproximation-1";
     private static final String PQ_VALUE = "PQ";
     private static final String IVL_PQ_VALUE = "IVL_PQ";
     private static final String ST_VALUE = "ST";
@@ -176,7 +172,8 @@ public class ObservationMapper {
     }
 
     private InstantType getIssued(RCMRMT030101UK04EhrExtract ehrExtract, II observationStatementId) {
-        var ehrComposition = EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement(ehrExtract, observationStatementId);
+        var ehrComposition =
+            EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement(ehrExtract, observationStatementId);
 
         if (authorHasValidTimeValue(ehrComposition.getAuthor())) {
             return DateFormatUtil.parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
@@ -190,7 +187,8 @@ public class ObservationMapper {
     }
 
     private boolean authorHasValidTimeValue(RCMRMT030101UK04Author author) {
-        return author != null && author.getTime() != null && author.getTime().getValue() != null && author.getTime().getNullFlavor() == null;
+        return author != null && author.getTime() != null && author.getTime().getValue() != null
+            && author.getTime().getNullFlavor() == null;
     }
 
     private Quantity getValueQuantity(Value value, CV uncertaintyCode) {
@@ -270,8 +268,9 @@ public class ObservationMapper {
                 return "L";
             case ("OR"):
                 return "A";
+            default:
+                return StringUtils.EMPTY;
         }
-        return StringUtils.EMPTY;
     }
 
     private String getInterpretationDisplay(String interpretationCode) {
@@ -282,8 +281,9 @@ public class ObservationMapper {
                 return "Low";
             case ("OR"):
                 return "Abnormal";
+            default:
+                return StringUtils.EMPTY;
         }
-        return StringUtils.EMPTY;
     }
 
     private String getComment(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation, RCMRMT030101UK04Subject subject) {

@@ -52,7 +52,8 @@ public class EhrResourceExtractorUtil {
         return component.getPlanStatement() != null && component.getPlanStatement().getId() == resourceId;
     }
 
-    private static boolean filterForMatchingEhrCompositionObservationStatement(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
+    private static boolean filterForMatchingEhrCompositionObservationStatement(RCMRMT030101UK04EhrComposition ehrComposition,
+        II resourceId) {
         return ehrComposition.getComponent()
             .stream()
             .anyMatch(component -> validObservationStatement(component, resourceId));
