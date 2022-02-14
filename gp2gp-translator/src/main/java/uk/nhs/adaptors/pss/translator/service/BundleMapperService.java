@@ -64,7 +64,7 @@ public class BundleMapperService {
         var referralRequests = mapReferralRequests(ehrFolder);
         addEntries(bundle, referralRequests);
 
-        var observations = mapObservations(ehrExtract);
+        var observations = mapObservations(ehrExtract, patient);
         addEntries(bundle, observations);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
@@ -107,12 +107,12 @@ public class BundleMapperService {
             .toList();
     }
 
-    private List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
             .stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
             .filter(component4 -> component4.getObservationStatement() != null)
-            .map(component4 -> observationMapper.mapToObservation(ehrExtract, component4.getObservationStatement()))
+            .map(component4 -> observationMapper.mapToObservation(ehrExtract, component4.getObservationStatement(), patient))
             .toList();
     }
 

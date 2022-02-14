@@ -14,6 +14,7 @@ import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationReferenceRangeComponent;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.Reference;
@@ -58,7 +59,7 @@ public class ObservationMapper {
 
     private QuantityMapper quantityMapper;
 
-    public Observation mapToObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04ObservationStatement observationStatement) {
+    public Observation mapToObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04ObservationStatement observationStatement, Patient patient) {
         var id = observationStatement.getId().getRoot();
         var identifier = getIdentifier(id);
         var code = getCode(observationStatement.getCode());
@@ -71,6 +72,7 @@ public class ObservationMapper {
         var interpretation = getInterpretation(observationStatement.getInterpretationCode());
         var comment = getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject());
         var referenceRanges = getReferenceRange(observationStatement.getReferenceRange());
+        var patientReference = createPatientReference(patient);
 
         var observationMapperParameters = ObservationMapperParameters.builder()
             .id(id)
@@ -84,6 +86,7 @@ public class ObservationMapper {
             .interpretation(interpretation)
             .comment(comment)
             .referenceRanges(referenceRanges)
+            .patientReference(patientReference)
             .build();
 
         /**
@@ -331,6 +334,10 @@ public class ObservationMapper {
             .setComparator(quantity.getComparator());
     }
 
+    private Reference createPatientReference(Patient patient) {
+        return new Reference(patient.getIdElement());
+    }
+
     private Observation createObservation(ObservationMapperParameters parameters) {
         var observation = new Observation();
 
@@ -344,6 +351,7 @@ public class ObservationMapper {
         observation.setInterpretation(parameters.getInterpretation());
         observation.setComment(parameters.getComment());
         observation.setReferenceRange(parameters.getReferenceRanges());
+        observation.setSubject(parameters.getPatientReference()); //Fulfilling the NIAD-2048 with Patient Reference
 
         var valueQuantity = parameters.getValueQuantity();
         var valueString = parameters.getValueString();
@@ -377,5 +385,6 @@ public class ObservationMapper {
         private CodeableConcept interpretation;
         private String comment;
         private List<ObservationReferenceRangeComponent> referenceRanges;
+        private Reference patientReference;
     }
 }
