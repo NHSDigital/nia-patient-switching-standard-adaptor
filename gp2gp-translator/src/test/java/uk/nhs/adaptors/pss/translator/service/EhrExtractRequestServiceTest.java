@@ -39,9 +39,7 @@ public class EhrExtractRequestServiceTest {
     public void whenBuildEhrExtractRequestThenTemplateIsFilled() throws IOException {
         var instant = Instant.now();
         when(dateUtils.getCurrentInstant()).thenReturn(instant);
-        when(idGeneratorService.generateUuid())
-            .thenReturn(MESSAGE_ID)
-            .thenReturn(EHR_REQUEST_ID);
+        when(idGeneratorService.generateUuid()).thenReturn(MESSAGE_ID, EHR_REQUEST_ID);
         var message = PssQueueMessage.builder()
             .patientNhsNumber(TEST_NHS_NUMBER)
             .fromAsid(TEST_FROM_ASID)
@@ -56,6 +54,8 @@ public class EhrExtractRequestServiceTest {
         assertTrue(ehrExtractRequest.contains(TEST_TO_ODS_CODE));
         assertTrue(ehrExtractRequest.contains(TEST_FROM_ASID));
         assertTrue(ehrExtractRequest.contains(TEST_TO_ASID));
+        assertTrue(ehrExtractRequest.contains(MESSAGE_ID.toLowerCase()));
+        assertTrue(ehrExtractRequest.contains(EHR_REQUEST_ID.toLowerCase()));
         assertTrue(ehrExtractRequest.contains(DateFormatUtil.toHl7Format(instant)));
     }
 }

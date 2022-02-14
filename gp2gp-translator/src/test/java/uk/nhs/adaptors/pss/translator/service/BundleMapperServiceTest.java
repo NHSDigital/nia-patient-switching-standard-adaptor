@@ -46,7 +46,7 @@ public class BundleMapperServiceTest {
 
 
     @MockBean
-    private FhirIdGeneratorService idGenerator;
+    private IdGeneratorService idGenerator;
 
     @Autowired
     private BundleMapperService bundleMapperService;
