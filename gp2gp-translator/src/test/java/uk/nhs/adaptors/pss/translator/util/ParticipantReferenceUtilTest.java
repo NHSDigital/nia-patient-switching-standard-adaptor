@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -64,6 +65,6 @@ public class ParticipantReferenceUtilTest {
 
         Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition);
 
-        assertThat(StringUtils.isEmpty(participantReference.getReference()));
+        assertTrue(StringUtils.isEmpty(participantReference.getReference()));
     }
 }

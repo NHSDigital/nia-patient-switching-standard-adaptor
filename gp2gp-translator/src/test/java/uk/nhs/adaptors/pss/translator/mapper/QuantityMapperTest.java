@@ -133,7 +133,7 @@ public class QuantityMapperTest {
         var observationStatement = unmarshallObservationStatement("no_type_no_unit.xml");
         var value = observationStatement.getValue();
 
-        Quantity quantity = quantityMapper.mapQuantity((IVLPQ) value);
+        Quantity quantity = quantityMapper.mapQuantity((PQ) value);
 
         assertQuantity(quantity, "100", null, null, null, null);
     }
