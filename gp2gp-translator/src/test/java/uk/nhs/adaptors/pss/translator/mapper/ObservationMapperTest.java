@@ -53,13 +53,13 @@ public class ObservationMapperTest {
     private static final String EXPECTED_START_DATE_1 = "2010-05-21";
     private static final String EXPECTED_END_DATE = "2010-05-22";
 
-    private static final Quantity quantity = new Quantity()
+    private static final Quantity QUANTITY = new Quantity()
             .setValue(QUANTITY_VALUE_MOCK)
             .setCode(QUANTITY_UNIT_CODE_MOCK)
             .setSystem(QUANTITY_SYSTEM_MOCK)
             .setUnit(QUANTITY_UNIT_CODE_MOCK);
 
-    private static final CodeableConcept codeableConcept = new CodeableConcept()
+    private static final CodeableConcept CODEABLE_CONCEPT = new CodeableConcept()
         .addCoding(new Coding().setDisplay(CODING_DISPLAY_MOCK));
 
 
@@ -74,9 +74,9 @@ public class ObservationMapperTest {
 
     @Test
     public void mapObservationWithValidData() {
-        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
-        when(quantityMapper.mapQuantity(any(PQ.class))).thenReturn(quantity);
-        when(quantityMapper.mapQuantity(any(IVLPQ.class))).thenReturn(quantity);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
+        when(quantityMapper.mapQuantity(any(PQ.class))).thenReturn(QUANTITY);
+        when(quantityMapper.mapQuantity(any(IVLPQ.class))).thenReturn(QUANTITY);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
@@ -100,7 +100,7 @@ public class ObservationMapperTest {
 
     @Test
     public void mapObservationWithNoOptionalData() {
-        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
         var ehrExtract = unmarshallEhrExtractElement("no_optional_data_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
@@ -209,7 +209,7 @@ public class ObservationMapperTest {
 
     @Test
     public void mapObservationWithIvlpqValueQuantity() {
-        when(quantityMapper.mapQuantity(any(IVLPQ.class))).thenReturn(quantity);
+        when(quantityMapper.mapQuantity(any(IVLPQ.class))).thenReturn(QUANTITY);
         var ehrExtract = unmarshallEhrExtractElement("ivl_pq_value_quantity_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
@@ -220,7 +220,7 @@ public class ObservationMapperTest {
 
     @Test
     public void mapObservationWithValueQuantityWithExtension() {
-        when(quantityMapper.mapQuantity(any(PQ.class))).thenReturn(quantity);
+        when(quantityMapper.mapQuantity(any(PQ.class))).thenReturn(QUANTITY);
         var ehrExtract = unmarshallEhrExtractElement("value_quantity_with_extension_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
@@ -245,7 +245,7 @@ public class ObservationMapperTest {
         var ehrExtract = unmarshallEhrExtractElement("value_cv_display_name_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
-        
+
         assertThat(observation.getValue() instanceof StringType).isTrue();
         assertThat(observation.getValueStringType().getValue()).isEqualTo(TEST_DISPLAY_VALUE);
     }
@@ -279,7 +279,7 @@ public class ObservationMapperTest {
 
     @Test
     public void mapObservationWithMultipleReferenceRanges() {
-        when(quantityMapper.mapQuantity(any(IVLPQ.class))).thenReturn(quantity);
+        when(quantityMapper.mapQuantity(any(IVLPQ.class))).thenReturn(QUANTITY);
 
         var ehrExtract = unmarshallEhrExtractElement("multiple_reference_range_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
