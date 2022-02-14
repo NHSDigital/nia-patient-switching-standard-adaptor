@@ -11,5 +11,5 @@ public class PatientMigrationRequest {
     private int id;
     private String patientNhsNumber;
     private String bundleResource;
-    private String ebXmlData;
+    private String inboundMessage;
 }

@@ -45,6 +45,7 @@ public class MhsRequestBuilder {
     }
 
     public WebClient.RequestHeadersSpec<?> buildSendContinueRequest(
+        // TODO: NIAD-2045
         String conversationId, String toOdsCode, OutboundMessage outboundMessage) {
         return buildSendRequest(conversationId, toOdsCode, outboundMessage, MHS_OUTBOUND_COMMON_INTERACTION_ID);
     }
@@ -55,7 +56,7 @@ public class MhsRequestBuilder {
         HttpClient httpClient = HttpClient.create().secure(t -> t.sslContext(sslContext));
         WebClient client = buildWebClient(httpClient);
 
-        WebClient.RequestBodySpec uri = client.method(HttpMethod.POST).uri(mhsOutboundConfiguration.getUrl());
+        WebClient.RequestBodySpec uri = client.method(HttpMethod.POST).uri("/");
 
         BodyInserter<Object, ReactiveHttpOutputMessage> bodyInserter = BodyInserters.fromValue(outboundMessage);
 
@@ -75,7 +76,7 @@ public class MhsRequestBuilder {
             .exchangeStrategies(requestBuilderService.buildExchangeStrategies())
             .clientConnector(new ReactorClientHttpConnector(httpClient))
             .baseUrl(mhsOutboundConfiguration.getUrl())
-            .defaultUriVariables(Collections.singletonMap("url", mhsOutboundConfiguration.getUrl()))
+//            .defaultUriVariables(Collections.singletonMap("url", mhsOutboundConfiguration.getUrl()))
             .build();
     }
 }

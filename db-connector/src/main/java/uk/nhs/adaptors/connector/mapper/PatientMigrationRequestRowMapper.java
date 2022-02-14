@@ -18,7 +18,7 @@ public class PatientMigrationRequestRowMapper implements RowMapper<PatientMigrat
             .id(rs.getInt("id"))
             .patientNhsNumber(rs.getString("patient_nhs_number"))
             .bundleResource(rs.getString("bundle_resource"))
-            .ebXmlData(rs.getString("ebxml_data"))
+            .inboundMessage(rs.getString("inbound_message"))
             .build();
     }
 }

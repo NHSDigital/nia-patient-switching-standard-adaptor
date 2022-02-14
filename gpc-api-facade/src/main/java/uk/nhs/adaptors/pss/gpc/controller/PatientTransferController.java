@@ -13,10 +13,8 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.handler.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_PARTY_ID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_PARTY_ID;
 
 import java.util.List;
 import java.util.Map;
@@ -64,17 +62,13 @@ public class PatientTransferController {
         @RequestHeader(TO_ASID) @NotNull String toAsid,
         @RequestHeader(FROM_ASID) @NotNull String fromAsid,
         @RequestHeader(TO_ODS) @NotNull String toOds,
-        @RequestHeader(FROM_ODS) @NotNull String fromOds,
-        @RequestHeader(TO_PARTY_ID) @NotNull String toPartyId,
-        @RequestHeader(FROM_PARTY_ID) @NotNull String fromPartyId) {
+        @RequestHeader(FROM_ODS) @NotNull String fromOds) {
         LOGGER.info("Received patient transfer request");
         Map<String, String> headers = Map.of(
             TO_ASID, toAsid,
             FROM_ASID, fromAsid,
             TO_ODS, toOds,
-            FROM_ODS, fromOds,
-            TO_PARTY_ID, toPartyId,
-            FROM_PARTY_ID, fromPartyId
+            FROM_ODS, fromOds
         );
 
         MigrationStatusLog request = patientTransferService.handlePatientMigrationRequest(body, headers);

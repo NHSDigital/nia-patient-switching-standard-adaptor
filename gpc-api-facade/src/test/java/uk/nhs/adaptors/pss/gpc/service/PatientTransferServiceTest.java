@@ -8,10 +8,8 @@ import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_PARTY_ID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_PARTY_ID;
 
 import java.time.OffsetDateTime;
 import java.util.Map;
@@ -37,14 +35,7 @@ import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferServiceTest {
     private static final String PATIENT_NHS_NUMBER = "123456789";
-    private static final Map<String, String> HEADERS = Map.of(
-        TO_ASID, "1234",
-        FROM_ASID, "5678",
-        TO_ODS, "EFG",
-        FROM_ODS, "ABC",
-        TO_PARTY_ID, "1233321-ABC",
-        FROM_PARTY_ID, "3214-BGR"
-    );
+    private static final Map<String, String> HEADERS = Map.of(TO_ASID, "1234", FROM_ASID, "5678", TO_ODS, "EFG", FROM_ODS, "ABC");
 
     @Mock
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -76,8 +67,6 @@ public class PatientTransferServiceTest {
             .fromAsid(HEADERS.get(FROM_ASID))
             .toOds(HEADERS.get(TO_ODS))
             .fromOds(HEADERS.get(FROM_ODS))
-            .toPartyId(HEADERS.get(TO_PARTY_ID))
-            .fromPartyId(HEADERS.get(FROM_PARTY_ID))
             .build();
         var migrationRequestId = 1;
         OffsetDateTime now = OffsetDateTime.now();

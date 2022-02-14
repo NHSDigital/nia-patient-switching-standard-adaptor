@@ -3,10 +3,8 @@ package uk.nhs.adaptors.pss.gpc.service;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_PARTY_ID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_PARTY_ID;
 
 import java.util.Map;
 
@@ -19,12 +17,12 @@ import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.common.model.PssQueueMessage;
 import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
-import uk.nhs.adaptors.pss.gpc.util.fhir.ParametersUtils;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
+import uk.nhs.adaptors.pss.gpc.util.fhir.ParametersUtils;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -63,8 +61,6 @@ public class PatientTransferService {
             .fromAsid(headers.get(FROM_ASID))
             .toOds(headers.get(TO_ODS))
             .fromOds(headers.get(FROM_ODS))
-            .toPartyId(headers.get(TO_PARTY_ID))
-            .fromPartyId(headers.get(FROM_PARTY_ID))
             .build();
     }
 }

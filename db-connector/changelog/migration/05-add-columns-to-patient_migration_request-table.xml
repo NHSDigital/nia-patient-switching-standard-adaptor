@@ -13,7 +13,7 @@
     <changeSet id="5" author="mrogowska">
         <addColumn schemaName="public" tableName="patient_migration_request">
             <column name="bundle_resource" type="clob"/>
-            <column name="ebxml_data" type="clob"/>
+            <column name="inbound_message" type="clob"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

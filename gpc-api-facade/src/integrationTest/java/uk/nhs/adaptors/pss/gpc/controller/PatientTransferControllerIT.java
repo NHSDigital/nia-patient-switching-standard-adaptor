@@ -218,8 +218,6 @@ public class PatientTransferControllerIT {
         headers.set("to-asid", "32145");
         headers.set("from-ods", "ABC");
         headers.set("to-ods", "DEF");
-        headers.set("from-partyid", "32-AB");
-        headers.set("to-partyid", "333-DEF");
 
         return headers;
     }

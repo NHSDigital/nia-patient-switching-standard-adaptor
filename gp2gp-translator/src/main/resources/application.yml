@@ -34,4 +34,4 @@ amqp:
     maxRedeliveries: ${MHS_AMQP_MAX_REDELIVERIES:3}
 
 mhs:
-  url: ${MHS_BASE_URL:http://localhost:8080/}
+  url: ${MHS_BASE_URL:http://localhost:8080}

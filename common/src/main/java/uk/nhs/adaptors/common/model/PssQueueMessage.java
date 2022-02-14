@@ -11,6 +11,4 @@ public class PssQueueMessage {
     private String fromAsid;
     private String toOds;
     private String fromOds;
-    private String toPartyId;
-    private String fromPartyId;
 }

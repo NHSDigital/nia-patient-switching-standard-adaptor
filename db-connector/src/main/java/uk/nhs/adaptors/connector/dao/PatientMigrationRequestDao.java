@@ -21,7 +21,7 @@ public interface PatientMigrationRequestDao {
     @UseClasspathSqlLocator
     int getMigrationRequestId(@Bind("nhsNumber") String patientNhsNumber);
 
-    @SqlUpdate("save_bundle_resource_and_ebxml_data")
+    @SqlUpdate("save_bundle_resource_and_inbound_message_data")
     @UseClasspathSqlLocator
-    void saveBundleAndEbXmlData(@Bind("nhsNumber") String patientNhsNumber, @Bind("bundle") String bundle, @Bind("ebXmlData") String ebXmlData);
+    void saveBundleAndInboundMessageData(@Bind("nhsNumber") String patientNhsNumber, @Bind("bundle") String bundle, @Bind("inboundMessage") String inboundMessage);
 }

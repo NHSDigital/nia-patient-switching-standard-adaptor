@@ -18,6 +18,7 @@ import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 @Slf4j
 @Component
 @AllArgsConstructor(onConstructor = @__(@Autowired))
+// TODO: NIAD-2045
 public class SendContinueRequestHandler {
 
     private final MhsRequestBuilder requestBuilder;
