@@ -9,6 +9,7 @@ import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
 import org.hl7.v3.IVLPQ;
 import org.hl7.v3.PQ;
+import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.junit.jupiter.api.Test;
 
 import lombok.SneakyThrows;
@@ -129,7 +130,8 @@ public class QuantityMapperTest {
 
     @Test
     public void mapQuantityNoTypeNoUnit() {
-        var value = unmarshallValueElement("no_type_no_unit.xml");
+        var observationStatement = unmarshallObservationStatement("no_type_no_unit.xml");
+        var value = observationStatement.getValue();
 
         Quantity quantity = quantityMapper.mapQuantity((IVLPQ) value);
 
@@ -178,16 +180,16 @@ public class QuantityMapperTest {
     }
 
     @SneakyThrows
-    private Object unmarshallValueElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), Object.class);
-    }
-
-    @SneakyThrows
     private PQ unmarshallValueElementForPQ(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), PQ.class);
     }
     @SneakyThrows
     private IVLPQ unmarshallValueElementForIVLPQ(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), IVLPQ.class);
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UK04ObservationStatement unmarshallObservationStatement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04ObservationStatement.class);
     }
 }
