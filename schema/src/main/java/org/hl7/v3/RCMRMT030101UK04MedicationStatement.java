@@ -259,6 +259,10 @@ public class RCMRMT030101UK04MedicationStatement {
         return this.consumable;
     }
 
+    public boolean hasConsumable() {
+        return consumable != null && !consumable.isEmpty();
+    }
+
     /**
      * Gets the value of the component property.
      * 
@@ -381,6 +385,10 @@ public class RCMRMT030101UK04MedicationStatement {
             participant = new ArrayList<RCMRMT030101UK04Participant>();
         }
         return this.participant;
+    }
+
+    public boolean hasParticipant() {
+        return participant != null && !participant.isEmpty();
     }
 
     /**

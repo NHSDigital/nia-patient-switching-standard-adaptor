@@ -303,6 +303,10 @@ public class RCMRMT030101UK04EhrComposition {
         return this.participant2;
     }
 
+    public boolean hasParticipant2() {
+        return participant2 != null && !participant2.isEmpty();
+    }
+
     /**
      * Gets the value of the component property.
      * 

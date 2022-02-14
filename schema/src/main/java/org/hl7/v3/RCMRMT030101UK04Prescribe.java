@@ -196,6 +196,10 @@ public class RCMRMT030101UK04Prescribe {
         this.availabilityTime = value;
     }
 
+    public boolean hasAvailabilityTime() {
+        return availabilityTime != null;
+    }
+
     /**
      * Gets the value of the quantity property.
      * 

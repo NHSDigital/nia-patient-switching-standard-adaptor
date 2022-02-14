@@ -1,10 +1,11 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ import org.hl7.fhir.dstu3.model.Dosage;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.Immunization;
+import org.hl7.fhir.dstu3.model.Medication;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Patient;
@@ -28,6 +29,7 @@ import org.hl7.fhir.dstu3.model.SimpleQuantity;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.v3.CD;
 import org.hl7.v3.II;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
@@ -35,11 +37,13 @@ import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
+import org.hl7.v3.RCMRMT030101UK04Consumable;
 import org.hl7.v3.RCMRMT030101UK04Discontinue;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrExtractSpecification;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
+import org.hl7.v3.RCMRMT030101UK04ManufacturedProduct;
+import org.hl7.v3.RCMRMT030101UK04Material;
 import org.hl7.v3.RCMRMT030101UK04MedicationDosage;
 import org.hl7.v3.RCMRMT030101UK04MedicationRef;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
@@ -50,6 +54,7 @@ import org.hl7.v3.RCMRMT030101UK04ReversalOf;
 import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
 import org.hl7.v3.TS;
 
+import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
@@ -67,22 +72,41 @@ public class MedicationRequestMapper {
         = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1";
     private static final String MEDICATION_STATEMENT_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1";
+    private static final String MEDICATION_URL
+        = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1";
     private static final String PRESCRIPTION_TYPE_CODING_SYSTEM
         = "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1";
     private static final String REPEAT_INFORMATION_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1";
     private static final String STATUS_CHANGE_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1";
+    private static final String PRESCRIBING_AGENCY_URL
+        = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1";
+    private static final String MS_LAST_ISSUE_DATE = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1";
     private static final String REPEATS_ALLOWED_URL = "numberOfRepeatPrescriptionsAllowed";
     private static final String REPEATS_ISSUED_URL = "numberOfRepeatPrescriptionsIssued";
     private static final String STATUS_CHANGE_DATE_URL = "statusChangeDate";
     private static final String STATUS_REASON = "statusReason";
     private static final String COMPLETE = "COMPLETE";
+    private static final String MS_SUFFIX = "-MS";
+    private static final String PRESCRIBED_CODE = "prescribed-at-gp-practice";
+    private static final String PRESCRIBED_DISPLAY = "Prescribed at GP practice";
+
+    private CodeableConceptMapper codeableConceptMapper;
+    private FhirIdGeneratorService fhirIdGeneratorService;
+    private static final Map<String, String> MEDICATION_IDS = new HashMap<>();
 
     public MedicationRequest mapToMedicationRequest(RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04MedicationStatement medicationStatement, Date ehrExtractAvailabilityTime, Patient subject, Encounter context) {
 
         var authoredOn = extractAuthoredOn(ehrComposition, ehrExtractAvailabilityTime);
+
+        var requester = extractRequester(ehrComposition, medicationStatement);
+
+        List<Medication> medications = medicationStatement.getConsumable()
+            .stream()
+            .map(this::createMedication)
+            .collect(Collectors.toList());
 
         List<MedicationRequest> medicationRequestsOrder = medicationStatement.getComponent()
             .stream()
@@ -90,6 +114,7 @@ public class MedicationRequestMapper {
             .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
             .map(supplyPrescribe -> mapToOrderMedicationRequest(medicationStatement, supplyPrescribe, subject, context))
             .map(medicationRequest -> medicationRequest.setAuthoredOnElement(authoredOn))
+            .peek(medicationRequest -> requester.ifPresent(medicationRequest::setRequester))
             .collect(Collectors.toList());
 
         List<MedicationRequest> medicationRequestsPlan = medicationStatement.getComponent()
@@ -98,6 +123,7 @@ public class MedicationRequestMapper {
             .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
             .map(supplyAuthorise -> mapToPlanMedicationRequest(medicationStatement, supplyAuthorise, subject, context))
             .map(medicationRequest -> medicationRequest.setAuthoredOnElement(authoredOn))
+            .peek(medicationRequest -> requester.ifPresent(medicationRequest::setRequester))
             .collect(Collectors.toList());
 
         List<MedicationStatement> medicationStatements = medicationStatement.getComponent()
@@ -105,8 +131,55 @@ public class MedicationRequestMapper {
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
             .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
             .map(supplyAuthorise -> mapToMedicationStatement(medicationStatement, supplyAuthorise, subject, context))
+            .map(medicationStatement1 -> medicationStatement1.setEffective(authoredOn))
+            .map(medicationStatement1 -> medicationStatement1.setDateAssertedElement(authoredOn))
             .collect(Collectors.toList());
 
+        return null;
+    }
+
+    public Optional<MedicationRequest.MedicationRequestRequesterComponent> extractRequester(RCMRMT030101UK04EhrComposition ehrComposition,
+        RCMRMT030101UK04MedicationStatement medicationStatement) {
+        if (medicationStatement.hasParticipant()) {
+            var pprfRequester = medicationStatement.getParticipant()
+                .stream()
+                .filter(participant -> participant.getTypeCode().contains("PPRF") || participant.getTypeCode().contains("PRF"))
+                .findFirst();
+            if (pprfRequester.isPresent()) {
+                return pprfRequester
+                    .map(requester -> new IdType(ResourceType.Practitioner.name(), requester.getAgentRef().getId().getRoot()))
+                    .map(Reference::new)
+                    .map(MedicationRequest.MedicationRequestRequesterComponent::new);
+            }
+        }
+
+        if (ehrComposition.hasParticipant2()) {
+            var requester = ehrComposition.getParticipant2()
+                .stream()
+                .filter(participant -> !participant.hasNullFlavor())
+                .findFirst();
+
+            if (requester.isPresent()) {
+                return requester
+                    .map(requester1 -> new IdType(ResourceType.Practitioner.name(), requester1.getAgentRef().getId().getRoot()))
+                    .map(Reference::new)
+                    .map(MedicationRequest.MedicationRequestRequesterComponent::new);
+            }
+        }
+        return Optional.empty();
+    }
+
+    private Medication createMedication(RCMRMT030101UK04Consumable consumable) {
+        if (hasManufacturedMaterial(consumable)) {
+            CD code = consumable.getManufacturedProduct().getManufacturedMaterial().getCode();
+
+            Medication medication = new Medication();
+            medication.setId(getMedicationId(code));
+            medication.setMeta(generateMeta(MEDICATION_URL));
+            medication.setCode(codeableConceptMapper.mapToCodeableConcept(code));
+
+            return medication;
+        }
         return null;
     }
 
@@ -116,10 +189,24 @@ public class MedicationRequestMapper {
         MedicationStatement medicationStatement1 = new MedicationStatement();
         var ehrSupplyAuthoriseId = extractEhrSupplyAuthoriseId(supplyAuthorise);
 
-        ehrSupplyAuthoriseId.ifPresent(medicationStatement1::setId);
         ehrSupplyAuthoriseId
-            .map(id -> buildIdentifier(id, ""))
+            .map(id -> id + MS_SUFFIX)
+            .ifPresent(medicationStatement1::setId);
+
+        ehrSupplyAuthoriseId
+            .map(id -> buildIdentifier(id + MS_SUFFIX, ""))
             .ifPresent(medicationStatement1::addIdentifier);
+
+        ehrSupplyAuthoriseId
+            .flatMap(id -> extractHighestSupplyPrescribeTime(medicationStatement, id)
+            .map(dateTime -> new Extension(MS_LAST_ISSUE_DATE, dateTime)))
+            .ifPresent(medicationStatement1::addExtension);
+
+        ehrSupplyAuthoriseId
+            .map(Reference::new)
+            .ifPresent(medicationStatement1::addBasedOn);
+
+        medicationStatement1.addExtension(generatePrescribingAgencyExtension());
         medicationStatement1.setMeta(generateMeta(MEDICATION_STATEMENT_URL));
 
         medicationStatement1.setContext(new Reference(context));
@@ -127,6 +214,10 @@ public class MedicationRequestMapper {
 
         medicationStatement1.setStatus(buildMedicationStatementStatus(supplyAuthorise));
         medicationStatement1.setTaken(MedicationStatement.MedicationStatementTaken.UNK);
+        medicationStatement1.addDosage(buildDosage(medicationStatement));
+
+        extractMedicationReference(medicationStatement)
+            .ifPresent(medicationStatement1::setMedication);
 
         return medicationStatement1;
     }
@@ -163,6 +254,9 @@ public class MedicationRequestMapper {
 
         medicationRequest.addDosageInstruction(buildDosage(medicationStatement));
         medicationRequest.setDispenseRequest(buildDispenseRequestForPrescribe(supplyPrescribe));
+
+        extractMedicationReference(medicationStatement)
+            .ifPresent(medicationRequest::setMedication);
 
         return medicationRequest;
     }
@@ -214,7 +308,11 @@ public class MedicationRequestMapper {
         medicationRequest.addDosageInstruction(buildDosage(medicationStatement));
         medicationRequest.setDispenseRequest(buildDispenseRequestForAuthorise(supplyAuthorise));
 
-//        extractPriorPrescription(supplyAuthorise);
+        extractPriorPrescription(supplyAuthorise)
+            .ifPresent(medicationRequest::setPriorPrescription);
+
+        extractMedicationReference(medicationStatement)
+            .ifPresent(medicationRequest::setMedication);
 
         return medicationRequest;
     }
@@ -239,8 +337,7 @@ public class MedicationRequestMapper {
 
     private Optional<Extension> buildStatusChangeExtension(List<Extension> innerExtensions) {
         if (innerExtensions.size() > 0) {
-            Extension extension = new Extension();
-            extension.setUrl(STATUS_CHANGE_URL);
+            Extension extension = new Extension(STATUS_CHANGE_URL);
             extension.setExtension(innerExtensions);
             return Optional.of(extension);
         }
@@ -248,21 +345,16 @@ public class MedicationRequestMapper {
     }
 
     private Extension buildStatusReasonCodeableConceptExtension(String statusReason) {
-        Extension extension = new Extension();
-        extension.setUrl(STATUS_REASON);
-
         CodeableConcept codeableConcept = new CodeableConcept();
         codeableConcept.setText(statusReason);
 
-        extension.setValue(codeableConcept);
-        return extension;
+        return new Extension(STATUS_REASON, codeableConcept);
     }
 
     private Extension buildStatusChangeDateExtension(RCMRMT030101UK04Discontinue discontinue) {
-        Extension extension = new Extension();
-        extension.setUrl(STATUS_CHANGE_DATE_URL);
+        Extension extension = new Extension(STATUS_CHANGE_DATE_URL);
         if (hasAvailability(discontinue)) {
-            extension.setValue(DateFormatUtil.parse(discontinue.getAvailabilityTime().getValue()));
+            extension.setValue(DateFormatUtil.parseToDateTimeType(discontinue.getAvailabilityTime().getValue()));
         } else {
             extension.setValue(new StringType("Unknown Date"));
         }
@@ -270,8 +362,6 @@ public class MedicationRequestMapper {
     }
 
     private Extension buildPrescriptionTypeExtension(RCMRMT030101UK04Authorise supplyAuthorise) {
-        Extension extension = new Extension();
-        extension.setUrl(PRESCRIPTION_TYPE_EXTENSION_URL);
         Coding coding = new Coding();
         coding.setSystem(PRESCRIPTION_TYPE_CODING_SYSTEM);
 
@@ -283,11 +373,7 @@ public class MedicationRequestMapper {
             coding.setCode(REPEAT.toLowerCase(Locale.ROOT));
         }
 
-        CodeableConcept codeableConcept = new CodeableConcept();
-        codeableConcept.addCoding(coding);
-        extension.setValue(codeableConcept);
-
-        return extension;
+        return new Extension(PRESCRIPTION_TYPE_EXTENSION_URL, new CodeableConcept(coding));
     }
 
     private List<Annotation> buildNotesForPrescribe(RCMRMT030101UK04Prescribe supplyPrescribe) {
@@ -344,7 +430,8 @@ public class MedicationRequestMapper {
         return dosage;
     }
 
-    private MedicationRequest.MedicationRequestDispenseRequestComponent buildDispenseRequestForPrescribe(RCMRMT030101UK04Prescribe supplyPrescribe) {
+    private MedicationRequest.MedicationRequestDispenseRequestComponent buildDispenseRequestForPrescribe(
+        RCMRMT030101UK04Prescribe supplyPrescribe) {
         MedicationRequest.MedicationRequestDispenseRequestComponent dispenseRequest
             = new MedicationRequest.MedicationRequestDispenseRequestComponent();
 
@@ -356,7 +443,8 @@ public class MedicationRequestMapper {
         return dispenseRequest;
     }
 
-    private MedicationRequest.MedicationRequestDispenseRequestComponent buildDispenseRequestForAuthorise(RCMRMT030101UK04Authorise supplyAuthorise) {
+    private MedicationRequest.MedicationRequestDispenseRequestComponent buildDispenseRequestForAuthorise(
+        RCMRMT030101UK04Authorise supplyAuthorise) {
         MedicationRequest.MedicationRequestDispenseRequestComponent dispenseRequest
             = new MedicationRequest.MedicationRequestDispenseRequestComponent();
 
@@ -398,12 +486,8 @@ public class MedicationRequestMapper {
     }
 
     private Extension buildRepeatExtension(int value, String innerExtensionUrl) {
-        Extension extension = new Extension();
-        extension.setUrl(REPEAT_INFORMATION_URL);
-
-        Extension innerExtension = new Extension();
-        innerExtension.setUrl(innerExtensionUrl);
-        innerExtension.setValue(new UnsignedIntType(value));
+        Extension extension = new Extension(REPEAT_INFORMATION_URL);
+        Extension innerExtension = new Extension(innerExtensionUrl, new UnsignedIntType(value));
 
         extension.addExtension(innerExtension);
         return extension;
@@ -447,19 +531,21 @@ public class MedicationRequestMapper {
     private Optional<Extension> extractRepeatInformationIssued(RCMRMT030101UK04MedicationStatement medicationStatement,
         RCMRMT030101UK04Authorise supplyAuthorise) {
 
-        if ((supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() != 0) || !supplyAuthorise.hasRepeatNumber()) {
+        if ((supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() != 0)
+            || !supplyAuthorise.hasRepeatNumber()) {
             var repeatCount = medicationStatement.getComponent()
                 .stream()
                 .filter(this::hasInFulfillmentOfReference)
                 .count();
 
-            return Optional.of(buildSupplyAuthoriseRepeatIssuedExtension((int)repeatCount));
+            return Optional.of(buildSupplyAuthoriseRepeatIssuedExtension((int) repeatCount));
         }
 
         return Optional.empty();
     }
 
-    private Optional<RCMRMT030101UK04Discontinue> extractMatchingDiscontinue(String supplyAuthoriseId, RCMRMT030101UK04EhrExtract ehrExtract) {
+    private Optional<RCMRMT030101UK04Discontinue> extractMatchingDiscontinue(String supplyAuthoriseId,
+        RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component::getEhrFolder)
@@ -499,8 +585,57 @@ public class MedicationRequestMapper {
                 statusReasonStringBuilder.append(StringUtils.SPACE);
             });
 
-            return statusReasonStringBuilder.toString();
+        return statusReasonStringBuilder.toString();
 
+    }
+
+    private Optional<Reference> extractPriorPrescription(RCMRMT030101UK04Authorise supplyAuthorise) {
+        if (supplyAuthorise.hasId() && supplyAuthorise.getId().hasRoot()) {
+            IIdType iIdType = new IdType(ResourceType.MedicationRequest.name(), supplyAuthorise.getId().getRoot());
+            return Optional.of(new Reference(iIdType));
+        }
+        return Optional.empty();
+    }
+
+    private DateTimeType extractAuthoredOn(RCMRMT030101UK04EhrComposition ehrComposition, Date ehrExtractAvailabilityTime) {
+        if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
+        } else {
+            return new DateTimeType(ehrExtractAvailabilityTime);
+        }
+    }
+
+    private Optional<DateTimeType> extractHighestSupplyPrescribeTime(RCMRMT030101UK04MedicationStatement medicationStatement, String id) {
+        return medicationStatement.getComponent()
+            .stream()
+            .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
+            .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
+            .filter(prescribe -> hasLinkedInFulfillment(prescribe, id))
+            .filter(RCMRMT030101UK04Prescribe::hasAvailabilityTime)
+            .map(RCMRMT030101UK04Prescribe::getAvailabilityTime)
+            .filter(TS::hasValue)
+            .map(TS::getValue)
+            .map(DateFormatUtil::parsePathwaysDate)
+            .max(Date::compareTo)
+            .map(DateTimeType::new);
+    }
+
+    private Optional<Reference> extractMedicationReference(RCMRMT030101UK04MedicationStatement medicationStatement) {
+        if (medicationStatement.hasConsumable()) {
+            var medicationCode = medicationStatement.getConsumable()
+                .stream()
+                .filter(this::hasManufacturedMaterial)
+                .map(RCMRMT030101UK04Consumable::getManufacturedProduct)
+                .map(RCMRMT030101UK04ManufacturedProduct::getManufacturedMaterial)
+                .map(RCMRMT030101UK04Material::getCode)
+                .findFirst();
+
+            return medicationCode
+                .map(this::getMedicationId)
+                .map(id -> new IdType(ResourceType.Medication.name(), id))
+                .map(Reference::new);
+        }
+        return Optional.empty();
     }
 
     private boolean hasReversalIdMatchingAuthorise(List<RCMRMT030101UK04ReversalOf> reversalOf, String supplyAuthoriseId) {
@@ -515,18 +650,57 @@ public class MedicationRequestMapper {
         return discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasValue();
     }
 
-    private DateTimeType extractAuthoredOn(RCMRMT030101UK04EhrComposition ehrComposition, Date ehrExtractAvailabilityTime) {
-        if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
-            return DateFormatUtil.parse(ehrComposition.getAuthor().getTime().getValue());
-        } else {
-            return new DateTimeType(ehrExtractAvailabilityTime);
-        }
-    }
-
     private boolean hasInFulfillmentOfReference(RCMRMT030101UK04Component2 component) {
         return component.hasEhrSupplyPrescribe()
             && component.getEhrSupplyPrescribe().hasInFulfillmentOf()
             && component.getEhrSupplyPrescribe().getInFulfillmentOf().hasPriorMedicationRef()
             && component.getEhrSupplyPrescribe().getInFulfillmentOf().getPriorMedicationRef().hasId();
+    }
+
+    private boolean hasLinkedInFulfillment(RCMRMT030101UK04Prescribe prescribe, String id) {
+        return prescribe.hasInFulfillmentOf() && prescribe.getInFulfillmentOf().hasPriorMedicationRef()
+            && prescribe.getInFulfillmentOf().getPriorMedicationRef().hasId()
+            && prescribe.getInFulfillmentOf().getPriorMedicationRef().getId().hasRoot()
+            && prescribe.getInFulfillmentOf().getPriorMedicationRef().getId().getRoot().equals(id);
+    }
+
+    private boolean hasManufacturedMaterial(RCMRMT030101UK04Consumable consumable) {
+        return consumable.hasManufacturedProduct() && consumable.getManufacturedProduct().hasManufacturedMaterial()
+            && consumable.getManufacturedProduct().getManufacturedMaterial().hasCode();
+    }
+
+    private String getMedicationId(CD code) {
+        StringBuilder keyBuilder = new StringBuilder();
+        if (code.hasCode()) {
+            keyBuilder.append(code.getCode());
+            keyBuilder.append("-");
+        }
+
+        if (code.hasOriginalText()) {
+            keyBuilder.append(code.getOriginalText());
+            keyBuilder.append("-");
+        }
+
+        if (code.hasDisplayName()) {
+            keyBuilder.append(code.getDisplayName());
+            keyBuilder.append("-");
+        }
+
+        var key = keyBuilder.toString();
+        var value = MEDICATION_IDS.getOrDefault(key, StringUtils.EMPTY);
+
+        if (StringUtils.isNotBlank(value)) {
+            return value;
+        } else {
+            var newId = fhirIdGeneratorService.generateUuid();
+            MEDICATION_IDS.put(key, newId);
+            return newId;
+        }
+    }
+
+    private Extension generatePrescribingAgencyExtension() {
+        Coding coding = new Coding(PRESCRIBING_AGENCY_URL, PRESCRIBED_CODE, PRESCRIBED_DISPLAY);
+        CodeableConcept codeableConcept = new CodeableConcept(coding);
+        return new Extension(PRESCRIBING_AGENCY_URL, codeableConcept);
     }
 }
