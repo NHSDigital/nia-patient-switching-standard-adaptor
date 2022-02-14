@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.gpc.util;
+package uk.nhs.adaptors.pss.gpc.util.fhir;
 
 import java.util.Collections;
 

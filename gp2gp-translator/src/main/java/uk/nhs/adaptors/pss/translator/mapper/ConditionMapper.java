@@ -32,12 +32,14 @@ import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.TS;
+import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import uk.nhs.adaptors.pss.translator.util.ResourceUtil;
 
+@Service
 @AllArgsConstructor
 public class ConditionMapper {
     private static final String META_PROFILE = "ProblemHeader-Condition";

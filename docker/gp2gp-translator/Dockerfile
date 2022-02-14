@@ -4,6 +4,7 @@ COPY --chown=gradle:gradle ./gp2gp-translator /home/gradle/service/gp2gp-transla
 COPY --chown=gradle:gradle ./common /home/gradle/service/common
 COPY --chown=gradle:gradle ./db-connector /home/gradle/service/db-connector
 COPY --chown=gradle:gradle ./schema /home/gradle/service/schema
+COPY --chown=gradle:gradle ./config /home/gradle/service/config
 
 WORKDIR /home/gradle/service/gp2gp-translator
 RUN ./gradlew --build-cache bootJar

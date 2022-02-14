@@ -15,14 +15,14 @@ import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.TS;
+import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
-import java.util.Date;
-
+@Service
 @AllArgsConstructor
 public class ProcedureRequestMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1";
@@ -68,15 +68,15 @@ public class ProcedureRequestMapper {
         return null;
     }
 
-    private Date getAuthoredOn(TS availabilityTime, RCMRMT030101UK04EhrExtract ehrExtract, II planStatementID) {
+    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UK04EhrExtract ehrExtract, II planStatementID) {
         if (availabilityTime != null) {
-            return DateFormatUtil.parse(availabilityTime.getValue()).getValue();
+            return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         } else {
             var ehrComposition = EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatementID);
             if (ehrComposition.getAvailabilityTime() != null) {
-                return DateFormatUtil.parse(ehrComposition.getAvailabilityTime().getValue()).getValue();
+                return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
             } else if (ehrExtract.getAvailabilityTime() != null) {
-                return DateFormatUtil.parse(ehrExtract.getAvailabilityTime().getValue()).getValue();
+                return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
             }
         }
 
@@ -85,19 +85,19 @@ public class ProcedureRequestMapper {
 
     private DateTimeType getOccurrenceDate(IVLTS effectiveTime) {
         if (effectiveTime != null && effectiveTime.getCenter() != null) {
-            return DateFormatUtil.parse(effectiveTime.getCenter().getValue());
+            return DateFormatUtil.parseToDateTimeType(effectiveTime.getCenter().getValue());
         }
 
         return null;
     }
 
     private ProcedureRequest createProcedureRequest(String id, Identifier identifier, Annotation note, CodeableConcept reasonCode,
-        Date authoredOn, DateTimeType occurrence, Reference agentReference) {
+        DateTimeType authoredOn, DateTimeType occurrence, Reference agentReference) {
         var procedureRequest = new ProcedureRequest();
         procedureRequest
             .setStatus(ProcedureRequestStatus.ACTIVE)
             .setIntent(ProcedureRequestIntent.PLAN)
-            .setAuthoredOn(authoredOn)
+            .setAuthoredOnElement(authoredOn)
             .setOccurrence(occurrence)
             .setId(id);
         procedureRequest.getMeta().getProfile().add(new UriType(META_PROFILE));
