@@ -1,0 +1,36 @@
+{
+    "participant": [
+        {
+            "type": [
+                {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/v3/ParticipationType",
+                            "code": "PPRF",
+                            "display": "primary performer"
+                        }
+                    ]
+                }
+            ],
+            "individual": {
+                "reference": "Practitioner/ECCCA6C1-4754-44CA-AE34-D6707079480F"
+            }
+        },
+        {
+            "type": [
+                {
+                    "coding": [
+                        {
+                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                            "code": "REC",
+                            "display": "recorder"
+                        }
+                    ]
+                }
+            ],
+            "individual": {
+                "reference": "Practitioner/749107A2-4975-441F-8EDF-ADFF451FD12D"
+            }
+        }
+    ]
+}

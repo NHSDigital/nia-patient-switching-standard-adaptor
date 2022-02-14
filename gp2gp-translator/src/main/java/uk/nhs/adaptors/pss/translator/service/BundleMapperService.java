@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
+import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
@@ -38,6 +40,7 @@ public class BundleMapperService {
 
     private final PatientMapper patientMapper;
     private final AgentDirectoryMapper agentDirectoryMapper;
+    private final EncounterMapper encounterMapper;
     private final LocationMapper locationMapper;
     private final ProcedureRequestMapper procedureRequestMapper;
     private final ReferralRequestMapper referralRequestMapper;
@@ -52,6 +55,9 @@ public class BundleMapperService {
         addEntry(bundle, patient);
         addEntries(bundle, agents);
 
+//        var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient);
+//        addEntries(bundle, encounters);
+
         var locations = mapLocations(ehrFolder);
         addEntries(bundle, locations);
 
@@ -63,6 +69,10 @@ public class BundleMapperService {
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
         return bundle;
+    }
+
+    private Map<String, List<Object>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
+        return encounterMapper.mapAllEncounters(ehrExtract, patient);
     }
 
     private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UK04EhrFolder ehrFolder) {

@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.List;
+import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
 public class EncounterTest {
@@ -35,8 +37,12 @@ public class EncounterTest {
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
 
+    private Patient patient;
+
     @BeforeEach
     public void setup() {
+        patient = new Patient();
+        patient.setId("0E6F45F0-8D7B-11EC-B1E5-0800200C9A66");
         setUpCodeableConceptMock();
     }
 
@@ -44,7 +50,9 @@ public class EncounterTest {
     public void mapEncounterWithFullData() {
         var ehrExtract = unmarshallEhrExtractElement("test.xml");
 
-        List<Encounter> encounterList = encounterMapper.mapAllEncounters(ehrExtract, "BA6EA7CB-3E2F-46FA-918C-C0B5178C1D4E");
+        Map<String, List<Object>> mappedResources = encounterMapper.mapAllEncounters(ehrExtract, patient);
+
+        var encounterList = mappedResources.get("encounters");
 
         assertThat(encounterList.size()).isEqualTo(1);
     }
