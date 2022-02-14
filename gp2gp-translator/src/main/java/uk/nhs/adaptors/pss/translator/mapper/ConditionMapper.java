@@ -18,14 +18,11 @@ import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
@@ -39,13 +36,12 @@ import org.hl7.v3.TS;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import uk.nhs.adaptors.pss.translator.util.ResourceUtil;
 
 @AllArgsConstructor
 public class ConditionMapper {
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1";
+    private static final String META_PROFILE = "ProblemHeader-Condition";
     private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/{practiseCode}";
-    private static final String PRACTISE_CODE = "{practiseCode}";
     private static final String ACTUAL_PROBLEM_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1";
     private static final String PROBLEM_SIGNIFICANCE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1";
     private static final String MAJOR_CODE = "386134007";
@@ -75,8 +71,8 @@ public class ConditionMapper {
             String id = linkSet.getId().getRoot();
 
             condition.setId(id);
-            condition.setMeta(generateConditionMeta());
-            condition.addIdentifier(buildIdentifier(id, conditionMapperParameters.getPractiseCode()));
+            condition.setMeta(ResourceUtil.generateMeta(META_PROFILE));
+            condition.addIdentifier(ResourceUtil.buildIdentifier(id, conditionMapperParameters.getPractiseCode()));
             condition.addCategory(generateCategory());
 
             conditionMapperParameters.getActualProblem().ifPresent((resource) -> {
@@ -147,21 +143,6 @@ public class ConditionMapper {
             );
         }
         return Optional.empty();
-    }
-
-    private Meta generateConditionMeta() {
-        Meta meta = new Meta();
-        UriType profile = new UriType(META_PROFILE);
-        meta.setProfile(List.of(profile));
-        return meta;
-    }
-
-    private Identifier buildIdentifier(String rootId, String practiseCode) {
-        Identifier identifier = new Identifier();
-        identifier.setSystem(IDENTIFIER_SYSTEM.replace(PRACTISE_CODE, practiseCode));
-        identifier.setValue(rootId);
-
-        return identifier;
     }
 
     private Extension buildActualProblem(Resource actualProblem) {

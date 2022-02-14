@@ -46,7 +46,7 @@ public class PQ
 
     protected List<PQR> translation;
     @XmlAttribute(name = "value")
-    protected String value;
+    protected int value;
     @XmlAttribute(name = "unit")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String unit;
@@ -80,15 +80,19 @@ public class PQ
         return this.translation;
     }
 
+    public boolean hasTranslation() {
+        return translation != null && translation.size() > 0;
+    }
+
     /**
      * Gets the value of the value property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link int }
      *     
      */
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
@@ -97,10 +101,10 @@ public class PQ
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link int }
      *     
      */
-    public void setValue(String value) {
+    public void setValue(int value) {
         this.value = value;
     }
 

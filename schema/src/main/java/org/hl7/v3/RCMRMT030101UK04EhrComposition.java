@@ -246,6 +246,10 @@ public class RCMRMT030101UK04EhrComposition {
         this.author = value;
     }
 
+    public boolean hasAuthor() {
+        return author != null;
+    }
+
     /**
      * Gets the value of the location property.
      * 

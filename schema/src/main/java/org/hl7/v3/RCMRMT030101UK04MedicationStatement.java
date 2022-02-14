@@ -288,6 +288,10 @@ public class RCMRMT030101UK04MedicationStatement {
         return this.component;
     }
 
+    public boolean hasComponent() {
+        return component != null;
+    }
+
     /**
      * Gets the value of the pertinentInformation property.
      * 
@@ -315,6 +319,10 @@ public class RCMRMT030101UK04MedicationStatement {
             pertinentInformation = new ArrayList<RCMRMT030101UK04PertinentInformation>();
         }
         return this.pertinentInformation;
+    }
+
+    public boolean hasPertinentInformation() {
+        return pertinentInformation != null && pertinentInformation.size() > 0;
     }
 
     /**

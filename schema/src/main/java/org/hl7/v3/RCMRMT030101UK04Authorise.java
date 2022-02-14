@@ -126,6 +126,10 @@ public class RCMRMT030101UK04Authorise {
         this.id = value;
     }
 
+    public boolean hasId() {
+        return id != null;
+    }
+
     /**
      * Gets the value of the code property.
      * 
@@ -150,6 +154,10 @@ public class RCMRMT030101UK04Authorise {
         this.code = value;
     }
 
+    public boolean hasCode() {
+        return code != null;
+    }
+
     /**
      * Gets the value of the statusCode property.
      * 
@@ -172,6 +180,10 @@ public class RCMRMT030101UK04Authorise {
      */
     public void setStatusCode(CS value) {
         this.statusCode = value;
+    }
+
+    public boolean hasStatusCode() {
+        return statusCode != null;
     }
 
     /**
@@ -246,6 +258,10 @@ public class RCMRMT030101UK04Authorise {
         this.repeatNumber = value;
     }
 
+    public boolean hasRepeatNumber() {
+        return repeatNumber != null;
+    }
+
     /**
      * Gets the value of the quantity property.
      * 
@@ -268,6 +284,10 @@ public class RCMRMT030101UK04Authorise {
      */
     public void setQuantity(PQ value) {
         this.quantity = value;
+    }
+
+    public boolean hasQuantity() {
+        return quantity != null;
     }
 
     /**

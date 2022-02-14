@@ -140,6 +140,10 @@ public class RCMRMT030101UK04Discontinue {
         this.code = value;
     }
 
+    public boolean hasCode() {
+        return code != null;
+    }
+
     /**
      * Gets the value of the statusCode property.
      * 
@@ -186,6 +190,10 @@ public class RCMRMT030101UK04Discontinue {
      */
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
+    }
+
+    public boolean hasAvailabilityTime() {
+        return availabilityTime != null;
     }
 
     /**
