@@ -19,7 +19,6 @@ import org.hl7.v3.IVLPQ;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -60,6 +59,9 @@ public class ObservationMapperTest {
             .setSystem(QUANTITY_SYSTEM_MOCK)
             .setUnit(QUANTITY_UNIT_CODE_MOCK);
 
+    private static final CodeableConcept codeableConcept = new CodeableConcept()
+        .addCoding(new Coding().setDisplay(CODING_DISPLAY_MOCK));
+
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -70,15 +72,9 @@ public class ObservationMapperTest {
     @InjectMocks
     private ObservationMapper observationMapper;
 
-    @BeforeEach
-    public void setUp() {
-        var coding = new Coding().setDisplay(CODING_DISPLAY_MOCK);
-        var codeableConcept = new CodeableConcept().addCoding(coding);
-        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
-    }
-
     @Test
     public void mapObservationWithValidData() {
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(quantityMapper.mapQuantity(any(PQ.class))).thenReturn(quantity);
         when(quantityMapper.mapQuantity(any(IVLPQ.class))).thenReturn(quantity);
 
@@ -104,6 +100,7 @@ public class ObservationMapperTest {
 
     @Test
     public void mapObservationWithNoOptionalData() {
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         var ehrExtract = unmarshallEhrExtractElement("no_optional_data_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
@@ -240,7 +237,7 @@ public class ObservationMapperTest {
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
 
         assertThat(observation.getValue() instanceof StringType).isTrue();
-        assertThat(observation.getValueStringType().getValue()).isEqualTo(NEGATIVE_VALUE);
+        assertThat(observation.getValueStringType().getValue()).isEqualToIgnoringWhitespace(NEGATIVE_VALUE);
     }
 
     @Test
@@ -249,16 +246,6 @@ public class ObservationMapperTest {
         var observationStatement = getObservationStatement(ehrExtract);
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
         
-        assertThat(observation.getValue() instanceof StringType).isTrue();
-        assertThat(observation.getValueStringType().getValue()).isEqualTo(TEST_DISPLAY_VALUE);
-    }
-
-    @Test
-    public void mapObservationWithValueStringUsingValueTypeCVDisplayName() {
-        var ehrExtract = unmarshallEhrExtractElement("value_cv_display_name_observation_example.xml");
-        var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
-
         assertThat(observation.getValue() instanceof StringType).isTrue();
         assertThat(observation.getValueStringType().getValue()).isEqualTo(TEST_DISPLAY_VALUE);
     }

@@ -1,3 +1,5 @@
-<ObservationStatement xmlns="urn:hl7-org:v3" classCode="OBS" moodCode="EVN">
+<ObservationStatement xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="urn:hl7-org:v3 ..\Schemas\RCMR_IN030000UK06.xsd"
+                      classCode="OBS" moodCode="EVN">
     <value value="100"></value>
 </ObservationStatement>

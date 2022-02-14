@@ -1,41 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
-    <availabilityTime value="20200201010101" />
     <component typeCode="COMP">
         <ehrFolder classCode="FOLDER" moodCode="EVN">
             <component typeCode="COMP">
                 <ehrComposition classCode="COMPOSITION" moodCode="EVN">
-                    <id root="CA4AD477-C33B-4FE7-8417-A242BB3D23AF"/>
-                    <author typeCode="AUT" contextControlCode="OP">
-                        <time value="20200101010101"/>
-                        <agentRef classCode="AGNT">
-                            <id root="749107A2-4975-441F-8EDF-ADFF451FD12D"/>
-                        </agentRef>
-                    </author>
-                    <Participant2 typeCode="PRF" contextControlCode="OP">
-                        <agentRef classCode="AGNT">
-                            <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
-                        </agentRef>
-                    </Participant2>
                     <component typeCode="COMP">
                         <ObservationStatement classCode="OBS" moodCode="EVN">
                             <id root="263B2A9F-0B1D-4697-943A-328F70E068DE"/>
-                            <code code="360300017" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
-                                  displayName="Test display">
-                            </code>
-                            <statusCode code="COMPLETE"/>
-                            <availabilityTime value="20190708143500"/>
-                            <subject typeCode="SBJ">
-                                <personalRelationship classCode="PRS">
-                                    <code code="38048003" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                                </personalRelationship>
-                            </subject>
-                            <Participant typeCode="PPRF" contextControlCode="OP">
-                                <agentRef classCode="AGNT">
-                                    <id root="1230F602-6BB1-47E0-B2EC-39912A59787D"/>
-                                </agentRef>
-                            </Participant>
-                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ST">Negative</value>
+                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ST">
+                                Negative
+                            </value>
                         </ObservationStatement>
                     </component>
                 </ehrComposition>

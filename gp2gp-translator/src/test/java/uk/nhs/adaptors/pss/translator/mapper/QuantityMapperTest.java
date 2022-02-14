@@ -22,18 +22,20 @@ public class QuantityMapperTest {
 
     @Test
     public void mapQuantityNoTypeStandardUnit() {
-        var value = unmarshallValueElementForPQ("no_type_standard_unit.xml");
+        var observationStatement = unmarshallObservationStatement("no_type_standard_unit.xml");
+        var value = observationStatement.getValue();
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapQuantity((PQ) value);
 
         assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", null);
     }
 
     @Test
     public void mapQuantityNoTypeArbitraryUnit() {
-        var value = unmarshallValueElementForPQ("no_type_arbitrary_unit.xml");
+        var observationStatement = unmarshallObservationStatement("no_type_arbitrary_unit.xml");
+        var value = observationStatement.getValue();
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapQuantity((PQ) value);
 
         assertQuantity(quantity, "100", "kua/L", null, null, null);
     }
@@ -135,7 +137,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapQuantity((PQ) value);
 
-        assertQuantity(quantity, "100", null, null, null, null);
+        assertQuantity(quantity, "100", "1", UNIT_SYSTEM, "1", null);
     }
 
     @Test
