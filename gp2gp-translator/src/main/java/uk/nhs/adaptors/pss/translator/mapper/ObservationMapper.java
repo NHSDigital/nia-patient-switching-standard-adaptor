@@ -38,6 +38,8 @@ import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
@@ -70,6 +72,20 @@ public class ObservationMapper {
         var comment = getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject());
         var referenceRanges = getReferenceRange(observationStatement.getReferenceRange());
 
+        var observationMapperParameters = ObservationMapperParameters.builder()
+            .id(id)
+            .identifier(identifier)
+            .code(code)
+            .effective(effective)
+            .issued(issued)
+            .performer(performer)
+            .valueQuantity(valueQuantity)
+            .valueString(valueString)
+            .interpretation(interpretation)
+            .comment(comment)
+            .referenceRanges(referenceRanges)
+            .build();
+
         /**
          * TODO: Known future implementations to this mapper
          * - subject: references a global patient resource for the transaction (NIAD-2024)
@@ -78,8 +94,7 @@ public class ObservationMapper {
          * - concatenate source practice org id to identifier URL (NIAD-2021)
          */
 
-        return createObservation(id, identifier, code, effective, issued, performer, valueQuantity, valueString, interpretation, comment,
-            referenceRanges);
+        return createObservation(observationMapperParameters);
     }
 
     private Identifier getIdentifier(String id) {
@@ -316,28 +331,29 @@ public class ObservationMapper {
             .setComparator(quantity.getComparator());
     }
 
-    private Observation createObservation(String id, Identifier identifier, CodeableConcept code, Object effective, InstantType issued,
-        Reference performer, Quantity valueQuantity, String valueString, CodeableConcept interpretation, String comment,
-        List<ObservationReferenceRangeComponent> referenceRanges) {
+    private Observation createObservation(ObservationMapperParameters parameters) {
         var observation = new Observation();
 
-        observation.setId(id);
+        observation.setId(parameters.getId());
         observation.getMeta().getProfile().add(new UriType(META_PROFILE));
         observation.setStatus(Observation.ObservationStatus.FINAL);
-        observation.addIdentifier(identifier);
-        observation.setCode(code);
-        observation.setIssuedElement(issued);
-        observation.addPerformer(performer);
-        observation.setInterpretation(interpretation);
-        observation.setComment(comment);
-        observation.setReferenceRange(referenceRanges);
+        observation.addIdentifier(parameters.getIdentifier());
+        observation.setCode(parameters.getCode());
+        observation.setIssuedElement(parameters.getIssued());
+        observation.addPerformer(parameters.getPerformer());
+        observation.setInterpretation(parameters.getInterpretation());
+        observation.setComment(parameters.getComment());
+        observation.setReferenceRange(parameters.getReferenceRanges());
 
+        var valueQuantity = parameters.getValueQuantity();
+        var valueString = parameters.getValueString();
         if (valueQuantity != null) {
             observation.setValue(valueQuantity);
         } else if (StringUtils.isNotEmpty(valueString)) {
             observation.setValue(new StringType().setValue(valueString));
         }
 
+        var effective = parameters.getEffective();
         if (effective instanceof DateTimeType) {
             observation.setEffective((DateTimeType) effective);
         } else if (effective instanceof Period) {
@@ -345,5 +361,21 @@ public class ObservationMapper {
         }
 
         return observation;
+    }
+
+    @Builder
+    @Getter
+    public static class ObservationMapperParameters {
+        private String id;
+        private Identifier identifier;
+        private CodeableConcept code;
+        private Object effective;
+        private InstantType issued;
+        private Reference performer;
+        private Quantity valueQuantity;
+        private String valueString;
+        private CodeableConcept interpretation;
+        private String comment;
+        private List<ObservationReferenceRangeComponent> referenceRanges;
     }
 }
