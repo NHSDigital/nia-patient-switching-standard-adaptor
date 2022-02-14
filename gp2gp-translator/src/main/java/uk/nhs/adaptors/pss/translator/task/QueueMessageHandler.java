@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.common.model.PssQueueMessage;
+import uk.nhs.adaptors.common.model.TransferRequestMessage;
 
 @Slf4j
 @Component
@@ -25,8 +25,8 @@ public class QueueMessageHandler {
         var messageId = message.getJMSMessageID();
         LOGGER.info("Handling message with message_id=[{}]", messageId);
         try {
-            PssQueueMessage pssQueueMessage = objectMapper.readValue(message.getBody(String.class), PssQueueMessage.class);
-            return sendEhrExtractRequestHandler.prepareAndSendRequest(pssQueueMessage);
+            TransferRequestMessage transferRequest = objectMapper.readValue(message.getBody(String.class), TransferRequestMessage.class);
+            return sendEhrExtractRequestHandler.prepareAndSendRequest(transferRequest);
         } catch (JMSException e) {
             LOGGER.error("Error while processing PSSQueue message_id=[{}]", messageId, e);
             return false;

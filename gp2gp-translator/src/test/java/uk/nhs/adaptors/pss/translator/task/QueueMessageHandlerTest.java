@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.common.model.PssQueueMessage;
+import uk.nhs.adaptors.common.model.TransferRequestMessage;
 
 @ExtendWith(MockitoExtension.class)
 public class QueueMessageHandlerTest {
@@ -54,9 +54,9 @@ public class QueueMessageHandlerTest {
     @SneakyThrows
     private void prepareMocks(boolean prepareAndSendRequestResult) {
         var messageBody = "MESSAGE_BODY";
-        var pssQueueMessage = PssQueueMessage.builder().build();
+        var transferRequestMessage = TransferRequestMessage.builder().build();
         when(message.getBody(String.class)).thenReturn(messageBody);
-        when(objectMapper.readValue(messageBody, PssQueueMessage.class)).thenReturn(pssQueueMessage);
-        when(sendEhrExtractRequestHandler.prepareAndSendRequest(pssQueueMessage)).thenReturn(prepareAndSendRequestResult);
+        when(objectMapper.readValue(messageBody, TransferRequestMessage.class)).thenReturn(transferRequestMessage);
+        when(sendEhrExtractRequestHandler.prepareAndSendRequest(transferRequestMessage)).thenReturn(prepareAndSendRequestResult);
     }
 }
