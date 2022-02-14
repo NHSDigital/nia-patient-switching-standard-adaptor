@@ -73,7 +73,9 @@ Please make sure you don't override the following classes with the generated one
 - RCCTMT120101UK01Organization.java
 - RCMRMT030101UK04RequestStatement.java
 - RCMRMT030101UK04InterpretationRange.java
-- TODO Bartek, please add modified classes
+- RCCTMT120101UK01Device.java
+- RCMRMT030101UK04InterpretationRange.java
+- RCMRMT030101UK04SpecimenMaterial.java
 
 Removed files:
 - ST.java
