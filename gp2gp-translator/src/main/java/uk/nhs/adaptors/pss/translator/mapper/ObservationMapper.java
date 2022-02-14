@@ -90,10 +90,7 @@ public class ObservationMapper {
     }
 
     private CodeableConcept getCode(CD code) {
-        if (code != null) {
-            return codeableConceptMapper.mapToCodeableConcept(code);
-        }
-        return null;
+        return code != null ? codeableConceptMapper.mapToCodeableConcept(code) : null;
     }
 
     private Object getEffective(IVLTS effectiveTime, TS availabilityTime) {
@@ -226,29 +223,21 @@ public class ObservationMapper {
     }
 
     private String getInterpretationCodeAbbreviation(String interpretationCode) {
-        switch (interpretationCode) {
-            case ("HI"):
-                return "H";
-            case ("LO"):
-                return "L";
-            case ("OR"):
-                return "A";
-            default:
-                return StringUtils.EMPTY;
-        }
+        return switch (interpretationCode) {
+            case ("HI") -> "H";
+            case ("LO") -> "L";
+            case ("OR") -> "A";
+            default -> StringUtils.EMPTY;
+        };
     }
 
     private String getInterpretationDisplay(String interpretationCode) {
-        switch (interpretationCode) {
-            case ("HI"):
-                return "High";
-            case ("LO"):
-                return "Low";
-            case ("OR"):
-                return "Abnormal";
-            default:
-                return StringUtils.EMPTY;
-        }
+        return switch (interpretationCode) {
+            case ("HI") -> "High";
+            case ("LO") -> "Low";
+            case ("OR") -> "Abnormal";
+            default -> StringUtils.EMPTY;
+        };
     }
 
     private String getComment(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation, RCMRMT030101UK04Subject subject) {
