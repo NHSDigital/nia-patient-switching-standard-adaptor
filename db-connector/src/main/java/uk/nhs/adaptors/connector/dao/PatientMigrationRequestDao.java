@@ -23,5 +23,6 @@ public interface PatientMigrationRequestDao {
 
     @SqlUpdate("save_bundle_resource_and_inbound_message_data")
     @UseClasspathSqlLocator
-    void saveBundleAndInboundMessageData(@Bind("nhsNumber") String patientNhsNumber, @Bind("bundle") String bundle, @Bind("inboundMessage") String inboundMessage);
+    void saveBundleAndInboundMessageData(
+        @Bind("nhsNumber") String patientNhsNumber, @Bind("bundle") String bundle, @Bind("inboundMessage") String inboundMessage);
 }

@@ -33,8 +33,8 @@ public class MhsQueueMessageHandler {
     private final MigrationStatusLogService migrationStatusLogService;
     private final FhirParser fhirParser;
     private final ObjectMapper objectMapper;
-    private final SendContinueRequestHandler sendContinueRequestHandler;
     private final BundleMapperService bundleMapperService;
+    private final JmsReader jmsReader;
 
     public boolean handleMessage(Message message) {
         try {
@@ -62,7 +62,7 @@ public class MhsQueueMessageHandler {
     }
 
     private InboundMessage readMessage(Message message) throws JMSException, JsonProcessingException {
-        var body = JmsReader.readMessage(message);
+        var body = jmsReader.readMessage(message);
         return objectMapper.readValue(body, InboundMessage.class);
     }
 
@@ -77,13 +77,14 @@ public class MhsQueueMessageHandler {
             .getExtension();
     }
 
-    private boolean sendContinueRequest(RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber) {
-        // TODO: NIAD-2045
-        var continueRequestData = prepareContinueRequestData(payload, conversationId, patientNhsNumber);
-        return sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
-    }
+// TODO: NIAD-2045
+//    private boolean sendContinueRequest(RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber) {
+//        var continueRequestData = prepareContinueRequestData(payload, conversationId, patientNhsNumber);
+//        return sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
+//    }
 
-    private ContinueRequestData prepareContinueRequestData(RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber) {
+    private ContinueRequestData prepareContinueRequestData(
+        RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber) {
         var fromAsid = payload.getCommunicationFunctionRcv()
             .get(0)
             .getDevice()

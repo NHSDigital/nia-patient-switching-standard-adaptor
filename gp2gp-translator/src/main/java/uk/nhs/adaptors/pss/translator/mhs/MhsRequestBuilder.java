@@ -3,8 +3,6 @@ package uk.nhs.adaptors.pss.translator.mhs;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ReactiveHttpOutputMessage;
@@ -44,8 +42,8 @@ public class MhsRequestBuilder {
         return buildSendRequest(conversationId, toOdsCode, outboundMessage, MHS_OUTBOUND_EXTRACT_CORE_INTERACTION_ID);
     }
 
+    // TODO: NIAD-2045
     public WebClient.RequestHeadersSpec<?> buildSendContinueRequest(
-        // TODO: NIAD-2045
         String conversationId, String toOdsCode, OutboundMessage outboundMessage) {
         return buildSendRequest(conversationId, toOdsCode, outboundMessage, MHS_OUTBOUND_COMMON_INTERACTION_ID);
     }

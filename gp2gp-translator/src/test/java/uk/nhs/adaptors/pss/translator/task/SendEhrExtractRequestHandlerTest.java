@@ -3,7 +3,7 @@ package uk.nhs.adaptors.pss.translator.task;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,13 +27,15 @@ import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
 @ExtendWith(MockitoExtension.class)
 public class SendEhrExtractRequestHandlerTest {
     private static final String TEST_NHS_NUMBER = "123456";
-    private static final String TEST_FROM_ODS_CODE = "TEST_FROM_ODS";
+    private static final String TEST_TO_ODS_CODE = "TEST_FROM_ODS";
     private static final String TEST_PAYLOAD_BODY = "TEST_PAYLOAD_BODY";
+    private static final String CONVERSATION_ID = "abc-236";
 
     @Mock
     private MhsRequestBuilder builder;
@@ -50,6 +52,9 @@ public class SendEhrExtractRequestHandlerTest {
     @Mock
     private MhsClientService mhsClientService;
 
+    @Mock
+    private IdGeneratorService idGeneratorService;
+
     @InjectMocks
     private SendEhrExtractRequestHandler sendEhrExtractRequestHandler;
 
@@ -60,10 +65,12 @@ public class SendEhrExtractRequestHandlerTest {
     public void setup() {
         pssQueueMessage = PssQueueMessage.builder()
             .patientNhsNumber(TEST_NHS_NUMBER)
-            .fromOds(TEST_FROM_ODS_CODE)
+            .toOds(TEST_TO_ODS_CODE)
             .build();
         when(ehrExtractRequestService.buildEhrExtractRequest(pssQueueMessage)).thenReturn(TEST_PAYLOAD_BODY);
-        when(builder.buildSendEhrExtractRequest(anyString(), anyString(), any(OutboundMessage.class))).thenReturn(request);
+        when(idGeneratorService.generateUuid()).thenReturn(CONVERSATION_ID);
+        when(builder.buildSendEhrExtractRequest(eq(CONVERSATION_ID), eq(TEST_TO_ODS_CODE), any(OutboundMessage.class)))
+            .thenReturn(request);
     }
 
     @Test
