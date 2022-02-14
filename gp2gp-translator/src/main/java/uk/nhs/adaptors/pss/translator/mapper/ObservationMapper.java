@@ -102,17 +102,17 @@ public class ObservationMapper {
             var effectivePeriod = new Period();
 
             if (effectiveTimeHasLow(effectiveTime)) {
-                effectivePeriod.setStart(DateFormatUtil.parseToDateTimeType(effectiveTime.getLow().getValue()).getValue());
+                effectivePeriod.setStartElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getLow().getValue()));
             }
 
             if (effectiveTimeHasHigh(effectiveTime)) {
-                effectivePeriod.setEnd(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()).getValue());
+                effectivePeriod.setEndElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()));
             }
 
             if (availabilityTimeHasValue(availabilityTime)) {
                 if (effectivePeriod.getStart() == null) {
                     if (effectivePeriod.getEnd() != null) {
-                        effectivePeriod.setStart(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()).getValue());
+                        effectivePeriod.setStartElement(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()));
                     }
                 }
             }

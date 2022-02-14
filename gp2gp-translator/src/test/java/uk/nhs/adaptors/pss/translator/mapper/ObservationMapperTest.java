@@ -43,9 +43,6 @@ public class ObservationMapperTest {
     private static final String QUANTITY_HIGH_VALUE = "22";
     private static final String ISSUED_EHR_COMPOSITION_EXAMPLE = "2020-01-01T01:01:01.000+00:00";
     private static final String ISSUED_EHR_EXTRACT_EXAMPLE = "2020-02-01T01:01:01.000+00:00";
-    private static final String EFFECTIVE_PERIOD_START_EXAMPLE_1 = "Fri May 21 01:00:00 BST 2010";
-    private static final String EFFECTIVE_PERIOD_START_EXAMPLE_2 = "Thu May 20 01:00:00 BST 2010";
-    private static final String EFFECTIVE_PERIOD_END_EXAMPLE = "Sat May 22 01:00:00 BST 2010";
     private static final String PRF_PARTICIPANT_ID = "Practitioner/58341512-03F3-4C8E-B41C-A8FCA3886BBB";
     private static final String PPRF_PARTICIPANT_ID = "Practitioner/1230F602-6BB1-47E0-B2EC-39912A59787D";
     private static final String PARTICIPANT2_PARTICIPANT_ID = "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D";
@@ -53,12 +50,16 @@ public class ObservationMapperTest {
         + "-ValueApproximation-1";
     private static final String NEGATIVE_VALUE = "Negative";
     private static final String TEST_DISPLAY_VALUE = "Test display name";
+    private static final String EXPECTED_START_DATE = "2010-05-20";
+    private static final String EXPECTED_START_DATE_1 = "2010-05-21";
+    private static final String EXPECTED_END_DATE = "2010-05-22";
 
     private static final Quantity quantity = new Quantity()
             .setValue(QUANTITY_VALUE_MOCK)
             .setCode(QUANTITY_UNIT_CODE_MOCK)
             .setSystem(QUANTITY_SYSTEM_MOCK)
             .setUnit(QUANTITY_UNIT_CODE_MOCK);
+
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -126,8 +127,8 @@ public class ObservationMapperTest {
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
 
         assertThat(observation.getEffective() instanceof Period).isTrue();
-        assertThat(observation.getEffectivePeriod().getStart().toString()).isEqualTo(EFFECTIVE_PERIOD_START_EXAMPLE_1); //TODO: Check CEST with BST
-        assertThat(observation.getEffectivePeriod().getEnd().toString()).isEqualTo(EFFECTIVE_PERIOD_END_EXAMPLE);
+        assertThat(observation.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo(EXPECTED_START_DATE_1);
+        assertThat(observation.getEffectivePeriod().getEndElement().getValueAsString()).isEqualTo(EXPECTED_END_DATE);
     }
 
     @Test
@@ -137,7 +138,7 @@ public class ObservationMapperTest {
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
 
         assertThat(observation.getEffective() instanceof Period).isTrue();
-        assertThat(observation.getEffectivePeriod().getStart().toString()).isEqualTo(EFFECTIVE_PERIOD_START_EXAMPLE_1);  //TODO: Check CEST with BST
+        assertThat(observation.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo(EXPECTED_START_DATE_1);
         assertThat(observation.getEffectivePeriod().getEnd()).isNull();
     }
 
@@ -149,7 +150,7 @@ public class ObservationMapperTest {
 
         assertThat(observation.getEffective() instanceof Period).isTrue();
         assertThat(observation.getEffectivePeriod().getStart()).isNull();
-        assertThat(observation.getEffectivePeriod().getEnd().toString()).isEqualTo(EFFECTIVE_PERIOD_END_EXAMPLE);  //TODO: Check CEST with BST
+        assertThat(observation.getEffectivePeriod().getEndElement().getValueAsString()).isEqualTo(EXPECTED_END_DATE);
     }
 
     @Test
@@ -159,8 +160,8 @@ public class ObservationMapperTest {
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
 
         assertThat(observation.getEffective() instanceof Period).isTrue();
-        assertThat(observation.getEffectivePeriod().getStart().toString()).isEqualTo(EFFECTIVE_PERIOD_START_EXAMPLE_2);  //TODO: Check CEST with BST
-        assertThat(observation.getEffectivePeriod().getEnd().toString()).isEqualTo(EFFECTIVE_PERIOD_END_EXAMPLE);
+        assertThat(observation.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo(EXPECTED_START_DATE);
+        assertThat(observation.getEffectivePeriod().getEndElement().getValueAsString()).isEqualTo(EXPECTED_END_DATE);
     }
 
     @Test
@@ -170,7 +171,7 @@ public class ObservationMapperTest {
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
 
         assertThat(observation.getEffective() instanceof DateTimeType).isTrue();
-        assertThat(observation.getEffectiveDateTimeType().getValue()).isEqualTo("2010-05-20T01:00:00.000");  //TODO: Check CEST with BST
+        assertThat(observation.getEffectiveDateTimeType().getValueAsString()).isEqualTo(EXPECTED_START_DATE);
     }
 
     @Test
@@ -236,7 +237,6 @@ public class ObservationMapperTest {
     public void mapObservationWithValueStringUsingValueTypeST() {
         var ehrExtract = unmarshallEhrExtractElement("value_st_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
 
         assertThat(observation.getValue() instanceof StringType).isTrue();
@@ -248,9 +248,7 @@ public class ObservationMapperTest {
         var ehrExtract = unmarshallEhrExtractElement("value_cv_display_name_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
         var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
-
-        //todo: translation/original text???
-        //todo: add test for display
+        
         assertThat(observation.getValue() instanceof StringType).isTrue();
         assertThat(observation.getValueStringType().getValue()).isEqualTo(TEST_DISPLAY_VALUE);
     }
