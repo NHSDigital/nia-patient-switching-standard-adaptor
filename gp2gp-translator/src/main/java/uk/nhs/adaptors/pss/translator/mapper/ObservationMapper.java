@@ -1,7 +1,12 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement;
+import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,11 +14,13 @@ import org.hl7.fhir.dstu3.model.BooleanType;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationReferenceRangeComponent;
+import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
@@ -29,6 +36,9 @@ import org.hl7.v3.IVLTS;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
 import org.hl7.v3.RCMRMT030101UK04Author;
+import org.hl7.v3.RCMRMT030101UK04Component3;
+import org.hl7.v3.RCMRMT030101UK04Component4;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
@@ -39,11 +49,7 @@ import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
-import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
 @AllArgsConstructor
@@ -59,52 +65,91 @@ public class ObservationMapper {
 
     private QuantityMapper quantityMapper;
 
-    public Observation mapToObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04ObservationStatement observationStatement, Patient patient) {
-        var id = observationStatement.getId().getRoot();
-        var identifier = getIdentifier(id);
-        var code = getCode(observationStatement.getCode());
-        var effective = getEffective(observationStatement.getEffectiveTime(), observationStatement.getAvailabilityTime());
-        var issued = getIssued(ehrExtract, observationStatement.getId());
-        var performer = ParticipantReferenceUtil.getParticipantReference(observationStatement.getParticipant(),
-            EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId()));
-        var valueQuantity = getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode());
-        var valueString = getValueString(observationStatement.getValue());
-        var interpretation = getInterpretation(observationStatement.getInterpretationCode());
-        var comment = getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject());
-        var referenceRanges = getReferenceRange(observationStatement.getReferenceRange());
-        var patientReference = createPatientReference(patient);
-
-        var observationMapperParameters = ObservationMapperParameters.builder()
-            .id(id)
-            .identifier(identifier)
-            .code(code)
-            .effective(effective)
-            .issued(issued)
-            .performer(performer)
-            .valueQuantity(valueQuantity)
-            .valueString(valueString)
-            .interpretation(interpretation)
-            .comment(comment)
-            .referenceRanges(referenceRanges)
-            .patientReference(patientReference)
-            .build();
-
+    public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         /**
          * TODO: Known future implementations to this mapper
-         * - subject: references a global patient resource for the transaction (NIAD-2024)
-         * - context: references an encounter resource if it has been generated from the ehrComposition (NIAD-2025)
+         * - subject: references a global patient resource for the transaction (NIAD-2024) <- DONE
+         * - context: references an encounter resource if it has been generated from the ehrComposition (NIAD-2025) <- DONE
          * - performer: fallback to a default 'Unknown User' Practitioner if none are present in performer (NIAD-2026)
          * - concatenate source practice org id to identifier URL (NIAD-2021)
          */
 
-        return createObservation(observationMapperParameters);
+        var compositionsList = getCompositionsContainingObservationStatement(ehrExtract);
+
+        return compositionsList
+            .stream()
+            .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
+            .map(RCMRMT030101UK04Component4::getObservationStatement)
+            .map(observationStatement -> {
+                var id = observationStatement.getId().getRoot();
+
+                Observation observation = new Observation()
+                    .setStatus(ObservationStatus.FINAL)
+                    .addIdentifier(getIdentifier(id))
+                    .setCode(getCode(observationStatement.getCode()))
+                    .setIssuedElement(getIssued(ehrExtract, observationStatement.getId()))
+                    .addPerformer(getParticipantReference(
+                        observationStatement.getParticipant(),
+                        extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId())))
+                    .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
+                    .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject()))
+                    .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
+                    .setSubject(createPatientReference(patient))
+                    .addPerformer(getParticipantReference(
+                        observationStatement.getParticipant(),
+                        extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId())
+                    ));
+
+                observation.getMeta().getProfile().add(new UriType(META_PROFILE));
+
+                addContext(observation, getEncounterReference(ehrExtract, encounters,
+                    getEhrCompositionId(compositionsList, observationStatement).getRoot()));
+                addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
+                    getValueString(observationStatement.getValue()));
+                addEffective(observation,
+                    getEffective(observationStatement.getEffectiveTime(), observationStatement.getAvailabilityTime()));
+
+                return observation;
+            }).toList();
+    }
+
+    private II getEhrCompositionId(List<RCMRMT030101UK04EhrComposition> ehrCompositions, RCMRMT030101UK04ObservationStatement observationStatement) {
+        return ehrCompositions
+            .stream()
+            .filter(e -> e.getComponent()
+                .stream()
+                .anyMatch(f -> observationStatement.equals(f.getObservationStatement()))
+            ).findFirst()
+            .map(RCMRMT030101UK04EhrComposition::getId)
+            .orElse(null);
+    }
+
+    private void addContext(Observation observation, Reference context) {
+        if(context != null) {
+            observation.setContext(context);
+        }
+    }
+
+    private void addEffective(Observation observation, Object effective) {
+        if (effective instanceof DateTimeType) {
+            observation.setEffective((DateTimeType) effective);
+        } else if (effective instanceof Period) {
+            observation.setEffective((Period) effective);
+        }
+    }
+
+    private void addValue(Observation observation, Quantity valueQuantity, String valueString) {
+        if (valueQuantity != null) {
+            observation.setValue(valueQuantity);
+        } else if (StringUtils.isNotEmpty(valueString)) {
+            observation.setValue(new StringType().setValue(valueString));
+        }
     }
 
     private Identifier getIdentifier(String id) {
-        Identifier identifier = new Identifier()
+        return new Identifier()
             .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
             .setValue(id);
-        return identifier;
     }
 
     private CodeableConcept getCode(CD code) {
@@ -164,8 +209,7 @@ public class ObservationMapper {
     }
 
     private InstantType getIssued(RCMRMT030101UK04EhrExtract ehrExtract, II observationStatementId) {
-        var ehrComposition =
-            EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement(ehrExtract, observationStatementId);
+        var ehrComposition = extractEhrCompositionForObservationStatement(ehrExtract, observationStatementId);
 
         if (authorHasValidTimeValue(ehrComposition.getAuthor())) {
             return DateFormatUtil.parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
@@ -179,7 +223,8 @@ public class ObservationMapper {
     }
 
     private boolean authorHasValidTimeValue(RCMRMT030101UK04Author author) {
-        return author != null && author.getTime() != null && author.getTime().getValue() != null
+        return author != null && author.getTime() != null
+            && author.getTime().getValue() != null
             && author.getTime().getNullFlavor() == null;
     }
 
@@ -338,53 +383,25 @@ public class ObservationMapper {
         return new Reference(patient);
     }
 
-    private Observation createObservation(ObservationMapperParameters parameters) {
-        var observation = new Observation();
-
-        observation.setId(parameters.getId());
-        observation.getMeta().getProfile().add(new UriType(META_PROFILE));
-        observation.setStatus(Observation.ObservationStatus.FINAL);
-        observation.addIdentifier(parameters.getIdentifier());
-        observation.setCode(parameters.getCode());
-        observation.setIssuedElement(parameters.getIssued());
-        observation.addPerformer(parameters.getPerformer());
-        observation.setInterpretation(parameters.getInterpretation());
-        observation.setComment(parameters.getComment());
-        observation.setReferenceRange(parameters.getReferenceRanges());
-        observation.setSubject(parameters.getPatientReference());
-
-        var valueQuantity = parameters.getValueQuantity();
-        var valueString = parameters.getValueString();
-        if (valueQuantity != null) {
-            observation.setValue(valueQuantity);
-        } else if (StringUtils.isNotEmpty(valueString)) {
-            observation.setValue(new StringType().setValue(valueString));
-        }
-
-        var effective = parameters.getEffective();
-        if (effective instanceof DateTimeType) {
-            observation.setEffective((DateTimeType) effective);
-        } else if (effective instanceof Period) {
-            observation.setEffective((Period) effective);
-        }
-
-        return observation;
+    private Reference getEncounterReference(RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounterList, String ehrCompositionId) {
+        return getCompositionsContainingObservationStatement(ehrExtract)
+            .stream()
+            .map(component3 -> encounterList
+                .stream()
+                .filter(encounter -> encounter.getId().equals(ehrCompositionId))
+                .findFirst()
+            ).flatMap(Optional::stream)
+            .findFirst().map(Reference::new).orElse(null);
     }
 
-    @Builder
-    @Getter
-    public static class ObservationMapperParameters {
-        private String id;
-        private Identifier identifier;
-        private CodeableConcept code;
-        private Object effective;
-        private InstantType issued;
-        private Reference performer;
-        private Quantity valueQuantity;
-        private String valueString;
-        private CodeableConcept interpretation;
-        private String comment;
-        private List<ObservationReferenceRangeComponent> referenceRanges;
-        private Reference patientReference;
+    private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingObservationStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+        return ehrExtract.getComponent().stream()
+            .flatMap(component -> component.getEhrFolder().getComponent().stream())
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .filter(ehrComposition -> ehrComposition.getComponent()
+                .stream()
+                .map(RCMRMT030101UK04Component4::getObservationStatement)
+                .anyMatch(Objects::nonNull))
+            .toList();
     }
 }
