@@ -1,0 +1,130 @@
+package uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers;
+
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.hl7.fhir.dstu3.model.Annotation;
+import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Coding;
+import org.hl7.fhir.dstu3.model.Dosage;
+import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Extension;
+import org.hl7.fhir.dstu3.model.MedicationRequest;
+import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Period;
+import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.SimpleQuantity;
+import org.hl7.fhir.dstu3.model.StringType;
+import org.hl7.v3.PQ;
+import org.hl7.v3.RCMRMT030101UK04Authorise;
+import org.hl7.v3.RCMRMT030101UK04Component2;
+import org.hl7.v3.RCMRMT030101UK04MedicationDosage;
+import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UK04PertinentInformation;
+import org.hl7.v3.RCMRMT030101UK04PertinentInformation2;
+import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
+import org.hl7.v3.TS;
+
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+
+public class MedicationMapperUtils {
+
+    private static final String META_PROFILE = "MedicationRequest";
+    private static final String ACUTE = "Acute";
+    private static final String REPEAT = "Repeat";
+    private static final String NO_INFORMATION_AVAILABLE = "No Information available";
+    private static final String PRESCRIPTION_TYPE_EXTENSION_URL
+        = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1";
+    private static final String PRESCRIPTION_TYPE_CODING_SYSTEM
+        = "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1";
+
+    protected static MedicationRequest createMedicationRequestSkeleton(RCMRMT030101UK04Authorise supplyAuthorise, Patient subject, Encounter context,
+        String id) {
+        return (MedicationRequest) new MedicationRequest()
+            .setContext(new Reference(context))
+            .setSubject(new Reference(subject))
+            .setMeta(generateMeta(META_PROFILE))
+            .setId(id);
+    }
+
+    protected static Extension buildPrescriptionTypeExtension(RCMRMT030101UK04Authorise supplyAuthorise) {
+        Coding coding = new Coding();
+        coding.setSystem(PRESCRIPTION_TYPE_CODING_SYSTEM);
+
+        if (supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() == 0) {
+            coding.setDisplay(ACUTE);
+            coding.setCode(ACUTE.toLowerCase(Locale.ROOT));
+        } else {
+            coding.setDisplay(REPEAT);
+            coding.setCode(REPEAT.toLowerCase(Locale.ROOT));
+        }
+
+        return new Extension(PRESCRIPTION_TYPE_EXTENSION_URL, new CodeableConcept(coding));
+    }
+
+    protected static List<Annotation> buildNotes(List<RCMRMT030101UK04PertinentInformation2> pertinentInformation2s) {
+        return pertinentInformation2s
+            .stream()
+            .filter(RCMRMT030101UK04PertinentInformation2::hasPertinentSupplyAnnotation)
+            .map(RCMRMT030101UK04PertinentInformation2::getPertinentSupplyAnnotation)
+            .filter(RCMRMT030101UK04SupplyAnnotation::hasText)
+            .map(RCMRMT030101UK04SupplyAnnotation::getText)
+            .map(text -> text + System.lineSeparator())
+            .map(StringType::new)
+            .map(Annotation::new)
+            .collect(Collectors.toList());
+    }
+
+    protected static Dosage buildDosage(RCMRMT030101UK04MedicationStatement medicationStatement) {
+        Dosage dosage = new Dosage();
+        var pertinentInformationDosage = medicationStatement.getPertinentInformation()
+            .stream()
+            .filter(RCMRMT030101UK04PertinentInformation::hasPertinentMedicationDosage)
+            .map(RCMRMT030101UK04PertinentInformation::getPertinentMedicationDosage)
+            .filter(RCMRMT030101UK04MedicationDosage::hasText)
+            .map(RCMRMT030101UK04MedicationDosage::getText)
+            .findFirst();
+
+        pertinentInformationDosage.ifPresentOrElse(dosage::setText,
+            () -> dosage.setText(NO_INFORMATION_AVAILABLE));
+
+        return dosage;
+    }
+
+    protected static Optional<SimpleQuantity> buildDosageQuantity(PQ quantitySupplied) {
+        SimpleQuantity quantity = new SimpleQuantity();
+        quantity.setValue(quantitySupplied.getValue());
+        if (quantitySupplied.hasTranslation()
+            && quantitySupplied.getTranslation().get(0).hasOriginalText()) {
+            quantity.setUnit(quantitySupplied.getTranslation().get(0).getOriginalText());
+        }
+        return Optional.of(quantity);
+    }
+
+    protected static Period buildValidityPeriod(TS timestamp) {
+        Period period = new Period();
+        period.setStart(DateFormatUtil.parsePathwaysDate(timestamp.getValue()));
+        return period;
+    }
+
+    protected static Optional<String> extractEhrSupplyAuthoriseId(RCMRMT030101UK04Authorise supplyAuthorise) {
+        if (supplyAuthorise.hasId() && supplyAuthorise.getId().hasRoot()) {
+            return Optional.of(supplyAuthorise.getId().getRoot());
+        }
+        return Optional.empty();
+    }
+
+    protected static RCMRMT030101UK04Authorise extractSupplyAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement, String id) {
+        return medicationStatement.getComponent()
+            .stream()
+            .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
+            .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+            .filter(authorise -> authorise.getId().getRoot().equals(id))
+            .findFirst()
+            .orElse(null);
+    }
+}
