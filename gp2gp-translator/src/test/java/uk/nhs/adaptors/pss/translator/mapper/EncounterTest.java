@@ -1,19 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import lombok.SneakyThrows;
-
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -24,6 +10,23 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 import java.util.Map;
 
+import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Coding;
+import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
+
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class EncounterTest {
     private static final String XML_RESOURCES_BASE = "xml/Encounter/";
@@ -31,7 +34,10 @@ public class EncounterTest {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String CODING_DISPLAY = "Ischaemic heart disease";
 
-    @InjectMocks
+    @MockBean
+    private FhirIdGeneratorService idGenerator;
+
+    @Autowired
     private EncounterMapper encounterMapper;
 
     @Mock
