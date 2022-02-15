@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
@@ -40,7 +41,7 @@ public class ReferralRequestMapper {
     private CodeableConceptMapper codeableConceptMapper;
 
     public ReferralRequest mapToReferralRequest(RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04RequestStatement requestStatement) {
+        RCMRMT030101UK04RequestStatement requestStatement, Patient patient) {
         var id = requestStatement.getId().get(0).getRoot();
         var identifier = getIdentifier(id);
         var notes = getNotes(requestStatement);
@@ -48,15 +49,15 @@ public class ReferralRequestMapper {
         var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
         var recipient = getRecipient(requestStatement.getResponsibleParty());
         var requester = ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(), ehrComposition);
+        var subject = new Reference(patient);
 
         /**
          * TODO: Known future implementations to this mapper
-         * - subject: references a global patient resource for the transaction (NIAD-2024)
          * - context: references an encounter resource if it has been generated from the ehrComposition (NIAD-2025)
          * - concatenate source practice org id to identifier URL (NIAD-2021)
          */
 
-        return createRequestStatement(id, identifier, notes, reasonCode, authoredOn, recipient, requester);
+        return createRequestStatement(id, notes, reasonCode, authoredOn, recipient, requester, subject);
     }
 
     private Identifier getIdentifier(String id) {
@@ -139,13 +140,13 @@ public class ReferralRequestMapper {
         return effectiveTime != null && effectiveTime.getCenter() != null && effectiveTime.getCenter().getValue() != null;
     }
 
-    private ReferralRequest createRequestStatement(String id, Identifier identifier, List<Annotation> notes, CodeableConcept reasonCode,
-        Date authoredOn, Reference recipient, Reference requester) {
+    private ReferralRequest createRequestStatement(String id, List<Annotation> notes, CodeableConcept reasonCode,
+        Date authoredOn, Reference recipient, Reference requester, Reference patient) {
         var referralRequest = new ReferralRequest();
 
         referralRequest.setId(id);
         referralRequest.getMeta().getProfile().add(new UriType(META_PROFILE));
-        referralRequest.getIdentifier().add(identifier);
+        referralRequest.getIdentifier().add(getIdentifier(id));
         referralRequest.setStatus(ReferralRequestStatus.UNKNOWN);
         referralRequest.setIntent(ReferralCategory.ORDER);
         referralRequest.getRequester().setAgent(requester);
@@ -153,6 +154,7 @@ public class ReferralRequestMapper {
         referralRequest.setNote(notes);
         referralRequest.getReasonCode().add(reasonCode);
         referralRequest.getRecipient().add(recipient);
+        referralRequest.setSubject(patient);
 
         return referralRequest;
     }
