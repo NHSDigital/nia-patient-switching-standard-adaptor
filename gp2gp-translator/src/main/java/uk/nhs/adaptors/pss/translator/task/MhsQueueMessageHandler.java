@@ -80,8 +80,9 @@ public class MhsQueueMessageHandler {
     // TODO: this method is related to the large messaging epic and should be called after saving translated Boundle resource.
     //  Can be used during implementation of NIAD-2045
     private boolean sendContinueRequest(RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber) {
-        var continueRequestData = prepareContinueRequestData(payload, conversationId, patientNhsNumber);
-        return true; // TODO: Should call sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
+        // TODO: Should call
+        //  sendContinueRequestHandler.prepareAndSendRequest(prepareContinueRequestData(payload, conversationId, patientNhsNumber));
+        return true;
     }
 
     // TODO: this method is only used inside sendContinueRequest() method above
