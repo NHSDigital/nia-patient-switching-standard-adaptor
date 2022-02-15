@@ -351,7 +351,7 @@ public class ObservationMapper {
         observation.setInterpretation(parameters.getInterpretation());
         observation.setComment(parameters.getComment());
         observation.setReferenceRange(parameters.getReferenceRanges());
-        observation.setSubject(parameters.getPatientReference()); //Fulfilling the NIAD-2048 with Patient Reference
+        observation.setSubject(parameters.getPatientReference());
 
         var valueQuantity = parameters.getValueQuantity();
         var valueString = parameters.getValueString();

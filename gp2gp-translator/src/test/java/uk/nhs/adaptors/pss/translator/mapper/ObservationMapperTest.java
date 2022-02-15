@@ -10,8 +10,10 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
+import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.StringType;
@@ -19,6 +21,7 @@ import org.hl7.v3.IVLPQ;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -62,6 +65,8 @@ public class ObservationMapperTest {
     private static final CodeableConcept CODEABLE_CONCEPT = new CodeableConcept()
         .addCoding(new Coding().setDisplay(CODING_DISPLAY_MOCK));
 
+    private static final IdType TEST_PATIENT_IDTYPE = new IdType("Patient", "TEST_PATIENT_ID");
+
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -69,8 +74,16 @@ public class ObservationMapperTest {
     @Mock
     private QuantityMapper quantityMapper;
 
+    @Mock
+    private Patient patient;
+
     @InjectMocks
     private ObservationMapper observationMapper;
+
+    @BeforeEach
+    public void setup() {
+        when(patient.getIdElement()).thenReturn(TEST_PATIENT_IDTYPE);
+    }
 
     @Test
     public void mapObservationWithValidData() {
@@ -80,7 +93,7 @@ public class ObservationMapperTest {
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement,patient);
 
         assertFixedValues(observation);
         assertThat(observation.getId()).isEqualTo(EXAMPLE_ID);
@@ -96,6 +109,7 @@ public class ObservationMapperTest {
         assertThat(observation.getReferenceRange().get(0).getText()).isEqualTo("Age and sex based");
         assertQuantity(observation.getReferenceRange().get(0).getLow(), QUANTITY_LOW_VALUE);
         assertQuantity(observation.getReferenceRange().get(0).getHigh(), QUANTITY_HIGH_VALUE);
+        assertThat(observation.hasSubject()).isTrue();
     }
 
     @Test
@@ -103,7 +117,7 @@ public class ObservationMapperTest {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
         var ehrExtract = unmarshallEhrExtractElement("no_optional_data_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertFixedValues(observation);
         assertThat(observation.getId()).isEqualTo(EXAMPLE_ID);
@@ -121,7 +135,7 @@ public class ObservationMapperTest {
     public void mapObservationWithEffectivePeriodStartEndUsingEffectiveTime() {
         var ehrExtract = unmarshallEhrExtractElement("effective_period_start_end_using_effective_time_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement,patient);
 
         assertThat(observation.getEffective() instanceof Period).isTrue();
         assertThat(observation.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo(EXPECTED_START_DATE_1);
@@ -132,7 +146,7 @@ public class ObservationMapperTest {
     public void mapObservationWithEffectivePeriodStartNoEnd() {
         var ehrExtract = unmarshallEhrExtractElement("effective_period_start_no_high_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getEffective() instanceof Period).isTrue();
         assertThat(observation.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo(EXPECTED_START_DATE_1);
@@ -143,7 +157,7 @@ public class ObservationMapperTest {
     public void mapObservationWithEffectivePeriodStartNoStart() {
         var ehrExtract = unmarshallEhrExtractElement("effective_period_end_no_low_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getEffective() instanceof Period).isTrue();
         assertThat(observation.getEffectivePeriod().getStart()).isNull();
@@ -154,7 +168,7 @@ public class ObservationMapperTest {
     public void mapObservationWithEffectivePeriodStartEndLowIsAvailabilityTime() {
         var ehrExtract = unmarshallEhrExtractElement("effective_period_start_end_low_is_availability_time_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getEffective() instanceof Period).isTrue();
         assertThat(observation.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo(EXPECTED_START_DATE);
@@ -165,7 +179,7 @@ public class ObservationMapperTest {
     public void mapObservationWithEffectiveDateTimeTypeUsingAvailabilityTime() {
         var ehrExtract = unmarshallEhrExtractElement("effective_date_time_type_using_availability_time_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getEffective() instanceof DateTimeType).isTrue();
         assertThat(observation.getEffectiveDateTimeType().getValueAsString()).isEqualTo(EXPECTED_START_DATE);
@@ -175,7 +189,7 @@ public class ObservationMapperTest {
     public void mapObservationWithNoEffective() {
         var ehrExtract = unmarshallEhrExtractElement("no_effective_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getEffective()).isNull();
     }
@@ -184,7 +198,7 @@ public class ObservationMapperTest {
     public void mapObservationWithIssuedUsingEhrExtract() {
         var ehrExtract = unmarshallEhrExtractElement("issued_using_ehr_extract_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getIssuedElement().asStringValue()).isEqualTo(ISSUED_EHR_EXTRACT_EXAMPLE);
     }
@@ -193,7 +207,7 @@ public class ObservationMapperTest {
     public void mapObservationWithPerformerPrfParticipant() {
         var ehrExtract = unmarshallEhrExtractElement("performer_prf_participant_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getPerformer().get(0).getReference()).isEqualTo(PRF_PARTICIPANT_ID);
     }
@@ -202,7 +216,7 @@ public class ObservationMapperTest {
     public void mapObservationWithPerformerParticipant2() {
         var ehrExtract = unmarshallEhrExtractElement("performer_participant2_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getPerformer().get(0).getReference()).isEqualTo(PARTICIPANT2_PARTICIPANT_ID);
     }
@@ -212,7 +226,7 @@ public class ObservationMapperTest {
         when(quantityMapper.mapQuantity(any(IVLPQ.class))).thenReturn(QUANTITY);
         var ehrExtract = unmarshallEhrExtractElement("ivl_pq_value_quantity_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getValue() instanceof Quantity).isTrue();
         assertQuantity(observation.getValueQuantity(), "100");
@@ -223,7 +237,7 @@ public class ObservationMapperTest {
         when(quantityMapper.mapQuantity(any(PQ.class))).thenReturn(QUANTITY);
         var ehrExtract = unmarshallEhrExtractElement("value_quantity_with_extension_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getValue() instanceof Quantity).isTrue();
         assertThat(observation.getValueQuantity().getExtension().get(0).getUrl()).isEqualTo(QUANTITY_EXTENSION_URL);
@@ -234,7 +248,7 @@ public class ObservationMapperTest {
     public void mapObservationWithValueStringUsingValueTypeST() {
         var ehrExtract = unmarshallEhrExtractElement("value_st_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getValue() instanceof StringType).isTrue();
         assertThat(observation.getValueStringType().getValue()).isEqualToIgnoringWhitespace(NEGATIVE_VALUE);
@@ -244,7 +258,7 @@ public class ObservationMapperTest {
     public void mapObservationWithValueStringUsingValueTypeCVOriginalText() {
         var ehrExtract = unmarshallEhrExtractElement("value_cv_display_name_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getValue() instanceof StringType).isTrue();
         assertThat(observation.getValueStringType().getValue()).isEqualTo(TEST_DISPLAY_VALUE);
@@ -254,7 +268,7 @@ public class ObservationMapperTest {
     public void mapObservationWithInterpretationLow() {
         var ehrExtract = unmarshallEhrExtractElement("interpretation_low_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertInterpretation(observation.getInterpretation(), "Low Text", "L", "Low");
     }
@@ -263,7 +277,7 @@ public class ObservationMapperTest {
     public void mapObservationWithInterpretationAbnormal() {
         var ehrExtract = unmarshallEhrExtractElement("interpretation_abnormal_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertInterpretation(observation.getInterpretation(), "Abnormal Text", "A", "Abnormal");
     }
@@ -272,7 +286,7 @@ public class ObservationMapperTest {
     public void mapObservationWithMultiplePertinentInformation() {
         var ehrExtract = unmarshallEhrExtractElement("multiple_pertinent_information_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getComment()).isEqualTo("Test text 1 Test text 2");
     }
@@ -283,7 +297,7 @@ public class ObservationMapperTest {
 
         var ehrExtract = unmarshallEhrExtractElement("multiple_reference_range_observation_example.xml");
         var observationStatement = getObservationStatement(ehrExtract);
-        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement);
+        var observation = observationMapper.mapToObservation(ehrExtract, observationStatement, patient);
 
         assertThat(observation.getReferenceRange().get(0).getText()).isEqualTo("Test Range 1");
         assertThat(observation.getReferenceRange().get(0).getLow().getValue().toString()).isEqualTo("10");
