@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers;
+package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.IdType;
@@ -23,6 +24,7 @@ import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 public class MedicationMapper {
     private static final String MEDICATION_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1";
+    private static final String HYPHEN = "-";
     private static final Map<String, String> MEDICATION_IDS = new HashMap<>();
 
     private CodeableConceptMapper codeableConceptMapper;
@@ -42,32 +44,23 @@ public class MedicationMapper {
     }
 
     private static String getMedicationId(CD code) {
-        StringBuilder keyBuilder = new StringBuilder();
-        if (code.hasCode()) {
-            keyBuilder.append(code.getCode());
-            keyBuilder.append("-");
-        }
-
-        if (code.hasOriginalText()) {
-            keyBuilder.append(code.getOriginalText());
-            keyBuilder.append("-");
-        }
-
-        if (code.hasDisplayName()) {
-            keyBuilder.append(code.getDisplayName());
-            keyBuilder.append("-");
-        }
-
-        var key = keyBuilder.toString();
+        var key = keyBuilder(CD::hasCode, CD::getCode, code)
+            + keyBuilder(CD::hasOriginalText, CD::getOriginalText, code)
+            + keyBuilder(CD::hasDisplayName, CD::getDisplayName, code);
         var value = MEDICATION_IDS.getOrDefault(key, StringUtils.EMPTY);
 
         if (StringUtils.isNotBlank(value)) {
             return value;
         } else {
-            var newId = UUID.randomUUID().toString();
-            MEDICATION_IDS.put(key, newId);
-            return newId;
+            return MEDICATION_IDS.put(key, UUID.randomUUID().toString());
         }
+    }
+
+    private static String keyBuilder(Function<CD, Boolean> checker, Function<CD, String> getter, CD code) {
+        if (checker.apply(code)) {
+            return getter.apply(code) + HYPHEN;
+        }
+        return null;
     }
 
     public static Optional<Reference> extractMedicationReference(RCMRMT030101UK04MedicationStatement medicationStatement) {
@@ -87,9 +80,9 @@ public class MedicationMapper {
         }
         return Optional.empty();
     }
+
     private static boolean hasManufacturedMaterial(RCMRMT030101UK04Consumable consumable) {
         return consumable.hasManufacturedProduct() && consumable.getManufacturedProduct().hasManufacturedMaterial()
             && consumable.getManufacturedProduct().getManufacturedMaterial().hasCode();
     }
-
 }

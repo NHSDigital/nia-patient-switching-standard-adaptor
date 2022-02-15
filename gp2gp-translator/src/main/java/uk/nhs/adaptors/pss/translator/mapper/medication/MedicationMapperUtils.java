@@ -1,9 +1,8 @@
-package uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers;
+package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -42,8 +41,8 @@ public class MedicationMapperUtils {
     private static final String PRESCRIPTION_TYPE_CODING_SYSTEM
         = "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1";
 
-    protected static MedicationRequest createMedicationRequestSkeleton(RCMRMT030101UK04Authorise supplyAuthorise, Patient subject, Encounter context,
-        String id) {
+    protected static MedicationRequest createMedicationRequestSkeleton(RCMRMT030101UK04Authorise supplyAuthorise, Patient subject,
+        Encounter context, String id) {
         return (MedicationRequest) new MedicationRequest()
             .setContext(new Reference(context))
             .setSubject(new Reference(subject))
@@ -52,22 +51,19 @@ public class MedicationMapperUtils {
     }
 
     protected static Extension buildPrescriptionTypeExtension(RCMRMT030101UK04Authorise supplyAuthorise) {
-        Coding coding = new Coding();
-        coding.setSystem(PRESCRIPTION_TYPE_CODING_SYSTEM);
-
         if (supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() == 0) {
-            coding.setDisplay(ACUTE);
-            coding.setCode(ACUTE.toLowerCase(Locale.ROOT));
+            return new Extension(PRESCRIPTION_TYPE_EXTENSION_URL, new CodeableConcept(
+                new Coding(PRESCRIPTION_TYPE_CODING_SYSTEM, ACUTE.toLowerCase(), ACUTE)
+            ));
         } else {
-            coding.setDisplay(REPEAT);
-            coding.setCode(REPEAT.toLowerCase(Locale.ROOT));
+            return new Extension(PRESCRIPTION_TYPE_EXTENSION_URL, new CodeableConcept(
+                new Coding(PRESCRIPTION_TYPE_CODING_SYSTEM, REPEAT.toLowerCase(), REPEAT)
+            ));
         }
-
-        return new Extension(PRESCRIPTION_TYPE_EXTENSION_URL, new CodeableConcept(coding));
     }
 
-    protected static List<Annotation> buildNotes(List<RCMRMT030101UK04PertinentInformation2> pertinentInformation2s) {
-        return pertinentInformation2s
+    protected static List<Annotation> buildNotes(List<RCMRMT030101UK04PertinentInformation2> pertinentInformationList) {
+        return pertinentInformationList
             .stream()
             .filter(RCMRMT030101UK04PertinentInformation2::hasPertinentSupplyAnnotation)
             .map(RCMRMT030101UK04PertinentInformation2::getPertinentSupplyAnnotation)
@@ -106,9 +102,7 @@ public class MedicationMapperUtils {
     }
 
     protected static Period buildValidityPeriod(TS timestamp) {
-        Period period = new Period();
-        period.setStart(DateFormatUtil.parsePathwaysDate(timestamp.getValue()));
-        return period;
+        return new Period().setStart(DateFormatUtil.parsePathwaysDate(timestamp.getValue()));
     }
 
     protected static Optional<String> extractEhrSupplyAuthoriseId(RCMRMT030101UK04Authorise supplyAuthorise) {

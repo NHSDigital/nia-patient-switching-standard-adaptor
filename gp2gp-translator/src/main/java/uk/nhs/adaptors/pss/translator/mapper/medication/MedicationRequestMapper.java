@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers;
+package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import java.util.Date;
 import java.util.List;
@@ -15,18 +15,17 @@ import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-
-import org.springframework.stereotype.Service;
+import org.hl7.v3.RCMRMT030101UK04Prescribe;
 
 import lombok.AllArgsConstructor;
 
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
-@Service
 @AllArgsConstructor
 public class MedicationRequestMapper {
     private MedicationMapper medicationMapper;
@@ -50,10 +49,11 @@ public class MedicationRequestMapper {
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
             .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
-            .map(supplyPrescribe -> medicationRequestOrderMapper.mapToOrderMedicationRequest(medicationStatement, supplyPrescribe, subject, context))
+            .map(supplyPrescribe -> mapToOrderMedicationRequest(medicationStatement, supplyPrescribe, subject, context))
             .filter(Objects::nonNull)
             .peek(medicationRequest -> medicationRequest.setAuthoredOnElement(authoredOn))
-            .peek(medicationRequest -> requester.map(MedicationRequest.MedicationRequestRequesterComponent::new).ifPresent(medicationRequest::setRequester))
+            .peek(medicationRequest ->
+                requester.map(MedicationRequest.MedicationRequestRequesterComponent::new).ifPresent(medicationRequest::setRequester))
             .peek(medicationRequest -> recorder.ifPresent(medicationRequest::setRecorder))
             .collect(Collectors.toList());
 
@@ -61,10 +61,11 @@ public class MedicationRequestMapper {
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
             .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
-            .map(supplyAuthorise -> medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement, supplyAuthorise, subject, context))
+            .map(supplyAuthorise -> mapToPlanMedicationRequest(ehrExtract, medicationStatement, supplyAuthorise, subject, context))
             .filter(Objects::nonNull)
             .peek(medicationRequest -> medicationRequest.setAuthoredOnElement(authoredOn))
-            .peek(medicationRequest -> requester.map(MedicationRequest.MedicationRequestRequesterComponent::new).ifPresent(medicationRequest::setRequester))
+            .peek(medicationRequest ->
+                requester.map(MedicationRequest.MedicationRequestRequesterComponent::new).ifPresent(medicationRequest::setRequester))
             .peek(medicationRequest -> recorder.ifPresent(medicationRequest::setRecorder))
             .collect(Collectors.toList());
 
@@ -72,11 +73,26 @@ public class MedicationRequestMapper {
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
             .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
-            .map(supplyAuthorise -> medicationStatementMapper.mapToMedicationStatement(medicationStatement, supplyAuthorise, subject, context))
+            .map(supplyAuthorise -> mapToMedicationStatement(medicationStatement, supplyAuthorise, subject, context))
             .filter(Objects::nonNull)
-            .map(medicationStatement1 -> medicationStatement1.setEffective(authoredOn))
-            .map(medicationStatement1 -> medicationStatement1.setDateAssertedElement(authoredOn))
+            .peek(medicationStatement1 -> medicationStatement1.setEffective(authoredOn))
+            .peek(medicationStatement1 -> medicationStatement1.setDateAssertedElement(authoredOn))
             .collect(Collectors.toList());
+    }
+
+    private MedicationStatement mapToMedicationStatement(RCMRMT030101UK04MedicationStatement medicationStatement,
+        RCMRMT030101UK04Authorise supplyAuthorise, Patient subject, Encounter context) {
+        return medicationStatementMapper.mapToMedicationStatement(medicationStatement, supplyAuthorise, subject, context);
+    }
+
+    private MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04MedicationStatement medicationStatement,
+        RCMRMT030101UK04Prescribe supplyPrescribe, Patient subject, Encounter context) {
+        return medicationRequestOrderMapper.mapToOrderMedicationRequest(medicationStatement, supplyPrescribe, subject, context);
+    }
+
+    private MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise, Patient subject, Encounter context) {
+        return medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement, supplyAuthorise, subject, context);
     }
 
     private DateTimeType extractAuthoredOn(RCMRMT030101UK04EhrComposition ehrComposition, Date ehrExtractAvailabilityTime) {
@@ -86,7 +102,7 @@ public class MedicationRequestMapper {
             return new DateTimeType(ehrExtractAvailabilityTime);
         }
     }
-
+    
     private Optional<Reference> extractRequester(RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04MedicationStatement medicationStatement) {
         if (medicationStatement.hasParticipant()) {

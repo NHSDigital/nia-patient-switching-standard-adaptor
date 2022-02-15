@@ -1,8 +1,8 @@
-package uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers;
+package uk.nhs.adaptors.pss.translator.mapper.medication;
 
-import static uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers.MedicationMapper.extractMedicationReference;
-import static uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers.MedicationMapperUtils.buildDosage;
-import static uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapper.extractMedicationReference;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -94,9 +94,9 @@ public class MedicationStatementMapper {
     }
 
     private Extension generatePrescribingAgencyExtension() {
-        Coding coding = new Coding(PRESCRIBING_AGENCY_URL, PRESCRIBED_CODE, PRESCRIBED_DISPLAY);
-        CodeableConcept codeableConcept = new CodeableConcept(coding);
-        return new Extension(PRESCRIBING_AGENCY_URL, codeableConcept);
+        return new Extension(PRESCRIBING_AGENCY_URL, new CodeableConcept(
+            new Coding(PRESCRIBING_AGENCY_URL, PRESCRIBED_CODE, PRESCRIBED_DISPLAY)
+        ));
     }
 
     private boolean hasLinkedInFulfillment(RCMRMT030101UK04Prescribe prescribe, String id) {

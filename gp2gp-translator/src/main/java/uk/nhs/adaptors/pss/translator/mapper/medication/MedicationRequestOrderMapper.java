@@ -1,13 +1,13 @@
-package uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers;
+package uk.nhs.adaptors.pss.translator.mapper.medication;
 
-import static uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers.MedicationMapper.extractMedicationReference;
-import static uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers.MedicationMapperUtils.buildDosage;
-import static uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers.MedicationMapperUtils.buildDosageQuantity;
-import static uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers.MedicationMapperUtils.buildNotes;
-import static uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers.MedicationMapperUtils.buildPrescriptionTypeExtension;
-import static uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers.MedicationMapperUtils.buildValidityPeriod;
-import static uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers.MedicationMapperUtils.createMedicationRequestSkeleton;
-import static uk.nhs.adaptors.pss.translator.mapper.MedicationRequestMappers.MedicationMapperUtils.extractSupplyAuthorise;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapper.extractMedicationReference;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildPrescriptionTypeExtension;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildValidityPeriod;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.createMedicationRequestSkeleton;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractSupplyAuthorise;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 import java.util.List;
@@ -21,7 +21,6 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04Prescribe;
 
@@ -58,8 +57,7 @@ public class MedicationRequestOrderMapper {
     }
 
     private Reference buildMedicationRequestReference(String id) {
-        IIdType iIdType = new IdType(ResourceType.MedicationRequest.name(), id);
-        return new Reference(iIdType);
+        return new Reference(new IdType(ResourceType.MedicationRequest.name(), id));
     }
 
     private MedicationRequest.MedicationRequestDispenseRequestComponent buildDispenseRequestForPrescribe(
@@ -77,14 +75,12 @@ public class MedicationRequestOrderMapper {
 
     private List<Annotation> buildNotesForPrescribe(RCMRMT030101UK04Prescribe supplyPrescribe) {
         var notes = buildNotes(supplyPrescribe.getPertinentInformation());
-
         if (supplyPrescribe.hasCode() && supplyPrescribe.getCode().hasDisplayName()
             && !NHS_PRESCRIPTION.equalsIgnoreCase(supplyPrescribe.getCode().getDisplayName())) {
             notes.add(new Annotation(
                 new StringType(PRESCRIPTION_TYPE + supplyPrescribe.getCode().getDisplayName())
             ));
         }
-
         return notes;
     }
 
