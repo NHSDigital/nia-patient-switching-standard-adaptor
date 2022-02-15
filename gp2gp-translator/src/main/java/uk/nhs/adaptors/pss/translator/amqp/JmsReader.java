@@ -28,11 +28,11 @@ public class JmsReader {
     private String readBytesMessage(JmsBytesMessage message) throws JMSException {
         byte[] bytes = new byte[(int) message.getBodyLength()];
         message.readBytes(bytes);
-        return Base64.isBase64(bytes) ? new String(Base64.decodeBase64(bytes)) : new String(bytes, UTF_8);
+        return Base64.isBase64(bytes) ? new String(Base64.decodeBase64(bytes), UTF_8) : new String(bytes, UTF_8);
     }
 
     private String readTextMessage(JmsTextMessage message) throws JMSException {
         var text = message.getText();
-        return Base64.isBase64(text) ? new String(Base64.decodeBase64(text)) : text;
+        return Base64.isBase64(text) ? new String(Base64.decodeBase64(text), UTF_8) : text;
     }
 }
