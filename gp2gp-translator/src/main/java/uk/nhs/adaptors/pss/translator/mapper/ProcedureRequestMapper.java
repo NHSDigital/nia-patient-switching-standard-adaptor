@@ -5,6 +5,7 @@ import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
@@ -30,18 +31,17 @@ public class ProcedureRequestMapper {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04PlanStatement planStatement) {
+    public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04PlanStatement planStatement,
+        Patient patient) {
 
         /**
          * TODO: Known future implementations to this mapper
-         * - subject: references a global patient resource for the transaction (NIAD-2024)
          * - context: references an encounter resource if it has been generated from the ehrComposition (NIAD-2025)
          * - requester: fallback to a default 'Unknown User' Practitioner if none are present in requester (NIAD-2026)
          * - concatenate source practice org id to identifier URL (NIAD-2021)
          */
 
         var id = planStatement.getId().getRoot();
-        var identifier = getIdentifier(id);
         var note = getNote(planStatement.getText());
         var reasonCode = codeableConceptMapper.mapToCodeableConcept(planStatement.getCode());
         var authoredOn = getAuthoredOn(planStatement.getAvailabilityTime(), ehrExtract, planStatement.getId());
@@ -49,7 +49,7 @@ public class ProcedureRequestMapper {
         var agentReference = ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(),
             EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatement.getId()));
 
-        return createProcedureRequest(id, identifier, note, reasonCode, authoredOn, occurrence, agentReference);
+        return createProcedureRequest(id, note, reasonCode, authoredOn, occurrence, agentReference, new Reference(patient));
     }
 
     private Identifier getIdentifier(String id) {
@@ -91,8 +91,8 @@ public class ProcedureRequestMapper {
         return null;
     }
 
-    private ProcedureRequest createProcedureRequest(String id, Identifier identifier, Annotation note, CodeableConcept reasonCode,
-        DateTimeType authoredOn, DateTimeType occurrence, Reference agentReference) {
+    private ProcedureRequest createProcedureRequest(String id, Annotation note, CodeableConcept reasonCode,
+        DateTimeType authoredOn, DateTimeType occurrence, Reference agentReference, Reference patientReference) {
         var procedureRequest = new ProcedureRequest();
         procedureRequest
             .setStatus(ProcedureRequestStatus.ACTIVE)
@@ -101,10 +101,11 @@ public class ProcedureRequestMapper {
             .setOccurrence(occurrence)
             .setId(id);
         procedureRequest.getMeta().getProfile().add(new UriType(META_PROFILE));
-        procedureRequest.getIdentifier().add(identifier);
+        procedureRequest.getIdentifier().add(getIdentifier(id));
         procedureRequest.getNote().add(note);
         procedureRequest.getReasonCode().add(reasonCode);
         procedureRequest.getRequester().setAgent(agentReference);
+        procedureRequest.setSubject(patientReference);
 
         return procedureRequest;
     }
