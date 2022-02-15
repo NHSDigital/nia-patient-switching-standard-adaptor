@@ -74,7 +74,6 @@ public class MhsRequestBuilder {
             .exchangeStrategies(requestBuilderService.buildExchangeStrategies())
             .clientConnector(new ReactorClientHttpConnector(httpClient))
             .baseUrl(mhsOutboundConfiguration.getUrl())
-//            .defaultUriVariables(Collections.singletonMap("url", mhsOutboundConfiguration.getUrl()))
             .build();
     }
 }

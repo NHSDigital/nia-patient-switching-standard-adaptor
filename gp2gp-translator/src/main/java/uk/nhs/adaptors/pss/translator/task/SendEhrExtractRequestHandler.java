@@ -39,7 +39,8 @@ public class SendEhrExtractRequestHandler {
         var request = requestBuilder.buildSendEhrExtractRequest(conversationId, toOdsCode, outboundMessage);
 
         try {
-            mhsClientService.send(request);
+            var response = mhsClientService.send(request);
+            LOGGER.debug(response);
         } catch (WebClientResponseException wcre) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", wcre.getMessage());
             migrationStatusLogService.addMigrationStatusLog(MigrationStatus.EHR_EXTRACT_REQUEST_ERROR, nhsNumber);
