@@ -80,8 +80,6 @@ public class ImmunizationMapper {
         Extension vaccineExtension = createVaccineProcedureExtension(observationStatement);
 
         var practitioner = ParticipantReferenceUtil.getParticipantReference(observationStatement.getParticipant(), ehrComposition);
-
-        var patient = new Reference(patientResource.getIdElement());
         var encounter = getEncounterReference(encounterList, ehrComposition.getId());
 
         immunizationMapperParameters.setIdParam(id);
@@ -90,7 +88,7 @@ public class ImmunizationMapper {
         immunizationMapperParameters.setDateParam(date);
         immunizationMapperParameters.setRecordedTimeExtensionParam(recordedTimeExtension);
         immunizationMapperParameters.setVaccineExtensionParam(vaccineExtension);
-        immunizationMapperParameters.setPatientParam(patient);
+        immunizationMapperParameters.setPatientParam(new Reference(patientResource.getIdElement()));
         immunizationMapperParameters.setEncounterParam(encounter);
         immunizationMapperParameters.setPractitionerParam(practitioner);
 
