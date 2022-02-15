@@ -5,12 +5,12 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildPrescriptionTypeExtension;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildValidityPeriod;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.createMedicationRequestSkeleton;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +22,7 @@ import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
@@ -60,14 +61,14 @@ public class MedicationRequestPlanMapper {
     private static final String PRESCRIPTION_TYPE = "Prescription type: ";
 
     protected MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement,
-        RCMRMT030101UK04Authorise supplyAuthorise, Patient subject, Encounter context) {
+        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise, Patient subject,
+        Encounter context) {
 
         var ehrSupplyAuthoriseIdExtract = extractEhrSupplyAuthoriseId(supplyAuthorise);
 
         if (ehrSupplyAuthoriseIdExtract.isPresent()) {
             var ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
-            var discontinue = extractMatchingDiscontinue(ehrSupplyAuthoriseId, new RCMRMT030101UK04EhrExtract());
+            var discontinue = extractMatchingDiscontinue(ehrSupplyAuthoriseId, ehrExtract);
             MedicationRequest medicationRequest = createMedicationRequestSkeleton(
                 supplyAuthorise, subject, context, ehrSupplyAuthoriseId
             );
@@ -76,7 +77,7 @@ public class MedicationRequestPlanMapper {
             medicationRequest.setStatus(buildMedicationRequestStatus(supplyAuthorise));
             medicationRequest.setIntent(MedicationRequest.MedicationRequestIntent.PLAN);
             medicationRequest.addDosageInstruction(buildDosage(medicationStatement));
-            medicationRequest.setDispenseRequest(buildDispenseRequestForAuthorise(supplyAuthorise));
+            medicationRequest.setDispenseRequest(buildDispenseRequestForAuthorise(supplyAuthorise, medicationStatement));
 
             List<Extension> repeatInformationExtensions = new ArrayList<>();
             extractSupplyAuthoriseRepeatInformation(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
@@ -97,7 +98,7 @@ public class MedicationRequestPlanMapper {
 
             buildCondensedExtensions(STATUS_CHANGE_URL, statusChangeExtensions)
                 .ifPresent(medicationRequest::addExtension);
-            medicationRequest.addExtension(buildPrescriptionTypeExtension(supplyAuthorise));
+            buildPrescriptionTypeExtension(supplyAuthorise).ifPresent(medicationRequest::addExtension);
 
             buildNotesForAuthorise(supplyAuthorise).forEach(medicationRequest::addNote);
             extractPriorPrescription(supplyAuthorise).ifPresent(medicationRequest::setPriorPrescription);
@@ -194,19 +195,45 @@ public class MedicationRequestPlanMapper {
     }
 
     private MedicationRequest.MedicationRequestDispenseRequestComponent buildDispenseRequestForAuthorise(
-        RCMRMT030101UK04Authorise supplyAuthorise) {
+        RCMRMT030101UK04Authorise supplyAuthorise, RCMRMT030101UK04MedicationStatement medicationStatement) {
         MedicationRequest.MedicationRequestDispenseRequestComponent dispenseRequest
             = new MedicationRequest.MedicationRequestDispenseRequestComponent();
 
         if (supplyAuthorise.hasQuantity()) {
             buildDosageQuantity(supplyAuthorise.getQuantity()).ifPresent(dispenseRequest::setQuantity);
         }
-        dispenseRequest.setValidityPeriod(buildValidityPeriod(supplyAuthorise.getAvailabilityTime()));
 
-        return dispenseRequest;
+        var period = buildDispenseRequestPeriodEnd(supplyAuthorise, medicationStatement);
+        extractDispenseRequestPeriodStart(supplyAuthorise).ifPresent(period::setStart);
+
+        return dispenseRequest.setValidityPeriod(period);
     }
 
-    // condense
+    private Period buildDispenseRequestPeriodEnd(RCMRMT030101UK04Authorise supplyAuthorise, RCMRMT030101UK04MedicationStatement medicationStatement) {
+        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasHigh()) {
+            return new Period().setEnd(
+                DateFormatUtil.parsePathwaysDate(supplyAuthorise.getEffectiveTime().getHigh().getValue()));
+        }
+        if (medicationStatement.hasEffectiveTime() && medicationStatement.getEffectiveTime().hasHigh()) {
+            return new Period().setEnd(
+                DateFormatUtil.parsePathwaysDate(medicationStatement.getEffectiveTime().getHigh().getValue()));
+        }
+        return new Period();
+    }
+
+    private Optional<Date> extractDispenseRequestPeriodStart(RCMRMT030101UK04Authorise supplyAuthorise) {
+        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasCenter()) {
+            return Optional.of(DateFormatUtil.parsePathwaysDate(supplyAuthorise.getEffectiveTime().getCenter().getValue()));
+        }
+        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasLow()) {
+            return Optional.of(DateFormatUtil.parsePathwaysDate(supplyAuthorise.getEffectiveTime().getLow().getValue()));
+        }
+        if (supplyAuthorise.hasAvailabilityTime()) {
+            return Optional.of(DateFormatUtil.parsePathwaysDate(supplyAuthorise.getAvailabilityTime().getValue()));
+        }
+        return Optional.empty();
+    }
+
     private Optional<Extension> buildCondensedExtensions(String url, List<Extension> extensionList) {
         if (!extensionList.isEmpty()) {
             return Optional.of((Extension) new Extension(url).setExtension(extensionList));

@@ -210,6 +210,10 @@ public class RCMRMT030101UK04Authorise {
         this.effectiveTime = value;
     }
 
+    public boolean hasEffectiveTime() {
+        return effectiveTime != null;
+    }
+
     /**
      * Gets the value of the availabilityTime property.
      * 
@@ -232,6 +236,10 @@ public class RCMRMT030101UK04Authorise {
      */
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
+    }
+
+    public boolean hasAvailabilityTime() {
+        return availabilityTime != null;
     }
 
     /**

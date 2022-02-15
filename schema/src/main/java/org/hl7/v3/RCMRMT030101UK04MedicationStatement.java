@@ -182,6 +182,10 @@ public class RCMRMT030101UK04MedicationStatement {
         this.effectiveTime = value;
     }
 
+    public boolean hasEffectiveTime() {
+        return effectiveTime != null;
+    }
+
     /**
      * Gets the value of the availabilityTime property.
      * 

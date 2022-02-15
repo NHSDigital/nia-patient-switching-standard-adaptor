@@ -5,7 +5,6 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildPrescriptionTypeExtension;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildValidityPeriod;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.createMedicationRequestSkeleton;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractSupplyAuthorise;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -18,11 +17,15 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04Prescribe;
+import org.hl7.v3.TS;
+
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 public class MedicationRequestOrderMapper {
 
@@ -43,13 +46,13 @@ public class MedicationRequestOrderMapper {
             medicationRequest.setStatus(MedicationRequest.MedicationRequestStatus.COMPLETED);
             medicationRequest.setIntent(MedicationRequest.MedicationRequestIntent.ORDER);
 
-            medicationRequest.addExtension(buildPrescriptionTypeExtension(supplyAuthorise));
             medicationRequest.addBasedOn(buildMedicationRequestReference(ehrSupplyPrescribeId));
             medicationRequest.addDosageInstruction(buildDosage(medicationStatement));
             medicationRequest.setDispenseRequest(buildDispenseRequestForPrescribe(supplyPrescribe));
 
             buildNotesForPrescribe(supplyPrescribe).forEach(medicationRequest::addNote);
             extractMedicationReference(medicationStatement).ifPresent(medicationRequest::setMedication);
+            buildPrescriptionTypeExtension(supplyAuthorise).ifPresent(medicationRequest::addExtension);
 
             return medicationRequest;
         }
@@ -82,6 +85,10 @@ public class MedicationRequestOrderMapper {
             ));
         }
         return notes;
+    }
+
+    private Period buildValidityPeriod(TS timestamp) {
+        return new Period().setStart(DateFormatUtil.parsePathwaysDate(timestamp.getValue()));
     }
 
     private Optional<String> extractEhrSupplyPrescribeId(RCMRMT030101UK04Prescribe supplyPrescribe) {
