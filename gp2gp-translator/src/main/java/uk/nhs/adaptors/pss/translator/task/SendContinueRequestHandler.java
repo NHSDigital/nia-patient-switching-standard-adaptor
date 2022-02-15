@@ -18,9 +18,8 @@ import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 @Slf4j
 @Component
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-// TODO: NIAD-2045
+// TODO: This service is related to the large messaging epic and can be used during implementation of NIAD-2045
 public class SendContinueRequestHandler {
-
     private final MhsRequestBuilder requestBuilder;
     private final MhsClientService mhsClientService;
     private final MigrationStatusLogService migrationStatusLogService;
@@ -29,9 +28,7 @@ public class SendContinueRequestHandler {
     @SneakyThrows
     public boolean prepareAndSendRequest(ContinueRequestData data) {
         String continueRequest = continueRequestService.buildContinueRequest(data.getFromAsid(), data.getToAsid());
-
         var outboundMessage = new OutboundMessage(continueRequest);
-
         var request = requestBuilder.buildSendContinueRequest(data.getConversationId(), data.getToOdsCode(), outboundMessage);
 
         try {

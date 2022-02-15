@@ -77,12 +77,14 @@ public class MhsQueueMessageHandler {
             .getExtension();
     }
 
-// TODO: NIAD-2045
-//    private boolean sendContinueRequest(RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber) {
-//        var continueRequestData = prepareContinueRequestData(payload, conversationId, patientNhsNumber);
-//        return sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
-//    }
+    // TODO: this method is related to the large messaging epic and should be called after saving translated Boundle resource.
+    //  Can be used during implementation of NIAD-2045
+    private boolean sendContinueRequest(RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber) {
+        var continueRequestData = prepareContinueRequestData(payload, conversationId, patientNhsNumber);
+        return true; // TODO: Should call sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
+    }
 
+    // TODO: this method is only used inside sendContinueRequest() method above
     private ContinueRequestData prepareContinueRequestData(
         RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber) {
         var fromAsid = payload.getCommunicationFunctionRcv()

@@ -14,9 +14,9 @@ import uk.nhs.adaptors.pss.translator.util.FileUtils;
 @Service
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-// TODO: NIAD-2045
+// TODO: This service is related to the large messaging epic and can be used during implementation of NIAD-2045
 public class ContinueRequestService {
-    private static final String CONTINUE_REQUEST_FILE = "/COPC_IN000001UK01.xml";
+    private static final String CONTINUE_REQUEST_FILE = ""; // this file needs to be created
     private static final String CREATION_TIMESTAMP_PLACEHOLDER = "%%timestamp%%";
     private static final String MESSAGE_ID_PLACEHOLDER = "%%messageId%%";
     private static final String TO_ASID_PLACEHOLDER = "%%toAsid%%";
