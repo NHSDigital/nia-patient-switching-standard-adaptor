@@ -335,7 +335,7 @@ public class ObservationMapper {
     }
 
     private Reference createPatientReference(Patient patient) {
-        return new Reference(patient.getIdElement());
+        return new Reference(patient);
     }
 
     private Observation createObservation(ObservationMapperParameters parameters) {

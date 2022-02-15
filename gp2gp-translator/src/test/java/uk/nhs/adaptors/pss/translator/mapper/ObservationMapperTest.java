@@ -65,9 +65,6 @@ public class ObservationMapperTest {
     private static final CodeableConcept CODEABLE_CONCEPT = new CodeableConcept()
         .addCoding(new Coding().setDisplay(CODING_DISPLAY_MOCK));
 
-    private static final IdType TEST_PATIENT_IDTYPE = new IdType("Patient", "TEST_PATIENT_ID");
-
-
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
 
@@ -79,11 +76,6 @@ public class ObservationMapperTest {
 
     @InjectMocks
     private ObservationMapper observationMapper;
-
-    @BeforeEach
-    public void setup() {
-        when(patient.getIdElement()).thenReturn(TEST_PATIENT_IDTYPE);
-    }
 
     @Test
     public void mapObservationWithValidData() {
