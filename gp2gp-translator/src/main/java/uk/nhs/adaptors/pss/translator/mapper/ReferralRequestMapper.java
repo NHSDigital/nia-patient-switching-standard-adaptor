@@ -11,12 +11,11 @@ import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
-import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralCategory;
+import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
-
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
@@ -43,7 +42,6 @@ public class ReferralRequestMapper {
     public ReferralRequest mapToReferralRequest(RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04RequestStatement requestStatement, Patient patient) {
         var id = requestStatement.getId().get(0).getRoot();
-        var identifier = getIdentifier(id);
         var notes = getNotes(requestStatement);
         var reasonCode = getReasonCode(requestStatement.getCode());
         var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
