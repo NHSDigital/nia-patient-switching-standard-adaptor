@@ -14,7 +14,6 @@ import org.hl7.fhir.dstu3.model.Immunization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.II;
 import org.hl7.v3.IVXBTS;
@@ -26,8 +25,6 @@ import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
@@ -69,30 +66,41 @@ public class ImmunizationMapper {
         RCMRMT030101UK04ObservationStatement observationStatement,
         Patient patientResource, List<Encounter> encounterList) {
 
-        ImmunizationMapperParameters immunizationMapperParameters = new ImmunizationMapperParameters();
+        Immunization immunization = new Immunization();
 
         var id = observationStatement.getId().getRoot();
         var identifier = getIdentifier(id);
         var note = buildNote(observationStatement);
         var date = getObservationDate(observationStatement);
 
-        Extension recordedTimeExtension = getRecordedTimeExtension(ehrComposition);
-        Extension vaccineExtension = createVaccineProcedureExtension(observationStatement);
-
         var practitioner = ParticipantReferenceUtil.getParticipantReference(observationStatement.getParticipant(), ehrComposition);
         var encounter = getEncounterReference(encounterList, ehrComposition.getId());
 
-        immunizationMapperParameters.setIdParam(id);
-        immunizationMapperParameters.setIdentifierParam(identifier);
-        immunizationMapperParameters.setNoteParam(note);
-        immunizationMapperParameters.setDateParam(date);
-        immunizationMapperParameters.setRecordedTimeExtensionParam(recordedTimeExtension);
-        immunizationMapperParameters.setVaccineExtensionParam(vaccineExtension);
-        immunizationMapperParameters.setPatientParam(new Reference(patientResource.getIdElement()));
-        immunizationMapperParameters.setEncounterParam(encounter);
-        immunizationMapperParameters.setPractitionerParam(practitioner);
+        immunization.getMeta().addProfile(META_PROFILE);
+        immunization.getIdentifier().add(identifier);
+        immunization.getExtension().add(createVaccineProcedureExtension(observationStatement));
+        immunization.getExtension().add(createRecordedTimeExtension(ehrComposition));
+        immunization
+            .setStatus(Immunization.ImmunizationStatus.COMPLETED)
+            .setNotGiven(false)
+            .setPrimarySource(false)
+            .setPatient(new Reference(patientResource))
+            .setId(id);
 
-        return createImmunization(immunizationMapperParameters);
+        if (date != null) {
+            immunization.setDate(date);
+        }
+        if (encounter != null) {
+            immunization.setEncounter(encounter);
+        }
+        if (note != null) {
+            immunization.getNote().add(note);
+        }
+        if (practitioner != null) {
+            immunization.addPractitioner(new Immunization.ImmunizationPractitionerComponent(practitioner));
+        }
+
+        return immunization;
     }
 
     private Reference getEncounterReference(List<Encounter> encounterList, II ehrCompositionId) {
@@ -121,7 +129,7 @@ public class ImmunizationMapper {
             .collect(Collectors.toList());
     }
 
-    private Extension getRecordedTimeExtension(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private Extension createRecordedTimeExtension(RCMRMT030101UK04EhrComposition ehrComposition) {
         if (ehrComposition.getAuthor() != null) {
             return new Extension()
                 .setValue(new StringType(ehrComposition.getAuthor().getTime().getValue()));
@@ -202,7 +210,7 @@ public class ImmunizationMapper {
         return null;
     }
 
-    private String highValueToNotes(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private String createDateText(RCMRMT030101UK04ObservationStatement observationStatement) {
         if (observationStatement.getEffectiveTime() != null) {
             var low = getIVXBTSStringValue(observationStatement.getEffectiveTime().getLow());
             var high = getIVXBTSStringValue(observationStatement.getEffectiveTime().getHigh());
@@ -222,17 +230,14 @@ public class ImmunizationMapper {
 
     private Annotation buildNote(RCMRMT030101UK04ObservationStatement observationStatement) {
         var pertinentText = getPertinentAnnotation(observationStatement);
-        var dateText = highValueToNotes(observationStatement);
+        var dateText = createDateText(observationStatement);
 
         if (pertinentText != null && dateText != null) {
-            var noteStringType = new StringType(pertinentText + StringUtils.SPACE + dateText);
-            return new Annotation(noteStringType);
+            return new Annotation(new StringType(pertinentText + StringUtils.SPACE + dateText));
         } else if (pertinentText != null) {
-            var noteStringType = new StringType(pertinentText);
-            return new Annotation(noteStringType);
+            return new Annotation(new StringType(pertinentText));
         } else if (dateText != null) {
-            var noteStringType = new StringType(dateText);
-            return new Annotation(noteStringType);
+            return new Annotation(new StringType(dateText));
         }
 
         return null;
@@ -248,54 +253,5 @@ public class ImmunizationMapper {
         }
 
         return null;
-    }
-
-    private Immunization createImmunization(ImmunizationMapperParameters immunizationMapperParameters) {
-        var immunization = new Immunization();
-
-        immunization.getMeta().getProfile().add(new UriType(META_PROFILE));
-        immunization.getIdentifier().add(immunizationMapperParameters.getIdentifierParam());
-        immunization.getExtension().add(immunizationMapperParameters.getVaccineExtensionParam());
-        immunization.getExtension().add(immunizationMapperParameters.getRecordedTimeExtensionParam());
-        immunization
-            .setStatus(Immunization.ImmunizationStatus.COMPLETED)
-            .setNotGiven(false)
-            .setPrimarySource(false)
-            .setPatient(immunizationMapperParameters.getPatientParam())
-            .setId(immunizationMapperParameters.getIdParam());
-
-        if (immunizationMapperParameters.getDateParam() != null) {
-            immunization.setDate(immunizationMapperParameters.getDateParam());
-        }
-        if (immunizationMapperParameters.getEncounterParam() != null) {
-            immunization.setEncounter(immunizationMapperParameters.getEncounterParam());
-        }
-        if (immunizationMapperParameters.getNoteParam() != null) {
-            immunization.getNote().add(immunizationMapperParameters.getNoteParam());
-        }
-        if (immunizationMapperParameters.getPractitionerParam() != null) {
-            immunization.addPractitioner(new Immunization.ImmunizationPractitionerComponent(
-                immunizationMapperParameters.getPractitionerParam()));
-        }
-
-        return immunization;
-    }
-
-    @Getter
-    @Setter
-    public static class ImmunizationMapperParameters {
-        private String idParam;
-        private Identifier identifierParam;
-        private Annotation noteParam;
-        private Extension vaccineExtensionParam;
-        private Date dateParam;
-        private Extension recordedTimeExtensionParam;
-        private Reference patientParam;
-        private Reference encounterParam;
-        private Reference practitionerParam;
-
-        public ImmunizationMapperParameters() {
-
-        }
     }
 }

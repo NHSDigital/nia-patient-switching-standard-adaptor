@@ -65,6 +65,8 @@ public class BundleMapperService {
         var referralRequests = mapReferralRequests(ehrFolder, patient);
         addEntries(bundle, referralRequests);
 
+        // TODO: Insert encounter list (NIAD-1961)
+
         var immunizations = mapImmunizations(ehrExtract, patient, List.of(new Encounter()));
         addEntries(bundle, immunizations);
 

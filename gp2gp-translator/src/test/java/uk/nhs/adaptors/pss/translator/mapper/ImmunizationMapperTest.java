@@ -146,7 +146,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getDate()).isEqualTo("2010-01-18T11:41:00.000");
         assertThat(immunization.getNote().get(0).getText())
             .isEqualTo(OBSERVATION_TEXT + " End Date: 20100118114100");
-        assertThat(immunization.getPatient().getReference()).isEqualTo("9A5D5A78-1F63-434C-9637-1D7E7843341B");
+        assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo("9A5D5A78-1F63-434C-9637-1D7E7843341B");
         assertThat(immunization.getEncounter().getReference()).isEqualTo("62A39454-299F-432E-993E-5A6232B4E099");
         assertThat(immunization.getPractitioner().get(0).getActor().getReference()).isEqualTo("Practitioner/9C1610C2-5E48-4ED5-882B"
             + "-5A4A172AFA35");
@@ -161,7 +161,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getPrimarySource()).isEqualTo(false);
         assertThat(immunization.getDate()).isNull();
         assertThat(immunization.getNote()).isEmpty();
-        assertThat(immunization.getPatient().getReference()).isEqualTo("9A5D5A78-1F63-434C-9637-1D7E7843341B");
+        assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo("9A5D5A78-1F63-434C-9637-1D7E7843341B");
         assertThat(immunization.getEncounter().getReference()).isNull();
     }
 
