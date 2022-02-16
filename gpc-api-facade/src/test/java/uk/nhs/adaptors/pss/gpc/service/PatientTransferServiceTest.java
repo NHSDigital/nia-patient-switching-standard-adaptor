@@ -88,7 +88,8 @@ public class PatientTransferServiceTest {
         MigrationStatusLog expectedMigrationStatusLog = createMigrationStatusLog();
 
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(expectedPatientMigrationRequest);
-        when(migrationStatusLogDao.getMigrationStatusLog(expectedPatientMigrationRequest.getId())).thenReturn(expectedMigrationStatusLog);
+        when(migrationStatusLogDao.getLatestMigrationStatusLog(expectedPatientMigrationRequest.getId()))
+            .thenReturn(expectedMigrationStatusLog);
 
         MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);
 

@@ -11,6 +11,8 @@ import javax.xml.bind.JAXBException;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,35 +26,38 @@ import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
+import uk.nhs.adaptors.pss.translator.service.XPathService;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MhsQueueMessageHandler {
+    private static final String EHR_EXTRACT_INTERACTION_ID = "RCMR_IN030000UK06";
+    private static final String CONVERSATION_ID_PATH = "/Envelope/Header/MessageHeader/ConversationId";
+    private static final String INTERACTION_ID_PATH = "/Envelope/Header/MessageHeader/Action";
+
     private final PatientMigrationRequestDao patientMigrationRequestDao;
     private final MigrationStatusLogService migrationStatusLogService;
     private final FhirParser fhirParser;
     private final ObjectMapper objectMapper;
     private final BundleMapperService bundleMapperService;
     private final JmsReader jmsReader;
+    private final XPathService xPathService;
 
     public boolean handleMessage(Message message) {
         try {
             InboundMessage inboundMessage = readMessage(message);
-            RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+            Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
+            xPathService.getNodeValue(ebXmlDocument, CONVERSATION_ID_PATH);
+            String interactionId = xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH);
 
-            var patientNhsNumber = retrieveNhsNumber(payload);
-            migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, patientNhsNumber);
-
-            var bundle = bundleMapperService.mapToBundle(payload);
-            patientMigrationRequestDao.saveBundleAndInboundMessageData(
-                patientNhsNumber,
-                fhirParser.encodeToJson(bundle),
-                objectMapper.writeValueAsString(inboundMessage));
-            migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_TRANSLATED, patientNhsNumber);
-
+            if (EHR_EXTRACT_INTERACTION_ID.equals(interactionId)) {
+                handleEhrExtractMessage(inboundMessage);
+            } else {
+                LOGGER.info("Handling message of [{}] interaction id not implemented", interactionId);
+            }
             return true;
-        } catch (JMSException | JAXBException e) {
+        } catch (JMSException | JAXBException | SAXException e) {
             LOGGER.error("Unable to read the content of the inbound MHS message", e);
             return false;
         } catch (JsonProcessingException e) {
@@ -64,6 +69,19 @@ public class MhsQueueMessageHandler {
     private InboundMessage readMessage(Message message) throws JMSException, JsonProcessingException {
         var body = jmsReader.readMessage(message);
         return objectMapper.readValue(body, InboundMessage.class);
+    }
+
+    private void handleEhrExtractMessage(InboundMessage inboundMessage) throws JAXBException, JsonProcessingException {
+        RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+        var patientNhsNumber = retrieveNhsNumber(payload);
+        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, patientNhsNumber);
+
+        var bundle = bundleMapperService.mapToBundle(payload);
+        patientMigrationRequestDao.saveBundleAndInboundMessageData(
+            patientNhsNumber,
+            fhirParser.encodeToJson(bundle),
+            objectMapper.writeValueAsString(inboundMessage));
+        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_TRANSLATED, patientNhsNumber);
     }
 
     private String retrieveNhsNumber(RCMRIN030000UK06Message message) {

@@ -45,7 +45,7 @@ public class PatientTransferService {
             int addedId = patientMigrationRequestDao.getMigrationRequestId(patientNhsNumber);
             migrationStatusLogDao.addMigrationStatusLog(REQUEST_RECEIVED, dateUtils.getCurrentOffsetDateTime(), addedId);
         } else {
-            return migrationStatusLogDao.getMigrationStatusLog(patientMigrationRequest.getId());
+            return migrationStatusLogDao.getLatestMigrationStatusLog(patientMigrationRequest.getId());
         }
         return null;
     }
