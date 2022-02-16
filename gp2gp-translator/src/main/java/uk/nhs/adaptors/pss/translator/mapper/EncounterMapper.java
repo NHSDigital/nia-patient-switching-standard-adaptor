@@ -118,7 +118,8 @@ public class EncounterMapper {
         return map;
     }
 
-    private List<RCMRMT030101UK04CompoundStatement> getCategoryCompoundStatements(RCMRMT030101UK04CompoundStatement topicCompoundStatement) {
+    private List<RCMRMT030101UK04CompoundStatement> getCategoryCompoundStatements(RCMRMT030101UK04CompoundStatement
+        topicCompoundStatement) {
         return topicCompoundStatement.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component02::getCompoundStatement)
