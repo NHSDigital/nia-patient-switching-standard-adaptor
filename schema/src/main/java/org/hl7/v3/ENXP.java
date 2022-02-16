@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlType;
     EnSuffix.class
 })
 public class ENXP
-    extends ST
+    extends ED
 {
 
     @XmlAttribute(name = "partType")

@@ -99,7 +99,8 @@ public class RCMRMT030101UK04ObservationStatement {
     protected TS availabilityTime;
     protected CV priorityCode;
     protected CV uncertaintyCode;
-    protected Value value;
+    @XmlJavaTypeAdapter(ValueAdapter.class)
+    protected Object value;
     protected CV interpretationCode;
     protected RCMRMT030101UK04Subject subject;
     protected List<RCMRMT030101UK04Specimen> specimen;
@@ -771,11 +772,11 @@ public class RCMRMT030101UK04ObservationStatement {
         this.nullFlavor = value;
     }
 
-    public Value getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(Value value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 }
