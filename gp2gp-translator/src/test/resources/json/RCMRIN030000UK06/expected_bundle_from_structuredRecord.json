@@ -419,5 +419,204 @@
                 } ]
             } ]
         }
+    }, {
+        "resource": {
+            "resourceType": "Observation",
+            "id": "263B2A9F-0B1D-4697-943A-328F70E068DE",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "263B2A9F-0B1D-4697-943A-328F70E068DE"
+            } ],
+            "status": "final",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "137851000000113",
+                    "display": "Medication review with patient"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/TEST_ID_123"
+            },
+            "effectiveDateTime": "2010-01-14",
+            "issued": "2010-01-14T10:34:30.000+00:00",
+            "performer": [ {
+                "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Observation",
+            "id": "5A074D71-AEBD-473C-815F-CD64255B87EB",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "5A074D71-AEBD-473C-815F-CD64255B87EB"
+            } ],
+            "status": "final",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "282653015",
+                    "display": "Medication review"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/TEST_ID_123"
+            },
+            "effectiveDateTime": "2010-01-15",
+            "issued": "2010-01-15T10:06:46.000+00:00",
+            "performer": [ {
+                "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Observation",
+            "id": "10B9023B-A997-4449-AF63-EF3015E4C7B5",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "10B9023B-A997-4449-AF63-EF3015E4C7B5"
+            } ],
+            "status": "final",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "150085018",
+                    "display": "Gout"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/TEST_ID_123"
+            },
+            "effectiveDateTime": "2010-03-23T15:36:00+00:00",
+            "issued": "2010-03-23T15:51:27.000+00:00",
+            "performer": [ {
+                "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+            } ],
+            "comment": "Significance : Major\nEpisodicity : First\nThis is problem Problem Info: Problem Notes: This is problem"
+        }
+    }, {
+        "resource": {
+            "resourceType": "Observation",
+            "id": "FE85DB22-274E-4B1D-9698-5C4809E9CD42",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "FE85DB22-274E-4B1D-9698-5C4809E9CD42"
+            } ],
+            "status": "final",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "150085018",
+                    "display": "Gout"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/TEST_ID_123"
+            },
+            "effectiveDateTime": "2010-03-23T15:39:00+00:00",
+            "issued": "2010-03-23T15:59:35.000+00:00",
+            "performer": [ {
+                "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+            } ],
+            "comment": "Significance : Major\nEpisodicity : Review"
+        }
+    }, {
+        "resource": {
+            "resourceType": "Observation",
+            "id": "B90A10B6-D8D3-4FDC-A253-5C2CA3350613",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "B90A10B6-D8D3-4FDC-A253-5C2CA3350613"
+            } ],
+            "status": "final",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "292686019",
+                    "display": "Haemorrhage of parathyroid"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/TEST_ID_123"
+            },
+            "effectiveDateTime": "2011-11-15T14:54:00+00:00",
+            "issued": "2011-11-15T14:59:10.000+00:00",
+            "performer": [ {
+                "reference": "Practitioner/884E7627-796C-4C70-870A-D61B88AD2E57"
+            } ],
+            "comment": "This is a note"
+        }
+    }, {
+        "resource": {
+            "resourceType": "Observation",
+            "id": "84982E21-BD37-4CD3-8DD4-83B2D574E1ED",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "84982E21-BD37-4CD3-8DD4-83B2D574E1ED"
+            } ],
+            "status": "final",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "250208012",
+                    "display": "Civil state unknown"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/TEST_ID_123"
+            },
+            "effectiveDateTime": "2010-01-14T10:10:00+00:00",
+            "issued": "2010-01-14T10:10:00.000+00:00",
+            "performer": [ {
+                "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Observation",
+            "id": "71E6F6E8-F2D4-4DD2-8A87-E1C95F14111D",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "71E6F6E8-F2D4-4DD2-8A87-E1C95F14111D"
+            } ],
+            "status": "final",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "1990681000006116",
+                    "display": "Preferred method of contact: unknown"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/TEST_ID_123"
+            },
+            "effectiveDateTime": "2018-10-30",
+            "issued": "2018-10-30T00:00:00.000+00:00",
+            "performer": [ {
+                "reference": "Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6"
+            } ]
+        }
     } ]
 }
