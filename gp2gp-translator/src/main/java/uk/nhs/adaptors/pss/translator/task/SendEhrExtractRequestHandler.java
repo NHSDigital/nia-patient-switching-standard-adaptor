@@ -30,7 +30,6 @@ public class SendEhrExtractRequestHandler {
     @SneakyThrows
     public boolean prepareAndSendRequest(TransferRequestMessage message) {
         String conversationId = idGeneratorService.generateUuid();
-        String fromOdsCode = generalProperties.getFromOdsCode();
         String toOdsCode = message.getToOds();
         String nhsNumber = message.getPatientNhsNumber();
 

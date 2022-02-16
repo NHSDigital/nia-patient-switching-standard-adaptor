@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import uk.nhs.adaptors.common.model.PssQueueMessage;
+import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -40,7 +40,7 @@ public class EhrExtractRequestServiceTest {
         var instant = Instant.now();
         when(dateUtils.getCurrentInstant()).thenReturn(instant);
         when(idGeneratorService.generateUuid()).thenReturn(MESSAGE_ID, EHR_REQUEST_ID);
-        var message = PssQueueMessage.builder()
+        var message = TransferRequestMessage.builder()
             .patientNhsNumber(TEST_NHS_NUMBER)
             .fromAsid(TEST_FROM_ASID)
             .toAsid(TEST_TO_ASID)
