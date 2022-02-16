@@ -211,7 +211,8 @@ public class MedicationRequestPlanMapper {
         return dispenseRequest.setValidityPeriod(period);
     }
 
-    private Period buildDispenseRequestPeriodEnd(RCMRMT030101UK04Authorise supplyAuthorise, RCMRMT030101UK04MedicationStatement medicationStatement) {
+    private Period buildDispenseRequestPeriodEnd(RCMRMT030101UK04Authorise supplyAuthorise,
+        RCMRMT030101UK04MedicationStatement medicationStatement) {
         if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasHigh()) {
             return new Period().setEnd(
                 DateFormatUtil.parsePathwaysDate(supplyAuthorise.getEffectiveTime().getHigh().getValue()));

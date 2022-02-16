@@ -72,6 +72,25 @@ Please make sure you don't override the following classes with the generated one
 - RCMRMT030101UK04PlanStatement.java
 - RCCTMT120101UK01Organization.java
 - RCMRMT030101UK04RequestStatement.java
-
-New file:
+- II.java
+- PQ.java
+- RCMRMT030101UK04Author.java
+- RCMRMT030101UK04Authorise.java
+- RCMRMT030101UK04Component2.java
+- RCMRMT030101UK04Component4.java
+- RCMRMT030101UK04Consumable.java
+- RCMRMT030101UK04Discontinue.java
+- RCMRMT030101UK04ManufacturedProduct.java
+- RCMRMT030101UK04Material.java
+- RCMRMT030101UK04MedicationDosage.java
+- RCMRMT030101UK04MedicationRef.java
+- RCMRMT030101UK04MedicationStatement.java
+- RCMRMT030101UK04Participant.java
+- RCMRMT030101UK04Participant2.java
+- RCMRMT030101UK04PertinentInformation.java
+- RCMRMT030101UK04PertinentInformation2.java
+- RCMRMT030101UK04Prescribe.java
+- RCMRMT030101UK04SupplyAnnotation.java
+- TS.java
+  New file:
 - Value.java (joined class containing fields from IVLPQ and PQ classes)

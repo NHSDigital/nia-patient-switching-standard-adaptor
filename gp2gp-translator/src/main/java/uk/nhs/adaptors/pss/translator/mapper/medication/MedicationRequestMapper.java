@@ -17,7 +17,6 @@ import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04Component;
@@ -43,7 +42,8 @@ public class MedicationRequestMapper {
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
     private MedicationStatementMapper medicationStatementMapper;
 
-    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounters, List<Reference> references, Patient patient) {
+    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounters,
+        List<Reference> references, Patient patient) {
 
         List<RCMRMT030101UK04EhrComposition> ehrCompositions = ehrExtract.getComponent()
             .stream()
@@ -71,8 +71,9 @@ public class MedicationRequestMapper {
         return medicationResources;
     }
 
-    private List<DomainResource> mapMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04MedicationStatement medicationStatement, Patient subject, Encounter context) {
+    private List<DomainResource> mapMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04MedicationStatement medicationStatement,
+        Patient subject, Encounter context) {
 
         var authoredOn = extractAuthoredOn(ehrComposition,
             DateFormatUtil.parsePathwaysDate(ehrExtract.getAvailabilityTime().getValue()));
@@ -134,7 +135,8 @@ public class MedicationRequestMapper {
     }
 
     private MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise, Patient subject, Encounter context) {
+        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise,
+        Patient subject, Encounter context) {
         return medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement, supplyAuthorise, subject, context);
     }
 
@@ -145,7 +147,7 @@ public class MedicationRequestMapper {
             return new DateTimeType(ehrExtractAvailabilityTime);
         }
     }
-    
+
     private Optional<Reference> extractRequester(RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04MedicationStatement medicationStatement) {
         if (medicationStatement.hasParticipant()) {
