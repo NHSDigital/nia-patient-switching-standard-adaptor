@@ -42,9 +42,11 @@ import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation2;
 import org.hl7.v3.RCMRMT030101UK04ReversalOf;
 import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
+import org.springframework.stereotype.Service;
 
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
+@Service
 public class MedicationRequestPlanMapper {
     private static final String REPEAT_INFORMATION_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1";
@@ -70,7 +72,7 @@ public class MedicationRequestPlanMapper {
             var ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
             var discontinue = extractMatchingDiscontinue(ehrSupplyAuthoriseId, ehrExtract);
             MedicationRequest medicationRequest = createMedicationRequestSkeleton(
-                supplyAuthorise, subject, context, ehrSupplyAuthoriseId
+                subject, context, ehrSupplyAuthoriseId
             );
 
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, ""));

@@ -22,9 +22,11 @@ import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04Prescribe;
 import org.hl7.v3.TS;
+import org.springframework.stereotype.Service;
 
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
+@Service
 public class MedicationStatementMapper {
     private static final String MEDICATION_STATEMENT_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1";

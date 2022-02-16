@@ -28,6 +28,7 @@ import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
 @Slf4j
 @Service
@@ -41,6 +42,7 @@ public class BundleMapperService {
     private final LocationMapper locationMapper;
     private final ProcedureRequestMapper procedureRequestMapper;
     private final ReferralRequestMapper referralRequestMapper;
+    private final MedicationRequestMapper medicationRequestMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -60,6 +62,9 @@ public class BundleMapperService {
 
         var referralRequests = mapReferralRequests(ehrFolder);
         addEntries(bundle, referralRequests);
+
+        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, List.of(), List.of(), patient);
+        addEntries(bundle, medicationResources);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
         return bundle;

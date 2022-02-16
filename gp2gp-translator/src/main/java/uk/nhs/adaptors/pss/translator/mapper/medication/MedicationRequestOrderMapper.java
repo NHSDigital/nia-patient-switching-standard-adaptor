@@ -24,9 +24,11 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04Prescribe;
 import org.hl7.v3.TS;
+import org.springframework.stereotype.Service;
 
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
+@Service
 public class MedicationRequestOrderMapper {
 
     private static final String NHS_PRESCRIPTION = "NHS prescription";
@@ -39,7 +41,7 @@ public class MedicationRequestOrderMapper {
             var ehrSupplyPrescribeId = ehrSupplyPrescribeIdExtract.get();
             var supplyAuthorise = extractSupplyAuthorise(medicationStatement, ehrSupplyPrescribeId);
             MedicationRequest medicationRequest = createMedicationRequestSkeleton(
-                supplyAuthorise, subject, context, ehrSupplyPrescribeId
+                subject, context, ehrSupplyPrescribeId
             );
 
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyPrescribeId, ""));

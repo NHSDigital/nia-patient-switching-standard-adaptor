@@ -18,9 +18,11 @@ import org.hl7.v3.RCMRMT030101UK04Consumable;
 import org.hl7.v3.RCMRMT030101UK04ManufacturedProduct;
 import org.hl7.v3.RCMRMT030101UK04Material;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.springframework.stereotype.Service;
 
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 
+@Service
 public class MedicationMapper {
     private static final String MEDICATION_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1";

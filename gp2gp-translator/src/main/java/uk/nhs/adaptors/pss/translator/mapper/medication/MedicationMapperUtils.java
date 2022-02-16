@@ -14,7 +14,6 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.SimpleQuantity;
 import org.hl7.fhir.dstu3.model.StringType;
@@ -26,9 +25,6 @@ import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation2;
 import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
-import org.hl7.v3.TS;
-
-import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 public class MedicationMapperUtils {
 
@@ -41,7 +37,7 @@ public class MedicationMapperUtils {
     private static final String PRESCRIPTION_TYPE_CODING_SYSTEM
         = "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1";
 
-    protected static MedicationRequest createMedicationRequestSkeleton(RCMRMT030101UK04Authorise supplyAuthorise, Patient subject,
+    protected static MedicationRequest createMedicationRequestSkeleton(Patient subject,
         Encounter context, String id) {
         return (MedicationRequest) new MedicationRequest()
             .setContext(new Reference(context))
