@@ -60,7 +60,7 @@ public class ParticipantReferenceUtilTest {
 
     @Test
     public void mapResourceWithNoValidParticipant() {
-        var ehrComposition = unmarshallEhrCompositionElement("participant2_participant.xml");
+        var ehrComposition = unmarshallEhrCompositionElement("no_valid_participant.xml");
         var participants = getParticipants(ehrComposition);
 
         Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition);
