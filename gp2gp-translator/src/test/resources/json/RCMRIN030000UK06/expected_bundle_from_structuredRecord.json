@@ -404,6 +404,9 @@
             } ],
             "status": "active",
             "intent": "plan",
+            "subject": {
+                "reference": "Patient/TEST_ID_123"
+            },
             "occurrenceDateTime": "2011-01-15",
             "authoredOn": "2010-01-15T10:06:46+00:00",
             "requester": {
