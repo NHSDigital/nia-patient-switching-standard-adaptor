@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *       &amp;lt;sequence&amp;gt;
  *         &amp;lt;element name="id" type="{urn:hl7-org:v3}II" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="code" type="{urn:hl7-org:v3}CV" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="name" type="{urn:hl7-org:v3}ST" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="name" type="{urn:hl7-org:v3}ED" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="desc" type="{urn:hl7-org:v3}ST" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="manufacturerModelName" type="{urn:hl7-org:v3}SC" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="softwareName" type="{urn:hl7-org:v3}SC" minOccurs="0"/&amp;gt;
@@ -62,8 +62,8 @@ public class RCCTMT120101UK01Device {
 
     protected II id;
     protected CV code;
-    protected ST name;
-    protected ST desc;
+    protected ED name;
+    protected ED desc;
     protected SC manufacturerModelName;
     protected SC softwareName;
     @XmlAttribute(name = "type")
@@ -134,10 +134,10 @@ public class RCCTMT120101UK01Device {
      * 
      * @return
      *     possible object is
-     *     {@link ST }
+     *     {@link ED }
      *     
      */
-    public ST getName() {
+    public ED getName() {
         return name;
     }
 
@@ -146,10 +146,10 @@ public class RCCTMT120101UK01Device {
      * 
      * @param value
      *     allowed object is
-     *     {@link ST }
+     *     {@link ED }
      *     
      */
-    public void setName(ST value) {
+    public void setName(ED value) {
         this.name = value;
     }
 
@@ -158,10 +158,10 @@ public class RCCTMT120101UK01Device {
      * 
      * @return
      *     possible object is
-     *     {@link ST }
+     *     {@link ED }
      *     
      */
-    public ST getDesc() {
+    public ED getDesc() {
         return desc;
     }
 
@@ -170,10 +170,10 @@ public class RCCTMT120101UK01Device {
      * 
      * @param value
      *     allowed object is
-     *     {@link ST }
+     *     {@link ED }
      *     
      */
-    public void setDesc(ST value) {
+    public void setDesc(ED value) {
         this.desc = value;
     }
 

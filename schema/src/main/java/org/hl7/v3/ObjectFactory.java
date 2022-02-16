@@ -78,7 +78,6 @@ public class ObjectFactory {
      *
      */
     private final static QName _CD_QNAME = new QName("urn:hl7-org:v3", "code");
-    private final static QName _VALUE_QNAME = new QName("urn:hl7-org:v3", "value");
     private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
     private final static QName _LINKSET_QNAME = new QName("urn:hl7-org:v3", "LinkSet");
     private final static QName _OBSERVATION_STATEMENT_QNAME = new QName("urn:hl7-org:v3", "ObservationStatement");
@@ -395,14 +394,6 @@ public class ObjectFactory {
      */
     public Thumbnail createThumbnail() {
         return new Thumbnail();
-    }
-
-    /**
-     * Create an instance of {@link ST }
-     * 
-     */
-    public ST createST() {
-        return new ST();
     }
 
     /**
@@ -3505,11 +3496,6 @@ public class ObjectFactory {
         return new JAXBElement<CD>(_CD_QNAME, CD.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "value")
-    public JAXBElement<Value> createValue(Value value) {
-        return new JAXBElement<Value>(_VALUE_QNAME, Value.class, null, value);
-    }
-
     @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "ehrComposition")
     public JAXBElement<RCMRMT030101UK04EhrComposition> createEhrComposition(RCMRMT030101UK04EhrComposition value) {
         return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
@@ -3534,7 +3520,6 @@ public class ObjectFactory {
     public JAXBElement<RCMRMT030101UK04Patient> createPatient(RCMRMT030101UK04Patient patient) {
         return new JAXBElement<RCMRMT030101UK04Patient>(_PATIENT_QNAME, RCMRMT030101UK04Patient.class, null, patient);
     }
-
 
     @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "addr")
     public JAXBElement<AD> createPatient(AD address) {
