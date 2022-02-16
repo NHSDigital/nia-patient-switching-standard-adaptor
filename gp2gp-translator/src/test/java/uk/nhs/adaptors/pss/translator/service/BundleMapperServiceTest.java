@@ -91,7 +91,7 @@ public class BundleMapperServiceTest {
     }
 
     private String getFileAsString(String base, String fileName) {
-        return readResourceAsString("classpath:" + base + fileName);
+        return readResourceAsString(base + fileName);
     }
 
     @SneakyThrows
