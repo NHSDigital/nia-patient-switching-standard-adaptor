@@ -56,10 +56,6 @@ public class ListMapper {
         return consultation;
     }
 
-    private Meta getListMeta() {
-        return new Meta().addProfile(LIST_META_PROFILE);
-    }
-
     private String getConsultationId(String id) {
         return id + CONSULTATION_ID_SUFFIX;
     }
@@ -91,11 +87,11 @@ public class ListMapper {
         topic
             .setStatus(ListResource.ListStatus.CURRENT)
             .setMode(ListResource.ListMode.SNAPSHOT)
-            .setTitle(getTopicTitle(compoundStatement))
+            .setTitle(getTitle(compoundStatement))
             .setCode(getCoding(LIST_CODE_SYSTEM, TOPIC_CODE_CODE, TOPIC_CODE_DISPLAY))
             .setEncounter(consultation.getEncounter())
             .setSubject(consultation.getSubject())
-            .setDateElement(getTopicDate(compoundStatement, consultation))
+            .setDateElement(getDate(compoundStatement, consultation))
             .setOrderedBy(getCoding(LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_DISPLAY))
             .setMeta(getListMeta())
             .setId(getTopicId(compoundStatement));
@@ -103,29 +99,9 @@ public class ListMapper {
         return topic;
     }
 
-    private DateTimeType getTopicDate(RCMRMT030101UK04CompoundStatement compoundStatement, ListResource consultation) {
-        if (compoundStatement != null && compoundStatement.getAvailabilityTime().getValue() != null) {
-            return DateFormatUtil.parseToDateTimeType(compoundStatement.getAvailabilityTime().getValue());
-        }
-
-        return consultation.getDateElement();
-    }
-
-    private String getTopicTitle(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        if (compoundStatement != null) {
-            var codeableConcept = codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
-            if (codeableConcept.hasText()) {
-                return codeableConcept.getText();
-            } else if (codeableConcept.getCoding().get(0).hasDisplay()) {
-                return codeableConcept.getCoding().get(0).getDisplay();
-            }
-        }
-
-        return null;
-    }
-
     private String getTopicId(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return compoundStatement != null ? compoundStatement.getId().get(0).getRoot() : idGenerator.generateUuid(); // TODO: double check this
+        return compoundStatement != null ? compoundStatement.getId().get(0).getRoot() : idGenerator.generateUuid(); // TODO: double check
+        // this
     }
 
     public ListResource mapToCategory(ListResource topic, RCMRMT030101UK04CompoundStatement compoundStatement) {
@@ -134,11 +110,11 @@ public class ListMapper {
         category
             .setStatus(ListResource.ListStatus.CURRENT)
             .setMode(ListResource.ListMode.SNAPSHOT)
-            .setTitle(getCategoryTitle(compoundStatement))
+            .setTitle(getTitle(compoundStatement))
             .setCode(getCoding(LIST_CODE_SYSTEM, CATEGORY_CODE_CODE, CATEGORY_CODE_DISPLAY))
             .setEncounter(topic.getEncounter())
             .setSubject(topic.getSubject())
-            .setDateElement(getCategoryDate(compoundStatement, topic))
+            .setDateElement(getDate(compoundStatement, topic))
             .setOrderedBy(getCoding(LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_DISPLAY))
             .setMeta(getListMeta())
             .setId(compoundStatement.getId().get(0).getRoot());
@@ -146,7 +122,15 @@ public class ListMapper {
         return category;
     }
 
-    private String getCategoryTitle(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private DateTimeType getDate(RCMRMT030101UK04CompoundStatement compoundStatement, ListResource parentList) {
+        if (compoundStatement.getAvailabilityTime().getValue() != null) {
+            return DateFormatUtil.parseToDateTimeType(compoundStatement.getAvailabilityTime().getValue());
+        }
+
+        return parentList.getDateElement();
+    }
+
+    private String getTitle(RCMRMT030101UK04CompoundStatement compoundStatement) {
         if (compoundStatement != null) {
             var codeableConcept = codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
             if (codeableConcept.hasText()) {
@@ -159,12 +143,8 @@ public class ListMapper {
         return null;
     }
 
-    private DateTimeType getCategoryDate(RCMRMT030101UK04CompoundStatement compoundStatement, ListResource topic) {
-        if (compoundStatement.getAvailabilityTime().getValue() != null) {
-            return DateFormatUtil.parseToDateTimeType(compoundStatement.getAvailabilityTime().getValue());
-        }
-
-        return topic.getDateElement();
+    private Meta getListMeta() {
+        return new Meta().addProfile(LIST_META_PROFILE);
     }
 
     private CodeableConcept getCoding(String system, String code, String display) {
