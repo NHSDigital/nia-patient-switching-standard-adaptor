@@ -58,7 +58,7 @@ import javax.xml.bind.annotation.XmlType;
     org.hl7.v3.AD.CensusTract.class
 })
 public class ADXP
-    extends ST
+    extends ED
 {
 
     @XmlAttribute(name = "partType")
