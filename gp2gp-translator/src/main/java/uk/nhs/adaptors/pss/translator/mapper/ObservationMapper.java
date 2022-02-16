@@ -80,6 +80,7 @@ public class ObservationMapper {
             .stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getObservationStatement)
+            .filter(Objects::nonNull)
             .map(observationStatement -> {
                 var id = observationStatement.getId().getRoot();
 
