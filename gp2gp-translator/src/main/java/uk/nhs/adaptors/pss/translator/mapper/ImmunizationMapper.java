@@ -1,12 +1,12 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
+import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -81,24 +81,15 @@ public class ImmunizationMapper {
         immunization.getExtension().add(createVaccineProcedureExtension(observationStatement));
         immunization.getExtension().add(createRecordedTimeExtension(ehrComposition));
         immunization
+            .setDateElement(date)
+            .setEncounter(encounter)
+            .addPractitioner(new Immunization.ImmunizationPractitionerComponent(practitioner))
             .setStatus(Immunization.ImmunizationStatus.COMPLETED)
             .setNotGiven(false)
             .setPrimarySource(false)
             .setPatient(new Reference(patientResource))
             .setId(id);
-
-        if (date != null) {
-            immunization.setDate(date);
-        }
-        if (encounter != null) {
-            immunization.setEncounter(encounter);
-        }
-        if (note != null) {
-            immunization.getNote().add(note);
-        }
-        if (practitioner != null) {
-            immunization.addPractitioner(new Immunization.ImmunizationPractitionerComponent(practitioner));
-        }
+        immunization.getNote().add(note);
 
         return immunization;
     }
@@ -189,7 +180,7 @@ public class ImmunizationMapper {
         return null;
     }
 
-    private Date getObservationDate(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private DateTimeType getObservationDate(RCMRMT030101UK04ObservationStatement observationStatement) {
         if (observationStatement.getEffectiveTime() != null) {
             var center = getTSStringValue(observationStatement.getEffectiveTime().getCenter());
             var low = getIVXBTSStringValue(observationStatement.getEffectiveTime().getLow());
@@ -197,13 +188,13 @@ public class ImmunizationMapper {
             var availabilityTimeValue = observationStatement.getAvailabilityTime();
 
             if (center != null) {
-                return DateFormatUtil.parseToDateTimeType(center).getValue();
+                return DateFormatUtil.parseToDateTimeType(center);
             } else if (low != null && high != null) {
-                return DateFormatUtil.parseToDateTimeType(low).getValue();
+                return DateFormatUtil.parseToDateTimeType(low);
             } else if (low != null) {
-                return DateFormatUtil.parseToDateTimeType(low).getValue();
+                return DateFormatUtil.parseToDateTimeType(low);
             } else if (high != null && availabilityTimeValue.getValue() != null && availabilityTimeValue.getNullFlavor() == null) {
-                return DateFormatUtil.parseToDateTimeType(availabilityTimeValue.getValue()).getValue();
+                return DateFormatUtil.parseToDateTimeType(availabilityTimeValue.getValue());
             }
         }
 

@@ -114,7 +114,7 @@ public class ImmunizationMapperTest {
     }
 
     private void assertImmunizationWithHighAndLowEffectiveTime(Immunization immunization) {
-        assertThat(immunization.getDate()).isEqualTo("2011-01-18T11:41:00.000");
+        assertThat(immunization.getDateElement()).isEqualTo("2011-01-18T11:41:00.000");
         assertThat(immunization.getNote().get(0).getText())
             .isEqualTo(OBSERVATION_TEXT + " End Date: 20100118114100");
     }
@@ -160,7 +160,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getStatus()).isEqualTo(Immunization.ImmunizationStatus.COMPLETED);
         assertThat(immunization.getPrimarySource()).isEqualTo(false);
         assertThat(immunization.getDate()).isNull();
-        assertThat(immunization.getNote()).isEmpty();
+        assertThat(immunization.getNote().get(0)).isNull();
         assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo("9A5D5A78-1F63-434C-9637-1D7E7843341B");
         assertThat(immunization.getEncounter().getReference()).isNull();
     }
