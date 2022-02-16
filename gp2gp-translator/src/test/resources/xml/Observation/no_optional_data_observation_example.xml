@@ -3,6 +3,7 @@
         <ehrFolder classCode="FOLDER" moodCode="EVN">
             <component typeCode="COMP">
                 <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                    <id root="CA4AD477-C33B-4FE7-8417-A242BB3D23AF"/>
                     <author typeCode="AUT" contextControlCode="OP">
                         <time value="20200101010101"/>
                         <agentRef classCode="AGNT">

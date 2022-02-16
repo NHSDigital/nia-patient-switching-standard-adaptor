@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
+
 import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 
@@ -68,8 +70,6 @@ public class ObservationMapper {
     public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         /**
          * TODO: Known future implementations to this mapper
-         * - subject: references a global patient resource for the transaction (NIAD-2024) <- DONE
-         * - context: references an encounter resource if it has been generated from the ehrComposition (NIAD-2025) <- DONE
          * - performer: fallback to a default 'Unknown User' Practitioner if none are present in performer (NIAD-2026)
          * - concatenate source practice org id to identifier URL (NIAD-2021)
          */
@@ -84,7 +84,7 @@ public class ObservationMapper {
                 var id = observationStatement.getId().getRoot();
 
                 Observation observation = new Observation()
-                    .setStatus(ObservationStatus.FINAL)
+                    .setStatus(FINAL)
                     .addIdentifier(getIdentifier(id))
                     .setCode(getCode(observationStatement.getCode()))
                     .setIssuedElement(getIssued(ehrExtract, observationStatement.getId()))
@@ -94,12 +94,9 @@ public class ObservationMapper {
                     .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
                     .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject()))
                     .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
-                    .setSubject(createPatientReference(patient))
-                    .addPerformer(getParticipantReference(
-                        observationStatement.getParticipant(),
-                        extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId())
-                    ));
+                    .setSubject(new Reference(patient));
 
+                observation.setId(id);
                 observation.getMeta().getProfile().add(new UriType(META_PROFILE));
 
                 addContext(observation, getEncounterReference(ehrExtract, encounters,
@@ -113,7 +110,8 @@ public class ObservationMapper {
             }).toList();
     }
 
-    private II getEhrCompositionId(List<RCMRMT030101UK04EhrComposition> ehrCompositions, RCMRMT030101UK04ObservationStatement observationStatement) {
+    private II getEhrCompositionId(List<RCMRMT030101UK04EhrComposition> ehrCompositions,
+        RCMRMT030101UK04ObservationStatement observationStatement) {
         return ehrCompositions
             .stream()
             .filter(e -> e.getComponent()
@@ -125,7 +123,7 @@ public class ObservationMapper {
     }
 
     private void addContext(Observation observation, Reference context) {
-        if(context != null) {
+        if (context != null) {
             observation.setContext(context);
         }
     }
@@ -344,7 +342,6 @@ public class ObservationMapper {
             var referenceRangeComponent = new ObservationReferenceRangeComponent();
             referenceRangeComponent.setText(referenceRange.getReferenceInterpretationRange().getText());
 
-
             var quantity = quantityMapper.mapQuantity(referenceRange.getReferenceInterpretationRange().getValue());
 
             var referenceInterpretationRange = referenceRange.getReferenceInterpretationRange();
@@ -377,10 +374,6 @@ public class ObservationMapper {
             .setCode(quantity.getCode())
             .setSystem(quantity.getSystem())
             .setComparator(quantity.getComparator());
-    }
-
-    private Reference createPatientReference(Patient patient) {
-        return new Reference(patient);
     }
 
     private Reference getEncounterReference(RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounterList, String ehrCompositionId) {

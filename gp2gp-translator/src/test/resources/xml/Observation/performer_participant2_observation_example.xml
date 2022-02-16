@@ -3,6 +3,7 @@
         <ehrFolder classCode="FOLDER" moodCode="EVN">
             <component typeCode="COMP">
                 <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                    <id root="CA4AD477-C33B-4FE7-8417-A242BB3D23AF"/>
                     <Participant2 typeCode="PRF" contextControlCode="OP">
                         <agentRef classCode="AGNT">
                             <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
