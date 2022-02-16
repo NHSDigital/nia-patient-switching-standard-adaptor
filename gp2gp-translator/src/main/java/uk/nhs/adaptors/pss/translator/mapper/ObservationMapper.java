@@ -3,12 +3,12 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
 import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement;
+import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -99,7 +99,7 @@ public class ObservationMapper {
                 observation.setId(id);
                 observation.getMeta().getProfile().add(new UriType(META_PROFILE));
 
-                addContext(observation, getEncounterReference(ehrExtract, encounters,
+                addContext(observation, getEncounterReference(compositionsList, encounters,
                     getEhrCompositionId(compositionsList, observationStatement).getRoot()));
                 addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
                     getValueString(observationStatement.getValue()));
@@ -374,17 +374,6 @@ public class ObservationMapper {
             .setCode(quantity.getCode())
             .setSystem(quantity.getSystem())
             .setComparator(quantity.getComparator());
-    }
-
-    private Reference getEncounterReference(RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounterList, String ehrCompositionId) {
-        return getCompositionsContainingObservationStatement(ehrExtract)
-            .stream()
-            .map(component3 -> encounterList
-                .stream()
-                .filter(encounter -> encounter.getId().equals(ehrCompositionId))
-                .findFirst()
-            ).flatMap(Optional::stream)
-            .findFirst().map(Reference::new).orElse(null);
     }
 
     private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingObservationStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
