@@ -52,7 +52,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class RCMRMT030101UK04SpecimenMaterial {
 
     @XmlElement(required = true)
-    protected ST desc;
+    protected ED desc;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -73,10 +73,10 @@ public class RCMRMT030101UK04SpecimenMaterial {
      * 
      * @return
      *     possible object is
-     *     {@link ST }
+     *     {@link ED }
      *     
      */
-    public ST getDesc() {
+    public ED getDesc() {
         return desc;
     }
 
@@ -85,10 +85,10 @@ public class RCMRMT030101UK04SpecimenMaterial {
      * 
      * @param value
      *     allowed object is
-     *     {@link ST }
+     *     {@link ED }
      *     
      */
-    public void setDesc(ST value) {
+    public void setDesc(ED value) {
         this.desc = value;
     }
 

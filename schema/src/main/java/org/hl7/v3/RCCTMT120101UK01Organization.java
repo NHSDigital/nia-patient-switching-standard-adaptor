@@ -63,7 +63,7 @@ public class RCCTMT120101UK01Organization {
     protected II id;
     protected CV code;
     protected String name;
-    protected ST desc;
+    protected ED desc;
     protected List<TEL> telecom;
     protected List<AD> addr;
     @XmlAttribute(name = "type")
@@ -158,10 +158,10 @@ public class RCCTMT120101UK01Organization {
      * 
      * @return
      *     possible object is
-     *     {@link ST }
+     *     {@link ED }
      *     
      */
-    public ST getDesc() {
+    public ED getDesc() {
         return desc;
     }
 
@@ -170,10 +170,10 @@ public class RCCTMT120101UK01Organization {
      * 
      * @param value
      *     allowed object is
-     *     {@link ST }
+     *     {@link ED }
      *     
      */
-    public void setDesc(ST value) {
+    public void setDesc(ED value) {
         this.desc = value;
     }
 
