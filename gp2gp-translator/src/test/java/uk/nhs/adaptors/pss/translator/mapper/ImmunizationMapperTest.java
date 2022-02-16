@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @ExtendWith(MockitoExtension.class)
 public class ImmunizationMapperTest {
@@ -114,13 +115,15 @@ public class ImmunizationMapperTest {
     }
 
     private void assertImmunizationWithHighAndLowEffectiveTime(Immunization immunization) {
-        assertThat(immunization.getDateElement()).isEqualTo("2011-01-18T11:41:00.000");
+        assertThat(immunization.getDateElement().getValue()).isEqualTo(
+            DateFormatUtil.parseToDateTimeType("20110118114100000").getValue());
         assertThat(immunization.getNote().get(0).getText())
             .isEqualTo(OBSERVATION_TEXT + " End Date: 20100118114100");
     }
 
     private void assertImmunizationWithEffectiveTimeLow(Immunization immunization) {
-        assertThat(immunization.getDate()).isEqualTo("2010-01-18T11:41:00.000");
+        assertThat(immunization.getDateElement().getValue()).isEqualTo(
+            DateFormatUtil.parseToDateTimeType("20100118114100000").getValue());
         assertThat(immunization.getNote().get(0).getText())
             .isEqualTo(OBSERVATION_TEXT);
     }
@@ -132,7 +135,8 @@ public class ImmunizationMapperTest {
     }
 
     private void assertImmunizationWithHighEffectiveTimeCenter(Immunization immunization) {
-        assertThat(immunization.getDate()).isEqualTo("2010-01-18T11:41:00.000");
+        assertThat(immunization.getDateElement().getValue()).isEqualTo(
+            DateFormatUtil.parseToDateTimeType("20100118114100000").getValue());
         assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
     }
 
@@ -143,7 +147,8 @@ public class ImmunizationMapperTest {
         assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
         assertThat(immunization.getStatus()).isEqualTo(Immunization.ImmunizationStatus.COMPLETED);
         assertThat(immunization.getPrimarySource()).isEqualTo(false);
-        assertThat(immunization.getDate()).isEqualTo("2010-01-18T11:41:00.000");
+        assertThat(immunization.getDateElement().getValue()).isEqualTo(
+            DateFormatUtil.parseToDateTimeType("20100118114100000").getValue());
         assertThat(immunization.getNote().get(0).getText())
             .isEqualTo(OBSERVATION_TEXT + " End Date: 20100118114100");
         assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo("9A5D5A78-1F63-434C-9637-1D7E7843341B");
