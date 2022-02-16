@@ -2,7 +2,10 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.UUID;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -17,9 +20,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.model.TransferRequestMessage;
+import uk.nhs.adaptors.common.service.MDCService;
 
 @ExtendWith(MockitoExtension.class)
 public class QueueMessageHandlerTest {
+
+    private static final String CONVERSATION_ID = UUID.randomUUID().toString();
+
     @Mock
     private Message message;
 
@@ -29,19 +36,30 @@ public class QueueMessageHandlerTest {
     @Mock
     private ObjectMapper objectMapper;
 
+    @Mock
+    private MDCService mdcService;
+
     @InjectMocks
     private QueueMessageHandler queueMessageHandler;
 
     @Test
     public void handleMessageWhenSendEhrExtractRequestHandlerReturnsTrue() {
         prepareMocks(true);
-        assertTrue(queueMessageHandler.handle(message));
+
+        boolean messageAcknowledged = queueMessageHandler.handle(message);
+
+        verify(mdcService).applyConversationId(CONVERSATION_ID);
+        assertTrue(messageAcknowledged);
     }
 
     @Test
     public void handleMessageWhenSendEhrExtractRequestHandlerReturnsFalse() {
         prepareMocks(false);
-        assertFalse(queueMessageHandler.handle(message));
+
+        boolean messageAcknowledged = queueMessageHandler.handle(message);
+
+        verify(mdcService).applyConversationId(CONVERSATION_ID);
+        assertFalse(messageAcknowledged);
     }
 
     @Test
@@ -54,7 +72,9 @@ public class QueueMessageHandlerTest {
     @SneakyThrows
     private void prepareMocks(boolean prepareAndSendRequestResult) {
         var messageBody = "MESSAGE_BODY";
-        var transferRequestMessage = TransferRequestMessage.builder().build();
+        var transferRequestMessage = TransferRequestMessage.builder()
+            .conversationId(CONVERSATION_ID)
+            .build();
         when(message.getBody(String.class)).thenReturn(messageBody);
         when(objectMapper.readValue(messageBody, TransferRequestMessage.class)).thenReturn(transferRequestMessage);
         when(sendEhrExtractRequestHandler.prepareAndSendRequest(transferRequestMessage)).thenReturn(prepareAndSendRequestResult);
