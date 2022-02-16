@@ -2,7 +2,9 @@ package uk.nhs.adaptors.pss.gpc.service;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 
 import java.util.Map;
 
@@ -33,7 +35,7 @@ public class PatientTransferService {
     private final DateUtils dateUtils;
     private final MDCService mdcService;
 
-    public MigrationStatusLog handlePatientMigrationRequest(Parameters parameters, Map<String, String> accreditedSystemsIds) {
+    public MigrationStatusLog handlePatientMigrationRequest(Parameters parameters, Map<String, String> headers) {
         var patientNhsNumber = ParametersUtils.getNhsNumberFromParameters(parameters).get().getValue();
         PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
 
@@ -42,7 +44,7 @@ public class PatientTransferService {
             int addedId = patientMigrationRequestDao.getMigrationRequestId(patientNhsNumber);
             migrationStatusLogDao.addMigrationStatusLog(REQUEST_RECEIVED, dateUtils.getCurrentOffsetDateTime(), addedId);
 
-            var pssMessage = createTransferRequestMessage(patientNhsNumber, accreditedSystemsIds);
+            var pssMessage = createTransferRequestMessage(patientNhsNumber, headers);
             pssQueuePublisher.sendToPssQueue(pssMessage);
         } else {
             return migrationStatusLogDao.getMigrationStatusLog(patientMigrationRequest.getId());
@@ -54,12 +56,14 @@ public class PatientTransferService {
         return fhirParser.encodeToJson(new Bundle());
     }
 
-    private TransferRequestMessage createTransferRequestMessage(String patientNhsNumber, Map<String, String> accreditedSystemsIds) {
+    private TransferRequestMessage createTransferRequestMessage(String patientNhsNumber, Map<String, String> headers) {
         return TransferRequestMessage.builder()
             .conversationId(mdcService.getConversationId())
             .patientNhsNumber(patientNhsNumber)
-            .toAsid(accreditedSystemsIds.get(TO_ASID))
-            .fromAsid(accreditedSystemsIds.get(FROM_ASID))
+            .toAsid(headers.get(TO_ASID))
+            .fromAsid(headers.get(FROM_ASID))
+            .toOds(headers.get(TO_ODS))
+            .fromOds(headers.get(FROM_ODS))
             .build();
     }
 }

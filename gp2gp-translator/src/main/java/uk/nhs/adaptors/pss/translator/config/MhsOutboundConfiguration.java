@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "mhs.outbound")
+@ConfigurationProperties(prefix = "mhs")
 public class MhsOutboundConfiguration {
     private String url;
 }

@@ -4,12 +4,17 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
+import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.handler.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 
 import java.util.List;
 import java.util.Map;
@@ -37,7 +42,13 @@ import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 @Slf4j
 @Validated
 public class PatientTransferController {
-    private static final List<MigrationStatus> IN_PROGRESS_STATUSES = List.of(REQUEST_RECEIVED, EHR_EXTRACT_REQUEST_ACCEPTED);
+    private static final List<MigrationStatus> IN_PROGRESS_STATUSES = List.of(
+        REQUEST_RECEIVED,
+        EHR_EXTRACT_REQUEST_ACCEPTED,
+        EHR_EXTRACT_RECEIVED,
+        EHR_EXTRACT_TRANSLATED,
+        CONTINUE_REQUEST_ACCEPTED
+    );
 
     private final PatientTransferService patientTransferService;
 
@@ -49,11 +60,18 @@ public class PatientTransferController {
     public ResponseEntity<String> migratePatientStructuredRecord(
         @RequestBody @PatientTransferRequest Parameters body,
         @RequestHeader(TO_ASID) @NotNull String toAsid,
-        @RequestHeader(FROM_ASID) @NotNull String fromAsid) {
+        @RequestHeader(FROM_ASID) @NotNull String fromAsid,
+        @RequestHeader(TO_ODS) @NotNull String toOds,
+        @RequestHeader(FROM_ODS) @NotNull String fromOds) {
         LOGGER.info("Received patient transfer request");
-        Map<String, String> accreditedSystemsIds = Map.of(TO_ASID, toAsid, FROM_ASID, fromAsid);
+        Map<String, String> headers = Map.of(
+            TO_ASID, toAsid,
+            FROM_ASID, fromAsid,
+            TO_ODS, toOds,
+            FROM_ODS, fromOds
+        );
 
-        MigrationStatusLog request = patientTransferService.handlePatientMigrationRequest(body, accreditedSystemsIds);
+        MigrationStatusLog request = patientTransferService.handlePatientMigrationRequest(body, headers);
         if (request == null) {
             return new ResponseEntity<>(ACCEPTED);
         } else if (IN_PROGRESS_STATUSES.contains(request.getMigrationStatus())) {

@@ -7,7 +7,9 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 
 import java.time.OffsetDateTime;
 import java.util.Map;
@@ -35,8 +37,8 @@ import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferServiceTest {
     private static final String PATIENT_NHS_NUMBER = "123456789";
-    private static final Map<String, String> ASIDS = Map.of(TO_ASID, "1234", FROM_ASID, "5678");
     private static final String CONVERSATION_ID = UUID.randomUUID().toString();
+    private static final Map<String, String> HEADERS = Map.of(TO_ASID, "1234", FROM_ASID, "5678", TO_ODS, "EFG", FROM_ODS, "ABC");
 
     @Mock
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -68,8 +70,10 @@ public class PatientTransferServiceTest {
         var expectedPssQueueMessage = TransferRequestMessage.builder()
             .conversationId(CONVERSATION_ID)
             .patientNhsNumber(PATIENT_NHS_NUMBER)
-            .toAsid(ASIDS.get(TO_ASID))
-            .fromAsid(ASIDS.get(FROM_ASID))
+            .toAsid(HEADERS.get(TO_ASID))
+            .fromAsid(HEADERS.get(FROM_ASID))
+            .toOds(HEADERS.get(TO_ODS))
+            .fromOds(HEADERS.get(FROM_ODS))
             .build();
         var migrationRequestId = 1;
         OffsetDateTime now = OffsetDateTime.now();
@@ -78,7 +82,7 @@ public class PatientTransferServiceTest {
         when(patientMigrationRequestDao.getMigrationRequestId(PATIENT_NHS_NUMBER)).thenReturn(migrationRequestId);
         when(mdcService.getConversationId()).thenReturn(CONVERSATION_ID);
 
-        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, ASIDS);
+        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);
 
         assertThat(patientMigrationRequest).isEqualTo(null);
         verify(pssQueuePublisher).sendToPssQueue(expectedPssQueueMessage);
@@ -94,7 +98,7 @@ public class PatientTransferServiceTest {
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(expectedPatientMigrationRequest);
         when(migrationStatusLogDao.getMigrationStatusLog(expectedPatientMigrationRequest.getId())).thenReturn(expectedMigrationStatusLog);
 
-        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, ASIDS);
+        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);
 
         assertThat(patientMigrationRequest).isEqualTo(expectedMigrationStatusLog);
         verifyNoInteractions(pssQueuePublisher);
