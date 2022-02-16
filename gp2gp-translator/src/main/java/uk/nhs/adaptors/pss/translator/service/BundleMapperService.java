@@ -55,7 +55,8 @@ public class BundleMapperService {
         addEntry(bundle, patient);
         addEntries(bundle, agents);
 
-//        var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient);
+        var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient);
+        var encounters = mappedEncounterEhrCompositions.get("encounters");
 //        addEntries(bundle, encounters);
 
         var locations = mapLocations(ehrFolder);
@@ -72,7 +73,7 @@ public class BundleMapperService {
     }
 
     private Map<String, List<Object>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
-        return encounterMapper.mapAllEncounters(ehrExtract, patient);
+        return encounterMapper.mapEncounters(ehrExtract, patient);
     }
 
     private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UK04EhrFolder ehrFolder) {

@@ -56,7 +56,7 @@ public class EncounterTest {
     public void mapEncounterWithFullData() {
         var ehrExtract = unmarshallEhrExtractElement("test.xml");
 
-        Map<String, List<Object>> mappedResources = encounterMapper.mapAllEncounters(ehrExtract, patient);
+        Map<String, List<Object>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
 
         var encounterList = mappedResources.get("encounters");
 

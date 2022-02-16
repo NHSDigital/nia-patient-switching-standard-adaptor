@@ -1,7 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +26,7 @@ import org.hl7.v3.IVLTS;
 import org.hl7.v3.IVXBTS;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component;
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
@@ -57,16 +58,17 @@ public class EncounterMapper {
     private static final String RECORDER_CODE = "REC";
     private static final String RECORDER_DISPLAY = "recorder";
     private static final String TOPIC_CLASS_CODE = "TOPIC";
+    private static final String CATEGORY_CLASS_CODE = "CATEGORY";
     private static final String ENCOUNTER_KEY = "encounters";
     private static final String CONSULTATION_KEY = "consultations";
     private static final String TOPIC_KEY = "topics";
+    private static final String CATEGORY_KEY = "categories";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
 
     private final CodeableConceptMapper codeableConceptMapper;
-    private final ConsultationListMapper consultationListMapper;
-    private final TopicListMapper topicListMapper;
+    private final ListMapper listMapper;
 
-    public Map<String, List<Object>> mapAllEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
+    public Map<String, List<Object>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
         List<RCMRMT030101UK04EhrComposition> ehrCompositionList = getEncounterEhrCompositions(ehrExtract);
         List<Encounter> encounterList = new ArrayList<>();
         List<ListResource> consultationList = new ArrayList<>();
@@ -77,19 +79,27 @@ public class EncounterMapper {
 
         ehrCompositionList.forEach(ehrComposition -> {
             var encounter = mapToEncounter(ehrComposition, patient);
-            var consultation = consultationListMapper.mapToConsultation(ehrExtract, encounter);
+            var consultation = listMapper.mapToConsultation(ehrExtract, encounter);
 
             var topicCompoundStatementList = getTopicCompoundStatements(ehrComposition);
             if (CollectionUtils.isEmpty(topicCompoundStatementList)) {
                 // generate a 'flat' consultation
-                var topic = topicListMapper.mapToTopic(consultation, null);
+                var topic = listMapper.mapToTopic(consultation, null);
 
-                consultation.addEntry(new ListResource.ListEntryComponent(new Reference(topic)));
+                consultation.addEntry(new ListEntryComponent(new Reference(topic)));
                 topicList.add(topic);
             } else {
                 // generate a 'structured' topic for each child CompoundStatement
                 topicCompoundStatementList.forEach(compoundStatement -> {
-                    var topic = topicListMapper.mapToTopic(consultation, compoundStatement);
+                    var topic = listMapper.mapToTopic(consultation, compoundStatement);
+
+                    var categoryCompoundStatements = getCategoryCompoundStatements(compoundStatement);
+                    categoryCompoundStatements.forEach(categoryCompoundStatement -> {
+                        var category = listMapper.mapToCategory(topic, categoryCompoundStatement);
+
+                        topic.addEntry(new ListEntryComponent(new Reference(category)));
+                        categoryList.add(category);
+                    });
 
                     topicList.add(topic);
                     consultation.addEntry(new ListResource.ListEntryComponent(new Reference(topic)));
@@ -100,11 +110,20 @@ public class EncounterMapper {
             consultationList.add(consultation);
         });
 
-        map.put(ENCOUNTER_KEY, Collections.singletonList(encounterList));
-        map.put(CONSULTATION_KEY, Collections.singletonList(consultationList));
-        map.put(TOPIC_KEY, Collections.singletonList(topicList));
+        map.put(ENCOUNTER_KEY, Arrays.asList(encounterList.toArray()));
+        map.put(CONSULTATION_KEY, Arrays.asList(consultationList.toArray()));
+        map.put(TOPIC_KEY, Arrays.asList(topicList.toArray()));
+        map.put(CATEGORY_KEY, Arrays.asList(categoryList.toArray()));
 
         return map;
+    }
+
+    private List<RCMRMT030101UK04CompoundStatement> getCategoryCompoundStatements(RCMRMT030101UK04CompoundStatement topicCompoundStatement) {
+        return topicCompoundStatement.getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(compoundStatement -> compoundStatement != null && compoundStatement.getClassCode().get(0).equals(CATEGORY_CLASS_CODE))
+            .collect(Collectors.toList());
     }
 
     private List<RCMRMT030101UK04EhrComposition> getEncounterEhrCompositions(RCMRMT030101UK04EhrExtract ehrExtract) {
@@ -147,14 +166,10 @@ public class EncounterMapper {
             .setStatus(EncounterStatus.FINISHED)
             .setSubject(new Reference(patient))
             .setType(getEncounterType(ehrComposition.getCode()))
+            .setPeriod(getPeriod(ehrComposition.getEffectiveTime(), ehrComposition.getAvailabilityTime()))
             .setIdentifier(getEncounterIdentifier(id))
             .setMeta(getEncounterMeta())
             .setId(id);
-
-        var period = getPeriod(ehrComposition.getEffectiveTime(), ehrComposition.getAvailabilityTime());
-        if (period != null) {
-            encounter.setPeriod(period);
-        }
 
         var location = getLocation(ehrComposition);
         if (location != null) {
