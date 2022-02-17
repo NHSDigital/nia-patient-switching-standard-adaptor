@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Locale;
@@ -46,6 +47,8 @@ public class DateFormatUtil {
     private static final String DATE_MONTH_FORMAT = "yyyyMM";
     private static final String DATE_YEAR_FORMAT = "yyyy";
     private static final String ERROR_MESSAGE = "Unable to parse date %s to Fhir date format";
+    private static final String HL7_DATETIME_FORMAT = "yyyyMMddHHmmss";
+    private static final DateTimeFormatter HL7_SECONDS_COMPUTER_READABLE = DateTimeFormatter.ofPattern(HL7_DATETIME_FORMAT);
 
     public static DateTimeType parseToDateTimeType(String dateToParse) {
         DateFormat format = getFormat(dateToParse);
@@ -78,6 +81,10 @@ public class DateFormatUtil {
             LocalDateTime parse = LocalDateTime.parse(dateStr);
             return Date.from(Instant.from(parse.atZone(UK_ZONE_ID)));
         }
+    }
+
+    public static String toHl7Format(Instant instant) {
+        return instant.atZone(UK_ZONE_ID).format(HL7_SECONDS_COMPUTER_READABLE);
     }
 
     private DateFormat getFormat(String date) {

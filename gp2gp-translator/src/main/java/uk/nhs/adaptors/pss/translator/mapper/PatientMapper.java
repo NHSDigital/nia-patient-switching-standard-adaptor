@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientMapper {
 
-    private final FhirIdGeneratorService idGenerator;
+    private final IdGeneratorService idGenerator;
 
     private static final String NHS_NUMBER_SYSTEM_URL = "https://fhir.nhs.uk/Id/nhs-number";
     private static final String META_PROFILE_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1";

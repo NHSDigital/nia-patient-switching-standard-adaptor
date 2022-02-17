@@ -3,7 +3,7 @@ package uk.nhs.adaptors.pss.translator.task;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -24,26 +24,24 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.model.PssQueueMessage;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
-import uk.nhs.adaptors.pss.translator.config.GeneralProperties;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
-import uk.nhs.adaptors.pss.translator.model.OutboundMessage;
+import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
 @ExtendWith(MockitoExtension.class)
 public class SendEhrExtractRequestHandlerTest {
     private static final String TEST_NHS_NUMBER = "123456";
-    private static final String TEST_FROM_ODS_CODE = "TEST_FROM_ODS";
+    private static final String TEST_TO_ODS_CODE = "TEST_FROM_ODS";
     private static final String TEST_PAYLOAD_BODY = "TEST_PAYLOAD_BODY";
+    private static final String CONVERSATION_ID = "abc-236";
 
     @Mock
     private MhsRequestBuilder builder;
 
     @Mock
     private EhrExtractRequestService ehrExtractRequestService;
-
-    @Mock
-    private GeneralProperties generalProperties;
 
     @Mock
     private WebClient.RequestHeadersSpec request;
@@ -53,6 +51,9 @@ public class SendEhrExtractRequestHandlerTest {
 
     @Mock
     private MhsClientService mhsClientService;
+
+    @Mock
+    private IdGeneratorService idGeneratorService;
 
     @InjectMocks
     private SendEhrExtractRequestHandler sendEhrExtractRequestHandler;
@@ -64,10 +65,12 @@ public class SendEhrExtractRequestHandlerTest {
     public void setup() {
         pssQueueMessage = PssQueueMessage.builder()
             .patientNhsNumber(TEST_NHS_NUMBER)
+            .toOds(TEST_TO_ODS_CODE)
             .build();
-        when(generalProperties.getFromOdsCode()).thenReturn(TEST_FROM_ODS_CODE);
-        when(ehrExtractRequestService.buildEhrExtractRequest(TEST_NHS_NUMBER, TEST_FROM_ODS_CODE)).thenReturn(TEST_PAYLOAD_BODY);
-        when(builder.buildSendEhrExtractRequest(anyString(), anyString(), any(OutboundMessage.class))).thenReturn(request);
+        when(ehrExtractRequestService.buildEhrExtractRequest(pssQueueMessage)).thenReturn(TEST_PAYLOAD_BODY);
+        when(idGeneratorService.generateUuid()).thenReturn(CONVERSATION_ID);
+        when(builder.buildSendEhrExtractRequest(eq(CONVERSATION_ID), eq(TEST_TO_ODS_CODE), any(OutboundMessage.class)))
+            .thenReturn(request);
     }
 
     @Test
