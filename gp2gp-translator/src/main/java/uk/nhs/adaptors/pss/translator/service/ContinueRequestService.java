@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.util.DateUtils;
+import uk.nhs.adaptors.common.util.FileUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.FileUtils;
 
 @Service
 @Slf4j
@@ -31,7 +31,7 @@ public class ContinueRequestService {
         var timestamp = DateFormatUtil.toHl7Format(dateUtils.getCurrentInstant());
         var messageId = idGeneratorService.generateUuid().toLowerCase();
 
-        return FileUtils.readFile(CONTINUE_REQUEST_FILE)
+        return FileUtil.readResourceAsString(CONTINUE_REQUEST_FILE)
             .replace(MESSAGE_ID_PLACEHOLDER, messageId)
             .replace(CREATION_TIMESTAMP_PLACEHOLDER, timestamp)
             .replace(FROM_ASID_PLACEHOLDER, fromAsid)

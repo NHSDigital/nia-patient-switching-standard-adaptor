@@ -9,9 +9,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.pss.translator.util.FileUtils.readFile;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -156,6 +156,6 @@ public class MhsQueueMessageHandlerTest {
 
     @SneakyThrows
     private String readInboundMessagePayloadFromFile() {
-        return readFile("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
+        return readResourceAsString("xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 }
