@@ -39,7 +39,7 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 @AutoConfigureMockMvc
 public class EhrExtractHandlingIT {
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
-    private static final String EBXML_PART_PATH = "xml/ebxml_part.xml";
+    private static final String EBXML_PART_PATH = "/xml/ebxml_part.xml";
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
     private static final List<String> IGNORED_JSON_PATHS = List.of(
         "id",
@@ -71,13 +71,13 @@ public class EhrExtractHandlingIT {
     @Test
     public void handleEhrExtractFromQueue() throws JSONException {
         // process starts with consuming a message from MHS queue
-        sendInboundMessageToQueue("xml/payload_part.xml");
+        sendInboundMessageToQueue("/xml/payload_part.xml");
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
         await().until(this::isEhrExtractTranslated);
 
         // verify generated bundle resource
-        verifyBundle("json/expectedBundle.json");
+        verifyBundle("/json/expectedBundle.json");
     }
 
     private void startPatientMigrationJourney() {
