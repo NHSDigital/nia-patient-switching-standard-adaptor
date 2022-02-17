@@ -73,6 +73,8 @@ task integrationTest(type: Test) {
     }
 }
 
+check.dependsOn integrationTest
+
 tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
     excludeFilter = rootProject.file('config/spotbugs/exclude.xml')
     reports {

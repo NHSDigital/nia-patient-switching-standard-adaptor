@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.common.testutil.FileUtils.readResourceAsString;
+import static uk.nhs.adaptors.common.testutil.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.stream.Stream;
