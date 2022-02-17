@@ -156,6 +156,6 @@ public class MhsQueueMessageHandlerTest {
 
     @SneakyThrows
     private String readInboundMessagePayloadFromFile() {
-        return readResourceAsString("xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
+        return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 }

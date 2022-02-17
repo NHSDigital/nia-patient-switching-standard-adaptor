@@ -15,7 +15,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class EhrExtractRequestService {
-    private static final String EHR_EXTRACT_REQUEST_FILE = "ehr/ehrExtractRequest.xml";
+    private static final String EHR_EXTRACT_REQUEST_FILE = "/ehr/ehrExtractRequest.xml";
     private static final String FROM_ODS_CODE_PLACEHOLDER = "%%fromODSCode%%";
     private static final String TO_ODS_CODE_PLACEHOLDER = "%%toODSCode%%";
     private static final String NHS_NUMBER_PLACEHOLDER = "%%NHSNumber%%";
