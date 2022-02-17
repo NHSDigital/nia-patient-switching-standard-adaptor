@@ -21,12 +21,12 @@ public class MhsQueueConsumer {
     @SneakyThrows
     public void receive(Message message) {
         String messageId = message.getJMSMessageID();
-        LOGGER.debug("Received a message from MSHQueue, message_id=[{}]", messageId);
+        LOGGER.debug("Received a message from MHSQueue, message_id=[{}]", messageId);
         if (mhsQueueMessageHandler.handleMessage(message)) {
             message.acknowledge();
-            LOGGER.debug("Acknowledged MSHQueue message_id=[{}]", messageId);
+            LOGGER.debug("Acknowledged MHSQueue message_id=[{}]", messageId);
         } else {
-            LOGGER.debug("Leaving message of message_id=[{}] on the MSHQueue", messageId);
+            LOGGER.debug("Leaving message of message_id=[{}] on the MHSQueue", messageId);
         }
     }
 }
