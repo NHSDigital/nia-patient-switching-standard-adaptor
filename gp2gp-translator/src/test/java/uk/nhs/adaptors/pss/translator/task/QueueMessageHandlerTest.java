@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +34,7 @@ public class QueueMessageHandlerTest {
     @Mock
     private SendEhrExtractRequestHandler sendEhrExtractRequestHandler;
 
-    @Mock
+    @Spy
     private ObjectMapper objectMapper;
 
     @Mock
@@ -71,12 +72,10 @@ public class QueueMessageHandlerTest {
 
     @SneakyThrows
     private void prepareMocks(boolean prepareAndSendRequestResult) {
-        var messageBody = "MESSAGE_BODY";
         var transferRequestMessage = TransferRequestMessage.builder()
             .conversationId(CONVERSATION_ID)
             .build();
-        when(message.getBody(String.class)).thenReturn(messageBody);
-        when(objectMapper.readValue(messageBody, TransferRequestMessage.class)).thenReturn(transferRequestMessage);
+        when(message.getBody(String.class)).thenReturn(new ObjectMapper().writeValueAsString(transferRequestMessage));
         when(sendEhrExtractRequestHandler.prepareAndSendRequest(transferRequestMessage)).thenReturn(prepareAndSendRequestResult);
     }
 }
