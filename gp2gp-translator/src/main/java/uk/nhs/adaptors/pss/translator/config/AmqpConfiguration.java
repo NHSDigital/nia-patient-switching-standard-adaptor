@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 
@@ -83,6 +84,15 @@ public class AmqpConfiguration {
         factory.setConnectionFactory(connectionFactory);
 
         return factory;
+    }
+
+    @Bean("jmsTemplateMhsQueue")
+    public JmsTemplate jmsTemplateMhsQueue(@Qualifier("mhsQueueConnectionFactory") JmsConnectionFactory connectionFactory,
+        MhsQueueProperties properties) {
+        JmsTemplate jmsTemplate = new JmsTemplate();
+        jmsTemplate.setConnectionFactory(connectionFactory);
+        jmsTemplate.setDefaultDestinationName(properties.getQueueName());
+        return jmsTemplate;
     }
 
     private void configureRedeliveryPolicy(PssQueueProperties properties, JmsConnectionFactory factory) {

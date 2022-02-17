@@ -2,29 +2,48 @@ package uk.nhs.adaptors.pss.translator.service;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.common.model.PssQueueMessage;
+import uk.nhs.adaptors.common.util.DateUtils;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.FileUtils;
 
 @Service
 @Slf4j
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class EhrExtractRequestService {
-    private static final String EHR_EXTRACT_REQUEST_TEST_FILE = "/ehr/ehrExtractRequest.xml";
-    private static final String FROM_ODS_CODE_PLACEHOLDER = "%%From_ODS_Code%%";
+    private static final String EHR_EXTRACT_REQUEST_FILE = "/ehr/ehrExtractRequest.xml";
+    private static final String FROM_ODS_CODE_PLACEHOLDER = "%%fromODSCode%%";
+    private static final String TO_ODS_CODE_PLACEHOLDER = "%%toODSCode%%";
     private static final String NHS_NUMBER_PLACEHOLDER = "%%NHSNumber%%";
+    private static final String CREATION_TIMESTAMP_PLACEHOLDER = "%%timestamp%%";
+    private static final String MESSAGE_ID_PLACEHOLDER = "%%messageId%%";
+    private static final String TO_ASID_PLACEHOLDER = "%%toAsid%%";
+    private static final String FROM_ASID_PLACEHOLDER = "%%fromAsid%%";
+    private static final String EHR_REQUEST_ID_PLACEHOLDER = "%%ehrRequestId%%";
 
-    public String buildEhrExtractRequest(String nhsNumber, String fromODSCode) throws IOException {
-        LOGGER.debug(
-            "Building EHRExtractRequest with nhsNumber=[{}], fromODSCode=[{}]",
-            nhsNumber, fromODSCode
-        );
-        return fillEhrExtractRequestTemplate(nhsNumber, fromODSCode);
-    }
+    private final DateUtils dateUtils;
+    private final IdGeneratorService idGeneratorService;
 
-    private String fillEhrExtractRequestTemplate(String nhsNumber, String fromODSCode) throws IOException {
-        return FileUtils.readFile(EHR_EXTRACT_REQUEST_TEST_FILE)
-            .replace(NHS_NUMBER_PLACEHOLDER, nhsNumber)
-            .replace(FROM_ODS_CODE_PLACEHOLDER, fromODSCode);
+    public String buildEhrExtractRequest(PssQueueMessage pssQueueMessage) throws IOException {
+        LOGGER.debug("Building EHRExtractRequest with nhsNumber=[{}]", pssQueueMessage.getPatientNhsNumber());
+
+        var timestamp = DateFormatUtil.toHl7Format(dateUtils.getCurrentInstant());
+        var messageId = idGeneratorService.generateUuid().toLowerCase();
+        var ehrRequestId = idGeneratorService.generateUuid().toLowerCase();
+
+        return FileUtils.readFile(EHR_EXTRACT_REQUEST_FILE)
+            .replace(MESSAGE_ID_PLACEHOLDER, messageId)
+            .replace(CREATION_TIMESTAMP_PLACEHOLDER, timestamp)
+            .replace(TO_ASID_PLACEHOLDER, pssQueueMessage.getToAsid())
+            .replace(FROM_ASID_PLACEHOLDER, pssQueueMessage.getFromAsid())
+            .replace(NHS_NUMBER_PLACEHOLDER, pssQueueMessage.getPatientNhsNumber())
+            .replace(EHR_REQUEST_ID_PLACEHOLDER, ehrRequestId)
+            .replace(FROM_ODS_CODE_PLACEHOLDER, pssQueueMessage.getFromOds())
+            .replace(TO_ODS_CODE_PLACEHOLDER, pssQueueMessage.getToOds());
     }
 }

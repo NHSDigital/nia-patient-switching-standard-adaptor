@@ -14,7 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @ExtendWith({SpringExtension.class})
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @DirtiesContext
-public class HealthCheckTest {
+public class HealthCheckIT {
     private static final String HEALTHCHECK_ENDPOINT = "/healthcheck";
 
     @LocalServerPort

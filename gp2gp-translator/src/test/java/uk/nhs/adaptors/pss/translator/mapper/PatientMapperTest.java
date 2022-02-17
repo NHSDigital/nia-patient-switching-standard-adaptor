@@ -18,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientMapperTest {
@@ -37,7 +37,7 @@ public class PatientMapperTest {
     private static final String EXPECTED_META_VERSION_ID = "1521806400000";
 
     @Mock
-    private FhirIdGeneratorService idGenerator;
+    private IdGeneratorService idGenerator;
 
     @Mock
     private Organization organization;
