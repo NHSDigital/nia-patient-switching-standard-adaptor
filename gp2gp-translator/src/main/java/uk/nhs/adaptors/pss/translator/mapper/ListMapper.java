@@ -45,10 +45,10 @@ public class ListMapper {
             .setStatus(ListResource.ListStatus.CURRENT)
             .setMode(ListResource.ListMode.SNAPSHOT)
             .setTitle(getConsultationTitle(encounter.getType()))
-            .setCode(getCoding(LIST_CODE_SYSTEM, CONSULTATION_CODE_CODE, CONSULTATION_CODE_DISPLAY))
+            .setCode(getListCoding(LIST_CODE_SYSTEM, CONSULTATION_CODE_CODE, CONSULTATION_CODE_DISPLAY))
             .setSubject(encounter.getSubject())
             .setDateElement(getConsultationDate(encounter.getPeriod(), ehrExtract))
-            .setOrderedBy(getCoding(LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_DISPLAY))
+            .setOrderedBy(getListCoding(LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_DISPLAY))
             .setEncounter(new Reference(encounter))
             .setMeta(getListMeta())
             .setId(getConsultationId(encounter.getId()));
@@ -88,11 +88,11 @@ public class ListMapper {
             .setStatus(ListResource.ListStatus.CURRENT)
             .setMode(ListResource.ListMode.SNAPSHOT)
             .setTitle(getTitle(compoundStatement))
-            .setCode(getCoding(LIST_CODE_SYSTEM, TOPIC_CODE_CODE, TOPIC_CODE_DISPLAY))
+            .setCode(getListCoding(LIST_CODE_SYSTEM, TOPIC_CODE_CODE, TOPIC_CODE_DISPLAY))
             .setEncounter(consultation.getEncounter())
             .setSubject(consultation.getSubject())
             .setDateElement(getDate(compoundStatement, consultation))
-            .setOrderedBy(getCoding(LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_DISPLAY))
+            .setOrderedBy(getListCoding(LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_DISPLAY))
             .setMeta(getListMeta())
             .setId(getTopicId(compoundStatement));
 
@@ -111,11 +111,11 @@ public class ListMapper {
             .setStatus(ListResource.ListStatus.CURRENT)
             .setMode(ListResource.ListMode.SNAPSHOT)
             .setTitle(getTitle(compoundStatement))
-            .setCode(getCoding(LIST_CODE_SYSTEM, CATEGORY_CODE_CODE, CATEGORY_CODE_DISPLAY))
+            .setCode(getListCoding(LIST_CODE_SYSTEM, CATEGORY_CODE_CODE, CATEGORY_CODE_DISPLAY))
             .setEncounter(topic.getEncounter())
             .setSubject(topic.getSubject())
             .setDateElement(getDate(compoundStatement, topic))
-            .setOrderedBy(getCoding(LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_DISPLAY))
+            .setOrderedBy(getListCoding(LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_DISPLAY))
             .setMeta(getListMeta())
             .setId(compoundStatement.getId().get(0).getRoot());
 
@@ -123,7 +123,7 @@ public class ListMapper {
     }
 
     private DateTimeType getDate(RCMRMT030101UK04CompoundStatement compoundStatement, ListResource parentList) {
-        if (compoundStatement.getAvailabilityTime().getValue() != null) {
+        if (compoundStatement != null && compoundStatement.getAvailabilityTime().getValue() != null) {
             return DateFormatUtil.parseToDateTimeType(compoundStatement.getAvailabilityTime().getValue());
         }
 
@@ -147,7 +147,7 @@ public class ListMapper {
         return new Meta().addProfile(LIST_META_PROFILE);
     }
 
-    private CodeableConcept getCoding(String system, String code, String display) {
+    private CodeableConcept getListCoding(String system, String code, String display) {
         Coding coding = new Coding(system, code, display);
         return new CodeableConcept(coding);
     }

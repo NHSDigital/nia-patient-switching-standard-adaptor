@@ -1,0 +1,208 @@
+package uk.nhs.adaptors.pss.translator.mapper;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
+import static org.springframework.util.ResourceUtils.getFile;
+
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
+import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Coding;
+import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
+import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
+import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Period;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
+
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+public class EncounteMapperTest {
+    private static final String XML_RESOURCES_BASE = "xml/Encounter/";
+    private static final String ENCOUNTER_KEY = "encounters";
+    private static final String CONSULTATION_KEY = "consultations";
+    private static final String TOPIC_KEY = "topics";
+    private static final String CATEGORY_KEY = "categories";
+    private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/";
+    private static final String LOCATION_PREFIX = "Location/";
+    private static final String LOCATION_SUFFIX = "-LOC";
+    private static final String PERFORMER_SYSTEM = "http://hl7.org/fhir/v3/ParticipationType";
+    private static final String PERFORMER_CODE = "PPRF";
+    private static final String PERFORMER_DISPLAY = "primary performer";
+    private static final String RECORDER_SYSTEM = "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1";
+    private static final String RECORDER_CODE = "REC";
+    private static final String RECORDER_DISPLAY = "recorder";
+    private static final String PATIENT_ID = "0E6F45F0-8D7B-11EC-B1E5-0800200C9A66";
+    private static final String CODING_DISPLAY = "Ischaemic heart disease";
+    private static final String INVALID_ENCOUNTER_CODE_1_XML = "invalid_encounter_code_1.xml";
+    private static final String INVALID_ENCOUNTER_CODE_2_XML = "invalid_encounter_code_2.xml";
+    private static final String SUPPRESSED_COMPOSITION_WITH_EHR_EMPTY_XML = "suppressed_with_ehr_empty.xml";
+    private static final String SUPPRESSED_COMPOSITION_WITH_REGISTRATION_STATEMENT_XML = "suppressed_with_ehr_registration.xml";
+    private static final String ENCOUNTER_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1";
+    private static final String ENCOUNTER_IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
+
+    @MockBean
+    private FhirIdGeneratorService idGenerator;
+
+    @Autowired
+    private EncounterMapper encounterMapper;
+
+    @Mock
+    private CodeableConceptMapper codeableConceptMapper;
+
+    private Patient patient;
+
+    @BeforeEach
+    public void setup() {
+        patient = new Patient();
+        patient.setId(PATIENT_ID);
+        setUpCodeableConceptMock();
+    }
+
+    @Test
+    public void testDevelopment() { // TODO REMOVE WHEN FINISHED
+        var ehrExtract = unmarshallEhrExtractElement("test.xml");
+
+        Map<String, List<Object>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+
+        var encounterList = mappedResources.get(ENCOUNTER_KEY);
+
+        assertThat(encounterList.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void testValidEncounterWithFullDataWithFlatConsultation() {
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_flat_encounter.xml");
+
+        Map<String, List<Object>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+
+        assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
+        assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
+        assertThat(mappedResources.get(TOPIC_KEY).size()).isOne();
+        assertThat(mappedResources.get(CATEGORY_KEY).size()).isZero();
+
+        var encounterList = mappedResources.get(ENCOUNTER_KEY);
+        var encounter = (Encounter) encounterList.get(0);
+
+        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true, patient, "2E86E940-9011-11EC-B1E5-0800200C9A66",
+            "3707E1F0-9011-11EC-B1E5-0800200C9A66", "2010-01-13T15:20:00+00:00", null);
+    }
+
+    @Test
+    public void testValidEncounterWithNoOptionalDataWithFlatConsultation() {
+        var ehrExtract = unmarshallEhrExtractElement("no_optional_valid_flat_encounter.xml");
+
+        Map<String, List<Object>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+
+        assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
+        assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
+        assertThat(mappedResources.get(TOPIC_KEY).size()).isOne();
+        assertThat(mappedResources.get(CATEGORY_KEY).size()).isZero();
+
+        var encounterList = mappedResources.get(ENCOUNTER_KEY);
+        var encounter = (Encounter) encounterList.get(0);
+
+        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, patient, "2E86E940-9011-11EC-B1E5-0800200C9A66",
+            null, "2010-01-13T15:20:00+00:00", null);
+    }
+
+    private void assertEncounter(Encounter encounter, String id, boolean hasLocation, Patient patient, String authorId, String participant2Id,
+        String startDate, String endDate) {
+        assertThat(encounter.getId()).isEqualTo(id);
+        assertThat(encounter.getMeta().getProfile().get(0).getValue()).isEqualTo(ENCOUNTER_META_PROFILE);
+        assertThat(encounter.getIdentifierFirstRep().getSystem()).isEqualTo(ENCOUNTER_IDENTIFIER_SYSTEM);
+        assertThat(encounter.getIdentifierFirstRep().getValue()).isEqualTo(id);
+        assertThat(encounter.getStatus()).isEqualTo(EncounterStatus.FINISHED);
+        assertThat(encounter.getSubject().getResource()).isEqualTo(patient);
+        assertLocation(encounter, id, hasLocation);
+        assertPeriod(encounter.getPeriod(), startDate, endDate);
+        assertParticipant(encounter.getParticipant(), authorId, participant2Id);
+    }
+
+    private void assertLocation(Encounter encounter, String id, boolean hasLocation) {
+        if (hasLocation) {
+            assertThat(encounter.getLocationFirstRep().getLocation().getReference())
+                .isEqualTo(LOCATION_PREFIX + id + LOCATION_SUFFIX);
+        } else {
+            assertThat(encounter.getLocation().size()).isEqualTo(0);
+        }
+    }
+
+    private void assertPeriod(Period period, String startDate, String endDate) {
+        assertThat(period.getStartElement().getValueAsString()).isEqualTo(startDate);
+        assertThat(period.getEndElement().getValueAsString()).isEqualTo(endDate);
+    }
+
+    private void assertParticipant(List<EncounterParticipantComponent> participantList, String authorId, String participant2Id) {
+        if (participantList.size() > 0) {
+            participantList.forEach(participant -> {
+                var coding = participant.getTypeFirstRep().getCodingFirstRep();
+                if (coding.getCode().equals(PERFORMER_CODE)) {
+                    assertThat(coding.getDisplay().equals(PERFORMER_DISPLAY));
+                    assertThat(coding.getSystem().equals(PERFORMER_SYSTEM));
+                    assertThat(participant.getIndividual().getReference().equals(PRACTITIONER_REFERENCE_PREFIX + participant2Id));
+                } else if (coding.getCode().equals(RECORDER_CODE)) {
+                    assertThat(coding.getDisplay().equals(RECORDER_DISPLAY));
+                    assertThat(coding.getSystem().equals(RECORDER_SYSTEM));
+                    assertThat(participant.getIndividual().getReference().equals(PRACTITIONER_REFERENCE_PREFIX + authorId));
+                }
+            });
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidEhrCompositionTestFiles")
+    public void testInvalidEhrCompositions(String inputXML) {
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
+
+        Map<String, List<Object>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+
+        assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isZero();
+        assertThat(mappedResources.get(CONSULTATION_KEY).size()).isZero();
+        assertThat(mappedResources.get(TOPIC_KEY).size()).isZero();
+        assertThat(mappedResources.get(CATEGORY_KEY).size()).isZero();
+    }
+
+    private static Stream<Arguments> invalidEhrCompositionTestFiles() {
+        return Stream.of(
+            Arguments.of(INVALID_ENCOUNTER_CODE_1_XML),
+            Arguments.of(INVALID_ENCOUNTER_CODE_2_XML),
+            Arguments.of(SUPPRESSED_COMPOSITION_WITH_EHR_EMPTY_XML),
+            Arguments.of(SUPPRESSED_COMPOSITION_WITH_REGISTRATION_STATEMENT_XML)
+        );
+    }
+
+    private void setUpCodeableConceptMock() {
+        var codeableConcept = new CodeableConcept();
+        var coding = new Coding();
+        coding.setDisplay(CODING_DISPLAY);
+        codeableConcept.addCoding(coding);
+        lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    }
+}
+
+

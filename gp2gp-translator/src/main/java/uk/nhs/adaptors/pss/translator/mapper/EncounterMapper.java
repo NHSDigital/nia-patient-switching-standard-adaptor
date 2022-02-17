@@ -69,13 +69,14 @@ public class EncounterMapper {
     private final ListMapper listMapper;
 
     public Map<String, List<Object>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
-        List<RCMRMT030101UK04EhrComposition> ehrCompositionList = getEncounterEhrCompositions(ehrExtract);
         List<Encounter> encounterList = new ArrayList<>();
         List<ListResource> consultationList = new ArrayList<>();
         List<ListResource> topicList = new ArrayList<>();
         List<ListResource> categoryList = new ArrayList<>();
 
         Map<String, List<Object>> map = new HashMap<>();
+
+        List<RCMRMT030101UK04EhrComposition> ehrCompositionList = getEncounterEhrCompositions(ehrExtract);
 
         ehrCompositionList.forEach(ehrComposition -> {
             var encounter = mapToEncounter(ehrComposition, patient);
@@ -85,15 +86,17 @@ public class EncounterMapper {
             if (CollectionUtils.isEmpty(topicCompoundStatementList)) {
                 // generate a 'flat' consultation
                 var topic = listMapper.mapToTopic(consultation, null);
-
                 consultation.addEntry(new ListEntryComponent(new Reference(topic)));
+
                 topicList.add(topic);
             } else {
-                // generate a 'structured' topic for each child CompoundStatement
-                topicCompoundStatementList.forEach(compoundStatement -> {
-                    var topic = listMapper.mapToTopic(consultation, compoundStatement);
+                // generate a 'structured' topic for each child topic CompoundStatement
+                topicCompoundStatementList.forEach(topicCompoundStatement -> {
+                    var topic = listMapper.mapToTopic(consultation, topicCompoundStatement);
+                    consultation.addEntry(new ListResource.ListEntryComponent(new Reference(topic)));
 
-                    var categoryCompoundStatements = getCategoryCompoundStatements(compoundStatement);
+                    // generate a category list for each category CompoundStatement
+                    var categoryCompoundStatements = getCategoryCompoundStatements(topicCompoundStatement);
                     categoryCompoundStatements.forEach(categoryCompoundStatement -> {
                         var category = listMapper.mapToCategory(topic, categoryCompoundStatement);
 
@@ -102,7 +105,6 @@ public class EncounterMapper {
                     });
 
                     topicList.add(topic);
-                    consultation.addEntry(new ListResource.ListEntryComponent(new Reference(topic)));
                 });
             }
 
@@ -172,10 +174,7 @@ public class EncounterMapper {
             .setMeta(getEncounterMeta())
             .setId(id);
 
-        var location = getLocation(ehrComposition);
-        if (location != null) {
-            encounter.setLocation(location);
-        }
+        setEncounterLocation(encounter, ehrComposition);
 
         return encounter;
     }
@@ -297,15 +296,13 @@ public class EncounterMapper {
         return participantList;
     }
 
-    private List<EncounterLocationComponent> getLocation(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private void setEncounterLocation(Encounter encounter, RCMRMT030101UK04EhrComposition ehrComposition) {
         if (ehrComposition.getLocation() != null) {
             var location = new EncounterLocationComponent();
+            location.setLocation(new Reference(LOCATION_REFERENCE_PREFIX
+                + ehrComposition.getId().getRoot() + LOCATION_REFERENCE_SUFFIX));
 
-            return List.of(location
-                .setLocation(new Reference(
-                    LOCATION_REFERENCE_PREFIX + ehrComposition.getId().getRoot() + LOCATION_REFERENCE_SUFFIX)));
+            encounter.setLocation(List.of(location));
         }
-
-        return null;
     }
 }

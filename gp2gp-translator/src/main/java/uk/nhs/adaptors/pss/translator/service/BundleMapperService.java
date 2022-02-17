@@ -72,7 +72,7 @@ public class BundleMapperService {
         var referralRequests = mapReferralRequests(ehrFolder, patient);
         addEntries(bundle, referralRequests);
 
-        var observations = mapObservations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters
+        var observations = mapObservations(ehrExtract, patient, List.of()); // TODO: Provide list of encounters
         addEntries(bundle, observations);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());

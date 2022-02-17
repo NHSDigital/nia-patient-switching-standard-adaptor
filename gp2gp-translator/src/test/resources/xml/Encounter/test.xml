@@ -16,7 +16,7 @@
                 <author typeCode="AUT" contextControlCode="OP">
                     <time value="20100113151332" />
                     <agentRef classCode="AGNT">
-                        <id root="test-id" />
+                        <id root="2E86E940-9011-11EC-B1E5-0800200C9A66" />
                     </agentRef>
                 </author>
                 <location typeCode="LOC">
@@ -29,7 +29,7 @@
                 </location>
                 <Participant2 typeCode="PRF" contextControlCode="OP">
                     <agentRef classCode="AGNT">
-                        <id root="test-id" />
+                        <id root="3707E1F0-9011-11EC-B1E5-0800200C9A66" />
                     </agentRef>
                 </Participant2>
                 <component typeCode="COMP" >
@@ -87,19 +87,25 @@
                                     <center value="19781231"/>
                                 </effectiveTime>
                                 <availabilityTime value="19781231" />
+                                <component>
+                                    <ObservationStatement classCode="OBS" moodCode="ENV">
+                                        <id root="394559384658936"/>
+                                        <code nullFlavor="UNK"><originalText>Mocked code</originalText></code>
+                                        <statusCode code="COMPLETE"/>
+                                        <effectiveTime>
+                                            <center value="19781231"/>
+                                        </effectiveTime>
+                                        <availabilityTime value="19781231" />
+                                        <pertinentInformation typeCode="PERT">
+                                            <sequenceNumber value="+1"/>
+                                            <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                <text>Status: Resolved Asserted By Patient Recorded By Patient</text>
+                                            </pertinentAnnotation>
+                                        </pertinentInformation>
+                                    </ObservationStatement>
+                                </component>
                             </CompoundStatement>
                         </component>
-                    <component>
-                        <CompoundStatement classCode="TOPIC" moodCode="EVN">
-                            <id root="394559384658936"/>
-                            <code code="14L..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: drug allergy"/>
-                            <statusCode code="COMPLETE"/>
-                            <effectiveTime>
-                                <center value="19781231"/>
-                            </effectiveTime>
-                            <availabilityTime value="19781231" />
-                        </CompoundStatement>
-                    </component>
                     </CompoundStatement>
                 </component>
             </ehrComposition>
