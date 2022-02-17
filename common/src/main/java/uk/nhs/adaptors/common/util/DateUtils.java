@@ -3,7 +3,6 @@ package uk.nhs.adaptors.common.util;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
 
 import org.springframework.stereotype.Service;
 
@@ -13,6 +12,6 @@ public class DateUtils {
         return OffsetDateTime.now(ZoneOffset.UTC);
     }
     public Instant getCurrentInstant() {
-        return Instant.now().truncatedTo(ChronoUnit.MILLIS);
+        return getCurrentOffsetDateTime().toInstant();
     }
 }

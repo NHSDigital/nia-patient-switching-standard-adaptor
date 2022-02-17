@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.common.model.TransferRequestMessage;
+import uk.nhs.adaptors.common.model.PssQueueMessage;
 import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.FileUtils;
@@ -29,7 +29,7 @@ public class EhrExtractRequestService {
     private final DateUtils dateUtils;
     private final IdGeneratorService idGeneratorService;
 
-    public String buildEhrExtractRequest(TransferRequestMessage pssQueueMessage) throws IOException {
+    public String buildEhrExtractRequest(PssQueueMessage pssQueueMessage) throws IOException {
         LOGGER.debug("Building EHRExtractRequest with nhsNumber=[{}]", pssQueueMessage.getPatientNhsNumber());
 
         var timestamp = DateFormatUtil.toHl7Format(dateUtils.getCurrentInstant());
