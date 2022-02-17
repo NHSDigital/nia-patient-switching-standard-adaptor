@@ -1,8 +1,7 @@
 package uk.nhs.adaptors.pss.translator;
 
+import static org.awaitility.Awaitility.await;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-
-import static com.jayway.awaitility.Awaitility.await;
 
 import static uk.nhs.adaptors.common.testutil.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
