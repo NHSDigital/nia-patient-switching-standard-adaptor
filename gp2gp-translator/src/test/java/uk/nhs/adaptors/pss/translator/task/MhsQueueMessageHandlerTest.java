@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.task;
 
+import static java.util.UUID.randomUUID;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,6 +30,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
@@ -43,6 +46,7 @@ public class MhsQueueMessageHandlerTest {
     private static final String EHR_EXTRACT_INTERACTION_ID = "RCMR_IN030000UK06";
     private static final String CONVERSATION_ID_PATH = "/Envelope/Header/MessageHeader/ConversationId";
     private static final String INTERACTION_ID_PATH = "/Envelope/Header/MessageHeader/Action";
+    private static final String CONVERSARION_ID = randomUUID().toString();
 
     @Mock
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -71,6 +75,9 @@ public class MhsQueueMessageHandlerTest {
     @Mock
     private Document ebXmlDocument;
 
+    @Mock
+    private MDCService mdcService;
+
     @InjectMocks
     private MhsQueueMessageHandler mhsQueueMessageHandler;
 
@@ -88,6 +95,7 @@ public class MhsQueueMessageHandlerTest {
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
         assertTrue(result);
+        verify(mdcService).applyConversationId(CONVERSARION_ID);
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, NHS_NUMBER);
         verify(patientMigrationRequestDao).saveBundleAndInboundMessageData(NHS_NUMBER, bundleString, INBOUND_MESSAGE_STRING);
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_TRANSLATED, NHS_NUMBER);
@@ -101,6 +109,7 @@ public class MhsQueueMessageHandlerTest {
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
         assertTrue(result);
+        verify(mdcService).applyConversationId(CONVERSARION_ID);
         verifyNoInteractions(migrationStatusLogService);
         verifyNoInteractions(patientMigrationRequestDao);
         verifyNoInteractions(bundleMapperService);
@@ -109,7 +118,7 @@ public class MhsQueueMessageHandlerTest {
     @Test
     public void handleMessageWhenObjectMapperThrowsErrorShouldReturnFalse() throws JMSException, JsonProcessingException {
         when(jmsReader.readMessage(message)).thenReturn(INBOUND_MESSAGE_STRING);
-        when(objectMapper.readValue(INBOUND_MESSAGE_STRING, InboundMessage.class)).thenThrow(new JsonMappingException("hello"));
+        when(objectMapper.readValue(INBOUND_MESSAGE_STRING, InboundMessage.class)).thenThrow(new JsonMappingException(null, "hello"));
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
@@ -117,6 +126,7 @@ public class MhsQueueMessageHandlerTest {
         verifyNoInteractions(migrationStatusLogService);
         verifyNoInteractions(patientMigrationRequestDao);
         verifyNoInteractions(bundleMapperService);
+        verifyNoInteractions(mdcService);
     }
 
     @Test
@@ -129,6 +139,7 @@ public class MhsQueueMessageHandlerTest {
         verifyNoInteractions(migrationStatusLogService);
         verifyNoInteractions(patientMigrationRequestDao);
         verifyNoInteractions(bundleMapperService);
+        verifyNoInteractions(mdcService);
     }
 
     @SneakyThrows
@@ -139,7 +150,7 @@ public class MhsQueueMessageHandlerTest {
         when(jmsReader.readMessage(message)).thenReturn(INBOUND_MESSAGE_STRING);
         when(objectMapper.readValue(INBOUND_MESSAGE_STRING, InboundMessage.class)).thenReturn(inboundMessage);
         when(xPathService.parseDocumentFromXml(ebXmlString)).thenReturn(ebXmlDocument);
-        when(xPathService.getNodeValue(ebXmlDocument, CONVERSATION_ID_PATH)).thenReturn("1234");
+        when(xPathService.getNodeValue(ebXmlDocument, CONVERSATION_ID_PATH)).thenReturn(CONVERSARION_ID);
         when(xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH)).thenReturn(interactionId);
     }
 

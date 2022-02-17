@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
@@ -43,12 +44,14 @@ public class MhsQueueMessageHandler {
     private final BundleMapperService bundleMapperService;
     private final JmsReader jmsReader;
     private final XPathService xPathService;
+    private final MDCService mdcService;
 
     public boolean handleMessage(Message message) {
         try {
             InboundMessage inboundMessage = readMessage(message);
             Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
-            xPathService.getNodeValue(ebXmlDocument, CONVERSATION_ID_PATH);
+            extractAndApplyConversationId(ebXmlDocument);
+
             String interactionId = xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH);
 
             if (EHR_EXTRACT_INTERACTION_ID.equals(interactionId)) {
@@ -64,6 +67,10 @@ public class MhsQueueMessageHandler {
             LOGGER.error("Content of the inbound MHS message is not valid JSON", e);
             return false;
         }
+    }
+
+    private void extractAndApplyConversationId(Document ebXmlDocument) {
+        mdcService.applyConversationId(xPathService.getNodeValue(ebXmlDocument, CONVERSATION_ID_PATH));
     }
 
     private InboundMessage readMessage(Message message) throws JMSException, JsonProcessingException {
