@@ -21,7 +21,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.common.model.PssQueueMessage;
+import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
@@ -58,12 +58,12 @@ public class SendEhrExtractRequestHandlerTest {
     @InjectMocks
     private SendEhrExtractRequestHandler sendEhrExtractRequestHandler;
 
-    private PssQueueMessage pssQueueMessage;
+    private TransferRequestMessage pssQueueMessage;
 
     @BeforeEach
     @SneakyThrows
     public void setup() {
-        pssQueueMessage = PssQueueMessage.builder()
+        pssQueueMessage = TransferRequestMessage.builder()
             .patientNhsNumber(TEST_NHS_NUMBER)
             .toOds(TEST_TO_ODS_CODE)
             .build();

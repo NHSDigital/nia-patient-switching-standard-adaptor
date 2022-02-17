@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.common.testutil.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.stream.Stream;
@@ -34,7 +34,7 @@ public class BundleMapperServiceTest {
     private static final String TEST_ID = "TEST_ID_123";
 
     private static final String XML_RESOURCES_BASE = "xml/RCMRIN030000UK06/";
-    private static final String EXPECTED_JSON_BASE = "json/RCMRIN030000UK06/";
+    private static final String EXPECTED_JSON_BASE = "/json/RCMRIN030000UK06/";
 
     private static final String STRUCTURED_RECORD_SMALL_XML = "structuredRecord_small.xml";
     private static final String STRUCTURED_RECORD_XML = "structuredRecord.xml";

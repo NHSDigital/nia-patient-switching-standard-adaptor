@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.common.model.PssQueueMessage;
+import uk.nhs.adaptors.common.model.TransferRequestMessage;
+import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
@@ -32,18 +33,19 @@ public class PatientTransferService {
     private final MigrationStatusLogDao migrationStatusLogDao;
     private final PssQueuePublisher pssQueuePublisher;
     private final DateUtils dateUtils;
+    private final MDCService mdcService;
 
     public MigrationStatusLog handlePatientMigrationRequest(Parameters parameters, Map<String, String> headers) {
         var patientNhsNumber = ParametersUtils.getNhsNumberFromParameters(parameters).get().getValue();
         PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
 
         if (patientMigrationRequest == null) {
-            var pssMessage = createPssMessage(patientNhsNumber, headers);
-            pssQueuePublisher.sendToPssQueue(pssMessage);
             patientMigrationRequestDao.addNewRequest(patientNhsNumber);
-
             int addedId = patientMigrationRequestDao.getMigrationRequestId(patientNhsNumber);
             migrationStatusLogDao.addMigrationStatusLog(REQUEST_RECEIVED, dateUtils.getCurrentOffsetDateTime(), addedId);
+
+            var pssMessage = createTransferRequestMessage(patientNhsNumber, headers);
+            pssQueuePublisher.sendToPssQueue(pssMessage);
         } else {
             return migrationStatusLogDao.getLatestMigrationStatusLog(patientMigrationRequest.getId());
         }
@@ -54,8 +56,9 @@ public class PatientTransferService {
         return fhirParser.encodeToJson(new Bundle());
     }
 
-    private PssQueueMessage createPssMessage(String patientNhsNumber, Map<String, String> headers) {
-        return PssQueueMessage.builder()
+    private TransferRequestMessage createTransferRequestMessage(String patientNhsNumber, Map<String, String> headers) {
+        return TransferRequestMessage.builder()
+            .conversationId(mdcService.getConversationId())
             .patientNhsNumber(patientNhsNumber)
             .toAsid(headers.get(TO_ASID))
             .fromAsid(headers.get(FROM_ASID))
