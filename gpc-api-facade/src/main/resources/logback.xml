@@ -8,7 +8,7 @@
 
 
     <root level="${PS_LOGGING_LEVEL:-INFO}">
-        <appender-ref ref="TEXT}"/>
+        <appender-ref ref="TEXT"/>
     </root>
 
     <logger name="uk.nhs.adaptors.pss.gpc" level="${PS_LOGGING_LEVEL:-INFO}" />
