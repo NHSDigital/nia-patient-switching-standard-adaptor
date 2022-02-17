@@ -63,14 +63,11 @@ public class ImmunizationMapper {
     }
 
     private Immunization mapImmunization(RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04ObservationStatement observationStatement,
-        Patient patientResource, List<Encounter> encounterList) {
-
+        RCMRMT030101UK04ObservationStatement observationStatement, Patient patientResource, List<Encounter> encounterList) {
         Immunization immunization = new Immunization();
 
         var id = observationStatement.getId().getRoot();
         var identifier = getIdentifier(id);
-        var note = buildNote(observationStatement);
         var date = getObservationDate(observationStatement);
 
         var practitioner = ParticipantReferenceUtil.getParticipantReference(observationStatement.getParticipant(), ehrComposition);
@@ -89,7 +86,7 @@ public class ImmunizationMapper {
             .setPrimarySource(false)
             .setPatient(new Reference(patientResource))
             .setId(id);
-        immunization.getNote().add(note);
+        immunization.addNote(buildNote(observationStatement));
 
         return immunization;
     }
@@ -101,7 +98,7 @@ public class ImmunizationMapper {
                 .findFirst();
 
             if (matchingEncounter.isPresent()) {
-                return new Reference(matchingEncounter.get().getIdElement());
+                return new Reference(matchingEncounter.get());
             }
         }
 
@@ -157,34 +154,35 @@ public class ImmunizationMapper {
     }
 
     private String getTSStringValue(TS ts) {
-        if (ts == null) {
-            return null;
-        } else if (ts.getValue() != null) {
-            return ts.getValue();
-        } else if (ts.getNullFlavor().equals(CsNullFlavor.UNK)) {
-            return CsNullFlavor.UNK.value();
+        if (ts != null) {
+            if (ts.getValue() != null) {
+                return ts.getValue();
+            } else if (ts.getNullFlavor().equals(CsNullFlavor.UNK)) {
+                return CsNullFlavor.UNK.value();
+            }
         }
 
         return null;
     }
 
     private String getIVXBTSStringValue(IVXBTS ivxbts) {
-        if (ivxbts == null) {
-            return null;
-        } else if (ivxbts.getValue() != null) {
-            return ivxbts.getValue();
-        } else if (ivxbts.getNullFlavor().equals(CsNullFlavor.UNK)) {
-            return CsNullFlavor.UNK.value();
+        if (ivxbts != null) {
+            if (ivxbts.getValue() != null) {
+                return ivxbts.getValue();
+            } else if (ivxbts.getNullFlavor().equals(CsNullFlavor.UNK)) {
+                return CsNullFlavor.UNK.value();
+            }
         }
 
         return null;
     }
 
     private DateTimeType getObservationDate(RCMRMT030101UK04ObservationStatement observationStatement) {
-        if (observationStatement.getEffectiveTime() != null) {
-            var center = getTSStringValue(observationStatement.getEffectiveTime().getCenter());
-            var low = getIVXBTSStringValue(observationStatement.getEffectiveTime().getLow());
-            var high = getIVXBTSStringValue(observationStatement.getEffectiveTime().getHigh());
+        var effectiveTime = observationStatement.getEffectiveTime();
+        if (effectiveTime != null) {
+            var center = getTSStringValue(effectiveTime.getCenter());
+            var low = getIVXBTSStringValue(effectiveTime.getLow());
+            var high = getIVXBTSStringValue(effectiveTime.getHigh());
             var availabilityTimeValue = observationStatement.getAvailabilityTime();
 
             if (center != null) {

@@ -51,7 +51,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithValidData() {
         var ehrExtract = unmarshallEhrExtract("full_valid_immunization.xml");
-        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
+        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
 
         var immunization = (Immunization) immunizationList.get(0);
         assertFullValidData(immunization, immunizationList);
@@ -60,7 +60,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithMissingValues() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_missing_optional_values.xml");
-        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
+        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
 
         var immunization = (Immunization) immunizationList.get(0);
         assertMissingData(immunization, immunizationList);
@@ -69,7 +69,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithMultipleObservationStatements() {
         var ehrExtract = unmarshallEhrExtract("full_valid_immunization_with_multiple_observation_statements.xml");
-        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
+        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
 
         var immunization = (Immunization) immunizationList.get(0);
         assertThat(immunizationList.size()).isEqualTo(THREE);
@@ -81,7 +81,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithEffectiveTimeCenter() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_only_center_effective_time.xml");
-        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
+        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
 
         var immunization = (Immunization) immunizationList.get(0);
         assertImmunizationWithHighEffectiveTimeCenter(immunization);
@@ -90,7 +90,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithEffectiveTimeLow() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_only_low_effective_time.xml");
-        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
+        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
 
         var immunization = (Immunization) immunizationList.get(0);
         assertImmunizationWithEffectiveTimeLow(immunization);
@@ -99,7 +99,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithHighAndLowEffectiveTime() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_high_and_low_effective_time.xml");
-        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
+        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
 
         var immunization = (Immunization) immunizationList.get(0);
         assertImmunizationWithHighAndLowEffectiveTime(immunization);
@@ -108,7 +108,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithHighEffectiveTime() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_only_high_effective_time.xml");
-        List immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
+        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
 
         var immunization = (Immunization) immunizationList.get(0);
         assertImmunizationWithHighEffectiveTime(immunization);
@@ -152,7 +152,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getNote().get(0).getText())
             .isEqualTo(OBSERVATION_TEXT + " End Date: 20100118114100");
         assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo("9A5D5A78-1F63-434C-9637-1D7E7843341B");
-        assertThat(immunization.getEncounter().getReference()).isEqualTo("62A39454-299F-432E-993E-5A6232B4E099");
+        assertThat(immunization.getEncounter().getResource().getIdElement().getValue()).isEqualTo("62A39454-299F-432E-993E-5A6232B4E099");
         assertThat(immunization.getPractitioner().get(0).getActor().getReference()).isEqualTo("Practitioner/9C1610C2-5E48-4ED5-882B"
             + "-5A4A172AFA35");
     }
@@ -165,7 +165,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getStatus()).isEqualTo(Immunization.ImmunizationStatus.COMPLETED);
         assertThat(immunization.getPrimarySource()).isEqualTo(false);
         assertThat(immunization.getDate()).isNull();
-        assertThat(immunization.getNote().get(0)).isNull();
+        assertThat(immunization.getNote()).isEmpty();
         assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo("9A5D5A78-1F63-434C-9637-1D7E7843341B");
         assertThat(immunization.getEncounter().getReference()).isNull();
     }
