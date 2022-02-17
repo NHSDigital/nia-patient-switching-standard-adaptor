@@ -94,7 +94,7 @@ public class ImmunizationMapper {
     private Reference getEncounterReference(List<Encounter> encounterList, II ehrCompositionId) {
         if (ehrCompositionId != null) {
             var matchingEncounter = encounterList.stream()
-                .filter(encounter -> matchingIds(encounter.getId(), ehrCompositionId))
+                .filter(encounter -> hasMatchingId(encounter.getId(), ehrCompositionId))
                 .findFirst();
 
             if (matchingEncounter.isPresent()) {
@@ -105,7 +105,7 @@ public class ImmunizationMapper {
         return null;
     }
 
-    private boolean matchingIds(String encounterId, II ehrCompositionId) {
+    private boolean hasMatchingId(String encounterId, II ehrCompositionId) {
         return encounterId.equals(ehrCompositionId.getRoot());
     }
 
