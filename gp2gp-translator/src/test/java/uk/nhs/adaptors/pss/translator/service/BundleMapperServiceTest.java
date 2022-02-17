@@ -4,14 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
+import static uk.nhs.adaptors.common.testutil.FileUtils.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
-import java.nio.file.Files;
 import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.v3.RCMRIN030000UK06Message;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +23,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.util.ResourceUtils;
 
 import ca.uhn.fhir.context.FhirContext;
 import lombok.SneakyThrows;
@@ -92,9 +90,8 @@ public class BundleMapperServiceTest {
         return FhirContext.forDstu3().newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle);
     }
 
-    @SneakyThrows
     private String getFileAsString(String base, String fileName) {
-        return Files.readString(ResourceUtils.getFile("classpath:" + base + fileName).toPath());
+        return readResourceAsString(base + fileName);
     }
 
     @SneakyThrows

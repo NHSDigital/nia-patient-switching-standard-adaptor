@@ -12,6 +12,8 @@ dependencies {
     api 'com.sun.xml.bind:jaxb-impl:2.4.0-b180830.0438'
     api 'com.sun.istack:istack-commons-runtime:4.1.0-M1'
 
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     testImplementation 'org.assertj:assertj-core:3.21.0'

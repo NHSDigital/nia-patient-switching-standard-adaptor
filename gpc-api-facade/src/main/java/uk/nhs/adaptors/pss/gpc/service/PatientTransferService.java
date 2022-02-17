@@ -47,7 +47,7 @@ public class PatientTransferService {
             var pssMessage = createTransferRequestMessage(patientNhsNumber, headers);
             pssQueuePublisher.sendToPssQueue(pssMessage);
         } else {
-            return migrationStatusLogDao.getMigrationStatusLog(patientMigrationRequest.getId());
+            return migrationStatusLogDao.getLatestMigrationStatusLog(patientMigrationRequest.getId());
         }
         return null;
     }
