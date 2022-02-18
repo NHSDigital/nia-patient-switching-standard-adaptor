@@ -39,3 +39,11 @@ test {
         events "PASSED", "SKIPPED", "FAILED"
     }
 }
+
+tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
+    excludeFilter = rootProject.file('config/spotbugs/exclude.xml')
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}

@@ -27,6 +27,7 @@ dependencies {
     implementation project(':common')
     implementation project(':db-connector')
     implementation project(':schema')
+    implementation 'com.github.spullara.mustache.java:compiler:0.9.10'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'

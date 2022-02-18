@@ -4,6 +4,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.UUID;
+
 import javax.jms.Session;
 
 import org.junit.jupiter.api.Test;
@@ -37,7 +39,8 @@ public class PssQueuePublisherTest {
     @Test
     @SneakyThrows
     public void When_TaskIsSentToPssQueue_Expect_MessageIsSentToQueue() {
-        PssQueueMessage pssQueueMessage = PssQueueMessage.builder().patientNhsNumber("123").build();
+        String conversationId = UUID.randomUUID().toString();
+        PssQueueMessage pssQueueMessage = PssQueueMessage.builder().conversationId(conversationId).build();
         String message = "message";
         when(objectMapper.writeValueAsString(pssQueueMessage)).thenReturn(message);
 
