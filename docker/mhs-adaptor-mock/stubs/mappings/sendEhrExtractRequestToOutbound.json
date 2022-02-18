@@ -4,7 +4,7 @@
             "scenarioName": "CorrectRequest",
             "request": {
                 "method": "POST",
-                "url": "/mhs/outbound",
+                "url": "/",
                 "headers": {
                     "Content-Type": {
                         "equalTo": "application/json"
@@ -35,7 +35,7 @@
             "scenarioName": "BadRequestNoWaitForResponse",
             "request": {
                 "method": "POST",
-                "url": "/mhs/outbound",
+                "url": "/",
                 "headers": {
                     "Wait-For-Response": { "absent": true }
                 }
@@ -52,7 +52,7 @@
             "scenarioName": "BadRequestNoOdsCode",
             "request": {
                 "method": "POST",
-                "url": "/mhs/outbound",
+                "url": "/",
                 "headers": {
                     "Ods-Code": { "absent": true }
                 }
@@ -69,7 +69,7 @@
             "scenarioName": "BadRequestInvalidWaitForResponse",
             "request": {
                 "method": "POST",
-                "url": "/mhs/outbound",
+                "url": "/",
                 "headers": {
                     "Wait-For-Response": { "equalTo": "true" }
                 }
@@ -86,7 +86,7 @@
             "scenarioName": "NoPayloadRequest",
             "request": {
                 "method": "POST",
-                "url": "/mhs/outbound",
+                "url": "/",
                 "bodyPatterns":[{
                     "matchesJsonPath": {
                         "expression": "$.payload",
