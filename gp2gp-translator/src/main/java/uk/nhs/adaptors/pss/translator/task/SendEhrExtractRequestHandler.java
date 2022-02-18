@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.common.model.PssQueueMessage;
+import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
@@ -28,7 +28,7 @@ public class SendEhrExtractRequestHandler {
     private final IdGeneratorService idGeneratorService;
 
     @SneakyThrows
-    public boolean prepareAndSendRequest(PssQueueMessage message) {
+    public boolean prepareAndSendRequest(TransferRequestMessage message) {
         String conversationId = idGeneratorService.generateUuid();
         String toOdsCode = message.getToOds();
         String nhsNumber = message.getPatientNhsNumber();
