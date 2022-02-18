@@ -73,7 +73,7 @@ public class BundleMapperService {
 
         // TODO: Insert encounter list (NIAD-1961)
 
-        var immunizations = mapImmunizations(ehrExtract, patient, List.of(new Encounter()));
+        var immunizations = mapImmunizations(ehrExtract, patient, List.of());
         addEntries(bundle, immunizations);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());

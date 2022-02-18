@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -113,6 +114,7 @@ public class ImmunizationMapper {
         return ehrComposition.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component4::getObservationStatement)
+            .filter(Objects::nonNull)
             .filter(this::hasImmunizationCode)
             .collect(Collectors.toList());
     }
