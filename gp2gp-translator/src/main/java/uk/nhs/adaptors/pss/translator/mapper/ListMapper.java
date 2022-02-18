@@ -7,6 +7,8 @@ import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.ListResource;
+import org.hl7.fhir.dstu3.model.ListResource.ListMode;
+import org.hl7.fhir.dstu3.model.ListResource.ListStatus;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
@@ -42,8 +44,8 @@ public class ListMapper {
     public ListResource mapToConsultation(RCMRMT030101UK04EhrExtract ehrExtract, Encounter encounter) {
         ListResource consultation = new ListResource();
         consultation
-            .setStatus(ListResource.ListStatus.CURRENT)
-            .setMode(ListResource.ListMode.SNAPSHOT)
+            .setStatus(ListStatus.CURRENT)
+            .setMode(ListMode.SNAPSHOT)
             .setTitle(getConsultationTitle(encounter.getType()))
             .setCode(getListCoding(LIST_CODE_SYSTEM, CONSULTATION_CODE_CODE, CONSULTATION_CODE_DISPLAY))
             .setSubject(encounter.getSubject())
@@ -85,8 +87,8 @@ public class ListMapper {
         ListResource topic = new ListResource();
 
         topic
-            .setStatus(ListResource.ListStatus.CURRENT)
-            .setMode(ListResource.ListMode.SNAPSHOT)
+            .setStatus(ListStatus.CURRENT)
+            .setMode(ListMode.SNAPSHOT)
             .setTitle(getTitle(compoundStatement))
             .setCode(getListCoding(LIST_CODE_SYSTEM, TOPIC_CODE_CODE, TOPIC_CODE_DISPLAY))
             .setEncounter(consultation.getEncounter())
@@ -101,15 +103,14 @@ public class ListMapper {
 
     private String getTopicId(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement != null ? compoundStatement.getId().get(0).getRoot() : idGenerator.generateUuid(); // TODO: double check
-        // this
     }
 
     public ListResource mapToCategory(ListResource topic, RCMRMT030101UK04CompoundStatement compoundStatement) {
         ListResource category = new ListResource();
 
         category
-            .setStatus(ListResource.ListStatus.CURRENT)
-            .setMode(ListResource.ListMode.SNAPSHOT)
+            .setStatus(ListStatus.CURRENT)
+            .setMode(ListMode.SNAPSHOT)
             .setTitle(getTitle(compoundStatement))
             .setCode(getListCoding(LIST_CODE_SYSTEM, CATEGORY_CODE_CODE, CATEGORY_CODE_DISPLAY))
             .setEncounter(topic.getEncounter())

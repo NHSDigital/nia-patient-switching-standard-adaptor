@@ -8,6 +8,7 @@ import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
@@ -38,6 +39,10 @@ import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BundleMapperService {
+    private static final String ENCOUNTER_KEY = "encounters";
+    private static final String CONSULTATION_KEY = "consultations";
+    private static final String TOPIC_KEY = "topics";
+    private static final String CATEGORY_KEY = "categories";
 
     private final BundleGenerator generator;
 
@@ -60,8 +65,12 @@ public class BundleMapperService {
         addEntries(bundle, agents);
 
         var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient);
-        var encounters = mappedEncounterEhrCompositions.get("encounters");
-//        addEntries(bundle, encounters);
+        var encounters = (List<Encounter>) mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
+        var consultations = (List<ListResource>) mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
+        var topics = (List<ListResource>) mappedEncounterEhrCompositions.get(TOPIC_KEY);
+        var categories = (List<ListResource>) mappedEncounterEhrCompositions.get(CATEGORY_KEY);
+        addEntries(bundle, encounters);
+        addEntries(bundle, consultations);
 
         var locations = mapLocations(ehrFolder);
         addEntries(bundle, locations);
@@ -72,14 +81,18 @@ public class BundleMapperService {
         var referralRequests = mapReferralRequests(ehrFolder, patient);
         addEntries(bundle, referralRequests);
 
-        var observations = mapObservations(ehrExtract, patient, List.of()); // TODO: Provide list of encounters
+        var observations = mapObservations(ehrExtract, patient, encounters);
         addEntries(bundle, observations);
+
+        // TODO: Add references to mapped resources in their appropriate lists
+        addEntries(bundle, topics);
+        addEntries(bundle, categories);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
         return bundle;
     }
 
-    private Map<String, List<Object>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
+    private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
         return encounterMapper.mapEncounters(ehrExtract, patient);
     }
 

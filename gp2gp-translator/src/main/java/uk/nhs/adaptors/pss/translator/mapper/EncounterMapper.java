@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
+import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterLocationComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
@@ -68,13 +68,13 @@ public class EncounterMapper {
     private final CodeableConceptMapper codeableConceptMapper;
     private final ListMapper listMapper;
 
-    public Map<String, List<Object>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
+    public Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
         List<Encounter> encounterList = new ArrayList<>();
         List<ListResource> consultationList = new ArrayList<>();
         List<ListResource> topicList = new ArrayList<>();
         List<ListResource> categoryList = new ArrayList<>();
 
-        Map<String, List<Object>> map = new HashMap<>();
+        Map<String, List<? extends DomainResource>> map = new HashMap<>();
 
         List<RCMRMT030101UK04EhrComposition> ehrCompositionList = getEncounterEhrCompositions(ehrExtract);
 
@@ -90,12 +90,12 @@ public class EncounterMapper {
 
                 topicList.add(topic);
             } else {
-                // generate a 'structured' topic for each child topic CompoundStatement
+                // generate a 'structured' topic for each child TOPIC CompoundStatement
                 topicCompoundStatementList.forEach(topicCompoundStatement -> {
                     var topic = listMapper.mapToTopic(consultation, topicCompoundStatement);
                     consultation.addEntry(new ListResource.ListEntryComponent(new Reference(topic)));
 
-                    // generate a category list for each category CompoundStatement
+                    // generate a category list for each CATEGORY CompoundStatement
                     var categoryCompoundStatements = getCategoryCompoundStatements(topicCompoundStatement);
                     categoryCompoundStatements.forEach(categoryCompoundStatement -> {
                         var category = listMapper.mapToCategory(topic, categoryCompoundStatement);
@@ -112,10 +112,10 @@ public class EncounterMapper {
             consultationList.add(consultation);
         });
 
-        map.put(ENCOUNTER_KEY, Arrays.asList(encounterList.toArray()));
-        map.put(CONSULTATION_KEY, Arrays.asList(consultationList.toArray()));
-        map.put(TOPIC_KEY, Arrays.asList(topicList.toArray()));
-        map.put(CATEGORY_KEY, Arrays.asList(categoryList.toArray()));
+        map.put(ENCOUNTER_KEY, encounterList);
+        map.put(CONSULTATION_KEY, consultationList);
+        map.put(TOPIC_KEY, topicList);
+        map.put(CATEGORY_KEY, categoryList);
 
         return map;
     }
@@ -207,7 +207,7 @@ public class EncounterMapper {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(low)).setEndElement(DateFormatUtil.parseToDateTimeType(high));
         } else if (validValue(low) && !validValue(high)) {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(low));
-        } else if (!validValue(low) && validValue(high) && !validValue(availabilityTimeValue)) {
+        } else if (!validValue(low) && validValue(high)) {
             return period.setEndElement(DateFormatUtil.parseToDateTimeType(high));
         } else if (CsNullFlavor.UNK.value().equals(center)) {
             return null;
@@ -286,7 +286,7 @@ public class EncounterMapper {
             participantList.add(getRecorder(author));
         }
 
-        // TODO: If author has a NullFlavor then create a recorder which references the Unknown Practitioner (NIAD-2026)
+        // TODO: If author has a nullFlavor then create a recorder which references the Unknown Practitioner (NIAD-2026)
 
         var participant2 = participant2List.stream().filter(this::isNonNullParticipant2).findFirst();
         if (participant2.isPresent()) {

@@ -1,0 +1,284 @@
+package uk.nhs.adaptors.pss.translator.mapper;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+import static org.springframework.util.ResourceUtils.getFile;
+
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+
+import java.util.List;
+
+import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Coding;
+import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.ListResource;
+import org.hl7.fhir.dstu3.model.ListResource.ListMode;
+import org.hl7.fhir.dstu3.model.ListResource.ListStatus;
+import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Period;
+import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.v3.CD;
+import org.hl7.v3.CsNullFlavor;
+import org.hl7.v3.II;
+import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.TS;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+public class ListMapperTest {
+    private static final String XML_RESOURCES_BASE = "xml/List/";
+    private static final String ENCOUNTER_ID = "823ACEB0-90C2-11EC-B1E5-0800200C9A66";
+    private static final String CONSULTATION_ID_SUFFIX = "-CONS";
+    private static final String LIST_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1";
+    private static final String LIST_ORDERED_BY_SYSTEM = "http://hl7.org/fhir/list-order";
+    private static final String LIST_ORDERED_BY_CODE = "system";
+    private static final String LIST_ORDERED_BY_DISPLAY = "Sorted by System";
+    private static final String LIST_CODE_SYSTEM = "http://snomed.info/sct";
+    private static final String CONSULTATION_CODE_CODE = "325851000000107";
+    private static final String CONSULTATION_CODE_DISPLAY = "Consultation";
+    private static final String TOPIC_CODE_CODE = "25851000000105";
+    private static final String TOPIC_CODE_DISPLAY = "Topic (EHR)";
+    private static final String CATEGORY_CODE_CODE = "24781000000107";
+    private static final String CATEGORY_CODE_DISPLAY = "Category (EHR)";
+    private static final String PATIENT_ID = "0E6F45F0-8D7B-11EC-B1E5-0800200C9A66";
+    private static final String FLAT_TOPIC_ID = "AEE5F640-90A6-11EC-B1E5-0800200C9A66";
+    private static final String COMPOUND_STATEMENT_ID = "68E66550-90DB-11EC-B1E5-0800200C9A66";
+    private static final String FULL_VALID_CONSULTATION_LIST_XML = "full_valid_consultation_list.xml";
+    private static final String NO_OPTIONAL_CONSULTATION_LIST_XML = "no_optional_consultation_list.xml";
+
+    @MockBean
+    private FhirIdGeneratorService idGenerator;
+
+    @Autowired
+    private ListMapper listMapper;
+
+    @Mock
+    private CodeableConceptMapper codeableConceptMapper;
+
+    private Encounter encounter;
+
+    @BeforeEach
+    public void setup() {
+        encounter = new Encounter();
+        when(idGenerator.generateUuid()).thenReturn(FLAT_TOPIC_ID);
+    }
+
+    @Test
+    public void testValidFullDataConsultationList() {
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
+        setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
+
+        var consultation = listMapper.mapToConsultation(ehrExtract, encounter);
+
+        assertConsultation(consultation, "20100113152000", "test-text");
+    }
+
+    @Test
+    public void testValidNoOptionalDataConsultationList() {
+        var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_CONSULTATION_LIST_XML);
+        setUpEncounter(null, null, "test-display", null);
+
+        var consultation = listMapper.mapToConsultation(ehrExtract, encounter);
+
+        assertConsultation(consultation, "20200101010101", "test-display");
+    }
+
+    @Test
+    public void testValidFullDataStructuredTopicList() {
+        setUpEncounter("20100113152000", "20130213152000", "test-display", "test-text");
+        var consultation = setUpConsultation();
+        var compoundStatement = setUpCompoundStatement("test-text", "test-display", "20150213152000");
+
+        var topic = listMapper.mapToTopic(consultation, compoundStatement);
+
+        assertTopic(topic, compoundStatement.getId().get(0).getRoot(), "20150213152000", "test-text");
+    }
+
+    @Test
+    public void testValidFallbackDataStructuredTopicList() {
+        setUpEncounter(null, null, "test-display", null);
+        var consultation = setUpConsultation();
+        var compoundStatement = setUpCompoundStatement(null, "test-display", null);
+
+        var topic = listMapper.mapToTopic(consultation, compoundStatement);
+
+        assertTopic(topic, compoundStatement.getId().get(0).getRoot(), "20130213152000", "test-display");
+    }
+
+    @Test
+    public void testValidFullDataFlatTopicList() {
+        setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
+        var consultation = setUpConsultation();
+
+        var topic = listMapper.mapToTopic(consultation, null);
+
+        assertTopic(topic, FLAT_TOPIC_ID, "20130213152000", null);
+    }
+
+    @Test
+    public void testValidFullDataCategoryList() {
+        setUpEncounter("20100113152000", "20130213152000", "test-display", "test-text");
+        var topic = setUpTopic();
+        var compoundStatement = setUpCompoundStatement("test-text", "test-display", "20150213152000");
+
+        var category = listMapper.mapToCategory(topic, compoundStatement);
+
+        assertCategory(category, "20150213152000", "test-text");
+    }
+
+    @Test
+    public void testValidFallbackDateCategoryList() {
+        setUpEncounter("20100113152000", null, "test-display", null);
+        var topic = setUpTopic();
+        var compoundStatement = setUpCompoundStatement(null, "test-display", null);
+
+        var category = listMapper.mapToCategory(topic, compoundStatement);
+
+        assertCategory(category, "20110213152000", "test-display");
+    }
+
+    private void assertCategory(ListResource category, String date, String title) {
+        assertThat(category.getId()).isEqualTo(COMPOUND_STATEMENT_ID);
+        assertThat(category.getMeta().getProfile().get(0).getValue()).isEqualTo(LIST_META_PROFILE);
+        assertThat(category.getMode()).isEqualTo(ListMode.SNAPSHOT);
+        assertThat(category.getStatus()).isEqualTo(ListStatus.CURRENT);
+        assertThat(category.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
+        assertThat(category.getEncounter().getResource()).isEqualTo(encounter);
+        assertThat(category.getDateElement().getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType(date).getValueAsString());
+        assertThat(category.getTitle()).isEqualTo(title);
+        assertThat(category.getEntry().size()).isZero();
+        assertCoding(category.getCode().getCodingFirstRep(), LIST_CODE_SYSTEM, CATEGORY_CODE_CODE, CATEGORY_CODE_DISPLAY);
+        assertCoding(category.getOrderedBy().getCodingFirstRep(), LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE,
+            LIST_ORDERED_BY_DISPLAY);
+    }
+
+    private void assertTopic(ListResource topic, String id, String date, String title) {
+        assertThat(topic.getId()).isEqualTo(id);
+        assertThat(topic.getMeta().getProfile().get(0).getValue()).isEqualTo(LIST_META_PROFILE);
+        assertThat(topic.getMode()).isEqualTo(ListMode.SNAPSHOT);
+        assertThat(topic.getStatus()).isEqualTo(ListStatus.CURRENT);
+        assertThat(topic.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
+        assertThat(topic.getEncounter().getResource()).isEqualTo(encounter);
+        assertThat(topic.getDateElement().getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType(date).getValueAsString());
+        assertThat(topic.getTitle()).isEqualTo(title);
+        assertThat(topic.getEntry().size()).isZero();
+        assertCoding(topic.getCode().getCodingFirstRep(), LIST_CODE_SYSTEM, TOPIC_CODE_CODE, TOPIC_CODE_DISPLAY);
+        assertCoding(topic.getOrderedBy().getCodingFirstRep(), LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE,
+            LIST_ORDERED_BY_DISPLAY);
+    }
+
+    private void assertConsultation(ListResource consultation, String date, String title) {
+        assertThat(consultation.getId()).isEqualTo(encounter.getId() + CONSULTATION_ID_SUFFIX);
+        assertThat(consultation.getMeta().getProfile().get(0).getValue()).isEqualTo(LIST_META_PROFILE);
+        assertThat(consultation.getMode()).isEqualTo(ListMode.SNAPSHOT);
+        assertThat(consultation.getStatus()).isEqualTo(ListStatus.CURRENT);
+        assertThat(consultation.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
+        assertThat(consultation.getEncounter().getResource()).isEqualTo(encounter);
+        assertThat(consultation.getDateElement().getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType(date).getValueAsString());
+        assertThat(consultation.getTitle()).isEqualTo(title);
+        assertThat(consultation.getEntry().size()).isZero();
+        assertCoding(consultation.getCode().getCodingFirstRep(), LIST_CODE_SYSTEM, CONSULTATION_CODE_CODE, CONSULTATION_CODE_DISPLAY);
+        assertCoding(consultation.getOrderedBy().getCodingFirstRep(), LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE,
+            LIST_ORDERED_BY_DISPLAY);
+    }
+
+    private void assertCoding(Coding coding, String system, String code, String display) {
+        assertThat(coding.getSystem()).isEqualTo(system);
+        assertThat(coding.getCode()).isEqualTo(code);
+        assertThat(coding.getDisplay()).isEqualTo(display);
+    }
+
+    private void setUpEncounter(String startDate, String endDate, String display, String text) {
+        Period period = new Period();
+
+        if (startDate != null) {
+            period.setStartElement(DateFormatUtil.parseToDateTimeType(startDate));
+        }
+        if (endDate != null) {
+            period.setEndElement(DateFormatUtil.parseToDateTimeType(endDate));
+        }
+
+        CodeableConcept type = new CodeableConcept();
+        var coding = new Coding();
+        coding.setDisplay(display);
+        type.addCoding(coding).setText(text);
+
+        encounter
+            .setType(List.of(type))
+            .setPeriod(period)
+            .setSubject(new Reference(new Patient().setId(PATIENT_ID)))
+            .setId(ENCOUNTER_ID);
+    }
+
+    private ListResource setUpConsultation() {
+        ListResource consultation = new ListResource();
+
+        consultation
+            .setDateElement(DateFormatUtil.parseToDateTimeType("20130213152000"))
+            .setTitle("test-title")
+            .setSubject(new Reference(new Patient().setId(PATIENT_ID)))
+            .setEncounter(new Reference(encounter))
+            .setId(ENCOUNTER_ID + CONSULTATION_ID_SUFFIX);
+
+        return consultation;
+    }
+
+    private ListResource setUpTopic() {
+        ListResource consultation = new ListResource();
+
+        consultation
+            .setDateElement(DateFormatUtil.parseToDateTimeType("20110213152000"))
+            .setTitle("test-title")
+            .setSubject(new Reference(new Patient().setId(PATIENT_ID)))
+            .setEncounter(new Reference(encounter))
+            .setId(COMPOUND_STATEMENT_ID);
+
+        return consultation;
+    }
+
+    private RCMRMT030101UK04CompoundStatement setUpCompoundStatement(String originalText, String display,
+        String availabilityTime) {
+        RCMRMT030101UK04CompoundStatement compoundStatement = new RCMRMT030101UK04CompoundStatement();
+        II id = new II();
+        id.setRoot(COMPOUND_STATEMENT_ID);
+
+        CD cd = new CD();
+        cd.setOriginalText(originalText);
+        cd.setDisplayName(display);
+        cd.setCodeSystem("2.16.840.1.113883.2.1.6.2");
+        cd.setCode("14L..00");
+
+        TS ts = new TS();
+        if (availabilityTime != null) {
+            ts.setValue(availabilityTime);
+        } else {
+            ts.setNullFlavor(CsNullFlavor.NI);
+        }
+        compoundStatement.setAvailabilityTime(ts);
+
+        compoundStatement.getId().add(id);
+        compoundStatement.setCode(cd);
+
+        return compoundStatement;
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    }
+}
+
+
