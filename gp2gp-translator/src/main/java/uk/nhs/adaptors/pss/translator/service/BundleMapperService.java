@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Location;
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
@@ -45,6 +47,7 @@ public class BundleMapperService {
     private final ProcedureRequestMapper procedureRequestMapper;
     private final ReferralRequestMapper referralRequestMapper;
     private final ObservationMapper observationMapper;
+    private final ConditionMapper conditionMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -67,6 +70,9 @@ public class BundleMapperService {
 
         var observations = mapObservations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters
         addEntries(bundle, observations);
+
+        var conditions = mapConditions(ehrExtract, patient, List.of()); //TODO: Provide list of encounters
+        addEntries(bundle, conditions);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
         return bundle;
@@ -110,6 +116,10 @@ public class BundleMapperService {
 
     private List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         return observationMapper.mapObservations(ehrExtract, patient, encounters);
+    }
+
+    private List<Condition> mapConditions(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+        return conditionMapper.mapConditions(ehrExtract, patient, encounters);
     }
 
     private Organization getPatientOrganization(List<? extends DomainResource> agents) {
