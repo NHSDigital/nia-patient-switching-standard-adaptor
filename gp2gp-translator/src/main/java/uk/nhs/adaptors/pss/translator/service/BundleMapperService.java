@@ -75,6 +75,9 @@ public class BundleMapperService {
         addEntries(bundle, conditions);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
+
+        conditionMapper.addReferences(bundle, conditions, ehrExtract); //add after mapping all resources
+
         return bundle;
     }
 
