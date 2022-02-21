@@ -35,7 +35,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -60,6 +60,7 @@ public class EncounteMapperTest {
     private static final String FLAT_TOPIC_ID = "AEE5F640-90A6-11EC-B1E5-0800200C9A66";
     private static final String CODING_DISPLAY = "Ischaemic heart disease";
     private static final String FULL_VALID_STRUCTURED_ENCOUNTER_XML = "full_valid_structured_encounter.xml";
+    private static final String FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML = "full_valid_structured_encounter_with_linkset.xml";
     private static final String FULL_VALID_FLAT_ENCOUNTER_XML = "full_valid_flat_encounter.xml";
     private static final String NO_OPTIONAL_FLAT_ENCOUNTER_XML = "no_optional_valid_flat_encounter.xml";
     private static final String INVALID_ENCOUNTER_CODE_1_XML = "invalid_encounter_code_1.xml";
@@ -73,9 +74,10 @@ public class EncounteMapperTest {
     private static final String EFFECTIVE_CENTER_NULL_FLAVOR_ENCOUNTER_PERIOD_XML = "effective_center_null_flavor_encounter_period.xml";
     private static final String AVAILABILITY_TIME_ENCOUNTER_PERIOD_XML = "availability_time_encounter_period.xml";
     private static final String NO_ENCOUNTER_PERIOD_XML = "no_encounter_period.xml";
+    private static final String ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML = "encounter_with_multiple_compound_statements.xml";
 
     @MockBean
-    private FhirIdGeneratorService idGenerator;
+    private IdGeneratorService idGenerator;
 
     @Autowired
     private EncounterMapper encounterMapper;
@@ -94,12 +96,16 @@ public class EncounteMapperTest {
     }
 
     @Test
-    public void testDevelopment() { // TODO REMOVE WHEN FINISHED
-        var ehrExtract = unmarshallEhrExtractElement("test.xml");
+    public void testEncountersWithMultipleCompoundStatements() {
+        var ehrExtract = unmarshallEhrExtractElement(ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
 
         var encounterList = mappedResources.get(ENCOUNTER_KEY);
+        assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
+        assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
+        assertThat(mappedResources.get(TOPIC_KEY).size()).isEqualTo(2);
+        assertThat(mappedResources.get(CATEGORY_KEY).size()).isEqualTo(1);
 
         assertThat(encounterList.size()).isEqualTo(1);
     }
@@ -126,6 +132,41 @@ public class EncounteMapperTest {
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
         assertThat(topic.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
         assertThat(consultation.getEntryFirstRep().getItem().getResource().getIdElement().getValue())
+            .isEqualTo("3D8A2760-90B4-11EC-B1E5-0800200C9A66");
+
+        var category = (ListResource) mappedResources.get(CATEGORY_KEY).get(0);
+        assertThat(category.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
+        assertThat(topic.getEntryFirstRep().getItem().getResource().getIdElement().getValue())
+            .isEqualTo("07F5EAC0-90B5-11EC-B1E5-0800200C9A66");
+    }
+
+    @Test
+    public void testValidEncounterWithLinkSetWithStructuredConsultation() {
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
+
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+
+        assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
+        assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
+        assertThat(mappedResources.get(TOPIC_KEY).size()).isEqualTo(2);
+        assertThat(mappedResources.get(CATEGORY_KEY).size()).isOne();
+
+        var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
+
+        assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true, "2E86E940-9011-11EC-B1E5-0800200C9A66",
+            "3707E1F0-9011-11EC-B1E5-0800200C9A66", "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
+
+        var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
+        assertThat(consultation.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
+
+        var linkSetTopic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
+        assertThat(linkSetTopic.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
+        assertThat(consultation.getEntry().get(1).getItem().getResource().getIdElement().getValue())
+            .isEqualTo(FLAT_TOPIC_ID);
+
+        var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(1);
+        assertThat(topic.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
+        assertThat(consultation.getEntry().get(0).getItem().getResource().getIdElement().getValue())
             .isEqualTo("3D8A2760-90B4-11EC-B1E5-0800200C9A66");
 
         var category = (ListResource) mappedResources.get(CATEGORY_KEY).get(0);

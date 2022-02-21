@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
@@ -38,7 +38,7 @@ public class ListMapper {
     private static final String CATEGORY_CODE_CODE = "24781000000107";
     private static final String CATEGORY_CODE_DISPLAY = "Category (EHR)";
 
-    private final FhirIdGeneratorService idGenerator;
+    private final IdGeneratorService idGenerator;
     private final CodeableConceptMapper codeableConceptMapper;
 
     public ListResource mapToConsultation(RCMRMT030101UK04EhrExtract ehrExtract, Encounter encounter) {

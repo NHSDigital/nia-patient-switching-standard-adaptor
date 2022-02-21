@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -33,6 +34,7 @@ import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
+import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04Participant2;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +92,7 @@ public class EncounterMapper {
 
                 topicList.add(topic);
             } else {
-                // generate a 'structured' topic for each child TOPIC CompoundStatement
+                // generate a 'structured' topic list for each child TOPIC CompoundStatement
                 topicCompoundStatementList.forEach(topicCompoundStatement -> {
                     var topic = listMapper.mapToTopic(consultation, topicCompoundStatement);
                     consultation.addEntry(new ListResource.ListEntryComponent(new Reference(topic)));
@@ -103,6 +105,14 @@ public class EncounterMapper {
                         topic.addEntry(new ListEntryComponent(new Reference(category)));
                         categoryList.add(category);
                     });
+
+                    // generate a topic list if any top level LinkSets exist, for conditions to be referenced from
+                    var linkSetList = getLinkSets(ehrComposition);
+                    if (!CollectionUtils.isEmpty(linkSetList)) {
+                        var linkSetTopic = listMapper.mapToTopic(consultation, null);
+                        consultation.addEntry(new ListResource.ListEntryComponent(new Reference(linkSetTopic)));
+                        topicList.add(linkSetTopic);
+                    }
 
                     topicList.add(topic);
                 });
@@ -120,13 +130,21 @@ public class EncounterMapper {
         return map;
     }
 
+    private List<RCMRMT030101UK04LinkSet> getLinkSets(RCMRMT030101UK04EhrComposition ehrComposition) {
+        return ehrComposition.getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component4::getLinkSet)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+    }
+
     private List<RCMRMT030101UK04CompoundStatement> getCategoryCompoundStatements(RCMRMT030101UK04CompoundStatement
         topicCompoundStatement) {
         return topicCompoundStatement.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component02::getCompoundStatement)
             .filter(compoundStatement -> compoundStatement != null && compoundStatement.getClassCode().get(0).equals(CATEGORY_CLASS_CODE))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     private List<RCMRMT030101UK04EhrComposition> getEncounterEhrCompositions(RCMRMT030101UK04EhrExtract ehrExtract) {
@@ -140,7 +158,7 @@ public class EncounterMapper {
             .filter(EhrResourceExtractorUtil::hasEhrComposition)
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> isEncounterEhrComposition(ehrComposition.getCode().getCode(), ehrComposition.getComponent()))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     private boolean isEncounterEhrComposition(String code, List<RCMRMT030101UK04Component4> component) {
@@ -157,7 +175,7 @@ public class EncounterMapper {
             .stream()
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
             .filter(compoundStatement -> compoundStatement != null && compoundStatement.getClassCode().get(0).equals(TOPIC_CLASS_CODE))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     private Encounter mapToEncounter(RCMRMT030101UK04EhrComposition ehrComposition, Patient patient) {
@@ -204,7 +222,8 @@ public class EncounterMapper {
         if (validValue(center)) {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(center));
         } else if (validValue(low) && validValue(high)) {
-            return period.setStartElement(DateFormatUtil.parseToDateTimeType(low)).setEndElement(DateFormatUtil.parseToDateTimeType(high));
+            return period.setStartElement(DateFormatUtil.parseToDateTimeType(low))
+                .setEndElement(DateFormatUtil.parseToDateTimeType(high));
         } else if (validValue(low) && !validValue(high)) {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(low));
         } else if (!validValue(low) && validValue(high)) {

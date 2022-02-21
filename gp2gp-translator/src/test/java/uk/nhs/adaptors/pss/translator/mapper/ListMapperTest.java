@@ -33,7 +33,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @SpringBootTest
@@ -60,7 +60,7 @@ public class ListMapperTest {
     private static final String NO_OPTIONAL_CONSULTATION_LIST_XML = "no_optional_consultation_list.xml";
 
     @MockBean
-    private FhirIdGeneratorService idGenerator;
+    private IdGeneratorService idGenerator;
 
     @Autowired
     private ListMapper listMapper;
