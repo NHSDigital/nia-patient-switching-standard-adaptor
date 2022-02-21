@@ -909,7 +909,7 @@
                     },
                     {
                         "valueString": "20100114103430",
-                        "url": null
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1"
                     }
                 ],
                 "practitioner": [

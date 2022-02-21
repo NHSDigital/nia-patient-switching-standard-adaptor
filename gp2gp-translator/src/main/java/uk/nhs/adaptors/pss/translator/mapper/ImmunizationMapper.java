@@ -41,6 +41,7 @@ public class ImmunizationMapper {
     private static final String END_DATE_PREFIX = "End Date: ";
     private static final String VACCINATION_CODING_EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding"
         + "-sctdescid";
+    private static final String RECORDED_DATE_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1";
 
     private CodeableConceptMapper codeableConceptMapper;
 
@@ -120,15 +121,16 @@ public class ImmunizationMapper {
     }
 
     private Extension createRecordedTimeExtension(RCMRMT030101UK04EhrComposition ehrComposition) {
+        var extension = new Extension();
+        extension.setUrl(RECORDED_DATE_EXTENSION_URL);
+
         if (ehrComposition.getAuthor() != null) {
-            return new Extension()
+            return extension
                 .setValue(new StringType(ehrComposition.getAuthor().getTime().getValue()));
-        } else if (ehrComposition.getEffectiveTime() != null) {
-            if (ehrComposition.getAvailabilityTime().getNullFlavor() == null) {
-                return new Extension()
-                    .setValue(new StringType(DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue())
-                        .asStringValue()));
-            }
+        } else if (ehrComposition.getEffectiveTime() != null && ehrComposition.getAvailabilityTime().getNullFlavor() == null) {
+            return extension
+                .setValue(new StringType(
+                    DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue()).asStringValue()));
         }
 
         return null;
