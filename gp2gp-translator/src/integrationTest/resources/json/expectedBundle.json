@@ -621,5 +621,63 @@
                 "reference": "Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6"
             } ]
         }
+    },{
+        "resource": {
+            "resourceType": "Observation",
+            "id": "CA4AD477-C33B-4FE7-8417-A242BB3D23AF",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "CA4AD477-C33B-4FE7-8417-A242BB3D23AF"
+            } ],
+            "status": "final",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "37331000000100",
+                    "display": "Comment note"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/TEST_ID_123"
+            },
+            "effectiveDateTime": "2011-01-14",
+            "issued": "2010-01-14T10:34:30.000+00:00",
+            "performer": [ {
+                "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+            } ],
+            "comment":"Inactive Diary Entry\n                                        Medication review"
+        }
+    },{
+        "resource": {
+            "resourceType": "Observation",
+            "id": "5F1EDFB9-3B69-4A7A-9D22-26CFE3CD7F1B",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "5F1EDFB9-3B69-4A7A-9D22-26CFE3CD7F1B"
+            } ],
+            "status": "final",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "37331000000100",
+                    "display": "Comment note"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/TEST_ID_123"
+            },
+            "effectiveDateTime": "2010-03-23T15:42:00+00:00",
+            "issued": "2010-03-23T16:07:49.000+00:00",
+            "performer": [ {
+                "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+            } ],
+            "comment":"This is just a consultation to test issue of previous courses via consultations"
+        }
     } ]
 }

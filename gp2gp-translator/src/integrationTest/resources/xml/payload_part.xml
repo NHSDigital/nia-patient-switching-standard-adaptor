@@ -758,19 +758,7 @@
                                             </agentRef>
                                         </Participant>
                                     </MedicationStatement>
-                                </component><component typeCode="COMP" >
-                                <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                    <id root="55B1BB28-8973-4CF4-B9A6-9FF49547F465" />
-                                    <text>Fluoxetine 20mg capsules One To Be Taken Each Day</text>
-                                    <statusCode code="COMPLETE" />
-                                    <availabilityTime value="20100810131700" />
-                                    <Participant typeCode="PRF" contextControlCode="OP">
-                                        <agentRef classCode="AGNT">
-                                            <id root="72DB5398-C825-4498-88CA-899A3653EC04"/>
-                                        </agentRef>
-                                    </Participant>
-                                </NarrativeStatement>
-                            </component>
+                                </component>
                             </ehrComposition>
                         </component>
                         <component typeCode="COMP">
