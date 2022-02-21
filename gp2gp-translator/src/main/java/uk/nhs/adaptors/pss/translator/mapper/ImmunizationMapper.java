@@ -12,6 +12,8 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Immunization;
+import org.hl7.fhir.dstu3.model.Immunization.ImmunizationPractitionerComponent;
+import org.hl7.fhir.dstu3.model.Immunization.ImmunizationStatus;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
@@ -82,8 +84,8 @@ public class ImmunizationMapper {
         immunization
             .setDateElement(date)
             .setEncounter(encounter)
-            .addPractitioner(new Immunization.ImmunizationPractitionerComponent(practitioner))
-            .setStatus(Immunization.ImmunizationStatus.COMPLETED)
+            .addPractitioner(new ImmunizationPractitionerComponent(practitioner))
+            .setStatus(ImmunizationStatus.COMPLETED)
             .setNotGiven(false)
             .setPrimarySource(false)
             .setPatient(new Reference(patientResource))

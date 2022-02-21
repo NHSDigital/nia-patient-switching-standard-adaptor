@@ -38,7 +38,7 @@ public class EhrResourceExtractorUtil {
             .flatMap(List::stream)
             .filter(EhrResourceExtractorUtil::hasEhrComposition)
             .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> filterForValidObservationStatements(ehrComposition))
+            .filter(EhrResourceExtractorUtil::filterForValidImmunizationObservationStatements)
             .toList();
     }
 
@@ -78,10 +78,10 @@ public class EhrResourceExtractorUtil {
         return component.getObservationStatement() != null && component.getObservationStatement().getId() == resourceId;
     }
 
-    private static boolean filterForValidObservationStatements(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private static boolean filterForValidImmunizationObservationStatements(RCMRMT030101UK04EhrComposition ehrComposition) {
         return ehrComposition.getComponent()
             .stream()
-            .anyMatch(component -> validImmunizationSnomedCode(component));
+            .anyMatch(EhrResourceExtractorUtil::validImmunizationSnomedCode);
     }
 
     private static boolean validImmunizationSnomedCode(RCMRMT030101UK04Component4 component) {
