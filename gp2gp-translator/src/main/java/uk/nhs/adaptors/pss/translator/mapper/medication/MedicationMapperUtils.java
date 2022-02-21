@@ -40,11 +40,8 @@ public class MedicationMapperUtils {
     private static final String PRESCRIPTION_TYPE_CODING_SYSTEM
         = "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1";
 
-    protected static MedicationRequest createMedicationRequestSkeleton(Patient subject,
-        Encounter context, String id) {
+    protected static MedicationRequest createMedicationRequestSkeleton(String id) {
         return (MedicationRequest) new MedicationRequest()
-            .setContext(new Reference(context))
-            .setSubject(new Reference(subject))
             .setMeta(generateMeta(META_PROFILE))
             .setId(id);
     }

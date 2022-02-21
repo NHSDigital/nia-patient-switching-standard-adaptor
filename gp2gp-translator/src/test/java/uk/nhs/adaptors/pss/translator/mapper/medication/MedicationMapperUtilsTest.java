@@ -1,9 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.junit.jupiter.api.Test;
@@ -25,25 +23,14 @@ public class MedicationMapperUtilsTest {
     private static final String EXPECTED_CODE_DISPLAY = "NHS prescription";
 
     private static final String AUTHORISE_ID = "8866381C-E5B8-4A6E-ADBC-964F9A77D407";
-    private static final String ENCOUNTER_ID = "88eb391f-e7a0-47aa-a02b-215ef3c266df";
-    private static final String PATIENT_ID = "b705a0da-3cb9-4331-aa1b-697aa7919883";
     private static final String MEDICATION_REQUEST_ID = "a9edfd5e-bd52-461f-8b96-9c5b181af5bf";
-
-
 
     @Test
     public void When_CreatingMedicationRequest_Expect_ContextAndSubjectMappedAppropriately() {
-        Encounter encounter = (Encounter) new Encounter().setId(ENCOUNTER_ID);
-        Patient patient = (Patient) new Patient().setId(PATIENT_ID);
-
         MedicationRequest medicationRequest = MedicationMapperUtils.createMedicationRequestSkeleton(
-            patient,
-            encounter,
             MEDICATION_REQUEST_ID
         );
         assertThat(medicationRequest.getId()).isEqualTo(MEDICATION_REQUEST_ID);
-        assertThat(medicationRequest.getContext().getResource().getIdElement().getIdPart()).isEqualTo(ENCOUNTER_ID);
-        assertThat(medicationRequest.getSubject().getResource().getIdElement().getIdPart()).isEqualTo(PATIENT_ID);
     }
 
     @Test

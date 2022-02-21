@@ -12,10 +12,8 @@ import java.util.Optional;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
-import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
-import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04Component2;
@@ -40,15 +38,13 @@ public class MedicationStatementMapper {
     private static final String COMPLETE = "COMPLETE";
 
     protected MedicationStatement mapToMedicationStatement(RCMRMT030101UK04MedicationStatement medicationStatement,
-        RCMRMT030101UK04Authorise supplyAuthorise, Patient subject, Encounter context) {
+        RCMRMT030101UK04Authorise supplyAuthorise) {
         var ehrSupplyAuthoriseIdExtract = extractEhrSupplyAuthoriseId(supplyAuthorise);
         if (ehrSupplyAuthoriseIdExtract.isPresent()) {
             String ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
             MedicationStatement medicationStatement1 = new MedicationStatement();
 
             medicationStatement1.setId(ehrSupplyAuthoriseId + MS_SUFFIX);
-            medicationStatement1.setContext(new Reference(context));
-            medicationStatement1.setSubject(new Reference(subject));
             medicationStatement1.setMeta(generateMeta(MEDICATION_STATEMENT_URL));
             medicationStatement1.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId + MS_SUFFIX, ""));
             medicationStatement1.setTaken(MedicationStatement.MedicationStatementTaken.UNK);

@@ -17,11 +17,9 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
@@ -63,17 +61,14 @@ public class MedicationRequestPlanMapper {
     private static final String PRESCRIPTION_TYPE = "Prescription type: ";
 
     protected MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise, Patient subject,
-        Encounter context) {
+        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise) {
 
         var ehrSupplyAuthoriseIdExtract = extractEhrSupplyAuthoriseId(supplyAuthorise);
 
         if (ehrSupplyAuthoriseIdExtract.isPresent()) {
             var ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
             var discontinue = extractMatchingDiscontinue(ehrSupplyAuthoriseId, ehrExtract);
-            MedicationRequest medicationRequest = createMedicationRequestSkeleton(
-                subject, context, ehrSupplyAuthoriseId
-            );
+            MedicationRequest medicationRequest = createMedicationRequestSkeleton(ehrSupplyAuthoriseId);
 
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, ""));
             medicationRequest.setStatus(buildMedicationRequestStatus(supplyAuthorise));

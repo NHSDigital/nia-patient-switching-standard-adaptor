@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -55,28 +54,26 @@ public class MedicationRequestMapper {
 
         List<DomainResource> medicationResources = new ArrayList<>();
         for (RCMRMT030101UK04EhrComposition ehrComposition : ehrCompositions) {
-            var encounter = encounters.stream()
+            var context = encounters.stream()
                 .filter(encounter1 -> encounter1.getId().equals(ehrComposition.getId().getRoot())).findFirst();
 
-            encounter.ifPresent(context -> {
-                ehrComposition.getComponent()
-                    .stream()
-                    .filter(RCMRMT030101UK04Component4::hasMedicationStatement)
-                    .map(RCMRMT030101UK04Component4::getMedicationStatement)
-                    .map(medicationStatement -> mapMedicationStatement(ehrExtract, ehrComposition, medicationStatement, patient, context))
-                    .flatMap(List::stream)
-                    .forEach(medicationResources::add);
-            });
+            ehrComposition.getComponent()
+                .stream()
+                .filter(RCMRMT030101UK04Component4::hasMedicationStatement)
+                .map(RCMRMT030101UK04Component4::getMedicationStatement)
+                .map(medicationStatement -> mapMedicationStatement(ehrExtract, ehrComposition, medicationStatement, patient, context))
+                .flatMap(List::stream)
+                .forEach(medicationResources::add);
         }
         return medicationResources;
     }
 
     private List<DomainResource> mapMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
         RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04MedicationStatement medicationStatement,
-        Patient subject, Encounter context) {
+        Patient subject, Optional<Encounter> context) {
 
         var authoredOn = extractAuthoredOn(ehrComposition,
-            DateFormatUtil.parsePathwaysDate(ehrExtract.getAvailabilityTime().getValue()));
+            DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue()));
         var requester = extractRequester(ehrComposition, medicationStatement);
         var recorder = extractRecorder(ehrComposition, medicationStatement);
 
@@ -89,34 +86,36 @@ public class MedicationRequestMapper {
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
             .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
-            .map(supplyPrescribe -> mapToOrderMedicationRequest(medicationStatement, supplyPrescribe, subject, context))
+            .map(supplyPrescribe -> mapToOrderMedicationRequest(medicationStatement, supplyPrescribe))
             .filter(Objects::nonNull)
-            .peek(medicationRequest -> medicationRequest.setAuthoredOnElement(authoredOn))
-            .peek(medicationRequest ->
-                requester.map(MedicationRequest.MedicationRequestRequesterComponent::new).ifPresent(medicationRequest::setRequester))
-            .peek(medicationRequest -> recorder.ifPresent(medicationRequest::setRecorder))
+            .map(medicationRequest -> setCommonFields(
+                medicationRequest, requester, recorder, subject, context, authoredOn
+            ))
             .collect(Collectors.toList());
 
         List<MedicationRequest> medicationRequestsPlan = medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
             .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
-            .map(supplyAuthorise -> mapToPlanMedicationRequest(ehrExtract, medicationStatement, supplyAuthorise, subject, context))
+            .map(supplyAuthorise -> mapToPlanMedicationRequest(ehrExtract, medicationStatement, supplyAuthorise))
             .filter(Objects::nonNull)
-            .peek(medicationRequest -> medicationRequest.setAuthoredOnElement(authoredOn))
-            .peek(medicationRequest ->
-                requester.map(MedicationRequest.MedicationRequestRequesterComponent::new).ifPresent(medicationRequest::setRequester))
-            .peek(medicationRequest -> recorder.ifPresent(medicationRequest::setRecorder))
+            .map(medicationRequest -> setCommonFields(
+                medicationRequest, requester, recorder, subject, context, authoredOn
+            ))
             .collect(Collectors.toList());
 
         List<MedicationStatement> medicationStatements = medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
             .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
-            .map(supplyAuthorise -> mapToMedicationStatement(medicationStatement, supplyAuthorise, subject, context))
+            .map(supplyAuthorise -> mapToMedicationStatement(medicationStatement, supplyAuthorise))
             .filter(Objects::nonNull)
-            .peek(medicationStatement1 -> medicationStatement1.setEffective(authoredOn))
-            .peek(medicationStatement1 -> medicationStatement1.setDateAssertedElement(authoredOn))
+            .peek(medicationStatement1 -> {
+                context.ifPresent(context1 -> medicationStatement1.setContext(new Reference(context1)));
+                medicationStatement1.setSubject(new Reference(subject));
+                medicationStatement1.setEffective(authoredOn);
+                medicationStatement1.setDateAssertedElement(authoredOn);
+            })
             .collect(Collectors.toList());
 
         return Stream.of(medications, medicationRequestsOrder, medicationRequestsPlan, medicationStatements)
@@ -125,26 +124,25 @@ public class MedicationRequestMapper {
     }
 
     private MedicationStatement mapToMedicationStatement(RCMRMT030101UK04MedicationStatement medicationStatement,
-        RCMRMT030101UK04Authorise supplyAuthorise, Patient subject, Encounter context) {
-        return medicationStatementMapper.mapToMedicationStatement(medicationStatement, supplyAuthorise, subject, context);
+        RCMRMT030101UK04Authorise supplyAuthorise) {
+        return medicationStatementMapper.mapToMedicationStatement(medicationStatement, supplyAuthorise);
     }
 
     private MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04MedicationStatement medicationStatement,
-        RCMRMT030101UK04Prescribe supplyPrescribe, Patient subject, Encounter context) {
-        return medicationRequestOrderMapper.mapToOrderMedicationRequest(medicationStatement, supplyPrescribe, subject, context);
+        RCMRMT030101UK04Prescribe supplyPrescribe) {
+        return medicationRequestOrderMapper.mapToOrderMedicationRequest(medicationStatement, supplyPrescribe);
     }
 
     private MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise,
-        Patient subject, Encounter context) {
-        return medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement, supplyAuthorise, subject, context);
+        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise) {
+        return medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement, supplyAuthorise);
     }
 
-    private DateTimeType extractAuthoredOn(RCMRMT030101UK04EhrComposition ehrComposition, Date ehrExtractAvailabilityTime) {
+    private DateTimeType extractAuthoredOn(RCMRMT030101UK04EhrComposition ehrComposition, DateTimeType ehrExtractAvailabilityTime) {
         if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
             return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
         } else {
-            return new DateTimeType(ehrExtractAvailabilityTime);
+            return ehrExtractAvailabilityTime;
         }
     }
 
@@ -182,5 +180,18 @@ public class MedicationRequestMapper {
         RCMRMT030101UK04MedicationStatement medicationStatement) {
         // todo: return NIAD-2026 empty practitioner if empty
         return extractRequester(ehrComposition, medicationStatement);
+    }
+
+    private MedicationRequest setCommonFields(MedicationRequest medicationRequest, Optional<Reference> requester,
+        Optional<Reference> recorder, Patient patient, Optional<Encounter> context, DateTimeType authoredOn) {
+
+        medicationRequest.setSubject(new Reference(patient));
+        context.ifPresent(context1 -> medicationRequest.setContext(new Reference(context1)));
+
+        requester.map(MedicationRequest.MedicationRequestRequesterComponent::new).ifPresent(medicationRequest::setRequester);
+        recorder.ifPresent(medicationRequest::setRecorder);
+        medicationRequest.setAuthoredOnElement(authoredOn);
+
+        return medicationRequest;
     }
 }
