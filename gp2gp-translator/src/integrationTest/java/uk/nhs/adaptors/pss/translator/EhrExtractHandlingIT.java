@@ -44,7 +44,10 @@ public class EhrExtractHandlingIT {
     private static final List<String> IGNORED_JSON_PATHS = List.of(
         "id",
         "entry[0].resource.id",
-        "entry[*].resource.subject.reference"
+        "entry[*].resource.subject.reference",
+        "entry[*].item.reference",
+        "subject.reference",
+        "encounter.reference"
     );
 
     @Autowired
