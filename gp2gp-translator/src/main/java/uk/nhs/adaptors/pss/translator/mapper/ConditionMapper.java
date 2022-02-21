@@ -83,8 +83,7 @@ public class ConditionMapper {
                  * Assumes the source practice org code is available as a parameter from the wider transaction context
                  * LINE 18 - CONDITION SHEET
                  */
-
-
+                
                 buildClinicalStatus(linkSet.getCode()).ifPresentOrElse(
                     condition::setClinicalStatus,
                     () -> {
@@ -97,12 +96,7 @@ public class ConditionMapper {
 
                 condition.addExtension(buildProblemSignificance(linkSet.getCode()));
 
-
                 buildContext(compositionsContainingLinkSets, encounters, linkSet).ifPresent(condition::setContext);
-                /**
-                 * If an Encounter resource is generated from the containing ehrComposition then references the corresponding Encounter.
-                 * LINE 31 - CONDITION SHEET
-                 */
 
                 buildOnsetDateTimeType(linkSet).ifPresent(condition::setOnset);
                 buildAbatementDateTimeType(linkSet.getEffectiveTime()).ifPresent(condition::setAbatement);
@@ -115,11 +109,6 @@ public class ConditionMapper {
                     .stream()
                     .findFirst()
                     .ifPresent(participant2 -> condition.setAsserter(new Reference(participant2.getAgentRef().getId().getRoot())));
-
-                /**
-                 * Obtain the asserter from the containing ehrComposition/Participant2/id/@root agent
-                 * LINE 35 - CONDITION SHEET
-                 */
 
                 buildNotes(
                     getObservationStatementForComposition(currentComposition),
