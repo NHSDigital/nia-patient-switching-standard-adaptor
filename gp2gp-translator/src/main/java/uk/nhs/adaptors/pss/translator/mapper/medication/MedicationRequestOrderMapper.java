@@ -49,7 +49,7 @@ public class MedicationRequestOrderMapper {
             medicationRequest.setIntent(MedicationRequest.MedicationRequestIntent.ORDER);
 
             medicationRequest.addBasedOn(buildMedicationRequestReference(ehrSupplyPrescribeId));
-            medicationRequest.addDosageInstruction(buildDosage(medicationStatement));
+            medicationRequest.addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()));
             medicationRequest.setDispenseRequest(buildDispenseRequestForPrescribe(supplyPrescribe));
 
             buildNotesForPrescribe(supplyPrescribe).forEach(medicationRequest::addNote);

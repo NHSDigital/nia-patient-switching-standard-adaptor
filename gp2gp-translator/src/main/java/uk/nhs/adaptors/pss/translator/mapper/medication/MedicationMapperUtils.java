@@ -26,6 +26,9 @@ import org.hl7.v3.RCMRMT030101UK04PertinentInformation;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation2;
 import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class MedicationMapperUtils {
 
     private static final String META_PROFILE = "MedicationRequest";
@@ -72,10 +75,9 @@ public class MedicationMapperUtils {
             .collect(Collectors.toList());
     }
 
-    protected static Dosage buildDosage(RCMRMT030101UK04MedicationStatement medicationStatement) {
+    protected static Dosage buildDosage(List<RCMRMT030101UK04PertinentInformation> pertinentInformationList) {
         Dosage dosage = new Dosage();
-        var pertinentInformationDosage = medicationStatement.getPertinentInformation()
-            .stream()
+        var pertinentInformationDosage = pertinentInformationList.stream()
             .filter(RCMRMT030101UK04PertinentInformation::hasPertinentMedicationDosage)
             .map(RCMRMT030101UK04PertinentInformation::getPertinentMedicationDosage)
             .filter(RCMRMT030101UK04MedicationDosage::hasText)
@@ -89,13 +91,19 @@ public class MedicationMapperUtils {
     }
 
     protected static Optional<SimpleQuantity> buildDosageQuantity(PQ quantitySupplied) {
-        SimpleQuantity quantity = new SimpleQuantity();
-        quantity.setValue(quantitySupplied.getValue());
-        if (quantitySupplied.hasTranslation()
-            && quantitySupplied.getTranslation().get(0).hasOriginalText()) {
-            quantity.setUnit(quantitySupplied.getTranslation().get(0).getOriginalText());
+        try {
+            SimpleQuantity quantity = new SimpleQuantity();
+            quantity.setValue(Long.parseLong(quantitySupplied.getValue()));
+            if (quantitySupplied.hasTranslation()
+                && quantitySupplied.getTranslation().get(0).hasOriginalText()) {
+                quantity.setUnit(quantitySupplied.getTranslation().get(0).getOriginalText());
+            }
+            return Optional.of(quantity);
+        } catch (NumberFormatException nfe) {
+            LOGGER.info("Unable to parse value from quantity supplied: {}", quantitySupplied.getValue());
+            LOGGER.error(nfe.getLocalizedMessage());
         }
-        return Optional.of(quantity);
+        return Optional.empty();
     }
 
     protected static Optional<String> extractEhrSupplyAuthoriseId(RCMRMT030101UK04Authorise supplyAuthorise) {

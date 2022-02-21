@@ -57,7 +57,7 @@ public class MedicationStatementMapper {
             medicationStatement1.addExtension(generatePrescribingAgencyExtension());
 
             medicationStatement1.setStatus(buildMedicationStatementStatus(supplyAuthorise));
-            medicationStatement1.addDosage(buildDosage(medicationStatement));
+            medicationStatement1.addDosage(buildDosage(medicationStatement.getPertinentInformation()));
 
             extractHighestSupplyPrescribeTime(medicationStatement, ehrSupplyAuthoriseId)
                 .map(dateTime -> new Extension(MS_LAST_ISSUE_DATE, dateTime))

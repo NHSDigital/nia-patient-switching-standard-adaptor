@@ -78,7 +78,7 @@ public class MedicationRequestPlanMapper {
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, ""));
             medicationRequest.setStatus(buildMedicationRequestStatus(supplyAuthorise));
             medicationRequest.setIntent(MedicationRequest.MedicationRequestIntent.PLAN);
-            medicationRequest.addDosageInstruction(buildDosage(medicationStatement));
+            medicationRequest.addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()));
             medicationRequest.setDispenseRequest(buildDispenseRequestForAuthorise(supplyAuthorise, medicationStatement));
 
             List<Extension> repeatInformationExtensions = new ArrayList<>();
