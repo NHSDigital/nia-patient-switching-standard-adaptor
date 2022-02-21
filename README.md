@@ -57,7 +57,6 @@ They are Java Spring Boot applications, released as separate docker images.
    - GPC_FACADE_SERVER_PORT: port of the GPC API Facade application
    - GP2GP_TRANSLATOR_SERVER_PORT: port of the GP2GP Translator application
    - MHS_BASE_URL: base URL of the MHS Adapter
-   - MHS_OUTBOUND_URL: path of the MHS Adapter's outbound endpoint
 
    If you plan to use external queues (like ActiveMQ on AWS), you also need to set credentials for those queues:
    - PS_AMQP_USERNAME

@@ -19,10 +19,13 @@ communication with the incumbent system via MHS Adaptor and data cleanup.
 ```
 
 ### How to run integration tests:
-
+*Integration tests require running database and queue.*
+Running tests form the terminal:
 ```shell script
 ./gradlew integrationTest
 ```
+You can also run tests from IntelliJ, just remember to set the database password
+inside the `gp2gp-translator/src/integrationTest/resources/application.yml` file (or set GP2GP_TRANSLATOR_USER_DB_PASSWORD variable).
 
 ## Troubleshooting
 
