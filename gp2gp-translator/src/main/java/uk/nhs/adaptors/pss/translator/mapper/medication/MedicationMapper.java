@@ -45,7 +45,7 @@ public class MedicationMapper {
         return null;
     }
 
-    private static String getMedicationId(CD code) {
+    public static String getMedicationId(CD code) {
         var key = keyBuilder(CD::hasCode, CD::getCode, code)
             + keyBuilder(CD::hasOriginalText, CD::getOriginalText, code)
             + keyBuilder(CD::hasDisplayName, CD::getDisplayName, code);
@@ -54,7 +54,9 @@ public class MedicationMapper {
         if (StringUtils.isNotBlank(value)) {
             return value;
         } else {
-            return MEDICATION_IDS.put(key, UUID.randomUUID().toString());
+            var newId = UUID.randomUUID().toString();
+            MEDICATION_IDS.put(key, UUID.randomUUID().toString());
+            return newId;
         }
     }
 
