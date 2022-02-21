@@ -19,22 +19,13 @@ This facade only serves light tasks, delegating all the work to the async GP2GP 
 ```
 
 ### How to run integration tests:
-
-Set credentials for a database that tests can connect to, by setting env variables:
-- PS_DB_URL
-- GPC_FACADE_USER_NAME
-- GPC_FACADE_USER_DB_PASSWORD,
-
-or values in integrationTest/resources/application.yml file:
-- spring.datasource.url
-- spring.datasource.username
-- spring.datasource.password
-
-Then execute:
-
+*Integration tests require running database and queue.*
+Running tests form the terminal:
 ```shell script
 ./gradlew integrationTest
 ```
+You can also run tests from IntelliJ, just remember to set the database password
+inside the `gpc-api-facade/src/integrationTest/resources/application.yml` file (or set GPC_FACADE_USER_DB_PASSWORD variable).
 
 ## Troubleshooting
 

@@ -12,13 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import uk.nhs.adaptors.pss.translator.service.FhirIdGeneratorService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @ExtendWith(MockitoExtension.class)
 public class BundleGeneratorTest {
 
     @Mock
-    private FhirIdGeneratorService fhirIdGeneratorService;
+    private IdGeneratorService idGeneratorService;
 
     @InjectMocks
     private BundleGenerator bundleGenerator;
@@ -28,7 +28,7 @@ public class BundleGeneratorTest {
 
     @BeforeEach
     public void setUp() {
-        when(fhirIdGeneratorService.generateUuid()).thenReturn(BUNDLE_ID);
+        when(idGeneratorService.generateUuid()).thenReturn(BUNDLE_ID);
     }
 
     @Test

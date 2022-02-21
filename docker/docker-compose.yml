@@ -15,6 +15,7 @@ services:
       - PS_AMQP_USERNAME
       - PS_AMQP_PASSWORD
       - PS_AMQP_MAX_REDELIVERIES
+      - PS_LOGGING_LEVEL
     networks:
       - ps-network
 
@@ -39,6 +40,7 @@ services:
       - MHS_AMQP_PASSWORD
       - MHS_AMQP_MAX_REDELIVERIES
       - MHS_BASE_URL=http://mhs-adaptor-mock:8080/
+      - PS_LOGGING_LEVEL
     networks:
       - ps-network
 

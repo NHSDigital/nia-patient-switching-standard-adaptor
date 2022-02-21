@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static uk.nhs.adaptors.pss.gpc.utils.TestResourceUtils.readResourceAsString;
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -38,6 +39,7 @@ public class PatientTransferControllerIT {
     private static final String VALID_REQUEST_BODY_PATH = "/requests/migrate-patient-record/validRequestBody.json";
     private static final String UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH =
         "/responses/migrate-patient-record/unprocessableEntityResponseBody.json";
+    private static final HttpHeaders REQUIRED_HEADERS = generateHeaders();
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -62,8 +64,7 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header("from-asid", "123456")
-                .header("to-asid", "32145")
+                .headers(REQUIRED_HEADERS)
                 .content(requestBody))
             .andExpect(status().isAccepted());
 
@@ -82,16 +83,14 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header("from-asid", "123456")
-                .header("to-asid", "32145")
+                .headers(REQUIRED_HEADERS)
                 .content(requestBody))
             .andExpect(status().isAccepted());
 
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header("from-asid", "123456")
-                .header("to-asid", "32145")
+                .headers(REQUIRED_HEADERS)
                 .content(requestBody))
             .andExpect(status().isNoContent());
 
@@ -107,8 +106,7 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(MediaType.TEXT_PLAIN)
-                .header("from-asid", "123456")
-                .header("to-asid", "32145")
+                .headers(REQUIRED_HEADERS)
                 .content(requestBody))
             .andExpect(status().isUnsupportedMediaType())
             .andExpect(content().json(expectedResponseBody));
@@ -124,8 +122,7 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(nonexistentEndpoint)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header("from-asid", "123456")
-                .header("to-asid", "32145")
+                .headers(REQUIRED_HEADERS)
                 .content(requestBody))
             .andExpect(status().isNotFound())
             .andExpect(content().json(expectedResponseBody));
@@ -140,8 +137,7 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             patch(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header("from-asid", "123456")
-                .header("to-asid", "32145")
+                .headers(REQUIRED_HEADERS)
                 .content(requestBody))
             .andExpect(status().isMethodNotAllowed())
             .andExpect(content().json(expectedResponseBody));
@@ -155,8 +151,7 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header("from-asid", "123456")
-                .header("to-asid", "32145")
+                .headers(REQUIRED_HEADERS)
                 .content(requestBody))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(content().json(expectedResponseBody));
@@ -170,8 +165,7 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header("from-asid", "123456")
-                .header("to-asid", "32145")
+                .headers(REQUIRED_HEADERS)
                 .content(requestBody))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(content().json(expectedResponseBody));
@@ -184,8 +178,7 @@ public class PatientTransferControllerIT {
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header("from-asid", "123456")
-                .header("to-asid", "32145")
+                .headers(REQUIRED_HEADERS)
                 .content(StringUtils.EMPTY))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(content().json(expectedResponseBody));
@@ -210,12 +203,22 @@ public class PatientTransferControllerIT {
     }
 
     private void verifyPatientMigrationRequest(PatientMigrationRequest patientMigrationRequest, MigrationStatus status) {
-        var migrationStatusLog = migrationStatusLogDao.getMigrationStatusLog(patientMigrationRequest.getId());
+        var migrationStatusLog = migrationStatusLogDao.getLatestMigrationStatusLog(patientMigrationRequest.getId());
         assertThat(patientMigrationRequest).isNotNull();
         assertThat(migrationStatusLog.getMigrationStatus()).isEqualTo(status);
     }
 
     private String generatePatientNhsNumber() {
         return RandomStringUtils.randomNumeric(NHS_NUMBER_MIN_MAX_LENGTH, NHS_NUMBER_MIN_MAX_LENGTH);
+    }
+
+    private static HttpHeaders generateHeaders() {
+        var headers = new HttpHeaders();
+        headers.set("from-asid", "123456");
+        headers.set("to-asid", "32145");
+        headers.set("from-ods", "ABC");
+        headers.set("to-ods", "DEF");
+
+        return headers;
     }
 }

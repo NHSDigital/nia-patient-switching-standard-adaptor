@@ -92,5 +92,14 @@ Please make sure you don't override the following classes with the generated one
 - RCMRMT030101UK04Prescribe.java
 - RCMRMT030101UK04SupplyAnnotation.java
 - TS.java
-  New file:
-- Value.java (joined class containing fields from IVLPQ and PQ classes)
+- RCMRMT030101UK04InterpretationRange.java
+- RCCTMT120101UK01Device.java
+- RCMRMT030101UK04InterpretationRange.java
+- RCMRMT030101UK04SpecimenMaterial.java
+
+Removed files:
+- ST.java
+
+New file:
+- ValueAdapter.java - this is custom adapter helping with unmarshalling value element,
+  which can be of few different types

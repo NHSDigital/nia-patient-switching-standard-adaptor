@@ -6,7 +6,9 @@ import java.util.List;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.dstu3.model.DomainResource;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
@@ -25,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
@@ -43,6 +46,7 @@ public class BundleMapperService {
     private final ProcedureRequestMapper procedureRequestMapper;
     private final ReferralRequestMapper referralRequestMapper;
     private final MedicationRequestMapper medicationRequestMapper;
+    private final ObservationMapper observationMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -65,6 +69,9 @@ public class BundleMapperService {
 
         var medicationResources = medicationRequestMapper.mapResources(ehrExtract, List.of(), List.of(), patient);
         addEntries(bundle, medicationResources);
+
+        var observations = mapObservations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters
+        addEntries(bundle, observations);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
         return bundle;
@@ -104,6 +111,10 @@ public class BundleMapperService {
             .filter(component4 -> component4.getPlanStatement() != null)
             .map(component4 -> procedureRequestMapper.mapToProcedureRequest(ehrExtract, component4.getPlanStatement(), patient))
             .toList();
+    }
+
+    private List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+        return observationMapper.mapObservations(ehrExtract, patient, encounters);
     }
 
     private Organization getPatientOrganization(List<? extends DomainResource> agents) {

@@ -9,6 +9,7 @@ import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 
 @Slf4j
 @Service
@@ -26,5 +27,10 @@ public class MigrationStatusLogService {
             migrationRequestId
         );
         LOGGER.debug("Changed RequestStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, migrationStatus.name());
+    }
+
+    public MigrationStatusLog getLatestMigrationStatusLog(String nhsNumber) {
+        int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(nhsNumber);
+        return migrationStatusLogDao.getLatestMigrationStatusLog(migrationRequestId);
     }
 }

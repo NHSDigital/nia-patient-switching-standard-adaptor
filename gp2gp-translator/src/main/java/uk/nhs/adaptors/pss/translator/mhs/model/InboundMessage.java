@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.model;
+package uk.nhs.adaptors.pss.translator.mhs.model;
 
 import java.util.List;
 
@@ -11,12 +11,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
-@Jacksonized
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Data
-public class OutboundMessage {
+@NoArgsConstructor
+public class InboundMessage {
+    private String ebXML;
     private String payload;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Attachment> attachments;
@@ -24,11 +22,10 @@ public class OutboundMessage {
     @JsonProperty("external_attachments")
     private List<ExternalAttachment> externalAttachments;
 
+    @Data
     @Jacksonized
     @AllArgsConstructor
-    @NoArgsConstructor
     @Builder
-    @Data
     public static class Attachment {
         @JsonProperty("content_type")
         private String contentType;
@@ -38,11 +35,10 @@ public class OutboundMessage {
         private String payload;
     }
 
+    @Data
     @Jacksonized
     @AllArgsConstructor
-    @NoArgsConstructor
     @Builder
-    @Data
     public static class ExternalAttachment {
         @JsonProperty("document_id")
         private String documentId;
