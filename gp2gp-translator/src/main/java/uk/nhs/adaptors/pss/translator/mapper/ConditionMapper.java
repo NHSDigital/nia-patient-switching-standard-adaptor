@@ -83,7 +83,7 @@ public class ConditionMapper {
                  * Assumes the source practice org code is available as a parameter from the wider transaction context
                  * LINE 18 - CONDITION SHEET
                  */
-                
+
                 buildClinicalStatus(linkSet.getCode()).ifPresentOrElse(
                     condition::setClinicalStatus,
                     () -> {
@@ -103,7 +103,7 @@ public class ConditionMapper {
 
                 buildAssertedDateTimeType(currentComposition).ifPresentOrElse(
                     condition::setAssertedDate,
-                    () -> condition.setAssertedDate(parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue()).getValue()));
+                    () -> condition.setAssertedDateElement(parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue())));
 
                 currentComposition.getParticipant2()
                     .stream()
