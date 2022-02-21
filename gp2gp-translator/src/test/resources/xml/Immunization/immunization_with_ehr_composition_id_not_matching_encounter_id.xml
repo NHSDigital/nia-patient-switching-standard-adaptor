@@ -5,7 +5,7 @@
         <ehrFolder classCode="FOLDER" moodCode="EVN">
             <component typeCode="COMP">
                 <ehrComposition classCode="COMPOSITION" moodCode="EVN">
-                    <id root="62A39454-299F-432E-993E-5A6232B4E099" />
+                    <id root="DIFFEREN-T99F-432E-993E-5A6232B4E099" />
                     <availabilityTime value="20190708143500"/>
                     <Participant2 typeCode="PRF" contextControlCode="OP">
                         <agentRef classCode="AGNT">

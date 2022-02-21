@@ -36,6 +36,8 @@ public class ImmunizationMapperTest {
         + "another company Batch: past2003 Expiration: 2003-01-17 Site: Right arm GMS : Not GMS";
     private static final String CODING_DISPLAY = "Ischaemic heart disease";
     private static final int THREE = 3;
+    private static final String PATIENT_ID = "9A5D5A78-1F63-434C-9637-1D7E7843341B";
+    private static final String ENCOUNTER_ID = "62A39454-299F-432E-993E-5A6232B4E099";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -64,6 +66,15 @@ public class ImmunizationMapperTest {
 
         var immunization = (Immunization) immunizationList.get(0);
         assertMissingData(immunization, immunizationList);
+    }
+
+    @Test
+    public void mapObservationToImmunizationWhenEhrCompositionIdIsNotPresentOnEncounterList() {
+        var ehrExtract = unmarshallEhrExtract("immunization_with_ehr_composition_id_not_matching_encounter_id.xml");
+        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList());
+
+        var immunization = (Immunization) immunizationList.get(0);
+        assertThat(immunization.getEncounter().getReference()).isNull();
     }
 
     @Test
@@ -151,8 +162,8 @@ public class ImmunizationMapperTest {
             DateFormatUtil.parseToDateTimeType("20100118114100000").getValue());
         assertThat(immunization.getNote().get(0).getText())
             .isEqualTo(OBSERVATION_TEXT + " End Date: 20100118114100");
-        assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo("9A5D5A78-1F63-434C-9637-1D7E7843341B");
-        assertThat(immunization.getEncounter().getResource().getIdElement().getValue()).isEqualTo("62A39454-299F-432E-993E-5A6232B4E099");
+        assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
+        assertThat(immunization.getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
         assertThat(immunization.getPractitioner().get(0).getActor().getReference()).isEqualTo("Practitioner/9C1610C2-5E48-4ED5-882B"
             + "-5A4A172AFA35");
     }
@@ -166,8 +177,8 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getPrimarySource()).isEqualTo(false);
         assertThat(immunization.getDate()).isNull();
         assertThat(immunization.getNote()).isEmpty();
-        assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo("9A5D5A78-1F63-434C-9637-1D7E7843341B");
-        assertThat(immunization.getEncounter().getReference()).isNull();
+        assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
+        assertThat(immunization.getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 
     private void assertThatIdentifierIsValid(Identifier identifier, String id) {
@@ -185,13 +196,13 @@ public class ImmunizationMapperTest {
 
     private Patient getPatient() {
         var patient = new Patient();
-        patient.setId("9A5D5A78-1F63-434C-9637-1D7E7843341B");
+        patient.setId(PATIENT_ID);
         return patient;
     }
 
     private List<Encounter> getEncounterList() {
         var encounter = new Encounter();
-        encounter.setId("62A39454-299F-432E-993E-5A6232B4E099");
+        encounter.setId(ENCOUNTER_ID);
         return List.of(encounter);
     }
 
