@@ -14,9 +14,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * &lt;p&gt;Java class for RCMR_MT030101UK04.ObservationStatement complex type.
- * 
+ *
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * &lt;pre&gt;
  * &amp;lt;complexType name="RCMR_MT030101UK04.ObservationStatement"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
@@ -60,8 +60,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *   &amp;lt;/complexContent&amp;gt;
  * &amp;lt;/complexType&amp;gt;
  * &lt;/pre&gt;
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.ObservationStatement", propOrder = {
@@ -130,11 +130,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the id property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link II }
-     *     
+     *
      */
     public II getId() {
         return id;
@@ -142,11 +142,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Sets the value of the id property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link II }
-     *     
+     *
      */
     public void setId(II value) {
         this.id = value;
@@ -154,11 +154,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the code property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link CD }
-     *     
+     *
      */
     public CD getCode() {
         return code;
@@ -166,11 +166,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Sets the value of the code property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link CD }
-     *     
+     *
      */
     public void setCode(CD value) {
         this.code = value;
@@ -178,11 +178,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the statusCode property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link CS }
-     *     
+     *
      */
     public CS getStatusCode() {
         return statusCode;
@@ -190,11 +190,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Sets the value of the statusCode property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link CS }
-     *     
+     *
      */
     public void setStatusCode(CS value) {
         this.statusCode = value;
@@ -202,11 +202,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the effectiveTime property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link IVLTS }
-     *     
+     *
      */
     public IVLTS getEffectiveTime() {
         return effectiveTime;
@@ -214,23 +214,27 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Sets the value of the effectiveTime property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link IVLTS }
-     *     
+     *
      */
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
 
+    public boolean hasEffectiveTime() {
+        return effectiveTime != null;
+    }
+
     /**
      * Gets the value of the availabilityTime property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link TS }
-     *     
+     *
      */
     public TS getAvailabilityTime() {
         return availabilityTime;
@@ -238,23 +242,27 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Sets the value of the availabilityTime property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link TS }
-     *     
+     *
      */
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
 
+    public boolean hasAvailabilityTime() {
+        return availabilityTime != null;
+    }
+
     /**
      * Gets the value of the priorityCode property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link CV }
-     *     
+     *
      */
     public CV getPriorityCode() {
         return priorityCode;
@@ -262,11 +270,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Sets the value of the priorityCode property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link CV }
-     *     
+     *
      */
     public void setPriorityCode(CV value) {
         this.priorityCode = value;
@@ -274,11 +282,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the uncertaintyCode property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link CV }
-     *     
+     *
      */
     public CV getUncertaintyCode() {
         return uncertaintyCode;
@@ -286,22 +294,22 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Sets the value of the uncertaintyCode property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link CV }
-     *     
+     *
      */
     public void setUncertaintyCode(CV value) {
         this.uncertaintyCode = value;
     }
     /**
      * Gets the value of the interpretationCode property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link CV }
-     *     
+     *
      */
     public CV getInterpretationCode() {
         return interpretationCode;
@@ -309,11 +317,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Sets the value of the interpretationCode property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link CV }
-     *     
+     *
      */
     public void setInterpretationCode(CV value) {
         this.interpretationCode = value;
@@ -321,11 +329,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the subject property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link RCMRMT030101UK04Subject }
-     *     
+     *
      */
     public RCMRMT030101UK04Subject getSubject() {
         return subject;
@@ -333,11 +341,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Sets the value of the subject property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link RCMRMT030101UK04Subject }
-     *     
+     *
      */
     public void setSubject(RCMRMT030101UK04Subject value) {
         this.subject = value;
@@ -345,25 +353,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the specimen property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the specimen property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getSpecimen().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link RCMRMT030101UK04Specimen }
-     * 
-     * 
+     *
+     *
      */
     public List<RCMRMT030101UK04Specimen> getSpecimen() {
         if (specimen == null) {
@@ -374,25 +382,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the pertinentInformation property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the pertinentInformation property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getPertinentInformation().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link RCMRMT030101UK04PertinentInformation02 }
-     * 
-     * 
+     *
+     *
      */
     public List<RCMRMT030101UK04PertinentInformation02> getPertinentInformation() {
         if (pertinentInformation == null) {
@@ -403,25 +411,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the referenceRange property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the referenceRange property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getReferenceRange().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link RCMRMT030101UK04ReferenceRange }
-     * 
-     * 
+     *
+     *
      */
     public List<RCMRMT030101UK04ReferenceRange> getReferenceRange() {
         if (referenceRange == null) {
@@ -432,25 +440,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the informant property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the informant property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getInformant().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link RCMRMT030101UK04Informant }
-     * 
-     * 
+     *
+     *
      */
     public List<RCMRMT030101UK04Informant> getInformant() {
         if (informant == null) {
@@ -461,25 +469,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the participant property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the participant property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getParticipant().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link RCMRMT030101UK04Participant }
-     * 
-     * 
+     *
+     *
      */
     public List<RCMRMT030101UK04Participant> getParticipant() {
         if (participant == null) {
@@ -490,25 +498,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the replacementOf property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the replacementOf property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getReplacementOf().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link RCMRMT030101UK04ReplacementOf }
-     * 
-     * 
+     *
+     *
      */
     public List<RCMRMT030101UK04ReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
@@ -519,25 +527,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the reason property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the reason property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getReason().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link RCMRMT030101UK04Reason }
-     * 
-     * 
+     *
+     *
      */
     public List<RCMRMT030101UK04Reason> getReason() {
         if (reason == null) {
@@ -548,25 +556,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the reference property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the reference property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getReference().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link RCMRMT030101UK04Reference }
-     * 
-     * 
+     *
+     *
      */
     public List<RCMRMT030101UK04Reference> getReference() {
         if (reference == null) {
@@ -577,25 +585,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the sequelTo property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the sequelTo property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getSequelTo().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link RCMRMT030101UK04SequelTo }
-     * 
-     * 
+     *
+     *
      */
     public List<RCMRMT030101UK04SequelTo> getSequelTo() {
         if (sequelTo == null) {
@@ -606,11 +614,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the type property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getType() {
         if (type == null) {
@@ -622,11 +630,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Sets the value of the type property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setType(String value) {
         this.type = value;
@@ -634,25 +642,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the classCode property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the classCode property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getClassCode().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     * 
-     * 
+     *
+     *
      */
     public List<String> getClassCode() {
         if (classCode == null) {
@@ -663,25 +671,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the moodCode property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the moodCode property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getMoodCode().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     * 
-     * 
+     *
+     *
      */
     public List<String> getMoodCode() {
         if (moodCode == null) {
@@ -692,25 +700,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the typeID property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the typeID property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getTypeID().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     * 
-     * 
+     *
+     *
      */
     public List<String> getTypeID() {
         if (typeID == null) {
@@ -721,25 +729,25 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the realmCode property.
-     * 
+     *
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the realmCode property.
-     * 
+     *
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
      *    getRealmCode().add(newItem);
      * &lt;/pre&gt;
-     * 
-     * 
+     *
+     *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     * 
-     * 
+     *
+     *
      */
     public List<String> getRealmCode() {
         if (realmCode == null) {
@@ -750,11 +758,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Gets the value of the nullFlavor property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getNullFlavor() {
         return nullFlavor;
@@ -762,11 +770,11 @@ public class RCMRMT030101UK04ObservationStatement {
 
     /**
      * Sets the value of the nullFlavor property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setNullFlavor(String value) {
         this.nullFlavor = value;

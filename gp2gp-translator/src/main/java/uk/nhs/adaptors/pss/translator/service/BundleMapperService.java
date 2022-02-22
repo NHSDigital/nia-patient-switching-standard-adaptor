@@ -9,6 +9,7 @@ import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.ListResource;
+import org.hl7.fhir.dstu3.model.Immunization;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
@@ -53,6 +55,7 @@ public class BundleMapperService {
     private final ProcedureRequestMapper procedureRequestMapper;
     private final ReferralRequestMapper referralRequestMapper;
     private final ObservationMapper observationMapper;
+    private final ImmunizationMapper immunizationMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -84,6 +87,9 @@ public class BundleMapperService {
         var observations = mapObservations(ehrExtract, patient, encounters);
         addEntries(bundle, observations);
 
+        var immunizations = mapImmunizations(ehrExtract, patient, List.of());
+        addEntries(bundle, immunizations);
+
         // TODO: Add references to mapped resources in their appropriate lists (NIAD-2051)
         addEntries(bundle, topics);
         addEntries(bundle, categories);
@@ -94,6 +100,10 @@ public class BundleMapperService {
 
     private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
         return encounterMapper.mapEncounters(ehrExtract, patient);
+    }
+
+    private List<Immunization> mapImmunizations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounterList) {
+        return immunizationMapper.mapToImmunization(ehrExtract, patient, encounterList);
     }
 
     private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UK04EhrFolder ehrFolder) {

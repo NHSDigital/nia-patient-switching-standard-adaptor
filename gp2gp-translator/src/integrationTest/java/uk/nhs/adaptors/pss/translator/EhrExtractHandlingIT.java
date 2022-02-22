@@ -43,10 +43,10 @@ public class EhrExtractHandlingIT {
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
     private static final List<String> IGNORED_JSON_PATHS = List.of(
         "id",
-        "entry[*].resource.id",
+        "entry[0].resource.id",
         "entry[*].resource.subject.reference",
+        "entry[*].resource.patient.reference",
         "entry[*].resource.entry[*].item.reference",
-        "entry[*].resource.encounter.reference",
         "entry[*].resource.identifier[0].value"
     );
 
