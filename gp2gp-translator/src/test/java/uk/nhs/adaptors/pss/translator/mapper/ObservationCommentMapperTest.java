@@ -40,7 +40,7 @@ public class ObservationCommentMapperTest {
 
     @Test
     public void mapObservationsWithFullDataSingleObservation() {
-        var ehrExtract = unmarshallCodeElement("single_narrative_statement.xml");
+        var ehrExtract = unmarshallEhrExtract("single_narrative_statement.xml");
         var narrativeStatement = getNarrativeStatement(ehrExtract);
         var narrativeStatementId = narrativeStatement.getId().getRoot();
 
@@ -77,7 +77,7 @@ public class ObservationCommentMapperTest {
 
     @Test
     public void mapObservationsWithFullDataMultipleObservations() {
-        var ehrExtract = unmarshallCodeElement("multiple_narrative_statements.xml");
+        var ehrExtract = unmarshallEhrExtract("multiple_narrative_statements.xml");
 
         List<Observation> observations =
             observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
@@ -87,7 +87,17 @@ public class ObservationCommentMapperTest {
 
     @Test
     public void mapObservationsNoObservationToMap() {
-        var ehrExtract = unmarshallCodeElement("no_narrative_statement.xml");
+        var ehrExtract = unmarshallEhrExtract("no_narrative_statement.xml");
+
+        List<Observation> observations =
+            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
+
+        assertThat(observations).isEmpty();
+    }
+
+    @Test
+    public void mapObservationsNarrativeStatementHasReferredToExternalDocuments() {
+        var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document.xml");
 
         List<Observation> observations =
             observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
@@ -97,18 +107,17 @@ public class ObservationCommentMapperTest {
 
     @Test
     public void mapObservationsCompositionHasNoAuthorTime() {
-        var ehrExtract = unmarshallCodeElement("nullflavour_composition_author_time.xml");
+        var ehrExtract = unmarshallEhrExtract("nullflavour_composition_author_time.xml");
 
         List<Observation> observations =
             observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
 
-        // Value taken from the extract's availability time
         assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2020-01-01T01:01:01.000+00:00");
     }
 
     @Test
     public void mapObservationWithFullDataNoMappedEncounter() {
-        var ehrExtract = unmarshallCodeElement("single_narrative_statement.xml");
+        var ehrExtract = unmarshallEhrExtract("single_narrative_statement.xml");
 
         List<Observation> observations =
             observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
@@ -119,7 +128,7 @@ public class ObservationCommentMapperTest {
 
     @Test
     public void mapObservationWithNoComment() {
-        var ehrExtract = unmarshallCodeElement("whitespace_only_text_field.xml");
+        var ehrExtract = unmarshallEhrExtract("whitespace_only_text_field.xml");
 
         List<Observation> observations =
             observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
@@ -135,7 +144,7 @@ public class ObservationCommentMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallCodeElement(String fileName) {
+    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
     }
 }

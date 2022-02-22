@@ -122,7 +122,6 @@ public class BundleMapperService {
 
     private List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         return observationMapper.mapObservations(ehrExtract, patient, encounters);
-
     }
 
     private Organization getPatientOrganization(List<? extends DomainResource> agents) {

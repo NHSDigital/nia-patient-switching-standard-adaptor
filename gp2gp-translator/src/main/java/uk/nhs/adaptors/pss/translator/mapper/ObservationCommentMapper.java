@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +22,7 @@ import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
+
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -39,19 +42,16 @@ public class ObservationCommentMapper {
 
     public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
 
-        var compositions =  getCompositionsWithNarrativeStatement(ehrExtract);
+        var narrativeStatements =  getNarrativeStatements(ehrExtract);
 
-        return compositions
+        return narrativeStatements
             .stream()
-            .flatMap(composition -> composition.getComponent().stream())
-            .map(RCMRMT030101UK04Component4::getNarrativeStatement)
-            .filter(Objects::nonNull)
             .map(narrativeStatement -> {
                 var narrativeStatementId = narrativeStatement.getId();
                 var observation = new Observation();
                 observation.setId(narrativeStatement.getId().getRoot());
                 observation.setMeta(createMeta());
-                observation.setStatus(Observation.ObservationStatus.FINAL);
+                observation.setStatus(FINAL);
                 observation.setSubject(new Reference(patient));
                 observation.setIssuedElement(createIssued(ehrExtract, narrativeStatement.getId()));
                 observation.setCode(createCodeableConcept());
@@ -67,8 +67,9 @@ public class ObservationCommentMapper {
                     Collections.singletonList(createIdentifier(narrativeStatementId.getRoot()))
                 );
 
-                // Comment and Context may not always be mapped
                 setObservationComment(observation, narrativeStatement.getText());
+
+                // Context may not always be mapped
                 setObservationContext(observation, ehrExtract, narrativeStatementId, encounters);
 
                 return observation;
@@ -134,15 +135,22 @@ public class ObservationCommentMapper {
         return codeableConcept;
     }
 
-    private List<RCMRMT030101UK04EhrComposition> getCompositionsWithNarrativeStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private List<RCMRMT030101UK04NarrativeStatement> getNarrativeStatements(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent()
             .stream()
             .flatMap(component -> component.getEhrFolder().getComponent().stream())
             .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> ehrComposition.getComponent()
-                .stream()
-                .map(RCMRMT030101UK04Component4::getNarrativeStatement)
-                .anyMatch(Objects::nonNull))
+            .map(RCMRMT030101UK04EhrComposition::getComponent)
+            .flatMap(List::stream)
+            .map(RCMRMT030101UK04Component4::getNarrativeStatement)
+            .filter(Objects::nonNull)
+            .filter(narrativeStatement -> !hasReferredToExternalDocument(narrativeStatement))
             .toList();
+    }
+
+    private boolean hasReferredToExternalDocument(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+        return narrativeStatement.getReference()
+            .stream()
+            .anyMatch(reference -> reference.getReferredToExternalDocument() != null);
     }
 }
