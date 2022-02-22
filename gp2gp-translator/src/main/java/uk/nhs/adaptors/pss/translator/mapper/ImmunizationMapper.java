@@ -20,10 +20,12 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.II;
 import org.hl7.v3.IVXBTS;
+import org.hl7.v3.RCMRMT030101UK04Annotation;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
@@ -78,9 +80,9 @@ public class ImmunizationMapper {
         var encounter = getEncounterReference(encounterList, ehrComposition.getId());
 
         immunization.getMeta().addProfile(META_PROFILE);
-        immunization.getIdentifier().add(identifier);
-        immunization.getExtension().add(createVaccineProcedureExtension(observationStatement));
-        immunization.getExtension().add(createRecordedTimeExtension(ehrComposition));
+        immunization.addIdentifier(identifier);
+        immunization.addExtension(createVaccineProcedureExtension(observationStatement));
+        immunization.addExtension(createRecordedTimeExtension(ehrComposition));
         immunization
             .setDateElement(date)
             .setEncounter(encounter)
@@ -252,7 +254,6 @@ public class ImmunizationMapper {
             if (pertinentInformation.getPertinentAnnotation() != null && pertinentInformation.getPertinentAnnotation().getText() != null) {
                 return pertinentInformation.getPertinentAnnotation().getText();
             }
-        }
 
         return null;
     }
