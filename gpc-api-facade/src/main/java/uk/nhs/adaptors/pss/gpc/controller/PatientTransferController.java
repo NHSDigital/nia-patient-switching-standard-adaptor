@@ -49,6 +49,7 @@ public class PatientTransferController {
         EHR_EXTRACT_TRANSLATED,
         CONTINUE_REQUEST_ACCEPTED
     );
+    // error statusy? i wtedy co zwracac?
 
     private final PatientTransferService patientTransferService;
 

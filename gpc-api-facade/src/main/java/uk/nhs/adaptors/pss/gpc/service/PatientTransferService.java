@@ -37,14 +37,16 @@ public class PatientTransferService {
 
     public MigrationStatusLog handlePatientMigrationRequest(Parameters parameters, Map<String, String> headers) {
         var patientNhsNumber = ParametersUtils.getNhsNumberFromParameters(parameters).get().getValue();
+        //todo czy jest skad wziac conversation id?
         PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
 
         if (patientMigrationRequest == null) {
-            patientMigrationRequestDao.addNewRequest(patientNhsNumber);
-            int addedId = patientMigrationRequestDao.getMigrationRequestId(patientNhsNumber);
+            var conversationId = mdcService.getConversationId();
+            patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId);
+            int addedId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
             migrationStatusLogDao.addMigrationStatusLog(REQUEST_RECEIVED, dateUtils.getCurrentOffsetDateTime(), addedId);
 
-            var pssMessage = createTransferRequestMessage(patientNhsNumber, headers);
+            var pssMessage = createTransferRequestMessage(patientNhsNumber, headers, conversationId);
             pssQueuePublisher.sendToPssQueue(pssMessage);
         } else {
             return migrationStatusLogDao.getLatestMigrationStatusLog(patientMigrationRequest.getId());
@@ -56,9 +58,10 @@ public class PatientTransferService {
         return fhirParser.encodeToJson(new Bundle());
     }
 
-    private TransferRequestMessage createTransferRequestMessage(String patientNhsNumber, Map<String, String> headers) {
+    private TransferRequestMessage createTransferRequestMessage(String patientNhsNumber, Map<String, String> headers,
+        String conversationId) {
         return TransferRequestMessage.builder()
-            .conversationId(mdcService.getConversationId())
+            .conversationId(conversationId)
             .patientNhsNumber(patientNhsNumber)
             .toAsid(headers.get(TO_ASID))
             .fromAsid(headers.get(FROM_ASID))
