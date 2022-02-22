@@ -1,6 +1,6 @@
 {
     "resourceType": "Bundle",
-    "id": "6b88a8bf-e9ea-42ea-afca-ea3346d88552",
+    "id": "9cce4260-9cd0-4b75-bd88-48aa5d3037f0",
     "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
     },
@@ -8,7 +8,7 @@
     "entry": [ {
         "resource": {
             "resourceType": "Patient",
-            "id": "d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7",
+            "id": "b3be5093-c340-4f9f-8485-37fb7dd43ba4",
             "meta": {
                 "versionId": "1521806400000",
                 "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -405,7 +405,7 @@
             "status": "active",
             "intent": "plan",
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/b3be5093-c340-4f9f-8485-37fb7dd43ba4"
             },
             "occurrenceDateTime": "2011-01-15",
             "authoredOn": "2010-01-15T10:06:46+00:00",
@@ -413,6 +413,9 @@
                 "agent": {
                     "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
                 }
+            },
+            "performer": {
+                "reference": "Practitioner/6599df4b-8c9c-43f2-be13-ea6ad68de70f"
             },
             "reasonCode": [ {
                 "coding": [ {
@@ -442,7 +445,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/b3be5093-c340-4f9f-8485-37fb7dd43ba4"
             },
             "effectiveDateTime": "2010-01-14",
             "issued": "2010-01-14T10:34:30.000+00:00",
@@ -470,7 +473,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/b3be5093-c340-4f9f-8485-37fb7dd43ba4"
             },
             "effectiveDateTime": "2010-01-15",
             "issued": "2010-01-15T10:06:46.000+00:00",
@@ -498,7 +501,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/b3be5093-c340-4f9f-8485-37fb7dd43ba4"
             },
             "effectiveDateTime": "2010-03-23T15:36:00+00:00",
             "issued": "2010-03-23T15:51:27.000+00:00",
@@ -527,7 +530,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/b3be5093-c340-4f9f-8485-37fb7dd43ba4"
             },
             "effectiveDateTime": "2010-03-23T15:39:00+00:00",
             "issued": "2010-03-23T15:59:35.000+00:00",
@@ -556,7 +559,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/b3be5093-c340-4f9f-8485-37fb7dd43ba4"
             },
             "effectiveDateTime": "2011-11-15T14:54:00+00:00",
             "issued": "2011-11-15T14:59:10.000+00:00",
@@ -585,7 +588,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/b3be5093-c340-4f9f-8485-37fb7dd43ba4"
             },
             "effectiveDateTime": "2010-01-14T10:10:00+00:00",
             "issued": "2010-01-14T10:10:00.000+00:00",
@@ -613,12 +616,20 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/b3be5093-c340-4f9f-8485-37fb7dd43ba4"
             },
             "effectiveDateTime": "2018-10-30",
             "issued": "2018-10-30T00:00:00.000+00:00",
             "performer": [ {
                 "reference": "Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Practitioner",
+            "id": "6599df4b-8c9c-43f2-be13-ea6ad68de70f",
+            "name": [ {
+                "text": "Unknown User"
             } ]
         }
     } ]

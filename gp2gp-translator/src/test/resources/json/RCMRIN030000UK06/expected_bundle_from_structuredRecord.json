@@ -414,6 +414,9 @@
                     "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
                 }
             },
+            "performer": {
+                "reference": "Practitioner/TEST_ID_123"
+            },
             "reasonCode": [ {
                 "coding": [ {
                     "system": "http://snomed.info/sct",
@@ -619,6 +622,14 @@
             "issued": "2018-10-30T00:00:00.000+00:00",
             "performer": [ {
                 "reference": "Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Practitioner",
+            "id": "TEST_ID_123",
+            "name": [ {
+                "text": "Unknown User"
             } ]
         }
     } ]

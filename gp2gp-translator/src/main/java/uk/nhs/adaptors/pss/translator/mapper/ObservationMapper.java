@@ -47,13 +47,14 @@ import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
 import org.hl7.v3.RCMRMT030101UK04Subject;
 import org.hl7.v3.TS;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ObservationMapper {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
@@ -62,14 +63,13 @@ public class ObservationMapper {
     private static final String SUBJECT_COMMENT = "Subject: %s ";
     private static final String CODING_SYSTEM = "http://hl7.org/fhir/v2/0078";
 
-    private CodeableConceptMapper codeableConceptMapper;
+    private final CodeableConceptMapper codeableConceptMapper;
 
-    private QuantityMapper quantityMapper;
+    private final QuantityMapper quantityMapper;
 
     public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         /**
          * TODO: Known future implementations to this mapper
-         * - performer: fallback to a default 'Unknown User' Practitioner if none are present in performer (NIAD-2026)
          * - concatenate source practice org id to identifier URL (NIAD-2021)
          */
 
