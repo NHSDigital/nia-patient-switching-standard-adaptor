@@ -73,54 +73,63 @@ public class ConditionMapper {
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getLinkSet)
             .filter(Objects::nonNull)
-            .map(linkSet -> {
-                RCMRMT030101UK04EhrComposition currentComposition = getCurrentEhrComposition(compositionsContainingLinkSets, linkSet);
-                String id = linkSet.getId().getRoot();
-                Condition condition = (Condition) new Condition()
-                    .addIdentifier(buildIdentifier(id, "TEMP_PRACTICE_CODE")) //TODO: Find how to get the practise code legit way
-                    .addCategory(generateCategory())
-                    .setId(id)
-                    .setMeta(generateConditionMeta());
+            .map(linkSet -> getCondition(
+                ehrExtract,
+                patient,
+                encounters,
+                compositionsContainingLinkSets,
+                linkSet))
+            .toList();
+    }
 
-                /**
-                 * Identifier's PRACTICE CODE -> {source practice org code from wider tx context} |
-                 * Assumes the source practice org code is available as a parameter from the wider transaction context
-                 * LINE 18 - CONDITION SHEET
-                 */
+    private Condition getCondition(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        List<RCMRMT030101UK04EhrComposition> compositionsContainingLinkSets, RCMRMT030101UK04LinkSet linkSet) {
+        RCMRMT030101UK04EhrComposition currentComposition = getCurrentEhrComposition(compositionsContainingLinkSets, linkSet);
+        String id = linkSet.getId().getRoot();
+        Condition condition = (Condition) new Condition()
+            .addIdentifier(buildIdentifier(id, "TEMP_PRACTICE_CODE")) //TODO: Find how to get the practise code legit way
+            .addCategory(generateCategory())
+            .setId(id)
+            .setMeta(generateConditionMeta());
 
-                buildClinicalStatus(linkSet.getCode()).ifPresentOrElse(
-                    condition::setClinicalStatus,
-                    () -> {
-                        condition.setClinicalStatus(ACTIVE);
-                        condition.addNote(new Annotation(new StringType(DEFAULT_CLINICAL_STATUS)));
-                    });
+        /**
+         * Case for NIAD-2021 ticket
+         * Identifier's PRACTICE CODE -> {source practice org code from wider tx context} |
+         * Assumes the source practice org code is available as a parameter from the wider transaction context
+         * LINE 18 - CONDITION SHEET
+         */
 
-                condition.setCode(codeableConceptMapper.mapToCodeableConcept(linkSet.getCode()));
-                condition.setSubject(new Reference(patient));
+        buildClinicalStatus(linkSet.getCode()).ifPresentOrElse(
+            condition::setClinicalStatus,
+            () -> {
+                condition.setClinicalStatus(ACTIVE);
+                condition.addNote(new Annotation(new StringType(DEFAULT_CLINICAL_STATUS)));
+            });
 
-                condition.addExtension(buildProblemSignificance(linkSet.getCode()));
+        condition.setCode(codeableConceptMapper.mapToCodeableConcept(linkSet.getCode()));
+        condition.setSubject(new Reference(patient));
 
-                buildContext(compositionsContainingLinkSets, encounters, linkSet).ifPresent(condition::setContext);
+        condition.addExtension(buildProblemSignificance(linkSet.getCode()));
 
-                buildOnsetDateTimeType(linkSet).ifPresent(condition::setOnset);
-                buildAbatementDateTimeType(linkSet.getEffectiveTime()).ifPresent(condition::setAbatement);
+        buildContext(compositionsContainingLinkSets, encounters, linkSet).ifPresent(condition::setContext);
 
-                buildAssertedDateTimeType(currentComposition).ifPresentOrElse(
-                    condition::setAssertedDateElement,
-                    () -> condition.setAssertedDateElement(parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue())));
+        buildOnsetDateTimeType(linkSet).ifPresent(condition::setOnset);
+        buildAbatementDateTimeType(linkSet.getEffectiveTime()).ifPresent(condition::setAbatement);
 
-                currentComposition.getParticipant2()
-                    .stream()
-                    .findFirst()
-                    .ifPresent(participant2 -> condition.setAsserter(new Reference(participant2.getAgentRef().getId().getRoot())));
+        buildAssertedDateTimeType(currentComposition).ifPresentOrElse(
+            condition::setAssertedDateElement,
+            () -> condition.setAssertedDateElement(parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue())));
 
-                buildNotes(
-                    getObservationStatementForComposition(currentComposition),
-                    linkSet
-                ).forEach(condition::addNote);
+        currentComposition.getParticipant2()
+            .stream()
+            .findFirst()
+            .ifPresent(participant2 -> condition.setAsserter(new Reference(participant2.getAgentRef().getId().getRoot())));
 
-                return condition;
-            }).toList();
+        buildNotes(
+            getObservationStatementForComposition(currentComposition),
+            linkSet
+        ).forEach(condition::addNote);
+        return condition;
     }
 
     public void addReferences(Bundle bundle, List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
@@ -128,7 +137,7 @@ public class ConditionMapper {
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getLinkSet)
             .filter(Objects::nonNull)
-            .forEach(linkSet -> {
+            .forEach(linkSet ->
                 conditions.stream()
                     .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
                     .findFirst().ifPresent(condition -> {
@@ -139,8 +148,8 @@ public class ConditionMapper {
                             .map(RCMRMT030101UK04Component6::getStatementRef)
                             .toList();
                         buildRelatedClinicalContent(bundle, statementRefs).forEach(condition::addExtension);
-                    });
-            });
+                    })
+            );
     }
 
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UK04LinkSet linkSet) {
