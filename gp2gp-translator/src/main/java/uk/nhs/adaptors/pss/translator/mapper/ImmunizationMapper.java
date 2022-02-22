@@ -239,7 +239,14 @@ public class ImmunizationMapper {
     }
 
     private String getPertinentAnnotation(RCMRMT030101UK04ObservationStatement observationStatement) {
-        if (observationStatement.getPertinentInformation() != null && observationStatement.getPertinentInformation().size() > 0) {
+       observationStatement
+            .getPertinentInformation()
+            .stream()
+            .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
+            .map(RCMRMT030101UK04Annotation::getText)
+            .map(StringType::new)
+            .map(Annotation::new)
+            .collect(Collectors.toList());
             var pertinentInformation = observationStatement.getPertinentInformation().get(0);
 
             if (pertinentInformation.getPertinentAnnotation() != null && pertinentInformation.getPertinentAnnotation().getText() != null) {
