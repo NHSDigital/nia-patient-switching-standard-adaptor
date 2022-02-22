@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,11 +38,22 @@ public class BloodPressureValidatorUtil {
         return validateTriple(header, observationStatement1, observationStatement2);
     }
 
+    public static boolean isSystolicBloodPressure(String code) {
+        return SYSTOLIC_1.contains(code) || SYSTOLIC_2.contains(code) || SYSTOLIC_3.contains(code) || SYSTOLIC_4.contains(code)
+            || SYSTOLIC_5.contains(code);
+    }
+
+    public static boolean isDiastolicBloodPressure(String code) {
+        return DIASTOLIC_1.contains(code) || DIASTOLIC_2.contains(code) || DIASTOLIC_3.contains(code) || DIASTOLIC_4.contains(code)
+            || DIASTOLIC_5.contains(code);
+    }
+
     private static boolean validateTriple(String header, String observationStatement1, String observationStatement2) {
-        for (List<List<String>> list :
-            VALID_BLOOD_PRESSURE_TRIPLES) {
-            if (isValidBloodTriple(list.get(0), list.get(1), list.get(2), header, observationStatement1, observationStatement2))
+        for (List<List<String>> list
+            : VALID_BLOOD_PRESSURE_TRIPLES) {
+            if (isValidBloodTriple(list.get(0), list.get(1), list.get(2), header, observationStatement1, observationStatement2)) {
                 return true;
+            }
         }
 
         return false;

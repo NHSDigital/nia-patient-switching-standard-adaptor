@@ -42,6 +42,21 @@ public class EhrResourceExtractorUtil {
             .get();
     }
 
+    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract,
+        II resourceId) {
+        return ehrExtract.getComponent()
+            .stream()
+            .filter(EhrResourceExtractorUtil::hasEhrFolder)
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .filter(EhrResourceExtractorUtil::hasEhrComposition)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .filter(ehrComposition -> filterForMatchingEhrCompositionCompoundStatement(ehrComposition, resourceId))
+            .findFirst()
+            .get();
+    }
+
     private static boolean filterForMatchingEhrCompositionPlanStatement(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
         return ehrComposition.getComponent()
             .stream()
@@ -61,6 +76,17 @@ public class EhrResourceExtractorUtil {
 
     private static boolean validObservationStatement(RCMRMT030101UK04Component4 component, II resourceId) {
         return component.getObservationStatement() != null && component.getObservationStatement().getId() == resourceId;
+    }
+
+    private static boolean filterForMatchingEhrCompositionCompoundStatement(RCMRMT030101UK04EhrComposition ehrComposition,
+        II resourceId) {
+        return ehrComposition.getComponent()
+            .stream()
+            .anyMatch(component -> validCompoundStatement(component, resourceId));
+    }
+
+    private static boolean validCompoundStatement(RCMRMT030101UK04Component4 component, II resourceId) {
+        return component.getCompoundStatement() != null && component.getCompoundStatement().getId() == resourceId;
     }
 
     private static boolean hasEhrComposition(RCMRMT030101UK04Component3 component) {

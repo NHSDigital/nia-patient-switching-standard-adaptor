@@ -63,12 +63,12 @@ public class BloodPressureValidatorUtilTest {
 
     private static ArrayList<Arguments> generateTestCases(List<String> headers, List<String> systolics, List<String> diastolics) {
         var testCases = new ArrayList<Arguments>();
-        for (String header :
-            headers) {
-            for (String systolic :
-                systolics) {
-                for (String diastolic :
-                    diastolics) {
+        for (String header
+            : headers) {
+            for (String systolic
+                : systolics) {
+                for (String diastolic
+                    : diastolics) {
                     testCases.add(Arguments.of(header, systolic, diastolic));
                 }
             }
