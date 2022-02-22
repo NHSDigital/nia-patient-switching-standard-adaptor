@@ -621,5 +621,58 @@
                 "reference": "Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6"
             } ]
         }
+    }, {
+        "resource": {
+            "resourceType": "Condition",
+            "id": "31EA7C21-BE35-4837-91A5-D66D8C375338",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
+            },
+            "extension": [ {
+                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+                "valueCode": "Major"
+            }, {
+                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+                "valueReference": {
+                    "reference": "Observation/10B9023B-A997-4449-AF63-EF3015E4C7B5"
+                }
+            }, {
+                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
+                "valueReference": {
+                    "reference": "Observation/FE85DB22-274E-4B1D-9698-5C4809E9CD42"
+                }
+            } ],
+            "identifier": [ {
+                "system": "https://PSSAdaptor/TEMP_PRACTICE_CODE",
+                "value": "31EA7C21-BE35-4837-91A5-D66D8C375338"
+            } ],
+            "clinicalStatus": "active",
+            "category": [ {
+                "coding": [ {
+                    "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                    "code": "problem-list-item",
+                    "display": "Problem List Item"
+                } ]
+            } ],
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "394774009",
+                    "display": "Active Problem"
+                } ],
+                "text": "Active Problem, major"
+            },
+            "subject": {
+                "reference": "Patient/TEST_ID_123"
+            },
+            "onsetDateTime": "2010-03-23T15:36:00+00:00",
+            "assertedDate": "2010-03-23T15:51:27+00:00",
+            "asserter": {
+                "reference": "2D70F602-6BB1-47E0-B2EC-39912A59787D"
+            },
+            "note": [ {
+                "text": "Active Problem, major"
+            } ]
+        }
     } ]
 }
