@@ -84,7 +84,7 @@ public class BundleMapperService {
         var observations = mapObservations(ehrExtract, patient, encounters);
         addEntries(bundle, observations);
 
-        // TODO: Add references to mapped resources in their appropriate lists
+        // TODO: Add references to mapped resources in their appropriate lists (NIAD-2051)
         addEntries(bundle, topics);
         addEntries(bundle, categories);
 

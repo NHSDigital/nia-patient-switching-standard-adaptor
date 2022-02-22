@@ -38,7 +38,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class ListMapperTest {
+public class ConsultationListMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/List/";
     private static final String ENCOUNTER_ID = "823ACEB0-90C2-11EC-B1E5-0800200C9A66";
     private static final String CONSULTATION_ID_SUFFIX = "-CONS";
@@ -63,7 +63,7 @@ public class ListMapperTest {
     private IdGeneratorService idGenerator;
 
     @Autowired
-    private ListMapper listMapper;
+    private ConsultationListMapper listMapper;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -140,7 +140,7 @@ public class ListMapperTest {
     }
 
     @Test
-    public void testValidFallbackDateCategoryList() {
+    public void testValidFallbackDataCategoryList() {
         setUpEncounter("20100113152000", null, "test-display", null);
         var topic = setUpTopic();
         var compoundStatement = setUpCompoundStatement(null, "test-display", null);
@@ -280,5 +280,3 @@ public class ListMapperTest {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
     }
 }
-
-

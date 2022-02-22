@@ -75,6 +75,8 @@ public class EncounteMapperTest {
     private static final String AVAILABILITY_TIME_ENCOUNTER_PERIOD_XML = "availability_time_encounter_period.xml";
     private static final String NO_ENCOUNTER_PERIOD_XML = "no_encounter_period.xml";
     private static final String ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML = "encounter_with_multiple_compound_statements.xml";
+    private static final int ONE_MAPPED_RESOURCE = 1;
+    private static final int TWO_MAPPED_RESOURCES = 2;
 
     @MockBean
     private IdGeneratorService idGenerator;
@@ -104,8 +106,8 @@ public class EncounteMapperTest {
         var encounterList = mappedResources.get(ENCOUNTER_KEY);
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
-        assertThat(mappedResources.get(TOPIC_KEY).size()).isEqualTo(2);
-        assertThat(mappedResources.get(CATEGORY_KEY).size()).isEqualTo(1);
+        assertThat(mappedResources.get(TOPIC_KEY).size()).isEqualTo(TWO_MAPPED_RESOURCES);
+        assertThat(mappedResources.get(CATEGORY_KEY).size()).isEqualTo(ONE_MAPPED_RESOURCE);
 
         assertThat(encounterList.size()).isEqualTo(1);
     }
@@ -148,7 +150,7 @@ public class EncounteMapperTest {
 
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
-        assertThat(mappedResources.get(TOPIC_KEY).size()).isEqualTo(2);
+        assertThat(mappedResources.get(TOPIC_KEY).size()).isEqualTo(TWO_MAPPED_RESOURCES);
         assertThat(mappedResources.get(CATEGORY_KEY).size()).isOne();
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
@@ -330,5 +332,3 @@ public class EncounteMapperTest {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
     }
 }
-
-

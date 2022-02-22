@@ -5,6 +5,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.junit.jupiter.api.Test;
 
+import uk.nhs.adaptors.common.util.CodeableConceptUtils;
+
 public class CodeableConceptUtilsTest {
     private static final String CODE = "RESOURCE_NOT_FOUND";
     private static final String ISSUE_SYSTEM = "Spine-ErrorOrWarningCode-1";
