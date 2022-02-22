@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
-import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -17,16 +15,13 @@ import org.hl7.fhir.dstu3.model.Immunization.ImmunizationStatus;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.II;
-import org.hl7.v3.IVXBTS;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
-import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -45,7 +40,8 @@ public class ImmunizationMapper {
     private static final String END_DATE_PREFIX = "End Date: ";
     private static final String VACCINATION_CODING_EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding"
         + "-sctdescid";
-    private static final String RECORDED_DATE_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1";
+    private static final String RECORDED_DATE_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
+        + "-DateRecorded-1";
 
     private CodeableConceptMapper codeableConceptMapper;
 
@@ -74,7 +70,6 @@ public class ImmunizationMapper {
 
         var id = observationStatement.getId().getRoot();
         var identifier = getIdentifier(id);
-        var date = getObservationDate(observationStatement);
 
         var practitioner = ParticipantReferenceUtil.getParticipantReference(observationStatement.getParticipant(), ehrComposition);
         var encounter = getEncounterReference(encounterList, ehrComposition.getId());
@@ -84,7 +79,6 @@ public class ImmunizationMapper {
         immunization.addExtension(createVaccineProcedureExtension(observationStatement));
         immunization.addExtension(createRecordedTimeExtension(ehrComposition));
         immunization
-            .setDateElement(date)
             .setEncounter(encounter)
             .addPractitioner(new ImmunizationPractitionerComponent(practitioner))
             .setStatus(ImmunizationStatus.COMPLETED)
@@ -92,7 +86,8 @@ public class ImmunizationMapper {
             .setPrimarySource(false)
             .setPatient(new Reference(patientResource))
             .setId(id);
-        immunization.addNote(buildNote(observationStatement));
+        buildNote(observationStatement).forEach(immunization::addNote);
+        setDateFields(immunization, observationStatement);
 
         return immunization;
     }
@@ -161,100 +156,36 @@ public class ImmunizationMapper {
             );
     }
 
-    private String getTSStringValue(TS ts) {
-        if (ts != null) {
-            if (ts.getValue() != null) {
-                return ts.getValue();
-            } else if (ts.getNullFlavor().equals(CsNullFlavor.UNK)) {
-                return CsNullFlavor.UNK.value();
+    private Annotation buildAnnotation(String annotation) {
+        return new Annotation(new StringType(annotation));
+    }
+
+    private void setDateFields(Immunization immunization, RCMRMT030101UK04ObservationStatement observationStatement) {
+        if (observationStatement.hasEffectiveTime()) {
+            var effectiveTime = observationStatement.getEffectiveTime();
+
+            if (effectiveTime.hasHigh() && !effectiveTime.hasCenter()) {
+                immunization.addNote(buildAnnotation(END_DATE_PREFIX
+                    + DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue())));
+            }
+
+            if (effectiveTime.hasCenter()) {
+                immunization.setDateElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getCenter().getValue()));
+            } else if (effectiveTime.hasLow()) {
+                immunization.setDateElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getLow().getValue()));
+            } else if (observationStatement.hasAvailabilityTime() && observationStatement.getAvailabilityTime().hasValue()) {
+                immunization.setDateElement(DateFormatUtil.parseToDateTimeType(observationStatement.getAvailabilityTime().getValue()));
             }
         }
-
-        return null;
     }
 
-    private String getIVXBTSStringValue(IVXBTS ivxbts) {
-        if (ivxbts != null) {
-            if (ivxbts.getValue() != null) {
-                return ivxbts.getValue();
-            } else if (ivxbts.getNullFlavor().equals(CsNullFlavor.UNK)) {
-                return CsNullFlavor.UNK.value();
-            }
-        }
-
-        return null;
-    }
-
-    private DateTimeType getObservationDate(RCMRMT030101UK04ObservationStatement observationStatement) {
-        var effectiveTime = observationStatement.getEffectiveTime();
-        if (effectiveTime != null) {
-            var center = getTSStringValue(effectiveTime.getCenter());
-            var low = getIVXBTSStringValue(effectiveTime.getLow());
-            var high = getIVXBTSStringValue(effectiveTime.getHigh());
-            var availabilityTimeValue = observationStatement.getAvailabilityTime();
-
-            if (center != null) {
-                return DateFormatUtil.parseToDateTimeType(center);
-            } else if (low != null && high != null) {
-                return DateFormatUtil.parseToDateTimeType(low);
-            } else if (low != null) {
-                return DateFormatUtil.parseToDateTimeType(low);
-            } else if (high != null && availabilityTimeValue.getValue() != null && availabilityTimeValue.getNullFlavor() == null) {
-                return DateFormatUtil.parseToDateTimeType(availabilityTimeValue.getValue());
-            }
-        }
-
-        return null;
-    }
-
-    private String createDateText(RCMRMT030101UK04ObservationStatement observationStatement) {
-        if (observationStatement.getEffectiveTime() != null) {
-            var low = getIVXBTSStringValue(observationStatement.getEffectiveTime().getLow());
-            var high = getIVXBTSStringValue(observationStatement.getEffectiveTime().getHigh());
-            var availabilityTimeValue = observationStatement.getAvailabilityTime();
-
-            if (low != null && high != null) {
-                return END_DATE_PREFIX + high;
-            } else if (high != null && availabilityTimeValue.getValue() != null) {
-                return END_DATE_PREFIX + high;
-            } else if (high != null && availabilityTimeValue.getNullFlavor() != null) {
-                return END_DATE_PREFIX + high;
-            }
-        }
-
-        return null;
-    }
-
-    private Annotation buildNote(RCMRMT030101UK04ObservationStatement observationStatement) {
-        var pertinentText = getPertinentAnnotation(observationStatement);
-        var dateText = createDateText(observationStatement);
-
-        if (pertinentText != null && dateText != null) {
-            return new Annotation(new StringType(pertinentText + StringUtils.SPACE + dateText));
-        } else if (pertinentText != null) {
-            return new Annotation(new StringType(pertinentText));
-        } else if (dateText != null) {
-            return new Annotation(new StringType(dateText));
-        }
-
-        return null;
-    }
-
-    private String getPertinentAnnotation(RCMRMT030101UK04ObservationStatement observationStatement) {
-       observationStatement
+    private List<Annotation> buildNote(RCMRMT030101UK04ObservationStatement observationStatement) {
+        return observationStatement
             .getPertinentInformation()
             .stream()
             .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
             .map(RCMRMT030101UK04Annotation::getText)
-            .map(StringType::new)
-            .map(Annotation::new)
+            .map(this::buildAnnotation)
             .collect(Collectors.toList());
-            var pertinentInformation = observationStatement.getPertinentInformation().get(0);
-
-            if (pertinentInformation.getPertinentAnnotation() != null && pertinentInformation.getPertinentAnnotation().getText() != null) {
-                return pertinentInformation.getPertinentAnnotation().getText();
-            }
-
-        return null;
     }
 }
