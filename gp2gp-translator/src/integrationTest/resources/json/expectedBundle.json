@@ -1,6 +1,6 @@
 {
     "resourceType": "Bundle",
-    "id": "6b88a8bf-e9ea-42ea-afca-ea3346d88552",
+    "id": "67af86d6-5255-49fe-a0fb-9ffac75bac6f",
     "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
     },
@@ -8,14 +8,14 @@
     "entry": [ {
         "resource": {
             "resourceType": "Patient",
-            "id": "d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7",
+            "id": "2c810e83-1f76-456f-8469-e782ffccca47",
             "meta": {
                 "versionId": "1521806400000",
                 "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
             },
             "identifier": [ {
                 "system": "https://fhir.nhs.uk/Id/nhs-number",
-                "value": "8816006641"
+                "value": "{{nhsNumber}}"
             } ],
             "managingOrganization": {
                 "reference": "94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG"
@@ -405,7 +405,7 @@
             "status": "active",
             "intent": "plan",
             "subject": {
-                "reference": "Patient/a759aa10-e883-4b9f-98bb-13006a211a0b"
+                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
             },
             "occurrenceDateTime": "2011-01-15",
             "authoredOn": "2010-01-15T10:06:46+00:00",
@@ -442,9 +442,33 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/a759aa10-e883-4b9f-98bb-13006a211a0b"
+                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
             },
             "effectiveDateTime": "2010-01-14",
+            "issued": "2010-01-14T10:34:30.000+00:00",
+            "performer": [ {
+                "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Observation",
+            "id": "263B2A9F-0B1D-4697-943A-328F70E068DE",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "263B2A9F-0B1D-4697-943A-328F70E068DE"
+            } ],
+            "status": "final",
+            "code": {
+                "text": "Medication review with patient"
+            },
+            "subject": {
+                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+            },
+            "effectiveDateTime": "2010-01-15",
             "issued": "2010-01-14T10:34:30.000+00:00",
             "performer": [ {
                 "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
@@ -470,7 +494,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
             },
             "effectiveDateTime": "2010-01-15",
             "issued": "2010-01-15T10:06:46.000+00:00",
@@ -498,7 +522,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
             },
             "effectiveDateTime": "2010-03-23T15:36:00+00:00",
             "issued": "2010-03-23T15:51:27.000+00:00",
@@ -527,7 +551,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
             },
             "effectiveDateTime": "2010-03-23T15:39:00+00:00",
             "issued": "2010-03-23T15:59:35.000+00:00",
@@ -556,7 +580,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
             },
             "effectiveDateTime": "2011-11-15T14:54:00+00:00",
             "issued": "2011-11-15T14:59:10.000+00:00",
@@ -585,7 +609,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
             },
             "effectiveDateTime": "2010-01-14T10:10:00+00:00",
             "issued": "2010-01-14T10:10:00.000+00:00",
@@ -613,12 +637,101 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
             },
             "effectiveDateTime": "2018-10-30",
             "issued": "2018-10-30T00:00:00.000+00:00",
             "performer": [ {
                 "reference": "Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6"
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Immunization",
+            "id": "263B2A9F-0B1D-4697-943A-328F70E068DE",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1" ]
+            },
+            "extension": [ {
+                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
+                "valueExtension": {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "valueCodeableConcept": {
+                        "text": "Medication review with patient"
+                    }
+                }
+            }, {
+                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
+                "valueString": "20100114103430"
+            } ],
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "263B2A9F-0B1D-4697-943A-328F70E068DE"
+            } ],
+            "status": "completed",
+            "notGiven": false,
+            "patient": {
+                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+            },
+            "date": "2010-01-15",
+            "primarySource": false,
+            "practitioner": [ {
+                "actor": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Condition",
+            "id": "31EA7C21-BE35-4837-91A5-D66D8C375338",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
+            },
+            "extension": [ {
+                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+                "valueCode": "Major"
+            }, {
+                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+                "valueReference": {
+                    "reference": "Observation/10B9023B-A997-4449-AF63-EF3015E4C7B5"
+                }
+            }, {
+                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
+                "valueReference": {
+                    "reference": "Observation/FE85DB22-274E-4B1D-9698-5C4809E9CD42"
+                }
+            } ],
+            "identifier": [ {
+                "system": "https://PSSAdaptor/TEMP_PRACTICE_CODE",
+                "value": "31EA7C21-BE35-4837-91A5-D66D8C375338"
+            } ],
+            "clinicalStatus": "active",
+            "category": [ {
+                "coding": [ {
+                    "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                    "code": "problem-list-item",
+                    "display": "Problem List Item"
+                } ]
+            } ],
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "394774009",
+                    "display": "Active Problem"
+                } ],
+                "text": "Active Problem, major"
+            },
+            "subject": {
+                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+            },
+            "onsetDateTime": "2010-03-23T15:36:00+00:00",
+            "assertedDate": "2010-03-23T15:51:27+00:00",
+            "asserter": {
+                "reference": "2D70F602-6BB1-47E0-B2EC-39912A59787D"
+            },
+            "note": [ {
+                "text": "Active Problem, major"
             } ]
         }
     } ]

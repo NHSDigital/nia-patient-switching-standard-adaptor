@@ -39,7 +39,6 @@ public class BundleMapperServiceTest {
     private static final String STRUCTURED_RECORD_SMALL_XML = "structuredRecord_small.xml";
     private static final String STRUCTURED_RECORD_XML = "structuredRecord.xml";
 
-
     private static final String EXPECTED_BUNDLE_FROM_STRUCTURED_RECORD = "expected_bundle_from_structuredRecord.json";
 
 
