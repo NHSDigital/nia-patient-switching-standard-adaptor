@@ -264,6 +264,10 @@ public class CD
         this.codeSystem = value;
     }
 
+    public boolean hasCodeSystem() {
+        return codeSystem != null && !codeSystem.equals("");
+    }
+
     /**
      * Gets the value of the codeSystemName property.
      * 

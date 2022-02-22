@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapper.extractMedicationReference;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -22,9 +21,11 @@ import org.hl7.v3.RCMRMT030101UK04Prescribe;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
+@AllArgsConstructor
 public class MedicationStatementMapper {
     private static final String MEDICATION_STATEMENT_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1";
@@ -36,6 +37,8 @@ public class MedicationStatementMapper {
     private static final String PRESCRIBED_CODE = "prescribed-at-gp-practice";
     private static final String PRESCRIBED_DISPLAY = "Prescribed at GP practice";
     private static final String COMPLETE = "COMPLETE";
+
+    private final MedicationMapper medicationMapper;
 
     protected MedicationStatement mapToMedicationStatement(RCMRMT030101UK04MedicationStatement medicationStatement,
         RCMRMT030101UK04Authorise supplyAuthorise) {
@@ -59,7 +62,7 @@ public class MedicationStatementMapper {
                 .map(dateTime -> new Extension(MS_LAST_ISSUE_DATE, dateTime))
                 .ifPresent(medicationStatement1::addExtension);
 
-            extractMedicationReference(medicationStatement)
+            medicationMapper.extractMedicationReference(medicationStatement)
                 .ifPresent(medicationStatement1::setMedication);
 
             return medicationStatement1;

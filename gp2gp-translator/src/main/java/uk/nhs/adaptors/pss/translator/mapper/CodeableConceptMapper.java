@@ -23,7 +23,7 @@ public class CodeableConceptMapper {
     }
 
     private boolean hasSnomedCodeInMainCode(CD codedData) {
-        return codedData.getCodeSystem().equals(SNOMED_SYSTEM_CODE);
+        return codedData.hasCodeSystem() && codedData.getCodeSystem().equals(SNOMED_SYSTEM_CODE);
     }
 
     private boolean hasSnomedCodeInTranslationElement(CD codedData) {

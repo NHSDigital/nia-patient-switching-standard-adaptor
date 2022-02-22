@@ -44,11 +44,12 @@ public class MedicationMapperUtils {
     }
 
     protected static Optional<Extension> buildPrescriptionTypeExtension(RCMRMT030101UK04Authorise supplyAuthorise) {
-        if (supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() == 0) {
+        if (supplyAuthorise != null && supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() == 0) {
             return Optional.of(new Extension(PRESCRIPTION_TYPE_EXTENSION_URL, new CodeableConcept(
                 new Coding(PRESCRIPTION_TYPE_CODING_SYSTEM, ACUTE.toLowerCase(), ACUTE)
             )));
-        } else if (supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() >= 1) {
+        } else if (supplyAuthorise != null && supplyAuthorise.hasRepeatNumber()
+            && supplyAuthorise.getRepeatNumber().getValue().intValue() >= 1) {
             return Optional.of(new Extension(PRESCRIPTION_TYPE_EXTENSION_URL, new CodeableConcept(
                 new Coding(PRESCRIPTION_TYPE_CODING_SYSTEM, REPEAT.toLowerCase(), REPEAT)
             )));

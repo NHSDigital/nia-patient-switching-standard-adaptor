@@ -18,6 +18,7 @@ public class MedicationMapperUtilsTest {
     private static final String XML_RESOURCES_SUPPLY_AUTHORISE = "xml/EhrSupplyAuthorise/";
     private static final String XML_RESOURCES_MEDICATION_STATEMENT = "xml/MedicationStatement/";
     private static final int EXPECTED_SIZE_NOTES = 3;
+    private static final int EXPECTED_QUANTITY_SIZE = 28;
     private static final String EXPECTED_DOSAGE_TEXT = "One To Be Taken Each Day";
     private static final String EXPECTED_DOSAGE_TEXT_WHEN_MISSING = "No Information available";
     private static final String EXPECTED_CODE_DISPLAY = "NHS prescription";
@@ -88,7 +89,7 @@ public class MedicationMapperUtilsTest {
 
         assertThat(quantity.isPresent()).isTrue();
         quantity.ifPresent(value -> {
-            assertThat(value.getValue().intValue()).isEqualTo(28);
+            assertThat(value.getValue().intValue()).isEqualTo(EXPECTED_QUANTITY_SIZE);
             assertThat(value.getUnit()).isEqualTo("capsule");
         });
     }

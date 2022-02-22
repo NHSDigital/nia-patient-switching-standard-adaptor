@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapper.extractMedicationReference;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
@@ -10,13 +9,13 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
@@ -42,9 +41,11 @@ import org.hl7.v3.RCMRMT030101UK04ReversalOf;
 import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
+@AllArgsConstructor
 public class MedicationRequestPlanMapper {
     private static final String REPEAT_INFORMATION_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1";
@@ -59,6 +60,8 @@ public class MedicationRequestPlanMapper {
     private static final String COMPLETE = "COMPLETE";
     private static final String NHS_PRESCRIPTION = "NHS prescription";
     private static final String PRESCRIPTION_TYPE = "Prescription type: ";
+
+    private final MedicationMapper medicationMapper;
 
     protected MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
         RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise) {
@@ -99,7 +102,7 @@ public class MedicationRequestPlanMapper {
 
             buildNotesForAuthorise(supplyAuthorise).forEach(medicationRequest::addNote);
             extractPriorPrescription(supplyAuthorise).ifPresent(medicationRequest::setPriorPrescription);
-            extractMedicationReference(medicationStatement).ifPresent(medicationRequest::setMedication);
+            medicationMapper.extractMedicationReference(medicationStatement).ifPresent(medicationRequest::setMedication);
 
             return medicationRequest;
         }
@@ -110,12 +113,15 @@ public class MedicationRequestPlanMapper {
         RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent()
             .stream()
+            .filter(RCMRMT030101UK04Component::hasEhrFolder)
             .map(RCMRMT030101UK04Component::getEhrFolder)
             .map(RCMRMT030101UK04EhrFolder::getComponent)
             .flatMap(List::stream)
+            .filter(RCMRMT030101UK04Component3::hasEhrComposition)
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .map(RCMRMT030101UK04EhrComposition::getComponent)
             .flatMap(List::stream)
+            .filter(RCMRMT030101UK04Component4::hasMedicationStatement)
             .map(RCMRMT030101UK04Component4::getMedicationStatement)
             .map(RCMRMT030101UK04MedicationStatement::getComponent)
             .flatMap(List::stream)
@@ -201,7 +207,7 @@ public class MedicationRequestPlanMapper {
         }
 
         var period = buildDispenseRequestPeriodEnd(supplyAuthorise, medicationStatement);
-        extractDispenseRequestPeriodStart(supplyAuthorise).ifPresent(period::setStart);
+        extractDispenseRequestPeriodStart(supplyAuthorise).ifPresent(period::setStartElement);
 
         return dispenseRequest.setValidityPeriod(period);
     }
@@ -209,25 +215,25 @@ public class MedicationRequestPlanMapper {
     private Period buildDispenseRequestPeriodEnd(RCMRMT030101UK04Authorise supplyAuthorise,
         RCMRMT030101UK04MedicationStatement medicationStatement) {
         if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasHigh()) {
-            return new Period().setEnd(
-                DateFormatUtil.parsePathwaysDate(supplyAuthorise.getEffectiveTime().getHigh().getValue()));
+            return new Period().setEndElement(
+                DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue()));
         }
         if (medicationStatement.hasEffectiveTime() && medicationStatement.getEffectiveTime().hasHigh()) {
-            return new Period().setEnd(
-                DateFormatUtil.parsePathwaysDate(medicationStatement.getEffectiveTime().getHigh().getValue()));
+            return new Period().setEndElement(
+                DateFormatUtil.parseToDateTimeType(medicationStatement.getEffectiveTime().getHigh().getValue()));
         }
         return new Period();
     }
 
-    private Optional<Date> extractDispenseRequestPeriodStart(RCMRMT030101UK04Authorise supplyAuthorise) {
+    private Optional<DateTimeType> extractDispenseRequestPeriodStart(RCMRMT030101UK04Authorise supplyAuthorise) {
         if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasCenter()) {
-            return Optional.of(DateFormatUtil.parsePathwaysDate(supplyAuthorise.getEffectiveTime().getCenter().getValue()));
+            return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getCenter().getValue()));
         }
         if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasLow()) {
-            return Optional.of(DateFormatUtil.parsePathwaysDate(supplyAuthorise.getEffectiveTime().getLow().getValue()));
+            return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getLow().getValue()));
         }
         if (supplyAuthorise.hasAvailabilityTime()) {
-            return Optional.of(DateFormatUtil.parsePathwaysDate(supplyAuthorise.getAvailabilityTime().getValue()));
+            return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getAvailabilityTime().getValue()));
         }
         return Optional.empty();
     }

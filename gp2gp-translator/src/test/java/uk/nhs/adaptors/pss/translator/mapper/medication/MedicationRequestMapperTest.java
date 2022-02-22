@@ -92,7 +92,7 @@ public class MedicationRequestMapperTest {
 
     @SneakyThrows
     private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE+ fileName), RCMRMT030101UK04EhrExtract.class);
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
     }
 
 }

@@ -5,7 +5,6 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,9 +19,12 @@ import org.hl7.v3.RCMRMT030101UK04Material;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @Service
+@AllArgsConstructor
 public class MedicationMapper {
     private static final String MEDICATION_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1";
@@ -30,6 +32,7 @@ public class MedicationMapper {
     private static final Map<String, String> MEDICATION_IDS = new HashMap<>();
 
     private CodeableConceptMapper codeableConceptMapper;
+    private IdGeneratorService idGeneratorService;
 
     protected Medication createMedication(RCMRMT030101UK04Consumable consumable) {
         if (hasManufacturedMaterial(consumable)) {
@@ -45,7 +48,7 @@ public class MedicationMapper {
         return null;
     }
 
-    public static String getMedicationId(CD code) {
+    public String getMedicationId(CD code) {
         var key = keyBuilder(CD::hasCode, CD::getCode, code)
             + keyBuilder(CD::hasOriginalText, CD::getOriginalText, code)
             + keyBuilder(CD::hasDisplayName, CD::getDisplayName, code);
@@ -54,8 +57,8 @@ public class MedicationMapper {
         if (StringUtils.isNotBlank(value)) {
             return value;
         } else {
-            var newId = UUID.randomUUID().toString();
-            MEDICATION_IDS.put(key, UUID.randomUUID().toString());
+            var newId = idGeneratorService.generateUuid();
+            MEDICATION_IDS.put(key, newId);
             return newId;
         }
     }
@@ -67,7 +70,7 @@ public class MedicationMapper {
         return null;
     }
 
-    public static Optional<Reference> extractMedicationReference(RCMRMT030101UK04MedicationStatement medicationStatement) {
+    public Optional<Reference> extractMedicationReference(RCMRMT030101UK04MedicationStatement medicationStatement) {
         if (medicationStatement.hasConsumable()) {
             var medicationCode = medicationStatement.getConsumable()
                 .stream()
@@ -78,7 +81,7 @@ public class MedicationMapper {
                 .findFirst();
 
             return medicationCode
-                .map(MedicationMapper::getMedicationId)
+                .map(this::getMedicationId)
                 .map(id -> new IdType(ResourceType.Medication.name(), id))
                 .map(Reference::new);
         }

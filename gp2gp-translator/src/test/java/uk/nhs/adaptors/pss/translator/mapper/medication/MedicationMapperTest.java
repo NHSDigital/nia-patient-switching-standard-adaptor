@@ -15,18 +15,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @ExtendWith(MockitoExtension.class)
 public class MedicationMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/Consumable/";
+    private static final String TEST_ID = "TEST_ID";
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
+    @Mock
+    private IdGeneratorService idGeneratorService;
 
     @InjectMocks
     private MedicationMapper medicationMapper;
@@ -34,6 +37,7 @@ public class MedicationMapperTest {
     @BeforeEach
     public void setup() {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(new CodeableConcept());
+        when(idGeneratorService.generateUuid()).thenReturn(TEST_ID);
     }
 
     @Test
@@ -43,13 +47,13 @@ public class MedicationMapperTest {
 
         verify(codeableConceptMapper, times(1)).mapToCodeableConcept(any());
 
-        assertThat(medication.getId()).isNotBlank();
+        assertThat(medication.getId()).isEqualTo(TEST_ID);
         assertThat(medication.getMeta()).isNotNull();
         assertThat(medication.getCode()).isNotNull();
     }
 
     @SneakyThrows
     private RCMRMT030101UK04Consumable unmarshallConsumable(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE+ fileName), RCMRMT030101UK04Consumable.class);
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04Consumable.class);
     }
 }

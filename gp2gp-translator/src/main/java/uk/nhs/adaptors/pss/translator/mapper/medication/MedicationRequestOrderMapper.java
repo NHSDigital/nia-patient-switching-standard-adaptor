@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapper.extractMedicationReference;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
@@ -24,13 +23,17 @@ import org.hl7.v3.RCMRMT030101UK04Prescribe;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
+@AllArgsConstructor
 public class MedicationRequestOrderMapper {
 
     private static final String NHS_PRESCRIPTION = "NHS prescription";
     private static final String PRESCRIPTION_TYPE = "Prescription type: ";
+
+    private final MedicationMapper medicationMapper;
 
     protected MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04MedicationStatement medicationStatement,
         RCMRMT030101UK04Prescribe supplyPrescribe) {
@@ -49,7 +52,7 @@ public class MedicationRequestOrderMapper {
             medicationRequest.setDispenseRequest(buildDispenseRequestForPrescribe(supplyPrescribe));
 
             buildNotesForPrescribe(supplyPrescribe).forEach(medicationRequest::addNote);
-            extractMedicationReference(medicationStatement).ifPresent(medicationRequest::setMedication);
+            medicationMapper.extractMedicationReference(medicationStatement).ifPresent(medicationRequest::setMedication);
             buildPrescriptionTypeExtension(supplyAuthorise).ifPresent(medicationRequest::addExtension);
 
             return medicationRequest;
@@ -86,7 +89,7 @@ public class MedicationRequestOrderMapper {
     }
 
     private Period buildValidityPeriod(TS timestamp) {
-        return new Period().setStart(DateFormatUtil.parsePathwaysDate(timestamp.getValue()));
+        return new Period().setStartElement(DateFormatUtil.parseToDateTimeType(timestamp.getValue()));
     }
 
     private Optional<String> extractEhrSupplyPrescribeId(RCMRMT030101UK04Prescribe supplyPrescribe) {

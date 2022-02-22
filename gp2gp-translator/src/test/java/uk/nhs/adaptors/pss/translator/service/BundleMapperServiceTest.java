@@ -1,12 +1,15 @@
 package uk.nhs.adaptors.pss.translator.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -20,6 +23,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,6 +34,7 @@ import lombok.SneakyThrows;
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class BundleMapperServiceTest {
+    private static final boolean OVERRIDE_JSON = false;
 
     private static final String TEST_ID = "TEST_ID_123";
 
@@ -67,6 +72,7 @@ public class BundleMapperServiceTest {
 
     @ParameterizedTest
     @MethodSource("testFiles")
+    @SneakyThrows
     public void testBundleContainsMappedResources(String inputXML, String expectedJson) throws JSONException {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(inputXML);
         final String expectedJsonOutput = getFileAsString(EXPECTED_JSON_BASE, expectedJson);
@@ -74,10 +80,18 @@ public class BundleMapperServiceTest {
 
         final String jsonBundle = parseBundleToJson(bundle);
 
+        if (OVERRIDE_JSON) {
+            try (PrintWriter printWriter =
+                     new PrintWriter("src/test/resources" + EXPECTED_JSON_BASE + expectedJson, StandardCharsets.UTF_8)) {
+                printWriter.print(jsonBundle);
+            }
+            fail("Re-run the tests with OVERRIDE_JSON=false");
+        }
+
         JSONObject bundleJsonObject = new JSONObject(jsonBundle);
         JSONObject expectedJsonObject = new JSONObject(expectedJsonOutput);
 
-        assertThat(bundleJsonObject.toString()).isEqualTo(expectedJsonObject.toString());
+        JSONAssert.assertEquals(bundleJsonObject, expectedJsonObject, true);
     }
 
     private static Stream<Arguments> testFiles() {
