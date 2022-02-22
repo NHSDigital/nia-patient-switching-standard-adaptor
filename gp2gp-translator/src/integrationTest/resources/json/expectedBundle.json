@@ -1,6 +1,6 @@
 {
     "resourceType": "Bundle",
-    "id": "6b88a8bf-e9ea-42ea-afca-ea3346d88552",
+    "id": "011013fe-162c-4abd-aca0-d9b3de526fed",
     "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
     },
@@ -8,7 +8,7 @@
     "entry": [ {
         "resource": {
             "resourceType": "Patient",
-            "id": "d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7",
+            "id": "70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4",
             "meta": {
                 "versionId": "1521806400000",
                 "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -309,6 +309,818 @@
         }
     }, {
         "resource": {
+            "resourceType": "Encounter",
+            "id": "CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF"
+            } ],
+            "status": "finished",
+            "type": [ {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "24591000000103",
+                    "display": "Other report"
+                } ],
+                "text": "GP Surgery"
+            } ],
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "participant": [ {
+                "type": [ {
+                    "coding": [ {
+                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                        "code": "REC",
+                        "display": "recorder"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            }, {
+                "type": [ {
+                    "coding": [ {
+                        "system": "http://hl7.org/fhir/v3/ParticipationType",
+                        "code": "PPRF",
+                        "display": "primary performer"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            } ],
+            "period": {
+                "start": "2010-01-14T10:41:00+00:00"
+            },
+            "location": [ {
+                "location": {
+                    "reference": "Location/CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF-LOC"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Encounter",
+            "id": "3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039"
+            } ],
+            "status": "finished",
+            "type": [ {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "24591000000103",
+                    "display": "Other report"
+                } ],
+                "text": "GP Surgery"
+            } ],
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "participant": [ {
+                "type": [ {
+                    "coding": [ {
+                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                        "code": "REC",
+                        "display": "recorder"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            }, {
+                "type": [ {
+                    "coding": [ {
+                        "system": "http://hl7.org/fhir/v3/ParticipationType",
+                        "code": "PPRF",
+                        "display": "primary performer"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            } ],
+            "period": {
+                "start": "2010-01-15T10:14:00+00:00"
+            },
+            "location": [ {
+                "location": {
+                    "reference": "Location/3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039-LOC"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Encounter",
+            "id": "8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3"
+            } ],
+            "status": "finished",
+            "type": [ {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "24591000000103",
+                    "display": "Other report"
+                } ],
+                "text": "GP Surgery"
+            } ],
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "participant": [ {
+                "type": [ {
+                    "coding": [ {
+                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                        "code": "REC",
+                        "display": "recorder"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            }, {
+                "type": [ {
+                    "coding": [ {
+                        "system": "http://hl7.org/fhir/v3/ParticipationType",
+                        "code": "PPRF",
+                        "display": "primary performer"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            } ],
+            "period": {
+                "start": "2010-03-23T15:36:00+00:00"
+            },
+            "location": [ {
+                "location": {
+                    "reference": "Location/8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3-LOC"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Encounter",
+            "id": "9326C01E-488B-4EDF-B9C9-529E69EE0361",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "9326C01E-488B-4EDF-B9C9-529E69EE0361"
+            } ],
+            "status": "finished",
+            "type": [ {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "24591000000103",
+                    "display": "Other report"
+                } ],
+                "text": "GP Surgery"
+            } ],
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "participant": [ {
+                "type": [ {
+                    "coding": [ {
+                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                        "code": "REC",
+                        "display": "recorder"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            }, {
+                "type": [ {
+                    "coding": [ {
+                        "system": "http://hl7.org/fhir/v3/ParticipationType",
+                        "code": "PPRF",
+                        "display": "primary performer"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            } ],
+            "period": {
+                "start": "2010-03-23T15:39:00+00:00"
+            },
+            "location": [ {
+                "location": {
+                    "reference": "Location/9326C01E-488B-4EDF-B9C9-529E69EE0361-LOC"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Encounter",
+            "id": "4E95E2AF-BF10-45BB-AAA5-2547BD42C806",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "4E95E2AF-BF10-45BB-AAA5-2547BD42C806"
+            } ],
+            "status": "finished",
+            "type": [ {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "24591000000103",
+                    "display": "Other report"
+                } ],
+                "text": "GP Surgery"
+            } ],
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "participant": [ {
+                "type": [ {
+                    "coding": [ {
+                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                        "code": "REC",
+                        "display": "recorder"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            }, {
+                "type": [ {
+                    "coding": [ {
+                        "system": "http://hl7.org/fhir/v3/ParticipationType",
+                        "code": "PPRF",
+                        "display": "primary performer"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            } ],
+            "period": {
+                "start": "2010-03-23T15:42:00+00:00"
+            },
+            "location": [ {
+                "location": {
+                    "reference": "Location/4E95E2AF-BF10-45BB-AAA5-2547BD42C806-LOC"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Encounter",
+            "id": "DF71EC06-9453-4AE7-9C3C-E42871252772",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "DF71EC06-9453-4AE7-9C3C-E42871252772"
+            } ],
+            "status": "finished",
+            "type": [ {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "24591000000103",
+                    "display": "Other report"
+                } ],
+                "text": "GP Surgery"
+            } ],
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "participant": [ {
+                "type": [ {
+                    "coding": [ {
+                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                        "code": "REC",
+                        "display": "recorder"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/72DB5398-C825-4498-88CA-899A3653EC04"
+                }
+            }, {
+                "type": [ {
+                    "coding": [ {
+                        "system": "http://hl7.org/fhir/v3/ParticipationType",
+                        "code": "PPRF",
+                        "display": "primary performer"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/72DB5398-C825-4498-88CA-899A3653EC04"
+                }
+            } ],
+            "period": {
+                "start": "2010-08-10T12:17:00+00:00"
+            },
+            "location": [ {
+                "location": {
+                    "reference": "Location/DF71EC06-9453-4AE7-9C3C-E42871252772-LOC"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Encounter",
+            "id": "BDED2793-F5B5-43AC-B8DB-7EA04620CA86",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "BDED2793-F5B5-43AC-B8DB-7EA04620CA86"
+            } ],
+            "status": "finished",
+            "type": [ {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "24591000000103",
+                    "display": "Other report"
+                } ],
+                "text": "GP Surgery"
+            } ],
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "participant": [ {
+                "type": [ {
+                    "coding": [ {
+                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                        "code": "REC",
+                        "display": "recorder"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            }, {
+                "type": [ {
+                    "coding": [ {
+                        "system": "http://hl7.org/fhir/v3/ParticipationType",
+                        "code": "PPRF",
+                        "display": "primary performer"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/884E7627-796C-4C70-870A-D61B88AD2E57"
+                }
+            } ],
+            "period": {
+                "start": "2011-11-15T14:39:00+00:00"
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "Encounter",
+            "id": "797F53B7-4D96-4BBE-84CC-3110DB040D90",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "797F53B7-4D96-4BBE-84CC-3110DB040D90"
+            } ],
+            "status": "finished",
+            "type": [ {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "24591000000103",
+                    "display": "Other report"
+                } ],
+                "text": "GP Surgery"
+            } ],
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "participant": [ {
+                "type": [ {
+                    "coding": [ {
+                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                        "code": "REC",
+                        "display": "recorder"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            }, {
+                "type": [ {
+                    "coding": [ {
+                        "system": "http://hl7.org/fhir/v3/ParticipationType",
+                        "code": "PPRF",
+                        "display": "primary performer"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/884E7627-796C-4C70-870A-D61B88AD2E57"
+                }
+            } ],
+            "period": {
+                "start": "2011-11-15T14:54:00+00:00"
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "Encounter",
+            "id": "6D2FB37E-26B4-4838-B6D2-CA96E1F10227",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "6D2FB37E-26B4-4838-B6D2-CA96E1F10227"
+            } ],
+            "status": "finished",
+            "type": [ {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "109341000000100",
+                    "display": "GP to GP communication transaction"
+                } ]
+            } ],
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "participant": [ {
+                "type": [ {
+                    "coding": [ {
+                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                        "code": "REC",
+                        "display": "recorder"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            }, {
+                "type": [ {
+                    "coding": [ {
+                        "system": "http://hl7.org/fhir/v3/ParticipationType",
+                        "code": "PPRF",
+                        "display": "primary performer"
+                    } ]
+                } ],
+                "individual": {
+                    "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                }
+            } ],
+            "period": {
+                "start": "2010-03-23T15:36:00+00:00"
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF-CONS",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "title": "GP Surgery",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "325851000000107",
+                    "display": "Consultation"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF"
+            },
+            "date": "2010-01-14T10:41:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            },
+            "entry": [ {
+                "item": {
+                    "reference": "List/b00c212a-d822-4531-934a-3eb0af353651"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039-CONS",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "title": "GP Surgery",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "325851000000107",
+                    "display": "Consultation"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039"
+            },
+            "date": "2010-01-15T10:14:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            },
+            "entry": [ {
+                "item": {
+                    "reference": "List/d8a973a3-26af-4b66-aebf-c6bb25e78b9b"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3-CONS",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "title": "GP Surgery",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "325851000000107",
+                    "display": "Consultation"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3"
+            },
+            "date": "2010-03-23T15:36:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            },
+            "entry": [ {
+                "item": {
+                    "reference": "List/8e1f370d-a60b-43ae-b2aa-d5999260eec1"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "9326C01E-488B-4EDF-B9C9-529E69EE0361-CONS",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "title": "GP Surgery",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "325851000000107",
+                    "display": "Consultation"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/9326C01E-488B-4EDF-B9C9-529E69EE0361"
+            },
+            "date": "2010-03-23T15:39:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            },
+            "entry": [ {
+                "item": {
+                    "reference": "List/987dfd4b-61f0-4981-9156-ba89176adc9c"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "4E95E2AF-BF10-45BB-AAA5-2547BD42C806-CONS",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "title": "GP Surgery",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "325851000000107",
+                    "display": "Consultation"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/4E95E2AF-BF10-45BB-AAA5-2547BD42C806"
+            },
+            "date": "2010-03-23T15:42:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            },
+            "entry": [ {
+                "item": {
+                    "reference": "List/353a7c50-b911-4b4f-ae70-24e348acc60e"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "DF71EC06-9453-4AE7-9C3C-E42871252772-CONS",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "title": "GP Surgery",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "325851000000107",
+                    "display": "Consultation"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/DF71EC06-9453-4AE7-9C3C-E42871252772"
+            },
+            "date": "2010-08-10T12:17:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            },
+            "entry": [ {
+                "item": {
+                    "reference": "List/b2968a36-4b95-4645-981e-8632318724be"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "BDED2793-F5B5-43AC-B8DB-7EA04620CA86-CONS",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "title": "GP Surgery",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "325851000000107",
+                    "display": "Consultation"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/BDED2793-F5B5-43AC-B8DB-7EA04620CA86"
+            },
+            "date": "2011-11-15T14:39:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            },
+            "entry": [ {
+                "item": {
+                    "reference": "List/6179ef2c-ab94-4663-882e-fdac03e4fc43"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "797F53B7-4D96-4BBE-84CC-3110DB040D90-CONS",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "title": "GP Surgery",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "325851000000107",
+                    "display": "Consultation"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/797F53B7-4D96-4BBE-84CC-3110DB040D90"
+            },
+            "date": "2011-11-15T14:54:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            },
+            "entry": [ {
+                "item": {
+                    "reference": "List/1ee30992-739e-4d76-a138-b3df5c3ffe35"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "6D2FB37E-26B4-4838-B6D2-CA96E1F10227-CONS",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "title": "GP to GP communication transaction",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "325851000000107",
+                    "display": "Consultation"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/6D2FB37E-26B4-4838-B6D2-CA96E1F10227"
+            },
+            "date": "2010-03-23T15:36:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            },
+            "entry": [ {
+                "item": {
+                    "reference": "List/e02dca48-3d48-4348-b1f2-90721c91e884"
+                }
+            } ]
+        }
+    }, {
+        "resource": {
             "resourceType": "Location",
             "id": "CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF-LOC",
             "meta": {
@@ -405,7 +1217,7 @@
             "status": "active",
             "intent": "plan",
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
             },
             "occurrenceDateTime": "2011-01-15",
             "authoredOn": "2010-01-15T10:06:46+00:00",
@@ -442,7 +1254,10 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "context": {
+                "reference": "Encounter/CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF"
             },
             "effectiveDateTime": "2010-01-14",
             "issued": "2010-01-14T10:34:30.000+00:00",
@@ -470,7 +1285,10 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "context": {
+                "reference": "Encounter/3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039"
             },
             "effectiveDateTime": "2010-01-15",
             "issued": "2010-01-15T10:06:46.000+00:00",
@@ -498,7 +1316,10 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "context": {
+                "reference": "Encounter/8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3"
             },
             "effectiveDateTime": "2010-03-23T15:36:00+00:00",
             "issued": "2010-03-23T15:51:27.000+00:00",
@@ -527,7 +1348,10 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "context": {
+                "reference": "Encounter/9326C01E-488B-4EDF-B9C9-529E69EE0361"
             },
             "effectiveDateTime": "2010-03-23T15:39:00+00:00",
             "issued": "2010-03-23T15:59:35.000+00:00",
@@ -556,7 +1380,10 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "context": {
+                "reference": "Encounter/797F53B7-4D96-4BBE-84CC-3110DB040D90"
             },
             "effectiveDateTime": "2011-11-15T14:54:00+00:00",
             "issued": "2011-11-15T14:59:10.000+00:00",
@@ -585,7 +1412,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
             },
             "effectiveDateTime": "2010-01-14T10:10:00+00:00",
             "issued": "2010-01-14T10:10:00.000+00:00",
@@ -613,13 +1440,292 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/d092a9ad-07a9-4e2e-b4b2-a93108b3c9b7"
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
             },
             "effectiveDateTime": "2018-10-30",
             "issued": "2018-10-30T00:00:00.000+00:00",
             "performer": [ {
                 "reference": "Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6"
             } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "b00c212a-d822-4531-934a-3eb0af353651",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "25851000000105",
+                    "display": "Topic (EHR)"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF"
+            },
+            "date": "2010-01-14T10:41:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "d8a973a3-26af-4b66-aebf-c6bb25e78b9b",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "25851000000105",
+                    "display": "Topic (EHR)"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039"
+            },
+            "date": "2010-01-15T10:14:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "8e1f370d-a60b-43ae-b2aa-d5999260eec1",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "25851000000105",
+                    "display": "Topic (EHR)"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3"
+            },
+            "date": "2010-03-23T15:36:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "987dfd4b-61f0-4981-9156-ba89176adc9c",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "25851000000105",
+                    "display": "Topic (EHR)"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/9326C01E-488B-4EDF-B9C9-529E69EE0361"
+            },
+            "date": "2010-03-23T15:39:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "353a7c50-b911-4b4f-ae70-24e348acc60e",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "25851000000105",
+                    "display": "Topic (EHR)"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/4E95E2AF-BF10-45BB-AAA5-2547BD42C806"
+            },
+            "date": "2010-03-23T15:42:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "b2968a36-4b95-4645-981e-8632318724be",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "25851000000105",
+                    "display": "Topic (EHR)"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/DF71EC06-9453-4AE7-9C3C-E42871252772"
+            },
+            "date": "2010-08-10T12:17:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "6179ef2c-ab94-4663-882e-fdac03e4fc43",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "25851000000105",
+                    "display": "Topic (EHR)"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/BDED2793-F5B5-43AC-B8DB-7EA04620CA86"
+            },
+            "date": "2011-11-15T14:39:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "1ee30992-739e-4d76-a138-b3df5c3ffe35",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "25851000000105",
+                    "display": "Topic (EHR)"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/797F53B7-4D96-4BBE-84CC-3110DB040D90"
+            },
+            "date": "2011-11-15T14:54:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            }
+        }
+    }, {
+        "resource": {
+            "resourceType": "List",
+            "id": "e02dca48-3d48-4348-b1f2-90721c91e884",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+            },
+            "status": "current",
+            "mode": "snapshot",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "25851000000105",
+                    "display": "Topic (EHR)"
+                } ]
+            },
+            "subject": {
+                "reference": "Patient/70ba3fd9-ba9a-4f4a-a7b2-137f1c981df4"
+            },
+            "encounter": {
+                "reference": "Encounter/6D2FB37E-26B4-4838-B6D2-CA96E1F10227"
+            },
+            "date": "2010-03-23T15:36:00+00:00",
+            "orderedBy": {
+                "coding": [ {
+                    "system": "http://hl7.org/fhir/list-order",
+                    "code": "system",
+                    "display": "Sorted by System"
+                } ]
+            }
         }
     } ]
 }

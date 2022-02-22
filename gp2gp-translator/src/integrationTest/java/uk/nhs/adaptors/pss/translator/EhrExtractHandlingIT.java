@@ -29,12 +29,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 
-@Slf4j
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})
 @DirtiesContext
@@ -45,11 +43,11 @@ public class EhrExtractHandlingIT {
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
     private static final List<String> IGNORED_JSON_PATHS = List.of(
         "id",
-        "entry[0].resource.id",
+        "entry[*].resource.id",
         "entry[*].resource.subject.reference",
-        "entry[*].item.reference",
-        "subject.reference",
-        "encounter.reference"
+        "entry[*].resource.entry[*].item.reference",
+        "entry[*].resource.encounter.reference",
+        "entry[*].resource.identifier[0].value"
     );
 
     @Autowired
@@ -125,7 +123,7 @@ public class EhrExtractHandlingIT {
         var customizations = IGNORED_JSON_PATHS.stream()
             .map(jsonPath -> new Customization(jsonPath, (o1, o2) -> true))
             .toArray(Customization[]::new);
-        LOGGER.info(actual);
+
         JSONAssert.assertEquals(expected, actual,
             new CustomComparator(JSONCompareMode.STRICT, customizations));
     }
