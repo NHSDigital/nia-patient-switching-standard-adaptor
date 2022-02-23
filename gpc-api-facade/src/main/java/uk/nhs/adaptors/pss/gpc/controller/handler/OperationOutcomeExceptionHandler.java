@@ -76,8 +76,8 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
         HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         headers.put(ALLOW, List.of(getAllowedMethods(request)));
-        CodeableConcept details = CodeableConceptUtils.createCodeableConcept("METHOD_NOT_SUPPORTED", ISSUE_SYSTEM, "Method not supported"
-            , null);
+        CodeableConcept details = CodeableConceptUtils.createCodeableConcept("METHOD_NOT_SUPPORTED", ISSUE_SYSTEM, "Method not supported",
+            null);
         OperationOutcome operationOutcome = createOperationOutcome(NOTSUPPORTED, ERROR, details, ex.getMessage());
         return errorResponse(headers, status, operationOutcome);
     }
@@ -85,8 +85,8 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(
         HttpMediaTypeNotSupportedException ex, HttpHeaders requestHeaders, HttpStatus status, WebRequest request) {
-        CodeableConcept details = CodeableConceptUtils.createCodeableConcept("UNSUPPORTED_MEDIA_TYPE", ISSUE_SYSTEM, "Unsupported media " +
-            "type", null);
+        CodeableConcept details = CodeableConceptUtils.createCodeableConcept("UNSUPPORTED_MEDIA_TYPE", ISSUE_SYSTEM, "Unsupported media "
+            + "type", null);
         OperationOutcome operationOutcome = createOperationOutcome(NOTSUPPORTED, ERROR, details, ex.getMessage());
         return errorResponse(requestHeaders, status, operationOutcome);
     }
@@ -126,8 +126,8 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     @ExceptionHandler(Exception.class)
     private ResponseEntity<Object> handleAllExceptions(Exception ex) {
         LOGGER.error("Error occurred: {}", ex.getMessage());
-        CodeableConcept details = CodeableConceptUtils.createCodeableConcept("INTERNAL_SERVER_ERROR", ISSUE_SYSTEM, "Internal server " +
-            "error", null);
+        CodeableConcept details = CodeableConceptUtils.createCodeableConcept("INTERNAL_SERVER_ERROR", ISSUE_SYSTEM, "Internal server "
+            + "error", null);
         OperationOutcome operationOutcome = createOperationOutcome(
             EXCEPTION, ERROR, details, "Internal server error. Please contact the administrator.");
         return errorResponse(new HttpHeaders(), INTERNAL_SERVER_ERROR, operationOutcome);
@@ -135,8 +135,8 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
 
     private ResponseEntity<Object> unprocessableEntityResponse(Exception ex) {
         LOGGER.error("Error occurred: {}", ex.getMessage());
-        CodeableConcept details = CodeableConceptUtils.createCodeableConcept("INVALID_RESOURCE", ISSUE_SYSTEM, "Submitted resource is not" +
-            " valid", null);
+        CodeableConcept details = CodeableConceptUtils.createCodeableConcept("INVALID_RESOURCE", ISSUE_SYSTEM, "Submitted resource is not"
+            + " valid", null);
         OperationOutcome operationOutcome = createOperationOutcome(INVALID, ERROR, details, "Failed to parse request payload");
         return errorResponse(new HttpHeaders(), UNPROCESSABLE_ENTITY, operationOutcome);
     }
