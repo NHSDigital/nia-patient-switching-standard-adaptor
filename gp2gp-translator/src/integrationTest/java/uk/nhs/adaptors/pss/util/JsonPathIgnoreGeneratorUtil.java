@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 public class JsonPathIgnoreGeneratorUtil {
 
-    private static final List<IgnoreParameters> ignoredResourcesBuilder = List.of(
+    private static final List<IgnoreParameters> IGNORED_RESOURCES_BUILDER = List.of(
         new IgnoreParameters(ResourceType.Medication, "id"),
         new IgnoreParameters(ResourceType.MedicationRequest, "medicationReference.reference",
             JsonPathIgnoreGeneratorUtil::hasMedicationReference),
@@ -30,7 +30,7 @@ public class JsonPathIgnoreGeneratorUtil {
         for (int i = 0; i < resources.size(); i++) {
             String ignore = "entry[" + i + "].resource.";
             var resource = resources.get(i);
-            for (IgnoreParameters resourceTypeAndField : ignoredResourcesBuilder) {
+            for (IgnoreParameters resourceTypeAndField : IGNORED_RESOURCES_BUILDER) {
                 if (resourceTypeAndField.getResourceType().equals(resource.getResource().getResourceType())) {
                     if (resourceTypeAndField.hasChecker() && resourceTypeAndField.getChecker().apply(resource.getResource())) {
                         ignores.add(ignore + resourceTypeAndField.getFieldName());
