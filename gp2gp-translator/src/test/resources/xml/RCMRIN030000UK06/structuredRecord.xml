@@ -123,7 +123,6 @@
         </agentPerson>
         <representedOrganization classCode="ORG" determinerCode="INSTANCE">
             <name>National</name>
-
         </representedOrganization>
     </Agent>
 </part>
@@ -142,7 +141,6 @@
         </agentPerson>
         <representedOrganization classCode="ORG" determinerCode="INSTANCE">
             <name>National</name>
-
         </representedOrganization>
     </Agent>
 </part>
@@ -186,7 +184,6 @@
         </agentPerson>
         <representedOrganization classCode="ORG" determinerCode="INSTANCE">
             <name>National</name>
-
         </representedOrganization>
     </Agent>
 </part>
@@ -259,15 +256,12 @@
             <center value="20100114"/>
         </effectiveTime>
         <availabilityTime value="20100114"/>
-
-
         <pertinentInformation typeCode="PERT">
             <sequenceNumber value="+1" />
             <pertinentAnnotation classCode="OBS" moodCode="EVN">
                 <text></text>
             </pertinentAnnotation>
         </pertinentInformation>
-
         <Participant typeCode="PRF" contextControlCode="OP">
     <agentRef classCode="AGNT">
         <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
@@ -285,15 +279,12 @@
                     <center value="20100115"/>
                 </effectiveTime>
                 <availabilityTime value="20100115"/>
-
-
                 <pertinentInformation typeCode="PERT">
                     <sequenceNumber value="+1" />
                     <pertinentAnnotation classCode="OBS" moodCode="EVN">
                         <text></text>
                     </pertinentAnnotation>
                 </pertinentInformation>
-
                 <Participant typeCode="PRF" contextControlCode="OP">
                     <agentRef classCode="AGNT">
                         <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
@@ -370,15 +361,12 @@ Medication review</text>
             <center value="20100115"/>
         </effectiveTime>
         <availabilityTime value="20100115"/>
-
-
         <pertinentInformation typeCode="PERT">
             <sequenceNumber value="+1" />
             <pertinentAnnotation classCode="OBS" moodCode="EVN">
                 <text></text>
             </pertinentAnnotation>
         </pertinentInformation>
-
         <Participant typeCode="PRF" contextControlCode="OP">
     <agentRef classCode="AGNT">
         <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
@@ -444,8 +432,6 @@ Medication review</text>
             <center value="20100323153600"/>
         </effectiveTime>
         <availabilityTime value="20100323153600"/>
-
-
         <pertinentInformation typeCode="PERT">
             <sequenceNumber value="+1" />
             <pertinentAnnotation classCode="OBS" moodCode="EVN">
@@ -454,7 +440,6 @@ Episodicity : First
 This is problem Problem Info: Problem Notes: This is problem</text>
             </pertinentAnnotation>
         </pertinentInformation>
-
         <Participant typeCode="PRF" contextControlCode="OP">
     <agentRef classCode="AGNT">
         <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
@@ -554,8 +539,6 @@ This is problem Problem Info: Problem Notes: This is problem</text>
             <center value="20100323153900"/>
         </effectiveTime>
         <availabilityTime value="20100323153900"/>
-
-
         <pertinentInformation typeCode="PERT">
             <sequenceNumber value="+1" />
             <pertinentAnnotation classCode="OBS" moodCode="EVN">
@@ -563,7 +546,6 @@ This is problem Problem Info: Problem Notes: This is problem</text>
 Episodicity : Review</text>
             </pertinentAnnotation>
         </pertinentInformation>
-
         <Participant typeCode="PRF" contextControlCode="OP">
     <agentRef classCode="AGNT">
         <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
@@ -920,15 +902,12 @@ Episodicity : Review</text>
             <center value="20111115145400"/>
         </effectiveTime>
         <availabilityTime value="20111115145400"/>
-
-
         <pertinentInformation typeCode="PERT">
             <sequenceNumber value="+1" />
             <pertinentAnnotation classCode="OBS" moodCode="EVN">
                 <text>This is a note</text>
             </pertinentAnnotation>
         </pertinentInformation>
-
         <Participant typeCode="PRF" contextControlCode="OP">
     <agentRef classCode="AGNT">
         <id root="884E7627-796C-4C70-870A-D61B88AD2E57"/>
@@ -17243,7 +17222,6 @@ Episodicity : Review</text>
         <statusCode code="COMPLETE"/>
         <effectiveTime>
             <low value="20100323153600"/>
-
         </effectiveTime>
         <availabilityTime value="20100323155127" />
             <component typeCode="COMP">
@@ -17288,7 +17266,6 @@ Episodicity : Review</text>
 </Participant>
     </LinkSet>
 </component>
-
     </ehrComposition>
 </component>
                 <component typeCode="COMP">
@@ -17631,15 +17608,12 @@ Episodicity : Review</text>
             <center value="20100114101000"/>
         </effectiveTime>
         <availabilityTime value="20100114101000"/>
-
-
         <pertinentInformation typeCode="PERT">
             <sequenceNumber value="+1" />
             <pertinentAnnotation classCode="OBS" moodCode="EVN">
                 <text></text>
             </pertinentAnnotation>
         </pertinentInformation>
-
         <Participant typeCode="PRF" contextControlCode="OP">
     <agentRef classCode="AGNT">
         <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
@@ -17679,15 +17653,12 @@ Episodicity : Review</text>
             <center value="20181030"/>
         </effectiveTime>
         <availabilityTime value="20181030"/>
-
-
         <pertinentInformation typeCode="PERT">
             <sequenceNumber value="+1" />
             <pertinentAnnotation classCode="OBS" moodCode="EVN">
                 <text></text>
             </pertinentAnnotation>
         </pertinentInformation>
-
         <Participant typeCode="PRF" contextControlCode="OP">
     <agentRef classCode="AGNT">
         <id root="94F00D99-0601-4A8E-AD1D-1B564307B0A6"/>
@@ -17711,7 +17682,6 @@ Episodicity : Review</text>
         </limitingEhrExtractSpecification>
     </limitation>
 </EhrExtract>
-
         </subject>
     </ControlActEvent>
 </RCMR_IN030000UK06>
