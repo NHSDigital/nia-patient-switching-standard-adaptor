@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Immunization;
@@ -28,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationCommentMapper;
@@ -52,6 +54,7 @@ public class BundleMapperService {
     private final ReferralRequestMapper referralRequestMapper;
     private final ObservationCommentMapper observationCommentMapper;
     private final ObservationMapper observationMapper;
+    private final ConditionMapper conditionMapper;
     private final ImmunizationMapper immunizationMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
@@ -73,16 +76,23 @@ public class BundleMapperService {
         var referralRequests = mapReferralRequests(ehrFolder, patient);
         addEntries(bundle, referralRequests);
 
-        var observations = mapObservations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters
+        var observations = mapObservations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters (NIAD-1961)
         addEntries(bundle, observations);
 
-        var immunizations = mapImmunizations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters
+        var immunizations = mapImmunizations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters (NIAD-1961)
         addEntries(bundle, immunizations);
 
-        var observationComments = mapObservationComments(ehrExtract, patient, Collections.emptyList()); //TODO: Provide list of encounters
+        var conditions = mapConditions(ehrExtract, patient, List.of()); //TODO: Provide list of encounters (NIAD-1961)
+        addEntries(bundle, conditions);
+
+        var observationComments =
+            mapObservationComments(ehrExtract, patient, Collections.emptyList()); //TODO: Provide list of encounters (NIAD-1961)
         addEntries(bundle, observationComments);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
+
+        conditionMapper.addReferences(bundle, conditions, ehrExtract);
+
         return bundle;
     }
 
@@ -132,6 +142,10 @@ public class BundleMapperService {
 
     private List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         return observationMapper.mapObservations(ehrExtract, patient, encounters);
+    }
+
+    private List<Condition> mapConditions(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+        return conditionMapper.mapConditions(ehrExtract, patient, encounters);
     }
 
     private Organization getPatientOrganization(List<? extends DomainResource> agents) {
