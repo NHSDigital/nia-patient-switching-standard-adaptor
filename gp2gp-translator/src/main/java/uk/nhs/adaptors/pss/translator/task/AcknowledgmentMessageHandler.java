@@ -37,7 +37,7 @@ public class AcknowledgmentMessageHandler {
             LOGGER.info("Unknown acknowledgement typeCode [{}]", ackTypeCode);
         }
     }
-    
+
     private MigrationStatus getMigrationStatus(String ackTypeCode) {
         return switch (ackTypeCode) {
             case ACK_TYPE_CODE -> EHR_EXTRACT_REQUEST_ACKNOWLEDGED;

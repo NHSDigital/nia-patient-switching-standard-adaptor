@@ -87,10 +87,12 @@ public class MhsQueueMessageHandlerTest {
     }
 
     @Test
-    public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse() throws JAXBException, JsonProcessingException {
+    public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse() throws JAXBException,
+        JsonProcessingException {
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
-        doThrow(new JAXBException("Nobody expects the spanish inquisition!")).when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
+        doThrow(new JAXBException("Nobody expects the spanish inquisition!"))
+            .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
@@ -116,7 +118,8 @@ public class MhsQueueMessageHandlerTest {
     public void handleAcknowledgeMessageWhenAcknowledgmentMessageHandlerThrowsErrorShouldReturnFalse() throws SAXException {
         inboundMessage = new InboundMessage();
         prepareMocks(ACKNOWLEDGEMENT_INTERACTION_ID);
-        doThrow(new SAXException("Nobody expects the spanish inquisition!")).when(acknowledgmentMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
+        doThrow(new SAXException("Nobody expects the spanish inquisition!"))
+            .when(acknowledgmentMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 

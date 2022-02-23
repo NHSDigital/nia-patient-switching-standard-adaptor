@@ -59,7 +59,8 @@ public class EhrExtractMessageHandlerTest {
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID);
-        verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
+        verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
+                CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
     }
 
     @SneakyThrows

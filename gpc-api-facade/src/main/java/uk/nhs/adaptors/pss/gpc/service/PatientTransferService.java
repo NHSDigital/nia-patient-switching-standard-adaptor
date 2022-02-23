@@ -36,12 +36,11 @@ public class PatientTransferService {
     private final MDCService mdcService;
 
     public MigrationStatusLog handlePatientMigrationRequest(Parameters parameters, Map<String, String> headers) {
-        var patientNhsNumber = ParametersUtils.getNhsNumberFromParameters(parameters).get().getValue();
-        //todo czy jest skad wziac conversation id?
-        PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
+        var conversationId = mdcService.getConversationId();
+        PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
 
         if (patientMigrationRequest == null) {
-            var conversationId = mdcService.getConversationId();
+            var patientNhsNumber = ParametersUtils.getNhsNumberFromParameters(parameters).get().getValue();
             patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId);
             int addedId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
             migrationStatusLogDao.addMigrationStatusLog(REQUEST_RECEIVED, dateUtils.getCurrentOffsetDateTime(), addedId);
