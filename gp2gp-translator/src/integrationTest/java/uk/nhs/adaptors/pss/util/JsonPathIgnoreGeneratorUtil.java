@@ -65,5 +65,4 @@ public class JsonPathIgnoreGeneratorUtil {
             return checker != null;
         }
     }
-
 }
