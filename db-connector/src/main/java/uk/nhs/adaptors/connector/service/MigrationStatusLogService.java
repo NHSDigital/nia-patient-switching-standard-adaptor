@@ -26,11 +26,11 @@ public class MigrationStatusLogService {
             dateUtils.getCurrentOffsetDateTime(),
             migrationRequestId
         );
-        LOGGER.debug("Changed RequestStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, migrationStatus.name());
+        LOGGER.debug("Changed MigrationStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, migrationStatus.name());
     }
 
-    public MigrationStatusLog getLatestMigrationStatusLog(String nhsNumber) {
-        int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(nhsNumber);
+    public MigrationStatusLog getLatestMigrationStatusLog(String conversationId) {
+        int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
         return migrationStatusLogDao.getLatestMigrationStatusLog(migrationRequestId);
     }
 

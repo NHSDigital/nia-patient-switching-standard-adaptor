@@ -79,14 +79,14 @@ public class PatientTransferServiceTest {
         OffsetDateTime now = OffsetDateTime.now();
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
         when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(null);
-        when(patientMigrationRequestDao.getMigrationRequestId(PATIENT_NHS_NUMBER)).thenReturn(migrationRequestId);
+        when(patientMigrationRequestDao.getMigrationRequestId(CONVERSATION_ID)).thenReturn(migrationRequestId);
         when(mdcService.getConversationId()).thenReturn(CONVERSATION_ID);
 
         MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);
 
         assertThat(patientMigrationRequest).isEqualTo(null);
         verify(pssQueuePublisher).sendToPssQueue(expectedPssQueueMessage);
-        verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER);
+        verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, CONVERSATION_ID);
         verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId);
     }
 

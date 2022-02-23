@@ -32,6 +32,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})
@@ -61,11 +62,16 @@ public class EhrExtractHandlingIT {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private IdGeneratorService idGeneratorService;
+
     private String patientNhsNumber;
+    private String conversationId;
 
     @BeforeEach
     public void setUp() {
         patientNhsNumber = generatePatientNhsNumber();
+        conversationId = generateConversationId();
         startPatientMigrationJourney();
     }
 
@@ -82,12 +88,16 @@ public class EhrExtractHandlingIT {
     }
 
     private void startPatientMigrationJourney() {
-        patientMigrationRequestDao.addNewRequest(patientNhsNumber);
-        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, patientNhsNumber);
+        patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId);
+        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId);
     }
 
     private String generatePatientNhsNumber() {
         return RandomStringUtils.randomNumeric(NHS_NUMBER_MIN_MAX_LENGTH, NHS_NUMBER_MIN_MAX_LENGTH);
+    }
+
+    private String generateConversationId() {
+        return idGeneratorService.generateUuid();
     }
 
     private void sendInboundMessageToQueue(String payloadPartPath) {
@@ -105,7 +115,7 @@ public class EhrExtractHandlingIT {
     }
 
     private boolean isEhrExtractTranslated() {
-        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(patientNhsNumber);
+        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
         return EHR_EXTRACT_TRANSLATED.equals(migrationStatusLog.getMigrationStatus());
     }
 
