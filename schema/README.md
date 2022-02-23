@@ -59,6 +59,7 @@ Please make sure you don't override the following classes with the generated one
 - EN.java 
 - RCMRMT030101UK04Place.java
 - IVLTS.java
+- TS.java
 - CD.java
 - ObjectFactory.java
 - package-info.java
