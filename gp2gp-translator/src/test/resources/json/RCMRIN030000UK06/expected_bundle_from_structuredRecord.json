@@ -875,10 +875,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -986,10 +986,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -1105,10 +1105,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -1224,10 +1224,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -1468,10 +1468,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -1650,10 +1650,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -1769,10 +1769,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -1946,10 +1946,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -2123,10 +2123,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -2233,10 +2233,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -2352,10 +2352,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -2545,10 +2545,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -2853,10 +2853,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -2972,10 +2972,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -3285,10 +3285,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -3454,10 +3454,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -3638,10 +3638,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -3749,10 +3749,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -3922,10 +3922,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -4095,10 +4095,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -4269,10 +4269,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -4443,10 +4443,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -4616,10 +4616,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -4798,10 +4798,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -5104,10 +5104,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -5835,10 +5835,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -6008,10 +6008,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -6181,10 +6181,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -6301,10 +6301,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -6722,10 +6722,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -6904,10 +6904,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -7087,10 +7087,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -7202,10 +7202,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -7507,10 +7507,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -7618,10 +7618,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -7811,10 +7811,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -8050,10 +8050,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -8181,10 +8181,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -8301,10 +8301,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -8421,10 +8421,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -8541,10 +8541,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -8723,10 +8723,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -8918,10 +8918,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -9163,10 +9163,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -9347,10 +9347,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -9466,10 +9466,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -9640,10 +9640,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -9824,10 +9824,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -10007,10 +10007,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -10180,10 +10180,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -10291,10 +10291,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -10472,10 +10472,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -10653,10 +10653,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -10774,10 +10774,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -10957,10 +10957,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -11139,10 +11139,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -11312,10 +11312,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -11485,10 +11485,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -11666,10 +11666,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -11839,10 +11839,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -12020,10 +12020,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -12201,10 +12201,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -12374,10 +12374,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -12546,10 +12546,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -12665,10 +12665,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -12784,10 +12784,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -12895,10 +12895,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -13076,10 +13076,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -13567,10 +13567,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -13811,10 +13811,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -14562,10 +14562,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -14673,10 +14673,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -14846,10 +14846,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -15019,10 +15019,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -15189,10 +15189,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -15359,10 +15359,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -15532,10 +15532,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -15704,10 +15704,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -15815,10 +15815,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -15988,10 +15988,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -16161,10 +16161,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -16334,10 +16334,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -16465,10 +16465,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -16833,10 +16833,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -17572,10 +17572,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -17694,10 +17694,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -17813,10 +17813,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -18068,10 +18068,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -18187,10 +18187,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -18741,10 +18741,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -18872,10 +18872,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -19045,10 +19045,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -19167,10 +19167,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -19340,10 +19340,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]
@@ -19513,10 +19513,10 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1-1" ]
       },
       "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
         "valueCodeableConcept": {
           "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1",
+            "system": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
             "code": "prescribed-at-gp-practice",
             "display": "Prescribed at GP practice"
           } ]

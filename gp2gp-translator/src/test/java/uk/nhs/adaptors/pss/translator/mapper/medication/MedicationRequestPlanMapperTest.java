@@ -43,7 +43,9 @@ public class MedicationRequestPlanMapperTest {
     private static final String TAKE_ONE_DAILY = "One To Be Taken Each Day";
     private static final String AVAILABILITY_TIME = "20060426";
 
-    private static final int SINGLE = 1;
+    private static final int ONE = 1;
+    private static final int SIX = 6;
+    private static final int TWENTY_EIGHT = 28;
 
     @Mock
     private MedicationMapper medicationMapper;
@@ -71,18 +73,18 @@ public class MedicationRequestPlanMapperTest {
 
         var repeatInformation = medicationRequest
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1");
-        assertThat(repeatInformation.size()).isEqualTo(SINGLE);
+        assertThat(repeatInformation.size()).isEqualTo(ONE);
         assertRepeatInformation(repeatInformation.get(0));
 
         var statusReason = medicationRequest
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1");
-        assertThat(statusReason.size()).isEqualTo(SINGLE);
+        assertThat(statusReason.size()).isEqualTo(ONE);
         assertStatusReasonInformation(statusReason.get(0));
 
         var prescriptionType = medicationRequest
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1");
-        assertThat(prescriptionType.size()).isEqualTo(SINGLE);
-        var codeableConcept = (CodeableConcept)prescriptionType.get(0).getValue();
+        assertThat(prescriptionType.size()).isEqualTo(ONE);
+        var codeableConcept = (CodeableConcept) prescriptionType.get(0).getValue();
         assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Repeat");
 
         assertThat(medicationRequest.getStatus()).isEqualTo(MedicationRequest.MedicationRequestStatus.ACTIVE);
@@ -91,7 +93,7 @@ public class MedicationRequestPlanMapperTest {
         assertThat(medicationRequest.getNote().size()).isEqualTo(2);
 
         assertThat(medicationRequest.getDosageInstructionFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
-        assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue().intValue()).isEqualTo(28);
+        assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue().intValue()).isEqualTo(TWENTY_EIGHT);
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().hasStart()).isTrue();
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().hasEnd()).isTrue();
         assertThat(medicationRequest.getPriorPrescription().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
@@ -108,12 +110,12 @@ public class MedicationRequestPlanMapperTest {
 
     private void assertRepeatInformation(Extension extension) {
         var repeatsAllowed = extension.getExtensionsByUrl("numberOfRepeatPrescriptionsAllowed");
-        assertThat(repeatsAllowed.size()).isEqualTo(SINGLE);
-        assertThat(((UnsignedIntType)repeatsAllowed.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(6).getValue());
+        assertThat(repeatsAllowed.size()).isEqualTo(ONE);
+        assertThat(((UnsignedIntType) repeatsAllowed.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(SIX).getValue());
 
         var repeatsIssued = extension.getExtensionsByUrl("numberOfRepeatPrescriptionsIssued");
-        assertThat(repeatsIssued.size()).isEqualTo(SINGLE);
-        assertThat(((UnsignedIntType)repeatsIssued.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(SINGLE).getValue());
+        assertThat(repeatsIssued.size()).isEqualTo(ONE);
+        assertThat(((UnsignedIntType) repeatsIssued.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(ONE).getValue());
     }
 
     private Optional<RCMRMT030101UK04MedicationStatement> extractMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract) {

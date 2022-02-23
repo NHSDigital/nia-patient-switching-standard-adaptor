@@ -34,6 +34,9 @@ public class MedicationRequestOrderMapperTest {
     private static final String TAKE_ONE_DAILY = "TAKE ONE DAILY";
     private static final String AVAILABILITY_TIME = "20060426";
 
+    private static final int THREE = 3;
+    private static final int SEVEN = 7;
+
     @Mock
     private MedicationMapper medicationMapper;
 
@@ -59,9 +62,9 @@ public class MedicationRequestOrderMapperTest {
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1")
             .forEach(extension -> assertPrescriptionType(extension, "Repeat"));
         assertThat(medicationRequest.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
-        assertThat(medicationRequest.getNote().size()).isEqualTo(3);
+        assertThat(medicationRequest.getNote().size()).isEqualTo(THREE);
         assertThat(medicationRequest.getDosageInstructionFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
-        assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue().intValue()).isEqualTo(7);
+        assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue().intValue()).isEqualTo(SEVEN);
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().getStartElement().getValue())
             .isEqualTo(DateFormatUtil.parseToDateTimeType(AVAILABILITY_TIME).getValue());
     }

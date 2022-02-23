@@ -56,7 +56,7 @@ public class MedicationStatementMapperTest {
         var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
         assertThat(lastIssuedDate.size()).isEqualTo(1);
-        var dateTime = (DateTimeType)lastIssuedDate.get(0).getValue();
+        var dateTime = (DateTimeType) lastIssuedDate.get(0).getValue();
         assertThat(dateTime.getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("20060428").getValue());
 
         var prescribingAgency = medicationStatement1
