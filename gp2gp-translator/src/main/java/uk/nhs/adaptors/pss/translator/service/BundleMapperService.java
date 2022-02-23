@@ -87,7 +87,7 @@ public class BundleMapperService {
         var observations = mapObservations(ehrExtract, patient, encounters);
         addEntries(bundle, observations);
 
-        var immunizations = mapImmunizations(ehrExtract, patient, List.of());
+        var immunizations = mapImmunizations(ehrExtract, patient, encounters);
         addEntries(bundle, immunizations);
 
         // TODO: Add references to mapped resources in their appropriate lists (NIAD-2051)

@@ -47,10 +47,11 @@ public class ConsultationListMapper {
             .setStatus(ListStatus.CURRENT)
             .setMode(ListMode.SNAPSHOT)
             .setTitle(getConsultationTitle(encounter.getType()))
-            .setCode(CodeableConceptUtils.getCodeableConceptWithCoding(LIST_CODE_SYSTEM, CONSULTATION_CODE_CODE, CONSULTATION_CODE_DISPLAY))
+            .setCode(CodeableConceptUtils.createCodeableConcept(CONSULTATION_CODE_CODE, LIST_CODE_SYSTEM, CONSULTATION_CODE_DISPLAY, null))
             .setSubject(encounter.getSubject())
             .setDateElement(getConsultationDate(encounter.getPeriod(), ehrExtract))
-            .setOrderedBy(CodeableConceptUtils.getCodeableConceptWithCoding(LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_DISPLAY))
+            .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
+                LIST_ORDERED_BY_DISPLAY, null))
             .setEncounter(new Reference(encounter))
             .setMeta(getListMeta())
             .setId(getConsultationId(encounter.getId()));
@@ -90,11 +91,12 @@ public class ConsultationListMapper {
             .setStatus(ListStatus.CURRENT)
             .setMode(ListMode.SNAPSHOT)
             .setTitle(getTitle(compoundStatement))
-            .setCode(CodeableConceptUtils.getCodeableConceptWithCoding(LIST_CODE_SYSTEM, TOPIC_CODE_CODE, TOPIC_CODE_DISPLAY))
+            .setCode(CodeableConceptUtils.createCodeableConcept(TOPIC_CODE_CODE, LIST_CODE_SYSTEM, TOPIC_CODE_DISPLAY, null))
             .setEncounter(consultation.getEncounter())
             .setSubject(consultation.getSubject())
             .setDateElement(getDate(compoundStatement, consultation))
-            .setOrderedBy(CodeableConceptUtils.getCodeableConceptWithCoding(LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_DISPLAY))
+            .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
+                LIST_ORDERED_BY_DISPLAY, null))
             .setMeta(getListMeta())
             .setId(getTopicId(compoundStatement));
 
@@ -112,11 +114,12 @@ public class ConsultationListMapper {
             .setStatus(ListStatus.CURRENT)
             .setMode(ListMode.SNAPSHOT)
             .setTitle(getTitle(compoundStatement))
-            .setCode(CodeableConceptUtils.getCodeableConceptWithCoding(LIST_CODE_SYSTEM, CATEGORY_CODE_CODE, CATEGORY_CODE_DISPLAY))
+            .setCode(CodeableConceptUtils.createCodeableConcept(CATEGORY_CODE_CODE, LIST_CODE_SYSTEM, CATEGORY_CODE_DISPLAY, null))
             .setEncounter(topic.getEncounter())
             .setSubject(topic.getSubject())
             .setDateElement(getDate(compoundStatement, topic))
-            .setOrderedBy(CodeableConceptUtils.getCodeableConceptWithCoding(LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_DISPLAY))
+            .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
+                LIST_ORDERED_BY_DISPLAY, null))
             .setMeta(getListMeta())
             .setId(compoundStatement.getId().get(0).getRoot());
 

@@ -23,7 +23,6 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
 import org.hl7.v3.CsNullFlavor;
-import org.hl7.v3.IVXBTS;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
@@ -35,7 +34,6 @@ import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04Participant2;
-import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -238,55 +236,24 @@ public class EncounterMapper {
     private Period getPeriod(RCMRMT030101UK04EhrComposition ehrComposition) {
         Period period = new Period();
         var effectiveTime = ehrComposition.getEffectiveTime();
-        var center = getTSStringValue(effectiveTime.getCenter());
-        var low = getIVXBTSStringValue(effectiveTime.getLow());
-        var high = getIVXBTSStringValue(effectiveTime.getHigh());
-        var availabilityTimeValue = ehrComposition.getAvailabilityTime().getValue();
+        var availabilityTime = ehrComposition.getAvailabilityTime();
 
-        if (validValue(center)) {
-            return period.setStartElement(DateFormatUtil.parseToDateTimeType(center));
-        } else if (validValue(low) && validValue(high)) {
-            return period.setStartElement(DateFormatUtil.parseToDateTimeType(low))
-                .setEndElement(DateFormatUtil.parseToDateTimeType(high));
-        } else if (validValue(low) && !validValue(high)) {
-            return period.setStartElement(DateFormatUtil.parseToDateTimeType(low));
-        } else if (!validValue(low) && validValue(high)) {
-            return period.setEndElement(DateFormatUtil.parseToDateTimeType(high));
-        } else if (CsNullFlavor.UNK.value().equals(center)) {
+        if (effectiveTime.hasCenter()) {
+            return period.setStartElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getCenter().getValue()));
+        } else if (effectiveTime.hasLow() && effectiveTime.hasHigh()) {
+            return period.setStartElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getLow().getValue()))
+                .setEndElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()));
+        } else if (effectiveTime.hasLow() && !effectiveTime.hasHigh()) {
+            return period.setStartElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getLow().getValue()));
+        } else if (!effectiveTime.hasLow() && effectiveTime.hasHigh()) {
+            return period.setEndElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()));
+        } else if (CsNullFlavor.UNK.value().equals(effectiveTime.getNullFlavor())) {
             return null;
-        } else if (validValue(availabilityTimeValue)) {
-            return period.setStartElement(DateFormatUtil.parseToDateTimeType(availabilityTimeValue));
+        } else if (availabilityTime.hasValue()) {
+            return period.setStartElement(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()));
         }
 
         return null;
-    }
-
-    private String getTSStringValue(TS ts) {
-        if (ts == null) {
-            return null;
-        } else if (ts.getValue() != null) {
-            return ts.getValue();
-        } else if (ts.getNullFlavor().equals(CsNullFlavor.UNK)) {
-            return CsNullFlavor.UNK.value();
-        }
-
-        return null;
-    }
-
-    private String getIVXBTSStringValue(IVXBTS ivxbts) {
-        if (ivxbts == null) {
-            return null;
-        } else if (ivxbts.getValue() != null) {
-            return ivxbts.getValue();
-        } else if (ivxbts.getNullFlavor().equals(CsNullFlavor.UNK)) {
-            return CsNullFlavor.UNK.value();
-        }
-
-        return null;
-    }
-
-    private boolean validValue(String value) {
-        return value != null && !CsNullFlavor.UNK.value().equals(value);
     }
 
     private EncounterParticipantComponent getRecorder(RCMRMT030101UK04Author author) {

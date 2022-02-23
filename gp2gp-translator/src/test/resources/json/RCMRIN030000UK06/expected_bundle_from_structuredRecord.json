@@ -1732,6 +1732,40 @@
                 "identifier": [
                     {
                         "system": "https://PSSAdaptor/",
+                        "value": "263B2A9F-0B1D-4697-943A-328F70E068DE"
+                    }
+                ],
+                "code": {
+                    "text": "Medication review with patient"
+                },
+                "performer": [
+                    {
+                        "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                    }
+                ],
+                "effectiveDateTime": "2010-01-15",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/TEST_ID_123"
+                },
+                "context": {
+                    "reference": "Encounter/CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF"
+                },
+                "id": "263B2A9F-0B1D-4697-943A-328F70E068DE",
+                "issued": "2010-01-14T10:34:30.000+00:00",
+                "resourceType": "Observation",
+                "status": "final"
+            }
+        },
+        {
+            "resource": {
+                "identifier": [
+                    {
+                        "system": "https://PSSAdaptor/",
                         "value": "5A074D71-AEBD-473C-815F-CD64255B87EB"
                     }
                 ],
@@ -1962,6 +1996,55 @@
                 "issued": "2018-10-30T00:00:00.000+00:00",
                 "resourceType": "Observation",
                 "status": "final"
+            }
+        },
+        {
+            "resource": {
+                "date": "2010-01-15",
+                "identifier": [
+                    {
+                        "system": "https://PSSAdaptor/",
+                        "value": "263B2A9F-0B1D-4697-943A-328F70E068DE"
+                    }
+                ],
+                "primarySource": false,
+                "extension": [
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
+                        "valueExtension": {
+                            "valueCodeableConcept": {
+                                "text": "Medication review with patient"
+                            },
+                            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid"
+                        }
+                    },
+                    {
+                        "valueString": "20100114103430",
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1"
+                    }
+                ],
+                "practitioner": [
+                    {
+                        "actor": {
+                            "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                        }
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1"
+                    ]
+                },
+                "patient": {
+                    "reference": "Patient/TEST_ID_123"
+                },
+                "id": "263B2A9F-0B1D-4697-943A-328F70E068DE",
+                "notGiven": false,
+                "encounter": {
+                    "reference": "Encounter/CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF"
+                },
+                "resourceType": "Immunization",
+                "status": "completed"
             }
         },
         {

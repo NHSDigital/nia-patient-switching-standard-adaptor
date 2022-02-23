@@ -43,11 +43,11 @@ public class EhrExtractHandlingIT {
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
     private static final List<String> IGNORED_JSON_PATHS = List.of(
         "id",
-        "entry[0].resource.id",
+        "entry[*].resource.id",
+        "entry[0].resource.identifier[0].value",
         "entry[*].resource.subject.reference",
         "entry[*].resource.patient.reference",
-        "entry[*].resource.entry[*].item.reference",
-        "entry[*].resource.identifier[0].value"
+        "entry[*].resource.entry[*].item.reference"
     );
 
     @Autowired
@@ -119,7 +119,7 @@ public class EhrExtractHandlingIT {
     }
 
     private void assertBundleContent(String actual, String expected) throws JSONException {
-        //when comparing json objects, this will ignore various json paths that contain random values like ids or timestamps
+        // when comparing json objects, this will ignore various json paths that contain random values like ids or timestamps
         var customizations = IGNORED_JSON_PATHS.stream()
             .map(jsonPath -> new Customization(jsonPath, (o1, o2) -> true))
             .toArray(Customization[]::new);
