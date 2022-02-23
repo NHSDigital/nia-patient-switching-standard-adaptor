@@ -34,7 +34,7 @@ public class JsonPathIgnoreGeneratorUtil {
                 if (resourceTypeAndField.getResourceType().equals(resource.getResource().getResourceType())) {
                     if (resourceTypeAndField.hasChecker() && resourceTypeAndField.getChecker().apply(resource.getResource())) {
                         ignores.add(ignore + resourceTypeAndField.getFieldName());
-                    } else {
+                    } else if (!resourceTypeAndField.hasChecker()) {
                         ignores.add(ignore + resourceTypeAndField.getFieldName());
                     }
                 }
