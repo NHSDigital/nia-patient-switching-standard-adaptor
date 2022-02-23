@@ -82,7 +82,7 @@ public class BundleMapperService {
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 
-        conditionMapper.addReferences(bundle, conditions, ehrExtract); //add after mapping all resources
+        conditionMapper.addReferences(bundle, conditions, ehrExtract);
 
         return bundle;
     }

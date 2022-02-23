@@ -148,8 +148,7 @@ public class ConditionMapper {
                             .map(RCMRMT030101UK04Component6::getStatementRef)
                             .toList();
                         buildRelatedClinicalContent(bundle, statementRefs).forEach(condition::addExtension);
-                    })
-            );
+                    }));
     }
 
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UK04LinkSet linkSet) {
