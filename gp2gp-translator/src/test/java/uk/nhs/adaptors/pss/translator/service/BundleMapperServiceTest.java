@@ -1,97 +1,127 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.hl7.fhir.dstu3.model.Bundle;
+import org.hl7.fhir.dstu3.model.DomainResource;
+import org.hl7.fhir.dstu3.model.Organization;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRIN030000UK06Message;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04Location;
+import org.hl7.v3.RCMRMT030101UK04Patient;
+import org.hl7.v3.RCMRMT030101UK04PlanStatement;
+import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
-import ca.uhn.fhir.context.FhirContext;
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
+import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
+import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class BundleMapperServiceTest {
 
-    private static final String TEST_ID = "TEST_ID_123";
-
     private static final String XML_RESOURCES_BASE = "xml/RCMRIN030000UK06/";
-    private static final String EXPECTED_JSON_BASE = "/json/RCMRIN030000UK06/";
-
-    private static final String STRUCTURED_RECORD_SMALL_XML = "structuredRecord_small.xml";
     private static final String STRUCTURED_RECORD_XML = "structuredRecord.xml";
+    private static final String ENCOUNTER_KEY = "encounters";
+    private static final String CONSULTATION_KEY = "consultations";
+    private static final String TOPIC_KEY = "topics";
+    private static final String CATEGORY_KEY = "categories";
 
+    @Mock
+    private BundleGenerator bundleGenerator;
+    @Mock
+    private PatientMapper patientMapper;
+    @Mock
+    private AgentDirectoryMapper agentDirectoryMapper;
+    @Mock
+    private LocationMapper locationMapper;
+    @Mock
+    private ProcedureRequestMapper procedureRequestMapper;
+    @Mock
+    private ReferralRequestMapper referralRequestMapper;
+    @Mock
+    private ObservationMapper observationMapper;
+    @Mock
+    private ConditionMapper conditionMapper;
+    @Mock
+    private ImmunizationMapper immunizationMapper;
+    @Mock
+    private EncounterMapper encounterMapper;
 
-    private static final String EXPECTED_BUNDLE_FROM_STRUCTURED_RECORD = "expected_bundle_from_structuredRecord.json";
-
-
-    @MockBean
-    private IdGeneratorService idGenerator;
-
-    @Autowired
+    @InjectMocks
     private BundleMapperService bundleMapperService;
 
     @BeforeEach
     public void setup() {
-        when(idGenerator.generateUuid()).thenReturn(TEST_ID);
+        when(bundleGenerator.generateBundle()).thenReturn(new Bundle());
+
+        var agentResourceList = new ArrayList<DomainResource>();
+        agentResourceList.add(new Organization());
+        List mockedList = mock(List.class);
+
+        Map<String, List<? extends DomainResource>> encounterResources = new HashMap<>();
+        encounterResources.put(ENCOUNTER_KEY, new ArrayList<>());
+        encounterResources.put(CONSULTATION_KEY, new ArrayList<>());
+        encounterResources.put(TOPIC_KEY, new ArrayList<>());
+        encounterResources.put(CATEGORY_KEY, new ArrayList<>());
+
+        when(agentDirectoryMapper.mapAgentDirectory(any())).thenReturn(mockedList);
+        when(mockedList.stream()).thenReturn(agentResourceList.stream());
+        when(patientMapper.mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class))).thenReturn(new Patient());
+        when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class))).thenReturn(encounterResources);
     }
 
     @Test
-    public void testBundleIsGenerated() {
-        final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_SMALL_XML);
-        final Bundle bundle = bundleMapperService.mapToBundle(xml);
+    public void testAllMappersHaveBeenUsed() {
+        final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
+        bundleMapperService.mapToBundle(xml);
 
-        assertThat(bundle.getEntry()).isNotNull();
-        assertThat(bundle.getType()).isEqualTo(Bundle.BundleType.COLLECTION);
-        assertThat(bundle.hasId()).isTrue();
-        assertThat(bundle.hasMeta()).isTrue();
-    }
-
-    @ParameterizedTest
-    @MethodSource("testFiles")
-    public void testBundleContainsMappedResources(String inputXML, String expectedJson) throws JSONException {
-        final RCMRIN030000UK06Message xml = unmarshallCodeElement(inputXML);
-        final String expectedJsonOutput = getFileAsString(EXPECTED_JSON_BASE, expectedJson);
-        final Bundle bundle = bundleMapperService.mapToBundle(xml);
-
-        final String jsonBundle = parseBundleToJson(bundle);
-
-        JSONObject bundleJsonObject = new JSONObject(jsonBundle);
-        JSONObject expectedJsonObject = new JSONObject(expectedJsonOutput);
-
-        assertThat(bundleJsonObject.toString()).isEqualTo(expectedJsonObject.toString());
-    }
-
-    private static Stream<Arguments> testFiles() {
-        return Stream.of(
-            Arguments.of(STRUCTURED_RECORD_XML, EXPECTED_BUNDLE_FROM_STRUCTURED_RECORD)
+        verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
+        verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
+        verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), any(String.class));
+        verify(procedureRequestMapper).mapToProcedureRequest(
+            any(RCMRMT030101UK04EhrExtract.class),
+            any(RCMRMT030101UK04PlanStatement.class),
+            any(Patient.class)
         );
-    }
-
-    private String parseBundleToJson(Bundle bundle) {
-        return FhirContext.forDstu3().newJsonParser().setPrettyPrint(true).encodeResourceToString(bundle);
-    }
-
-    private String getFileAsString(String base, String fileName) {
-        return readResourceAsString(base + fileName);
+        verify(referralRequestMapper).mapToReferralRequest(
+            any(RCMRMT030101UK04EhrComposition.class),
+            any(RCMRMT030101UK04RequestStatement.class),
+            any(Patient.class)
+        );
+        verify(observationMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
+        verify(conditionMapper).mapConditions(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
+        verify(immunizationMapper).mapToImmunization(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
+        verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class));
     }
 
     @SneakyThrows
