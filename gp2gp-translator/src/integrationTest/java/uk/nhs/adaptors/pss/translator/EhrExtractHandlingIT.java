@@ -6,10 +6,14 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.hl7.fhir.dstu3.model.Bundle;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +32,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.IParser;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
@@ -38,12 +44,14 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 @DirtiesContext
 @AutoConfigureMockMvc
 public class EhrExtractHandlingIT {
+    private static final boolean RECREATE_JSON_PATH_IGNORE = true;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/ebxml_part.xml";
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
-    private static final List<String> IGNORED_JSON_PATHS = List.of(
+    private static final List<String> STATIC_IGNORED_JSON_PATHS = List.of(
         "id",
         "entry[0].resource.id",
+        "entry[0].resource.identifier[0].value",
         "entry[*].resource.subject.reference",
         "entry[*].resource.patient.reference"
     );
@@ -113,12 +121,18 @@ public class EhrExtractHandlingIT {
         var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
         var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
 
-        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle);
+        FhirContext context = FhirContext.forDstu3();
+        IParser parser = context.newJsonParser();
+        var bundle = parser.parseResource(Bundle.class, patientMigrationRequest.getBundleResource());
+        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle,
+            Stream.of(generateJsonPathIgnores(bundle), STATIC_IGNORED_JSON_PATHS)
+                .flatMap(List::stream)
+                .collect(Collectors.toList()));
     }
 
-    private void assertBundleContent(String actual, String expected) throws JSONException {
+    private void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
         //when comparing json objects, this will ignore various json paths that contain random values like ids or timestamps
-        var customizations = IGNORED_JSON_PATHS.stream()
+        var customizations = ignoredPaths.stream()
             .map(jsonPath -> new Customization(jsonPath, (o1, o2) -> true))
             .toArray(Customization[]::new);
 

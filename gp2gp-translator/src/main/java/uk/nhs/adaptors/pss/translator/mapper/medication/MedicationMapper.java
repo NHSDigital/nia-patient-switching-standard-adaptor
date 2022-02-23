@@ -27,7 +27,7 @@ import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 @AllArgsConstructor
 public class MedicationMapper {
     private static final String MEDICATION_URL
-        = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1";
+        = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication";
     private static final String HYPHEN = "-";
     private static final Map<String, String> MEDICATION_IDS = new HashMap<>();
 
