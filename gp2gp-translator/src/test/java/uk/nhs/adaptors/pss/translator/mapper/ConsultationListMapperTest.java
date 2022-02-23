@@ -39,7 +39,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class ConsultationListMapperTest {
-    private static final String XML_RESOURCES_BASE = "xml/List/";
+    private static final String XML_RESOURCES_BASE = "xml/ConsultationList/";
     private static final String ENCOUNTER_ID = "823ACEB0-90C2-11EC-B1E5-0800200C9A66";
     private static final String CONSULTATION_ID_SUFFIX = "-CONS";
     private static final String LIST_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1";

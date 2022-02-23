@@ -9,7 +9,7 @@
                 <code code="24561000000109" displayName="A+E report" codeSystem="2.16.840.1.113883.2.1.3.2.4.15">
                     <originalText>GP Surgery</originalText></code>
                 <statusCode code="COMPLETE" />
-                <effectiveTime nullFlavor="UNK"></effectiveTime>
+                <effectiveTime nullFlavor="NI"></effectiveTime>
                 <availabilityTime value="20120615152000" />
                 <author typeCode="AUT" contextControlCode="OP">
                     <time value="20100113151332" />
