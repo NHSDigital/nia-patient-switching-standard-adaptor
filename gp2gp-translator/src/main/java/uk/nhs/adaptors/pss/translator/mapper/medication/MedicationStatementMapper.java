@@ -5,7 +5,7 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
-import java.util.Date;
+import java.util.Comparator;
 import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -31,7 +31,7 @@ public class MedicationStatementMapper {
         = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1";
     private static final String MS_LAST_ISSUE_DATE = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1";
     private static final String PRESCRIBING_AGENCY_URL
-        = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1";
+        = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1";
 
     private static final String MS_SUFFIX = "-MS";
     private static final String PRESCRIBED_CODE = "prescribed-at-gp-practice";
@@ -89,9 +89,8 @@ public class MedicationStatementMapper {
             .map(RCMRMT030101UK04Prescribe::getAvailabilityTime)
             .filter(TS::hasValue)
             .map(TS::getValue)
-            .map(DateFormatUtil::parsePathwaysDate)
-            .max(Date::compareTo)
-            .map(DateTimeType::new);
+            .map(DateFormatUtil::parseToDateTimeType)
+            .max(Comparator.comparing(DateTimeType::getValue));
     }
 
     private Extension generatePrescribingAgencyExtension() {

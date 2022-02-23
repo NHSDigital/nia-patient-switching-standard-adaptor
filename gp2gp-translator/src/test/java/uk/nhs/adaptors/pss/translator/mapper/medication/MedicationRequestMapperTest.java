@@ -52,7 +52,7 @@ public class MedicationRequestMapperTest {
 
     @Test
     public void When_MappingMedicationStatement_Expect_CorrectMappersToBeCalled() {
-        var ehrExtract = unmarshallEhrExtract("ehrExtract.xml");
+        var ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any())).thenReturn(new MedicationRequest());
         when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any())).thenReturn(new MedicationRequest());

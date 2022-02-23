@@ -226,10 +226,12 @@ public class MedicationRequestPlanMapper {
     }
 
     private Optional<DateTimeType> extractDispenseRequestPeriodStart(RCMRMT030101UK04Authorise supplyAuthorise) {
-        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasCenter()) {
+        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasCenter()
+            && !supplyAuthorise.getEffectiveTime().getCenter().hasNullFlavor()) {
             return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getCenter().getValue()));
         }
-        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasLow()) {
+        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasLow()
+            && !supplyAuthorise.getEffectiveTime().getLow().hasNullFlavor()) {
             return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getLow().getValue()));
         }
         if (supplyAuthorise.hasAvailabilityTime()) {
