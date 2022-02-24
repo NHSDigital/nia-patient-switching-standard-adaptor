@@ -72,7 +72,7 @@ public class RCMRMT030101UK04NarrativeStatement {
     @XmlElement(required = true)
     protected II id;
     @XmlElement(required = true)
-    protected ED text;
+    protected String text;
     @XmlElement(required = true)
     protected CS statusCode;
     @XmlElement(required = true)
@@ -128,10 +128,10 @@ public class RCMRMT030101UK04NarrativeStatement {
      * 
      * @return
      *     possible object is
-     *     {@link ED }
+     *     {@link String }
      *     
      */
-    public ED getText() {
+    public String getText() {
         return text;
     }
 
@@ -140,10 +140,10 @@ public class RCMRMT030101UK04NarrativeStatement {
      * 
      * @param value
      *     allowed object is
-     *     {@link ED }
+     *     {@link String }
      *     
      */
-    public void setText(ED value) {
+    public void setText(String value) {
         this.text = value;
     }
 
