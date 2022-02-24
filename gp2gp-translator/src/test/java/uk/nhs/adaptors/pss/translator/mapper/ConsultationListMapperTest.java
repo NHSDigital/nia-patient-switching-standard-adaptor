@@ -1,7 +1,8 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -26,17 +27,14 @@ import org.hl7.v3.TS;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class ConsultationListMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/ConsultationList/";
@@ -59,25 +57,26 @@ public class ConsultationListMapperTest {
     private static final String FULL_VALID_CONSULTATION_LIST_XML = "full_valid_consultation_list.xml";
     private static final String NO_OPTIONAL_CONSULTATION_LIST_XML = "no_optional_consultation_list.xml";
 
-    @MockBean
+    @Mock
     private IdGeneratorService idGenerator;
-
-    @Autowired
-    private ConsultationListMapper listMapper;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
+
+    @InjectMocks
+    private ConsultationListMapper listMapper;
 
     private Encounter encounter;
 
     @BeforeEach
     public void setup() {
         encounter = new Encounter();
-        when(idGenerator.generateUuid()).thenReturn(FLAT_TOPIC_ID);
+        lenient().when(idGenerator.generateUuid()).thenReturn(FLAT_TOPIC_ID);
     }
 
     @Test
     public void testValidFullDataConsultationList() {
+        setUpCodeableConceptMock("test-display", "test-text");
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
 
@@ -88,6 +87,7 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidNoOptionalDataConsultationList() {
+        setUpCodeableConceptMock("test-display", null);
         var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_CONSULTATION_LIST_XML);
         setUpEncounter(null, null, "test-display", null);
 
@@ -98,6 +98,7 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidFullDataStructuredTopicList() {
+        setUpCodeableConceptMock("test-display", "test-text");
         setUpEncounter("20100113152000", "20130213152000", "test-display", "test-text");
         var consultation = setUpConsultation();
         var compoundStatement = setUpCompoundStatement("test-text", "test-display", "20150213152000");
@@ -109,6 +110,7 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidFallbackDataStructuredTopicList() {
+        setUpCodeableConceptMock("test-display", null);
         setUpEncounter(null, null, "test-display", null);
         var consultation = setUpConsultation();
         var compoundStatement = setUpCompoundStatement(null, "test-display", null);
@@ -120,6 +122,7 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidFullDataFlatTopicList() {
+        setUpCodeableConceptMock("test-display", "test-text");
         setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
         var consultation = setUpConsultation();
 
@@ -130,6 +133,7 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidFullDataCategoryList() {
+        setUpCodeableConceptMock("test-display", "test-text");
         setUpEncounter("20100113152000", "20130213152000", "test-display", "test-text");
         var topic = setUpTopic();
         var compoundStatement = setUpCompoundStatement("test-text", "test-display", "20150213152000");
@@ -141,6 +145,7 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidFallbackDataCategoryList() {
+        setUpCodeableConceptMock("test-display", null);
         setUpEncounter("20100113152000", null, "test-display", null);
         var topic = setUpTopic();
         var compoundStatement = setUpCompoundStatement(null, "test-display", null);
@@ -273,6 +278,15 @@ public class ConsultationListMapperTest {
         compoundStatement.setCode(cd);
 
         return compoundStatement;
+    }
+
+    private void setUpCodeableConceptMock(String display, String text) {
+        var codeableConcept = new CodeableConcept();
+        var coding = new Coding();
+        coding.setDisplay(display);
+        codeableConcept.addCoding(coding);
+        codeableConcept.setText(text);
+        lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
     }
 
     @SneakyThrows

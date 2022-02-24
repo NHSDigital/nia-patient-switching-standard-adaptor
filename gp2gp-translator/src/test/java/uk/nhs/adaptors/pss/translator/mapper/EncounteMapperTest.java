@@ -2,8 +2,8 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -21,6 +21,8 @@ import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
+import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,19 +30,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class EncounteMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/Encounter/";
+    private static final String ENCOUNTER_ID = "5EB5D070-8FE1-11EC-B1E5-0800200C9A66";
+    private static final String ENCOUNTER_ID_2 = "6EB5D070-8FE1-11EC-B1E5-0800200C9A66";
     private static final String ENCOUNTER_KEY = "encounters";
     private static final String CONSULTATION_KEY = "consultations";
     private static final String TOPIC_KEY = "topics";
@@ -57,7 +58,6 @@ public class EncounteMapperTest {
     private static final String RECORDER_CODE = "REC";
     private static final String RECORDER_DISPLAY = "recorder";
     private static final String PATIENT_ID = "0E6F45F0-8D7B-11EC-B1E5-0800200C9A66";
-    private static final String FLAT_TOPIC_ID = "AEE5F640-90A6-11EC-B1E5-0800200C9A66";
     private static final String CODING_DISPLAY = "Ischaemic heart disease";
     private static final String FULL_VALID_STRUCTURED_ENCOUNTER_XML = "full_valid_structured_encounter.xml";
     private static final String FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML = "full_valid_structured_encounter_with_linkset.xml";
@@ -78,14 +78,17 @@ public class EncounteMapperTest {
     private static final int ONE_MAPPED_RESOURCE = 1;
     private static final int TWO_MAPPED_RESOURCES = 2;
 
-    @MockBean
+    @Mock
     private IdGeneratorService idGenerator;
-
-    @Autowired
-    private EncounterMapper encounterMapper;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
+
+    @Mock
+    private ConsultationListMapper consultationListMapper;
+
+    @InjectMocks
+    private EncounterMapper encounterMapper;
 
     private Patient patient;
 
@@ -94,7 +97,15 @@ public class EncounteMapperTest {
         patient = new Patient();
         patient.setId(PATIENT_ID);
         setUpCodeableConceptMock();
-        when(idGenerator.generateUuid()).thenReturn(FLAT_TOPIC_ID);
+        lenient().when(idGenerator.generateUuid()).thenReturn(ENCOUNTER_ID);
+        lenient().when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+            .thenReturn(getList());
+        lenient().when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
+        lenient().when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
+            .thenReturn(getList());
+        lenient().when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
     }
 
     @Test
@@ -129,17 +140,17 @@ public class EncounteMapperTest {
             "3707E1F0-9011-11EC-B1E5-0800200C9A66", "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
-        assertThat(consultation.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
+        assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
 
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
-        assertThat(topic.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
-        assertThat(consultation.getEntryFirstRep().getItem().getResource().getIdElement().getValue())
-            .isEqualTo("3D8A2760-90B4-11EC-B1E5-0800200C9A66");
+        assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
+        assertThat(consultation.getEntryFirstRep().getItem().getReference())
+            .isEqualTo(ENCOUNTER_ID);
 
         var category = (ListResource) mappedResources.get(CATEGORY_KEY).get(0);
-        assertThat(category.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
-        assertThat(topic.getEntryFirstRep().getItem().getResource().getIdElement().getValue())
-            .isEqualTo("07F5EAC0-90B5-11EC-B1E5-0800200C9A66");
+        assertThat(category.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
+        assertThat(topic.getEntryFirstRep().getItem().getReference())
+            .isEqualTo(ENCOUNTER_ID);
     }
 
     @Test
@@ -159,22 +170,22 @@ public class EncounteMapperTest {
             "3707E1F0-9011-11EC-B1E5-0800200C9A66", "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
-        assertThat(consultation.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
+        assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
 
         var linkSetTopic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
-        assertThat(linkSetTopic.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
-        assertThat(consultation.getEntry().get(1).getItem().getResource().getIdElement().getValue())
-            .isEqualTo(FLAT_TOPIC_ID);
+        assertThat(linkSetTopic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
+        assertThat(consultation.getEntry().get(1).getItem().getReference())
+            .isEqualTo(ENCOUNTER_ID_2);
 
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(1);
-        assertThat(topic.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
-        assertThat(consultation.getEntry().get(0).getItem().getResource().getIdElement().getValue())
-            .isEqualTo("3D8A2760-90B4-11EC-B1E5-0800200C9A66");
+        assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
+        assertThat(consultation.getEntry().get(0).getItem().getReference())
+            .isEqualTo(ENCOUNTER_ID);
 
         var category = (ListResource) mappedResources.get(CATEGORY_KEY).get(0);
-        assertThat(category.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
-        assertThat(topic.getEntryFirstRep().getItem().getResource().getIdElement().getValue())
-            .isEqualTo("07F5EAC0-90B5-11EC-B1E5-0800200C9A66");
+        assertThat(category.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
+        assertThat(topic.getEntryFirstRep().getItem().getReference())
+            .isEqualTo(ENCOUNTER_ID);
     }
 
     @Test
@@ -194,11 +205,11 @@ public class EncounteMapperTest {
             "3707E1F0-9011-11EC-B1E5-0800200C9A66", "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
-        assertThat(consultation.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
+        assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
 
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
-        assertThat(topic.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
-        assertThat(consultation.getEntryFirstRep().getItem().getResource().getIdElement().getValue()).isEqualTo(FLAT_TOPIC_ID);
+        assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
+        assertThat(consultation.getEntryFirstRep().getItem().getReference()).isEqualTo(ENCOUNTER_ID);
     }
 
     @Test
@@ -218,11 +229,11 @@ public class EncounteMapperTest {
             null, null, null);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
-        assertThat(consultation.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
+        assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
 
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
-        assertThat(topic.getEncounter().getResource().getIdElement().getValue()).isEqualTo(encounter.getId());
-        assertThat(consultation.getEntryFirstRep().getItem().getResource().getIdElement().getValue()).isEqualTo(FLAT_TOPIC_ID);
+        assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
+        assertThat(consultation.getEntryFirstRep().getItem().getReference()).isEqualTo(ENCOUNTER_ID);
     }
 
     @ParameterizedTest
@@ -325,6 +336,14 @@ public class EncounteMapperTest {
         coding.setDisplay(CODING_DISPLAY);
         codeableConcept.addCoding(coding);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+    }
+
+    private ListResource getList() {
+        ListResource listResource = new ListResource();
+        listResource.setEncounter(new Reference(ENCOUNTER_ID));
+        listResource.getEntry().add(new ListResource.ListEntryComponent().setItem(new Reference(ENCOUNTER_ID)));
+        listResource.getEntry().add(new ListResource.ListEntryComponent().setItem(new Reference(ENCOUNTER_ID_2)));
+        return listResource;
     }
 
     @SneakyThrows
