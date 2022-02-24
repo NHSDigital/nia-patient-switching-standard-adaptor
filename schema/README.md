@@ -93,6 +93,7 @@ Please make sure you don't override the following classes with the generated one
 - RCMRMT030101UK04Prescribe.java
 - RCMRMT030101UK04SupplyAnnotation.java
 - TS.java
+- RCMRMT030101UK04NarrativeStatement.java
 - RCMRMT030101UK04InterpretationRange.java
 - RCCTMT120101UK01Device.java
 - RCMRMT030101UK04InterpretationRange.java
