@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
+import java.util.UUID;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -40,6 +42,7 @@ public class PatientTransferControllerIT {
     private static final String UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH =
         "/responses/migrate-patient-record/unprocessableEntityResponseBody.json";
     private static final HttpHeaders REQUIRED_HEADERS = generateHeaders();
+    private static final String CONVERSATION_ID_HEADER = "ConversationId";
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -55,35 +58,37 @@ public class PatientTransferControllerIT {
 
     @Test
     public void sendNewPatientTransferRequest() throws Exception {
-        var patientNhsNumber = generatePatientNhsNumber();
-        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH, patientNhsNumber);
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
+        var conversationId = generateConversationId();
 
-        var migrationRequestBefore = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
+        var migrationRequestBefore = patientMigrationRequestDao.getMigrationRequest(conversationId);
         assertThat(migrationRequestBefore).isNull();
 
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
                 .headers(REQUIRED_HEADERS)
+                .header(CONVERSATION_ID_HEADER, conversationId)
                 .content(requestBody))
             .andExpect(status().isAccepted());
 
-        var migrationRequestAfterFirstRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
+        var migrationRequestAfterFirstRequest = patientMigrationRequestDao.getMigrationRequest(conversationId.toString());
         verifyPatientMigrationRequest(migrationRequestAfterFirstRequest, MigrationStatus.REQUEST_RECEIVED);
     }
 
     @Test
     public void sendPatientTransferRequestWhenTransferIsAlreadyInProgress() throws Exception {
-        var patientNhsNumber = generatePatientNhsNumber();
-        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH, patientNhsNumber);
+        var conversationId = generateConversationId();
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
 
-        var migrationRequestBefore = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
+        var migrationRequestBefore = patientMigrationRequestDao.getMigrationRequest(conversationId);
         assertThat(migrationRequestBefore).isNull();
 
         mockMvc.perform(
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
                 .headers(REQUIRED_HEADERS)
+                .header(CONVERSATION_ID_HEADER, conversationId)
                 .content(requestBody))
             .andExpect(status().isAccepted());
 
@@ -91,16 +96,17 @@ public class PatientTransferControllerIT {
             post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
                 .headers(REQUIRED_HEADERS)
+                .header(CONVERSATION_ID_HEADER, conversationId)
                 .content(requestBody))
             .andExpect(status().isNoContent());
 
-        var migrationRequestAfterSecondRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
+        var migrationRequestAfterSecondRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         verifyPatientMigrationRequest(migrationRequestAfterSecondRequest, MigrationStatus.REQUEST_RECEIVED);
     }
 
     @Test
     public void sendPatientTransferRequestWithIncorrectContentTypeHeader() throws Exception {
-        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH, generatePatientNhsNumber());
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
         var expectedResponseBody = readResourceAsString("/responses/common/unsupportedMediaTypeResponseBody.json");
 
         mockMvc.perform(
@@ -114,7 +120,7 @@ public class PatientTransferControllerIT {
 
     @Test
     public void sendPatientTransferRequestToNonexistentEndpoint() throws Exception {
-        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH, generatePatientNhsNumber());
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
         var nonexistentEndpoint = "/Patient/$gpc.migrateCatRecord";
         var expectedResponseBody = readResourceAsString("/responses/common/notFoundResponseBody.json")
             .replace("{{endpointUrl}}", nonexistentEndpoint);
@@ -130,7 +136,7 @@ public class PatientTransferControllerIT {
 
     @Test
     public void sendPatientTransferRequestUsingIncorrectMethod() throws Exception {
-        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH, generatePatientNhsNumber());
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
         var expectedResponseBody = readResourceAsString("/responses/common/methodNotAllowedResponseBody.json")
             .replace("{{requestMethod}}", "PATCH");
 
@@ -159,7 +165,7 @@ public class PatientTransferControllerIT {
 
     @Test
     public void sendPatientTransferRequestWithInvalidBody() throws Exception {
-        var requestBody = getRequestBody("/requests/migrate-patient-record/invalidRequestBody.json", generatePatientNhsNumber());
+        var requestBody = getRequestBody("/requests/migrate-patient-record/invalidRequestBody.json");
         var expectedResponseBody = readResourceAsString(UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH);
 
         mockMvc.perform(
@@ -186,8 +192,7 @@ public class PatientTransferControllerIT {
 
     @Test
     public void sendPatientTransferRequestWithoutRequiredHeaders() throws Exception {
-        var patientNhsNumber = generatePatientNhsNumber();
-        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH, patientNhsNumber);
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
         var expectedResponseBody = readResourceAsString("/responses/migrate-patient-record/badRequestResponseBody.json");
 
         mockMvc.perform(
@@ -198,7 +203,8 @@ public class PatientTransferControllerIT {
             .andExpect(content().json(expectedResponseBody));
     }
 
-    private String getRequestBody(String path, String patientNhsNumber) {
+    private String getRequestBody(String path) {
+        var patientNhsNumber = generatePatientNhsNumber();
         return readResourceAsString(path).replace("{{nhsNumber}}", patientNhsNumber);
     }
 
@@ -210,6 +216,10 @@ public class PatientTransferControllerIT {
 
     private String generatePatientNhsNumber() {
         return RandomStringUtils.randomNumeric(NHS_NUMBER_MIN_MAX_LENGTH, NHS_NUMBER_MIN_MAX_LENGTH);
+    }
+
+    private String generateConversationId() {
+        return UUID.randomUUID().toString();
     }
 
     private static HttpHeaders generateHeaders() {

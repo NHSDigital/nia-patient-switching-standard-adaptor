@@ -9,6 +9,7 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSL
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,7 +38,6 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})
@@ -68,9 +68,6 @@ public class EhrExtractHandlingIT {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private IdGeneratorService idGeneratorService;
 
     @Autowired
     private FhirParser fhirParserService;
@@ -107,7 +104,7 @@ public class EhrExtractHandlingIT {
     }
 
     private String generateConversationId() {
-        return idGeneratorService.generateUuid();
+        return UUID.randomUUID().toString();
     }
 
     private void sendInboundMessageToQueue(String payloadPartPath) {
