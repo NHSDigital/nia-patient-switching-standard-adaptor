@@ -59,6 +59,7 @@ Please make sure you don't override the following classes with the generated one
 - EN.java 
 - RCMRMT030101UK04Place.java
 - IVLTS.java
+- TS.java
 - CD.java
 - ObjectFactory.java
 - package-info.java
@@ -72,6 +73,7 @@ Please make sure you don't override the following classes with the generated one
 - RCMRMT030101UK04PlanStatement.java
 - RCCTMT120101UK01Organization.java
 - RCMRMT030101UK04RequestStatement.java
+- RCMRMT030101UK04NarrativeStatement.java
 - RCMRMT030101UK04InterpretationRange.java
 - RCCTMT120101UK01Device.java
 - RCMRMT030101UK04InterpretationRange.java

@@ -274,7 +274,34 @@
                                             </agentRef>
                                         </Participant>
                                     </ObservationStatement>
-                                </component><component typeCode="COMP" >
+                                </component>
+                                <component typeCode="COMP" >
+                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                        <id root="263B2A9F-0B1D-4697-943A-328F70E068DE" />
+                                        <code code="137851000000113" codeSystem="2.16.840.1.113883.2.1.3.2.3.15" displayName="Medication review with patient">
+                                        </code>
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center value="20100115"/>
+                                        </effectiveTime>
+                                        <availabilityTime value="20100115"/>
+
+
+                                        <pertinentInformation typeCode="PERT">
+                                            <sequenceNumber value="+1" />
+                                            <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                <text></text>
+                                            </pertinentAnnotation>
+                                        </pertinentInformation>
+
+                                        <Participant typeCode="PRF" contextControlCode="OP">
+                                            <agentRef classCode="AGNT">
+                                                <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
+                                            </agentRef>
+                                        </Participant>
+                                    </ObservationStatement>
+                                </component>
+                                <component typeCode="COMP" >
                                 <NarrativeStatement classCode="OBS" moodCode="EVN">
                                     <id root="CA4AD477-C33B-4FE7-8417-A242BB3D23AF" />
                                     <text>Inactive Diary Entry
@@ -758,19 +785,7 @@
                                             </agentRef>
                                         </Participant>
                                     </MedicationStatement>
-                                </component><component typeCode="COMP" >
-                                <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                    <id root="55B1BB28-8973-4CF4-B9A6-9FF49547F465" />
-                                    <text>Fluoxetine 20mg capsules One To Be Taken Each Day</text>
-                                    <statusCode code="COMPLETE" />
-                                    <availabilityTime value="20100810131700" />
-                                    <Participant typeCode="PRF" contextControlCode="OP">
-                                        <agentRef classCode="AGNT">
-                                            <id root="72DB5398-C825-4498-88CA-899A3653EC04"/>
-                                        </agentRef>
-                                    </Participant>
-                                </NarrativeStatement>
-                            </component>
+                                </component>
                             </ehrComposition>
                         </component>
                         <component typeCode="COMP">
