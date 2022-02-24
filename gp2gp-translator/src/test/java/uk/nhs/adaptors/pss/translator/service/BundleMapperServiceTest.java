@@ -39,6 +39,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ObservationCommentMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
@@ -68,6 +69,8 @@ public class BundleMapperServiceTest {
     private ConditionMapper conditionMapper;
     @Mock
     private ImmunizationMapper immunizationMapper;
+    @Mock
+    private ObservationCommentMapper observationCommentMapper;
 
     @InjectMocks
     private BundleMapperService bundleMapperService;
@@ -106,6 +109,7 @@ public class BundleMapperServiceTest {
         verify(observationMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(conditionMapper).mapConditions(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(immunizationMapper).mapToImmunization(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
+        verify(observationCommentMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
     }
 
     @SneakyThrows

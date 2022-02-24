@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.util;
 
+import java.util.List;
+
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component3;
@@ -7,8 +9,6 @@ import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-
-import java.util.List;
 
 public class EhrResourceExtractorUtil {
 
@@ -57,6 +57,21 @@ public class EhrResourceExtractorUtil {
             .get();
     }
 
+    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForNarrativeStatement(RCMRMT030101UK04EhrExtract ehrExtract,
+        II resourceId) {
+        return ehrExtract.getComponent()
+            .stream()
+            .filter(EhrResourceExtractorUtil::hasEhrFolder)
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .filter(EhrResourceExtractorUtil::hasEhrComposition)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .filter(ehrComposition -> filterForMatchingEhrCompositionNarrativeStatement(ehrComposition, resourceId))
+            .findFirst()
+            .get();
+    }
+
     private static boolean filterForMatchingEhrCompositionPlanStatement(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
         return ehrComposition.getComponent()
             .stream()
@@ -76,6 +91,16 @@ public class EhrResourceExtractorUtil {
 
     private static boolean validObservationStatement(RCMRMT030101UK04Component4 component, II resourceId) {
         return component.getObservationStatement() != null && component.getObservationStatement().getId() == resourceId;
+    }
+
+    private static boolean filterForMatchingEhrCompositionNarrativeStatement(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
+        return ehrComposition.getComponent()
+            .stream()
+            .anyMatch(component -> validNarrativeStatement(component, resourceId));
+    }
+
+    private static boolean validNarrativeStatement(RCMRMT030101UK04Component4 component, II resourceId) {
+        return component.getNarrativeStatement() != null && component.getNarrativeStatement().getId() == resourceId;
     }
 
     private static boolean filterForValidImmunizationObservationStatements(RCMRMT030101UK04EhrComposition ehrComposition) {
