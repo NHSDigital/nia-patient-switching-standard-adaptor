@@ -32,9 +32,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.parser.IParser;
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -67,6 +66,9 @@ public class EhrExtractHandlingIT {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private FhirParser fhirParserService;
 
     private String patientNhsNumber;
 
@@ -120,13 +122,12 @@ public class EhrExtractHandlingIT {
         var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
         var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
 
-        FhirContext context = FhirContext.forDstu3();
-        IParser parser = context.newJsonParser();
-        var bundle = parser.parseResource(Bundle.class, patientMigrationRequest.getBundleResource());
-        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle,
-            Stream.of(generateJsonPathIgnores(bundle), STATIC_IGNORED_JSON_PATHS)
-                .flatMap(List::stream)
-                .collect(Collectors.toList()));
+        var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
+        var combinedList = Stream.of(generateJsonPathIgnores(bundle), STATIC_IGNORED_JSON_PATHS)
+            .flatMap(List::stream)
+            .collect(Collectors.toList());
+
+        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle, combinedList);
     }
 
     private void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
