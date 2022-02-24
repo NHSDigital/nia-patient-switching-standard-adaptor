@@ -2,7 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -71,12 +71,10 @@ public class ConsultationListMapperTest {
     @BeforeEach
     public void setup() {
         encounter = new Encounter();
-        lenient().when(idGenerator.generateUuid()).thenReturn(FLAT_TOPIC_ID);
     }
 
     @Test
     public void testValidFullDataConsultationList() {
-        setUpCodeableConceptMock("test-display", "test-text");
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
 
@@ -87,7 +85,6 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidNoOptionalDataConsultationList() {
-        setUpCodeableConceptMock("test-display", null);
         var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_CONSULTATION_LIST_XML);
         setUpEncounter(null, null, "test-display", null);
 
@@ -122,7 +119,7 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidFullDataFlatTopicList() {
-        setUpCodeableConceptMock("test-display", "test-text");
+        when(idGenerator.generateUuid()).thenReturn(FLAT_TOPIC_ID);
         setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
         var consultation = setUpConsultation();
 
@@ -286,7 +283,7 @@ public class ConsultationListMapperTest {
         coding.setDisplay(display);
         codeableConcept.addCoding(coding);
         codeableConcept.setText(text);
-        lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
     }
 
     @SneakyThrows

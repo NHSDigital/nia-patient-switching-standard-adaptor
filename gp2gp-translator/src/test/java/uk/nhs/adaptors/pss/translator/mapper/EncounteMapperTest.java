@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -97,19 +98,16 @@ public class EncounteMapperTest {
         patient = new Patient();
         patient.setId(PATIENT_ID);
         setUpCodeableConceptMock();
-        lenient().when(idGenerator.generateUuid()).thenReturn(ENCOUNTER_ID);
-        lenient().when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
-        lenient().when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
-        lenient().when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
-            .thenReturn(getList());
-        lenient().when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
     }
 
     @Test
     public void testEncountersWithMultipleCompoundStatements() {
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
@@ -125,6 +123,12 @@ public class EncounteMapperTest {
 
     @Test
     public void testValidEncounterWithFullDataWithStructuredConsultation() {
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
@@ -155,6 +159,14 @@ public class EncounteMapperTest {
 
     @Test
     public void testValidEncounterWithLinkSetWithStructuredConsultation() {
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
@@ -190,6 +202,10 @@ public class EncounteMapperTest {
 
     @Test
     public void testValidEncounterWithFullDataWithFlatConsultation() {
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
+            .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
@@ -214,6 +230,10 @@ public class EncounteMapperTest {
 
     @Test
     public void testValidEncounterWithNoOptionalDataWithFlatConsultation() {
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
+            .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_FLAT_ENCOUNTER_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
@@ -239,6 +259,10 @@ public class EncounteMapperTest {
     @ParameterizedTest
     @MethodSource("encounterPeriodTestFiles")
     public void testEncounterPeriod(String inputXML, String startDate, String endDate) {
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
+            .thenReturn(getList());
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
