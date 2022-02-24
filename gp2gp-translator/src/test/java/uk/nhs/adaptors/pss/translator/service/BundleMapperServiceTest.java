@@ -125,7 +125,6 @@ public class BundleMapperServiceTest {
         verify(observationMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(conditionMapper).mapConditions(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(immunizationMapper).mapToImmunization(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
-
         verify(observationCommentMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
     }
 
