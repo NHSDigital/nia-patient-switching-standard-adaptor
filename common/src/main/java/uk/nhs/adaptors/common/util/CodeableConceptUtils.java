@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.gpc.util.fhir;
+package uk.nhs.adaptors.common.util;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 

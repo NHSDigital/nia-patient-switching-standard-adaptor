@@ -57,6 +57,14 @@ public class EhrResourceExtractorUtil {
             .get();
     }
 
+    public static boolean hasEhrComposition(RCMRMT030101UK04Component3 component) {
+        return component.getEhrComposition() != null;
+    }
+
+    public static boolean hasEhrFolder(RCMRMT030101UK04Component component) {
+        return component.getEhrFolder() != null;
+    }
+
     public static RCMRMT030101UK04EhrComposition extractEhrCompositionForNarrativeStatement(RCMRMT030101UK04EhrExtract ehrExtract,
         II resourceId) {
         return ehrExtract.getComponent()
@@ -112,13 +120,5 @@ public class EhrResourceExtractorUtil {
     private static boolean validImmunizationSnomedCode(RCMRMT030101UK04Component4 component) {
         return component.getObservationStatement() != null
             && IMMUNIZATION_SNOMED_CODE.equals(component.getObservationStatement().getCode().getCodeSystem());
-    }
-
-    private static boolean hasEhrComposition(RCMRMT030101UK04Component3 component) {
-        return component.getEhrComposition() != null;
-    }
-
-    private static boolean hasEhrFolder(RCMRMT030101UK04Component component) {
-        return component.getEhrFolder() != null;
     }
 }

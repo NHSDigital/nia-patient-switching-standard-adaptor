@@ -8,6 +8,8 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.OperationOutcome;
 import org.junit.jupiter.api.Test;
 
+import uk.nhs.adaptors.common.util.CodeableConceptUtils;
+
 public class OperationOutcomeUtilsTest {
     private static final String URI_TYPE = "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-OperationOutcome-1";
 

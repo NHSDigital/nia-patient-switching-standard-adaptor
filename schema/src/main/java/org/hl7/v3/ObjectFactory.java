@@ -3522,7 +3522,7 @@ public class ObjectFactory {
     }
 
     @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "addr")
-    public JAXBElement<AD> createPatient(AD address) {
+    public JAXBElement<AD> createAddress(AD address) {
         return new JAXBElement<AD>(_ADDRESS_QNAME, AD.class, null, address);
     }
 

@@ -142,7 +142,7 @@ public class EhrExtractHandlingIT {
     }
 
     private void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
-        //when comparing json objects, this will ignore various json paths that contain random values like ids or timestamps
+        // when comparing json objects, this will ignore various json paths that contain random values like ids or timestamps
         var customizations = ignoredPaths.stream()
             .map(jsonPath -> new Customization(jsonPath, (o1, o2) -> true))
             .toArray(Customization[]::new);
