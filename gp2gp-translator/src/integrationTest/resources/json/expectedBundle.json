@@ -1237,6 +1237,113 @@
     }, {
         "resource": {
             "resourceType": "Observation",
+            "id": "FE739904-2AAB-4B3F-9718-84BE019FD483",
+            "meta": {
+                "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+            },
+            "identifier": [ {
+                "system": "https://PSSAdaptor/",
+                "value": "FE739904-2AAB-4B3F-9718-84BE019FD483"
+            } ],
+            "status": "final",
+            "code": {
+                "coding": [ {
+                    "system": "http://snomed.info/sct",
+                    "code": "163020007",
+                    "display": "O/E - blood pressure reading"
+                } ],
+                "text": "O/E - blood pressure reading"
+            },
+            "subject": {
+                "reference": "Patient/f6894d11-254e-48c3-90ae-78e1eec36945"
+            },
+            "effectiveDateTime": "2006-04-25T15:30:00+00:00",
+            "issued": "2020-01-01T01:01:01.000+00:00",
+            "performer": [ {
+                "reference": "Practitioner/5DE8CDDA-866F-4CD9-9BB3-527A86DD49A9"
+            } ],
+            "comment": "Systolic Note: Test systolic pressure text Diastolic Note: Test diastolic pressure text BP Note: Systolic Measurement Absent: Unknown",
+            "component": [ {
+                "code": {
+                    "coding": [ {
+                        "system": "http://snomed.info/sct",
+                        "code": "72313002",
+                        "display": "Systolic arterial pressure"
+                    } ],
+                    "text": "Systolic arterial pressure"
+                },
+                "valueQuantity": {
+                    "value": 80,
+                    "unit": "mm[Hg]"
+                },
+                "interpretation": {
+                    "coding": [ {
+                        "system": "http://hl7.org/fhir/v2/0078",
+                        "code": "H",
+                        "display": "High"
+                    } ],
+                    "text": "High Text"
+                },
+                "referenceRange": [ {
+                    "low": {
+                        "value": 10,
+                        "comparator": "<=",
+                        "unit": "L",
+                        "system": "http://unitsofmeasure.org",
+                        "code": "L"
+                    },
+                    "high": {
+                        "value": 12,
+                        "comparator": "<=",
+                        "unit": "L",
+                        "system": "http://unitsofmeasure.org",
+                        "code": "L"
+                    },
+                    "text": "Test Range 1"
+                } ]
+            }, {
+                "code": {
+                    "coding": [ {
+                        "system": "http://snomed.info/sct",
+                        "code": "1091811000000102",
+                        "display": "Diastolic arterial pressure"
+                    } ],
+                    "text": "Diastolic arterial pressure"
+                },
+                "valueQuantity": {
+                    "value": 90,
+                    "unit": "mm[Hg]"
+                },
+                "interpretation": {
+                    "coding": [ {
+                        "system": "http://hl7.org/fhir/v2/0078",
+                        "code": "L",
+                        "display": "Low"
+                    } ],
+                    "text": "Low Text"
+                },
+                "referenceRange": [ {
+                    "low": {
+                        "value": 20,
+                        "comparator": "<=",
+                        "unit": "L",
+                        "system": "http://unitsofmeasure.org",
+                        "code": "L"
+                    },
+                    "high": {
+                        "value": 22,
+                        "comparator": "<=",
+                        "unit": "L",
+                        "system": "http://unitsofmeasure.org",
+                        "code": "L"
+                    },
+                    "text": "Test Range 2"
+                } ]
+            } ]
+        }
+    }, {
+        "resource": {
+            "resourceType": "Observation",
             "id": "263B2A9F-0B1D-4697-943A-328F70E068DE",
             "meta": {
                 "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
