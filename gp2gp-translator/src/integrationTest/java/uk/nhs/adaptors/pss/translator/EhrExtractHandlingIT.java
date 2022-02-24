@@ -153,7 +153,7 @@ public class EhrExtractHandlingIT {
         try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/json/expectedBundle.json", StandardCharsets.UTF_8)) {
             printWriter.print(newExpected);
         }
-        fail("Re-run the tests with OVERWRITE_XML=false");
+        fail("Re-run the tests with OVERWRITE_EXPECTED_JSON=false");
     }
 
     @SneakyThrows
