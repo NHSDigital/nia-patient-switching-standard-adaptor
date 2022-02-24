@@ -78,7 +78,6 @@ Please make sure you don't override the following classes with the generated one
 - RCCTMT120101UK01Device.java
 - RCMRMT030101UK04InterpretationRange.java
 - RCMRMT030101UK04SpecimenMaterial.java
-- RCMRMT030101UK04NarrativeStatement.java
 
 Removed files:
 - ST.java
