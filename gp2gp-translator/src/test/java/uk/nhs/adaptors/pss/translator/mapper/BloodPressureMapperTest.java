@@ -33,7 +33,7 @@ public class BloodPressureMapperTest {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String CODING_DISPLAY_MOCK = "Test Display";
-    private static final String EFFECTIVE_EXAMPLE = "2006-04-25T16:30:00.000";
+    private static final String EFFECTIVE_EXAMPLE = "2006-04-25T16:30:00.000+00:00";
     private static final String ISSUED_EXAMPLE = "2020-01-01T01:01:01.000+00:00";
     private static final String PPRF_PARTICIPANT_ID = "Practitioner/5DE8CDDA-866F-4CD9-9BB3-527A86DD49A9";
     private static final String COMMENT_EXAMPLE_1 = "Systolic Note: Test systolic pressure text "
