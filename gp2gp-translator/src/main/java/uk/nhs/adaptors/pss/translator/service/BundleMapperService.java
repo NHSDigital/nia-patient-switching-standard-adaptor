@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.service;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
@@ -10,6 +11,7 @@ import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Immunization;
+import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
@@ -30,11 +32,13 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
+import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationCommentMapper;
 
 import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
+
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
@@ -44,11 +48,16 @@ import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BundleMapperService {
+    private static final String ENCOUNTER_KEY = "encounters";
+    private static final String CONSULTATION_KEY = "consultations";
+    private static final String TOPIC_KEY = "topics";
+    private static final String CATEGORY_KEY = "categories";
 
     private final BundleGenerator generator;
 
     private final PatientMapper patientMapper;
     private final AgentDirectoryMapper agentDirectoryMapper;
+    private final EncounterMapper encounterMapper;
     private final LocationMapper locationMapper;
     private final ProcedureRequestMapper procedureRequestMapper;
     private final ReferralRequestMapper referralRequestMapper;
@@ -68,6 +77,14 @@ public class BundleMapperService {
         addEntry(bundle, patient);
         addEntries(bundle, agents);
 
+        var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient);
+        var encounters = (List<Encounter>) mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
+        var consultations = (List<ListResource>) mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
+        var topics = (List<ListResource>) mappedEncounterEhrCompositions.get(TOPIC_KEY);
+        var categories = (List<ListResource>) mappedEncounterEhrCompositions.get(CATEGORY_KEY);
+        addEntries(bundle, encounters);
+        addEntries(bundle, consultations);
+
         var locations = mapLocations(ehrFolder);
         addEntries(bundle, locations);
 
@@ -83,9 +100,7 @@ public class BundleMapperService {
         var observations = mapObservations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters
         addEntries(bundle, observations);
 
-        // TODO: Insert encounter list (NIAD-1961)
-
-        var immunizations = mapImmunizations(ehrExtract, patient, List.of());
+        var immunizations = mapImmunizations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters (NIAD-1961)
         addEntries(bundle, immunizations);
 
         var conditions = mapConditions(ehrExtract, patient, List.of()); //TODO: Provide list of encounters (NIAD-1961)
@@ -95,11 +110,19 @@ public class BundleMapperService {
             mapObservationComments(ehrExtract, patient, Collections.emptyList()); //TODO: Provide list of encounters (NIAD-1961)
         addEntries(bundle, observationComments);
 
+        // TODO: Add references to mapped resources in their appropriate lists (NIAD-2051)
+        addEntries(bundle, topics);
+        addEntries(bundle, categories);
+
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 
         conditionMapper.addReferences(bundle, conditions, ehrExtract);
 
         return bundle;
+    }
+
+    private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
+        return encounterMapper.mapEncounters(ehrExtract, patient);
     }
 
     private List<Immunization> mapImmunizations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounterList) {
