@@ -307,6 +307,7 @@ public class AgentDirectoryMapperTest {
         assertThat(address.getLine().get(2).getValue()).isEqualTo("YORKSHIRE");
         assertThat(address.getPostalCode()).isEqualTo("LS12 3RT");
     }
+
     private void assertTelecom(ContactPoint telecom, String value) {
         assertThat(telecom.getSystem()).isEqualTo(ContactPointSystem.PHONE);
         assertThat(telecom.getUse()).isEqualTo(ContactPointUse.WORK);

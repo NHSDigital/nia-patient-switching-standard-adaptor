@@ -302,19 +302,19 @@
                                     </ObservationStatement>
                                 </component>
                                 <component typeCode="COMP" >
-                                <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                    <id root="CA4AD477-C33B-4FE7-8417-A242BB3D23AF" />
-                                    <text>Inactive Diary Entry
-                                        Medication review</text>
-                                    <statusCode code="COMPLETE" />
-                                    <availabilityTime value="20110114" />
-                                    <Participant typeCode="PRF" contextControlCode="OP">
-                                        <agentRef classCode="AGNT">
-                                            <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
-                                        </agentRef>
-                                    </Participant>
-                                </NarrativeStatement>
-                            </component>
+                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                        <id root="CA4AD477-C33B-4FE7-8417-A242BB3D23AF" />
+                                        <text>Inactive Diary Entry
+                                            Medication review</text>
+                                        <statusCode code="COMPLETE" />
+                                        <availabilityTime value="20110114" />
+                                        <Participant typeCode="PRF" contextControlCode="OP">
+                                            <agentRef classCode="AGNT">
+                                                <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
+                                            </agentRef>
+                                        </Participant>
+                                    </NarrativeStatement>
+                                </component>
                             </ehrComposition>
                         </component>
                         <component typeCode="COMP">

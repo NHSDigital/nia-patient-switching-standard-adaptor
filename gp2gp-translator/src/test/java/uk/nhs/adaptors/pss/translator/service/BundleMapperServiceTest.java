@@ -11,7 +11,9 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.DomainResource;
@@ -32,11 +34,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
+import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationCommentMapper;
@@ -50,6 +52,10 @@ public class BundleMapperServiceTest {
 
     private static final String XML_RESOURCES_BASE = "xml/RCMRIN030000UK06/";
     private static final String STRUCTURED_RECORD_XML = "structuredRecord.xml";
+    private static final String ENCOUNTER_KEY = "encounters";
+    private static final String CONSULTATION_KEY = "consultations";
+    private static final String TOPIC_KEY = "topics";
+    private static final String CATEGORY_KEY = "categories";
 
     @Mock
     private BundleGenerator bundleGenerator;
@@ -59,6 +65,8 @@ public class BundleMapperServiceTest {
     private AgentDirectoryMapper agentDirectoryMapper;
     @Mock
     private LocationMapper locationMapper;
+    @Mock
+    private EncounterMapper encounterMapper;
     @Mock
     private ProcedureRequestMapper procedureRequestMapper;
     @Mock
@@ -83,9 +91,16 @@ public class BundleMapperServiceTest {
         agentResourceList.add(new Organization());
         List mockedList = mock(List.class);
 
+        Map<String, List<? extends DomainResource>> encounterResources = new HashMap<>();
+        encounterResources.put(ENCOUNTER_KEY, new ArrayList<>());
+        encounterResources.put(CONSULTATION_KEY, new ArrayList<>());
+        encounterResources.put(TOPIC_KEY, new ArrayList<>());
+        encounterResources.put(CATEGORY_KEY, new ArrayList<>());
+
         when(agentDirectoryMapper.mapAgentDirectory(any())).thenReturn(mockedList);
         when(mockedList.stream()).thenReturn(agentResourceList.stream());
         when(patientMapper.mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class))).thenReturn(new Patient());
+        when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class))).thenReturn(encounterResources);
     }
 
     @Test
@@ -96,6 +111,7 @@ public class BundleMapperServiceTest {
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
         verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), any(String.class));
+        verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class));
         verify(procedureRequestMapper).mapToProcedureRequest(
             any(RCMRMT030101UK04EhrExtract.class),
             any(RCMRMT030101UK04PlanStatement.class),

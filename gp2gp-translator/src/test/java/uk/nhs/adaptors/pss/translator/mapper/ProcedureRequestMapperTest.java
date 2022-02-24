@@ -177,4 +177,3 @@ public class ProcedureRequestMapperTest {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
     }
 }
-
