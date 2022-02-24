@@ -20,7 +20,6 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
@@ -31,9 +30,7 @@ import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.II;
-import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -41,11 +38,9 @@ import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.RCMRMT030101UK04Subject;
-import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
 @AllArgsConstructor
@@ -77,7 +72,8 @@ public class ObservationMapper {
                     .setStatus(FINAL)
                     .addIdentifier(getIdentifier(id))
                     .setCode(getCode(observationStatement.getCode()))
-                    .setIssuedElement(getIssued(ehrExtract, observationStatement.getId()))
+                    .setIssuedElement(getIssued(ehrExtract,
+                        extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId())))
                     .addPerformer(getParticipantReference(
                         observationStatement.getParticipant(),
                         extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId())))

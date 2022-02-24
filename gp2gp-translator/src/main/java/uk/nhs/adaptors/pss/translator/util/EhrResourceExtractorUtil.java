@@ -86,7 +86,8 @@ public class EhrResourceExtractorUtil {
     }
 
     private static boolean validCompoundStatement(RCMRMT030101UK04Component4 component, II resourceId) {
-        return component.getCompoundStatement() != null && component.getCompoundStatement().getId() == resourceId;
+        return component.getCompoundStatement() != null && !component.getCompoundStatement().getId().isEmpty()
+            && component.getCompoundStatement().getId().get(0) == resourceId;
     }
 
     private static boolean hasEhrComposition(RCMRMT030101UK04Component3 component) {

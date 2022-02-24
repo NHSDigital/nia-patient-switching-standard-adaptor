@@ -14,6 +14,7 @@ import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getPa
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -60,33 +61,20 @@ public class BloodPressureMapper {
         /**
          * TODO: Known future implementations to this mapper
          * - performer: fallback to a default 'Unknown User' Practitioner if none are present in performer (NIAD-2026)
-         * - concatenate source practice org id to identifier URL (NIAD-2021)
+         * - identifier: concatenate source practice org id to identifier URL (NIAD-2021)
          *
          * - add functionality for mapping non conformant blood pressures
          *
          */
 
-        // TODO: id - done
-        // TODO: meta - done
-        // TODO: identifier - done
-        // TODO: status - done
-        // TODO: code - done
-        // TODO: subject - done
-        // TODO: context - done
-        // TODO: effective - done
-        // TODO: issued - done
-        // TODO: performer - done
-        // TODO: comment - done
-        // TODO: referenceRange - N/A
-        // TODO: component - done
-
         // TODO: Add functionality for mapping non conformant blood pressures
-        var compositionsList = getCompositionsContainingCompoundStatementBattery(ehrExtract);
+        var compositionsList = getCompositionsContainingCompoundStatement(ehrExtract);
 
         return compositionsList.stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
             .filter(Objects::nonNull)
+            .filter(compoundStatement -> BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0)))
             .filter(compoundStatement -> {
                 var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
 
@@ -109,7 +97,8 @@ public class BloodPressureMapper {
                     .setComment(getComment(observationStatements,
                         getNarrativeStatementsFromCompoundStatement(compoundStatement)))
                     .setSubject(new Reference(patient))
-                    .setIssuedElement(getIssued(ehrExtract, compoundStatement.getId().get(0)))
+                    .setIssuedElement(getIssued(ehrExtract, extractEhrCompositionForCompoundStatement(ehrExtract,
+                        compoundStatement.getId().get(0))))
                     .addPerformer(getParticipantReference(
                         compoundStatement.getParticipant(),
                         extractEhrCompositionForCompoundStatement(ehrExtract, compoundStatement.getId().get(0))));
@@ -125,15 +114,14 @@ public class BloodPressureMapper {
             }).toList();
     }
 
-    private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingCompoundStatementBattery(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent().stream()
             .flatMap(component -> component.getEhrFolder().getComponent().stream())
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> ehrComposition.getComponent()
                 .stream()
                 .map(RCMRMT030101UK04Component4::getCompoundStatement)
-                .anyMatch(compoundStatement ->
-                    Objects.nonNull(compoundStatement) && BATTERY_VALUE.equals(compoundStatement.getType())))
+                .anyMatch(Objects::nonNull))
             .toList();
     }
 
@@ -181,12 +169,11 @@ public class BloodPressureMapper {
 
         for (RCMRMT030101UK04ObservationStatement observationStatement
             : observationStatements) {
-            stringBuilder.append(observationStatement.getPertinentInformation().stream()
+            var bloodPressureText = observationStatement.getPertinentInformation().stream()
                 .filter(this::pertinentInformationHasText)
                 .map(RCMRMT030101UK04PertinentInformation02.class::cast)
                 .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
                 .map(RCMRMT030101UK04Annotation::getText)
-
                 .map(text -> {
                     if (isSystolicBloodPressure(observationStatement.getCode().getCode())) {
                         return SYSTOLIC_NOTE + text + StringUtils.SPACE;
@@ -195,7 +182,12 @@ public class BloodPressureMapper {
                         return DIASTOLIC_NOTE + text + StringUtils.SPACE;
                     }
                     return StringUtils.EMPTY;
-                }));
+                })
+                .collect(Collectors.joining());
+
+            if (StringUtils.isNotEmpty(bloodPressureText)) {
+                stringBuilder.append(bloodPressureText);
+            }
         }
 
         if (!narrativeStatements.isEmpty()) {

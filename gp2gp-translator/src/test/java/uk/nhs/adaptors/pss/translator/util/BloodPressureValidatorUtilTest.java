@@ -34,8 +34,10 @@ public class BloodPressureValidatorUtilTest {
     private static final List<String> DIASTOLIC_4 = Arrays.asList("407555005", "2159156012");
     private static final List<String> DIASTOLIC_5 = Arrays.asList("407557002", "2159158013");
 
+    private static final String INVALID_CODE = "123456789";
+
     @ParameterizedTest(name = "validBloodPressureTriple")
-    @MethodSource("validBloodTriples")
+    @MethodSource("validBloodPressureTriples")
     public void validBloodPressureTripleReturnsTrue(String header, String systolic, String diastolic) {
         assertThat(BloodPressureValidatorUtil.validateBloodPressureTriple(header, systolic, diastolic)).isTrue();
     }
@@ -46,22 +48,73 @@ public class BloodPressureValidatorUtilTest {
             "192837465")).isFalse();
     }
 
-    private static Stream<Arguments> validBloodTriples() {
+    @ParameterizedTest(name = "validSystolicBloodPressure")
+    @MethodSource("validSystolicBloodPressures")
+    public void validSystolicBloodPressureCodeReturnsTrue(String systolicCode) {
+        assertThat(BloodPressureValidatorUtil.isSystolicBloodPressure(systolicCode)).isTrue();
+    }
+
+    @Test
+    public void invalidSystolicBloodPressureCodeReturnsFalse() {
+        assertThat(BloodPressureValidatorUtil.isSystolicBloodPressure(INVALID_CODE)).isFalse();
+    }
+
+    @ParameterizedTest(name = "validDiastolicBloodPressure")
+    @MethodSource("validDiastolicBloodPressures")
+    public void validDiastolicBloodPressureCodeReturnsTrue(String diastolicCode) {
+        assertThat(BloodPressureValidatorUtil.isDiastolicBloodPressure(diastolicCode)).isTrue();
+    }
+
+    @Test
+    public void invalidDiastolicBloodPressureCodeReturnsFalse() {
+        assertThat(BloodPressureValidatorUtil.isDiastolicBloodPressure(INVALID_CODE)).isFalse();
+    }
+
+    private static Stream<Arguments> validBloodPressureTriples() {
         return Stream.of(
-                generateTestCases(HEADER_1, SYSTOLIC_1, DIASTOLIC_1),
-                generateTestCases(HEADER_1, SYSTOLIC_2, DIASTOLIC_2),
-                generateTestCases(HEADER_2, SYSTOLIC_1, DIASTOLIC_1),
-                generateTestCases(HEADER_2, SYSTOLIC_2, DIASTOLIC_2),
-                generateTestCases(HEADER_3, SYSTOLIC_1, DIASTOLIC_1),
-                generateTestCases(HEADER_3, SYSTOLIC_2, DIASTOLIC_2),
-                generateTestCases(HEADER_4, SYSTOLIC_3, DIASTOLIC_3),
-                generateTestCases(HEADER_5, SYSTOLIC_4, DIASTOLIC_4),
-                generateTestCases(HEADER_6, SYSTOLIC_5, DIASTOLIC_5))
+                generateBloodPressureTriples(HEADER_1, SYSTOLIC_1, DIASTOLIC_1),
+                generateBloodPressureTriples(HEADER_1, SYSTOLIC_2, DIASTOLIC_2),
+                generateBloodPressureTriples(HEADER_2, SYSTOLIC_1, DIASTOLIC_1),
+                generateBloodPressureTriples(HEADER_2, SYSTOLIC_2, DIASTOLIC_2),
+                generateBloodPressureTriples(HEADER_3, SYSTOLIC_1, DIASTOLIC_1),
+                generateBloodPressureTriples(HEADER_3, SYSTOLIC_2, DIASTOLIC_2),
+                generateBloodPressureTriples(HEADER_4, SYSTOLIC_3, DIASTOLIC_3),
+                generateBloodPressureTriples(HEADER_5, SYSTOLIC_4, DIASTOLIC_4),
+                generateBloodPressureTriples(HEADER_6, SYSTOLIC_5, DIASTOLIC_5))
             .flatMap(Collection::stream)
             .collect(Collectors.toList()).stream();
     }
 
-    private static ArrayList<Arguments> generateTestCases(List<String> headers, List<String> systolics, List<String> diastolics) {
+    private static Stream<Arguments> validSystolicBloodPressures() {
+        return Stream.of(
+            Arguments.of("72313002"),
+            Arguments.of("120159016"),
+            Arguments.of("271649006"),
+            Arguments.of("406507015"),
+            Arguments.of("400974009"),
+            Arguments.of("1780182014"),
+            Arguments.of("407554009"),
+            Arguments.of("2159155011"),
+            Arguments.of("407556006"),
+            Arguments.of("2159157015"));
+    }
+
+    private static Stream<Arguments> validDiastolicBloodPressures() {
+        return Stream.of(
+            Arguments.of("1091811000000102"),
+            Arguments.of("2734671000000117"),
+            Arguments.of("271650006"),
+            Arguments.of("406508013"),
+            Arguments.of("400975005"),
+            Arguments.of("1780183016"),
+            Arguments.of("407555005"),
+            Arguments.of("2159156012"),
+            Arguments.of("407557002"),
+            Arguments.of("2159158013"));
+    }
+
+    private static ArrayList<Arguments> generateBloodPressureTriples(List<String> headers, List<String> systolics,
+        List<String> diastolics) {
         var testCases = new ArrayList<Arguments>();
         for (String header
             : headers) {

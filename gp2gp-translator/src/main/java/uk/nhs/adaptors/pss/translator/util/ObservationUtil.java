@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +14,11 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.SimpleQuantity;
 import org.hl7.v3.CV;
-import org.hl7.v3.II;
 import org.hl7.v3.IVLPQ;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04Author;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
 import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
@@ -33,15 +31,15 @@ public class ObservationUtil {
         + "-ValueApproximation-1";
     private static final String CODING_SYSTEM = "http://hl7.org/fhir/v2/0078";
 
-    private static final QuantityMapper quantityMapper = new QuantityMapper();
+    private static final QuantityMapper QUANTITY_MAPPER = new QuantityMapper();
 
     public static Quantity getValueQuantity(Object value, CV uncertaintyCode) {
         if (isValidValueQuantity(value)) {
             Quantity valueQuantity;
             if (value instanceof PQ) {
-                valueQuantity = quantityMapper.mapQuantity((PQ) value);
+                valueQuantity = QUANTITY_MAPPER.mapQuantity((PQ) value);
             } else {
-                valueQuantity = quantityMapper.mapQuantity((IVLPQ) value);
+                valueQuantity = QUANTITY_MAPPER.mapQuantity((IVLPQ) value);
             }
 
             if (uncertaintyCode != null) {
@@ -79,14 +77,15 @@ public class ObservationUtil {
         return null;
     }
 
-    public static List<Observation.ObservationReferenceRangeComponent> getReferenceRange(List<RCMRMT030101UK04ReferenceRange> referenceRangeList) {
+    public static List<Observation.ObservationReferenceRangeComponent> getReferenceRange(
+        List<RCMRMT030101UK04ReferenceRange> referenceRangeList) {
         var outputReferenceRanges = new ArrayList<Observation.ObservationReferenceRangeComponent>();
 
         for (RCMRMT030101UK04ReferenceRange referenceRange : referenceRangeList) {
             var referenceRangeComponent = new Observation.ObservationReferenceRangeComponent();
             referenceRangeComponent.setText(referenceRange.getReferenceInterpretationRange().getText());
 
-            var quantity = quantityMapper.mapQuantity(referenceRange.getReferenceInterpretationRange().getValue());
+            var quantity = QUANTITY_MAPPER.mapQuantity(referenceRange.getReferenceInterpretationRange().getValue());
 
             var referenceInterpretationRange = referenceRange.getReferenceInterpretationRange();
             if (referenceInterpretationRangeHasValue(referenceInterpretationRange)) {
@@ -107,11 +106,9 @@ public class ObservationUtil {
         return outputReferenceRanges;
     }
 
-    public static InstantType getIssued(RCMRMT030101UK04EhrExtract ehrExtract, II observationStatementId) {
-        var ehrComposition = extractEhrCompositionForObservationStatement(ehrExtract, observationStatementId);
-
-        if (authorHasValidTimeValue(ehrComposition.getAuthor())) {
-            return DateFormatUtil.parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
+    public static InstantType getIssued(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition matchingEhrComposition) {
+        if (authorHasValidTimeValue(matchingEhrComposition.getAuthor())) {
+            return DateFormatUtil.parseToInstantType(matchingEhrComposition.getAuthor().getTime().getValue());
         }
 
         if (availabilityTimeHasValue(ehrExtract.getAvailabilityTime())) {
