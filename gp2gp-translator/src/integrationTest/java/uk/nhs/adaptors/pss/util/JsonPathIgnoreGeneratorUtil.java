@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.hl7.fhir.dstu3.model.Bundle;
+import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Resource;
@@ -15,13 +16,18 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 public class JsonPathIgnoreGeneratorUtil {
+    private static final String CONSULTATION_DISPLAY = "Consultation";
+    private static final String TOPIC_DISPLAY = "Topic (EHR)";
 
     private static final List<IgnoreParameters> IGNORED_RESOURCES_BUILDER = List.of(
         new IgnoreParameters(ResourceType.Medication, "id"),
         new IgnoreParameters(ResourceType.MedicationRequest, "medicationReference.reference",
             JsonPathIgnoreGeneratorUtil::hasMedicationReference),
         new IgnoreParameters(ResourceType.MedicationStatement, "medicationReference.reference",
-            JsonPathIgnoreGeneratorUtil::hasMedicationReference)
+            JsonPathIgnoreGeneratorUtil::hasMedicationReference),
+        new IgnoreParameters(ResourceType.List, "id", resource -> isList(resource, TOPIC_DISPLAY)),
+        new IgnoreParameters(ResourceType.List, "entry[*].item.reference",
+            resource -> isList(resource, CONSULTATION_DISPLAY))
     );
 
     public static List<String> generateJsonPathIgnores(Bundle fhirBundle) {
@@ -50,6 +56,15 @@ public class JsonPathIgnoreGeneratorUtil {
         if (ResourceType.MedicationStatement.equals(resource.getResourceType())) {
             return ((MedicationStatement) resource).hasMedicationReference();
         }
+        return false;
+    }
+
+    private static boolean isList(Resource resource, String listDisplay) {
+        if (ResourceType.List.equals(resource.getResourceType())) {
+            var consultationList = (ListResource) resource;
+            return consultationList.getCode().getCodingFirstRep().getDisplay().equals(listDisplay);
+        }
+
         return false;
     }
 
