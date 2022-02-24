@@ -41,8 +41,7 @@ public class MedicationRequestMapper {
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
     private MedicationStatementMapper medicationStatementMapper;
 
-    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounters,
-        List<Reference> references, Patient patient) {
+    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounters, Patient patient) {
 
         List<RCMRMT030101UK04EhrComposition> ehrCompositions = ehrExtract.getComponent()
             .stream()
@@ -52,20 +51,19 @@ public class MedicationRequestMapper {
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .collect(Collectors.toList());
 
-        List<DomainResource> medicationResources = new ArrayList<>();
         for (RCMRMT030101UK04EhrComposition ehrComposition : ehrCompositions) {
             var context = encounters.stream()
                 .filter(encounter1 -> encounter1.getId().equals(ehrComposition.getId().getRoot())).findFirst();
 
-            ehrComposition.getComponent()
+            return ehrComposition.getComponent()
                 .stream()
                 .filter(RCMRMT030101UK04Component4::hasMedicationStatement)
                 .map(RCMRMT030101UK04Component4::getMedicationStatement)
                 .map(medicationStatement -> mapMedicationStatement(ehrExtract, ehrComposition, medicationStatement, patient, context))
                 .flatMap(List::stream)
-                .forEach(medicationResources::add);
+                .collect(Collectors.toList());
         }
-        return medicationResources;
+        return List.of();
     }
 
     private List<DomainResource> mapMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,

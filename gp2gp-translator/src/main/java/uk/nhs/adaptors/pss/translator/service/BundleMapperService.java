@@ -94,7 +94,7 @@ public class BundleMapperService {
         var referralRequests = mapReferralRequests(ehrFolder, patient);
         addEntries(bundle, referralRequests);
 
-        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, List.of(), List.of(), patient);
+        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, encounters, patient);
         addEntries(bundle, medicationResources);
 
         var observations = mapObservations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters

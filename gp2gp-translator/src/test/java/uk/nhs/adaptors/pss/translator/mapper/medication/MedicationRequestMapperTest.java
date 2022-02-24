@@ -59,7 +59,7 @@ public class MedicationRequestMapperTest {
         when(medicationStatementMapper.mapToMedicationStatement(any(), any())).thenReturn(new MedicationStatement());
         when(medicationMapper.createMedication(any())).thenReturn(new Medication());
 
-        var resources = medicationRequestMapper.mapResources(ehrExtract, List.of(), List.of(), (Patient) new Patient().setId(PATIENT_ID));
+        var resources = medicationRequestMapper.mapResources(ehrExtract, List.of(), (Patient) new Patient().setId(PATIENT_ID));
 
         verify(medicationRequestPlanMapper, times(DOUBLE_INVOCATION)).mapToPlanMedicationRequest(any(), any(), any());
         verify(medicationRequestOrderMapper, times(SINGLE_INVOCATION)).mapToOrderMedicationRequest(any(), any());
