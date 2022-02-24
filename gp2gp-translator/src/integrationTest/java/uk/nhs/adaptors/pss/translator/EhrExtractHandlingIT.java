@@ -47,6 +47,7 @@ public class EhrExtractHandlingIT {
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/ebxml_part.xml";
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
+    private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
     private static final List<String> STATIC_IGNORED_JSON_PATHS = List.of(
         "id",
         "entry[0].resource.id",
@@ -117,7 +118,7 @@ public class EhrExtractHandlingIT {
     private InboundMessage createInboundMessage(String payloadPartPath) {
         var inboundMessage = new InboundMessage();
         var payload = readResourceAsString(payloadPartPath).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
-        var ebXml = readResourceAsString(EBXML_PART_PATH);
+        var ebXml = readResourceAsString(EBXML_PART_PATH).replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
         inboundMessage.setPayload(payload);
         inboundMessage.setEbXML(ebXml);
         return inboundMessage;
@@ -129,7 +130,7 @@ public class EhrExtractHandlingIT {
     }
 
     private void verifyBundle(String path) throws JSONException {
-        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
+        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
 
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);

@@ -78,7 +78,7 @@ public class PatientTransferServiceTest {
         var migrationRequestId = 1;
         OffsetDateTime now = OffsetDateTime.now();
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
-        when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(null);
+        when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(null);
         when(patientMigrationRequestDao.getMigrationRequestId(CONVERSATION_ID)).thenReturn(migrationRequestId);
         when(mdcService.getConversationId()).thenReturn(CONVERSATION_ID);
 
@@ -95,7 +95,8 @@ public class PatientTransferServiceTest {
         PatientMigrationRequest expectedPatientMigrationRequest = createPatientMigrationRequest();
         MigrationStatusLog expectedMigrationStatusLog = createMigrationStatusLog();
 
-        when(patientMigrationRequestDao.getMigrationRequest(PATIENT_NHS_NUMBER)).thenReturn(expectedPatientMigrationRequest);
+        when(mdcService.getConversationId()).thenReturn(CONVERSATION_ID);
+        when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(expectedPatientMigrationRequest);
         when(migrationStatusLogDao.getLatestMigrationStatusLog(expectedPatientMigrationRequest.getId()))
             .thenReturn(expectedMigrationStatusLog);
 
@@ -103,7 +104,7 @@ public class PatientTransferServiceTest {
 
         assertThat(patientMigrationRequest).isEqualTo(expectedMigrationStatusLog);
         verifyNoInteractions(pssQueuePublisher);
-        verify(patientMigrationRequestDao).getMigrationRequest(PATIENT_NHS_NUMBER);
+        verify(patientMigrationRequestDao).getMigrationRequest(CONVERSATION_ID);
         verifyNoMoreInteractions(patientMigrationRequestDao);
     }
 
