@@ -63,13 +63,13 @@ public class BloodPressureMapper {
          * - performer: fallback to a default 'Unknown User' Practitioner if none are present in performer (NIAD-2026)
          * - identifier: concatenate source practice org id to identifier URL (NIAD-2021)
          *
-         * - add functionality for mapping non conformant blood pressures
+         * - Add functionality for mapping non conformant blood pressures (NIAD-2023)
          *
          */
 
-        // TODO: Add functionality for mapping non conformant blood pressures
         var compositionsList = getCompositionsContainingCompoundStatement(ehrExtract);
 
+        // TODO: Add functionality for mapping non conformant blood pressures (NIAD-2023)
         return compositionsList.stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getCompoundStatement)

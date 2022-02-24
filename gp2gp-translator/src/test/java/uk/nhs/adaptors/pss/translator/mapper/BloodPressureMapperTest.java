@@ -12,9 +12,11 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
+import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -74,10 +76,10 @@ public class BloodPressureMapperTest {
     }
 
     @Test
-    public void mapBloodPressureWithValidData() {
+    public void mapBloodPressureObservationWithValidData() {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
 
-        var ehrExtract = unmarshallEhrExtractElement("full_valid_data_blood_pressure_example.xml");
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_data_bp_example.xml");
 
         var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
 
@@ -108,7 +110,7 @@ public class BloodPressureMapperTest {
     public void mapBloodPressureWithNoOptionalData() {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
 
-        var ehrExtract = unmarshallEhrExtractElement("no_optional_data_blood_pressure_example.xml");
+        var ehrExtract = unmarshallEhrExtractElement("no_optional_data_bp_example.xml");
 
         var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
 
@@ -134,9 +136,9 @@ public class BloodPressureMapperTest {
     }
 
     @Test
-    public void mapObservationWithCompositionIdMatchingEncounter() {
+    public void mapBloodPressureObservationWithCompositionIdMatchingEncounter() {
         var ehrExtract = unmarshallEhrExtractElement(
-            "ehr_composition_id_matching_encounter_blood_pressure_example.xml");
+            "ehr_composition_id_matching_encounter_bp_example.xml");
 
         var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
 
@@ -144,9 +146,9 @@ public class BloodPressureMapperTest {
     }
 
     @Test
-    public void mapObservationWithSystolicOnlyComment() {
+    public void mapBloodPressureObservationWithSystolicOnlyComment() {
         var ehrExtract = unmarshallEhrExtractElement(
-            "systolic_comment_only_blood_pressure_example.xml");
+            "systolic_comment_only_bp_example.xml");
 
         var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
 
@@ -154,7 +156,7 @@ public class BloodPressureMapperTest {
     }
 
     @Test
-    public void mapObservationWithDiastolicOnlyComment() {
+    public void mapBloodPressureObservationWithDiastolicOnlyComment() {
         var ehrExtract = unmarshallEhrExtractElement(
             "diastolic_comment_only_blood_pressure_example.xml");
 
@@ -164,12 +166,35 @@ public class BloodPressureMapperTest {
     }
 
     @Test
-    public void mapObservationWithNarrativeStatementOnlyComment() {
+    public void mapBloodPressureObservationWithNarrativeStatementOnlyComment() {
         var ehrExtract = unmarshallEhrExtractElement(
-            "narrative_statement_comment_only_blood_pressure_example.xml");
+            "narrative_statement_comment_only_bp_example.xml");
 
         var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
 
         assertThat(bloodPressure.getComment()).isEqualTo(COMMENT_EXAMPLE_4);
+    }
+
+    @Test
+    public void mapBloodPressureObservationWithEffectiveDateTime() {
+        var ehrExtract = unmarshallEhrExtractElement(
+            "effective_date_time_using_effective_time_center_bp_example.xml");
+
+        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
+
+        assertThat(bloodPressure.getEffective() instanceof DateTimeType);
+        assertThat(bloodPressure.getEffectiveDateTimeType().getValueAsString()).isEqualTo("2006-04-25");
+    }
+
+    @Test
+    public void mapBloodPressureObservationWithEffectivePeriod() {
+        var ehrExtract = unmarshallEhrExtractElement(
+            "effective_period_start_end_using_effective_time_bp_example.xml");
+
+        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
+
+        assertThat(bloodPressure.getEffective() instanceof Period);
+        assertThat(bloodPressure.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo("2006-04-25");
+        assertThat(bloodPressure.getEffectivePeriod().getEndElement().getValueAsString()).isEqualTo("2006-04-26");
     }
 }

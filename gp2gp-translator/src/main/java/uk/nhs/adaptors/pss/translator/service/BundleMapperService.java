@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
+import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
@@ -44,6 +45,7 @@ public class BundleMapperService {
     private final LocationMapper locationMapper;
     private final ProcedureRequestMapper procedureRequestMapper;
     private final ReferralRequestMapper referralRequestMapper;
+    private final BloodPressureMapper bloodPressureMapper;
     private final ObservationMapper observationMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
@@ -64,6 +66,9 @@ public class BundleMapperService {
 
         var referralRequests = mapReferralRequests(ehrFolder, patient);
         addEntries(bundle, referralRequests);
+
+        var bloodPressures = mapBloodPressures(ehrExtract, patient, List.of()); //TODO: Provide list of encounters
+        addEntries(bundle, bloodPressures);
 
         var observations = mapObservations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters
         addEntries(bundle, observations);
@@ -106,6 +111,10 @@ public class BundleMapperService {
             .filter(component4 -> component4.getPlanStatement() != null)
             .map(component4 -> procedureRequestMapper.mapToProcedureRequest(ehrExtract, component4.getPlanStatement(), patient))
             .toList();
+    }
+
+    private List<Observation> mapBloodPressures(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+        return bloodPressureMapper.mapBloodPressure(ehrExtract, patient, encounters);
     }
 
     private List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
