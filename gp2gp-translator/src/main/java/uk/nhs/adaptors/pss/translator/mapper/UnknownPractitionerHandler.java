@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.HumanName;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Practitioner;
@@ -33,6 +34,10 @@ public class UnknownPractitionerHandler {
                 if (handleProcedureRequest((ProcedureRequest) entry.getResource(), unknown)) {
                     used = true;
                 }
+            } else if (entry.getResource().getResourceType().equals(ResourceType.Encounter)) {
+                if (handleEncounter((Encounter) entry.getResource(), unknown)) {
+                    used = true;
+                }
             }
         }
 
@@ -44,6 +49,15 @@ public class UnknownPractitionerHandler {
     private boolean handleObservation(Observation observation, Practitioner unknown) {
         if (!observation.hasPerformer()) {
             observation.addPerformer(new Reference(unknown));
+            return true;
+        }
+        return false;
+    }
+
+    private boolean handleEncounter(Encounter encounter, Practitioner unknown) {
+        if (!encounter.hasParticipant()) {
+            encounter.addParticipant(new Encounter.EncounterParticipantComponent()
+                .setIndividual(new Reference(unknown)));
             return true;
         }
         return false;

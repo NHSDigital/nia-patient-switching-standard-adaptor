@@ -46,6 +46,7 @@ import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 
 @ExtendWith(MockitoExtension.class)
 public class BundleMapperServiceTest {
@@ -79,6 +80,8 @@ public class BundleMapperServiceTest {
     private ImmunizationMapper immunizationMapper;
     @Mock
     private ObservationCommentMapper observationCommentMapper;
+    @Mock
+    private UnknownPractitionerHandler unknownPractitionerHandler;
 
     @InjectMocks
     private BundleMapperService bundleMapperService;
@@ -106,7 +109,7 @@ public class BundleMapperServiceTest {
     @Test
     public void testAllMappersHaveBeenUsed() {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
-        bundleMapperService.mapToBundle(xml);
+        Bundle bundle = bundleMapperService.mapToBundle(xml);
 
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
@@ -126,6 +129,7 @@ public class BundleMapperServiceTest {
         verify(conditionMapper).mapConditions(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(immunizationMapper).mapToImmunization(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(observationCommentMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
+        verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
     }
 
     @SneakyThrows

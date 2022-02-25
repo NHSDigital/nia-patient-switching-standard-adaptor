@@ -8,6 +8,7 @@ import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
+import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.ResourceType;
 
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class JsonPathIgnoreGeneratorUtil {
     private static final String CONSULTATION_DISPLAY = "Consultation";
     private static final String TOPIC_DISPLAY = "Topic (EHR)";
+    private static final String UNKNOWN_USER = "Unknown User";
 
     private static final List<IgnoreParameters> IGNORED_RESOURCES_BUILDER = List.of(
         new IgnoreParameters(ResourceType.Medication, "id"),
@@ -27,7 +29,8 @@ public class JsonPathIgnoreGeneratorUtil {
             JsonPathIgnoreGeneratorUtil::hasMedicationReference),
         new IgnoreParameters(ResourceType.List, "id", resource -> isList(resource, TOPIC_DISPLAY)),
         new IgnoreParameters(ResourceType.List, "entry[*].item.reference",
-            resource -> isList(resource, CONSULTATION_DISPLAY))
+            resource -> isList(resource, CONSULTATION_DISPLAY)),
+        new IgnoreParameters(ResourceType.Practitioner, "id", JsonPathIgnoreGeneratorUtil::isUnknownPractitioner)
     );
 
     public static List<String> generateJsonPathIgnores(Bundle fhirBundle) {
@@ -65,6 +68,14 @@ public class JsonPathIgnoreGeneratorUtil {
             return consultationList.getCode().getCodingFirstRep().getDisplay().equals(listDisplay);
         }
 
+        return false;
+    }
+
+    private static Boolean isUnknownPractitioner(Resource resource) {
+        Practitioner practitioner = (Practitioner) resource;
+        if (UNKNOWN_USER.equals(practitioner.getNameFirstRep().getText())) {
+            return true;
+        }
         return false;
     }
 
