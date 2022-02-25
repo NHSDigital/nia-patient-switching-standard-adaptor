@@ -7,6 +7,7 @@ import java.util.Map;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.dstu3.model.Condition;
+import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Immunization;
@@ -31,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DiagnosticReportMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
@@ -63,6 +65,7 @@ public class BundleMapperService {
     private final ObservationMapper observationMapper;
     private final ConditionMapper conditionMapper;
     private final ImmunizationMapper immunizationMapper;
+    private final DiagnosticReportMapper diagnosticReportMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -104,6 +107,9 @@ public class BundleMapperService {
             mapObservationComments(ehrExtract, patient, encounters);
         addEntries(bundle, observationComments);
 
+        var diagnosticReports = mapDiagnosticReports(ehrExtract);
+        addEntries(bundle, diagnosticReports);
+
         // TODO: Add references to mapped resources in their appropriate lists (NIAD-2051)
         addEntries(bundle, topics);
         addEntries(bundle, categories);
@@ -113,6 +119,10 @@ public class BundleMapperService {
         conditionMapper.addReferences(bundle, conditions, ehrExtract);
 
         return bundle;
+    }
+
+    private List<DiagnosticReport> mapDiagnosticReports(RCMRMT030101UK04EhrExtract ehrExtract) {
+        return diagnosticReportMapper.mapDiagnosticReports(ehrExtract);
     }
 
     private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
