@@ -13,11 +13,11 @@ public class SpecimenMapper {
 
 
     public List<Specimen> mapSpecimen() {
-
+        return List.of();
     }
 
     private Specimen createSpecimen() {
-
+        return new Specimen();
     }
 
     private Meta createMeta() {

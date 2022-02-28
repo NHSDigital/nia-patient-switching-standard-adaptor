@@ -41,39 +41,47 @@ public class ObservationCommentMapper {
     private static final String CODING_DISPLAY = "Comment note";
 
     public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+        return getNarrativeStatements(ehrExtract)
+            .stream()
+            .map(narrativeStatement -> getObservation(ehrExtract, patient, encounters, narrativeStatement))
+            .toList();
+    }
 
-        var narrativeStatements =  getNarrativeStatements(ehrExtract);
-
+    public List<Observation> mapDiagnosticChildrenObservations(List<RCMRMT030101UK04NarrativeStatement> narrativeStatements,
+        RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         return narrativeStatements
             .stream()
-            .map(narrativeStatement -> {
-                var narrativeStatementId = narrativeStatement.getId();
-                var observation = new Observation();
-                observation.setId(narrativeStatement.getId().getRoot());
-                observation.setMeta(createMeta());
-                observation.setStatus(FINAL);
-                observation.setSubject(new Reference(patient));
-                observation.setIssuedElement(createIssued(ehrExtract, narrativeStatement.getId()));
-                observation.setCode(createCodeableConcept());
-                observation.setEffective(
-                    DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue())
-                );
+            .map(narrativeStatement -> getObservation(ehrExtract, patient, encounters, narrativeStatement))
+            .toList();
+    }
 
-                observation.setPerformer(
-                    Collections.singletonList(createPerformer(ehrExtract, narrativeStatement))
-                );
+    private Observation getObservation(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters, RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+        var narrativeStatementId = narrativeStatement.getId();
+        var observation = new Observation();
+        observation.setId(narrativeStatement.getId().getRoot());
+        observation.setMeta(createMeta());
+        observation.setStatus(FINAL);
+        observation.setSubject(new Reference(patient));
+        observation.setIssuedElement(createIssued(ehrExtract, narrativeStatement.getId()));
+        observation.setCode(createCodeableConcept());
+        observation.setEffective(
+            DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue())
+        );
 
-                observation.setIdentifier(
-                    Collections.singletonList(createIdentifier(narrativeStatementId.getRoot()))
-                );
+        observation.setPerformer(
+            Collections.singletonList(createPerformer(ehrExtract, narrativeStatement))
+        );
 
-                setObservationComment(observation, narrativeStatement.getText());
+        observation.setIdentifier(
+            Collections.singletonList(createIdentifier(narrativeStatementId.getRoot()))
+        );
 
-                // Context may not always be mapped
-                setObservationContext(observation, ehrExtract, narrativeStatementId, encounters);
+        setObservationComment(observation, narrativeStatement.getText());
 
-                return observation;
-            }).toList();
+        // Context may not always be mapped
+        setObservationContext(observation, ehrExtract, narrativeStatementId, encounters);
+
+        return observation;
     }
 
     private void setObservationContext(Observation observation, RCMRMT030101UK04EhrExtract ehrExtract,

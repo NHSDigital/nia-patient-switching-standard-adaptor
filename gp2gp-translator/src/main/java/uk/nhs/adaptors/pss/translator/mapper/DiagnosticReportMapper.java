@@ -1,8 +1,11 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
+
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -10,23 +13,31 @@ import java.util.Optional;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Meta;
+import org.hl7.fhir.dstu3.model.Narrative;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Author;
+import org.hl7.v3.RCMRMT030101UK04Component;
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -39,6 +50,7 @@ public class DiagnosticReportMapper {
     private static final String DR_SNOMED_CODE = "16488004";
 
     private final CodeableConceptMapper codeableConceptMapper;
+    private final ObservationCommentMapper observationCommentMapper;
 
     public List<DiagnosticReport> mapDiagnosticReports(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         var compositions = getCompositionsContainingClusterCompoundStatement(ehrExtract);
@@ -92,7 +104,7 @@ public class DiagnosticReportMapper {
          * Encounters are suppressed for certain ehrComposition codes so will not always be populated.
          */
 
-        getIssued(ehrExtract, compositions, compoundStatement).ifPresent(diagnosticReport::setIssuedElement);
+        //getIssued(ehrExtract, compositions, compoundStatement).ifPresent(diagnosticReport::setIssuedElement);
         /**
          * ISSUED
          * 1. From CompoundStatement/availabilityTime/@value
@@ -108,14 +120,42 @@ public class DiagnosticReportMapper {
          * There can of course be many specimens per report so this needs to iterate over every instance
          */
 
-        //getResult()
+        diagnosticReport.setResult(getResultReferences(compoundStatement)); //leave as null when list is empty or add an empty list?
         /**
          * A result reference should be generated for every result Observation generated from the banner CompoundStatement,
          * result ObservationStatement, or result CompoundStatement CLUSTER found within each specimen CompoundStatement
          */
 
+        /**
+         * 2. Process all NarrativeStatement direct children of the laboratory level CompoundStatement into Observation (Comment) and
+         * reference these from DiagnosticReport.results (See Report Level Comment to Observation (Comment) Map below)
+         */
 
         return diagnosticReport;
+    }
+
+    public List<Observation> mapChildrenObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+        List<Encounter> encounters) {
+        var narrativeStatements = getCompositionsContainingClusterCompoundStatement(ehrExtract)
+            .stream()
+            .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
+            .map(RCMRMT030101UK04Component4::getCompoundStatement)
+            .flatMap(compoundStatement -> compoundStatement.getComponent().stream())
+            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .filter(Objects::nonNull)
+            .toList();
+
+        //TODO: Refer to 67, 69, 70, 71 lines in DiagnosticReport spreadsheet -> Report Level Comment to Observation (Comment)
+        return observationCommentMapper.mapDiagnosticChildrenObservations(narrativeStatements, ehrExtract, patient, encounters);
+    }
+
+    private List<Reference> getResultReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return compoundStatement.getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .filter(Objects::nonNull)
+            .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
+            .toList();
     }
 
     private Reference createPatientReference(Patient patient) {
@@ -134,11 +174,13 @@ public class DiagnosticReportMapper {
     }
 
     private Optional<Identifier> createIdentifierExtension(List<II> id) {
-        final II idExtension = id.get(1);
-        if(idExtension != null && EXTENSION_IDENTIFIER_ROOT.equals(idExtension.getRoot())) {
-            return Optional.of(new Identifier()
-                .setSystem(EXTENSION_IDENTIFIER_ROOT)
-                .setValue(idExtension.getExtension()));
+        if (id.size() > 1) {
+            final II idExtension = id.get(1);
+            if (idExtension != null && EXTENSION_IDENTIFIER_ROOT.equals(idExtension.getRoot())) {
+                return Optional.of(new Identifier()
+                    .setSystem(EXTENSION_IDENTIFIER_ROOT)
+                    .setValue(idExtension.getExtension()));
+            }
         }
         return Optional.empty();
     }
@@ -182,7 +224,7 @@ public class DiagnosticReportMapper {
     }
 
     private CodeableConcept createCodeableConcept(RCMRMT030101UK04CompoundStatement compoundStatement) {
-       return codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
+        return codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
     }
 
     private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingClusterCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
@@ -216,5 +258,4 @@ public class DiagnosticReportMapper {
                 .anyMatch(component4 -> compoundStatement.equals(component4.getCompoundStatement()))
             ).findFirst().get();
     }
-
 }
