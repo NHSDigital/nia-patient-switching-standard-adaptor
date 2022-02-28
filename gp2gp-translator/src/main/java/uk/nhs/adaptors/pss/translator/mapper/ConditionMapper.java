@@ -256,7 +256,7 @@ public class ConditionMapper {
 
     private boolean hasCode(CD linkSetCode) {
         var crOpt = linkSetCode.getQualifier().stream().findFirst();
-        return crOpt.isPresent() && crOpt.get().getName() != null & crOpt.get().getName().getCode() != null;
+        return crOpt.isPresent() && crOpt.get().getName() != null && crOpt.get().getName().getCode() != null;
     }
 
     private Optional<Condition.ConditionClinicalStatus> buildClinicalStatus(CD linksetCode) {
