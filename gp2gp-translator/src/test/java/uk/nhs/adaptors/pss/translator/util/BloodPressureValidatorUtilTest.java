@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -81,8 +80,7 @@ public class BloodPressureValidatorUtilTest {
                 generateBloodPressureTriples(HEADER_4, SYSTOLIC_3, DIASTOLIC_3),
                 generateBloodPressureTriples(HEADER_5, SYSTOLIC_4, DIASTOLIC_4),
                 generateBloodPressureTriples(HEADER_6, SYSTOLIC_5, DIASTOLIC_5))
-            .flatMap(Collection::stream)
-            .collect(Collectors.toList()).stream();
+            .flatMap(Collection::stream);
     }
 
     private static Stream<Arguments> validSystolicBloodPressures() {
@@ -116,12 +114,9 @@ public class BloodPressureValidatorUtilTest {
     private static ArrayList<Arguments> generateBloodPressureTriples(List<String> headers, List<String> systolics,
         List<String> diastolics) {
         var testCases = new ArrayList<Arguments>();
-        for (String header
-            : headers) {
-            for (String systolic
-                : systolics) {
-                for (String diastolic
-                    : diastolics) {
+        for (String header : headers) {
+            for (String systolic : systolics) {
+                for (String diastolic : diastolics) {
                     testCases.add(Arguments.of(header, systolic, diastolic));
                 }
             }

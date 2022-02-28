@@ -5,6 +5,8 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.math.BigDecimal;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
@@ -24,11 +26,15 @@ public class ObservationUtilTest {
     private static final String EFFECTIVE_START_DATE_1 = "2010-05-21";
     private static final String EFFECTIVE_START_DATE_2 = "2010-05-20";
     private static final String EFFECTIVE_END_DATE = "2010-05-22";
-    private static final String PQ_QUANTITY_VALUE = "100";
-    private static final String IVL_PQ_QUANTITY_VALUE = "200";
     private static final String QUANTITY_UNIT = "ml";
     private static final String QUANTITY_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ValueApproximation-1";
+    private static final BigDecimal PQ_QUANTITY_VALUE = new BigDecimal(100);
+    private static final BigDecimal IVL_PQ_QUANTITY_VALUE = new BigDecimal(200);
+    private static final BigDecimal REFERENCE_RANGE_LOW_VALUE_1 = new BigDecimal(10);
+    private static final BigDecimal REFERENCE_RANGE_LOW_VALUE_2 = new BigDecimal(20);
+    private static final BigDecimal REFERENCE_RANGE_HIGH_VALUE_1 = new BigDecimal(12);
+    private static final BigDecimal REFERENCE_RANGE_HIGH_VALUE_2 = new BigDecimal(22);
 
     @SneakyThrows
     private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
@@ -56,7 +62,7 @@ public class ObservationUtilTest {
         var quantity = ObservationUtil.getValueQuantity(observationStatement.getValue(),
             observationStatement.getUncertaintyCode());
 
-        assertThat(quantity.getValue().toString()).isEqualTo(PQ_QUANTITY_VALUE);
+        assertThat(quantity.getValue()).isEqualTo(PQ_QUANTITY_VALUE);
         assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
     }
 
@@ -69,7 +75,7 @@ public class ObservationUtilTest {
         var quantity = ObservationUtil.getValueQuantity(observationStatement.getValue(),
             observationStatement.getUncertaintyCode());
 
-        assertThat(quantity.getValue().toString()).isEqualTo(IVL_PQ_QUANTITY_VALUE);
+        assertThat(quantity.getValue()).isEqualTo(IVL_PQ_QUANTITY_VALUE);
         assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
     }
 
@@ -236,8 +242,8 @@ public class ObservationUtilTest {
         var referenceRanges = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
 
         assertThat(referenceRanges.get(0).getText()).isEqualTo("Test Range 1");
-        assertThat(referenceRanges.get(0).getLow().getValue().toString()).isEqualTo("10");
-        assertThat(referenceRanges.get(0).getHigh().getValue().toString()).isEqualTo("12");
+        assertThat(referenceRanges.get(0).getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_1);
+        assertThat(referenceRanges.get(0).getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_1);
     }
 
     @Test
@@ -247,7 +253,7 @@ public class ObservationUtilTest {
 
         var referenceRanges = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
 
-        assertThat(referenceRanges.get(0).getLow().getValue().toString()).isEqualTo("10");
+        assertThat(referenceRanges.get(0).getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_1);
         assertThat(referenceRanges.get(0).getHigh().getValue()).isNull();
     }
 
@@ -259,7 +265,7 @@ public class ObservationUtilTest {
         var referenceRanges = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
 
         assertThat(referenceRanges.get(0).getLow().getValue()).isNull();
-        assertThat(referenceRanges.get(0).getHigh().getValue().toString()).isEqualTo("12");
+        assertThat(referenceRanges.get(0).getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_1);
     }
 
     @Test
@@ -269,7 +275,7 @@ public class ObservationUtilTest {
 
         var referenceRanges = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
 
-        assertThat(StringUtils.isEmpty(referenceRanges.get(0).getText()));
+        assertThat(StringUtils.isEmpty(referenceRanges.get(0).getText())).isTrue();
     }
 
     @Test
@@ -280,10 +286,10 @@ public class ObservationUtilTest {
         var referenceRanges = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
 
         assertThat(referenceRanges.get(0).getText()).isEqualTo("Test Range 1");
-        assertThat(referenceRanges.get(0).getLow().getValue().toString()).isEqualTo("10");
-        assertThat(referenceRanges.get(0).getHigh().getValue().toString()).isEqualTo("12");
+        assertThat(referenceRanges.get(0).getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_1);
+        assertThat(referenceRanges.get(0).getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_1);
         assertThat(referenceRanges.get(1).getText()).isEqualTo("Test Range 2");
-        assertThat(referenceRanges.get(1).getLow().getValue().toString()).isEqualTo("20");
-        assertThat(referenceRanges.get(1).getHigh().getValue().toString()).isEqualTo("22");
+        assertThat(referenceRanges.get(1).getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_2);
+        assertThat(referenceRanges.get(1).getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_2);
     }
 }

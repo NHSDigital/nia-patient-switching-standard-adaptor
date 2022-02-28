@@ -192,24 +192,25 @@ public class ObservationUtil {
             && author.getTime().getNullFlavor() == null;
     }
 
-    private static boolean timeHasNullFlavor(TS time) {
-        return time.getNullFlavor() != null;
+    private static boolean timeHasNoNullFlavor(TS time) {
+        return time.getNullFlavor() == null;
     }
 
     private static boolean effectiveTimeHasCenter(IVLTS effectiveTime) {
         return effectiveTime.getCenter() != null && effectiveTime.getCenter().getValue() != null
-            && !timeHasNullFlavor(effectiveTime.getCenter());
+            && timeHasNoNullFlavor(effectiveTime.getCenter());
     }
 
     private static boolean effectiveTimeHasLow(IVLTS effectiveTime) {
-        return effectiveTime.getLow() != null && effectiveTime.getLow().getValue() != null && !timeHasNullFlavor(effectiveTime.getLow());
+        return effectiveTime.getLow() != null && effectiveTime.getLow().getValue() != null && timeHasNoNullFlavor(effectiveTime.getLow());
     }
 
     private static boolean effectiveTimeHasHigh(IVLTS effectiveTime) {
-        return effectiveTime.getHigh() != null && effectiveTime.getHigh().getValue() != null && !timeHasNullFlavor(effectiveTime.getHigh());
+        return effectiveTime.getHigh() != null && effectiveTime.getHigh().getValue() != null
+            && timeHasNoNullFlavor(effectiveTime.getHigh());
     }
 
     private static boolean availabilityTimeHasValue(TS availabilityTime) {
-        return availabilityTime != null && availabilityTime.getValue() != null && !timeHasNullFlavor(availabilityTime);
+        return availabilityTime != null && availabilityTime.getValue() != null && timeHasNoNullFlavor(availabilityTime);
     }
 }

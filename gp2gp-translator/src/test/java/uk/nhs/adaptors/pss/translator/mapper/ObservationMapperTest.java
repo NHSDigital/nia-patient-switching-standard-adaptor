@@ -7,6 +7,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -41,6 +42,9 @@ public class ObservationMapperTest {
     private static final String PPRF_PARTICIPANT_ID = "Practitioner/1230F602-6BB1-47E0-B2EC-39912A59787D";
     private static final String NEGATIVE_VALUE = "Negative";
     private static final String TEST_DISPLAY_VALUE = "Test display name";
+    private static final BigDecimal QUANTITY_VALUE = new BigDecimal(27);
+    private static final BigDecimal REFERENCE_RANGE_LOW_VALUE = new BigDecimal(20);
+    private static final BigDecimal REFERENCE_RANGE_HIGH_VALUE = new BigDecimal(22);
 
     private static final CodeableConcept CODEABLE_CONCEPT = new CodeableConcept()
         .addCoding(new Coding().setDisplay(CODING_DISPLAY_MOCK));
@@ -73,12 +77,12 @@ public class ObservationMapperTest {
         assertThat(observation.getIssuedElement().asStringValue()).isEqualTo(ISSUED_EHR_COMPOSITION_EXAMPLE);
         assertThat(observation.getPerformer().get(0).getReference()).isEqualTo(PPRF_PARTICIPANT_ID);
         assertThat(observation.getValue() instanceof Quantity).isTrue();
-        assertQuantity(observation.getValueQuantity(), "27", "kg/m2");
+        assertQuantity(observation.getValueQuantity(), QUANTITY_VALUE, "kg/m2");
         assertInterpretation(observation.getInterpretation(), "High", "H", "High");
         assertThat(observation.getComment()).isEqualTo("Subject: Uncle Test text 1");
         assertThat(observation.getReferenceRange().get(0).getText()).isEqualTo("Age and sex based");
-        assertQuantity(observation.getReferenceRange().get(0).getLow(), "20", "L");
-        assertQuantity(observation.getReferenceRange().get(0).getHigh(), "22", "L");
+        assertQuantity(observation.getReferenceRange().get(0).getLow(), REFERENCE_RANGE_LOW_VALUE, "L");
+        assertQuantity(observation.getReferenceRange().get(0).getHigh(), REFERENCE_RANGE_HIGH_VALUE, "L");
         assertThat(observation.hasSubject()).isTrue();
     }
 
@@ -177,8 +181,8 @@ public class ObservationMapperTest {
         assertThat(interpretation.getCoding().get(0).getSystem()).isEqualTo(INTERPRETATION_SYSTEM);
     }
 
-    private void assertQuantity(Quantity quantity, String value, String unitAndCode) {
-        assertThat(quantity.getValue().toString()).isEqualTo(value);
+    private void assertQuantity(Quantity quantity, BigDecimal value, String unitAndCode) {
+        assertThat(quantity.getValue()).isEqualTo(value);
         assertThat(quantity.getUnit()).isEqualTo(unitAndCode);
         assertThat(quantity.getCode()).isEqualTo(unitAndCode);
         assertThat(quantity.getSystem()).isEqualTo(QUANTITY_SYSTEM);

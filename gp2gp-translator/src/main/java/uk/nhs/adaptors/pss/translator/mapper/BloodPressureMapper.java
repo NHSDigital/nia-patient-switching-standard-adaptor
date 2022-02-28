@@ -194,7 +194,6 @@ public class BloodPressureMapper {
             for (RCMRMT030101UK04NarrativeStatement narrativeStatement
                 : narrativeStatements) {
                 stringBuilder.append(narrativeStatement.getText()).append(StringUtils.SPACE);
-                ;
             }
         }
 
