@@ -155,7 +155,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void When_MappingLinksetWithNoDates_Expect_AppropriateOutput() {
+    public void testLinkSetWithNoDatesIsMappedCorrectly() {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_no_dates.xml");
         final List<Condition> conditions = conditionMapper.mapConditions(ehrExtract, patient, List.of());
 
