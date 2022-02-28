@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement;
+import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 
 import java.util.List;
@@ -16,17 +16,17 @@ import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.II;
+import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04LinkSet;
+import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -92,12 +92,26 @@ public class DiagnosticReportMapper {
          * Encounters are suppressed for certain ehrComposition codes so will not always be populated.
          */
 
-
+        getIssued(ehrExtract, compositions, compoundStatement).ifPresent(diagnosticReport::setIssuedElement);
         /**
          * ISSUED
          * 1. From CompoundStatement/availabilityTime/@value
          * 2. From the containing ehtComposition/author/time/@value
          * 3. From EhrExtract/availabilityTime/@value
+         */
+
+        //getSpecimen() <- list
+        /**
+         * For each child CompoundStatement component coded as 123038009 perform the specimen mapping and insert a reference to the
+         * generated specimen. AS we intend to re-use the specimen CompoundStatement/id[0] as the Specimen.id
+         * then each reference will be just a reference to the specimen CompoundStatement/id[0].
+         * There can of course be many specimens per report so this needs to iterate over every instance
+         */
+
+        //getResult()
+        /**
+         * A result reference should be generated for every result Observation generated from the banner CompoundStatement,
+         * result ObservationStatement, or result CompoundStatement CLUSTER found within each specimen CompoundStatement
          */
 
 
@@ -138,18 +152,33 @@ public class DiagnosticReportMapper {
         );
     }
 
-    private InstantType getIssued(RCMRMT030101UK04EhrExtract ehrExtract, II observationStatementId) {
-        var ehrComposition = extractEhrCompositionForObservationStatement(ehrExtract, observationStatementId);
+    private Optional<InstantType> getIssued(RCMRMT030101UK04EhrExtract ehrExtract, List<RCMRMT030101UK04EhrComposition> compositions,
+        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        var ehrComposition = getCurrentEhrComposition(compositions, compoundStatement);
 
         if (authorHasValidTimeValue(ehrComposition.getAuthor())) {
-            return DateFormatUtil.parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
+            return Optional.of(parseToInstantType(ehrComposition.getAuthor().getTime().getValue()));
         }
 
         if (availabilityTimeHasValue(ehrExtract.getAvailabilityTime())) {
-            return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
+            return Optional.of(parseToInstantType(ehrExtract.getAvailabilityTime().getValue()));
         }
 
-        return null;
+        return Optional.empty();
+    }
+
+    private boolean authorHasValidTimeValue(RCMRMT030101UK04Author author) {
+        return author != null && author.getTime() != null
+            && author.getTime().getValue() != null
+            && author.getTime().getNullFlavor() == null;
+    }
+
+    private boolean availabilityTimeHasValue(TS availabilityTime) {
+        return availabilityTime != null && availabilityTime.getValue() != null && !timeHasNullFlavor(availabilityTime);
+    }
+
+    private boolean timeHasNullFlavor(TS time) {
+        return time.getNullFlavor() != null;
     }
 
     private CodeableConcept createCodeableConcept(RCMRMT030101UK04CompoundStatement compoundStatement) {
