@@ -24,6 +24,7 @@ import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
 import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
 import org.hl7.v3.TS;
 
+import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.mapper.QuantityMapper;
 
 public class ObservationUtil {
@@ -56,24 +57,20 @@ public class ObservationUtil {
 
     public static CodeableConcept getInterpretation(CV interpretationCode) {
         if (interpretationCode != null) {
-            var interpretationCodeableConcept = new CodeableConcept();
-
             var code = interpretationCode.getCode();
-
-            interpretationCodeableConcept.getCoding().add(new Coding()
-                .setCode(getInterpretationCodeAbbreviation(code))
-                .setDisplay(getInterpretationDisplay(code))
-                .setSystem(CODING_SYSTEM));
-
+            String text = null;
             if (StringUtils.isNotEmpty(interpretationCode.getOriginalText())) {
-                interpretationCodeableConcept.setText(interpretationCode.getOriginalText());
+                text = interpretationCode.getOriginalText();
             } else if (StringUtils.isNotEmpty(interpretationCode.getDisplayName())) {
-                interpretationCodeableConcept.setText(interpretationCode.getDisplayName());
+                text = interpretationCode.getDisplayName();
             }
-
-            return interpretationCodeableConcept;
+            return CodeableConceptUtils.createCodeableConcept(
+                getInterpretationCodeAbbreviation(code),
+                CODING_SYSTEM,
+                getInterpretationDisplay(code),
+                text
+            );
         }
-
         return null;
     }
 

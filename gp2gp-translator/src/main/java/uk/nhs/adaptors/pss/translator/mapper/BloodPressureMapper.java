@@ -67,7 +67,8 @@ public class BloodPressureMapper {
         var compositionsList = getCompositionsContainingCompoundStatement(ehrExtract);
 
         return compositionsList.stream()
-            .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
+            .map(RCMRMT030101UK04EhrComposition::getComponent)
+            .flatMap(List::stream)
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
             .filter(Objects::nonNull)
             .filter(compoundStatement -> BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0))
