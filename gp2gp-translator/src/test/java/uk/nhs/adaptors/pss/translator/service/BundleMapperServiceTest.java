@@ -37,6 +37,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
+import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
@@ -72,6 +73,8 @@ public class BundleMapperServiceTest {
     private ProcedureRequestMapper procedureRequestMapper;
     @Mock
     private ReferralRequestMapper referralRequestMapper;
+    @Mock
+    private BloodPressureMapper bloodPressureMapper;
     @Mock
     private ObservationMapper observationMapper;
     @Mock
@@ -125,6 +128,7 @@ public class BundleMapperServiceTest {
             any(RCMRMT030101UK04RequestStatement.class),
             any(Patient.class)
         );
+        verify(bloodPressureMapper).mapBloodPressure(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(observationMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(conditionMapper).mapConditions(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(immunizationMapper).mapToImmunization(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());

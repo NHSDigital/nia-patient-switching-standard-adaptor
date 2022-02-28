@@ -73,10 +73,8 @@ public class JsonPathIgnoreGeneratorUtil {
 
     private static Boolean isUnknownPractitioner(Resource resource) {
         Practitioner practitioner = (Practitioner) resource;
-        if (UNKNOWN_USER.equals(practitioner.getNameFirstRep().getText())) {
-            return true;
-        }
-        return false;
+
+        return UNKNOWN_USER.equals(practitioner.getNameFirstRep().getText());
     }
 
     @Data
