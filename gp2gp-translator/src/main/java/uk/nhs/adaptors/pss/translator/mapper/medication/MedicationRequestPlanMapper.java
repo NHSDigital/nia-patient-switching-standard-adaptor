@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
@@ -75,7 +77,7 @@ public class MedicationRequestPlanMapper {
 
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, ""));
             medicationRequest.setStatus(buildMedicationRequestStatus(supplyAuthorise));
-            medicationRequest.setIntent(MedicationRequest.MedicationRequestIntent.PLAN);
+            medicationRequest.setIntent(PLAN);
             medicationRequest.addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()));
             medicationRequest.setDispenseRequest(buildDispenseRequestForAuthorise(supplyAuthorise, medicationStatement));
 

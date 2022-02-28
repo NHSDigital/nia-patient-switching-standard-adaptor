@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -10,7 +12,6 @@ import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.II;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -26,7 +27,7 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @Service
 @AllArgsConstructor
 public class ProcedureRequestMapper {
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1";
+    private static final String META_PROFILE = "ProcedureRequest-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
 
     private CodeableConceptMapper codeableConceptMapper;
@@ -100,7 +101,7 @@ public class ProcedureRequestMapper {
             .setAuthoredOnElement(authoredOn)
             .setOccurrence(occurrence)
             .setId(id);
-        procedureRequest.getMeta().getProfile().add(new UriType(META_PROFILE));
+        procedureRequest.setMeta(generateMeta(META_PROFILE));
         procedureRequest.getIdentifier().add(getIdentifier(id));
         procedureRequest.getNote().add(note);
         procedureRequest.getReasonCode().add(reasonCode);

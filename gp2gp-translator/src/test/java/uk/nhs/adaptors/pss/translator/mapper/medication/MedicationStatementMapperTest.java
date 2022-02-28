@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.ACTIVE;
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementTaken.UNK;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
@@ -11,7 +13,6 @@ import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UK04Component2;
@@ -63,9 +64,9 @@ public class MedicationStatementMapperTest {
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1");
         assertThat(prescribingAgency.size()).isEqualTo(1);
         assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
-        assertThat(medicationStatement1.getStatus()).isEqualTo(MedicationStatement.MedicationStatementStatus.ACTIVE);
+        assertThat(medicationStatement1.getStatus()).isEqualTo(ACTIVE);
         assertThat(medicationStatement1.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);
-        assertThat(medicationStatement1.getTaken()).isEqualTo(MedicationStatement.MedicationStatementTaken.UNK);
+        assertThat(medicationStatement1.getTaken()).isEqualTo(UNK);
         assertThat(medicationStatement1.getDosageFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
     }
 
@@ -92,9 +93,9 @@ public class MedicationStatementMapperTest {
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1");
         assertThat(prescribingAgency.size()).isEqualTo(1);
         assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
-        assertThat(medicationStatement1.getStatus()).isEqualTo(MedicationStatement.MedicationStatementStatus.ACTIVE);
+        assertThat(medicationStatement1.getStatus()).isEqualTo(ACTIVE);
         assertThat(medicationStatement1.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);
-        assertThat(medicationStatement1.getTaken()).isEqualTo(MedicationStatement.MedicationStatementTaken.UNK);
+        assertThat(medicationStatement1.getTaken()).isEqualTo(UNK);
         assertThat(medicationStatement1.getDosageFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
     }
 

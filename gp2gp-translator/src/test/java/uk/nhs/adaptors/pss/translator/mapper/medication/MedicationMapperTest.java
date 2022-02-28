@@ -26,8 +26,10 @@ public class MedicationMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/Consumable/";
     private static final String TEST_ID = "TEST_ID";
+
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
+
     @Mock
     private IdGeneratorService idGeneratorService;
 

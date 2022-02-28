@@ -1,5 +1,9 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.ACTIVE;
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.COMPLETED;
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementTaken.UNK;
+
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -27,8 +31,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 @Service
 @AllArgsConstructor
 public class MedicationStatementMapper {
-    private static final String MEDICATION_STATEMENT_URL
-        = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1";
+    private static final String MEDICATION_STATEMENT_URL = "MedicationStatement-1";
     private static final String MS_LAST_ISSUE_DATE = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1";
     private static final String PRESCRIBING_AGENCY_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1";
@@ -50,7 +53,7 @@ public class MedicationStatementMapper {
             medicationStatement1.setId(ehrSupplyAuthoriseId + MS_SUFFIX);
             medicationStatement1.setMeta(generateMeta(MEDICATION_STATEMENT_URL));
             medicationStatement1.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId + MS_SUFFIX, ""));
-            medicationStatement1.setTaken(MedicationStatement.MedicationStatementTaken.UNK);
+            medicationStatement1.setTaken(UNK);
 
             medicationStatement1.addBasedOn(new Reference(ehrSupplyAuthoriseId));
             medicationStatement1.addExtension(generatePrescribingAgencyExtension());
@@ -73,9 +76,9 @@ public class MedicationStatementMapper {
     private MedicationStatement.MedicationStatementStatus buildMedicationStatementStatus(RCMRMT030101UK04Authorise supplyAuthorise) {
         if (supplyAuthorise.hasStatusCode() && supplyAuthorise.getStatusCode().hasCode()
             && COMPLETE.equals(supplyAuthorise.getStatusCode().getCode())) {
-            return MedicationStatement.MedicationStatementStatus.COMPLETED;
+            return COMPLETED;
         } else {
-            return MedicationStatement.MedicationStatementStatus.ACTIVE;
+            return ACTIVE;
         }
     }
 

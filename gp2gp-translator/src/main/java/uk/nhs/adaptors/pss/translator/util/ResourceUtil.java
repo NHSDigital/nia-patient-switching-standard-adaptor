@@ -8,7 +8,7 @@ import org.hl7.fhir.dstu3.model.UriType;
 
 public class ResourceUtil {
 
-    private static final String META_PROFILE_TEMPLATE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-%s-1";
+    private static final String META_PROFILE_TEMPLATE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-%s";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/{practiseCode}";
     private static final String PRACTISE_CODE = "{practiseCode}";
 

@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.service;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -97,17 +96,17 @@ public class BundleMapperService {
         var medicationResources = medicationRequestMapper.mapResources(ehrExtract, encounters, patient);
         addEntries(bundle, medicationResources);
 
-        var observations = mapObservations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters
+        var observations = mapObservations(ehrExtract, patient, encounters);
         addEntries(bundle, observations);
 
-        var immunizations = mapImmunizations(ehrExtract, patient, List.of()); //TODO: Provide list of encounters (NIAD-1961)
+        var immunizations = mapImmunizations(ehrExtract, patient, encounters);
         addEntries(bundle, immunizations);
 
-        var conditions = mapConditions(ehrExtract, patient, List.of()); //TODO: Provide list of encounters (NIAD-1961)
+        var conditions = mapConditions(ehrExtract, patient, encounters);
         addEntries(bundle, conditions);
 
         var observationComments =
-            mapObservationComments(ehrExtract, patient, Collections.emptyList()); //TODO: Provide list of encounters (NIAD-1961)
+            mapObservationComments(ehrExtract, patient, encounters);
         addEntries(bundle, observationComments);
 
         // TODO: Add references to mapped resources in their appropriate lists (NIAD-2051)

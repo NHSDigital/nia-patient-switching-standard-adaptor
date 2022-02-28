@@ -5,6 +5,8 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.ORDER;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.COMPLETED;
 
 import java.util.Optional;
 
@@ -98,8 +100,8 @@ public class MedicationRequestOrderMapperTest {
 
     public void assertCommonValues(MedicationRequest medicationRequest) {
         assertThat(medicationRequest.getIdentifier().size()).isEqualTo(1);
-        assertThat(medicationRequest.getIntent()).isEqualTo(MedicationRequest.MedicationRequestIntent.ORDER);
-        assertThat(medicationRequest.getStatus()).isEqualTo(MedicationRequest.MedicationRequestStatus.COMPLETED);
+        assertThat(medicationRequest.getIntent()).isEqualTo(ORDER);
+        assertThat(medicationRequest.getStatus()).isEqualTo(COMPLETED);
         assertThat(medicationRequest.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);
     }
 

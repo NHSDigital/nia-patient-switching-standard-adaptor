@@ -5,6 +5,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +15,6 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
@@ -87,8 +88,8 @@ public class MedicationRequestPlanMapperTest {
         var codeableConcept = (CodeableConcept) prescriptionType.get(0).getValue();
         assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Repeat");
 
-        assertThat(medicationRequest.getStatus()).isEqualTo(MedicationRequest.MedicationRequestStatus.ACTIVE);
-        assertThat(medicationRequest.getIntent()).isEqualTo(MedicationRequest.MedicationRequestIntent.PLAN);
+        assertThat(medicationRequest.getStatus()).isEqualTo(ACTIVE);
+        assertThat(medicationRequest.getIntent()).isEqualTo(PLAN);
         assertThat(medicationRequest.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);
         assertThat(medicationRequest.getNote().size()).isEqualTo(2);
 

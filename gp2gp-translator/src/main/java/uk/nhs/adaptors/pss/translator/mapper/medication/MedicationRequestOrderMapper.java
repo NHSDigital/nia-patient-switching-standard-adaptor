@@ -1,5 +1,8 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.ORDER;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.COMPLETED;
+
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
@@ -44,8 +47,8 @@ public class MedicationRequestOrderMapper {
             MedicationRequest medicationRequest = createMedicationRequestSkeleton(ehrSupplyPrescribeId);
 
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyPrescribeId, ""));
-            medicationRequest.setStatus(MedicationRequest.MedicationRequestStatus.COMPLETED);
-            medicationRequest.setIntent(MedicationRequest.MedicationRequestIntent.ORDER);
+            medicationRequest.setStatus(COMPLETED);
+            medicationRequest.setIntent(ORDER);
 
             medicationRequest.addBasedOn(buildMedicationRequestReference(ehrSupplyPrescribeId));
             medicationRequest.addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()));

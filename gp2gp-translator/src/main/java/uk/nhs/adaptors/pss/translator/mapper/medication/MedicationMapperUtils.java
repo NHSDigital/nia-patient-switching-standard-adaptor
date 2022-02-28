@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MedicationMapperUtils {
 
-    private static final String META_PROFILE = "MedicationRequest";
+    private static final String META_PROFILE = "MedicationRequest-1";
     private static final String ACUTE = "Acute";
     private static final String REPEAT = "Repeat";
     private static final String NO_INFORMATION_AVAILABLE = "No Information available";

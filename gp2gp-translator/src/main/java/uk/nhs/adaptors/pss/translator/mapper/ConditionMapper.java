@@ -6,6 +6,8 @@ import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIV
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ExtensionUtil.buildReferenceExtension;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +25,9 @@ import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
@@ -50,11 +49,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ConditionMapper {
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1";
+    private static final String META_PROFILE = "ProblemHeader-Condition-1";
     private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-RelatedClinicalContent-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/{practiseCode}";
-    private static final String PRACTISE_CODE = "{practiseCode}";
     private static final String ACTUAL_PROBLEM_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ActualProblem-1";
     private static final String PROBLEM_SIGNIFICANCE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
@@ -90,8 +88,7 @@ public class ConditionMapper {
             .addIdentifier(buildIdentifier(id, "TEMP_PRACTICE_CODE")) //TODO: Find how to get the practise code legit way
             .addCategory(generateCategory())
             .setId(id)
-            .setMeta(generateConditionMeta());
-
+            .setMeta(generateMeta(META_PROFILE));
         /**
          * Case for NIAD-2021 ticket
          * Identifier's PRACTICE CODE -> {source practice org code from wider tx context} |
@@ -186,21 +183,6 @@ public class ConditionMapper {
             encounters,
             getCurrentEhrComposition(compositions, linkSet).getId().getRoot())
         );
-    }
-
-    private Meta generateConditionMeta() {
-        Meta meta = new Meta();
-        UriType profile = new UriType(META_PROFILE);
-        meta.setProfile(List.of(profile));
-        return meta;
-    }
-
-    private Identifier buildIdentifier(String rootId, String practiseCode) {
-        Identifier identifier = new Identifier();
-        identifier.setSystem(IDENTIFIER_SYSTEM.replace(PRACTISE_CODE, practiseCode));
-        identifier.setValue(rootId);
-
-        return identifier;
     }
 
     private Optional<Extension> buildActualProblem(Bundle bundle, RCMRMT030101UK04StatementRef namedStatementRef) {
