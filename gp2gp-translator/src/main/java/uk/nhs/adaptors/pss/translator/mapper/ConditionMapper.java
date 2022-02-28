@@ -41,7 +41,6 @@ import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.RCMRMT030101UK04StatementRef;
-import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -244,7 +243,7 @@ public class ConditionMapper {
     }
 
     private Optional<Annotation> generateAnnotationToMinor(CD linkSetCode) {
-        if(hasCode(linkSetCode) && !MAJOR_CODE.equals(linkSetCode.getQualifier().get(0).getName().getCode())) {
+        if (hasCode(linkSetCode) && !MAJOR_CODE.equals(linkSetCode.getQualifier().get(0).getName().getCode())) {
             return Optional.of(new Annotation().setText(DEFAULT_ANNOTATION));
         }
         return Optional.empty();
@@ -252,8 +251,8 @@ public class ConditionMapper {
 
     private boolean hasCode(CD linkSetCode) {
         var crOpt = linkSetCode.getQualifier().stream().findFirst();
-        if(crOpt.isPresent()) {
-            if(crOpt.get().getName() != null) {
+        if (crOpt.isPresent()) {
+            if (crOpt.get().getName() != null) {
                 return crOpt.get().getName().getCode() != null;
             }
         }
