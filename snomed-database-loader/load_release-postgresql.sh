@@ -71,7 +71,7 @@ function addLoadScript() {
 
 echo -e "\nGenerating loading script for $releaseDate"
 echo "#!/bin/bash" >> ${generatedLoadScript}
-echo "/* Generated Loader Script */" >  ${generatedLoadScript}
+echo "# Generated Loader Script" >  ${generatedLoadScript}
 chmod +x ${generatedLoadScript}
 
 addLoadScript sct2_Description_TYPE-en_GB_DATE.txt description
