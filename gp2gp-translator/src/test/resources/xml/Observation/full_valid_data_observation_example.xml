@@ -57,10 +57,7 @@
                                 </agentRef>
                             </Participant>
                             <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="PQ" value="27.000"
-                                   unit="1">
-                                <translation value="27.000">
-                                    <originalText>kg/m2</originalText>
-                                </translation>
+                                   unit="kg/m2">
                             </value>
                         </ObservationStatement>
                     </component>
