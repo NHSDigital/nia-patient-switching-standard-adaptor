@@ -1,0 +1,61 @@
+<EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+    <component typeCode="COMP">
+        <ehrFolder classCode="FOLDER" moodCode="EVN">
+            <component typeCode="COMP">
+                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                    <id root="CA4AD477-C33B-4FE7-8417-A242BB3D23AF"/>
+                    <author typeCode="AUT" contextControlCode="OP">
+                        <time value="20200101010101"/>
+                        <agentRef classCode="AGNT">
+                            <id root="749107A2-4975-441F-8EDF-ADFF451FD12D"/>
+                        </agentRef>
+                    </author>
+                    <Participant2 typeCode="PRF" contextControlCode="OP">
+                        <agentRef classCode="AGNT">
+                            <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
+                        </agentRef>
+                    </Participant2>
+                    <component typeCode="COMP">
+                        <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                            <id root="FE739904-2AAB-4B3F-9718-84BE019FD483"/>
+                            <code code="163020007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                  displayName="O/E - blood pressure reading">
+                                <originalText>O/E - blood pressure reading</originalText>
+                            </code>
+                            <statusCode code="COMPLETE"/>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <ObservationStatement classCode="OBS" moodCode="EVN">
+                                    <id root="38324DDE-7ABE-4039-BF78-8E9D334FCA8F"/>
+                                    <code code="72313002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                          displayName="Systolic arterial pressure">
+                                        <originalText>Systolic arterial pressure</originalText>
+                                    </code>
+                                </ObservationStatement>
+                            </component>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <ObservationStatement classCode="OBS" moodCode="EVN">
+                                    <id root="041E16C5-CB96-4A2C-A8D8-BF6CD904671E"/>
+                                    <code code="1091811000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                          displayName="Diastolic arterial pressure">
+                                        <originalText>Diastolic arterial pressure</originalText>
+                                    </code>
+                                    <pertinentInformation typeCode="PERT">
+                                        <sequenceNumber value="+1"/>
+                                        <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                            <text>Test diastolic pressure text</text>
+                                        </pertinentAnnotation>
+                                    </pertinentInformation>
+                                </ObservationStatement>
+                            </component>
+                            <Participant typeCode="PPRF" contextControlCode="OP">
+                                <agentRef classCode="AGNT">
+                                    <id root="5DE8CDDA-866F-4CD9-9BB3-527A86DD49A9"/>
+                                </agentRef>
+                            </Participant>
+                        </CompoundStatement>
+                    </component>
+                </ehrComposition>
+            </component>
+        </ehrFolder>
+    </component>
+</EhrExtract>
