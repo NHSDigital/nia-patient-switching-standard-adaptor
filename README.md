@@ -25,11 +25,15 @@ They are Java Spring Boot applications, released as separate docker images.
 
     .
     ├── db                          # Dockerfile and scripts for local database setup
+    ├── snomed-database-loader      # Scripts loading Snomed CT codes into database
     ├── common                      # Common module used by gp2gp-translator, gpc-api-facade and db-connector
     ├── db-connector                # Common module used by gp2gp-translator and gpc-api-facade, used for db-related classes
     ├── gp2gp-translator            # GP2GP Translator
     ├── gpc-api-facade              # GPC API Facade
     └── mhs-adaptor-mock            # Dockerfile and required files for mock of MHS Adaptor
+
+## Snomed CT Database
+Please make sure to load the latest release of Snomed CT UK Edition. See [snomed-database-loader](https://github.com/NHSDigital/nia-patient-switching-standard-adaptor/tree/main/snomed-database-loader) for more information.
 
 ## Local development
 ### How to start local environment
@@ -93,7 +97,7 @@ To clean all containers run
  ./clear-docker.sh
 ```
 
-### Licensing
+## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).
 Any new work added to this repository must conform to the conditions of these licenses.
 In particular this means that this project may not depend on GPL-licensed or AGPL-licensed libraries,
