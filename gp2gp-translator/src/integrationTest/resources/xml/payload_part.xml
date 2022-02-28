@@ -348,6 +348,27 @@
                                     </agentRef>
                                 </Participant2>
                                 <component typeCode="COMP" >
+                                    <CompoundStatement classCode="TOPIC" moodCode="EVN">
+                                        <id root="3D8A2760-90B4-11EC-B1E5-0800200C9A66"/>
+                                        <code code="14L..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: drug allergy"/>
+                                        <statusCode code="COMPLETE"/>
+                                        <effectiveTime>
+                                            <center value="19781231"/>
+                                        </effectiveTime>
+                                        <availabilityTime value="19781231" />
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="07F5EAC0-90B5-11EC-B1E5-0800200C9A66"/>
+                                                <code code="14L..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: drug allergy"/>
+                                                <statusCode code="COMPLETE"/>
+                                                <effectiveTime>
+                                                    <center value="19781231"/>
+                                                </effectiveTime>
+                                                <availabilityTime value="19781231" />
+                                                <component></component>
+                                            </CompoundStatement>
+                                        </component>
+                                    </CompoundStatement>
                                     <ObservationStatement classCode="OBS" moodCode="EVN">
                                         <id root="5A074D71-AEBD-473C-815F-CD64255B87EB" />
                                         <code code="282653015" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Medication review">
