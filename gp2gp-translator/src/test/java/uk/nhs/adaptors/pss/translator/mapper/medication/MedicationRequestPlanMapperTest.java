@@ -45,6 +45,7 @@ public class MedicationRequestPlanMapperTest {
     private static final String AVAILABILITY_TIME = "20060426";
 
     private static final int ONE = 1;
+    private static final int TWO = 2;
     private static final int SIX = 6;
     private static final int TWENTY_EIGHT = 28;
 
@@ -91,7 +92,7 @@ public class MedicationRequestPlanMapperTest {
         assertThat(medicationRequest.getStatus()).isEqualTo(ACTIVE);
         assertThat(medicationRequest.getIntent()).isEqualTo(PLAN);
         assertThat(medicationRequest.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);
-        assertThat(medicationRequest.getNote().size()).isEqualTo(2);
+        assertThat(medicationRequest.getNote().size()).isEqualTo(TWO);
 
         assertThat(medicationRequest.getDosageInstructionFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
         assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue().intValue()).isEqualTo(TWENTY_EIGHT);
