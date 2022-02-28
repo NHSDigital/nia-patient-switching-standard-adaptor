@@ -39,7 +39,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @ExtendWith(MockitoExtension.class)
-public class EncounteMapperTest {
+public class EncounterMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/Encounter/";
     private static final String ENCOUNTER_ID = "5EB5D070-8FE1-11EC-B1E5-0800200C9A66";
     private static final String ENCOUNTER_ID_2 = "6EB5D070-8FE1-11EC-B1E5-0800200C9A66";
