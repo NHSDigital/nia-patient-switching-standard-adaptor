@@ -36,7 +36,7 @@ public class ConditionMapperTest {
     private static final String CONDITION_RESOURCES_BASE = "xml/Condition/";
     private static final String PATIENT_ID = "PATIENT_ID";
     private static final String ENCOUNTER_ID = "EHR_COMPOSITION_ENCOUNTER_ID";
-    private static final String ASSERTER_ID = "ASSERTER_ID";
+    private static final String ASSERTER_ID = "Practitioner/ASSERTER_ID";
     private static final String LINKSET_ID = "LINKSET_ID";
     private static final String CODING_DISPLAY = "THIS IS A TEST";
     private static final DateTimeType EHR_EXTRACT_AVAILABILITY_DATETIME = parseToDateTimeType("20101209114846.00");
@@ -64,9 +64,6 @@ public class ConditionMapperTest {
 
     @BeforeEach
     public void setUp() {
-        var codeableConcept = new CodeableConcept().addCoding(new Coding().setDisplay(CODING_DISPLAY));
-        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
-
         patient = (Patient) new Patient().setId(PATIENT_ID);
     }
 
@@ -90,7 +87,7 @@ public class ConditionMapperTest {
         assertThat(condition.getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL).size()).isEqualTo(0);
 
         assertThat(condition.getClinicalStatus().getDisplay()).isEqualTo("Active");
-        assertThat(condition.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY);
+        assertThat(condition.getCode().getCodingFirstRep().hasDisplay()).isFalse();
 
         assertThat(condition.getSubject().getResource().getIdElement().getIdPart()).isEqualTo(PATIENT_ID);
         assertThat(condition.getAsserter().getReference()).isEqualTo(ASSERTER_ID);
@@ -100,7 +97,20 @@ public class ConditionMapperTest {
         assertThat(condition.getAbatementDateTimeType()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME);
         assertThat(condition.getAssertedDateElement().getValue()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME.getValue());
 
-        assertThat(condition.getNote().size()).isEqualTo(1);
+        assertThat(condition.getNote().size()).isEqualTo(0);
+    }
+
+    @Test
+    public void testConditionIsMappedCorrectlyWithNamedStatementRef() {
+        when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
+        var codeableConcept = new CodeableConcept().addCoding(new Coding().setDisplay(CODING_DISPLAY));
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
+        final List<Condition> conditions = conditionMapper.mapConditions(ehrExtract, patient, List.of());
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+
+        assertThat(conditions.get(0).getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY);
     }
 
     @Test

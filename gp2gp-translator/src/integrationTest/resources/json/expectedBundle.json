@@ -1,6 +1,6 @@
 {
     "resourceType": "Bundle",
-    "id": "67af86d6-5255-49fe-a0fb-9ffac75bac6f",
+    "id": "4d8c9117-4395-4b5c-b1dd-4c1aa711a103",
     "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
     },
@@ -8,7 +8,7 @@
     "entry": [ {
         "resource": {
             "resourceType": "Patient",
-            "id": "2c810e83-1f76-456f-8469-e782ffccca47",
+            "id": "496d57e7-a10c-4ea0-b652-3524c293d9ca",
             "meta": {
                 "versionId": "1521806400000",
                 "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -405,7 +405,7 @@
             "status": "active",
             "intent": "plan",
             "subject": {
-                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+                "reference": "Patient/496d57e7-a10c-4ea0-b652-3524c293d9ca"
             },
             "occurrenceDateTime": "2011-01-15",
             "authoredOn": "2010-01-15T10:06:46+00:00",
@@ -442,7 +442,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+                "reference": "Patient/496d57e7-a10c-4ea0-b652-3524c293d9ca"
             },
             "effectiveDateTime": "2010-01-14",
             "issued": "2010-01-14T10:34:30.000+00:00",
@@ -466,7 +466,7 @@
                 "text": "Medication review with patient"
             },
             "subject": {
-                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+                "reference": "Patient/496d57e7-a10c-4ea0-b652-3524c293d9ca"
             },
             "effectiveDateTime": "2010-01-15",
             "issued": "2010-01-14T10:34:30.000+00:00",
@@ -494,7 +494,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+                "reference": "Patient/496d57e7-a10c-4ea0-b652-3524c293d9ca"
             },
             "effectiveDateTime": "2010-01-15",
             "issued": "2010-01-15T10:06:46.000+00:00",
@@ -522,7 +522,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+                "reference": "Patient/496d57e7-a10c-4ea0-b652-3524c293d9ca"
             },
             "effectiveDateTime": "2010-03-23T15:36:00+00:00",
             "issued": "2010-03-23T15:51:27.000+00:00",
@@ -551,7 +551,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+                "reference": "Patient/496d57e7-a10c-4ea0-b652-3524c293d9ca"
             },
             "effectiveDateTime": "2010-03-23T15:39:00+00:00",
             "issued": "2010-03-23T15:59:35.000+00:00",
@@ -580,7 +580,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+                "reference": "Patient/496d57e7-a10c-4ea0-b652-3524c293d9ca"
             },
             "effectiveDateTime": "2011-11-15T14:54:00+00:00",
             "issued": "2011-11-15T14:59:10.000+00:00",
@@ -609,7 +609,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+                "reference": "Patient/496d57e7-a10c-4ea0-b652-3524c293d9ca"
             },
             "effectiveDateTime": "2010-01-14T10:10:00+00:00",
             "issued": "2010-01-14T10:10:00.000+00:00",
@@ -637,7 +637,7 @@
                 } ]
             },
             "subject": {
-                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+                "reference": "Patient/496d57e7-a10c-4ea0-b652-3524c293d9ca"
             },
             "effectiveDateTime": "2018-10-30",
             "issued": "2018-10-30T00:00:00.000+00:00",
@@ -671,7 +671,7 @@
             "status": "completed",
             "notGiven": false,
             "patient": {
-                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+                "reference": "Patient/496d57e7-a10c-4ea0-b652-3524c293d9ca"
             },
             "date": "2010-01-15",
             "primarySource": false,
@@ -690,7 +690,7 @@
             },
             "extension": [ {
                 "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
-                "valueCode": "Major"
+                "valueCode": "major"
             }, {
                 "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
                 "valueReference": {
@@ -717,20 +717,21 @@
             "code": {
                 "coding": [ {
                     "system": "http://snomed.info/sct",
-                    "code": "394774009",
-                    "display": "Active Problem"
-                } ],
-                "text": "Active Problem, major"
+                    "code": "150085018",
+                    "display": "Gout"
+                } ]
             },
             "subject": {
-                "reference": "Patient/2c810e83-1f76-456f-8469-e782ffccca47"
+                "reference": "Patient/496d57e7-a10c-4ea0-b652-3524c293d9ca"
             },
             "onsetDateTime": "2010-03-23T15:36:00+00:00",
             "assertedDate": "2010-03-23T15:51:27+00:00",
             "asserter": {
-                "reference": "2D70F602-6BB1-47E0-B2EC-39912A59787D"
+                "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
             },
             "note": [ {
+                "text": "Significance : Major\n                                                    Episodicity : First\n                                                    This is problem Problem Info: Problem Notes: This is problem"
+            }, {
                 "text": "Active Problem, major"
             } ]
         }
