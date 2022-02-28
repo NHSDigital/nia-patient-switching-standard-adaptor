@@ -179,15 +179,6 @@ public class ConditionMapper {
             value = linkSet.getAvailabilityTime().getValue();
         }
         return Optional.ofNullable(dateTimeMapper.mapDateTime(value)).or(Optional::empty);
-
-//        if (effectiveTime != null && effectiveTime.hasLow() && effectiveTime.getLow().getValue() != null) {
-//            return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getLow().getValue()));
-//        } else if (effectiveTime != null && effectiveTime.hasCenter() && effectiveTime.getCenter().getValue() != null) {
-//            return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getCenter().getValue()));
-//        } else if (availabilityTime != null && availabilityTime.getValue() != null) {
-//            return Optional.of(dateTimeMapper.mapDateTime(availabilityTime.getValue()));
-//        }
-//        return Optional.empty();
     }
 
     private Optional<DateTimeType> buildAbatementDateTimeType(IVLTS abatementDateTime) {
