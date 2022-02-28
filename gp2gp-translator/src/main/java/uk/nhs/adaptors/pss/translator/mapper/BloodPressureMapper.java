@@ -62,48 +62,36 @@ public class BloodPressureMapper {
          * TODO: Known future implementations to this mapper
          * - performer: fallback to a default 'Unknown User' Practitioner if none are present in performer (NIAD-2026)
          * - identifier: concatenate source practice org id to identifier URL (NIAD-2021)
-         *
-         * - Add functionality for mapping non conformant blood pressures (NIAD-2023)
-         *
          */
 
         var compositionsList = getCompositionsContainingCompoundStatement(ehrExtract);
 
-        // TODO: Add functionality for mapping non conformant blood pressures (NIAD-2023)
         return compositionsList.stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
             .filter(Objects::nonNull)
-            .filter(compoundStatement -> BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0)))
-            .filter(compoundStatement -> {
-                var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
-
-                if (observationStatements.size() == 2 && observationStatements.get(0) != null && observationStatements.get(1) != null) {
-                    return BloodPressureValidatorUtil.validateBloodPressureTriple(compoundStatement.getCode().getCode(),
-                        observationStatements.get(0).getCode().getCode(), observationStatements.get(1).getCode().getCode());
-                }
-
-                return false;
-            })
+            .filter(compoundStatement -> BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0))
+                && containsValidBloodPressureTriple(compoundStatement))
             .map(compoundStatement -> {
                 var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
-                var id = compoundStatement.getId().get(0).getRoot();
+                var id = compoundStatement.getId().get(0);
 
                 Observation observation = new Observation()
-                    .addIdentifier(getIdentifier(id))
+                    .addIdentifier(getIdentifier(id.getRoot()))
                     .setStatus(ObservationStatus.FINAL)
                     .setCode(getCode(compoundStatement.getCode()))
                     .setComponent(getComponent(observationStatements))
-                    .setComment(getComment(observationStatements,
-                        getNarrativeStatementsFromCompoundStatement(compoundStatement)))
+                    .setComment(
+                        getComment(observationStatements, getNarrativeStatementsFromCompoundStatement(compoundStatement)))
                     .setSubject(new Reference(patient))
-                    .setIssuedElement(getIssued(ehrExtract, extractEhrCompositionForCompoundStatement(ehrExtract,
-                        compoundStatement.getId().get(0))))
+                    .setIssuedElement(getIssued(
+                        ehrExtract,
+                        extractEhrCompositionForCompoundStatement(ehrExtract, id)))
                     .addPerformer(getParticipantReference(
                         compoundStatement.getParticipant(),
-                        extractEhrCompositionForCompoundStatement(ehrExtract, compoundStatement.getId().get(0))));
+                        extractEhrCompositionForCompoundStatement(ehrExtract, id)));
 
-                observation.setId(id);
+                observation.setId(id.getRoot());
                 observation.getMeta().getProfile().add(new UriType(META_PROFILE));
 
                 addEffective(observation, getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime()));
@@ -123,6 +111,17 @@ public class BloodPressureMapper {
                 .map(RCMRMT030101UK04Component4::getCompoundStatement)
                 .anyMatch(Objects::nonNull))
             .toList();
+    }
+
+    private boolean containsValidBloodPressureTriple(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
+
+        if (observationStatements.size() == 2) {
+            return BloodPressureValidatorUtil.validateBloodPressureTriple(compoundStatement.getCode().getCode(),
+                observationStatements.get(0).getCode().getCode(), observationStatements.get(1).getCode().getCode());
+        }
+
+        return false;
     }
 
     private II getEhrCompositionId(List<RCMRMT030101UK04EhrComposition> ehrCompositions,
@@ -194,7 +193,8 @@ public class BloodPressureMapper {
             stringBuilder.append(BP_NOTE);
             for (RCMRMT030101UK04NarrativeStatement narrativeStatement
                 : narrativeStatements) {
-                stringBuilder.append(narrativeStatement.getText() + StringUtils.SPACE);
+                stringBuilder.append(narrativeStatement.getText()).append(StringUtils.SPACE);
+                ;
             }
         }
 
@@ -209,16 +209,16 @@ public class BloodPressureMapper {
     private List<RCMRMT030101UK04ObservationStatement> getObservationStatementsFromCompoundStatement(
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent().stream()
-            .filter(component -> component.getObservationStatement() != null)
             .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .filter(Objects::nonNull)
             .toList();
     }
 
     private List<RCMRMT030101UK04NarrativeStatement> getNarrativeStatementsFromCompoundStatement(
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent().stream()
-            .filter(component -> component.getNarrativeStatement() != null)
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .filter(Objects::nonNull)
             .toList();
     }
 

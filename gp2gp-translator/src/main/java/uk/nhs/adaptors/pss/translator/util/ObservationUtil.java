@@ -89,14 +89,16 @@ public class ObservationUtil {
 
             var referenceInterpretationRange = referenceRange.getReferenceInterpretationRange();
             if (referenceInterpretationRangeHasValue(referenceInterpretationRange)) {
-                if (referenceInterpretationRange.getValue().getLow() != null) {
-                    referenceRangeComponent.setLow(getSimpleQuantityFromQuantity(quantity,
-                        Long.parseLong(referenceRange.getReferenceInterpretationRange().getValue().getLow().getValue())));
-                }
+                if (referenceInterpretationRange.getValue() != null) {
+                    if (referenceInterpretationRange.getValue().getLow() != null) {
+                        referenceRangeComponent.setLow(getSimpleQuantityFromQuantity(quantity,
+                            Long.parseLong(referenceRange.getReferenceInterpretationRange().getValue().getLow().getValue())));
+                    }
 
-                if (referenceInterpretationRange.getValue().getHigh() != null) {
-                    referenceRangeComponent.setHigh(getSimpleQuantityFromQuantity(quantity,
-                        Long.parseLong(referenceRange.getReferenceInterpretationRange().getValue().getHigh().getValue())));
+                    if (referenceInterpretationRange.getValue().getHigh() != null) {
+                        referenceRangeComponent.setHigh(getSimpleQuantityFromQuantity(quantity,
+                            Long.parseLong(referenceRange.getReferenceInterpretationRange().getValue().getHigh().getValue())));
+                    }
                 }
             }
 
