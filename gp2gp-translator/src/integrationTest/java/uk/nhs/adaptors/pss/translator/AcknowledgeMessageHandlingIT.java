@@ -63,7 +63,6 @@ public class AcknowledgeMessageHandlingIT {
 
     @Test
     public void handlePositiveAcknowledgeMessageFromQueue() {
-        // process starts with consuming a message from MHS queue
         sendAcknowledgementMessageToQueue("AA");
 
         // verify if correct status is set in the DB
@@ -72,7 +71,6 @@ public class AcknowledgeMessageHandlingIT {
 
     @Test
     public void handleNegativeAcknowledgeMessageFromQueue() {
-        // process starts with consuming a message from MHS queue
         sendAcknowledgementMessageToQueue("AE");
 
         // verify if correct status is set in the DB
