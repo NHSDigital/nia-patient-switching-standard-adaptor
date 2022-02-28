@@ -238,17 +238,20 @@ public class ConditionMapper {
         return Optional.empty();
     }
 
+    private boolean hasMajorCode(CD linkSetCode) {
+        return hasCode(linkSetCode) && MAJOR_CODE.equals(linkSetCode.getQualifier().get(0).getName().getCode());
+    }
 
     private Extension buildProblemSignificance(CD linkSetCode) {
         Extension extension = new Extension()
             .setUrl(PROBLEM_SIGNIFICANCE_URL);
 
-        return hasCode(linkSetCode) && MAJOR_CODE.equals(linkSetCode.getQualifier().get(0).getName().getCode())
+        return hasMajorCode(linkSetCode)
             ? extension.setValue(new CodeType(MAJOR_CODE_NAME)) : extension.setValue(new CodeType(MINOR_CODE_NAME));
     }
 
     private Optional<Annotation> generateAnnotationToMinor(CD linkSetCode) {
-        if (hasCode(linkSetCode) && !MAJOR_CODE.equals(linkSetCode.getQualifier().get(0).getName().getCode())) {
+        if (!hasMajorCode(linkSetCode)) {
             return Optional.of(new Annotation().setText(DEFAULT_ANNOTATION));
         }
         return Optional.empty();
