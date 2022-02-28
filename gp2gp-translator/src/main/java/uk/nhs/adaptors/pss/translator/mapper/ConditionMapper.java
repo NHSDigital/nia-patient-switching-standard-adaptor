@@ -23,10 +23,12 @@ import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
+import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
@@ -63,6 +65,8 @@ public class ConditionMapper {
     private static final String CLINICAL_STATUS_INACTIVE_CODE = "394775005";
     private static final String DEFAULT_CLINICAL_STATUS = "Defaulted status to active : Unknown status at source";
     private static final String DEFAULT_ANNOTATION = "Unspecified Significance: Defaulted to Minor";
+    private static final String MAJOR_CODE_NAME = "major";
+    private static final String MINOR_CODE_NAME = "minor";
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
@@ -124,7 +128,7 @@ public class ConditionMapper {
             .stream()
             .findFirst()
             .ifPresent(participant2 -> condition.setAsserter(
-                new Reference("Practitioner/" + participant2.getAgentRef().getId().getRoot()))
+                new Reference(new IdType(ResourceType.Practitioner.name(), participant2.getAgentRef().getId().getRoot())))
             );
 
         return condition;
@@ -166,7 +170,7 @@ public class ConditionMapper {
     }
 
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UK04LinkSet linkSet) {
-        String value = null;
+        String value = "";
         if (linkSet.getEffectiveTime() != null) {
             IVLTS effectiveTime = linkSet.getEffectiveTime();
             if (effectiveTime.hasLow() && effectiveTime.getLow().hasValue()) {
@@ -177,7 +181,7 @@ public class ConditionMapper {
         } else if (linkSet.getAvailabilityTime() != null && linkSet.getAvailabilityTime().hasValue()) {
             value = linkSet.getAvailabilityTime().getValue();
         }
-        return Optional.ofNullable(dateTimeMapper.mapDateTime(value)).or(Optional::empty);
+        return !value.isEmpty() ? Optional.of(dateTimeMapper.mapDateTime(value)) : Optional.empty();
     }
 
     private Optional<DateTimeType> buildAbatementDateTimeType(IVLTS abatementDateTime) {
@@ -234,12 +238,13 @@ public class ConditionMapper {
         return Optional.empty();
     }
 
+
     private Extension buildProblemSignificance(CD linkSetCode) {
         Extension extension = new Extension()
             .setUrl(PROBLEM_SIGNIFICANCE_URL);
 
         return hasCode(linkSetCode) && MAJOR_CODE.equals(linkSetCode.getQualifier().get(0).getName().getCode())
-            ? extension.setValue(new CodeType("major")) : extension.setValue(new CodeType("minor"));
+            ? extension.setValue(new CodeType(MAJOR_CODE_NAME)) : extension.setValue(new CodeType(MINOR_CODE_NAME));
     }
 
     private Optional<Annotation> generateAnnotationToMinor(CD linkSetCode) {
@@ -251,12 +256,7 @@ public class ConditionMapper {
 
     private boolean hasCode(CD linkSetCode) {
         var crOpt = linkSetCode.getQualifier().stream().findFirst();
-        if (crOpt.isPresent()) {
-            if (crOpt.get().getName() != null) {
-                return crOpt.get().getName().getCode() != null;
-            }
-        }
-        return false;
+        return crOpt.isPresent() && crOpt.get().getName() != null & crOpt.get().getName().getCode() != null;
     }
 
     private Optional<Condition.ConditionClinicalStatus> buildClinicalStatus(CD linksetCode) {

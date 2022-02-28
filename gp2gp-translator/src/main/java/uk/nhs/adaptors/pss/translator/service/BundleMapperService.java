@@ -193,4 +193,5 @@ public class BundleMapperService {
     private <T extends DomainResource> void addEntry(Bundle bundle, T resource) {
         bundle.addEntry(new BundleEntryComponent().setResource(resource));
     }
+
 }
