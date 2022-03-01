@@ -85,6 +85,9 @@ public class ObjectFactory {
     private final static QName _AGENT_DIRECTORY_QNAME = new QName("urn:hl7-org:v3", "agentDirectory");
     private final static QName _ADDRESS_QNAME = new QName("urn:hl7-org:v3", "addr");
     private final static QName _TELECOM_QNAME = new QName("urn:hl7-org:v3", "telecom");
+    private final static QName _EHR_SUPPLY_AUTHORISE = new QName("urn:hl7-org:v3", "ehrSupplyAuthorise");
+    private final static QName _MEDICATION_STATEMENT = new QName("urn:hl7-org:v3", "MedicationStatement");
+    private final static QName _CONSUMABLE = new QName("urn:hl7-org:v3", "Consumable");
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
      * 
@@ -3531,4 +3534,18 @@ public class ObjectFactory {
         return new JAXBElement<TEL>(_TELECOM_QNAME, TEL.class, null, telecom);
     }
 
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "ehrSupplyAuthorise")
+    public JAXBElement<RCMRMT030101UK04Authorise> createTelecom(RCMRMT030101UK04Authorise supplyAuthorise) {
+        return new JAXBElement<RCMRMT030101UK04Authorise>(_EHR_SUPPLY_AUTHORISE, RCMRMT030101UK04Authorise.class, null, supplyAuthorise);
+    }
+
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "MedicationStatement")
+    public JAXBElement<RCMRMT030101UK04MedicationStatement> createMedicationStatement(RCMRMT030101UK04MedicationStatement medicationStatement) {
+        return new JAXBElement<RCMRMT030101UK04MedicationStatement>(_MEDICATION_STATEMENT, RCMRMT030101UK04MedicationStatement.class, null, medicationStatement);
+    }
+
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "consumable")
+    public JAXBElement<RCMRMT030101UK04Consumable> createConsumable(RCMRMT030101UK04Consumable consumable) {
+        return new JAXBElement<RCMRMT030101UK04Consumable>(_CONSUMABLE, RCMRMT030101UK04Consumable.class, null, consumable);
+    }
 }

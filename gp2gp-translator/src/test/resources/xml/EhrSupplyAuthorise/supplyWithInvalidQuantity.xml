@@ -1,0 +1,20 @@
+<ehrSupplyAuthorise xmlns="urn:hl7-org:v3" classCode="SPLY" moodCode="INT">
+    <id root="8866381C-E5B8-4A6E-ADBC-964F9A77D407" />
+    <code code="9bG0.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="NHS prescription" />
+    <statusCode code="ACTIVE" />
+    <effectiveTime>
+        <center nullFlavor="NI" />
+    </effectiveTime>
+    <availabilityTime value="20100114" />
+    <repeatNumber value="6" />
+    <quantity value="twenty-eight" unit="1">
+        <translation value="twenty-eight">
+            <originalText>capsule</originalText>
+        </translation>
+    </quantity>
+    <pertinentInformation typeCode="PERT">
+        <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
+            <text>Pharmacy Text: Repeat Dispensing Pharmacy Note. </text>
+        </pertinentSupplyAnnotation>
+    </pertinentInformation>
+</ehrSupplyAuthorise>

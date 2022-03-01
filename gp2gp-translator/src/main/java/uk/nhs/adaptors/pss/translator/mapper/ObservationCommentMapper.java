@@ -2,6 +2,8 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -34,54 +36,46 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @AllArgsConstructor
 public class ObservationCommentMapper {
 
-    private static final String META_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
+    private static final String META_URL = "Observation-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String CODING_SYSTEM = "http://snomed.info/sct";
     private static final String CODING_CODE = "37331000000100";
     private static final String CODING_DISPLAY = "Comment note";
 
     public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
-        return getNarrativeStatements(ehrExtract)
-            .stream()
-            .map(narrativeStatement -> getObservation(ehrExtract, patient, encounters, narrativeStatement))
-            .toList();
-    }
 
-    public List<Observation> mapDiagnosticChildrenObservations(List<RCMRMT030101UK04NarrativeStatement> narrativeStatements,
-        RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+        var narrativeStatements =  getNarrativeStatements(ehrExtract);
+
         return narrativeStatements
             .stream()
-            .map(narrativeStatement -> getObservation(ehrExtract, patient, encounters, narrativeStatement))
-            .toList();
-    }
+            .map(narrativeStatement -> {
+                var narrativeStatementId = narrativeStatement.getId();
+                var observation = new Observation();
+                observation.setId(narrativeStatement.getId().getRoot());
+                observation.setMeta(generateMeta(META_URL));
+                observation.setStatus(FINAL);
+                observation.setSubject(new Reference(patient));
+                observation.setIssuedElement(createIssued(ehrExtract, narrativeStatement.getId()));
+                observation.setCode(createCodeableConcept());
+                observation.setEffective(
+                    DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue())
+                );
 
-    private Observation getObservation(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters, RCMRMT030101UK04NarrativeStatement narrativeStatement) {
-        var narrativeStatementId = narrativeStatement.getId();
-        var observation = new Observation();
-        observation.setId(narrativeStatement.getId().getRoot());
-        observation.setMeta(createMeta());
-        observation.setStatus(FINAL);
-        observation.setSubject(new Reference(patient));
-        observation.setIssuedElement(createIssued(ehrExtract, narrativeStatement.getId()));
-        observation.setCode(createCodeableConcept());
-        observation.setEffective(
-            DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue())
-        );
+                observation.setPerformer(
+                    Collections.singletonList(createPerformer(ehrExtract, narrativeStatement))
+                );
 
-        observation.setPerformer(
-            Collections.singletonList(createPerformer(ehrExtract, narrativeStatement))
-        );
+                observation.setIdentifier(
+                    Collections.singletonList(createIdentifier(narrativeStatementId.getRoot()))
+                );
 
-        observation.setIdentifier(
-            Collections.singletonList(createIdentifier(narrativeStatementId.getRoot()))
-        );
+                setObservationComment(observation, narrativeStatement.getText());
 
-        setObservationComment(observation, narrativeStatement.getText());
+                // Context may not always be mapped
+                setObservationContext(observation, ehrExtract, narrativeStatementId, encounters);
 
-        // Context may not always be mapped
-        setObservationContext(observation, ehrExtract, narrativeStatementId, encounters);
-
-        return observation;
+                return observation;
+            }).toList();
     }
 
     private void setObservationContext(Observation observation, RCMRMT030101UK04EhrExtract ehrExtract,

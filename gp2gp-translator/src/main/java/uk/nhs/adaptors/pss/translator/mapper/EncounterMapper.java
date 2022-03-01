@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +19,6 @@ import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.ListResource.ListEntryComponent;
-import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
@@ -46,7 +47,7 @@ import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EncounterMapper {
     private static final List<String> INVALID_CODES = List.of("196401000000100", "196391000000103");
-    private static final String ENCOUNTER_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1";
+    private static final String ENCOUNTER_META_PROFILE = "Encounter-1";
     private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/";
     private static final String LOCATION_REFERENCE = "Location/%s-LOC";
     private static final String PERFORMER_SYSTEM = "http://hl7.org/fhir/v3/ParticipationType";
@@ -210,7 +211,7 @@ public class EncounterMapper {
             .setType(getType(ehrComposition.getCode()))
             .setPeriod(getPeriod(ehrComposition))
             .setIdentifier(getIdentifier(id))
-            .setMeta(getMeta())
+            .setMeta(generateMeta(ENCOUNTER_META_PROFILE))
             .setId(id);
 
         setEncounterLocation(encounter, ehrComposition);
@@ -220,10 +221,6 @@ public class EncounterMapper {
 
     private List<CodeableConcept> getType(CD code) {
         return List.of(codeableConceptMapper.mapToCodeableConcept(code));
-    }
-
-    private Meta getMeta() {
-        return new Meta().addProfile(ENCOUNTER_META_PROFILE);
     }
 
     private List<Identifier> getIdentifier(String id) {

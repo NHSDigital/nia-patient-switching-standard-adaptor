@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,6 @@ import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.PractitionerRole;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.AD;
 import org.hl7.v3.CV;
 import org.hl7.v3.II;
@@ -35,10 +36,9 @@ import uk.nhs.adaptors.pss.translator.util.TelecomUtil;
 
 @Service
 public class AgentDirectoryMapper {
-    private static final String PRACT_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1";
-    private static final String ORG_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1";
-    private static final String PRACT_ROLE_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC"
-        + "-PractitionerRole-1";
+    private static final String PRACT_META_PROFILE = "Practitioner-1";
+    private static final String ORG_META_PROFILE = "Organization-1";
+    private static final String PRACT_ROLE_META_PROFILE = "PractitionerRole-1";
     private static final String ORG_IDENTIFIER_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
     private static final String ORG_PREFIX = "Organization/";
     private static final String PRACT_PREFIX = "Practitioner/";
@@ -84,7 +84,7 @@ public class AgentDirectoryMapper {
         var practitioner = new Practitioner();
 
         practitioner.setId(id);
-        practitioner.getMeta().getProfile().add(new UriType(PRACT_META_PROFILE));
+        practitioner.setMeta(generateMeta(PRACT_META_PROFILE));
         practitioner.setName(getPractitionerName(agentPerson.getName()));
 
         return practitioner;
@@ -131,7 +131,7 @@ public class AgentDirectoryMapper {
         organization
             .setName(getOrganizationName(representedOrg.getName()))
             .setId(id + ORG_ID_SUFFIX);
-        organization.getMeta().getProfile().add(new UriType(ORG_META_PROFILE));
+        organization.setMeta(generateMeta(ORG_META_PROFILE));
         organization.getIdentifier().add(getOrganizationIdentifier(representedOrg.getId()));
 
         var address = getOrganizationAddress(representedOrg.getAddr());
@@ -152,7 +152,7 @@ public class AgentDirectoryMapper {
         organization
             .setName(getOrganizationName(agentOrg.getName()))
             .setId(id);
-        organization.getMeta().getProfile().add(new UriType(ORG_META_PROFILE));
+        organization.setMeta(generateMeta(ORG_META_PROFILE));
 
         var identifier = getOrganizationIdentifier(agentOrg.getId());
         if (identifier != null) {
@@ -229,7 +229,7 @@ public class AgentDirectoryMapper {
         var practitionerRole = new PractitionerRole();
 
         practitionerRole.setId(id + PRACT_ROLE_SUFFIX);
-        practitionerRole.getMeta().getProfile().add(new UriType(PRACT_ROLE_META_PROFILE));
+        practitionerRole.setMeta(generateMeta(PRACT_ROLE_META_PROFILE));
         practitionerRole.setPractitioner(new Reference(PRACT_PREFIX + id));
         practitionerRole.setOrganization(new Reference(ORG_PREFIX + id + ORG_ID_SUFFIX));
 

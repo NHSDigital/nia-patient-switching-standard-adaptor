@@ -78,6 +78,10 @@ public abstract class ANY {
         this.nullFlavor = value;
     }
 
+    public boolean hasNullFlavor() {
+        return nullFlavor != null;
+    }
+
     /**
      * Gets the value of the updateMode property.
      * 

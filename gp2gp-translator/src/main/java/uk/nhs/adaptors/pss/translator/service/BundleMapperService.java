@@ -35,6 +35,7 @@ import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DiagnosticReportMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationCommentMapper;
 
@@ -43,6 +44,7 @@ import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
 @Slf4j
 @Service
@@ -61,7 +63,9 @@ public class BundleMapperService {
     private final LocationMapper locationMapper;
     private final ProcedureRequestMapper procedureRequestMapper;
     private final ReferralRequestMapper referralRequestMapper;
+    private final MedicationRequestMapper medicationRequestMapper;
     private final ObservationCommentMapper observationCommentMapper;
+    private final BloodPressureMapper bloodPressureMapper;
     private final ObservationMapper observationMapper;
     private final ConditionMapper conditionMapper;
     private final ImmunizationMapper immunizationMapper;
@@ -93,6 +97,12 @@ public class BundleMapperService {
 
         var referralRequests = mapReferralRequests(ehrFolder, patient);
         addEntries(bundle, referralRequests);
+
+        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, encounters, patient);
+        addEntries(bundle, medicationResources);
+
+        var bloodPressures = mapBloodPressures(ehrExtract, patient, encounters);
+        addEntries(bundle, bloodPressures);
 
         var observations = mapObservations(ehrExtract, patient, encounters);
         addEntries(bundle, observations);
@@ -173,6 +183,10 @@ public class BundleMapperService {
 
     private List<Observation> mapObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         return observationCommentMapper.mapObservations(ehrExtract, patient, encounters);
+    }
+
+    private List<Observation> mapBloodPressures(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+        return bloodPressureMapper.mapBloodPressure(ehrExtract, patient, encounters);
     }
 
     private List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {

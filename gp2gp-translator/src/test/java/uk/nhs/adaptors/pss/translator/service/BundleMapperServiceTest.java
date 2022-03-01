@@ -37,6 +37,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
+import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
@@ -46,6 +47,7 @@ import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class BundleMapperServiceTest {
@@ -72,6 +74,8 @@ public class BundleMapperServiceTest {
     @Mock
     private ReferralRequestMapper referralRequestMapper;
     @Mock
+    private BloodPressureMapper bloodPressureMapper;
+    @Mock
     private ObservationMapper observationMapper;
     @Mock
     private ConditionMapper conditionMapper;
@@ -79,6 +83,8 @@ public class BundleMapperServiceTest {
     private ImmunizationMapper immunizationMapper;
     @Mock
     private ObservationCommentMapper observationCommentMapper;
+    @Mock
+    private MedicationRequestMapper medicationRequestMapper;
 
     @InjectMocks
     private BundleMapperService bundleMapperService;
@@ -122,10 +128,13 @@ public class BundleMapperServiceTest {
             any(RCMRMT030101UK04RequestStatement.class),
             any(Patient.class)
         );
+        verify(bloodPressureMapper).mapBloodPressure(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(observationMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(conditionMapper).mapConditions(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(immunizationMapper).mapToImmunization(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(observationCommentMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
+        verify(medicationRequestMapper, atLeast(1))
+            .mapResources(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class));
     }
 
     @SneakyThrows
