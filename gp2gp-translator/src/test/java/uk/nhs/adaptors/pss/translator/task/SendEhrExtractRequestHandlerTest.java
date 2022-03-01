@@ -27,7 +27,6 @@ import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
-import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,9 +51,6 @@ public class SendEhrExtractRequestHandlerTest {
     @Mock
     private MhsClientService mhsClientService;
 
-    @Mock
-    private IdGeneratorService idGeneratorService;
-
     @InjectMocks
     private SendEhrExtractRequestHandler sendEhrExtractRequestHandler;
 
@@ -66,9 +62,9 @@ public class SendEhrExtractRequestHandlerTest {
         pssQueueMessage = TransferRequestMessage.builder()
             .patientNhsNumber(TEST_NHS_NUMBER)
             .toOds(TEST_TO_ODS_CODE)
+            .conversationId(CONVERSATION_ID)
             .build();
         when(ehrExtractRequestService.buildEhrExtractRequest(pssQueueMessage)).thenReturn(TEST_PAYLOAD_BODY);
-        when(idGeneratorService.generateUuid()).thenReturn(CONVERSATION_ID);
         when(builder.buildSendEhrExtractRequest(eq(CONVERSATION_ID), eq(TEST_TO_ODS_CODE), any(OutboundMessage.class)))
             .thenReturn(request);
     }
@@ -80,7 +76,7 @@ public class SendEhrExtractRequestHandlerTest {
         assertTrue(isMessageSentSuccessfully);
         verify(migrationStatusLogService).addMigrationStatusLog(
             MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED,
-            TEST_NHS_NUMBER
+            CONVERSATION_ID
         );
     }
 
@@ -100,7 +96,7 @@ public class SendEhrExtractRequestHandlerTest {
         assertFalse(isMessageSentSuccessfully);
         verify(migrationStatusLogService).addMigrationStatusLog(
             MigrationStatus.EHR_EXTRACT_REQUEST_ERROR,
-            TEST_NHS_NUMBER
+            CONVERSATION_ID
         );
     }
 }
