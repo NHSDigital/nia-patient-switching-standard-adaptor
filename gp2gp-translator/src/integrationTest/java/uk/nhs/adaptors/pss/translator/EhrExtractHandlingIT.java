@@ -51,8 +51,7 @@ public class EhrExtractHandlingIT {
         "entry[0].resource.id",
         "entry[0].resource.identifier[0].value",
         "entry[*].resource.subject.reference",
-        "entry[*].resource.patient.reference",
-        "entry[44].resource.performer.reference"
+        "entry[*].resource.patient.reference"
     );
 
     @Autowired

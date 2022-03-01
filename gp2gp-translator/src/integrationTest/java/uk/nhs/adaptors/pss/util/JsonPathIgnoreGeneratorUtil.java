@@ -9,8 +9,10 @@ import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Practitioner;
+import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +32,8 @@ public class JsonPathIgnoreGeneratorUtil {
         new IgnoreParameters(ResourceType.List, "id", resource -> isList(resource, TOPIC_DISPLAY)),
         new IgnoreParameters(ResourceType.List, "entry[*].item.reference",
             resource -> isList(resource, CONSULTATION_DISPLAY)),
-        new IgnoreParameters(ResourceType.Practitioner, "id", JsonPathIgnoreGeneratorUtil::isUnknownPractitioner)
+        new IgnoreParameters(ResourceType.Practitioner, "id", JsonPathIgnoreGeneratorUtil::isUnknownPractitioner),
+        new IgnoreParameters(ResourceType.ProcedureRequest, "performer", JsonPathIgnoreGeneratorUtil::isUnknownPerformer)
     );
 
     public static List<String> generateJsonPathIgnores(Bundle fhirBundle) {
@@ -71,10 +74,22 @@ public class JsonPathIgnoreGeneratorUtil {
         return false;
     }
 
-    private static Boolean isUnknownPractitioner(Resource resource) {
+    private static Boolean isUnknownPractitioner(IBaseResource resource) {
         Practitioner practitioner = (Practitioner) resource;
 
         return UNKNOWN_USER.equals(practitioner.getNameFirstRep().getText());
+    }
+
+    private static Boolean isUnknownPerformer(Resource resource) {
+        ProcedureRequest procedureRequest = (ProcedureRequest) resource;
+
+        IBaseResource performer = procedureRequest.getPerformer().getResource();
+
+        if (performer instanceof Practitioner) {
+            return isUnknownPractitioner(performer);
+        }
+
+        return false;
     }
 
     @Data
