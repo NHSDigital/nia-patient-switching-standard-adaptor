@@ -78,10 +78,54 @@ public class ObservationCommentMapper {
             }).toList();
     }
 
+    public List<Observation> mapDiagnosticChildrenObservations(List<RCMRMT030101UK04NarrativeStatement> narrativeStatements,
+        RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+        return narrativeStatements.stream()
+            .map(narrativeStatement -> {
+                var narrativeStatementId = narrativeStatement.getId();
+                var observation = new Observation();
+                observation.setId(narrativeStatement.getId().getRoot());
+                observation.setMeta(generateMeta(META_URL));
+                observation.setStatus(FINAL);
+                observation.setSubject(new Reference(patient));
+                observation.setIssuedElement(createDeepIssued(ehrExtract, narrativeStatement.getId()));
+                observation.setCode(createCodeableConcept());
+
+                observation.setPerformer(
+                    Collections.singletonList(createDeepPerformer(ehrExtract, narrativeStatement))
+                );
+
+                observation.setIdentifier(
+                    Collections.singletonList(createIdentifier(narrativeStatementId.getRoot()))
+                );
+
+                //TODO: Figure a better way to remove the comment header
+                setObservationComment(observation, narrativeStatement.getText().replaceAll(" ", "").split("\n")[3]);
+
+                // Context may not always be mapped
+                setDeepObservationContext(observation, ehrExtract, narrativeStatementId, encounters);
+
+                return observation;
+            })
+            .toList();
+    }
+
     private void setObservationContext(Observation observation, RCMRMT030101UK04EhrExtract ehrExtract,
         II narrativeStatementId, List<Encounter> encounters) {
         var composition =
             EhrResourceExtractorUtil.extractEhrCompositionForNarrativeStatement(ehrExtract, narrativeStatementId);
+
+        encounters
+            .stream()
+            .filter(encounter -> encounter.getId().equals(composition.getId().getRoot()))
+            .findFirst()
+            .ifPresent(encounter -> observation.setContext(new Reference(encounter)));
+    }
+
+    private void setDeepObservationContext(Observation observation, RCMRMT030101UK04EhrExtract ehrExtract,
+        II narrativeStatementId, List<Encounter> encounters) {
+        var composition =
+            EhrResourceExtractorUtil.extractEhrCompositionForCompoundNarrativeStatement(ehrExtract, narrativeStatementId);
 
         encounters
             .stream()
@@ -122,9 +166,27 @@ public class ObservationCommentMapper {
         return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
     }
 
+    private InstantType createDeepIssued(RCMRMT030101UK04EhrExtract ehrExtract, II narrativeStatementId) {
+        RCMRMT030101UK04EhrComposition composition =
+            EhrResourceExtractorUtil.extractEhrCompositionForCompoundNarrativeStatement(ehrExtract, narrativeStatementId);
+
+        if (composition.getAuthor().getTime().getNullFlavor() == null) {
+            return DateFormatUtil.parseToInstantType(composition.getAuthor().getTime().getValue());
+        }
+
+        return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
+    }
+
     private Reference createPerformer(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04NarrativeStatement narrativeStatement) {
         RCMRMT030101UK04EhrComposition composition =
             EhrResourceExtractorUtil.extractEhrCompositionForNarrativeStatement(ehrExtract, narrativeStatement.getId());
+
+        return ParticipantReferenceUtil.getParticipantReference(narrativeStatement.getParticipant(), composition);
+    }
+
+    private Reference createDeepPerformer(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+        RCMRMT030101UK04EhrComposition composition =
+            EhrResourceExtractorUtil.extractEhrCompositionForCompoundNarrativeStatement(ehrExtract, narrativeStatement.getId());
 
         return ParticipantReferenceUtil.getParticipantReference(narrativeStatement.getParticipant(), composition);
     }
