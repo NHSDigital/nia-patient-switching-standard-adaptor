@@ -48,6 +48,7 @@ import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
+import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class BundleMapperServiceTest {
@@ -83,6 +84,8 @@ public class BundleMapperServiceTest {
     private ImmunizationMapper immunizationMapper;
     @Mock
     private ObservationCommentMapper observationCommentMapper;
+    @Mock
+    private MedicationRequestMapper medicationRequestMapper;
     @Mock
     private UnknownPractitionerHandler unknownPractitionerHandler;
 
@@ -133,6 +136,8 @@ public class BundleMapperServiceTest {
         verify(conditionMapper).mapConditions(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(immunizationMapper).mapToImmunization(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(observationCommentMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
+        verify(medicationRequestMapper, atLeast(1))
+            .mapResources(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class));
         verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
     }
 

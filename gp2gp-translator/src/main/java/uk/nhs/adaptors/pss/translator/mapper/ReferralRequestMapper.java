@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +15,6 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralCategory;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.IVLTS;
@@ -30,7 +31,7 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @Service
 @AllArgsConstructor
 public class ReferralRequestMapper {
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ReferralRequest-1";
+    private static final String META_PROFILE = "ReferralRequest-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String PRIORITY_PREFIX = "Priority: ";
     private static final String ACTION_DATE_PREFIX = "Action Date: ";
@@ -143,7 +144,7 @@ public class ReferralRequestMapper {
         var referralRequest = new ReferralRequest();
 
         referralRequest.setId(id);
-        referralRequest.getMeta().getProfile().add(new UriType(META_PROFILE));
+        referralRequest.setMeta(generateMeta(META_PROFILE));
         referralRequest.getIdentifier().add(getIdentifier(id));
         referralRequest.setStatus(ReferralRequestStatus.UNKNOWN);
         referralRequest.setIntent(ReferralCategory.ORDER);

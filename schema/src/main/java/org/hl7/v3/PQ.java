@@ -80,6 +80,10 @@ public class PQ
         return this.translation;
     }
 
+    public boolean hasTranslation() {
+        return translation != null && translation.size() > 0;
+    }
+
     /**
      * Gets the value of the value property.
      * 
@@ -97,7 +101,7 @@ public class PQ
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link int }
      *     
      */
     public void setValue(String value) {

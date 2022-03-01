@@ -195,6 +195,10 @@ public class RCMRMT030101UK04Component4 {
         this.medicationStatement = value;
     }
 
+    public boolean hasMedicationStatement() {
+        return medicationStatement != null;
+    }
+
     /**
      * Gets the value of the narrativeStatement property.
      * 

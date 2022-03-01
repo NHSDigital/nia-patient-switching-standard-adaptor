@@ -92,6 +92,10 @@ public class RCMRMT030101UK04MedicationRef {
         this.id = value;
     }
 
+    public boolean hasId() {
+        return id != null;
+    }
+
     /**
      * Gets the value of the type property.
      * 

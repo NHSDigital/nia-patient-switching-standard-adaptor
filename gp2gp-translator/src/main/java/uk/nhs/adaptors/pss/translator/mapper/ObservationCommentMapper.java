@@ -2,6 +2,8 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +36,7 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @AllArgsConstructor
 public class ObservationCommentMapper {
 
-    private static final String META_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
+    private static final String META_URL = "Observation-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String CODING_SYSTEM = "http://snomed.info/sct";
     private static final String CODING_CODE = "37331000000100";
@@ -50,7 +52,7 @@ public class ObservationCommentMapper {
                 var narrativeStatementId = narrativeStatement.getId();
                 var observation = new Observation();
                 observation.setId(narrativeStatement.getId().getRoot());
-                observation.setMeta(createMeta());
+                observation.setMeta(generateMeta(META_URL));
                 observation.setStatus(FINAL);
                 observation.setSubject(new Reference(patient));
                 observation.setIssuedElement(createIssued(ehrExtract, narrativeStatement.getId()));

@@ -7,8 +7,12 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
+import static org.assertj.core.api.Assertions.fail;
 
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,9 +47,11 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 @DirtiesContext
 @AutoConfigureMockMvc
 public class EhrExtractHandlingIT {
+    private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
-    private static final String EBXML_PART_PATH = "/xml/ebxml_part.xml";
+    private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
+    private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
     private static final List<String> STATIC_IGNORED_JSON_PATHS = List.of(
         "id",
         "entry[0].resource.id",
@@ -71,17 +77,19 @@ public class EhrExtractHandlingIT {
     private FhirParser fhirParserService;
 
     private String patientNhsNumber;
+    private String conversationId;
 
     @BeforeEach
     public void setUp() {
         patientNhsNumber = generatePatientNhsNumber();
+        conversationId = generateConversationId();
         startPatientMigrationJourney();
     }
 
     @Test
     public void handleEhrExtractFromQueue() throws JSONException {
         // process starts with consuming a message from MHS queue
-        sendInboundMessageToQueue("/xml/payload_part.xml");
+        sendInboundMessageToQueue("/xml/RCMR_IN030000UK06/payload_part.xml");
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
         await().until(this::isEhrExtractTranslated);
@@ -91,12 +99,16 @@ public class EhrExtractHandlingIT {
     }
 
     private void startPatientMigrationJourney() {
-        patientMigrationRequestDao.addNewRequest(patientNhsNumber);
-        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, patientNhsNumber);
+        patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId);
+        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId);
     }
 
     private String generatePatientNhsNumber() {
         return RandomStringUtils.randomNumeric(NHS_NUMBER_MIN_MAX_LENGTH, NHS_NUMBER_MIN_MAX_LENGTH);
+    }
+
+    private String generateConversationId() {
+        return UUID.randomUUID().toString();
     }
 
     private void sendInboundMessageToQueue(String payloadPartPath) {
@@ -107,20 +119,24 @@ public class EhrExtractHandlingIT {
     private InboundMessage createInboundMessage(String payloadPartPath) {
         var inboundMessage = new InboundMessage();
         var payload = readResourceAsString(payloadPartPath).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
-        var ebXml = readResourceAsString(EBXML_PART_PATH);
+        var ebXml = readResourceAsString(EBXML_PART_PATH).replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
         inboundMessage.setPayload(payload);
         inboundMessage.setEbXML(ebXml);
         return inboundMessage;
     }
 
     private boolean isEhrExtractTranslated() {
-        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(patientNhsNumber);
+        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
         return EHR_EXTRACT_TRANSLATED.equals(migrationStatusLog.getMigrationStatus());
     }
 
     private void verifyBundle(String path) throws JSONException {
-        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(patientNhsNumber);
+        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
+
+        if (OVERWRITE_EXPECTED_JSON) {
+            overwriteExpectJson(patientMigrationRequest.getBundleResource());
+        }
 
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
         var combinedList = Stream.of(generateJsonPathIgnores(bundle), STATIC_IGNORED_JSON_PATHS)
@@ -138,6 +154,14 @@ public class EhrExtractHandlingIT {
 
         JSONAssert.assertEquals(expected, actual,
             new CustomComparator(JSONCompareMode.STRICT, customizations));
+    }
+
+    @SneakyThrows
+    private void overwriteExpectJson(String newExpected) {
+        try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/json/expectedBundle.json", StandardCharsets.UTF_8)) {
+            printWriter.print(newExpected);
+        }
+        fail("Re-run the tests with OVERWRITE_EXPECTED_JSON=false");
     }
 
     @SneakyThrows

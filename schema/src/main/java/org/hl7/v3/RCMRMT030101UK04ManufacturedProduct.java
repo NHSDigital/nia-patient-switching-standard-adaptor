@@ -89,6 +89,10 @@ public class RCMRMT030101UK04ManufacturedProduct {
         this.manufacturedMaterial = value;
     }
 
+    public boolean hasManufacturedMaterial() {
+        return manufacturedMaterial != null;
+    }
+
     /**
      * Gets the value of the type property.
      * 

@@ -13,7 +13,6 @@ import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
-import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
 @Slf4j
@@ -25,13 +24,11 @@ public class SendEhrExtractRequestHandler {
     private final MhsRequestBuilder requestBuilder;
     private final MhsClientService mhsClientService;
     private final MigrationStatusLogService migrationStatusLogService;
-    private final IdGeneratorService idGeneratorService;
 
     @SneakyThrows
     public boolean prepareAndSendRequest(TransferRequestMessage message) {
-        String conversationId = idGeneratorService.generateUuid();
+        String conversationId = message.getConversationId();
         String toOdsCode = message.getToOds();
-        String nhsNumber = message.getPatientNhsNumber();
 
         String ehrExtractRequest = ehrExtractRequestService.buildEhrExtractRequest(message);
 
@@ -43,12 +40,12 @@ public class SendEhrExtractRequestHandler {
             LOGGER.debug(response);
         } catch (WebClientResponseException wcre) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", wcre.getMessage());
-            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.EHR_EXTRACT_REQUEST_ERROR, nhsNumber);
+            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.EHR_EXTRACT_REQUEST_ERROR, conversationId);
             return false;
         }
 
         LOGGER.info("Got response from MHS - 202 Accepted");
-        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED, nhsNumber);
+        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED, conversationId);
         return true;
     }
 }

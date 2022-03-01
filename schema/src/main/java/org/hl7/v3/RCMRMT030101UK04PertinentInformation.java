@@ -89,6 +89,10 @@ public class RCMRMT030101UK04PertinentInformation {
         this.pertinentMedicationDosage = value;
     }
 
+    public boolean hasPertinentMedicationDosage() {
+        return pertinentMedicationDosage != null;
+    }
+
     /**
      * Gets the value of the type property.
      * 

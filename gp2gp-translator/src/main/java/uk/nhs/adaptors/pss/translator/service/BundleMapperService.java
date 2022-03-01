@@ -43,6 +43,7 @@ import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
+import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
 @Slf4j
 @Service
@@ -61,6 +62,7 @@ public class BundleMapperService {
     private final LocationMapper locationMapper;
     private final ProcedureRequestMapper procedureRequestMapper;
     private final ReferralRequestMapper referralRequestMapper;
+    private final MedicationRequestMapper medicationRequestMapper;
     private final ObservationCommentMapper observationCommentMapper;
     private final BloodPressureMapper bloodPressureMapper;
     private final ObservationMapper observationMapper;
@@ -94,6 +96,9 @@ public class BundleMapperService {
 
         var referralRequests = mapReferralRequests(ehrFolder, patient);
         addEntries(bundle, referralRequests);
+
+        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, encounters, patient);
+        addEntries(bundle, medicationResources);
 
         var bloodPressures = mapBloodPressures(ehrExtract, patient, encounters);
         addEntries(bundle, bloodPressures);

@@ -126,6 +126,10 @@ public class RCMRMT030101UK04Authorise {
         this.id = value;
     }
 
+    public boolean hasId() {
+        return id != null;
+    }
+
     /**
      * Gets the value of the code property.
      * 
@@ -148,6 +152,10 @@ public class RCMRMT030101UK04Authorise {
      */
     public void setCode(CV value) {
         this.code = value;
+    }
+
+    public boolean hasCode() {
+        return code != null;
     }
 
     /**
@@ -174,6 +182,10 @@ public class RCMRMT030101UK04Authorise {
         this.statusCode = value;
     }
 
+    public boolean hasStatusCode() {
+        return statusCode != null;
+    }
+
     /**
      * Gets the value of the effectiveTime property.
      * 
@@ -196,6 +208,10 @@ public class RCMRMT030101UK04Authorise {
      */
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
+    }
+
+    public boolean hasEffectiveTime() {
+        return effectiveTime != null;
     }
 
     /**
@@ -222,6 +238,10 @@ public class RCMRMT030101UK04Authorise {
         this.availabilityTime = value;
     }
 
+    public boolean hasAvailabilityTime() {
+        return availabilityTime != null;
+    }
+
     /**
      * Gets the value of the repeatNumber property.
      * 
@@ -246,6 +266,10 @@ public class RCMRMT030101UK04Authorise {
         this.repeatNumber = value;
     }
 
+    public boolean hasRepeatNumber() {
+        return repeatNumber != null;
+    }
+
     /**
      * Gets the value of the quantity property.
      * 
@@ -268,6 +292,10 @@ public class RCMRMT030101UK04Authorise {
      */
     public void setQuantity(PQ value) {
         this.quantity = value;
+    }
+
+    public boolean hasQuantity() {
+        return quantity != null;
     }
 
     /**

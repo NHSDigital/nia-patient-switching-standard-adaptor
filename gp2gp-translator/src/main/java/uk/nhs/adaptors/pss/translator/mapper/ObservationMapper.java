@@ -10,6 +10,7 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRange;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +27,6 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.II;
@@ -47,7 +47,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ObservationMapper {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
+    private static final String META_PROFILE = "Observation-1";
+    private static final String VALUE_QUANTITY_EXTENSION = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
+        + "-ValueApproximation-1";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
 
     private final CodeableConceptMapper codeableConceptMapper;
@@ -84,7 +86,7 @@ public class ObservationMapper {
                     .setSubject(new Reference(patient));
 
                 observation.setId(id);
-                observation.getMeta().getProfile().add(new UriType(META_PROFILE));
+                observation.setMeta(generateMeta(META_PROFILE));
 
                 addContext(observation, getEncounterReference(compositionsList, encounters,
                     getEhrCompositionId(compositionsList, observationStatement).getRoot()));
