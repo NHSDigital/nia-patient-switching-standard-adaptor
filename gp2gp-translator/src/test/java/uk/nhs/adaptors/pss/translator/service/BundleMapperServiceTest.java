@@ -121,12 +121,14 @@ public class BundleMapperServiceTest {
         verify(procedureRequestMapper).mapToProcedureRequest(
             any(RCMRMT030101UK04EhrExtract.class),
             any(RCMRMT030101UK04PlanStatement.class),
-            any(Patient.class)
+            any(Patient.class),
+            anyList()
         );
         verify(referralRequestMapper).mapToReferralRequest(
             any(RCMRMT030101UK04EhrComposition.class),
             any(RCMRMT030101UK04RequestStatement.class),
-            any(Patient.class)
+            any(Patient.class),
+            anyList()
         );
         verify(bloodPressureMapper).mapBloodPressure(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(observationMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());

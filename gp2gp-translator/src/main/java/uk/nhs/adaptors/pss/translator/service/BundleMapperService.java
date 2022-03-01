@@ -30,15 +30,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
+import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
-import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationCommentMapper;
-
 import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
-
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
@@ -89,10 +87,10 @@ public class BundleMapperService {
         var locations = mapLocations(ehrFolder);
         addEntries(bundle, locations);
 
-        var procedureRequests = mapProcedureRequests(ehrExtract, patient);
+        var procedureRequests = mapProcedureRequests(ehrExtract, patient, encounters);
         addEntries(bundle, procedureRequests);
 
-        var referralRequests = mapReferralRequests(ehrFolder, patient);
+        var referralRequests = mapReferralRequests(ehrFolder, patient, encounters);
         addEntries(bundle, referralRequests);
 
         var medicationResources = medicationRequestMapper.mapResources(ehrExtract, encounters, patient);
@@ -150,22 +148,24 @@ public class BundleMapperService {
         return patientMapper.mapToPatient(xmlPatient, organization);
     }
 
-    private List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrFolder ehrFolder, Patient patient) {
+    private List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrFolder ehrFolder, Patient patient, List<Encounter> encounters) {
         return ehrFolder.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream()
                 .filter(component4 -> component4.getRequestStatement() != null)
-                .map(component4 -> referralRequestMapper.mapToReferralRequest(ehrComposition, component4.getRequestStatement(), patient)))
+                .map(component4 -> referralRequestMapper.mapToReferralRequest(ehrComposition, component4.getRequestStatement(), patient,
+                    encounters)))
             .toList();
     }
 
-    private List<ProcedureRequest> mapProcedureRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
+    private List<ProcedureRequest> mapProcedureRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+        List<Encounter> encounters) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
             .stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
             .filter(component4 -> component4.getPlanStatement() != null)
-            .map(component4 -> procedureRequestMapper.mapToProcedureRequest(ehrExtract, component4.getPlanStatement(), patient))
+            .map(component4 -> procedureRequestMapper.mapToProcedureRequest(ehrExtract, component4.getPlanStatement(), patient, encounters))
             .toList();
     }
 
