@@ -146,7 +146,13 @@ public class DiagnosticReportMapper {
             .toList();
 
         //TODO: Refer to 67, 69, 70, 71 lines in DiagnosticReport spreadsheet -> Report Level Comment to Observation (Comment)
-        return observationCommentMapper.mapDiagnosticChildrenObservations(narrativeStatements, ehrExtract, patient, encounters);
+        var observations = observationCommentMapper.mapDiagnosticChildrenObservations(narrativeStatements, ehrExtract, patient, encounters);
+        observations.forEach(observation -> {
+            observation.setEffective(null);
+            String text = observation.getText().toString();
+            text = text.trim();
+        });
+        return observations;
     }
 
     private List<Reference> getResultReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
