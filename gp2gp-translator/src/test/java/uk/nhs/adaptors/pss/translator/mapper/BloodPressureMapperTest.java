@@ -195,8 +195,7 @@ public class BloodPressureMapperTest {
 
     @Test
     public void nonConformantBloodPressureTripleNotMapped() {
-        var ehrExtract = unmarshallEhrExtractElement(
-            "non-conformant-blood-pressure-triple-not-mapped.xml");
+        var ehrExtract = unmarshallEhrExtractElement("non-conformant-blood-pressure-triple-not-mapped.xml");
 
         var bloodPressures = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST);
 
