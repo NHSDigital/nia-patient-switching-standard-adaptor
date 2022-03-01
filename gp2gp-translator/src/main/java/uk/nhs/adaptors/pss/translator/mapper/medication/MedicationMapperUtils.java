@@ -87,7 +87,7 @@ public class MedicationMapperUtils {
 
     protected static Optional<SimpleQuantity> buildDosageQuantity(PQ quantitySupplied) {
         SimpleQuantity quantity = new SimpleQuantity();
-        quantity.setValue(Long.parseLong(quantitySupplied.getValue()));
+        quantity.setValue(Double.parseDouble(quantitySupplied.getValue()));
         if (quantitySupplied.hasTranslation()
             && quantitySupplied.getTranslation().get(0).hasOriginalText()) {
             quantity.setUnit(quantitySupplied.getTranslation().get(0).getOriginalText());
