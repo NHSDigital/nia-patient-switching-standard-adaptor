@@ -260,4 +260,8 @@ public class RCMRMT030101UK04Participant2 {
         this.nullFlavor = value;
     }
 
+    public boolean hasNullFlavor() {
+        return nullFlavor != null && !nullFlavor.equals("");
+    }
+
 }

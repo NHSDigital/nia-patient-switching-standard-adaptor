@@ -7,7 +7,10 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
+import static org.assertj.core.api.Assertions.fail;
 
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -44,6 +47,7 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 @DirtiesContext
 @AutoConfigureMockMvc
 public class EhrExtractHandlingIT {
+    private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
@@ -130,6 +134,10 @@ public class EhrExtractHandlingIT {
         var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
 
+        if (OVERWRITE_EXPECTED_JSON) {
+            overwriteExpectJson(patientMigrationRequest.getBundleResource());
+        }
+
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
         var combinedList = Stream.of(generateJsonPathIgnores(bundle), STATIC_IGNORED_JSON_PATHS)
             .flatMap(List::stream)
@@ -146,6 +154,14 @@ public class EhrExtractHandlingIT {
 
         JSONAssert.assertEquals(expected, actual,
             new CustomComparator(JSONCompareMode.STRICT, customizations));
+    }
+
+    @SneakyThrows
+    private void overwriteExpectJson(String newExpected) {
+        try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/json/expectedBundle.json", StandardCharsets.UTF_8)) {
+            printWriter.print(newExpected);
+        }
+        fail("Re-run the tests with OVERWRITE_EXPECTED_JSON=false");
     }
 
     @SneakyThrows

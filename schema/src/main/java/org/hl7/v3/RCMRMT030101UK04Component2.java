@@ -98,6 +98,9 @@ public class RCMRMT030101UK04Component2 {
         this.ehrSupplyAuthorise = value;
     }
 
+    public boolean hasEhrSupplyAuthorise() {
+        return ehrSupplyAuthorise != null;
+    }
     /**
      * Gets the value of the ehrSupplyDiscontinue property.
      * 
@@ -120,6 +123,10 @@ public class RCMRMT030101UK04Component2 {
      */
     public void setEhrSupplyDiscontinue(RCMRMT030101UK04Discontinue value) {
         this.ehrSupplyDiscontinue = value;
+    }
+
+    public boolean hasEhrSupplyDiscontinue() {
+        return ehrSupplyDiscontinue != null;
     }
 
     /**
@@ -170,6 +177,9 @@ public class RCMRMT030101UK04Component2 {
         this.ehrSupplyPrescribe = value;
     }
 
+    public boolean hasEhrSupplyPrescribe() {
+        return ehrSupplyPrescribe != null;
+    }
     /**
      * Gets the value of the type property.
      * 

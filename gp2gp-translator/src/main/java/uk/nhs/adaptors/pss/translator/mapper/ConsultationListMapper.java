@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -8,7 +10,6 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.ListResource.ListMode;
 import org.hl7.fhir.dstu3.model.ListResource.ListStatus;
-import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
@@ -25,7 +26,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ConsultationListMapper {
-    private static final String LIST_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1";
+    private static final String LIST_META_PROFILE = "List-1";
     private static final String LIST_ORDERED_BY_SYSTEM = "http://hl7.org/fhir/list-order";
     private static final String LIST_ORDERED_BY_CODE = "system";
     private static final String LIST_ORDERED_BY_DISPLAY = "Sorted by System";
@@ -53,7 +54,7 @@ public class ConsultationListMapper {
             .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
                 LIST_ORDERED_BY_DISPLAY, null))
             .setEncounter(new Reference(encounter))
-            .setMeta(getListMeta())
+            .setMeta(generateMeta(LIST_META_PROFILE))
             .setId(getConsultationId(encounter.getId()));
 
         return consultation;
@@ -97,7 +98,7 @@ public class ConsultationListMapper {
             .setDateElement(getDate(compoundStatement, consultation))
             .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
                 LIST_ORDERED_BY_DISPLAY, null))
-            .setMeta(getListMeta())
+            .setMeta(generateMeta(LIST_META_PROFILE))
             .setId(getTopicId(compoundStatement));
 
         return topic;
@@ -120,7 +121,7 @@ public class ConsultationListMapper {
             .setDateElement(getDate(compoundStatement, topic))
             .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
                 LIST_ORDERED_BY_DISPLAY, null))
-            .setMeta(getListMeta())
+            .setMeta(generateMeta(LIST_META_PROFILE))
             .setId(compoundStatement.getId().get(0).getRoot());
 
         return category;
@@ -146,9 +147,5 @@ public class ConsultationListMapper {
         }
 
         return null;
-    }
-
-    private Meta getListMeta() {
-        return new Meta().addProfile(LIST_META_PROFILE);
     }
 }

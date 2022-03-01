@@ -89,6 +89,10 @@ public class RCMRMT030101UK04PertinentInformation2 {
         this.pertinentSupplyAnnotation = value;
     }
 
+    public boolean hasPertinentSupplyAnnotation() {
+        return pertinentSupplyAnnotation != null;
+    }
+
     /**
      * Gets the value of the type property.
      * 

@@ -144,6 +144,10 @@ public class RCMRMT030101UK04Prescribe {
         this.code = value;
     }
 
+    public boolean hasCode() {
+        return code != null;
+    }
+
     /**
      * Gets the value of the statusCode property.
      * 
@@ -192,6 +196,10 @@ public class RCMRMT030101UK04Prescribe {
         this.availabilityTime = value;
     }
 
+    public boolean hasAvailabilityTime() {
+        return availabilityTime != null;
+    }
+
     /**
      * Gets the value of the quantity property.
      * 
@@ -216,6 +224,10 @@ public class RCMRMT030101UK04Prescribe {
         this.quantity = value;
     }
 
+    public boolean hasQuantity() {
+        return quantity != null;
+    }
+
     /**
      * Gets the value of the inFulfillmentOf property.
      * 
@@ -238,6 +250,10 @@ public class RCMRMT030101UK04Prescribe {
      */
     public void setInFulfillmentOf(RCMRMT030101UK04InFulfillmentOf02 value) {
         this.inFulfillmentOf = value;
+    }
+
+    public boolean hasInFulfillmentOf() {
+        return inFulfillmentOf != null;
     }
 
     /**

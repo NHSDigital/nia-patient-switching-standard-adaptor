@@ -89,6 +89,10 @@ public class RCMRMT030101UK04Component3 {
         this.ehrComposition = value;
     }
 
+    public boolean hasEhrComposition() {
+        return ehrComposition != null;
+    }
+
     /**
      * Gets the value of the type property.
      * 

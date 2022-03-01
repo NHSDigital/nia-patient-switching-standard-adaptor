@@ -74,6 +74,10 @@ public class II
         this.root = value;
     }
 
+    public boolean hasRoot() {
+        return root != null;
+    }
+
     /**
      * Gets the value of the extension property.
      * 

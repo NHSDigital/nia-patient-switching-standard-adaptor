@@ -89,6 +89,10 @@ public class RCMRMT030101UK04InFulfillmentOf02 {
         this.priorMedicationRef = value;
     }
 
+    public boolean hasPriorMedicationRef() {
+        return priorMedicationRef != null;
+    }
+
     /**
      * Gets the value of the type property.
      * 

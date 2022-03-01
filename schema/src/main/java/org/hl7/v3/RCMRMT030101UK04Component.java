@@ -89,6 +89,10 @@ public class RCMRMT030101UK04Component {
         this.ehrFolder = value;
     }
 
+    public boolean hasEhrFolder() {
+        return ehrFolder != null;
+    }
+
     /**
      * Gets the value of the type property.
      * 
