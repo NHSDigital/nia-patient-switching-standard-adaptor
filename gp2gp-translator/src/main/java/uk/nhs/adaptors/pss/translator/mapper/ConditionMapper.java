@@ -167,18 +167,18 @@ public class ConditionMapper {
     }
 
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UK04LinkSet linkSet) {
-        String value = "";
         if (linkSet.getEffectiveTime() != null) {
             IVLTS effectiveTime = linkSet.getEffectiveTime();
             if (effectiveTime.hasLow() && effectiveTime.getLow().hasValue()) {
-                value = effectiveTime.getLow().getValue();
+                return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getLow().getValue()));
             } else if (effectiveTime.hasCenter() && effectiveTime.getCenter().hasValue()) {
-                value = effectiveTime.getCenter().getValue();
+                return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getCenter().getValue()));
             }
-        } else if (linkSet.getAvailabilityTime() != null && linkSet.getAvailabilityTime().hasValue()) {
-            value = linkSet.getAvailabilityTime().getValue();
         }
-        return !value.isEmpty() ? Optional.of(dateTimeMapper.mapDateTime(value)) : Optional.empty();
+        if (linkSet.getAvailabilityTime() != null && linkSet.getAvailabilityTime().hasValue()) {
+            return Optional.of(dateTimeMapper.mapDateTime(linkSet.getAvailabilityTime().getValue()));
+        }
+        return Optional.empty();
     }
 
     private Optional<DateTimeType> buildAbatementDateTimeType(IVLTS abatementDateTime) {
