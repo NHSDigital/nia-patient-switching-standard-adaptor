@@ -8,7 +8,7 @@
                 <eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">B86041-822103</eb:PartyId>
             </eb:To>
             <eb:CPAId>e06af803674408a9d8e8</eb:CPAId>
-            <eb:ConversationId>5A36471B-036B-48E1-BBB4-A89AEE0652E1</eb:ConversationId>
+            <eb:ConversationId>{{conversationId}}</eb:ConversationId>
             <eb:Service>urn:nhs:names:services:gp2gp</eb:Service>
             <eb:Action>RCMR_IN030000UK06</eb:Action>
             <eb:MessageData>

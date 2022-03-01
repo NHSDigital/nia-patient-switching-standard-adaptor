@@ -12,4 +12,5 @@ public class PatientMigrationRequest {
     private String patientNhsNumber;
     private String bundleResource;
     private String inboundMessage;
+    private String conversationId;
 }
