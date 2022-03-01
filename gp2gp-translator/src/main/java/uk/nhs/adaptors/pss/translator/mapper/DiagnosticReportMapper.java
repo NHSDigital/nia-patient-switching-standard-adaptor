@@ -19,6 +19,7 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.fhir.dstu3.model.Specimen;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component02;
@@ -41,6 +42,7 @@ public class DiagnosticReportMapper {
     private static final String META_PROFILE_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DiagnosticReport-1";
     private static final String CLUSTER_CLASSCODE = "CLUSTER";
     private static final String DR_SNOMED_CODE = "16488004";
+    private static final String SPECIMEN_CODE = "123038009";
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final ObservationCommentMapper observationCommentMapper;
@@ -107,7 +109,7 @@ public class DiagnosticReportMapper {
          * Encounters are suppressed for certain ehrComposition codes so will not always be populated.
          */
 
-        //getSpecimen() <- list
+        diagnosticReport.setSpecimen(getSpecimenReferences(compoundStatement));
         /**
          * For each child CompoundStatement component coded as 123038009 perform the specimen mapping and insert a reference to the
          * generated specimen. AS we intend to re-use the specimen CompoundStatement/id[0] as the Specimen.id
@@ -140,6 +142,27 @@ public class DiagnosticReportMapper {
          * reference these from DiagnosticReport.results (See Report Level Comment to Observation (Comment) Map below)
          */
         return observationCommentMapper.mapDiagnosticChildrenObservations(narrativeStatements, ehrExtract, patient, encounters);
+    }
+
+    public List<Specimen> mapSpecimen() {
+        /**
+         * For each child CompoundStatement component coded as 123038009 perform the specimen mapping and insert a reference to the
+         * generated specimen. AS we intend to re-use the specimen CompoundStatement/id[0] as the Specimen.id then then each reference
+         * will be just a reference to the specimen CompoundStatement/id[0].
+         * There can of course be many specimens per report so thi sneeds to iterate over every instance
+         */
+        return List.of();
+    }
+
+    //TODO: Check correctness of this method in references etc.
+    private List<Reference> getSpecimenReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return compoundStatement.getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(Objects::nonNull)
+            .filter(compoundStatement1 -> SPECIMEN_CODE.equals(compoundStatement1.getCode().getCode()))
+            .map(e -> new Reference(new IdType(ResourceType.Specimen.name(), e.getId().get(0).getRoot())))
+            .toList();
     }
 
     private List<Reference> getResultReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {

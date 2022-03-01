@@ -133,8 +133,10 @@ public class BundleMapperService {
     private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         var diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(ehrExtract, patient, encounters);
         var childrenObservationComments = diagnosticReportMapper.mapChildrenObservationComments(ehrExtract, patient, encounters);
+        var specimen = diagnosticReportMapper.mapSpecimen(); //TODO: Pass some params here
         addEntries(bundle, diagnosticReports);
         addEntries(bundle, childrenObservationComments);
+        addEntries(bundle, specimen);
     }
 
     private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
