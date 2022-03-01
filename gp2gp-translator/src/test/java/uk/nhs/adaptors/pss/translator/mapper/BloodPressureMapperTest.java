@@ -188,8 +188,17 @@ public class BloodPressureMapperTest {
 
         var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
 
-        assertThat(bloodPressure.getEffective() instanceof Period);
+        assertThat(bloodPressure.getEffective() instanceof Period).isTrue();
         assertThat(bloodPressure.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo("2006-04-25");
         assertThat(bloodPressure.getEffectivePeriod().getEndElement().getValueAsString()).isEqualTo("2006-04-26");
+    }
+
+    @Test
+    public void nonConformantBloodPressureTripleNotMapped() {
+        var ehrExtract = unmarshallEhrExtractElement("non-conformant-blood-pressure-triple-not-mapped.xml");
+
+        var bloodPressures = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST);
+
+        assertThat(bloodPressures.isEmpty()).isTrue();
     }
 }
