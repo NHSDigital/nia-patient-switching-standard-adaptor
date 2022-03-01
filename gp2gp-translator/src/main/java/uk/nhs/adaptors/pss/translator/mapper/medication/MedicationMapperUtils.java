@@ -86,19 +86,13 @@ public class MedicationMapperUtils {
     }
 
     protected static Optional<SimpleQuantity> buildDosageQuantity(PQ quantitySupplied) {
-        try {
-            SimpleQuantity quantity = new SimpleQuantity();
-            quantity.setValue(Long.parseLong(quantitySupplied.getValue()));
-            if (quantitySupplied.hasTranslation()
-                && quantitySupplied.getTranslation().get(0).hasOriginalText()) {
-                quantity.setUnit(quantitySupplied.getTranslation().get(0).getOriginalText());
-            }
-            return Optional.of(quantity);
-        } catch (NumberFormatException nfe) {
-            LOGGER.info("Unable to parse value from quantity supplied: {}", quantitySupplied.getValue());
-            LOGGER.error(nfe.getLocalizedMessage());
+        SimpleQuantity quantity = new SimpleQuantity();
+        quantity.setValue(Long.parseLong(quantitySupplied.getValue()));
+        if (quantitySupplied.hasTranslation()
+            && quantitySupplied.getTranslation().get(0).hasOriginalText()) {
+            quantity.setUnit(quantitySupplied.getTranslation().get(0).getOriginalText());
         }
-        return Optional.empty();
+        return Optional.of(quantity);
     }
 
     protected static Optional<String> extractEhrSupplyAuthoriseId(RCMRMT030101UK04Authorise supplyAuthorise) {
