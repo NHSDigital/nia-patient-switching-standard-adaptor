@@ -49,8 +49,7 @@ public class BloodPressureValidatorUtil {
     }
 
     private static boolean validateTriple(String header, String observationStatement1, String observationStatement2) {
-        for (List<List<String>> list
-            : VALID_BLOOD_PRESSURE_TRIPLES) {
+        for (List<List<String>> list : VALID_BLOOD_PRESSURE_TRIPLES) {
             if (isValidBloodTriple(list.get(0), list.get(1), list.get(2), header, observationStatement1, observationStatement2)) {
                 return true;
             }
