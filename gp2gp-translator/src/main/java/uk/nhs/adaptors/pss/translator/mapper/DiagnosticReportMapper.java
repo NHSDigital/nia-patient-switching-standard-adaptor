@@ -1,11 +1,10 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
-
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -16,34 +15,28 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.InstantType;
-import org.hl7.fhir.dstu3.model.Meta;
-import org.hl7.fhir.dstu3.model.Narrative;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Author;
-import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DiagnosticReportMapper {
 
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
     private static final String META_PROFILE_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DiagnosticReport-1";
     private static final String CLUSTER_CLASSCODE = "CLUSTER";
@@ -58,8 +51,18 @@ public class DiagnosticReportMapper {
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
             .filter(Objects::nonNull)
-            .map(compoundStatement -> createDiagnosticReport(compoundStatement, patient, compositions, encounters))
-            .toList();
+            .map(compoundStatement -> {
+                DiagnosticReport diagnosticReport = createDiagnosticReport(compoundStatement, patient, compositions, encounters);
+                getIssued(ehrExtract, compositions, compoundStatement).ifPresent(diagnosticReport::setIssuedElement);
+                return diagnosticReport;
+            }).toList();
+
+        /**
+         * ISSUED
+         * 1. From CompoundStatement/availabilityTime/@value
+         * 2. From the containing ehtComposition/author/time/@value
+         * 3. From EhrExtract/availabilityTime/@value
+         */
     }
 
     private DiagnosticReport createDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient,
@@ -67,7 +70,7 @@ public class DiagnosticReportMapper {
         final DiagnosticReport diagnosticReport = new DiagnosticReport();
         final String id = compoundStatement.getId().get(0).getRoot();
 
-        diagnosticReport.setMeta(createMeta());
+        diagnosticReport.setMeta(generateMeta(META_PROFILE_URL));
 
         diagnosticReport.setId(id);
         /**
@@ -75,7 +78,7 @@ public class DiagnosticReportMapper {
          * Note that pathology reports may have 2 id instances id[1] is the pathology report id
          */
 
-        diagnosticReport.addIdentifier(createIdentifier(id));
+        diagnosticReport.addIdentifier(buildIdentifier(id, "UNKNOWN")); // TODO: set practice code (NIAD-2021)
         /**
          * From CompoundStatement/id[0[/@root.
          * Note that pathology reports may have 2 id instances id[1]  is the pathology report id
@@ -104,14 +107,6 @@ public class DiagnosticReportMapper {
          * Encounters are suppressed for certain ehrComposition codes so will not always be populated.
          */
 
-        //getIssued(ehrExtract, compositions, compoundStatement).ifPresent(diagnosticReport::setIssuedElement);
-        /**
-         * ISSUED
-         * 1. From CompoundStatement/availabilityTime/@value
-         * 2. From the containing ehtComposition/author/time/@value
-         * 3. From EhrExtract/availabilityTime/@value
-         */
-
         //getSpecimen() <- list
         /**
          * For each child CompoundStatement component coded as 123038009 perform the specimen mapping and insert a reference to the
@@ -124,11 +119,6 @@ public class DiagnosticReportMapper {
         /**
          * A result reference should be generated for every result Observation generated from the banner CompoundStatement,
          * result ObservationStatement, or result CompoundStatement CLUSTER found within each specimen CompoundStatement
-         */
-
-        /**
-         * 2. Process all NarrativeStatement direct children of the laboratory level CompoundStatement into Observation (Comment) and
-         * reference these from DiagnosticReport.results (See Report Level Comment to Observation (Comment) Map below)
          */
 
         return diagnosticReport;
@@ -145,6 +135,10 @@ public class DiagnosticReportMapper {
             .filter(Objects::nonNull)
             .toList();
 
+        /**
+         * 2. Process all NarrativeStatement direct children of the laboratory level CompoundStatement into Observation (Comment) and
+         * reference these from DiagnosticReport.results (See Report Level Comment to Observation (Comment) Map below)
+         */
         return observationCommentMapper.mapDiagnosticChildrenObservations(narrativeStatements, ehrExtract, patient, encounters);
     }
 
@@ -159,17 +153,6 @@ public class DiagnosticReportMapper {
 
     private Reference createPatientReference(Patient patient) {
         return new Reference(patient);
-    }
-
-    private Meta createMeta() {
-        return new Meta()
-            .addProfile(META_PROFILE_URL);
-    }
-
-    private Identifier createIdentifier(String id) {
-        return new Identifier()
-            .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
-            .setValue(id);
     }
 
     private Optional<Identifier> createIdentifierExtension(List<II> id) {
