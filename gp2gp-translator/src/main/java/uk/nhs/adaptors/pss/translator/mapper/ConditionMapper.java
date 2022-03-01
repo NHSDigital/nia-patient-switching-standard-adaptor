@@ -182,7 +182,7 @@ public class ConditionMapper {
     }
 
     private Optional<DateTimeType> buildAbatementDateTimeType(IVLTS abatementDateTime) {
-        if (abatementDateTime.hasHigh() && abatementDateTime.getHigh().getValue() != null) {
+        if (abatementDateTime != null && abatementDateTime.hasHigh() && abatementDateTime.getHigh().getValue() != null) {
             return Optional.of(dateTimeMapper.mapDateTime(abatementDateTime.getHigh().getValue()));
         }
         return Optional.empty();
