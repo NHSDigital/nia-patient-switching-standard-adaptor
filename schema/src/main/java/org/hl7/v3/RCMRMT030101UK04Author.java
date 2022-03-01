@@ -102,6 +102,10 @@ public class RCMRMT030101UK04Author {
         this.time = value;
     }
 
+    public boolean hasTime() {
+        return time != null;
+    }
+
     /**
      * Gets the value of the signatureCode property.
      * 

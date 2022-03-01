@@ -52,7 +52,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class RCMRMT030101UK04SupplyAnnotation {
 
     @XmlElement(required = true)
-    protected ED text;
+    protected String text;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -73,10 +73,10 @@ public class RCMRMT030101UK04SupplyAnnotation {
      * 
      * @return
      *     possible object is
-     *     {@link ED }
+     *     {@link String }
      *     
      */
-    public ED getText() {
+    public String getText() {
         return text;
     }
 
@@ -85,11 +85,15 @@ public class RCMRMT030101UK04SupplyAnnotation {
      * 
      * @param value
      *     allowed object is
-     *     {@link ED }
+     *     {@link String }
      *     
      */
-    public void setText(ED value) {
+    public void setText(String value) {
         this.text = value;
+    }
+
+    public boolean hasText() {
+        return text != null;
     }
 
     /**

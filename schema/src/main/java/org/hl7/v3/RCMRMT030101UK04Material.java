@@ -98,6 +98,10 @@ public class RCMRMT030101UK04Material {
         this.code = value;
     }
 
+    public boolean hasCode() {
+        return code != null;
+    }
+
     /**
      * Gets the value of the quantity property.
      * 

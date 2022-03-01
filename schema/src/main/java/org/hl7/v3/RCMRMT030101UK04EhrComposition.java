@@ -246,6 +246,10 @@ public class RCMRMT030101UK04EhrComposition {
         this.author = value;
     }
 
+    public boolean hasAuthor() {
+        return author != null;
+    }
+
     /**
      * Gets the value of the location property.
      * 
@@ -297,6 +301,10 @@ public class RCMRMT030101UK04EhrComposition {
             participant2 = new ArrayList<RCMRMT030101UK04Participant2>();
         }
         return this.participant2;
+    }
+
+    public boolean hasParticipant2() {
+        return participant2 != null && !participant2.isEmpty();
     }
 
     /**

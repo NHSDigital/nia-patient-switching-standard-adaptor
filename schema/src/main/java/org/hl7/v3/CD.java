@@ -121,6 +121,10 @@ public class CD
         this.originalText = value;
     }
 
+    public boolean hasOriginalText() {
+        return originalText != null && !originalText.equals("");
+    }
+
     /**
      * Gets the value of the qualifier property.
      * 
@@ -232,6 +236,10 @@ public class CD
         this.code = value;
     }
 
+    public boolean hasCode() {
+        return code != null && !code.equals("");
+    }
+
     /**
      * Gets the value of the codeSystem property.
      * 
@@ -254,6 +262,10 @@ public class CD
      */
     public void setCodeSystem(String value) {
         this.codeSystem = value;
+    }
+
+    public boolean hasCodeSystem() {
+        return codeSystem != null && !codeSystem.equals("");
     }
 
     /**
@@ -326,6 +338,10 @@ public class CD
      */
     public void setDisplayName(String value) {
         this.displayName = value;
+    }
+
+    public boolean hasDisplayName() {
+        return displayName != null && !displayName.equals("");
     }
 
 
