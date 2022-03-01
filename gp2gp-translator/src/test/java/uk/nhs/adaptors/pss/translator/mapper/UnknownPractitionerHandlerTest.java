@@ -63,8 +63,9 @@ public class UnknownPractitionerHandlerTest {
     }
 
     private void verifyUnknownPractitionerAdded(Bundle bundle) {
+        final int expectedCount = 4;
         int entriesCount = bundle.getEntry().size();
-        assertThat(entriesCount).isEqualTo(4);
+        assertThat(entriesCount).isEqualTo(expectedCount);
         BundleEntryComponent entry = bundle.getEntry().get(entriesCount - 1);
         assertThat(entry.getResource()).isInstanceOf(Practitioner.class);
         Practitioner unknown = (Practitioner) entry.getResource();
