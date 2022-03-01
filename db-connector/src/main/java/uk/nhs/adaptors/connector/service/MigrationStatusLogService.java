@@ -19,18 +19,24 @@ public class MigrationStatusLogService {
     private final MigrationStatusLogDao migrationStatusLogDao;
     private final DateUtils dateUtils;
 
-    public void addMigrationStatusLog(MigrationStatus migrationStatus, String nhsNumber) {
-        int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(nhsNumber);
+    public void addMigrationStatusLog(MigrationStatus migrationStatus, String conversationId) {
+        int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
         migrationStatusLogDao.addMigrationStatusLog(
             migrationStatus,
             dateUtils.getCurrentOffsetDateTime(),
             migrationRequestId
         );
-        LOGGER.debug("Changed RequestStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, migrationStatus.name());
+        LOGGER.debug("Changed MigrationStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, migrationStatus.name());
     }
 
-    public MigrationStatusLog getLatestMigrationStatusLog(String nhsNumber) {
-        int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(nhsNumber);
+    public MigrationStatusLog getLatestMigrationStatusLog(String conversationId) {
+        int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
         return migrationStatusLogDao.getLatestMigrationStatusLog(migrationRequestId);
+    }
+
+    public void updatePatientMigrationRequestAndAddMigrationStatusLog(String conversationId, String bundle, String inboundMessage,
+        MigrationStatus migrationStatus) {
+        patientMigrationRequestDao.saveBundleAndInboundMessageData(conversationId, bundle, inboundMessage);
+        addMigrationStatusLog(migrationStatus, conversationId);
     }
 }
