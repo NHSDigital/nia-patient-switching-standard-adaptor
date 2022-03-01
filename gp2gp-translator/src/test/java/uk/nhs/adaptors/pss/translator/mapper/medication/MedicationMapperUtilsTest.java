@@ -7,6 +7,7 @@ import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -95,11 +96,10 @@ public class MedicationMapperUtilsTest {
     }
 
     @Test
-    public void When_CreatingDosageQuantityWithInvalidValue_Expect_EmptyOptionalToBeReturned() {
+    public void When_CreatingDosageQuantityWithInvalidValue_Expect_ErrorToBeThrown() {
         var supplyAuth = unmarshallSupplyAuthorise("supplyWithInvalidQuantity.xml");
-        var quantity = MedicationMapperUtils.buildDosageQuantity(supplyAuth.getQuantity());
-
-        assertThat(quantity.isPresent()).isFalse();
+        assertThatThrownBy(() -> MedicationMapperUtils.buildDosageQuantity(supplyAuth.getQuantity()))
+            .isInstanceOf(NumberFormatException.class);
     }
 
     @Test
