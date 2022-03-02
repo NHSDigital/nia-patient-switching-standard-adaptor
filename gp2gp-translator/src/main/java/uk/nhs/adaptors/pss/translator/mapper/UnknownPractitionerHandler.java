@@ -10,6 +10,7 @@ import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.dstu3.model.HumanName;
+import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
@@ -71,6 +72,12 @@ public class UnknownPractitionerHandler {
             Condition condition = (Condition) resource;
             if (!condition.hasAsserter()) {
                 condition.setAsserter(new Reference(unknown));
+                return true;
+            }
+        } else if (ResourceType.MedicationRequest == resource.getResourceType()) {
+            MedicationRequest medicationRequest = (MedicationRequest) resource;
+            if (!medicationRequest.hasRecorder()) {
+                medicationRequest.setRecorder(new Reference(unknown));
                 return true;
             }
         }
