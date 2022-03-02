@@ -364,9 +364,9 @@ public class EncounterMapperTest {
 
     private ListResource getList() {
         ListResource listResource = new ListResource();
-        listResource.setEncounter(new Reference(ENCOUNTER_ID));
-        listResource.getEntry().add(new ListResource.ListEntryComponent().setItem(new Reference(ENCOUNTER_ID)));
-        listResource.getEntry().add(new ListResource.ListEntryComponent().setItem(new Reference(ENCOUNTER_ID_2)));
+//        listResource.setEncounter(new Reference(ENCOUNTER_ID));
+//        listResource.getEntry().add(new ListResource.ListEntryComponent().setItem(new Reference(ENCOUNTER_ID)));
+//        listResource.getEntry().add(new ListResource.ListEntryComponent().setItem(new Reference(ENCOUNTER_ID_2)));
         return listResource;
     }
 

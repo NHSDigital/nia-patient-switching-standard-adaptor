@@ -42,6 +42,7 @@ import org.springframework.util.CollectionUtils;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
+import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -83,7 +84,7 @@ public class EncounterMapper {
 
             var topicCompoundStatementList = getTopicCompoundStatements(ehrComposition);
             if (CollectionUtils.isEmpty(topicCompoundStatementList)) {
-                generateFlatConsultation(consultation, topics);
+                generateFlatConsultation(consultation, topics, ehrComposition);
             } else {
                 generateStructuredConsultation(topicCompoundStatementList, ehrComposition, consultation, topics, categories);
             }
@@ -100,11 +101,36 @@ public class EncounterMapper {
         return map;
     }
 
-    private void generateFlatConsultation(ListResource consultation, List<ListResource> topics) {
+    private void generateFlatConsultation(ListResource consultation, List<ListResource> topics,
+        RCMRMT030101UK04EhrComposition ehrComposition) {
         var topic = consultationListMapper.mapToTopic(consultation, null);
-
         consultation.addEntry(new ListEntryComponent(new Reference(topic)));
+
+        addMappableResourcesToFlatTopicEntry(ehrComposition, topic);
         topics.add(topic);
+    }
+
+    private void addMappableResourcesToFlatTopicEntry(RCMRMT030101UK04EhrComposition ehrComposition, ListResource topic) {
+        ehrComposition.getComponent().forEach(component4 -> {
+            if (component4.getPlanStatement() != null) {
+                topic.addEntry(new ListEntryComponent(new Reference("ProcedureRequest/"
+                    + component4.getPlanStatement().getId().getRoot())));
+            }
+            if (component4.getRequestStatement() != null) {
+                topic.addEntry(new ListEntryComponent(new Reference("ReferralRequest/"
+                    + component4.getRequestStatement().getId().get(0).getRoot())));
+            }
+            if (component4.getNarrativeStatement() != null) {
+                if (ResourceFilterUtil.hasReferredToExternalDocument(component4.getNarrativeStatement())) {
+                    topic.addEntry(new ListEntryComponent(new Reference("DocumentReference/"
+                        + component4.getNarrativeStatement().getReference().get(0).getReferredToExternalDocument().getId().getRoot())));
+                } else {
+                    topic.addEntry(new ListEntryComponent(new Reference("Observation/"
+                        + component4.getNarrativeStatement().getId().getRoot())));
+                }
+            }
+        });
+        var x = 1;
     }
 
     private void generateStructuredConsultation(List<RCMRMT030101UK04CompoundStatement> topicCompoundStatementList,
@@ -174,13 +200,13 @@ public class EncounterMapper {
             .flatMap(List::stream)
             .filter(EhrResourceExtractorUtil::hasEhrComposition)
             .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> isEncounterEhrComposition(ehrComposition))
+            .filter(this::isEncounterEhrComposition)
             .toList();
     }
 
     private boolean isEncounterEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition) {
         return !INVALID_CODES.contains(ehrComposition.getCode().getCode())
-            && !ehrComposition.getComponent().stream().anyMatch(this::hasSuppressedContent);
+            && ehrComposition.getComponent().stream().noneMatch(this::hasSuppressedContent);
     }
 
     private boolean hasSuppressedContent(RCMRMT030101UK04Component4 component) {
