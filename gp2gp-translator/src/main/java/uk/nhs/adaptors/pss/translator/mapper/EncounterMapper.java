@@ -288,8 +288,6 @@ public class EncounterMapper {
             participants.add(getRecorder(author));
         }
 
-        // TODO: If author has a nullFlavor then create a recorder which references the Unknown Practitioner (NIAD-2026)
-
         participant2List
             .stream()
             .filter(this::isNonNullParticipant2)

@@ -1229,6 +1229,9 @@
           "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
         }
       },
+      "performer": {
+        "reference": "Practitioner/e09ce136-6e19-4320-b1a9-19a86be967cc"
+      },
       "reasonCode": [ {
         "coding": [ {
           "system": "http://snomed.info/sct",
@@ -21270,6 +21273,14 @@
           "display": "Sorted by System"
         } ]
       }
+    }
+  }, {
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "e09ce136-6e19-4320-b1a9-19a86be967cc",
+      "name": [ {
+        "text": "Unknown User"
+      } ]
     }
   } ]
 }

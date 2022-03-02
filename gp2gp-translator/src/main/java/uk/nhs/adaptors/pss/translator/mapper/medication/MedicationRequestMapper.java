@@ -194,7 +194,6 @@ public class MedicationRequestMapper {
 
     private Optional<Reference> extractRecorder(RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04MedicationStatement medicationStatement) {
-        // todo: return NIAD-2026 empty practitioner if empty
         return extractRequester(ehrComposition, medicationStatement);
     }
 }

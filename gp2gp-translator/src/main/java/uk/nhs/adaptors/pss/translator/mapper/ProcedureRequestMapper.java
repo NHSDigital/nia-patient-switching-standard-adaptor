@@ -19,27 +19,27 @@ import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.TS;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProcedureRequestMapper {
     private static final String META_PROFILE = "ProcedureRequest-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
 
-    private CodeableConceptMapper codeableConceptMapper;
+    private final CodeableConceptMapper codeableConceptMapper;
 
     public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04PlanStatement planStatement,
         Patient patient, List<Encounter> encounters) {
 
         /**
          * TODO: Known future implementations to this mapper
-         * - requester: fallback to a default 'Unknown User' Practitioner if none are present in requester (NIAD-2026)
          * - concatenate source practice org id to identifier URL (NIAD-2021)
          */
 
