@@ -60,7 +60,6 @@ public class BloodPressureMapper {
     public List<Observation> mapBloodPressure(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         /**
          * TODO: Known future implementations to this mapper
-         * - performer: fallback to a default 'Unknown User' Practitioner if none are present in performer (NIAD-2026)
          * - identifier: concatenate source practice org id to identifier URL (NIAD-2021)
          */
 

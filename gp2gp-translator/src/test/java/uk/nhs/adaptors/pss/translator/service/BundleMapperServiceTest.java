@@ -47,6 +47,7 @@ import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
 @ExtendWith(MockitoExtension.class)
@@ -85,6 +86,8 @@ public class BundleMapperServiceTest {
     private ObservationCommentMapper observationCommentMapper;
     @Mock
     private MedicationRequestMapper medicationRequestMapper;
+    @Mock
+    private UnknownPractitionerHandler unknownPractitionerHandler;
 
     @InjectMocks
     private BundleMapperService bundleMapperService;
@@ -112,7 +115,7 @@ public class BundleMapperServiceTest {
     @Test
     public void testAllMappersHaveBeenUsed() {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
-        bundleMapperService.mapToBundle(xml);
+        Bundle bundle = bundleMapperService.mapToBundle(xml);
 
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
@@ -121,12 +124,14 @@ public class BundleMapperServiceTest {
         verify(procedureRequestMapper).mapToProcedureRequest(
             any(RCMRMT030101UK04EhrExtract.class),
             any(RCMRMT030101UK04PlanStatement.class),
-            any(Patient.class)
+            any(Patient.class),
+            anyList()
         );
         verify(referralRequestMapper).mapToReferralRequest(
             any(RCMRMT030101UK04EhrComposition.class),
             any(RCMRMT030101UK04RequestStatement.class),
-            any(Patient.class)
+            any(Patient.class),
+            anyList()
         );
         verify(bloodPressureMapper).mapBloodPressure(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(observationMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
@@ -135,6 +140,7 @@ public class BundleMapperServiceTest {
         verify(observationCommentMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
         verify(medicationRequestMapper, atLeast(1))
             .mapResources(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class));
+        verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
     }
 
     @SneakyThrows

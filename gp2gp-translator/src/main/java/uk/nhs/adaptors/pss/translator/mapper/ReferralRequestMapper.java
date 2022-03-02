@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
@@ -35,28 +35,61 @@ public class ReferralRequestMapper {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String PRIORITY_PREFIX = "Priority: ";
     private static final String ACTION_DATE_PREFIX = "Action Date: ";
-    private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/";
+    private static final String PRACTITIONER_REFERENCE = "Practitioner/%s";
     private static final String RESP_PARTY_TYPE_CODE = "RESP";
 
     private CodeableConceptMapper codeableConceptMapper;
 
     public ReferralRequest mapToReferralRequest(RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04RequestStatement requestStatement, Patient patient) {
-        var id = requestStatement.getId().get(0).getRoot();
-        var notes = getNotes(requestStatement);
-        var reasonCode = getReasonCode(requestStatement.getCode());
-        var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
-        var recipient = getRecipient(requestStatement.getResponsibleParty());
-        var requester = ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(), ehrComposition);
-        var subject = new Reference(patient);
+        RCMRMT030101UK04RequestStatement requestStatement, Patient patient, List<Encounter> encounters) {
 
         /**
          * TODO: Known future implementations to this mapper
-         * - context: references an encounter resource if it has been generated from the ehrComposition (NIAD-2025)
          * - concatenate source practice org id to identifier URL (NIAD-2021)
          */
 
-        return createRequestStatement(id, notes, reasonCode, authoredOn, recipient, requester, subject);
+        var referralRequest = new ReferralRequest();
+        var id = requestStatement.getId().get(0).getRoot();
+
+        referralRequest.setId(id);
+        referralRequest.setMeta(generateMeta(META_PROFILE));
+        referralRequest.getIdentifier().add(getIdentifier(id));
+        referralRequest.setStatus(ReferralRequestStatus.UNKNOWN);
+        referralRequest.setIntent(ReferralCategory.ORDER);
+        referralRequest.getRequester().setAgent(ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(),
+            ehrComposition));
+        referralRequest.setAuthoredOn(getAuthoredOn(requestStatement.getAvailabilityTime()));
+        referralRequest.setNote(getNotes(requestStatement));
+        referralRequest.setSubject(new Reference(patient));
+
+        setReferralRequestContext(referralRequest, ehrComposition, encounters);
+        setReferralRequestRecipient(referralRequest, requestStatement.getResponsibleParty());
+        setReferralRequestReasonCode(referralRequest, requestStatement.getCode());
+
+        return referralRequest;
+    }
+
+    private void setReferralRequestReasonCode(ReferralRequest referralRequest, CD code) {
+        if (code != null) {
+            referralRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(code));
+        }
+    }
+
+    private void setReferralRequestRecipient(ReferralRequest referralRequest, RCMRMT030101UK04ResponsibleParty3 responsibleParty) {
+        if (responsiblePartyAgentRefHasIdValue(responsibleParty)) {
+            referralRequest.getRecipient().add(new Reference(PRACTITIONER_REFERENCE.formatted(
+                responsibleParty.getAgentRef().getId().getRoot())));
+        }
+    }
+
+    private void setReferralRequestContext(ReferralRequest referralRequest, RCMRMT030101UK04EhrComposition ehrComposition,
+        List<Encounter> encounters) {
+
+        encounters
+            .stream()
+            .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
+            .findFirst()
+            .ifPresent(encounter -> referralRequest.setContext(new Reference(encounter)));
     }
 
     private Identifier getIdentifier(String id) {
@@ -66,23 +99,9 @@ public class ReferralRequestMapper {
         return identifier;
     }
 
-    private CodeableConcept getReasonCode(CD reasonCode) {
-        if (reasonCode != null) {
-            return codeableConceptMapper.mapToCodeableConcept(reasonCode);
-        }
-        return null;
-    }
-
     private Date getAuthoredOn(TS availabilityTime) {
         if (availabilityTime != null) {
             return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()).getValue();
-        }
-        return null;
-    }
-
-    private Reference getRecipient(RCMRMT030101UK04ResponsibleParty3 responsibleParty) {
-        if (responsiblePartyAgentRefHasIdValue(responsibleParty)) {
-            return new Reference(PRACTITIONER_REFERENCE_PREFIX + responsibleParty.getAgentRef().getId().getRoot());
         }
         return null;
     }
@@ -137,24 +156,5 @@ public class ReferralRequestMapper {
 
     private boolean hasEffectiveTimeValue(IVLTS effectiveTime) {
         return effectiveTime != null && effectiveTime.getCenter() != null && effectiveTime.getCenter().getValue() != null;
-    }
-
-    private ReferralRequest createRequestStatement(String id, List<Annotation> notes, CodeableConcept reasonCode,
-        Date authoredOn, Reference recipient, Reference requester, Reference patient) {
-        var referralRequest = new ReferralRequest();
-
-        referralRequest.setId(id);
-        referralRequest.setMeta(generateMeta(META_PROFILE));
-        referralRequest.getIdentifier().add(getIdentifier(id));
-        referralRequest.setStatus(ReferralRequestStatus.UNKNOWN);
-        referralRequest.setIntent(ReferralCategory.ORDER);
-        referralRequest.getRequester().setAgent(requester);
-        referralRequest.setAuthoredOn(authoredOn);
-        referralRequest.setNote(notes);
-        referralRequest.getReasonCode().add(reasonCode);
-        referralRequest.getRecipient().add(recipient);
-        referralRequest.setSubject(patient);
-
-        return referralRequest;
     }
 }
