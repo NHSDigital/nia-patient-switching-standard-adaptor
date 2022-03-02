@@ -21314,5 +21314,13 @@
         } ]
       }
     }
+  }, {
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "6bc727ea-d036-4034-a46e-3d6a40a0c23d",
+      "name": [ {
+        "text": "Unknown User"
+      } ]
+    }
   } ]
 }
