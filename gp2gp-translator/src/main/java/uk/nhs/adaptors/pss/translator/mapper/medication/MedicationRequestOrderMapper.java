@@ -41,9 +41,10 @@ public class MedicationRequestOrderMapper {
     protected MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04MedicationStatement medicationStatement,
         RCMRMT030101UK04Prescribe supplyPrescribe) {
         var ehrSupplyPrescribeIdExtract = extractEhrSupplyPrescribeId(supplyPrescribe);
+        var inFulfillmentOfId = extractInFulfillmentOfId(supplyPrescribe);
+
         if (ehrSupplyPrescribeIdExtract.isPresent()) {
             var ehrSupplyPrescribeId = ehrSupplyPrescribeIdExtract.get();
-            var supplyAuthorise = extractSupplyAuthorise(medicationStatement, ehrSupplyPrescribeId);
             MedicationRequest medicationRequest = createMedicationRequestSkeleton(ehrSupplyPrescribeId);
 
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyPrescribeId, ""));
@@ -56,7 +57,10 @@ public class MedicationRequestOrderMapper {
 
             buildNotesForPrescribe(supplyPrescribe).forEach(medicationRequest::addNote);
             medicationMapper.extractMedicationReference(medicationStatement).ifPresent(medicationRequest::setMedication);
-            buildPrescriptionTypeExtension(supplyAuthorise).ifPresent(medicationRequest::addExtension);
+            inFulfillmentOfId.ifPresent(inFulfillmentId -> {
+                var supplyAuthorise = extractSupplyAuthorise(medicationStatement, inFulfillmentId);
+                buildPrescriptionTypeExtension(supplyAuthorise).ifPresent(medicationRequest::addExtension);
+            });
 
             return medicationRequest;
         }
@@ -95,13 +99,20 @@ public class MedicationRequestOrderMapper {
         return new Period().setStartElement(DateFormatUtil.parseToDateTimeType(timestamp.getValue()));
     }
 
-    private Optional<String> extractEhrSupplyPrescribeId(RCMRMT030101UK04Prescribe supplyPrescribe) {
+    private Optional<String> extractInFulfillmentOfId(RCMRMT030101UK04Prescribe supplyPrescribe) {
         if (supplyPrescribe.hasInFulfillmentOf()
             && supplyPrescribe.getInFulfillmentOf().hasPriorMedicationRef()
             && supplyPrescribe.getInFulfillmentOf().getPriorMedicationRef().hasId()
             && supplyPrescribe.getInFulfillmentOf().getPriorMedicationRef().getId().hasRoot()) {
 
             return Optional.of(supplyPrescribe.getInFulfillmentOf().getPriorMedicationRef().getId().getRoot());
+        }
+        return Optional.empty();
+    }
+
+    private Optional<String> extractEhrSupplyPrescribeId(RCMRMT030101UK04Prescribe supplyPrescribe) {
+        if (supplyPrescribe.hasId() && supplyPrescribe.getId().hasRoot()) {
+            return Optional.of(supplyPrescribe.getId().getRoot());
         }
         return Optional.empty();
     }
