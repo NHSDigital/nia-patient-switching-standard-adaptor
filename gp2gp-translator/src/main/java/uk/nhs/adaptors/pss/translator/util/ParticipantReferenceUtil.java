@@ -38,9 +38,6 @@ public class ParticipantReferenceUtil {
             return reference.setReference(PRACTITIONER_REFERENCE_PREFIX + participant2Reference.get());
         }
 
-        // TODO: if none of these are present, then we should reference an 'Unknown User' Practitioner (FOR THOSE
-        //  MAPPERS THAT REQUIRE IT- eg. ReferralRequest does not need unknown user for 'requester') (NIAD-2026)
-
         return reference;
     }
 

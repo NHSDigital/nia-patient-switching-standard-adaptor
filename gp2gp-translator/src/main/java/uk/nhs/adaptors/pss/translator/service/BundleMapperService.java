@@ -42,6 +42,7 @@ import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
 @Slf4j
@@ -67,6 +68,7 @@ public class BundleMapperService {
     private final ObservationMapper observationMapper;
     private final ConditionMapper conditionMapper;
     private final ImmunizationMapper immunizationMapper;
+    private final UnknownPractitionerHandler unknownPractitionerHandler;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -121,6 +123,7 @@ public class BundleMapperService {
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 
         conditionMapper.addReferences(bundle, conditions, ehrExtract);
+        unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
 
         return bundle;
     }
