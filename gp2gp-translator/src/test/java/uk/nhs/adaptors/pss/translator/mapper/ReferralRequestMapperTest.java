@@ -123,7 +123,7 @@ public class ReferralRequestMapperTest {
         var requestStatement = getRequestStatement(ehrComposition);
 
         ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT, ENCOUNTERS);
-        
+
         assertThat(referralRequest.getContext().getResource()).isNull();
     }
 
