@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static java.util.Arrays.asList;
+import java.util.List;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
@@ -65,7 +65,7 @@ public class UnknownPractitionerHandler {
             if (!hasRecorder(encounter)) {
                 encounter.addParticipant(new EncounterParticipantComponent()
                     .setIndividual(new Reference(unknown))
-                    .setType(asList((new CodeableConcept(new Coding(RECORDER_SYSTEM, RECORDER_CODE, RECORDER_DISPLAY))))));
+                    .setType(List.of((new CodeableConcept(new Coding(RECORDER_SYSTEM, RECORDER_CODE, RECORDER_DISPLAY))))));
                 return true;
             }
         } else if (ResourceType.Condition == resource.getResourceType()) {

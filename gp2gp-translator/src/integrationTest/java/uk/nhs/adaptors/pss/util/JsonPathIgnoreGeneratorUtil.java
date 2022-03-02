@@ -81,15 +81,9 @@ public class JsonPathIgnoreGeneratorUtil {
     }
 
     private static Boolean isUnknownPerformer(Resource resource) {
-        ProcedureRequest procedureRequest = (ProcedureRequest) resource;
+        IBaseResource performer = ((ProcedureRequest) resource).getPerformer().getResource();
 
-        IBaseResource performer = procedureRequest.getPerformer().getResource();
-
-        if (performer instanceof Practitioner) {
-            return isUnknownPractitioner(performer);
-        }
-
-        return false;
+        return performer instanceof Practitioner ? isUnknownPractitioner(performer) : false;
     }
 
     @Data

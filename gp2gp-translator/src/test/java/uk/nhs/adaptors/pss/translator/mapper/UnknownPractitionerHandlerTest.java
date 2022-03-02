@@ -29,7 +29,6 @@ public class UnknownPractitionerHandlerTest {
     private static final String UNKNOWN_PRACTITIONER_ID = randomUUID().toString();
     private static final String EXISTING_PRACTITIONER_ID = randomUUID().toString();
     private static final Practitioner EXISTING_PRACTITIONER = (Practitioner) new Practitioner().setId(EXISTING_PRACTITIONER_ID);
-
     private static final Observation OBSERVATION_WITH_PERFORMER = new Observation().addPerformer(new Reference(EXISTING_PRACTITIONER));
     private static final ProcedureRequest PROCEDURE_WITH_PERFORMER =
         new ProcedureRequest().setPerformer(new Reference(EXISTING_PRACTITIONER));
