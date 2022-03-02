@@ -99,11 +99,7 @@ public class ProcedureRequestMapperTest {
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement, SUBJECT, ENCOUNTERS);
 
-        assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getContext().getResource()).isNull();
-        assertThat(procedureRequest.getOccurrence()).isNull();
-        assertThat(procedureRequest.getAuthoredOn()).isNull();
-        assertThat(procedureRequest.getNoteFirstRep()).isNull();
     }
 
     @Test
