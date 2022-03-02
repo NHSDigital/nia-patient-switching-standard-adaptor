@@ -180,6 +180,10 @@ public class RCMRMT030101UK04Component02 {
         this.compoundStatement = value;
     }
 
+    public boolean hasCompoundStatement() {
+        return compoundStatement != null;
+    }
+
     /**
      * Gets the value of the ehrEmpty property.
      * 
@@ -250,6 +254,10 @@ public class RCMRMT030101UK04Component02 {
      */
     public void setMedicationStatement(RCMRMT030101UK04MedicationStatement value) {
         this.medicationStatement = value;
+    }
+
+    public boolean hasMedicationStatement() {
+        return medicationStatement != null;
     }
 
     /**
