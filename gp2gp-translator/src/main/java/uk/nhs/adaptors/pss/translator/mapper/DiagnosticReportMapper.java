@@ -46,6 +46,7 @@ public class DiagnosticReportMapper {
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final ObservationCommentMapper observationCommentMapper;
+    private final SpecimenMapper specimenMapper;
 
     public List<DiagnosticReport> mapDiagnosticReports(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         var compositions = getCompositionsContainingClusterCompoundStatement(ehrExtract);
@@ -144,24 +145,23 @@ public class DiagnosticReportMapper {
         return observationCommentMapper.mapDiagnosticChildrenObservations(narrativeStatements, ehrExtract, patient, encounters);
     }
 
-    public List<Specimen> mapSpecimen() {
+    public List<Specimen> mapSpecimen(RCMRMT030101UK04EhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports, Patient patient) {
         /**
          * For each child CompoundStatement component coded as 123038009 perform the specimen mapping and insert a reference to the
-         * generated specimen. AS we intend to re-use the specimen CompoundStatement/id[0] as the Specimen.id then then each reference
+         * generated specimen. AS we intend to re-use the specimen CompoundStatement/id[0] as the Specimen.id then each reference
          * will be just a reference to the specimen CompoundStatement/id[0].
-         * There can of course be many specimens per report so thi sneeds to iterate over every instance
+         * There can of course be many specimens per report so this needs to iterate over every instance
          */
-        return List.of();
+        return specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient);
     }
 
-    //TODO: Check correctness of this method in references etc.
     private List<Reference> getSpecimenReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component02::getCompoundStatement)
             .filter(Objects::nonNull)
             .filter(compoundStatement1 -> SPECIMEN_CODE.equals(compoundStatement1.getCode().getCode()))
-            .map(e -> new Reference(new IdType(ResourceType.Specimen.name(), e.getId().get(0).getRoot())))
+            .map(compoundStatement1 -> new Reference(new IdType(ResourceType.Specimen.name(), compoundStatement1.getId().get(0).getRoot())))
             .toList();
     }
 
