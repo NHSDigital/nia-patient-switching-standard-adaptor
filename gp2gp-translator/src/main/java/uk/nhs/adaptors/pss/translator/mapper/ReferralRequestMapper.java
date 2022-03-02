@@ -3,11 +3,11 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
+import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Patient;
@@ -58,7 +58,7 @@ public class ReferralRequestMapper {
         referralRequest.setIntent(ReferralCategory.ORDER);
         referralRequest.getRequester().setAgent(ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(),
             ehrComposition));
-        referralRequest.setAuthoredOn(getAuthoredOn(requestStatement.getAvailabilityTime()));
+        referralRequest.setAuthoredOnElement(getAuthoredOn(requestStatement.getAvailabilityTime()));
         referralRequest.setNote(getNotes(requestStatement));
         referralRequest.setSubject(new Reference(patient));
 
@@ -93,15 +93,14 @@ public class ReferralRequestMapper {
     }
 
     private Identifier getIdentifier(String id) {
-        Identifier identifier = new Identifier()
+        return new Identifier()
             .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
             .setValue(id);
-        return identifier;
     }
 
-    private Date getAuthoredOn(TS availabilityTime) {
+    private DateTimeType getAuthoredOn(TS availabilityTime) {
         if (availabilityTime != null) {
-            return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()).getValue();
+            return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         }
         return null;
     }
