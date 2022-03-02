@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
     <availabilityTime value="20200101010101" />
     <component typeCode="COMP">
         <ehrFolder classCode="FOLDER" moodCode="EVN">
             <component typeCode="COMP">
                 <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                    <id root="62A39454-299F-432E-993E-5A6232B4E099" />
                     <component typeCode="COMP" >
                         <PlanStatement classCode="OBS" moodCode="INT">
                             <id root="6DFFAEC4-7527-4D80-A2BD-81BDEBA04400" />
