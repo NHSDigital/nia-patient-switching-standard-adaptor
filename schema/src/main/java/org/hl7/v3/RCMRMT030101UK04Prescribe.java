@@ -120,6 +120,10 @@ public class RCMRMT030101UK04Prescribe {
         this.id = value;
     }
 
+    public boolean hasId() {
+        return id != null;
+    }
+
     /**
      * Gets the value of the code property.
      * 

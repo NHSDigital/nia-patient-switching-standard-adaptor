@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.OK;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
@@ -46,6 +47,7 @@ public class PatientTransferController {
         REQUEST_RECEIVED,
         EHR_EXTRACT_REQUEST_ACCEPTED,
         EHR_EXTRACT_RECEIVED,
+        EHR_EXTRACT_REQUEST_ACKNOWLEDGED,
         EHR_EXTRACT_TRANSLATED,
         CONTINUE_REQUEST_ACCEPTED
     );
