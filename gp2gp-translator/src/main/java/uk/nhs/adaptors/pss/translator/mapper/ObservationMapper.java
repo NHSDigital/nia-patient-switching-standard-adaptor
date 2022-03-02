@@ -48,12 +48,9 @@ import lombok.RequiredArgsConstructor;
 public class ObservationMapper {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String META_PROFILE = "Observation-1";
-    private static final String VALUE_QUANTITY_EXTENSION = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
-        + "-ValueApproximation-1";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
 
     private final CodeableConceptMapper codeableConceptMapper;
-    private final QuantityMapper quantityMapper;
 
     public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         /**
