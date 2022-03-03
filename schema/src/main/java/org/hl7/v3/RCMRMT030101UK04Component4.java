@@ -11,8 +11,6 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import xhtml.npfit.presentationtext.P;
-
 /**
  * &lt;p&gt;Java class for RCMR_MT030101UK04.Component4 complex type.
  * 

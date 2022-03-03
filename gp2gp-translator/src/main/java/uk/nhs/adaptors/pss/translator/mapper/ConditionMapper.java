@@ -317,7 +317,7 @@ public class ConditionMapper {
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> ehrComposition.getComponent()
                 .stream()
-                .map(RCMRMT030101UK04Component4::getLinkSet)
+                .flatMap(this::extractAllLinkSets)
                 .anyMatch(Objects::nonNull))
             .toList();
     }
