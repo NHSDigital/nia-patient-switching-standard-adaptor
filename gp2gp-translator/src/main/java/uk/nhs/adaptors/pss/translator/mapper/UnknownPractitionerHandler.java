@@ -14,6 +14,7 @@ import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
+import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestRequesterComponent;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.ResourceType;
@@ -56,8 +57,8 @@ public class UnknownPractitionerHandler {
             }
         } else if (ResourceType.ProcedureRequest == resource.getResourceType()) {
             ProcedureRequest procedureRequest = (ProcedureRequest) resource;
-            if (!procedureRequest.hasPerformer()) {
-                procedureRequest.setPerformer(new Reference(unknown));
+            if (!procedureRequest.hasRequester()) {
+                procedureRequest.setRequester(new ProcedureRequestRequesterComponent(new Reference(unknown)));
                 return true;
             }
         } else if (ResourceType.Encounter == resource.getResourceType()) {
