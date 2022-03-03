@@ -143,7 +143,7 @@ public class DiagnosticReportMapper {
          * 2. Process all NarrativeStatement direct children of the laboratory level CompoundStatement into Observation (Comment) and
          * reference these from DiagnosticReport.results (See Report Level Comment to Observation (Comment) Map below)
          */
-        return observationCommentMapper.mapDiagnosticChildrenObservations(narrativeStatements, ehrExtract, patient, encounters);
+        return observationCommentMapper.mapDiagnosticChildObservations(narrativeStatements, ehrExtract, patient, encounters);
     }
 
     public List<Specimen> mapSpecimen(RCMRMT030101UK04EhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports, Patient patient) {

@@ -59,7 +59,7 @@ public class ObservationCommentMapper {
             }).toList();
     }
 
-    public List<Observation> mapDiagnosticChildrenObservations(List<RCMRMT030101UK04NarrativeStatement> narrativeStatements,
+    public List<Observation> mapDiagnosticChildObservations(List<RCMRMT030101UK04NarrativeStatement> narrativeStatements,
         RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         return narrativeStatements.stream()
             .map(narrativeStatement -> {

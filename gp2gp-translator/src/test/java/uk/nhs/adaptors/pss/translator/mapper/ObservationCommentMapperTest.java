@@ -5,6 +5,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -73,6 +74,14 @@ public class ObservationCommentMapperTest {
         assertThat(observation.getPerformer().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(observation.getComment()).isEqualTo("Some example text");
         assertThat(observation.getContext().getResource()).isEqualTo(encounter);
+    }
+
+    @Test
+    public void mapDiagnosticReportChildObservations() {
+        var ehrExtract = unmarshallEhrExtract("multiple_narrative_statements.xml");
+        var narrativeStatements = new ArrayList<RCMRMT030101UK04NarrativeStatement>();
+        observationCommentMapper.mapDiagnosticChildObservations(narrativeStatements, ehrExtract, patient, List.of());
+        //TODO: Add more logic here
     }
 
     @Test
