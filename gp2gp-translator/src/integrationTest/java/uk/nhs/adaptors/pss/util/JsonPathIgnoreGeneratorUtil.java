@@ -5,23 +5,35 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.hl7.fhir.dstu3.model.Bundle;
+import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
+import org.hl7.fhir.dstu3.model.Practitioner;
+import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 public class JsonPathIgnoreGeneratorUtil {
+    private static final String CONSULTATION_DISPLAY = "Consultation";
+    private static final String TOPIC_DISPLAY = "Topic (EHR)";
+    private static final String UNKNOWN_USER = "Unknown User";
 
     private static final List<IgnoreParameters> IGNORED_RESOURCES_BUILDER = List.of(
         new IgnoreParameters(ResourceType.Medication, "id"),
         new IgnoreParameters(ResourceType.MedicationRequest, "medicationReference.reference",
             JsonPathIgnoreGeneratorUtil::hasMedicationReference),
         new IgnoreParameters(ResourceType.MedicationStatement, "medicationReference.reference",
-            JsonPathIgnoreGeneratorUtil::hasMedicationReference)
+            JsonPathIgnoreGeneratorUtil::hasMedicationReference),
+        new IgnoreParameters(ResourceType.List, "id", resource -> isList(resource, TOPIC_DISPLAY)),
+        new IgnoreParameters(ResourceType.List, "entry[*].item.reference",
+            resource -> isList(resource, CONSULTATION_DISPLAY)),
+        new IgnoreParameters(ResourceType.Practitioner, "id", JsonPathIgnoreGeneratorUtil::isUnknownPractitioner),
+        new IgnoreParameters(ResourceType.ProcedureRequest, "performer", JsonPathIgnoreGeneratorUtil::isUnknownPerformer)
     );
 
     public static List<String> generateJsonPathIgnores(Bundle fhirBundle) {
@@ -51,6 +63,27 @@ public class JsonPathIgnoreGeneratorUtil {
             return ((MedicationStatement) resource).hasMedicationReference();
         }
         return false;
+    }
+
+    private static boolean isList(Resource resource, String listDisplay) {
+        if (ResourceType.List.equals(resource.getResourceType())) {
+            var consultationList = (ListResource) resource;
+            return consultationList.getCode().getCodingFirstRep().getDisplay().equals(listDisplay);
+        }
+
+        return false;
+    }
+
+    private static Boolean isUnknownPractitioner(IBaseResource resource) {
+        Practitioner practitioner = (Practitioner) resource;
+
+        return UNKNOWN_USER.equals(practitioner.getNameFirstRep().getText());
+    }
+
+    private static Boolean isUnknownPerformer(Resource resource) {
+        IBaseResource performer = ((ProcedureRequest) resource).getPerformer().getResource();
+
+        return performer instanceof Practitioner ? isUnknownPractitioner(performer) : false;
     }
 
     @Data

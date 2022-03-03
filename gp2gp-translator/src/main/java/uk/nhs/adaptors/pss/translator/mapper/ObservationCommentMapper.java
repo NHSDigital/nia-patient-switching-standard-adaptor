@@ -2,6 +2,9 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -9,13 +12,10 @@ import java.util.Objects;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.InstantType;
-import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
@@ -34,15 +34,15 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @AllArgsConstructor
 public class ObservationCommentMapper {
 
-    private static final String META_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
+    private static final String META_URL = "Observation-1";
     private static final String CODING_SYSTEM = "http://snomed.info/sct";
     private static final String CODING_CODE = "37331000000100";
     private static final String CODING_DISPLAY = "Comment note";
 
-    public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+    public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        String practiseCode) {
 
-        var narrativeStatements =  getNarrativeStatements(ehrExtract);
+        var narrativeStatements = getNarrativeStatements(ehrExtract);
 
         return narrativeStatements
             .stream()
@@ -50,7 +50,7 @@ public class ObservationCommentMapper {
                 var narrativeStatementId = narrativeStatement.getId();
                 var observation = new Observation();
                 observation.setId(narrativeStatement.getId().getRoot());
-                observation.setMeta(createMeta());
+                observation.setMeta(generateMeta(META_URL));
                 observation.setStatus(FINAL);
                 observation.setSubject(new Reference(patient));
                 observation.setIssuedElement(createIssued(ehrExtract, narrativeStatement.getId()));
@@ -64,7 +64,7 @@ public class ObservationCommentMapper {
                 );
 
                 observation.setIdentifier(
-                    Collections.singletonList(createIdentifier(narrativeStatementId.getRoot()))
+                    Collections.singletonList(buildIdentifier(narrativeStatementId.getRoot(), practiseCode))
                 );
 
                 setObservationComment(observation, narrativeStatement.getText());
@@ -92,21 +92,6 @@ public class ObservationCommentMapper {
         if (!text.isBlank()) {
             observation.setComment(text.trim());
         }
-    }
-
-    private Meta createMeta() {
-        var meta = new Meta();
-        meta.setProfile(Collections.singletonList(new UriType(META_URL)));
-
-        return meta;
-    }
-
-    private Identifier createIdentifier(String narrativeStatementId) {
-        var identifier = new Identifier();
-        identifier.setSystem(IDENTIFIER_SYSTEM);
-        identifier.setValue(narrativeStatementId);
-
-        return identifier;
     }
 
     private InstantType createIssued(RCMRMT030101UK04EhrExtract ehrExtract, II narrativeStatementId) {

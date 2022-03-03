@@ -57,6 +57,29 @@ public class EhrResourceExtractorUtil {
             .get();
     }
 
+    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract,
+        II resourceId) {
+        return ehrExtract.getComponent()
+            .stream()
+            .filter(EhrResourceExtractorUtil::hasEhrFolder)
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .filter(EhrResourceExtractorUtil::hasEhrComposition)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .filter(ehrComposition -> filterForMatchingEhrCompositionCompoundStatement(ehrComposition, resourceId))
+            .findFirst()
+            .get();
+    }
+
+    public static boolean hasEhrComposition(RCMRMT030101UK04Component3 component) {
+        return component.getEhrComposition() != null;
+    }
+
+    public static boolean hasEhrFolder(RCMRMT030101UK04Component component) {
+        return component.getEhrFolder() != null;
+    }
+
     public static RCMRMT030101UK04EhrComposition extractEhrCompositionForNarrativeStatement(RCMRMT030101UK04EhrExtract ehrExtract,
         II resourceId) {
         return ehrExtract.getComponent()
@@ -137,11 +160,15 @@ public class EhrResourceExtractorUtil {
             && IMMUNIZATION_SNOMED_CODE.equals(component.getObservationStatement().getCode().getCodeSystem());
     }
 
-    private static boolean hasEhrComposition(RCMRMT030101UK04Component3 component) {
-        return component.getEhrComposition() != null;
+    private static boolean filterForMatchingEhrCompositionCompoundStatement(RCMRMT030101UK04EhrComposition ehrComposition,
+        II resourceId) {
+        return ehrComposition.getComponent()
+            .stream()
+            .anyMatch(component -> validCompoundStatement(component, resourceId));
     }
 
-    private static boolean hasEhrFolder(RCMRMT030101UK04Component component) {
-        return component.getEhrFolder() != null;
+    private static boolean validCompoundStatement(RCMRMT030101UK04Component4 component, II resourceId) {
+        return component.getCompoundStatement() != null && !component.getCompoundStatement().getId().isEmpty()
+            && component.getCompoundStatement().getId().get(0) == resourceId;
     }
 }

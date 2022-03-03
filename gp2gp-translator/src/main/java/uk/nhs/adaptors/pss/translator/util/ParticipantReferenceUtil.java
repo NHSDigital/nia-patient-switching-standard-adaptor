@@ -18,30 +18,26 @@ public class ParticipantReferenceUtil {
 
     public static Reference getParticipantReference(List<RCMRMT030101UK04Participant> participantList,
         RCMRMT030101UK04EhrComposition ehrComposition) {
-        Reference reference = new Reference();
         var nonNullFlavorParticipants = participantList.stream()
             .filter(ParticipantReferenceUtil::isNotNullFlavour)
             .collect(Collectors.toList());
 
         var pprfParticipants = getParticipantReference(nonNullFlavorParticipants, PPRF_TYPE_CODE);
         if (pprfParticipants.isPresent()) {
-            return reference.setReference(PRACTITIONER_REFERENCE_PREFIX + pprfParticipants.get());
+            return new Reference(PRACTITIONER_REFERENCE_PREFIX + pprfParticipants.get());
         }
 
         var prfParticipants = getParticipantReference(nonNullFlavorParticipants, PRF_TYPE_CODE);
         if (prfParticipants.isPresent()) {
-            return reference.setReference(PRACTITIONER_REFERENCE_PREFIX + prfParticipants.get());
+            return new Reference(PRACTITIONER_REFERENCE_PREFIX + prfParticipants.get());
         }
 
         var participant2Reference = getParticipant2Reference(ehrComposition);
         if (participant2Reference.isPresent()) {
-            return reference.setReference(PRACTITIONER_REFERENCE_PREFIX + participant2Reference.get());
+            return new Reference(PRACTITIONER_REFERENCE_PREFIX + participant2Reference.get());
         }
 
-        // TODO: if none of these are present, then we should reference an 'Unknown User' Practitioner (FOR THOSE
-        //  MAPPERS THAT REQUIRE IT- eg. ReferralRequest does not need unknown user for 'requester') (NIAD-2026)
-
-        return reference;
+        return null;
     }
 
     private static Optional<String> getParticipantReference(List<RCMRMT030101UK04Participant> participantList, String typeCode) {

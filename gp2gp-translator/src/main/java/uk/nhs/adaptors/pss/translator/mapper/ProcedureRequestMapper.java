@@ -1,62 +1,72 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
-import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
-import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
+import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.II;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.TS;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProcedureRequestMapper {
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
+    private static final String META_PROFILE = "ProcedureRequest-1";
 
-    private CodeableConceptMapper codeableConceptMapper;
+    private final CodeableConceptMapper codeableConceptMapper;
 
     public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04PlanStatement planStatement,
-        Patient patient) {
-
-        /**
-         * TODO: Known future implementations to this mapper
-         * - context: references an encounter resource if it has been generated from the ehrComposition (NIAD-2025)
-         * - requester: fallback to a default 'Unknown User' Practitioner if none are present in requester (NIAD-2026)
-         * - concatenate source practice org id to identifier URL (NIAD-2021)
-         */
-
+        Patient patient, List<Encounter> encounters, String practiseCode) {
         var id = planStatement.getId().getRoot();
-        var note = getNote(planStatement.getText());
-        var reasonCode = codeableConceptMapper.mapToCodeableConcept(planStatement.getCode());
-        var authoredOn = getAuthoredOn(planStatement.getAvailabilityTime(), ehrExtract, planStatement.getId());
-        var occurrence = getOccurrenceDate(planStatement.getEffectiveTime());
-        var agentReference = ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(),
-            EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatement.getId()));
+        var procedureRequest = new ProcedureRequest();
+        procedureRequest
+            .setStatus(ProcedureRequestStatus.ACTIVE)
+            .setIntent(ProcedureRequestIntent.PLAN)
+            .setAuthoredOnElement(getAuthoredOn(planStatement.getAvailabilityTime(), ehrExtract, planStatement.getId()))
+            .setOccurrence(getOccurrenceDate(planStatement.getEffectiveTime()))
+            .setSubject(new Reference(patient))
+            .setMeta(generateMeta(META_PROFILE))
+            .setId(id);
+        procedureRequest.getIdentifier().add(buildIdentifier(id, practiseCode));
+        procedureRequest.getNote().add(getNote(planStatement.getText()));
+        procedureRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode()));
+        procedureRequest.getRequester().setAgent(ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(),
+            EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatement.getId())));
 
-        return createProcedureRequest(id, note, reasonCode, authoredOn, occurrence, agentReference, new Reference(patient));
+        setProcedureRequestContext(procedureRequest, ehrExtract, planStatement.getId(), encounters);
+
+        return procedureRequest;
     }
 
-    private Identifier getIdentifier(String id) {
-        Identifier identifier = new Identifier()
-            .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
-            .setValue(id);
-        return identifier;
+    private void setProcedureRequestContext(ProcedureRequest procedureRequest, RCMRMT030101UK04EhrExtract ehrExtract,
+        II planStatementId, List<Encounter> encounters) {
+        var ehrComposition =
+            EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatementId);
+
+        encounters
+            .stream()
+            .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
+            .findFirst()
+            .ifPresent(encounter -> procedureRequest.setContext(new Reference(encounter)));
     }
 
     private Annotation getNote(String text) {
@@ -89,24 +99,5 @@ public class ProcedureRequestMapper {
         }
 
         return null;
-    }
-
-    private ProcedureRequest createProcedureRequest(String id, Annotation note, CodeableConcept reasonCode,
-        DateTimeType authoredOn, DateTimeType occurrence, Reference agentReference, Reference patientReference) {
-        var procedureRequest = new ProcedureRequest();
-        procedureRequest
-            .setStatus(ProcedureRequestStatus.ACTIVE)
-            .setIntent(ProcedureRequestIntent.PLAN)
-            .setAuthoredOnElement(authoredOn)
-            .setOccurrence(occurrence)
-            .setId(id);
-        procedureRequest.getMeta().getProfile().add(new UriType(META_PROFILE));
-        procedureRequest.getIdentifier().add(getIdentifier(id));
-        procedureRequest.getNote().add(note);
-        procedureRequest.getReasonCode().add(reasonCode);
-        procedureRequest.getRequester().setAgent(agentReference);
-        procedureRequest.setSubject(patientReference);
-
-        return procedureRequest;
     }
 }

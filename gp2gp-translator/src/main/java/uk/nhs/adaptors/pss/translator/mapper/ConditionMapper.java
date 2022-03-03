@@ -6,6 +6,8 @@ import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIV
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ExtensionUtil.buildReferenceExtension;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +25,11 @@ import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Meta;
+import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
@@ -41,7 +42,6 @@ import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.RCMRMT030101UK04StatementRef;
-import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,11 +50,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ConditionMapper {
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1";
+    private static final String META_PROFILE = "ProblemHeader-Condition-1";
     private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-RelatedClinicalContent-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/{practiseCode}";
-    private static final String PRACTISE_CODE = "{practiseCode}";
     private static final String ACTUAL_PROBLEM_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ActualProblem-1";
     private static final String PROBLEM_SIGNIFICANCE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
@@ -63,11 +61,15 @@ public class ConditionMapper {
     private static final String CLINICAL_STATUS_ACTIVE_CODE = "394774009";
     private static final String CLINICAL_STATUS_INACTIVE_CODE = "394775005";
     private static final String DEFAULT_CLINICAL_STATUS = "Defaulted status to active : Unknown status at source";
+    private static final String DEFAULT_ANNOTATION = "Unspecified Significance: Defaulted to Minor";
+    private static final String MAJOR_CODE_NAME = "major";
+    private static final String MINOR_CODE_NAME = "minor";
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
-    public List<Condition> mapConditions(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+    public List<Condition> mapConditions(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        String practiseCode) {
         var compositionsContainingLinkSets = getCompositionsContainingLinkSets(ehrExtract);
         return compositionsContainingLinkSets.stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
@@ -78,26 +80,20 @@ public class ConditionMapper {
                 patient,
                 encounters,
                 compositionsContainingLinkSets,
-                linkSet))
+                linkSet,
+                practiseCode))
             .toList();
     }
 
     private Condition getCondition(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        List<RCMRMT030101UK04EhrComposition> compositionsContainingLinkSets, RCMRMT030101UK04LinkSet linkSet) {
+        List<RCMRMT030101UK04EhrComposition> compositionsContainingLinkSets, RCMRMT030101UK04LinkSet linkSet, String practiseCode) {
         RCMRMT030101UK04EhrComposition currentComposition = getCurrentEhrComposition(compositionsContainingLinkSets, linkSet);
         String id = linkSet.getId().getRoot();
         Condition condition = (Condition) new Condition()
-            .addIdentifier(buildIdentifier(id, "TEMP_PRACTICE_CODE")) //TODO: Find how to get the practise code legit way
+            .addIdentifier(buildIdentifier(id, practiseCode))
             .addCategory(generateCategory())
             .setId(id)
-            .setMeta(generateConditionMeta());
-
-        /**
-         * Case for NIAD-2021 ticket
-         * Identifier's PRACTICE CODE -> {source practice org code from wider tx context} |
-         * Assumes the source practice org code is available as a parameter from the wider transaction context
-         * LINE 18 - CONDITION SHEET
-         */
+            .setMeta(generateMeta(META_PROFILE));
 
         buildClinicalStatus(linkSet.getCode()).ifPresentOrElse(
             condition::setClinicalStatus,
@@ -106,10 +102,10 @@ public class ConditionMapper {
                 condition.addNote(new Annotation(new StringType(DEFAULT_CLINICAL_STATUS)));
             });
 
-        condition.setCode(codeableConceptMapper.mapToCodeableConcept(linkSet.getCode()));
         condition.setSubject(new Reference(patient));
 
         condition.addExtension(buildProblemSignificance(linkSet.getCode()));
+        generateAnnotationToMinor(linkSet.getCode()).ifPresent(condition::addNote);
 
         buildContext(compositionsContainingLinkSets, encounters, linkSet).ifPresent(condition::setContext);
 
@@ -123,12 +119,10 @@ public class ConditionMapper {
         currentComposition.getParticipant2()
             .stream()
             .findFirst()
-            .ifPresent(participant2 -> condition.setAsserter(new Reference(participant2.getAgentRef().getId().getRoot())));
+            .ifPresent(participant2 -> condition.setAsserter(
+                new Reference(new IdType(ResourceType.Practitioner.name(), participant2.getAgentRef().getId().getRoot())))
+            );
 
-        buildNotes(
-            getObservationStatementForComposition(currentComposition),
-            linkSet
-        ).forEach(condition::addNote);
         return condition;
     }
 
@@ -141,7 +135,23 @@ public class ConditionMapper {
                 conditions.stream()
                     .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
                     .findFirst().ifPresent(condition -> {
-                        buildActualProblem(bundle, linkSet.getConditionNamed().getNamedStatementRef()).ifPresent(condition::addExtension);
+                        var namedStatementRef = linkSet.getConditionNamed().getNamedStatementRef();
+                        buildActualProblem(bundle, namedStatementRef).ifPresent(condition::addExtension);
+
+                        var referencedObservationStatement = getObservationStatementById(
+                            ehrExtract,
+                            namedStatementRef.getId().getRoot()
+                        );
+
+                        buildNotes(
+                            referencedObservationStatement,
+                            linkSet
+                        ).forEach(condition::addNote);
+
+                        referencedObservationStatement.ifPresent(
+                            observationStatement -> condition.setCode(
+                                codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
+                        );
 
                         var statementRefs = linkSet.getComponent()
                             .stream()
@@ -152,21 +162,22 @@ public class ConditionMapper {
     }
 
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UK04LinkSet linkSet) {
-        IVLTS effectiveTime = linkSet.getEffectiveTime();
-        TS availabilityTime = linkSet.getAvailabilityTime();
-
-        if (effectiveTime.hasLow() && effectiveTime.getLow().getValue() != null) {
-            return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getLow().getValue()));
-        } else if (effectiveTime.hasCenter() && effectiveTime.getCenter().getValue() != null) {
-            return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getCenter().getValue()));
-        } else if (availabilityTime != null && availabilityTime.getValue() != null) {
-            return Optional.of(dateTimeMapper.mapDateTime(availabilityTime.getValue()));
+        if (linkSet.getEffectiveTime() != null) {
+            IVLTS effectiveTime = linkSet.getEffectiveTime();
+            if (effectiveTime.hasLow() && effectiveTime.getLow().hasValue()) {
+                return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getLow().getValue()));
+            } else if (effectiveTime.hasCenter() && effectiveTime.getCenter().hasValue()) {
+                return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getCenter().getValue()));
+            }
+        }
+        if (linkSet.getAvailabilityTime() != null && linkSet.getAvailabilityTime().hasValue()) {
+            return Optional.of(dateTimeMapper.mapDateTime(linkSet.getAvailabilityTime().getValue()));
         }
         return Optional.empty();
     }
 
     private Optional<DateTimeType> buildAbatementDateTimeType(IVLTS abatementDateTime) {
-        if (abatementDateTime.hasHigh() && abatementDateTime.getHigh().getValue() != null) {
+        if (abatementDateTime != null && abatementDateTime.hasHigh() && abatementDateTime.getHigh().getValue() != null) {
             return Optional.of(dateTimeMapper.mapDateTime(abatementDateTime.getHigh().getValue()));
         }
         return Optional.empty();
@@ -188,21 +199,6 @@ public class ConditionMapper {
         );
     }
 
-    private Meta generateConditionMeta() {
-        Meta meta = new Meta();
-        UriType profile = new UriType(META_PROFILE);
-        meta.setProfile(List.of(profile));
-        return meta;
-    }
-
-    private Identifier buildIdentifier(String rootId, String practiseCode) {
-        Identifier identifier = new Identifier();
-        identifier.setSystem(IDENTIFIER_SYSTEM.replace(PRACTISE_CODE, practiseCode));
-        identifier.setValue(rootId);
-
-        return identifier;
-    }
-
     private Optional<Extension> buildActualProblem(Bundle bundle, RCMRMT030101UK04StatementRef namedStatementRef) {
         if (namedStatementRef != null) {
             var resourceOpt = bundle.getEntry()
@@ -219,18 +215,28 @@ public class ConditionMapper {
         return Optional.empty();
     }
 
-    private Extension buildProblemSignificance(CD linksetCode) {
-        Optional<String> code = Optional.ofNullable(linksetCode.getQualifier().get(0).getName().getCode());
-        Extension extension = new Extension();
-        extension.setUrl(PROBLEM_SIGNIFICANCE_URL);
+    private boolean hasMajorCode(CD linkSetCode) {
+        return hasCode(linkSetCode) && MAJOR_CODE.equals(linkSetCode.getQualifier().get(0).getName().getCode());
+    }
 
-        if (code.isPresent() && code.get().equals(MAJOR_CODE)) {
-            extension.setValue(new CodeType("Major"));
-        } else {
-            extension.setValue(new CodeType("Minor"));
+    private Extension buildProblemSignificance(CD linkSetCode) {
+        Extension extension = new Extension()
+            .setUrl(PROBLEM_SIGNIFICANCE_URL);
+
+        return hasMajorCode(linkSetCode)
+            ? extension.setValue(new CodeType(MAJOR_CODE_NAME)) : extension.setValue(new CodeType(MINOR_CODE_NAME));
+    }
+
+    private Optional<Annotation> generateAnnotationToMinor(CD linkSetCode) {
+        if (!hasMajorCode(linkSetCode)) {
+            return Optional.of(new Annotation().setText(DEFAULT_ANNOTATION));
         }
+        return Optional.empty();
+    }
 
-        return extension;
+    private boolean hasCode(CD linkSetCode) {
+        var crOpt = linkSetCode.getQualifier().stream().findFirst();
+        return crOpt.isPresent() && crOpt.get().getName() != null && crOpt.get().getName().getCode() != null;
     }
 
     private Optional<Condition.ConditionClinicalStatus> buildClinicalStatus(CD linksetCode) {
@@ -296,12 +302,12 @@ public class ConditionMapper {
             .toList();
     }
 
-    private Optional<RCMRMT030101UK04ObservationStatement> getObservationStatementForComposition(
-        RCMRMT030101UK04EhrComposition ehrComposition) {
-        return ehrComposition.getComponent()
-            .stream()
+    private Optional<RCMRMT030101UK04ObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
+            .flatMap(e -> e.getEhrComposition().getComponent().stream())
             .map(RCMRMT030101UK04Component4::getObservationStatement)
             .filter(Objects::nonNull)
+            .filter(observationStatement -> id.equals(observationStatement.getId().getRoot()))
             .findFirst();
     }
 

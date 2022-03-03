@@ -9,8 +9,11 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.List;
+
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
@@ -28,11 +31,14 @@ import lombok.SneakyThrows;
 public class ReferralRequestMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/RequestStatement/";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ReferralRequest-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
+    private static final String PRACTISE_CODE = "TESTPRACTISECODE";
+    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String EXAMPLE_ID = "B4303C92-4D1C-11E3-A2DD-010000000161";
     private static final String PRACTITIONER_ID = "Practitioner/58341512-03F3-4C8E-B41C-A8FCA3886BBB";
     private static final String EHR_COMPOSITION_PRACTITIONER2_ID = "Practitioner/B1AF3701-4D1C-11E3-9E6B-010000001205";
     private static final String CODING_DISPLAY = "Reason Code 1";
+    private static final String ENCOUNTER_ID = "72A39454-299F-432E-993E-5A6232B4E099";
+    private static final List<Encounter> ENCOUNTERS = getEncounterList();
     private static final Patient SUBJECT = createPatient();
 
     @Mock
@@ -45,6 +51,12 @@ public class ReferralRequestMapperTest {
         Patient patient = new Patient();
         patient.setId(randomUUID().toString());
         return patient;
+    }
+
+    private static List<Encounter> getEncounterList() {
+        var encounter = new Encounter();
+        encounter.setId(ENCOUNTER_ID);
+        return List.of(encounter);
     }
 
     @SneakyThrows
@@ -76,7 +88,8 @@ public class ReferralRequestMapperTest {
         codeableConcept.addCoding(coding);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
-        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT);
+        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT,
+            ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(referralRequest);
         assertThat(referralRequest.getId()).isEqualTo(EXAMPLE_ID);
@@ -87,6 +100,7 @@ public class ReferralRequestMapperTest {
         assertThat(referralRequest.getRequester().getAgent().getReference()).isEqualTo(PRACTITIONER_ID);
         assertThat(referralRequest.getRecipient().get(0).getReference()).isEqualTo("Practitioner/B8CA3710-4D1C-11E3-9E6B-010000001205");
         assertThat(referralRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo("Reason Code 1");
+        assertThat(referralRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 
     @Test
@@ -94,15 +108,27 @@ public class ReferralRequestMapperTest {
         var ehrComposition = unmarshallEhrCompositionElement("no_optional_data_example.xml");
         var requestStatement = getRequestStatement(ehrComposition);
 
-        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT);
+        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT,
+            ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(referralRequest);
         assertThat(referralRequest.getId()).isEqualTo(EXAMPLE_ID);
-        assertThat(referralRequest.getNote().isEmpty());
+        assertThat(referralRequest.getNote().size()).isZero();
         assertThat(referralRequest.getAuthoredOn()).isNull();
         assertThat(referralRequest.getRequester().getAgent().getReference()).isNull();
-        assertThat(referralRequest.getRecipient().isEmpty());
-        assertThat(referralRequest.getReasonCode().isEmpty());
+        assertThat(referralRequest.getRecipient().size()).isZero();
+        assertThat(referralRequest.getReasonCode().size()).isZero();
+    }
+
+    @Test
+    public void mapReferralRequestWithNoReferencedEncounter() {
+        var ehrComposition = unmarshallEhrCompositionElement("no_referenced_encounter_example.xml");
+        var requestStatement = getRequestStatement(ehrComposition);
+
+        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT,
+            ENCOUNTERS, PRACTISE_CODE);
+
+        assertThat(referralRequest.getContext().getResource()).isNull();
     }
 
     @Test
@@ -110,15 +136,16 @@ public class ReferralRequestMapperTest {
         var ehrComposition = unmarshallEhrCompositionElement("requester_prf_participant_example.xml");
         var requestStatement = getRequestStatement(ehrComposition);
 
-        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT);
+        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT,
+            ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(referralRequest);
         assertThat(referralRequest.getId()).isEqualTo(EXAMPLE_ID);
-        assertThat(referralRequest.getNote().isEmpty());
+        assertThat(referralRequest.getNote().size()).isZero();
         assertThat(referralRequest.getAuthoredOn()).isNull();
         assertThat(referralRequest.getRequester().getAgent().getReference()).isEqualTo(PRACTITIONER_ID);
-        assertThat(referralRequest.getRecipient().isEmpty());
-        assertThat(referralRequest.getReasonCode().isEmpty());
+        assertThat(referralRequest.getRecipient().size()).isZero();
+        assertThat(referralRequest.getReasonCode().size()).isZero();
     }
 
     @Test
@@ -126,15 +153,16 @@ public class ReferralRequestMapperTest {
         var ehrComposition = unmarshallEhrCompositionElement("requester_ehr_composition_participant2_example.xml");
         var requestStatement = getRequestStatement(ehrComposition);
 
-        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT);
+        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT,
+            ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(referralRequest);
         assertThat(referralRequest.getId()).isEqualTo(EXAMPLE_ID);
-        assertThat(referralRequest.getNote().isEmpty());
+        assertThat(referralRequest.getNote().size()).isZero();
         assertThat(referralRequest.getAuthoredOn()).isNull();
         assertThat(referralRequest.getRequester().getAgent().getReference()).isEqualTo(EHR_COMPOSITION_PRACTITIONER2_ID);
-        assertThat(referralRequest.getRecipient().isEmpty());
-        assertThat(referralRequest.getReasonCode().isEmpty());
+        assertThat(referralRequest.getRecipient().size()).isZero();
+        assertThat(referralRequest.getReasonCode().size()).isZero();
     }
 
     @Test
@@ -142,15 +170,16 @@ public class ReferralRequestMapperTest {
         var ehrComposition = unmarshallEhrCompositionElement("recipient_responsible_party_no_valid_type_code_example.xml");
         var requestStatement = getRequestStatement(ehrComposition);
 
-        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT);
+        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT,
+            ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(referralRequest);
         assertThat(referralRequest.getId()).isEqualTo(EXAMPLE_ID);
-        assertThat(referralRequest.getNote().isEmpty());
+        assertThat(referralRequest.getNote().size()).isZero();
         assertThat(referralRequest.getAuthoredOn()).isNull();
         assertThat(referralRequest.getRequester().getAgent().getReference()).isNull();
-        assertThat(referralRequest.getRecipient().isEmpty());
-        assertThat(referralRequest.getReasonCode().isEmpty());
+        assertThat(referralRequest.getRecipient().size()).isZero();
+        assertThat(referralRequest.getReasonCode().size()).isZero();
     }
 
     @Test
@@ -158,14 +187,15 @@ public class ReferralRequestMapperTest {
         var ehrComposition = unmarshallEhrCompositionElement("note_priority_using_display_name_example.xml");
         var requestStatement = getRequestStatement(ehrComposition);
 
-        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT);
+        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT,
+            ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(referralRequest);
         assertThat(referralRequest.getId()).isEqualTo(EXAMPLE_ID);
         assertThat(referralRequest.getNote().get(0).getText()).isEqualTo("Priority: Normal");
         assertThat(referralRequest.getAuthoredOn()).isNull();
         assertThat(referralRequest.getRequester().getAgent().getReference()).isNull();
-        assertThat(referralRequest.getRecipient().isEmpty());
-        assertThat(referralRequest.getReasonCode().isEmpty());
+        assertThat(referralRequest.getRecipient().size()).isZero();
+        assertThat(referralRequest.getReasonCode().size()).isZero();
     }
 }

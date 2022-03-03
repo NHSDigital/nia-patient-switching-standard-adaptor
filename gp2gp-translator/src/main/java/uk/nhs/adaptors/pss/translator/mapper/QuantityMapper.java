@@ -69,6 +69,6 @@ public class QuantityMapper {
 
     private void setQuantityValueAndUnit(Quantity quantity, String value, String unit, List<PQR> translation) {
         setUnit(quantity, unit, translation);
-        quantity.setValue(Long.parseLong(value));
+        quantity.setValue((long) Double.parseDouble(value));
     }
 }

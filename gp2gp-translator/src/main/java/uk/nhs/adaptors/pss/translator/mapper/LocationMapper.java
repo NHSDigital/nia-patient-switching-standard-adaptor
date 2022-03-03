@@ -1,10 +1,12 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
 import org.hl7.fhir.dstu3.model.Address;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.ContactPoint;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.RCMRMT030101UK04Location;
 import org.hl7.v3.RCMRMT030101UK04Place;
 import org.springframework.stereotype.Service;
@@ -15,13 +17,12 @@ import uk.nhs.adaptors.pss.translator.util.TelecomUtil;
 @Service
 public class LocationMapper {
     private static final String UNKNOWN_NAME = "Unknown";
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
+    private static final String META_PROFILE = "Location-1";
     private static final String LOCATION_ID_EXTENSION = "-LOC";
 
-    public Location mapToLocation(RCMRMT030101UK04Location location, String rootId) {
+    public Location mapToLocation(RCMRMT030101UK04Location location, String rootId, String practiseCode) {
         var id = rootId + LOCATION_ID_EXTENSION;
-        var identifier = getIdentifier(id);
+        var identifier = buildIdentifier(id, practiseCode);
 
         if (location.getLocatedEntity() != null && location.getLocatedEntity().getLocatedPlace() != null) {
             var locatedPlace = location.getLocatedEntity().getLocatedPlace();
@@ -33,13 +34,6 @@ public class LocationMapper {
         }
 
         return createLocation(id, identifier, null, null, null);
-    }
-
-    private Identifier getIdentifier(String id) {
-        Identifier identifier = new Identifier()
-                .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
-                .setValue(id);
-        return identifier;
     }
 
     private String getName(RCMRMT030101UK04Place locatedPlace) {
@@ -68,7 +62,7 @@ public class LocationMapper {
     private Location createLocation(String id, Identifier identifier, String name, ContactPoint telecom, Address address) {
         var location = new Location();
         location.getIdentifier().add(identifier);
-        location.getMeta().getProfile().add(new UriType(META_PROFILE));
+        location.setMeta(generateMeta(META_PROFILE));
         location.getTelecom().add(telecom);
         location.setName(name)
                 .setAddress(address)

@@ -23,19 +23,19 @@ public class CodeableConceptMapper {
     }
 
     private boolean hasSnomedCodeInMainCode(CD codedData) {
-        return codedData.getCodeSystem().equals(SNOMED_SYSTEM_CODE);
+        return codedData.hasCodeSystem() && SNOMED_SYSTEM_CODE.equals(codedData.getCodeSystem());
     }
 
     private boolean hasSnomedCodeInTranslationElement(CD codedData) {
         return codedData.getTranslation()
             .stream()
-            .anyMatch(translation -> translation.getCodeSystem().equals(SNOMED_SYSTEM_CODE));
+            .anyMatch(translation -> SNOMED_SYSTEM_CODE.equals(translation.getCodeSystem()));
     }
 
     private CD getSnomedTranslationElement(CD codedData) {
         return codedData.getTranslation()
             .stream()
-            .filter(translation -> translation.getCodeSystem().equals(SNOMED_SYSTEM_CODE))
+            .filter(translation -> SNOMED_SYSTEM_CODE.equals(translation.getCodeSystem()))
             .findFirst()
             .get();
     }
