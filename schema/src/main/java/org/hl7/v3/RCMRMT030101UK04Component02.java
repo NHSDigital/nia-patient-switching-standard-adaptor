@@ -208,6 +208,10 @@ public class RCMRMT030101UK04Component02 {
         this.ehrEmpty = value;
     }
 
+    public boolean hasEhrEmpty() {
+        return ehrEmpty != null;
+    }
+
     /**
      * Gets the value of the linkSet property.
      * 
@@ -230,6 +234,10 @@ public class RCMRMT030101UK04Component02 {
      */
     public void setLinkSet(RCMRMT030101UK04LinkSet value) {
         this.linkSet = value;
+    }
+
+    public boolean hasLinkSet() {
+        return linkSet != null;
     }
 
     /**
@@ -284,6 +292,10 @@ public class RCMRMT030101UK04Component02 {
         this.narrativeStatement = value;
     }
 
+    public boolean hasNarrativeStatement() {
+        return narrativeStatement != null;
+    }
+
     /**
      * Gets the value of the observationStatement property.
      * 
@@ -306,6 +318,10 @@ public class RCMRMT030101UK04Component02 {
      */
     public void setObservationStatement(RCMRMT030101UK04ObservationStatement value) {
         this.observationStatement = value;
+    }
+
+    public boolean hasObservationStatement() {
+        return observationStatement != null;
     }
 
     /**
@@ -332,6 +348,10 @@ public class RCMRMT030101UK04Component02 {
         this.planStatement = value;
     }
 
+    public boolean hasPlanStatement() {
+        return planStatement != null;
+    }
+
     /**
      * Gets the value of the registrationStatement property.
      * 
@@ -356,6 +376,9 @@ public class RCMRMT030101UK04Component02 {
         this.registrationStatement = value;
     }
 
+    public boolean hasRegistrationStatement() {
+        return registrationStatement != null;
+    }
     /**
      * Gets the value of the requestStatement property.
      * 
@@ -378,6 +401,10 @@ public class RCMRMT030101UK04Component02 {
      */
     public void setRequestStatement(RCMRMT030101UK04RequestStatement value) {
         this.requestStatement = value;
+    }
+
+    public boolean hasRequestStatement() {
+        return requestStatement != null;
     }
 
     /**
