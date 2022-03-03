@@ -4,6 +4,8 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
@@ -18,13 +20,20 @@ import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.IVLTS;
+import org.hl7.v3.RCMRMT030101UK04Component;
+import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UK04Component3;
+import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.hl7.v3.RCMRMT030101UK04ResponsibleParty3;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
@@ -39,6 +48,33 @@ public class ReferralRequestMapper {
     private static final String RESP_PARTY_TYPE_CODE = "RESP";
 
     private CodeableConceptMapper codeableConceptMapper;
+
+    public List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+        return ehrExtract.getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .flatMap(ehrComposition -> ehrComposition.getComponent()
+                .stream()
+                .flatMap(this::extractAllRequestStatements)
+                .filter(Objects::nonNull)
+                .map(requestStatement -> mapToReferralRequest(ehrComposition, requestStatement, patient, encounters)))
+            .toList();
+    }
+
+    private Stream<RCMRMT030101UK04RequestStatement> extractAllRequestStatements(RCMRMT030101UK04Component4 component4) {
+        return Stream.concat(
+            Stream.of(component4.getRequestStatement()),
+            component4.hasCompoundStatement()
+                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
+                RCMRMT030101UK04Component02::hasRequestStatement, RCMRMT030101UK04Component02::getRequestStatement)
+                .stream()
+                .map(RCMRMT030101UK04RequestStatement.class::cast)
+                : Stream.empty()
+        );
+    }
 
     public ReferralRequest mapToReferralRequest(RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04RequestStatement requestStatement, Patient patient, List<Encounter> encounters) {

@@ -92,7 +92,7 @@ public class BundleMapperService {
         var procedureRequests = mapProcedureRequests(ehrExtract, patient, encounters);
         addEntries(bundle, procedureRequests);
 
-        var referralRequests = mapReferralRequests(ehrFolder, patient, encounters);
+        var referralRequests = mapReferralRequests(ehrExtract, patient, encounters);
         addEntries(bundle, referralRequests);
 
         var medicationResources = medicationRequestMapper.mapResources(ehrExtract, encounters, patient);
@@ -151,15 +151,8 @@ public class BundleMapperService {
         return patientMapper.mapToPatient(xmlPatient, organization);
     }
 
-    private List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrFolder ehrFolder, Patient patient, List<Encounter> encounters) {
-        return ehrFolder.getComponent()
-            .stream()
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .flatMap(ehrComposition -> ehrComposition.getComponent().stream()
-                .filter(component4 -> component4.getRequestStatement() != null)
-                .map(component4 -> referralRequestMapper.mapToReferralRequest(ehrComposition, component4.getRequestStatement(), patient,
-                    encounters)))
-            .toList();
+    private List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+        return referralRequestMapper.mapReferralRequests(ehrExtract, patient, encounters);
     }
 
     private List<ProcedureRequest> mapProcedureRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,

@@ -21,11 +21,9 @@ import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04Location;
 import org.hl7.v3.RCMRMT030101UK04Patient;
-import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -125,9 +123,8 @@ public class BundleMapperServiceTest {
             any(Patient.class),
             anyList()
         );
-        verify(referralRequestMapper).mapToReferralRequest(
-            any(RCMRMT030101UK04EhrComposition.class),
-            any(RCMRMT030101UK04RequestStatement.class),
+        verify(referralRequestMapper).mapReferralRequests(
+            any(RCMRMT030101UK04EhrExtract.class),
             any(Patient.class),
             anyList()
         );
