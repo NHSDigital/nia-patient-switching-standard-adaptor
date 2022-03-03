@@ -133,6 +133,7 @@ public class DiagnosticReportMapper {
             .stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
+            .filter(Objects::nonNull)
             .flatMap(compoundStatement -> compoundStatement.getComponent().stream())
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
             .filter(Objects::nonNull)

@@ -6,6 +6,7 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -35,6 +36,7 @@ import uk.nhs.adaptors.pss.translator.util.TextUtil;
 public class SpecimenMapper {
 
     private static final String SPECIMEN_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Specimen-1";
+    private static final String REFERENCE_PREFIX = "Specimen/";
 
     private final DateTimeMapper dateTimeMapper;
 
@@ -42,11 +44,12 @@ public class SpecimenMapper {
         return diagnosticReports.stream()
             .flatMap(diagnosticReport -> diagnosticReport.getSpecimen().stream())
             .map(Reference::getReference)
-            .map(reference -> getParentCompoundStatementByChildId(ehrExtract, reference))
+            .map(reference -> getParentCompoundStatementByChildId(ehrExtract, reference.replace(REFERENCE_PREFIX, StringUtils.EMPTY)))
             .flatMap(Optional::stream)
             .flatMap(parentCompoundStatement -> parentCompoundStatement.getComponent().stream())
             .map(RCMRMT030101UK04Component02::getCompoundStatement)
             .filter(Objects::nonNull)
+            .distinct()
             .map(childCompoundStatement -> createSpecimen(childCompoundStatement, patient))
             .toList();
     }
