@@ -30,8 +30,8 @@ public class UnknownPractitionerHandlerTest {
     private static final String EXISTING_PRACTITIONER_ID = randomUUID().toString();
     private static final Practitioner EXISTING_PRACTITIONER = (Practitioner) new Practitioner().setId(EXISTING_PRACTITIONER_ID);
     private static final Observation OBSERVATION_WITH_PERFORMER = new Observation().addPerformer(new Reference(EXISTING_PRACTITIONER));
-    private static final ProcedureRequest PROCEDURE_WITH_PERFORMER =
-        new ProcedureRequest().setPerformer(new Reference(EXISTING_PRACTITIONER));
+    private static final ProcedureRequest PROCEDURE_WITH_REQUESTER =
+        new ProcedureRequest().setRequester(new ProcedureRequest.ProcedureRequestRequesterComponent(new Reference(EXISTING_PRACTITIONER)));
     private static final Encounter ENCOUNTER_WITHOUT_RECORDER = new Encounter()
         .addParticipant(new EncounterParticipantComponent()
             .setIndividual(new Reference(EXISTING_PRACTITIONER)));
@@ -44,7 +44,7 @@ public class UnknownPractitionerHandlerTest {
 
     @Test
     public void updateUnknownPractitionersRefsDontAddUnknown() {
-        Bundle bundle = bundle(OBSERVATION_WITH_PERFORMER, PROCEDURE_WITH_PERFORMER);
+        Bundle bundle = bundle(OBSERVATION_WITH_PERFORMER, PROCEDURE_WITH_REQUESTER);
 
         unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
 
