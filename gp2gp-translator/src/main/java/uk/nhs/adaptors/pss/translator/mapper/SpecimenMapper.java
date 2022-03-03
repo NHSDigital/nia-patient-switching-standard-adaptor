@@ -1,7 +1,10 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
+
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.TextUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -89,7 +93,7 @@ public class SpecimenMapper {
             .stream()
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
             .filter(Objects::nonNull)
-            .map(e -> StringUtils.deleteWhitespace(e.getText()).split(StringUtils.LF)[3])
+            .map(narrativeStatement -> getLastLine(narrativeStatement.getText()))
             .map(e -> new Annotation().setText(e))
             .toList();
     }

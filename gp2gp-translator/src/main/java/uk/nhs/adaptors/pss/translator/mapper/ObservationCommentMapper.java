@@ -10,6 +10,7 @@ import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extra
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.TextUtil;
 
 @Service
 @AllArgsConstructor
@@ -63,7 +65,7 @@ public class ObservationCommentMapper {
             .map(narrativeStatement -> {
                 Observation observation = createObservationComment(narrativeStatement, patient);
                 observation.addPerformer(createDeepPerformer(ehrExtract, narrativeStatement));
-                setObservationComment(observation, deleteWhitespace(narrativeStatement.getText()).split(StringUtils.LF)[3]);
+                setObservationComment(observation, getLastLine(narrativeStatement.getText()));
                 observation.setIssuedElement(createDeepIssued(ehrExtract, narrativeStatement.getId()));
                 setDeepObservationContext(observation, ehrExtract, narrativeStatement.getId(), encounters);
 
