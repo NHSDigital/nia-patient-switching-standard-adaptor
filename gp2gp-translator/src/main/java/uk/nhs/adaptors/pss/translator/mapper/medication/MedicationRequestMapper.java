@@ -17,6 +17,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UK04Component;
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
@@ -58,13 +60,25 @@ public class MedicationRequestMapper {
 
             ehrComposition.getComponent()
                 .stream()
-                .filter(RCMRMT030101UK04Component4::hasMedicationStatement)
-                .map(RCMRMT030101UK04Component4::getMedicationStatement)
+                .flatMap(this::extractAllMedications)
+                .filter(Objects::nonNull)
                 .map(medicationStatement -> mapMedicationStatement(ehrExtract, ehrComposition, medicationStatement, patient, context))
                 .flatMap(List::stream)
                 .forEach(mappedResources::add);
         }
         return mappedResources;
+    }
+
+    private Stream<RCMRMT030101UK04MedicationStatement> extractAllMedications(RCMRMT030101UK04Component4 component4) {
+        return Stream.concat(
+            Stream.of(component4.getMedicationStatement()),
+            component4.hasCompoundStatement()
+                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
+                RCMRMT030101UK04Component02::hasMedicationStatement, RCMRMT030101UK04Component02::getMedicationStatement)
+                .stream()
+                .map(RCMRMT030101UK04MedicationStatement.class::cast)
+                : Stream.empty()
+        );
     }
 
     private List<DomainResource> mapMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
