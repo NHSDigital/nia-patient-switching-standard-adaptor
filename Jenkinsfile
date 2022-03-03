@@ -1,13 +1,8 @@
 String tfProject             = "nia"
-String tfPrimaryDeploymentEnv     = "kdev"
-String tfSecondaryDeploymentEnv   = "kdev"
 String tfComponent           = "pss"
-String redirectEnv           = "kdev"         // Name of environment where TF deployment needs to be re-directed
-String redirectBranch        = "main"      // When deploying branch name matches, TF deployment gets redirected to environment defined in variable "redirectEnv"
 Boolean publishGPC_FacadeImage  = true // true: to publsh gpc_facade image to AWS ECR gpc_facade
 Boolean publishGP2GP_TranslatorImage  = true // true: to publsh gp2gp_translator image to AWS ECR gp2gp-translator
-Boolean publishMhsMockImage  = true // true: to publsh mhs mock image to AWS ECR pss-mock-mhs
-Boolean secondarydeployment  = false // 
+Boolean publishMhsMockImage  = true // true: to publsh mhs mock image to AWS ECR pss-mock-mhs 
 
 
 pipeline {
@@ -165,68 +160,6 @@ pipeline {
                         }
                     }
                 }
-
-                 stage('Deploy') {
-                    options {
-                        lock("${tfProject}-${tfPrimaryDeploymentEnv}-${tfComponent}")
-                    }
-                    stages {
-
-                        stage('Kdev Deployment') {
-                            when {
-                              expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
-                            }
-                            steps {
-                                script {
-                                    
-                                    // Check if TF deployment environment needs to be redirected
-                                    if (GIT_BRANCH == redirectBranch) { tfPrimaryDeploymentEnv = redirectEnv }
-                                    
-                                    String tfCodeBranch  = "develop"
-                                    String tfCodeRepo    = "https://github.com/nhsconnect/integration-adaptors"
-                                    String tfRegion      = "${TF_STATE_BUCKET_REGION}"
-                                    List<String> tfParams = []
-                                    Map<String,String> tfVariables = ["${tfComponent}_build_id": BUILD_TAG]
-
-                                    dir ("integration-adaptors") {
-                                      git (branch: tfCodeBranch, url: tfCodeRepo)
-                                      dir ("terraform/aws") {
-                                        if (terraformInit(TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
-                                        if (terraform('plan', TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Plan failed")}
-                                        if (terraform('apply', TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
-                                        if (terraformOutput(TF_STATE_BUCKET, tfProject, tfPrimaryDeploymentEnv, tfComponent, tfRegion) !=0) { error("Terraform output failed")}
-                                      }
-                                    }
-                                }  //script
-                            } // steps
-                        } // Stage Deploy Primary Environment using Terraform
-
-                        stage('Deploy to Secondary Deployment using Terraform') {
-                           when {
-                              expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && (secondarydeployment == 'true') && ( GIT_BRANCH == 'main' )  }
-                            }
-                            steps {
-                                script {
-                                    
-                                    
-                                    String tfCodeBranch  = "develop"
-                                    String tfCodeRepo    = "https://github.com/nhsconnect/integration-adaptors"
-                                    String tfRegion      = "${TF_STATE_BUCKET_REGION}"
-                                    List<String> tfParams = []
-                                    Map<String,String> tfVariables = ["${tfComponent}_build_id": BUILD_TAG]
-
-                                    dir ("integration-adaptors") {
-                                      git (branch: tfCodeBranch, url: tfCodeRepo)
-                                      dir ("terraform/aws") {
-                                        if (terraformInitreconfigure(TF_STATE_BUCKET, tfProject, tfSecondaryDeploymentEnv, tfComponent, tfRegion) !=0) { error("Terraform init failed")}
-                                        if (terraform('apply', TF_STATE_BUCKET, tfProject, tfSecondaryDeploymentEnv, tfComponent, tfRegion, tfVariables) !=0 ) { error("Terraform Apply failed")}
-                                      }
-                                    }
-                              }  // script
-                            } // steps
-                        } // Stage Deploy Secondary Deployment using Terraform
-                    }//Stages
-                 }//Deploy
 
                 stage('PSS DB Migration') {
                   when {
