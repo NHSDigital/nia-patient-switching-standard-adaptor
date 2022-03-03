@@ -69,7 +69,7 @@ public class ReferralRequestMapper {
             Stream.of(component4.getRequestStatement()),
             component4.hasCompoundStatement()
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                RCMRMT030101UK04Component02::hasRequestStatement, RCMRMT030101UK04Component02::getRequestStatement)
+                    RCMRMT030101UK04Component02::hasRequestStatement, RCMRMT030101UK04Component02::getRequestStatement)
                 .stream()
                 .map(RCMRMT030101UK04RequestStatement.class::cast)
                 : Stream.empty()
