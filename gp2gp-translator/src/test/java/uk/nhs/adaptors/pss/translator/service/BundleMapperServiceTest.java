@@ -39,6 +39,7 @@ import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DiagnosticReportMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
@@ -88,6 +89,8 @@ public class BundleMapperServiceTest {
     private MedicationRequestMapper medicationRequestMapper;
     @Mock
     private UnknownPractitionerHandler unknownPractitionerHandler;
+    @Mock
+    private DiagnosticReportMapper diagnosticReportMapper;
 
     @InjectMocks
     private BundleMapperService bundleMapperService;
@@ -141,6 +144,9 @@ public class BundleMapperServiceTest {
         verify(medicationRequestMapper, atLeast(1))
             .mapResources(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class));
         verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
+        verify(diagnosticReportMapper).mapDiagnosticReports(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
+        verify(diagnosticReportMapper).mapChildrenObservationComments(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
+        verify(diagnosticReportMapper).mapSpecimen(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class));
     }
 
     @SneakyThrows

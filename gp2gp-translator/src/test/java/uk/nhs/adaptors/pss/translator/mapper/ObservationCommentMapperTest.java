@@ -26,7 +26,7 @@ public class ObservationCommentMapperTest {
     private static final String META_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
     private static final String CODING_SYSTEM = "http://snomed.info/sct";
     private static final String CODING_CODE = "37331000000100";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
+    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/UNK";
     private static final int EXPECTED_OBSERVATION_COUNT = 3;
 
     private final ObservationCommentMapper observationCommentMapper = new ObservationCommentMapper();
