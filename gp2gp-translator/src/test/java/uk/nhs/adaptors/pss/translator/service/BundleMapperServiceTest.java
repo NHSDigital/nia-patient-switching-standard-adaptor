@@ -109,7 +109,8 @@ public class BundleMapperServiceTest {
         when(agentDirectoryMapper.mapAgentDirectory(any())).thenReturn(mockedList);
         when(mockedList.stream()).thenReturn(agentResourceList.stream());
         when(patientMapper.mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class))).thenReturn(new Patient());
-        when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class))).thenReturn(encounterResources);
+        when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class)))
+            .thenReturn(encounterResources);
     }
 
     @Test
@@ -125,15 +126,15 @@ public class BundleMapperServiceTest {
             any(RCMRMT030101UK04EhrExtract.class),
             any(RCMRMT030101UK04PlanStatement.class),
             any(Patient.class),
-            anyList()
-            , any(String.class)
+            anyList(),
+            any(String.class)
         );
         verify(referralRequestMapper).mapToReferralRequest(
             any(RCMRMT030101UK04EhrComposition.class),
             any(RCMRMT030101UK04RequestStatement.class),
             any(Patient.class),
-            anyList()
-            , any(String.class)
+            anyList(),
+            any(String.class)
         );
         verify(bloodPressureMapper).mapBloodPressure(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
             any(String.class));
