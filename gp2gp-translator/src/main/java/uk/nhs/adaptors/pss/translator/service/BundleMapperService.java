@@ -164,12 +164,7 @@ public class BundleMapperService {
 
     private List<ProcedureRequest> mapProcedureRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
         List<Encounter> encounters) {
-        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
-            .stream()
-            .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
-            .filter(component4 -> component4.getPlanStatement() != null)
-            .map(component4 -> procedureRequestMapper.mapToProcedureRequest(ehrExtract, component4.getPlanStatement(), patient, encounters))
-            .toList();
+        return procedureRequestMapper.mapProcedureRequests(ehrExtract, patient, encounters);
     }
 
     private List<Observation> mapObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {

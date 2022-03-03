@@ -25,7 +25,6 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04Location;
 import org.hl7.v3.RCMRMT030101UK04Patient;
-import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -121,9 +120,8 @@ public class BundleMapperServiceTest {
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
         verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), any(String.class));
         verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class));
-        verify(procedureRequestMapper).mapToProcedureRequest(
+        verify(procedureRequestMapper).mapProcedureRequests(
             any(RCMRMT030101UK04EhrExtract.class),
-            any(RCMRMT030101UK04PlanStatement.class),
             any(Patient.class),
             anyList()
         );
