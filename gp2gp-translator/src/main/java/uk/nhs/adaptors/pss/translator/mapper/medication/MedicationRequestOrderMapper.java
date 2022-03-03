@@ -39,7 +39,7 @@ public class MedicationRequestOrderMapper {
     private final MedicationMapper medicationMapper;
 
     protected MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04MedicationStatement medicationStatement,
-        RCMRMT030101UK04Prescribe supplyPrescribe) {
+        RCMRMT030101UK04Prescribe supplyPrescribe, String practiseCode) {
         var ehrSupplyPrescribeIdExtract = extractEhrSupplyPrescribeId(supplyPrescribe);
         var inFulfillmentOfId = extractInFulfillmentOfId(supplyPrescribe);
 
@@ -47,7 +47,7 @@ public class MedicationRequestOrderMapper {
             var ehrSupplyPrescribeId = ehrSupplyPrescribeIdExtract.get();
             MedicationRequest medicationRequest = createMedicationRequestSkeleton(ehrSupplyPrescribeId);
 
-            medicationRequest.addIdentifier(buildIdentifier(ehrSupplyPrescribeId, ""));
+            medicationRequest.addIdentifier(buildIdentifier(ehrSupplyPrescribeId, practiseCode));
             medicationRequest.setStatus(COMPLETED);
             medicationRequest.setIntent(ORDER);
 

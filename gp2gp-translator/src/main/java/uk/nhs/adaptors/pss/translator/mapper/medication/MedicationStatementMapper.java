@@ -44,7 +44,7 @@ public class MedicationStatementMapper {
     private final MedicationMapper medicationMapper;
 
     protected MedicationStatement mapToMedicationStatement(RCMRMT030101UK04MedicationStatement medicationStatement,
-        RCMRMT030101UK04Authorise supplyAuthorise) {
+        RCMRMT030101UK04Authorise supplyAuthorise, String practiseCode) {
         var ehrSupplyAuthoriseIdExtract = extractEhrSupplyAuthoriseId(supplyAuthorise);
         if (ehrSupplyAuthoriseIdExtract.isPresent()) {
             String ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
@@ -52,7 +52,7 @@ public class MedicationStatementMapper {
 
             medicationStatement1.setId(ehrSupplyAuthoriseId + MS_SUFFIX);
             medicationStatement1.setMeta(generateMeta(MEDICATION_STATEMENT_URL));
-            medicationStatement1.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId + MS_SUFFIX, ""));
+            medicationStatement1.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId + MS_SUFFIX, practiseCode));
             medicationStatement1.setTaken(UNK);
 
             medicationStatement1.addBasedOn(new Reference(ehrSupplyAuthoriseId));

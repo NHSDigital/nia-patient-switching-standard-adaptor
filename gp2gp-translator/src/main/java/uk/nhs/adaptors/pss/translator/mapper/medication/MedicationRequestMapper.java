@@ -41,8 +41,8 @@ public class MedicationRequestMapper {
     private static final String PPRF = "PPRF";
     private static final String PRF = "PRF";
 
-    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounters, Patient patient) {
-
+    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounters, Patient patient,
+        String practiseCode) {
         List<DomainResource> mappedResources = new ArrayList<>();
         List<RCMRMT030101UK04EhrComposition> ehrCompositions = ehrExtract.getComponent()
             .stream()
@@ -60,7 +60,8 @@ public class MedicationRequestMapper {
                 .stream()
                 .filter(RCMRMT030101UK04Component4::hasMedicationStatement)
                 .map(RCMRMT030101UK04Component4::getMedicationStatement)
-                .map(medicationStatement -> mapMedicationStatement(ehrExtract, ehrComposition, medicationStatement, patient, context))
+                .map(medicationStatement -> mapMedicationStatement(ehrExtract, ehrComposition, medicationStatement, patient, context,
+                    practiseCode))
                 .flatMap(List::stream)
                 .forEach(mappedResources::add);
         }
@@ -69,7 +70,7 @@ public class MedicationRequestMapper {
 
     private List<DomainResource> mapMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
         RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04MedicationStatement medicationStatement,
-        Patient subject, Optional<Encounter> context) {
+        Patient subject, Optional<Encounter> context, String practiseCode) {
 
         var authoredOn = extractAuthoredOn(ehrComposition,
             DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue()));
@@ -78,11 +79,12 @@ public class MedicationRequestMapper {
 
         List<Medication> medications = mapMedications(medicationStatement);
 
-        List<MedicationRequest> medicationRequestsOrder = mapMedicationRequestsOrder(medicationStatement);
+        List<MedicationRequest> medicationRequestsOrder = mapMedicationRequestsOrder(medicationStatement, practiseCode);
 
-        List<MedicationRequest> medicationRequestsPlan = mapMedicationRequestsPlan(ehrExtract, medicationStatement);
+        List<MedicationRequest> medicationRequestsPlan = mapMedicationRequestsPlan(ehrExtract, medicationStatement, practiseCode);
 
-        List<MedicationStatement> medicationStatements = mapMedicationStatements(medicationStatement, context, subject, authoredOn);
+        List<MedicationStatement> medicationStatements = mapMedicationStatements(medicationStatement, context, subject, authoredOn,
+            practiseCode);
 
         return Stream.of(medications, medicationRequestsOrder, medicationRequestsPlan, medicationStatements)
             .flatMap(List::stream)
@@ -115,35 +117,37 @@ public class MedicationRequestMapper {
             .toList();
     }
 
-    private List<MedicationRequest> mapMedicationRequestsOrder(RCMRMT030101UK04MedicationStatement medicationStatement) {
+    private List<MedicationRequest> mapMedicationRequestsOrder(RCMRMT030101UK04MedicationStatement medicationStatement,
+        String practiseCode) {
         return medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
             .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
-            .map(supplyPrescribe -> medicationRequestOrderMapper.mapToOrderMedicationRequest(medicationStatement, supplyPrescribe))
+            .map(supplyPrescribe -> medicationRequestOrderMapper.mapToOrderMedicationRequest(medicationStatement, supplyPrescribe,
+                practiseCode))
             .filter(Objects::nonNull)
             .toList();
     }
 
     private List<MedicationRequest> mapMedicationRequestsPlan(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement) {
+        RCMRMT030101UK04MedicationStatement medicationStatement, String practiseCode) {
         return medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
             .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
             .map(supplyAuthorise -> medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement,
-                supplyAuthorise))
+                supplyAuthorise, practiseCode))
             .filter(Objects::nonNull)
             .toList();
     }
 
     private List<MedicationStatement> mapMedicationStatements(RCMRMT030101UK04MedicationStatement medicationStatement,
-        Optional<Encounter> context, Patient subject, DateTimeType authoredOn) {
+        Optional<Encounter> context, Patient subject, DateTimeType authoredOn, String practiseCode) {
         return medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
             .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
-            .map(supplyAuthorise -> medicationStatementMapper.mapToMedicationStatement(medicationStatement, supplyAuthorise))
+            .map(supplyAuthorise -> medicationStatementMapper.mapToMedicationStatement(medicationStatement, supplyAuthorise, practiseCode))
             .filter(Objects::nonNull)
             .peek(medicationStatement1 -> {
                 context.ifPresent(context1 -> medicationStatement1.setContext(new Reference(context1)));

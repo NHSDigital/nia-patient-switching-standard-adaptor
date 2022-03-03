@@ -33,7 +33,8 @@ public class BloodPressureMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/BloodPressure/";
     private static final String EXAMPLE_ID = "FE739904-2AAB-4B3F-9718-84BE019FD483";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
+    private static final String PRACTISE_CODE = "TESTPRACTISECODE";
+    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String CODING_DISPLAY_MOCK = "Test Display";
     private static final String EFFECTIVE_EXAMPLE = "20060425163000";
     private static final String ISSUED_EXAMPLE = "2020-01-01T01:01:01.000+00:00";
@@ -83,7 +84,7 @@ public class BloodPressureMapperTest {
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_bp_example.xml");
 
-        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
+        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertFixedValues(bloodPressure);
         assertThat(bloodPressure.getId()).isEqualTo(EXAMPLE_ID);
@@ -111,7 +112,7 @@ public class BloodPressureMapperTest {
 
         var ehrExtract = unmarshallEhrExtractElement("no_optional_data_bp_example.xml");
 
-        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
+        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertFixedValues(bloodPressure);
         assertThat(bloodPressure.getId()).isEqualTo(EXAMPLE_ID);
@@ -138,7 +139,7 @@ public class BloodPressureMapperTest {
     public void mapBloodPressureObservationWithCompositionIdMatchingEncounter() {
         var ehrExtract = unmarshallEhrExtractElement("ehr_composition_id_matching_encounter_bp_example.xml");
 
-        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
+        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertThat(bloodPressure.hasContext()).isTrue();
     }
@@ -147,7 +148,7 @@ public class BloodPressureMapperTest {
     public void mapBloodPressureObservationWithSystolicOnlyComment() {
         var ehrExtract = unmarshallEhrExtractElement("systolic_comment_only_bp_example.xml");
 
-        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
+        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertThat(bloodPressure.getComment()).isEqualTo(COMMENT_EXAMPLE_2);
     }
@@ -156,7 +157,7 @@ public class BloodPressureMapperTest {
     public void mapBloodPressureObservationWithDiastolicOnlyComment() {
         var ehrExtract = unmarshallEhrExtractElement("diastolic_comment_only_blood_pressure_example.xml");
 
-        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
+        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertThat(bloodPressure.getComment()).isEqualTo(COMMENT_EXAMPLE_3);
     }
@@ -165,7 +166,7 @@ public class BloodPressureMapperTest {
     public void mapBloodPressureObservationWithNarrativeStatementOnlyComment() {
         var ehrExtract = unmarshallEhrExtractElement("narrative_statement_comment_only_bp_example.xml");
 
-        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
+        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertThat(bloodPressure.getComment()).isEqualTo(COMMENT_EXAMPLE_4);
     }
@@ -175,7 +176,7 @@ public class BloodPressureMapperTest {
         var ehrExtract = unmarshallEhrExtractElement(
             "effective_date_time_using_effective_time_center_bp_example.xml");
 
-        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
+        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertThat(bloodPressure.getEffective() instanceof DateTimeType).isTrue();
         assertThat(bloodPressure.getEffectiveDateTimeType().getValueAsString()).isEqualTo("2006-04-25");
@@ -186,7 +187,7 @@ public class BloodPressureMapperTest {
         var ehrExtract = unmarshallEhrExtractElement(
             "effective_period_start_end_using_effective_time_bp_example.xml");
 
-        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST).get(0);
+        var bloodPressure = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertThat(bloodPressure.getEffective() instanceof Period).isTrue();
         assertThat(bloodPressure.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo("2006-04-25");
@@ -197,7 +198,7 @@ public class BloodPressureMapperTest {
     public void nonConformantBloodPressureTripleNotMapped() {
         var ehrExtract = unmarshallEhrExtractElement("non-conformant-blood-pressure-triple-not-mapped.xml");
 
-        var bloodPressures = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST);
+        var bloodPressures = bloodPressureMapper.mapBloodPressure(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(bloodPressures.isEmpty()).isTrue();
     }

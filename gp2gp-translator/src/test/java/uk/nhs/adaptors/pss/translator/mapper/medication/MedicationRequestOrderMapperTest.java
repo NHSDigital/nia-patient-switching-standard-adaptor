@@ -2,7 +2,9 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.util.ResourceUtils.getFile;
+
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.ORDER;
@@ -31,6 +33,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 public class MedicationRequestOrderMapperTest {
 
     private static final String XML_RESOURCES_MEDICATION_STATEMENT = "xml/MedicationStatement/";
+    private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String TEST_ID = "TEST_ID";
     private static final String MEDICATION_ID = "MEDICATION_ID";
     private static final String TAKE_ONE_DAILY = "TAKE ONE DAILY";
@@ -58,7 +61,8 @@ public class MedicationRequestOrderMapperTest {
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
         assertThat(prescribe.isPresent()).isTrue();
-        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(medicationStatement, prescribe.get());
+        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(medicationStatement, prescribe.get(),
+            PRACTISE_CODE);
         assertCommonValues(medicationRequest);
         medicationRequest
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1")
@@ -84,7 +88,8 @@ public class MedicationRequestOrderMapperTest {
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
         assertThat(prescribe.isPresent()).isTrue();
-        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(medicationStatement, prescribe.get());
+        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(medicationStatement, prescribe.get(),
+            PRACTISE_CODE);
         assertCommonValues(medicationRequest);
 
         medicationRequest
@@ -115,5 +120,4 @@ public class MedicationRequestOrderMapperTest {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName),
             RCMRMT030101UK04MedicationStatement.class);
     }
-
 }
