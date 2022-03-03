@@ -1,12 +1,9 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
-
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,13 +26,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.TextUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SpecimenMapper {
 
-    private static final String SPECIMEN_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Specimen-1";
+    private static final String SPECIMEN_META_PROFILE_SUFFIX = "Specimen-1";
     private static final String REFERENCE_PREFIX = "Specimen/";
 
     private final DateTimeMapper dateTimeMapper;
@@ -58,7 +54,7 @@ public class SpecimenMapper {
         Specimen specimen = new Specimen();
         final String id = specimenCompoundStatement.getId().get(0).getRoot();
         specimen.setId(id);
-        specimen.setMeta(generateMeta(SPECIMEN_META_PROFILE));
+        specimen.setMeta(generateMeta(SPECIMEN_META_PROFILE_SUFFIX));
         specimen.addIdentifier(buildIdentifier(id, "UNKNOWN")); //TODO: Add practice code
         specimen.setSubject(new Reference(patient));
         specimen.setNote(getNote(specimenCompoundStatement));
@@ -107,7 +103,7 @@ public class SpecimenMapper {
             var descOpt = Optional.ofNullable(
                 specimenRoleOpt.get().getSpecimenSpecimenMaterial().getDesc());
             if (descOpt.isPresent()) {
-                return Optional.of(new CodeableConcept().setText(descOpt.get().toString())); //TODO: Check what really happens here
+                return Optional.of(new CodeableConcept().setText(descOpt.get()));
             }
         }
         return Optional.empty();
