@@ -44,6 +44,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
+import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 
 @Service
 @AllArgsConstructor
@@ -71,9 +72,9 @@ public class BloodPressureMapper {
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
             .filter(Objects::nonNull)
             .filter(compoundStatement -> BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0))
-                && containsValidBloodPressureTriple(compoundStatement))
+                && BloodPressureValidatorUtil.containsValidBloodPressureTriple(compoundStatement))
             .map(compoundStatement -> {
-                var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
+                var observationStatements = EhrResourceExtractorUtil.getObservationStatementsFromCompoundStatement(compoundStatement);
                 var id = compoundStatement.getId().get(0);
 
                 Observation observation = new Observation()
@@ -111,17 +112,6 @@ public class BloodPressureMapper {
                 .map(RCMRMT030101UK04Component4::getCompoundStatement)
                 .anyMatch(Objects::nonNull))
             .toList();
-    }
-
-    private boolean containsValidBloodPressureTriple(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
-
-        if (observationStatements.size() == 2) {
-            return BloodPressureValidatorUtil.validateBloodPressureTriple(compoundStatement.getCode().getCode(),
-                observationStatements.get(0).getCode().getCode(), observationStatements.get(1).getCode().getCode());
-        }
-
-        return false;
     }
 
     private II getEhrCompositionId(List<RCMRMT030101UK04EhrComposition> ehrCompositions,
@@ -205,13 +195,6 @@ public class BloodPressureMapper {
             && StringUtils.isNotEmpty(pertinentInformation.getPertinentAnnotation().getText());
     }
 
-    private List<RCMRMT030101UK04ObservationStatement> getObservationStatementsFromCompoundStatement(
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return compoundStatement.getComponent().stream()
-            .map(RCMRMT030101UK04Component02::getObservationStatement)
-            .filter(Objects::nonNull)
-            .toList();
-    }
 
     private List<RCMRMT030101UK04NarrativeStatement> getNarrativeStatementsFromCompoundStatement(
         RCMRMT030101UK04CompoundStatement compoundStatement) {

@@ -34,14 +34,42 @@
                 </Participant2>
                 <component typeCode="COMP" >
 
+                    <ObservationStatement classCode="OBS" moodCode="EVN"  xmlns="urn:hl7-org:v3">
+                        <id root="immunization-id" />
+                        <code code="1664081000000114" codeSystem="2.16.840.1.113883.2.1.3.2.3.15"
+                              displayName="Haemophilus influenzae type B and meningitis C vaccination">
+                        </code>
+                        <Participant typeCode="PRF" contextControlCode="OP">
+                            <agentRef classCode="AGNT">
+                                <id root="9C1610C2-5E48-4ED5-882B-5A4A172AFA35"/>
+                            </agentRef>
+                        </Participant>
+                        <statusCode code="COMPLETE" />
+                        <effectiveTime>
+                            <high value="20100118114100"/>
+                        </effectiveTime>
+                        <availabilityTime value="20100118114100" />
+                        <pertinentInformation typeCode="PERT">
+                            <sequenceNumber value="+1"/>
+                            <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                <text>Primary Source: true Location: EMIS Test Practice Location Manufacturer: another company Batch: past2003 Expiration: 2003-01-17 Site: Right arm GMS : Not GMS</text>
+                            </pertinentAnnotation>
+                        </pertinentInformation>
+                        <Participant typeCode="PRF" contextControlCode="OP">
+                            <agentRef classCode="AGNT">
+                                <id root="9A5D5A78-1F63-434C-9637-1D7E7843341B"/>
+                            </agentRef>
+                        </Participant>
+                    </ObservationStatement>
+
                     <NarrativeStatement classCode="OBS" moodCode="EVN">
-                        <id root="doc-ref-id"/>
+                        <id root="31B75ED0-6E88-11EA-9384-E83935108FD5"/>
                         <text mediaType="text/x-h7uk-pmip">Some example text</text>
                         <statusCode code="COMPLETE"/>
                         <availabilityTime value="20201012143344"/>
                         <reference typeCode="REFR">
                             <referredToExternalDocument classCode="DOC" moodCode="EVN">
-                                <id root="31B75ED0-6E88-11EA-9384-E83935108FD5" />
+                                <id root="doc-ref-id" />
                                 <code code="25821000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Original Text document">
                                     <originalText>Record Attachment</originalText>
                                 </code>
@@ -99,6 +127,141 @@
                             </agentRef>
                         </Participant>
                     </RequestStatement>
+
+                    <LinkSet classCode="OBS" moodCode="EVN">
+                        <id root="linkset-id"/>
+                        <code code="394774009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Active problem">
+                            <originalText>Active Problem, Significant</originalText>
+                            <qualifier inverted="false">
+                                <name code="386134007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Significant" />
+                            </qualifier>
+                        </code>
+                        <statusCode code="COMPLETE"/>
+                        <effectiveTime>
+                            <low value="20101209000000"/>
+                            <high value="20101209000000"/>
+                        </effectiveTime>
+                        <availabilityTime value="20101209114846"/>
+                        <component typeCode="COMP">
+                            <statementRef classCode="OBS" moodCode="EVN">
+                                <id root="STATEMENT_REF_ID"/>
+                            </statementRef>
+                        </component>
+                        <component typeCode="COMP">
+                            <statementRef classCode="OBS" moodCode="EVN">
+                                <id root="STATEMENT_REF_ID_1"/>
+                            </statementRef>
+                        </component>
+                        <conditionNamed typeCode="NAME" inversionInd="true">
+                            <namedStatementRef classCode="OBS" moodCode="EVN">
+                                <id root="NAMED_STATEMENT_REF_ID"/>
+                            </namedStatementRef>
+                        </conditionNamed>
+                    </LinkSet>
+
+                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                        <id root="blood-pressure-compound-statement-id"/>
+                        <code code="163020007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                              displayName="O/E - blood pressure reading">
+                            <originalText>O/E - blood pressure reading</originalText>
+                        </code>
+                        <statusCode code="COMPLETE"/>
+                        <effectiveTime>
+                            <center value="20060425163000"/>
+                        </effectiveTime>
+                        <availabilityTime value="20060425163000"/>
+                        <component typeCode="COMP" contextConductionInd="true">
+                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                <id root="bp-observation-id-1"/>
+                                <code code="72313002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                      displayName="Systolic arterial pressure">
+                                    <originalText>Systolic arterial pressure</originalText>
+                                </code>
+                                <statusCode code="COMPLETE"/>
+                                <effectiveTime>
+                                    <center value="20060425163000"/>
+                                </effectiveTime>
+                                <availabilityTime value="20060425163000"/>
+                                <interpretationCode code="HI" displayName="Above high reference limit"
+                                                    codeSystem="2.16.840.1.113883.2.1.6.5">
+                                    <originalText>High Text</originalText>
+                                </interpretationCode>
+                                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="PQ"
+                                       value="80.000" unit="1">
+                                    <translation value="80.000">
+                                        <originalText>mm[Hg]</originalText>
+                                    </translation>
+                                </value>
+                                <referenceRange typeCode="REFV">
+                                    <referenceInterpretationRange classCode="OBS" moodCode="EVN.CRT">
+                                        <text>Test Range 1</text>
+                                        <value>
+                                            <low value="10" unit="L"/>
+                                            <high value="12" unit="L"/>
+                                        </value>
+                                    </referenceInterpretationRange>
+                                </referenceRange>
+                                <pertinentInformation typeCode="PERT">
+                                    <sequenceNumber value="+1"/>
+                                    <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                        <text>Test systolic pressure text</text>
+                                    </pertinentAnnotation>
+                                </pertinentInformation>
+                            </ObservationStatement>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                <id root="bp-observation-id-2"/>
+                                <code code="1091811000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                      displayName="Diastolic arterial pressure">
+                                    <originalText>Diastolic arterial pressure</originalText>
+                                </code>
+                                <statusCode code="COMPLETE"/>
+                                <effectiveTime>
+                                    <center value="20060425163000"/>
+                                </effectiveTime>
+                                <availabilityTime value="20060425163000"/>
+                                <interpretationCode code="LO" displayName="Below low reference limit"
+                                                    codeSystem="2.16.840.1.113883.2.1.6.5">
+                                    <originalText>Low Text</originalText>
+                                </interpretationCode>
+                                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="PQ"
+                                       value="90.000" unit="1">
+                                    <translation value="90.000">
+                                        <originalText>mm[Hg]</originalText>
+                                    </translation>
+                                </value>
+                                <referenceRange typeCode="REFV">
+                                    <referenceInterpretationRange classCode="OBS" moodCode="EVN.CRT">
+                                        <text>Test Range 2</text>
+                                        <value>
+                                            <low value="20" unit="L"/>
+                                            <high value="22" unit="L"/>
+                                        </value>
+                                    </referenceInterpretationRange>
+                                </referenceRange>
+                                <pertinentInformation typeCode="PERT">
+                                    <sequenceNumber value="+1"/>
+                                    <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                        <text>Test diastolic pressure text</text>
+                                    </pertinentAnnotation>
+                                </pertinentInformation>
+                            </ObservationStatement>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                            <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                <id root="bp-narrative-id-1"/>
+                                <text>Systolic Measurement Absent: Unknown</text>
+                                <statusCode code="COMPLETE"/>
+                                <availabilityTime value="20060425163000"/>
+                            </NarrativeStatement>
+                        </component>
+                        <Participant typeCode="PPRF" contextControlCode="OP">
+                            <agentRef classCode="AGNT">
+                                <id root="5DE8CDDA-866F-4CD9-9BB3-527A86DD49A9"/>
+                            </agentRef>
+                        </Participant>
+                    </CompoundStatement>
 
                 </component>
                 <component typeCode="COMP">

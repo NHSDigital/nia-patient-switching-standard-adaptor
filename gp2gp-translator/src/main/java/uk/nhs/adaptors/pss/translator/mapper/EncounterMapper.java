@@ -34,7 +34,11 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
+import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
+import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04Participant2;
+import org.hl7.v3.RCMRMT030101UK04PlanStatement;
+import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -64,6 +68,13 @@ public class EncounterMapper {
     private static final String TOPIC_KEY = "topics";
     private static final String CATEGORY_KEY = "categories";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
+    private static final String PROCEDURE_REQUEST_REFERENCE = "ProcedureRequest/%s";
+    private static final String REFERRAL_REQUEST_REFERENCE = "ReferralRequest/%s";
+    private static final String CONDITION_REFERENCE = "Condition/%s";
+    private static final String OBSERVATION_REFERENCE = "Observation/%s";
+    private static final String DOCUMENT_REFERENCE_REFERENCE = "DocumentReference/%s";
+    private static final String IMMUNIZATION_REFERENCE = "Immunization/%s";
+    private static final String BATTERY_VALUE = "BATTERY";
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final ConsultationListMapper consultationListMapper;
@@ -104,33 +115,10 @@ public class EncounterMapper {
     private void generateFlatConsultation(ListResource consultation, List<ListResource> topics,
         RCMRMT030101UK04EhrComposition ehrComposition) {
         var topic = consultationListMapper.mapToTopic(consultation, null);
+
+        addMappableResourcesToTopicEntry(ehrComposition, topic);
         consultation.addEntry(new ListEntryComponent(new Reference(topic)));
-
-        addMappableResourcesToFlatTopicEntry(ehrComposition, topic);
         topics.add(topic);
-    }
-
-    private void addMappableResourcesToFlatTopicEntry(RCMRMT030101UK04EhrComposition ehrComposition, ListResource topic) {
-        ehrComposition.getComponent().forEach(component4 -> {
-            if (component4.getPlanStatement() != null) {
-                topic.addEntry(new ListEntryComponent(new Reference("ProcedureRequest/"
-                    + component4.getPlanStatement().getId().getRoot())));
-            }
-            if (component4.getRequestStatement() != null) {
-                topic.addEntry(new ListEntryComponent(new Reference("ReferralRequest/"
-                    + component4.getRequestStatement().getId().get(0).getRoot())));
-            }
-            if (component4.getNarrativeStatement() != null) {
-                if (ResourceFilterUtil.hasReferredToExternalDocument(component4.getNarrativeStatement())) {
-                    topic.addEntry(new ListEntryComponent(new Reference("DocumentReference/"
-                        + component4.getNarrativeStatement().getReference().get(0).getReferredToExternalDocument().getId().getRoot())));
-                } else {
-                    topic.addEntry(new ListEntryComponent(new Reference("Observation/"
-                        + component4.getNarrativeStatement().getId().getRoot())));
-                }
-            }
-        });
-        var x = 1;
     }
 
     private void generateStructuredConsultation(List<RCMRMT030101UK04CompoundStatement> topicCompoundStatementList,
@@ -138,7 +126,7 @@ public class EncounterMapper {
         List<ListResource> categories) {
         topicCompoundStatementList.forEach(topicCompoundStatement -> {
             var topic = consultationListMapper.mapToTopic(consultation, topicCompoundStatement);
-            consultation.addEntry(new ListResource.ListEntryComponent(new Reference(topic)));
+            consultation.addEntry(new ListEntryComponent(new Reference(topic)));
 
             generateCategoryLists(topicCompoundStatement, topic, categories);
             generateLinkSetTopicLists(ehrComposition, consultation, topics);
@@ -153,7 +141,9 @@ public class EncounterMapper {
         if (!CollectionUtils.isEmpty(linkSetList)) {
             var linkSetTopic = consultationListMapper.mapToTopic(consultation, null);
 
-            consultation.addEntry(new ListResource.ListEntryComponent(new Reference(linkSetTopic)));
+            linkSetList.forEach(linkSet -> linkSetTopic.addEntry(new ListEntryComponent(new Reference(CONDITION_REFERENCE
+                .formatted(linkSet.getId().getRoot())))));
+            consultation.addEntry(new ListEntryComponent(new Reference(linkSetTopic)));
             topics.add(linkSetTopic);
         }
     }
@@ -164,9 +154,125 @@ public class EncounterMapper {
         categoryCompoundStatements.forEach(categoryCompoundStatement -> {
             var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement);
 
+            addMappableResourcesFromCompoundStatement(categoryCompoundStatement, category, new ArrayList<>());
             topic.addEntry(new ListEntryComponent(new Reference(category)));
             categories.add(category);
         });
+    }
+
+    private void addMappableResourcesToTopicEntry(RCMRMT030101UK04EhrComposition ehrComposition, ListResource topic) {
+
+        List<String> entryReferences = new ArrayList<>();
+
+        ehrComposition.getComponent().forEach(component -> {
+
+            addPlanStatementEntry(component.getPlanStatement(), entryReferences);
+            addRequestStatementEntry(component.getRequestStatement(), entryReferences);
+            addLinkSetEntry(component.getLinkSet(), entryReferences);
+            addObservationStatementEntry(component.getObservationStatement(), entryReferences, null);
+            addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
+            entryReferences.forEach(reference -> addEntry(topic, reference));
+
+            /**
+             * TODO: Additional References
+             * - Extend Immunization filter by incorporating Snomed CD Database (NIAD-1947)
+             * - Add references to cases of Pathology Reports (NIAD-1967)
+             * - Add references to cases of Templates (NIAD-2023)
+             * - Add references to cases of AllergyIntolerance (NIAD-1969)
+             * - (Ensure these are also called as appropriate in addMappableResourcesFromCompoundStatement)
+             */
+
+            // in this ticket, add medication references and ensure functionality in normal structured and topic lists.
+
+            addMappableResourcesFromCompoundStatement(component.getCompoundStatement(), topic, entryReferences);
+        });
+        var x = 1;
+    }
+
+    private void addMappableResourcesFromCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement, ListResource list,
+        List<String> entryReferences) {
+
+        if (compoundStatement != null) {
+            compoundStatement.getComponent().forEach(component -> {
+
+                addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
+
+                if (noPriorBloodPressureMapping(compoundStatement, entryReferences)) {
+                    addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
+                }
+
+                addPlanStatementEntry(component.getPlanStatement(), entryReferences);
+                addRequestStatementEntry(component.getRequestStatement(), entryReferences);
+                addLinkSetEntry(component.getLinkSet(), entryReferences);
+
+                addMappableResourcesFromCompoundStatement(component.getCompoundStatement(), list, entryReferences);
+                entryReferences.forEach(reference -> addEntry(list, reference));
+            });
+        }
+        var x = 1;
+    }
+
+    private boolean noPriorBloodPressureMapping(RCMRMT030101UK04CompoundStatement compoundStatement, List<String> entryReferences) {
+        return compoundStatement == null || !entryReferences.contains(OBSERVATION_REFERENCE
+            .formatted(compoundStatement.getId().get(0).getRoot()));
+    }
+
+    private void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement, List<String> entryReferences,
+        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        if (observationStatement != null && noPriorBloodPressureMapping(compoundStatement, entryReferences)) {
+            if (ResourceFilterUtil.hasBloodPressure(compoundStatement)) {
+                addBloodPressureEntry(compoundStatement, entryReferences);
+            } else if (ResourceFilterUtil.hasImmunizationCode(observationStatement)) {
+                addImmunizationEntry(observationStatement, entryReferences);
+            } else {
+                addUncategorisedObservationEntry(observationStatement, entryReferences);
+            }
+        }
+    }
+
+    private void addBloodPressureEntry(RCMRMT030101UK04CompoundStatement compoundStatement, List<String> entryReferences) {
+        entryReferences.add(OBSERVATION_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot()));
+    }
+
+    private void addImmunizationEntry(RCMRMT030101UK04ObservationStatement observationStatement, List<String> entryReferences) {
+        entryReferences.add(IMMUNIZATION_REFERENCE.formatted(observationStatement.getId().getRoot()));
+    }
+
+    private void addUncategorisedObservationEntry(RCMRMT030101UK04ObservationStatement observationStatement, List<String> entryReferences) {
+        entryReferences.add(OBSERVATION_REFERENCE.formatted(observationStatement.getId().getRoot()));
+    }
+
+    private void addPlanStatementEntry(RCMRMT030101UK04PlanStatement planStatement, List<String> entryReferences) {
+        if (planStatement != null) {
+            entryReferences.add(PROCEDURE_REQUEST_REFERENCE.formatted(planStatement.getId().getRoot()));
+        }
+    }
+
+    private void addRequestStatementEntry(RCMRMT030101UK04RequestStatement requestStatement, List<String> entryReferences) {
+        if (requestStatement != null) {
+            entryReferences.add(REFERRAL_REQUEST_REFERENCE.formatted(requestStatement.getId().get(0).getRoot()));
+        }
+    }
+
+    private void addNarrativeStatementEntry(RCMRMT030101UK04NarrativeStatement narrativeStatement, List<String> entryReferences) {
+        if (narrativeStatement != null) {
+            if (ResourceFilterUtil.hasReferredToExternalDocument(narrativeStatement)) {
+                entryReferences.add(DOCUMENT_REFERENCE_REFERENCE.formatted(
+                    narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot()));
+            } else {
+                entryReferences.add(OBSERVATION_REFERENCE.formatted(narrativeStatement.getId().getRoot()));
+            }
+        }
+    }
+
+    private void addLinkSetEntry(RCMRMT030101UK04LinkSet linkSet, List<String> entryReferences) {
+        if (linkSet != null) {
+            entryReferences.add(CONDITION_REFERENCE.formatted(linkSet.getId().getRoot()));
+        }
+    }
+
+    private void addEntry(ListResource list, String reference) {
+        list.addEntry(new ListEntryComponent(new Reference(reference)));
     }
 
     private List<RCMRMT030101UK04LinkSet> getLinkSets(RCMRMT030101UK04EhrComposition ehrComposition) {

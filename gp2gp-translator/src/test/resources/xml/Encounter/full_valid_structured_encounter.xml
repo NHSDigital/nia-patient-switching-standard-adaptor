@@ -50,7 +50,115 @@
                                     <center value="19781231"/>
                                 </effectiveTime>
                                 <availabilityTime value="19781231" />
-                                <component></component>
+                                <component>
+                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                        <id root="31B75ED0-6E88-11EA-9384-E83935108FD5"/>
+                                        <text mediaType="text/x-h7uk-pmip">Some example text</text>
+                                        <statusCode code="COMPLETE"/>
+                                        <availabilityTime value="20201012143344"/>
+                                        <reference typeCode="REFR">
+                                            <referredToExternalDocument classCode="DOC" moodCode="EVN">
+                                                <id root="doc-ref-id" />
+                                                <code code="25821000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Original Text document">
+                                                    <originalText>Record Attachment</originalText>
+                                                </code>
+                                                <text mediaType="text/plain">
+                                                    <reference value="file://localhost/31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt.txt" />
+                                                </text>
+                                            </referredToExternalDocument>
+                                        </reference>
+                                    </NarrativeStatement>
+
+                                    <PlanStatement classCode="OBS" moodCode="INT">
+                                        <id root="procedure-request-id" />
+                                        <code code="2534664018" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Ischaemic heart disease">
+                                        </code>
+                                        <text>Added from a problem within a consultation</text>
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center value="20221117"/>
+                                        </effectiveTime>
+                                        <availabilityTime value="20201117133032"/>
+                                        <Participant typeCode="PPRF" contextControlCode="OP">
+                                            <agentRef classCode="AGNT">
+                                                <id root="8D1610C2-5E48-4ED5-882B-5A4A172AFA35"/>
+                                            </agentRef>
+                                        </Participant>
+                                        <Participant typeCode="PRF" contextControlCode="OP">
+                                            <agentRef classCode="AGNT">
+                                                <id root="9C1610C2-5E48-4ED5-882B-5A4A172AFA35"/>
+                                            </agentRef>
+                                        </Participant>
+                                    </PlanStatement>
+
+                                    <RequestStatement classCode="OBS" moodCode="RQO">
+                                        <id root="referral-request-id"/>
+                                        <code code="8HV6." codeSystem="2.16.840.1.113883.2.1.3.2.4.14" displayName="Reason Code">
+                                            <translation code="183885007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Reason Code 1"/>
+                                            <translation code="8HV6.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Reason Code 2"/>
+                                        </code>
+                                        <text>Test request statement text
+                                            New line</text>
+                                        <statusCode code="COMPLETE"/>
+                                        <effectiveTime>
+                                            <center value="20050406" nullFlavor="NI"/>
+                                        </effectiveTime>
+                                        <availabilityTime value="20100101123000"/>
+                                        <priorityCode code="394848005" displayName="Normal" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"><originalText>Routine</originalText></priorityCode>
+                                        <responsibleParty typeCode="RESP">
+                                            <agentRef classCode="AGNT">
+                                                <id root="B8CA3710-4D1C-11E3-9E6B-010000001205"/>
+                                            </agentRef>
+                                        </responsibleParty>
+                                        <Participant typeCode="PPRF" contextControlCode="OP">
+                                            <agentRef classCode="AGNT">
+                                                <id root="58341512-03F3-4C8E-B41C-A8FCA3886BBB"/>
+                                            </agentRef>
+                                        </Participant>
+                                    </RequestStatement>
+
+                                    <LinkSet classCode="OBS" moodCode="EVN">
+                                        <id root="linkset-id"/>
+                                        <code code="394774009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Active problem">
+                                            <originalText>Active Problem, Significant</originalText>
+                                            <qualifier inverted="false">
+                                                <name code="386134007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Significant" />
+                                            </qualifier>
+                                        </code>
+                                        <statusCode code="COMPLETE"/>
+                                        <effectiveTime>
+                                            <low value="20101209000000"/>
+                                            <high value="20101209000000"/>
+                                        </effectiveTime>
+                                        <availabilityTime value="20101209114846"/>
+                                        <component typeCode="COMP">
+                                            <statementRef classCode="OBS" moodCode="EVN">
+                                                <id root="STATEMENT_REF_ID"/>
+                                            </statementRef>
+                                        </component>
+                                        <component typeCode="COMP">
+                                            <statementRef classCode="OBS" moodCode="EVN">
+                                                <id root="STATEMENT_REF_ID_1"/>
+                                            </statementRef>
+                                        </component>
+                                        <conditionNamed typeCode="NAME" inversionInd="true">
+                                            <namedStatementRef classCode="OBS" moodCode="EVN">
+                                                <id root="NAMED_STATEMENT_REF_ID"/>
+                                            </namedStatementRef>
+                                        </conditionNamed>
+                                    </LinkSet>
+                                </component>
+
+                                <component typeCode="COMP">
+                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                        <id root="observation-comment-id"/>
+                                        <text mediaType="text/x-h7uk-pmip">Some example text</text>
+                                        <statusCode code="COMPLETE"/>
+                                        <availabilityTime value="20201012143344"/>
+                                        <reference typeCode="REFR"> </reference>
+                                    </NarrativeStatement>
+                                </component>
+
                             </CompoundStatement>
                         </component>
                     </CompoundStatement>
