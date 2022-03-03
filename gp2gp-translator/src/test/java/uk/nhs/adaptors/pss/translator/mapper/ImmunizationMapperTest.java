@@ -190,7 +190,7 @@ public class ImmunizationMapperTest {
     }
 
     private void assertThatIdentifierIsValid(Identifier identifier, String id) {
-        assertThat(identifier.getSystem()).isEqualTo(IDENTIFIER_SYSTEM); // TODO assert that source practice org id is concatenated
+        assertThat(identifier.getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
         assertThat(identifier.getValue()).isEqualTo(id);
     }
 
