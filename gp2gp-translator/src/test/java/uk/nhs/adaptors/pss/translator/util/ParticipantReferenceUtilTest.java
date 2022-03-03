@@ -1,14 +1,12 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04Participant;
@@ -65,6 +63,6 @@ public class ParticipantReferenceUtilTest {
 
         Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition);
 
-        assertTrue(StringUtils.isEmpty(participantReference.getReference()));
+        assertThat(participantReference).isNull();
     }
 }
