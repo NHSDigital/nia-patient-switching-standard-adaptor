@@ -124,13 +124,6 @@ public class ReferralRequestMapperTest {
 
         ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT, ENCOUNTERS);
 
-        assertFixedValues(referralRequest);
-        assertThat(referralRequest.getId()).isEqualTo(EXAMPLE_ID);
-        assertThat(referralRequest.getNote().size()).isZero();
-        assertThat(referralRequest.getAuthoredOn()).isNull();
-        assertThat(referralRequest.getRequester().getAgent().getReference()).isNull();
-        assertThat(referralRequest.getRecipient().size()).isZero();
-        assertThat(referralRequest.getReasonCode().size()).isZero();
         assertThat(referralRequest.getContext().getResource()).isNull();
     }
 
