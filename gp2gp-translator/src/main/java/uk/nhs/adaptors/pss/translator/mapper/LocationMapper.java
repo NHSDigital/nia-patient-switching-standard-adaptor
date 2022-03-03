@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import org.hl7.fhir.dstu3.model.Address;
@@ -17,12 +18,11 @@ import uk.nhs.adaptors.pss.translator.util.TelecomUtil;
 public class LocationMapper {
     private static final String UNKNOWN_NAME = "Unknown";
     private static final String META_PROFILE = "Location-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String LOCATION_ID_EXTENSION = "-LOC";
 
-    public Location mapToLocation(RCMRMT030101UK04Location location, String rootId) {
+    public Location mapToLocation(RCMRMT030101UK04Location location, String rootId, String practiseCode) {
         var id = rootId + LOCATION_ID_EXTENSION;
-        var identifier = getIdentifier(id);
+        var identifier = buildIdentifier(id, practiseCode);
 
         if (location.getLocatedEntity() != null && location.getLocatedEntity().getLocatedPlace() != null) {
             var locatedPlace = location.getLocatedEntity().getLocatedPlace();
@@ -34,13 +34,6 @@ public class LocationMapper {
         }
 
         return createLocation(id, identifier, null, null, null);
-    }
-
-    private Identifier getIdentifier(String id) {
-        Identifier identifier = new Identifier()
-                .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
-                .setValue(id);
-        return identifier;
     }
 
     private String getName(RCMRMT030101UK04Place locatedPlace) {

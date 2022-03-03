@@ -10,6 +10,7 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRange;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationComponentComponent;
 import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
@@ -49,7 +49,6 @@ import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
 @AllArgsConstructor
 public class BloodPressureMapper {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String BATTERY_VALUE = "BATTERY";
     private static final String SYSTOLIC_NOTE = "Systolic Note: ";
     private static final String DIASTOLIC_NOTE = "Diastolic Note: ";
@@ -57,12 +56,8 @@ public class BloodPressureMapper {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<Observation> mapBloodPressure(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
-        /**
-         * TODO: Known future implementations to this mapper
-         * - identifier: concatenate source practice org id to identifier URL (NIAD-2021)
-         */
-
+    public List<Observation> mapBloodPressure(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        String practiseCode) {
         var compositionsList = getCompositionsContainingCompoundStatement(ehrExtract);
 
         return compositionsList.stream()
@@ -77,7 +72,7 @@ public class BloodPressureMapper {
                 var id = compoundStatement.getId().get(0);
 
                 Observation observation = new Observation()
-                    .addIdentifier(getIdentifier(id.getRoot()))
+                    .addIdentifier(buildIdentifier(id.getRoot(), practiseCode))
                     .setStatus(ObservationStatus.FINAL)
                     .setCode(getCode(compoundStatement.getCode()))
                     .setComponent(getComponent(observationStatements))
@@ -134,12 +129,6 @@ public class BloodPressureMapper {
             ).findFirst()
             .map(RCMRMT030101UK04EhrComposition::getId)
             .orElse(null);
-    }
-
-    private Identifier getIdentifier(String id) {
-        return new Identifier()
-            .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
-            .setValue(id);
     }
 
     private CodeableConcept getCode(CD code) {
