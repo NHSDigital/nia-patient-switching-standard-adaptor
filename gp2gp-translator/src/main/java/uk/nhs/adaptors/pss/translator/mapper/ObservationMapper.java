@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
-import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement;
 import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getInterpretation;
@@ -15,6 +14,7 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -31,6 +31,7 @@ import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -42,6 +43,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -49,6 +52,8 @@ public class ObservationMapper {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String META_PROFILE = "Observation-1";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
+    private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
+
 
     private final CodeableConceptMapper codeableConceptMapper;
 
@@ -62,38 +67,68 @@ public class ObservationMapper {
 
         return compositionsList
             .stream()
-            .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
-            .map(RCMRMT030101UK04Component4::getObservationStatement)
-            .filter(Objects::nonNull)
-            .map(observationStatement -> {
-                var id = observationStatement.getId().getRoot();
+            .flatMap(ehrComposition -> ehrComposition.getComponent()
+                .stream()
+                .flatMap(this::extractAllObservationStatements)
+                .filter(Objects::nonNull)
+                .filter(this::isNotBloodPressure)
+                .filter(this::isNotImmunization)
+                .map(observationStatement -> {
+                    var id = observationStatement.getId().getRoot();
 
-                Observation observation = new Observation()
-                    .setStatus(FINAL)
-                    .addIdentifier(getIdentifier(id))
-                    .setCode(getCode(observationStatement.getCode()))
-                    .setIssuedElement(getIssued(ehrExtract,
-                        extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId())))
-                    .addPerformer(getParticipantReference(
-                        observationStatement.getParticipant(),
-                        extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId())))
-                    .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
-                    .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject()))
-                    .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
-                    .setSubject(new Reference(patient));
+                    Observation observation = new Observation()
+                        .setStatus(FINAL)
+                        .addIdentifier(getIdentifier(id))
+                        .setCode(getCode(observationStatement.getCode()))
+                        .setIssuedElement(getIssued(ehrExtract, ehrComposition))
+                        .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
+                        .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
+                        .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject()))
+                        .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
+                        .setSubject(new Reference(patient));
 
-                observation.setId(id);
-                observation.setMeta(generateMeta(META_PROFILE));
+                    observation.setId(id);
+                    observation.setMeta(generateMeta(META_PROFILE));
 
-                addContext(observation, getEncounterReference(compositionsList, encounters,
-                    getEhrCompositionId(compositionsList, observationStatement).getRoot()));
-                addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
-                    getValueString(observationStatement.getValue()));
-                addEffective(observation,
-                    getEffective(observationStatement.getEffectiveTime(), observationStatement.getAvailabilityTime()));
+                    addContext(observation, getEncounterReference(compositionsList, encounters,
+                        ehrComposition.getId().getRoot()));
+                    addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
+                        getValueString(observationStatement.getValue()));
+                    addEffective(observation,
+                        getEffective(observationStatement.getEffectiveTime(), observationStatement.getAvailabilityTime()));
 
-                return observation;
-            }).toList();
+                    return observation;
+                }))
+            .toList();
+    }
+
+    private Stream<RCMRMT030101UK04ObservationStatement> extractAllObservationStatements(RCMRMT030101UK04Component4 component4) {
+        return Stream.concat(
+            Stream.of(component4.getObservationStatement()),
+            component4.hasCompoundStatement()
+                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
+                    RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement)
+                .stream()
+                .map(RCMRMT030101UK04ObservationStatement.class::cast)
+                : Stream.empty()
+        );
+    }
+
+    private boolean isNotBloodPressure(RCMRMT030101UK04ObservationStatement observationStatement) {
+        if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
+            return !BloodPressureValidatorUtil.isSystolicBloodPressure(observationStatement.getCode().getCode())
+                && !BloodPressureValidatorUtil.isDiastolicBloodPressure(observationStatement.getCode().getCode());
+        }
+        return true;
+    }
+
+    private boolean isNotImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
+        if (observationStatement.hasCode() && observationStatement.getCode().hasCodeSystem()) {
+            String snomedCode = observationStatement.getCode().getCodeSystem();
+
+            return !IMMUNIZATION_SNOMED_CODE.equals(snomedCode);
+        }
+        return true;
     }
 
     private II getEhrCompositionId(List<RCMRMT030101UK04EhrComposition> ehrCompositions,
@@ -189,7 +224,7 @@ public class ObservationMapper {
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> ehrComposition.getComponent()
                 .stream()
-                .map(RCMRMT030101UK04Component4::getObservationStatement)
+                .flatMap(this::extractAllObservationStatements)
                 .anyMatch(Objects::nonNull))
             .toList();
     }
