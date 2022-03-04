@@ -20,10 +20,21 @@
                     </Participant2>
                     <component typeCode="COMP">
                         <NarrativeStatement classCode="OBS" moodCode="EVN">
-                            <id root="6E496953-065B-41F2-9577-BE8F2FBD0757"/>
+                            <id root="5E496953-065B-41F2-9577-BE8F2FBD0757"/>
                             <text mediaType="text/x-h7uk-pmip">Some example text</text>
                             <statusCode code="COMPLETE"/>
                             <availabilityTime value="20201012143344"/>
+                            <reference typeCode="REFR">
+                                <referredToExternalDocument classCode="DOC" moodCode="EVN">
+                                    <id root="31B75ED0-6E88-11EA-9384-E83935108FD5" />
+                                    <code code="25821000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Original Text document">
+                                        <originalText>Absent Attachment</originalText>
+                                    </code>
+                                    <text mediaType="text/plain">
+                                        <reference value="file://localhost/31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt" />
+                                    </text>
+                                </referredToExternalDocument>
+                            </reference>
                         </NarrativeStatement>
                     </component>
                 </ehrComposition>
