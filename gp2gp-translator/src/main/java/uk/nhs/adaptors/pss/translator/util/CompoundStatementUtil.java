@@ -27,10 +27,36 @@ public class CompoundStatementUtil {
             .toList();
     }
 
+    public static List<?> extractResourcesFromCompound(RCMRMT030101UK04CompoundStatement compoundStatement,
+        Function<RCMRMT030101UK04Component02, Boolean> checker, Function<RCMRMT030101UK04Component02, ?> extractor,
+        Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker) {
+
+        if (compoundStatementChecker.apply(compoundStatement)) {
+            return compoundStatement
+                .getComponent()
+                .stream()
+                .flatMap(component02 -> flatten(component02, compoundStatementChecker))
+                .filter(checker::apply)
+                .map(extractor)
+                .toList();
+        }
+
+        return List.of();
+    }
+
     private static Stream<RCMRMT030101UK04Component02> flatten(RCMRMT030101UK04Component02 component02) {
         return Stream.concat(
             Stream.of(component02),
             component02.hasCompoundStatement()
+                ? component02.getCompoundStatement().getComponent().stream().flatMap(CompoundStatementUtil::flatten) : Stream.empty()
+        );
+    }
+
+    private static Stream<RCMRMT030101UK04Component02> flatten(RCMRMT030101UK04Component02 component02,
+        Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker) {
+        return Stream.concat(
+            Stream.of(component02),
+            component02.hasCompoundStatement() && compoundStatementChecker.apply(component02.getCompoundStatement())
                 ? component02.getCompoundStatement().getComponent().stream().flatMap(CompoundStatementUtil::flatten) : Stream.empty()
         );
     }

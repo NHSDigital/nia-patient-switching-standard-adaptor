@@ -34,6 +34,7 @@ import org.hl7.v3.RCMRMT030101UK04Annotation;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
+import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
@@ -52,7 +53,7 @@ public class ObservationMapper {
     private static final String META_PROFILE = "Observation-1";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
     private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
-
+    private static final String ALLERGY_SNOMED_CODE = "2.16.840.1.113883.2.1.6.2";
 
     private final CodeableConceptMapper codeableConceptMapper;
 
@@ -102,7 +103,8 @@ public class ObservationMapper {
             Stream.of(component4.getObservationStatement()),
             component4.hasCompoundStatement()
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement)
+                    RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement,
+                    this::isNotAllergy)
                 .stream()
                 .map(RCMRMT030101UK04ObservationStatement.class::cast)
                 : Stream.empty()
@@ -122,6 +124,13 @@ public class ObservationMapper {
             String snomedCode = observationStatement.getCode().getCodeSystem();
 
             return !IMMUNIZATION_SNOMED_CODE.equals(snomedCode);
+        }
+        return true;
+    }
+
+    private boolean isNotAllergy(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        if (compoundStatement.hasCode() && compoundStatement.getCode().hasCodeSystem()) {
+            return !ALLERGY_SNOMED_CODE.equals(compoundStatement.getCode().getCodeSystem());
         }
         return true;
     }
