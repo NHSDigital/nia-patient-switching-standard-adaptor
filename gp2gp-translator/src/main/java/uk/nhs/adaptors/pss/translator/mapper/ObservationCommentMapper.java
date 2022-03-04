@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
@@ -16,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -34,7 +32,6 @@ import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.TextUtil;
 
 @Service
 @AllArgsConstructor
@@ -61,10 +58,10 @@ public class ObservationCommentMapper {
     }
 
     public List<Observation> mapDiagnosticChildObservations(List<RCMRMT030101UK04NarrativeStatement> narrativeStatements,
-        RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+        RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters, String practiseCode) {
         return narrativeStatements.stream()
             .map(narrativeStatement -> {
-                Observation observation = createObservationComment(narrativeStatement, patient);
+                Observation observation = createObservationComment(narrativeStatement, patient, practiseCode);
                 observation.addPerformer(createDeepPerformer(ehrExtract, narrativeStatement));
                 setObservationComment(observation, getLastLine(narrativeStatement.getText()));
                 observation.setIssuedElement(createDeepIssued(ehrExtract, narrativeStatement.getId()));
@@ -86,7 +83,6 @@ public class ObservationCommentMapper {
 
         return observation;
     }
-
 
     private void setObservationContext(Observation observation, RCMRMT030101UK04EhrExtract ehrExtract,
         II narrativeStatementId, List<Encounter> encounters) {

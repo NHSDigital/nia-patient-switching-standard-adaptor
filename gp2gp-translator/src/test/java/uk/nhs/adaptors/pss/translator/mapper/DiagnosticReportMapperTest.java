@@ -25,17 +25,25 @@ import lombok.SneakyThrows;
 public class DiagnosticReportMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/DiagnosticReport/";
+    private static final String PRACTISE_CODE = "TEST_PRACTISE_CODE";
 
-   // @Mock
-    private CodeableConceptMapper codeableConceptMapper = new CodeableConceptMapper();
+    @Mock
+    private CodeableConceptMapper codeableConceptMapper;
 
-    //@Mock
-    private ObservationCommentMapper observationCommentMapper = new ObservationCommentMapper();
+    @Mock
+    private ObservationCommentMapper observationCommentMapper;
 
-   // @Mock
-    private SpecimenMapper specimenMapper = new SpecimenMapper(new DateTimeMapper());
+    @Mock
+    private SpecimenMapper specimenMapper;
 
-    private DiagnosticReportMapper diagnosticReportMapper = new DiagnosticReportMapper(codeableConceptMapper, observationCommentMapper, specimenMapper);
+    @Mock
+    private ObservationMapper observationMapper;
+
+    @Mock
+    private SpecimenCompoundsMapper specimenCompoundsMapper;
+
+    @InjectMocks
+    private DiagnosticReportMapper diagnosticReportMapper;
 
     private Patient patient;
 
@@ -55,8 +63,15 @@ public class DiagnosticReportMapperTest {
     public void testRelatedObservationsMapping() {
         RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_with_observations_and_specimen.xml");
         var diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(ehrExtract, patient, List.of());
-        var observations = diagnosticReportMapper.mapChildrenObservationComments(ehrExtract, patient, List.of());
+        var observations = diagnosticReportMapper.mapChildrenObservationComments(ehrExtract, patient, List.of(), PRACTISE_CODE);
         var specimen = diagnosticReportMapper.mapSpecimen(ehrExtract, diagnosticReports, patient);
+        assertThat(diagnosticReports).isNotEmpty();
+    }
+
+    @Test
+    public void testNestedCompoundStatementsMapping() {
+        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_nested_compound.xml");
+        var diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(ehrExtract, patient, List.of());
         assertThat(diagnosticReports).isNotEmpty();
     }
 

@@ -151,7 +151,7 @@ public class BundleMapperServiceTest {
             .mapResources(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), any(String.class));
         verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
         verify(diagnosticReportMapper).mapDiagnosticReports(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
-        verify(diagnosticReportMapper).mapChildrenObservationComments(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
+        verify(diagnosticReportMapper).mapChildrenObservationComments(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class));
         verify(diagnosticReportMapper).mapSpecimen(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class));
     }
 

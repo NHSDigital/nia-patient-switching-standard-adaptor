@@ -8,6 +8,8 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
@@ -47,6 +49,7 @@ public class DiagnosticReportMapper {
     private final CodeableConceptMapper codeableConceptMapper;
     private final ObservationCommentMapper observationCommentMapper;
     private final SpecimenMapper specimenMapper;
+    private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
     public List<DiagnosticReport> mapDiagnosticReports(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
         var compositions = getCompositionsContainingClusterCompoundStatement(ehrExtract);
@@ -118,7 +121,7 @@ public class DiagnosticReportMapper {
          * There can of course be many specimens per report so this needs to iterate over every instance
          */
 
-        diagnosticReport.setResult(getResultReferences(compoundStatement)); //leave as null when list is empty or add an empty list?
+        diagnosticReport.setResult(getResultReferences(compoundStatement));
         /**
          * A result reference should be generated for every result Observation generated from the banner CompoundStatement,
          * result ObservationStatement, or result CompoundStatement CLUSTER found within each specimen CompoundStatement
@@ -128,7 +131,7 @@ public class DiagnosticReportMapper {
     }
 
     public List<Observation> mapChildrenObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        List<Encounter> encounters) {
+        List<Encounter> encounters, String practiseCode) {
         var narrativeStatements = getCompositionsContainingClusterCompoundStatement(ehrExtract)
             .stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
@@ -143,7 +146,7 @@ public class DiagnosticReportMapper {
          * 2. Process all NarrativeStatement direct children of the laboratory level CompoundStatement into Observation (Comment) and
          * reference these from DiagnosticReport.results (See Report Level Comment to Observation (Comment) Map below)
          */
-        return observationCommentMapper.mapDiagnosticChildObservations(narrativeStatements, ehrExtract, patient, encounters);
+        return observationCommentMapper.mapDiagnosticChildObservations(narrativeStatements, ehrExtract, patient, encounters, practiseCode);
     }
 
     public List<Specimen> mapSpecimen(RCMRMT030101UK04EhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports, Patient patient) {

@@ -119,7 +119,7 @@ public class BundleMapperService {
             mapObservationComments(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, observationComments);
 
-        mapDiagnosticReports(bundle, ehrExtract, patient, encounters);
+        mapDiagnosticReports(bundle, ehrExtract, patient, encounters, practiseCode);
 
         // TODO: Add references to mapped resources in their appropriate lists (NIAD-2051)
         addEntries(bundle, topics);
@@ -133,9 +133,11 @@ public class BundleMapperService {
         return bundle;
     }
 
-    private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+    private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract,
+        Patient patient, List<Encounter> encounters, String practiseCode) {
         var diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(ehrExtract, patient, encounters);
-        var childrenObservationComments = diagnosticReportMapper.mapChildrenObservationComments(ehrExtract, patient, encounters);
+        var childrenObservationComments = diagnosticReportMapper.mapChildrenObservationComments(
+            ehrExtract, patient, encounters, practiseCode);
         var specimen = diagnosticReportMapper.mapSpecimen(ehrExtract, diagnosticReports, patient);
         addEntries(bundle, diagnosticReports);
         addEntries(bundle, childrenObservationComments);

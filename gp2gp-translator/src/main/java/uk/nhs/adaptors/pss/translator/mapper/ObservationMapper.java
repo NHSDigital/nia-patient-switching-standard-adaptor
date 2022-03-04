@@ -61,34 +61,44 @@ public class ObservationMapper {
             .map(RCMRMT030101UK04Component4::getObservationStatement)
             .filter(Objects::nonNull)
             .map(observationStatement -> {
-                var id = observationStatement.getId().getRoot();
-
-                Observation observation = new Observation()
-                    .setStatus(FINAL)
-                    .addIdentifier(buildIdentifier(id, practiseCode))
-                    .setCode(getCode(observationStatement.getCode()))
-                    .setIssuedElement(getIssued(ehrExtract,
-                        extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId())))
-                    .addPerformer(getParticipantReference(
-                        observationStatement.getParticipant(),
-                        extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId())))
-                    .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
-                    .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject()))
-                    .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
-                    .setSubject(new Reference(patient));
-
-                observation.setId(id);
-                observation.setMeta(generateMeta(META_PROFILE));
-
-                addContext(observation, getEncounterReference(compositionsList, encounters,
-                    getEhrCompositionId(compositionsList, observationStatement).getRoot()));
-                addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
-                    getValueString(observationStatement.getValue()));
-                addEffective(observation,
-                    getEffective(observationStatement.getEffectiveTime(), observationStatement.getAvailabilityTime()));
-
-                return observation;
+                return mapObservation(ehrExtract, observationStatement, patient, encounters, practiseCode);
             }).toList();
+    }
+
+    public Observation mapSpecimenChildObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04ObservationStatement observationStatement,
+        Patient patient, List<Encounter> encounters, String practiseCode) {
+
+    }
+
+    private Observation mapObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04ObservationStatement observationStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+        var id = observationStatement.getId().getRoot();
+
+        Observation observation = new Observation()
+            .setStatus(FINAL)
+            .addIdentifier(buildIdentifier(id, practiseCode))
+            .setCode(getCode(observationStatement.getCode()))
+            .setIssuedElement(getIssued(ehrExtract,
+                extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId())))
+            .addPerformer(getParticipantReference(
+                observationStatement.getParticipant(),
+                extractEhrCompositionForObservationStatement(ehrExtract, observationStatement.getId())))
+            .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
+            .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject()))
+            .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
+            .setSubject(new Reference(patient));
+
+        observation.setId(id);
+        observation.setMeta(generateMeta(META_PROFILE));
+
+        var compositionsList = getCompositionsContainingObservationStatement(ehrExtract);
+        addContext(observation, getEncounterReference(compositionsList, encounters,
+            getEhrCompositionId(compositionsList, observationStatement).getRoot()));
+        addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
+            getValueString(observationStatement.getValue()));
+        addEffective(observation,
+            getEffective(observationStatement.getEffectiveTime(), observationStatement.getAvailabilityTime()));
+
+        return observation;
     }
 
     private II getEhrCompositionId(List<RCMRMT030101UK04EhrComposition> ehrCompositions,
