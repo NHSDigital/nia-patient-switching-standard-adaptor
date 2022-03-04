@@ -36,8 +36,6 @@ import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 @AllArgsConstructor
 public class ImmunizationMapper {
     private static final String META_PROFILE = "Immunization-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
-    private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
     private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-VaccinationProcedure-1";
     private static final String END_DATE_PREFIX = "End Date: ";

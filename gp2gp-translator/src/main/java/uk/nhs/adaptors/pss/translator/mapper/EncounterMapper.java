@@ -34,6 +34,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
+import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04Participant2;
@@ -177,6 +178,7 @@ public class EncounterMapper {
             addLinkSetEntry(component.getLinkSet(), entryReferences);
             addObservationStatementEntry(component.getObservationStatement(), entryReferences, null);
             addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
+            addMedicationEntry(component.getMedicationStatement());
 
             /**
              * TODO: Additional References
@@ -227,10 +229,15 @@ public class EncounterMapper {
                 addBloodPressureEntry(compoundStatement, entryReferences);
             } else if (ResourceFilterUtil.hasImmunizationCode(observationStatement)) {
                 addImmunizationEntry(observationStatement, entryReferences);
+                // TODO: add filters for templates, allergy, pathology
             } else {
                 addUncategorisedObservationEntry(observationStatement, entryReferences);
             }
         }
+    }
+
+    private void addMedicationEntry(RCMRMT030101UK04MedicationStatement medicationStatement) {
+
     }
 
     private void addBloodPressureEntry(RCMRMT030101UK04CompoundStatement compoundStatement, List<String> entryReferences) {

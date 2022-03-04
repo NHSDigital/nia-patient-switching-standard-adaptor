@@ -87,6 +87,8 @@ public class BundleMapperService {
         var categories = (List<ListResource>) mappedEncounterEhrCompositions.get(CATEGORY_KEY);
         addEntries(bundle, encounters);
         addEntries(bundle, consultations);
+        addEntries(bundle, topics);
+        addEntries(bundle, categories);
 
         var locations = mapLocations(ehrFolder, practiseCode);
         addEntries(bundle, locations);
@@ -115,10 +117,6 @@ public class BundleMapperService {
         var observationComments =
             mapObservationComments(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, observationComments);
-
-        // TODO: Add references to mapped resources in their appropriate lists (NIAD-2051)
-        addEntries(bundle, topics);
-        addEntries(bundle, categories);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 
