@@ -66,7 +66,7 @@ public class MedicationRequestPlanMapper {
     private final MedicationMapper medicationMapper;
 
     protected MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise) {
+        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise, String practiseCode) {
 
         var ehrSupplyAuthoriseIdExtract = extractEhrSupplyAuthoriseId(supplyAuthorise);
 
@@ -75,7 +75,7 @@ public class MedicationRequestPlanMapper {
             var discontinue = extractMatchingDiscontinue(ehrSupplyAuthoriseId, ehrExtract);
             MedicationRequest medicationRequest = createMedicationRequestSkeleton(ehrSupplyAuthoriseId);
 
-            medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, ""));
+            medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, practiseCode));
             medicationRequest.setStatus(buildMedicationRequestStatus(supplyAuthorise));
             medicationRequest.setIntent(PLAN);
             medicationRequest.addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()));
@@ -292,5 +292,4 @@ public class MedicationRequestPlanMapper {
     private boolean hasAvailability(RCMRMT030101UK04Discontinue discontinue) {
         return discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasValue();
     }
-
 }

@@ -9,8 +9,7 @@ import org.hl7.fhir.dstu3.model.UriType;
 public class ResourceUtil {
 
     private static final String META_PROFILE_TEMPLATE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-%s";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/{practiseCode}";
-    private static final String PRACTISE_CODE = "{practiseCode}";
+    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/%s";
 
     public static Meta generateMeta(String urlProfile) {
         Meta meta = new Meta();
@@ -21,7 +20,7 @@ public class ResourceUtil {
 
     public static Identifier buildIdentifier(String rootId, String practiseCode) {
         Identifier identifier = new Identifier();
-        identifier.setSystem(IDENTIFIER_SYSTEM.replace(PRACTISE_CODE, practiseCode));
+        identifier.setSystem(IDENTIFIER_SYSTEM.formatted(practiseCode));
         identifier.setValue(rootId);
 
         return identifier;

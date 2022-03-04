@@ -9,6 +9,7 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRange;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
@@ -20,7 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
@@ -49,7 +49,6 @@ import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ObservationMapper {
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String META_PROFILE = "Observation-1";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
     private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
@@ -57,12 +56,8 @@ public class ObservationMapper {
 
     private final CodeableConceptMapper codeableConceptMapper;
 
-    public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
-        /**
-         * TODO: Known future implementations to this mapper
-         * - concatenate source practice org id to identifier URL (NIAD-2021)
-         */
-
+    public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        String practiseCode) {
         var compositionsList = getCompositionsContainingObservationStatement(ehrExtract);
 
         return compositionsList
@@ -78,7 +73,7 @@ public class ObservationMapper {
 
                     Observation observation = new Observation()
                         .setStatus(FINAL)
-                        .addIdentifier(getIdentifier(id))
+                        .addIdentifier(buildIdentifier(id, practiseCode))
                         .setCode(getCode(observationStatement.getCode()))
                         .setIssuedElement(getIssued(ehrExtract, ehrComposition))
                         .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
@@ -163,12 +158,6 @@ public class ObservationMapper {
         } else if (StringUtils.isNotEmpty(valueString)) {
             observation.setValue(new StringType().setValue(valueString));
         }
-    }
-
-    private Identifier getIdentifier(String id) {
-        return new Identifier()
-            .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
-            .setValue(id);
     }
 
     private CodeableConcept getCode(CD code) {

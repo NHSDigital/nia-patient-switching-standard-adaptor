@@ -19,6 +19,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.springframework.util.ResourceUtils.getFile;
+
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.List;
@@ -30,6 +31,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 public class MedicationRequestMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/MedicationStatement/";
+    private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final int SINGLE_INVOCATION = 1;
     private static final int DOUBLE_INVOCATION = 2;
     private static final int EXPECTED_RESOURCES_MAPPED = 6;
@@ -54,16 +56,17 @@ public class MedicationRequestMapperTest {
     public void When_MappingMedicationStatement_Expect_CorrectMappersToBeCalled() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
 
-        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any())).thenReturn(new MedicationRequest());
-        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any())).thenReturn(new MedicationRequest());
-        when(medicationStatementMapper.mapToMedicationStatement(any(), any())).thenReturn(new MedicationStatement());
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any())).thenReturn(new MedicationStatement());
         when(medicationMapper.createMedication(any())).thenReturn(new Medication());
 
-        var resources = medicationRequestMapper.mapResources(ehrExtract, List.of(), (Patient) new Patient().setId(PATIENT_ID));
+        var resources = medicationRequestMapper.mapResources(ehrExtract, List.of(), (Patient) new Patient().setId(PATIENT_ID),
+            PRACTISE_CODE);
 
-        verify(medicationRequestPlanMapper, times(DOUBLE_INVOCATION)).mapToPlanMedicationRequest(any(), any(), any());
-        verify(medicationRequestOrderMapper, times(SINGLE_INVOCATION)).mapToOrderMedicationRequest(any(), any());
-        verify(medicationStatementMapper, times(DOUBLE_INVOCATION)).mapToMedicationStatement(any(), any());
+        verify(medicationRequestPlanMapper, times(DOUBLE_INVOCATION)).mapToPlanMedicationRequest(any(), any(), any(), any());
+        verify(medicationRequestOrderMapper, times(SINGLE_INVOCATION)).mapToOrderMedicationRequest(any(), any(), any());
+        verify(medicationStatementMapper, times(DOUBLE_INVOCATION)).mapToMedicationStatement(any(), any(), any());
         verify(medicationMapper, times(SINGLE_INVOCATION)).createMedication(any());
 
         assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
@@ -94,5 +97,4 @@ public class MedicationRequestMapperTest {
     private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
     }
-
 }

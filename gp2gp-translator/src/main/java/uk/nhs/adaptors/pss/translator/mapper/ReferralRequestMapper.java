@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
@@ -41,7 +41,6 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @AllArgsConstructor
 public class ReferralRequestMapper {
     private static final String META_PROFILE = "ReferralRequest-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
     private static final String PRIORITY_PREFIX = "Priority: ";
     private static final String ACTION_DATE_PREFIX = "Action Date: ";
     private static final String PRACTITIONER_REFERENCE = "Practitioner/%s";
@@ -49,7 +48,8 @@ public class ReferralRequestMapper {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+    public List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        String practiseCode) {
         return ehrExtract.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component::getEhrFolder)
@@ -60,7 +60,7 @@ public class ReferralRequestMapper {
                 .stream()
                 .flatMap(this::extractAllRequestStatements)
                 .filter(Objects::nonNull)
-                .map(requestStatement -> mapToReferralRequest(ehrComposition, requestStatement, patient, encounters)))
+                .map(requestStatement -> mapToReferralRequest(ehrComposition, requestStatement, patient, encounters, practiseCode)))
             .toList();
     }
 
@@ -77,19 +77,13 @@ public class ReferralRequestMapper {
     }
 
     public ReferralRequest mapToReferralRequest(RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04RequestStatement requestStatement, Patient patient, List<Encounter> encounters) {
-
-        /**
-         * TODO: Known future implementations to this mapper
-         * - concatenate source practice org id to identifier URL (NIAD-2021)
-         */
-
+        RCMRMT030101UK04RequestStatement requestStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
         var referralRequest = new ReferralRequest();
         var id = requestStatement.getId().get(0).getRoot();
 
         referralRequest.setId(id);
         referralRequest.setMeta(generateMeta(META_PROFILE));
-        referralRequest.getIdentifier().add(getIdentifier(id));
+        referralRequest.getIdentifier().add(buildIdentifier(id, practiseCode));
         referralRequest.setStatus(ReferralRequestStatus.UNKNOWN);
         referralRequest.setIntent(ReferralCategory.ORDER);
         referralRequest.getRequester().setAgent(ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(),
@@ -126,12 +120,6 @@ public class ReferralRequestMapper {
             .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
             .findFirst()
             .ifPresent(encounter -> referralRequest.setContext(new Reference(encounter)));
-    }
-
-    private Identifier getIdentifier(String id) {
-        return new Identifier()
-            .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
-            .setValue(id);
     }
 
     private DateTimeType getAuthoredOn(TS availabilityTime) {
