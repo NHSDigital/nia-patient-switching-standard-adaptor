@@ -45,10 +45,11 @@ public class ObservationCommentMapper {
     private static final String CODING_CODE = "37331000000100";
     private static final String CODING_DISPLAY = "Comment note";
 
-    public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+    public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        String practiseCode) {
         return getNarrativeStatements(ehrExtract).stream()
             .map(narrativeStatement -> {
-                Observation observation = createObservationComment(narrativeStatement, patient);
+                Observation observation = createObservationComment(narrativeStatement, patient, practiseCode);
                 observation.setEffective(parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
                 observation.addPerformer(createPerformer(ehrExtract, narrativeStatement));
                 setObservationContext(observation, ehrExtract, narrativeStatement.getId(), encounters); // Context may not always be mapped
@@ -73,10 +74,11 @@ public class ObservationCommentMapper {
             }).toList();
     }
 
-    private Observation createObservationComment(RCMRMT030101UK04NarrativeStatement narrativeStatement, Patient patient) {
+    private Observation createObservationComment(RCMRMT030101UK04NarrativeStatement narrativeStatement, Patient patient,
+        String practiseCode) {
         var observation = new Observation();
         observation.setId(narrativeStatement.getId().getRoot());
-        observation.addIdentifier(buildIdentifier(narrativeStatement.getId().getRoot(), "UNK")); //TODO: set practice code (NIAD-2021)
+        observation.addIdentifier(buildIdentifier(narrativeStatement.getId().getRoot(), practiseCode)); //TODO: set practice code (NIAD-2021)
         observation.setMeta(generateMeta(META_URL));
         observation.setStatus(FINAL);
         observation.setSubject(new Reference(patient));
@@ -84,6 +86,7 @@ public class ObservationCommentMapper {
 
         return observation;
     }
+
 
     private void setObservationContext(Observation observation, RCMRMT030101UK04EhrExtract ehrExtract,
         II narrativeStatementId, List<Encounter> encounters) {

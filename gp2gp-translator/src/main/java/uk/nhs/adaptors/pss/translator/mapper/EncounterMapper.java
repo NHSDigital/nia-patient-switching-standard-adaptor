@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterLocationComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
-import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.ListResource.ListEntryComponent;
 import org.hl7.fhir.dstu3.model.Patient;
@@ -62,12 +62,12 @@ public class EncounterMapper {
     private static final String CONSULTATION_KEY = "consultations";
     private static final String TOPIC_KEY = "topics";
     private static final String CATEGORY_KEY = "categories";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final ConsultationListMapper consultationListMapper;
 
-    public Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient) {
+    public Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+        String practiseCode) {
         List<Encounter> encounters = new ArrayList<>();
         List<ListResource> consultations = new ArrayList<>();
         List<ListResource> topics = new ArrayList<>();
@@ -78,7 +78,7 @@ public class EncounterMapper {
         List<RCMRMT030101UK04EhrComposition> ehrCompositionList = getEncounterEhrCompositions(ehrExtract);
 
         ehrCompositionList.forEach(ehrComposition -> {
-            var encounter = mapToEncounter(ehrComposition, patient);
+            var encounter = mapToEncounter(ehrComposition, patient, practiseCode);
             var consultation = consultationListMapper.mapToConsultation(ehrExtract, encounter);
 
             var topicCompoundStatementList = getTopicCompoundStatements(ehrComposition);
@@ -200,7 +200,7 @@ public class EncounterMapper {
         return compoundStatement != null && TOPIC_CLASS_CODE.equals(compoundStatement.getClassCode().get(0));
     }
 
-    private Encounter mapToEncounter(RCMRMT030101UK04EhrComposition ehrComposition, Patient patient) {
+    private Encounter mapToEncounter(RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, String practiseCode) {
         var id = ehrComposition.getId().getRoot();
 
         var encounter = new Encounter();
@@ -210,7 +210,7 @@ public class EncounterMapper {
             .setSubject(new Reference(patient))
             .setType(getType(ehrComposition.getCode()))
             .setPeriod(getPeriod(ehrComposition))
-            .setIdentifier(getIdentifier(id))
+            .addIdentifier(buildIdentifier(id, practiseCode))
             .setMeta(generateMeta(ENCOUNTER_META_PROFILE))
             .setId(id);
 
@@ -221,13 +221,6 @@ public class EncounterMapper {
 
     private List<CodeableConcept> getType(CD code) {
         return List.of(codeableConceptMapper.mapToCodeableConcept(code));
-    }
-
-    private List<Identifier> getIdentifier(String id) {
-        Identifier identifier = new Identifier()
-            .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
-            .setValue(id);
-        return List.of(identifier);
     }
 
     private Period getPeriod(RCMRMT030101UK04EhrComposition ehrComposition) {

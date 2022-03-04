@@ -27,7 +27,8 @@ public class ObservationCommentMapperTest {
     private static final String META_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
     private static final String CODING_SYSTEM = "http://snomed.info/sct";
     private static final String CODING_CODE = "37331000000100";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/UNK";
+    private static final String PRACTISE_CODE = "TESTPRACTISECODE";
+    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final int EXPECTED_OBSERVATION_COUNT = 3;
 
     private final ObservationCommentMapper observationCommentMapper = new ObservationCommentMapper();
@@ -49,7 +50,7 @@ public class ObservationCommentMapperTest {
         encounter.setId(ENCOUNTER_ID);
 
         List<Observation> observations =
-            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.singletonList(encounter));
+            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.singletonList(encounter), PRACTISE_CODE);
 
         var observation = observations.get(0);
 
@@ -89,7 +90,7 @@ public class ObservationCommentMapperTest {
         var ehrExtract = unmarshallEhrExtract("multiple_narrative_statements.xml");
 
         List<Observation> observations =
-            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
+            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
         assertThat(observations.size()).isEqualTo(EXPECTED_OBSERVATION_COUNT);
     }
@@ -99,7 +100,7 @@ public class ObservationCommentMapperTest {
         var ehrExtract = unmarshallEhrExtract("no_narrative_statement.xml");
 
         List<Observation> observations =
-            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
+            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
         assertThat(observations).isEmpty();
     }
@@ -109,7 +110,7 @@ public class ObservationCommentMapperTest {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document.xml");
 
         List<Observation> observations =
-            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
+            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
         assertThat(observations).isEmpty();
     }
@@ -119,7 +120,7 @@ public class ObservationCommentMapperTest {
         var ehrExtract = unmarshallEhrExtract("nullflavour_composition_author_time.xml");
 
         List<Observation> observations =
-            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
+            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
         assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2020-01-01T01:01:01.000+00:00");
     }
@@ -129,7 +130,7 @@ public class ObservationCommentMapperTest {
         var ehrExtract = unmarshallEhrExtract("single_narrative_statement.xml");
 
         List<Observation> observations =
-            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
+            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
         // Calling `getContext` auto creates a Reference object so asserting the reference is null
         assertThat(observations.get(0).getContext().getReference()).isEqualTo(null);
@@ -140,7 +141,7 @@ public class ObservationCommentMapperTest {
         var ehrExtract = unmarshallEhrExtract("whitespace_only_text_field.xml");
 
         List<Observation> observations =
-            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList());
+            observationCommentMapper.mapObservations(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
         assertThat(observations.get(0).getComment()).isEqualTo(null);
     }

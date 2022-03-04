@@ -30,6 +30,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 public class MedicationStatementMapperTest {
 
     private static final String XML_RESOURCES_MEDICATION_STATEMENT = "xml/MedicationStatement/";
+    private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String TEST_ID = "TEST_ID";
     private static final String MEDICATION_ID = "MEDICATION_ID";
     private static final String TAKE_ONE_DAILY = "TAKE ONE DAILY";
@@ -52,7 +53,7 @@ public class MedicationStatementMapperTest {
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
         assertThat(authorise.isPresent()).isTrue();
-        var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(medicationStatement, authorise.get());
+        var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(medicationStatement, authorise.get(), PRACTISE_CODE);
 
         var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
@@ -83,7 +84,7 @@ public class MedicationStatementMapperTest {
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
         assertThat(authorise.isPresent()).isTrue();
-        var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(medicationStatement, authorise.get());
+        var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(medicationStatement, authorise.get(), PRACTISE_CODE);
 
         var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");

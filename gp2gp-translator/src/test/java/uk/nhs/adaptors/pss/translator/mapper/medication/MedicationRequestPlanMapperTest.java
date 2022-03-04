@@ -4,7 +4,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 import static org.assertj.core.api.Assertions.assertThat;
+
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
 
@@ -39,6 +41,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 public class MedicationRequestPlanMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/MedicationStatement/";
+    private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String MEDICATION_ID = "MEDICATION_ID";
     private static final String TEST_ID = "TEST_ID";
     private static final String TAKE_ONE_DAILY = "One To Be Taken Each Day";
@@ -71,7 +74,8 @@ public class MedicationRequestPlanMapperTest {
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
         var medicationRequest
-            = medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.get());
+            = medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.get(),
+            PRACTISE_CODE);
 
         var repeatInformation = medicationRequest
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1");
