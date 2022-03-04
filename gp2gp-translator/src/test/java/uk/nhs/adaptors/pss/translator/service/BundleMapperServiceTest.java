@@ -109,7 +109,8 @@ public class BundleMapperServiceTest {
         when(agentDirectoryMapper.mapAgentDirectory(any())).thenReturn(mockedList);
         when(mockedList.stream()).thenReturn(agentResourceList.stream());
         when(patientMapper.mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class))).thenReturn(new Patient());
-        when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class))).thenReturn(encounterResources);
+        when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class)))
+            .thenReturn(encounterResources);
     }
 
     @Test
@@ -119,27 +120,32 @@ public class BundleMapperServiceTest {
 
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
-        verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), any(String.class));
-        verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class));
+        verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), any(String.class), any(String.class));
+        verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class));
         verify(procedureRequestMapper).mapToProcedureRequest(
             any(RCMRMT030101UK04EhrExtract.class),
             any(RCMRMT030101UK04PlanStatement.class),
             any(Patient.class),
-            anyList()
+            anyList(),
+            any(String.class)
         );
         verify(referralRequestMapper).mapToReferralRequest(
             any(RCMRMT030101UK04EhrComposition.class),
             any(RCMRMT030101UK04RequestStatement.class),
             any(Patient.class),
-            anyList()
+            anyList(),
+            any(String.class)
         );
-        verify(bloodPressureMapper).mapBloodPressure(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
-        verify(observationMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
-        verify(conditionMapper).mapConditions(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
-        verify(immunizationMapper).mapToImmunization(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
-        verify(observationCommentMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList());
+        verify(bloodPressureMapper).mapBloodPressure(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+            any(String.class));
+        verify(observationMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class));
+        verify(conditionMapper).mapConditions(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class));
+        verify(immunizationMapper).mapToImmunization(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+            any(String.class));
+        verify(observationCommentMapper).mapObservations(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+            any(String.class));
         verify(medicationRequestMapper, atLeast(1))
-            .mapResources(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class));
+            .mapResources(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), any(String.class));
         verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
     }
 

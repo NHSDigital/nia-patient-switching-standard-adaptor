@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
@@ -8,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
@@ -31,18 +31,11 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProcedureRequestMapper {
     private static final String META_PROFILE = "ProcedureRequest-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
 
     private final CodeableConceptMapper codeableConceptMapper;
 
     public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04PlanStatement planStatement,
-        Patient patient, List<Encounter> encounters) {
-
-        /**
-         * TODO: Known future implementations to this mapper
-         * - concatenate source practice org id to identifier URL (NIAD-2021)
-         */
-
+        Patient patient, List<Encounter> encounters, String practiseCode) {
         var id = planStatement.getId().getRoot();
         var procedureRequest = new ProcedureRequest();
         procedureRequest
@@ -53,7 +46,7 @@ public class ProcedureRequestMapper {
             .setSubject(new Reference(patient))
             .setMeta(generateMeta(META_PROFILE))
             .setId(id);
-        procedureRequest.getIdentifier().add(getIdentifier(id));
+        procedureRequest.getIdentifier().add(buildIdentifier(id, practiseCode));
         procedureRequest.getNote().add(getNote(planStatement.getText()));
         procedureRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode()));
         procedureRequest.getRequester().setAgent(ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(),
@@ -74,13 +67,6 @@ public class ProcedureRequestMapper {
             .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
             .findFirst()
             .ifPresent(encounter -> procedureRequest.setContext(new Reference(encounter)));
-    }
-
-    private Identifier getIdentifier(String id) {
-        Identifier identifier = new Identifier()
-            .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
-            .setValue(id);
-        return identifier;
     }
 
     private Annotation getNote(String text) {

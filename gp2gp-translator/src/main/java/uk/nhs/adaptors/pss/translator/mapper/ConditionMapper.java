@@ -53,7 +53,6 @@ public class ConditionMapper {
     private static final String META_PROFILE = "ProblemHeader-Condition-1";
     private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-RelatedClinicalContent-1";
-    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/{practiseCode}";
     private static final String ACTUAL_PROBLEM_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ActualProblem-1";
     private static final String PROBLEM_SIGNIFICANCE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
@@ -69,7 +68,8 @@ public class ConditionMapper {
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
-    public List<Condition> mapConditions(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+    public List<Condition> mapConditions(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        String practiseCode) {
         var compositionsContainingLinkSets = getCompositionsContainingLinkSets(ehrExtract);
         return compositionsContainingLinkSets.stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
@@ -80,25 +80,20 @@ public class ConditionMapper {
                 patient,
                 encounters,
                 compositionsContainingLinkSets,
-                linkSet))
+                linkSet,
+                practiseCode))
             .toList();
     }
 
     private Condition getCondition(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        List<RCMRMT030101UK04EhrComposition> compositionsContainingLinkSets, RCMRMT030101UK04LinkSet linkSet) {
+        List<RCMRMT030101UK04EhrComposition> compositionsContainingLinkSets, RCMRMT030101UK04LinkSet linkSet, String practiseCode) {
         RCMRMT030101UK04EhrComposition currentComposition = getCurrentEhrComposition(compositionsContainingLinkSets, linkSet);
         String id = linkSet.getId().getRoot();
         Condition condition = (Condition) new Condition()
-            .addIdentifier(buildIdentifier(id, "TEMP_PRACTICE_CODE")) //TODO: Find how to get the practise code legit way
+            .addIdentifier(buildIdentifier(id, practiseCode))
             .addCategory(generateCategory())
             .setId(id)
             .setMeta(generateMeta(META_PROFILE));
-        /**
-         * Case for NIAD-2021 ticket
-         * Identifier's PRACTICE CODE -> {source practice org code from wider tx context} |
-         * Assumes the source practice org code is available as a parameter from the wider transaction context
-         * LINE 18 - CONDITION SHEET
-         */
 
         buildClinicalStatus(linkSet.getCode()).ifPresentOrElse(
             condition::setClinicalStatus,

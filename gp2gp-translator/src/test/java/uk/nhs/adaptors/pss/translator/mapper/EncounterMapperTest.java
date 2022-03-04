@@ -50,7 +50,8 @@ public class EncounterMapperTest {
     private static final String LOCATION_PREFIX = "Location/";
     private static final String LOCATION_SUFFIX = "-LOC";
     private static final String ENCOUNTER_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1";
-    private static final String ENCOUNTER_IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
+    private static final String PRACTISE_CODE = "TESTPRACTISECODE";
+    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String PERFORMER_SYSTEM = "http://hl7.org/fhir/v3/ParticipationType";
     private static final String PERFORMER_CODE = "PPRF";
     private static final String PERFORMER_DISPLAY = "primary performer";
@@ -109,7 +110,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient, PRACTISE_CODE);
 
         var encounterList = mappedResources.get(ENCOUNTER_KEY);
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
@@ -130,7 +131,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient, PRACTISE_CODE);
 
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
@@ -168,7 +169,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient, PRACTISE_CODE);
 
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
@@ -207,7 +208,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient, PRACTISE_CODE);
 
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
@@ -235,7 +236,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_FLAT_ENCOUNTER_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient, PRACTISE_CODE);
 
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
@@ -264,7 +265,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient, PRACTISE_CODE);
 
         var encounterList = mappedResources.get(ENCOUNTER_KEY);
         assertThat(encounterList.size()).isOne();
@@ -291,7 +292,7 @@ public class EncounterMapperTest {
     public void testInvalidEhrCompositions(String inputXML) {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient);
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient, PRACTISE_CODE);
 
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isZero();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isZero();
@@ -313,7 +314,7 @@ public class EncounterMapperTest {
         String startDate, String endDate) {
         assertThat(encounter.getId()).isEqualTo(id);
         assertThat(encounter.getMeta().getProfile().get(0).getValue()).isEqualTo(ENCOUNTER_META_PROFILE);
-        assertThat(encounter.getIdentifierFirstRep().getSystem()).isEqualTo(ENCOUNTER_IDENTIFIER_SYSTEM);
+        assertThat(encounter.getIdentifierFirstRep().getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
         assertThat(encounter.getIdentifierFirstRep().getValue()).isEqualTo(id);
         assertThat(encounter.getStatus()).isEqualTo(EncounterStatus.FINISHED);
         assertThat(encounter.getSubject().getResource()).isEqualTo(patient);

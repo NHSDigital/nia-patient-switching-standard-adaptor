@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
@@ -10,7 +11,6 @@ import java.util.stream.Collectors;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Immunization;
 import org.hl7.fhir.dstu3.model.Immunization.ImmunizationPractitionerComponent;
 import org.hl7.fhir.dstu3.model.Immunization.ImmunizationStatus;
@@ -37,6 +37,7 @@ import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 public class ImmunizationMapper {
     private static final String META_PROFILE = "Immunization-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/";
+    private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
     private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-VaccinationProcedure-1";
     private static final String END_DATE_PREFIX = "End Date: ";
@@ -48,7 +49,7 @@ public class ImmunizationMapper {
     private CodeableConceptMapper codeableConceptMapper;
 
     public List<Immunization> mapToImmunization(RCMRMT030101UK04EhrExtract ehrExtract, Patient patientResource,
-        List<Encounter> encounterList) {
+        List<Encounter> encounterList, String practiseCode) {
         List<Immunization> mappedImmunizationResources = new ArrayList<>();
         var ehrCompositionList = EhrResourceExtractorUtil.extractValidImmunizationEhrCompositions(ehrExtract);
 
@@ -58,7 +59,7 @@ public class ImmunizationMapper {
             immunizationObservationStatements
                 .forEach(observationStatement -> {
                     var mappedImmunization = mapImmunization(ehrComposition, observationStatement, patientResource,
-                        encounterList);
+                        encounterList, practiseCode);
                     mappedImmunizationResources.add(mappedImmunization);
                 });
         });
@@ -67,17 +68,17 @@ public class ImmunizationMapper {
     }
 
     private Immunization mapImmunization(RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04ObservationStatement observationStatement, Patient patientResource, List<Encounter> encounterList) {
+        RCMRMT030101UK04ObservationStatement observationStatement, Patient patientResource, List<Encounter> encounterList,
+        String practiseCode) {
         Immunization immunization = new Immunization();
 
         var id = observationStatement.getId().getRoot();
-        var identifier = getIdentifier(id);
 
         var practitioner = ParticipantReferenceUtil.getParticipantReference(observationStatement.getParticipant(), ehrComposition);
         var encounter = getEncounterReference(encounterList, ehrComposition.getId());
 
         immunization.setMeta(generateMeta(META_PROFILE));
-        immunization.addIdentifier(identifier);
+        immunization.addIdentifier(buildIdentifier(id, practiseCode));
         immunization.addExtension(createVaccineProcedureExtension(observationStatement));
         immunization.addExtension(createRecordedTimeExtension(ehrComposition));
         immunization
@@ -135,12 +136,6 @@ public class ImmunizationMapper {
         }
 
         return null;
-    }
-
-    private Identifier getIdentifier(String id) {
-        return new Identifier()
-            .setSystem(IDENTIFIER_SYSTEM) // TODO: concatenate source practice org id to URL (NIAD-2021)
-            .setValue(id);
     }
 
     private Extension createVaccineProcedureExtension(RCMRMT030101UK04ObservationStatement observationStatement) {
