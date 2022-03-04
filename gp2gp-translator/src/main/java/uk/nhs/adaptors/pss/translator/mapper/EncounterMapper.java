@@ -74,7 +74,6 @@ public class EncounterMapper {
     private static final String OBSERVATION_REFERENCE = "Observation/%s";
     private static final String DOCUMENT_REFERENCE_REFERENCE = "DocumentReference/%s";
     private static final String IMMUNIZATION_REFERENCE = "Immunization/%s";
-    private static final String BATTERY_VALUE = "BATTERY";
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final ConsultationListMapper consultationListMapper;
@@ -141,11 +140,15 @@ public class EncounterMapper {
         if (!CollectionUtils.isEmpty(linkSetList)) {
             var linkSetTopic = consultationListMapper.mapToTopic(consultation, null);
 
-            linkSetList.forEach(linkSet -> linkSetTopic.addEntry(new ListEntryComponent(new Reference(CONDITION_REFERENCE
-                .formatted(linkSet.getId().getRoot())))));
+            addLinkSetsAsTopicEntries(linkSetList, linkSetTopic);
             consultation.addEntry(new ListEntryComponent(new Reference(linkSetTopic)));
             topics.add(linkSetTopic);
         }
+    }
+
+    private void addLinkSetsAsTopicEntries(List<RCMRMT030101UK04LinkSet> linkSetList, ListResource linkSetTopic) {
+        linkSetList.forEach(linkSet -> linkSetTopic.addEntry(new ListEntryComponent(new Reference(CONDITION_REFERENCE
+            .formatted(linkSet.getId().getRoot())))));
     }
 
     private void generateCategoryLists(RCMRMT030101UK04CompoundStatement topicCompoundStatement, ListResource topic,
@@ -154,7 +157,10 @@ public class EncounterMapper {
         categoryCompoundStatements.forEach(categoryCompoundStatement -> {
             var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement);
 
-            addMappableResourcesFromCompoundStatement(categoryCompoundStatement, category, new ArrayList<>());
+            List<String> entryReferences = new ArrayList<>();
+            addMappableResourcesFromCompoundStatement(categoryCompoundStatement, category, entryReferences);
+            entryReferences.forEach(reference -> addEntry(category, reference));
+
             topic.addEntry(new ListEntryComponent(new Reference(category)));
             categories.add(category);
         });
@@ -171,7 +177,6 @@ public class EncounterMapper {
             addLinkSetEntry(component.getLinkSet(), entryReferences);
             addObservationStatementEntry(component.getObservationStatement(), entryReferences, null);
             addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
-            entryReferences.forEach(reference -> addEntry(topic, reference));
 
             /**
              * TODO: Additional References
@@ -186,7 +191,8 @@ public class EncounterMapper {
 
             addMappableResourcesFromCompoundStatement(component.getCompoundStatement(), topic, entryReferences);
         });
-        var x = 1;
+
+        entryReferences.forEach(reference -> addEntry(topic, reference));
     }
 
     private void addMappableResourcesFromCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement, ListResource list,
@@ -204,12 +210,9 @@ public class EncounterMapper {
                 addPlanStatementEntry(component.getPlanStatement(), entryReferences);
                 addRequestStatementEntry(component.getRequestStatement(), entryReferences);
                 addLinkSetEntry(component.getLinkSet(), entryReferences);
-
                 addMappableResourcesFromCompoundStatement(component.getCompoundStatement(), list, entryReferences);
-                entryReferences.forEach(reference -> addEntry(list, reference));
             });
         }
-        var x = 1;
     }
 
     private boolean noPriorBloodPressureMapping(RCMRMT030101UK04CompoundStatement compoundStatement, List<String> entryReferences) {
