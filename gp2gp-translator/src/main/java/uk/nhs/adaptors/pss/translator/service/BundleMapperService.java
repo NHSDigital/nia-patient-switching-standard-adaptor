@@ -96,7 +96,7 @@ public class BundleMapperService {
         var procedureRequests = mapProcedureRequests(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, procedureRequests);
 
-        var referralRequests = mapReferralRequests(ehrFolder, patient, encounters, practiseCode);
+        var referralRequests = mapReferralRequests(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, referralRequests);
 
         var medicationResources = medicationRequestMapper.mapResources(ehrExtract, encounters, patient, practiseCode);
@@ -154,27 +154,14 @@ public class BundleMapperService {
         return patientMapper.mapToPatient(xmlPatient, organization);
     }
 
-    private List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrFolder ehrFolder, Patient patient, List<Encounter> encounters,
+    private List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        return ehrFolder.getComponent()
-            .stream()
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .flatMap(ehrComposition -> ehrComposition.getComponent().stream()
-                .filter(component4 -> component4.getRequestStatement() != null)
-                .map(component4 -> referralRequestMapper.mapToReferralRequest(ehrComposition, component4.getRequestStatement(), patient,
-                    encounters, practiseCode)))
-            .toList();
+        return referralRequestMapper.mapReferralRequests(ehrExtract, patient, encounters, practiseCode);
     }
 
     private List<ProcedureRequest> mapProcedureRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
         List<Encounter> encounters, String practiseCode) {
-        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
-            .stream()
-            .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
-            .filter(component4 -> component4.getPlanStatement() != null)
-            .map(component4 -> procedureRequestMapper.mapToProcedureRequest(ehrExtract, component4.getPlanStatement(), patient,
-                encounters, practiseCode))
-            .toList();
+        return procedureRequestMapper.mapProcedureRequests(ehrExtract, patient, encounters, practiseCode);
     }
 
     private List<Observation> mapObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,

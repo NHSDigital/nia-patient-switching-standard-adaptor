@@ -11,7 +11,6 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
  * &lt;p&gt;Java class for RCMR_MT030101UK04.Component4 complex type.
  * 
@@ -121,6 +120,10 @@ public class RCMRMT030101UK04Component4 {
      */
     public void setCompoundStatement(RCMRMT030101UK04CompoundStatement value) {
         this.compoundStatement = value;
+    }
+
+    public boolean hasCompoundStatement() {
+        return compoundStatement != null;
     }
 
     /**

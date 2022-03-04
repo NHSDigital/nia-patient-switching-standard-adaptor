@@ -169,6 +169,10 @@ public class RCMRMT030101UK04CompoundStatement {
         this.code = value;
     }
 
+    public boolean hasCode() {
+        return code != null;
+    }
+
     /**
      * Gets the value of the statusCode property.
      * 

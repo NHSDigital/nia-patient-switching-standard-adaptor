@@ -180,6 +180,10 @@ public class RCMRMT030101UK04Component02 {
         this.compoundStatement = value;
     }
 
+    public boolean hasCompoundStatement() {
+        return compoundStatement != null;
+    }
+
     /**
      * Gets the value of the ehrEmpty property.
      * 
@@ -202,6 +206,10 @@ public class RCMRMT030101UK04Component02 {
      */
     public void setEhrEmpty(RCMRMT030101UK04EhrEmpty value) {
         this.ehrEmpty = value;
+    }
+
+    public boolean hasEhrEmpty() {
+        return ehrEmpty != null;
     }
 
     /**
@@ -228,6 +236,10 @@ public class RCMRMT030101UK04Component02 {
         this.linkSet = value;
     }
 
+    public boolean hasLinkSet() {
+        return linkSet != null;
+    }
+
     /**
      * Gets the value of the medicationStatement property.
      * 
@@ -250,6 +262,10 @@ public class RCMRMT030101UK04Component02 {
      */
     public void setMedicationStatement(RCMRMT030101UK04MedicationStatement value) {
         this.medicationStatement = value;
+    }
+
+    public boolean hasMedicationStatement() {
+        return medicationStatement != null;
     }
 
     /**
@@ -276,6 +292,10 @@ public class RCMRMT030101UK04Component02 {
         this.narrativeStatement = value;
     }
 
+    public boolean hasNarrativeStatement() {
+        return narrativeStatement != null;
+    }
+
     /**
      * Gets the value of the observationStatement property.
      * 
@@ -298,6 +318,10 @@ public class RCMRMT030101UK04Component02 {
      */
     public void setObservationStatement(RCMRMT030101UK04ObservationStatement value) {
         this.observationStatement = value;
+    }
+
+    public boolean hasObservationStatement() {
+        return observationStatement != null;
     }
 
     /**
@@ -324,6 +348,10 @@ public class RCMRMT030101UK04Component02 {
         this.planStatement = value;
     }
 
+    public boolean hasPlanStatement() {
+        return planStatement != null;
+    }
+
     /**
      * Gets the value of the registrationStatement property.
      * 
@@ -348,6 +376,9 @@ public class RCMRMT030101UK04Component02 {
         this.registrationStatement = value;
     }
 
+    public boolean hasRegistrationStatement() {
+        return registrationStatement != null;
+    }
     /**
      * Gets the value of the requestStatement property.
      * 
@@ -370,6 +401,10 @@ public class RCMRMT030101UK04Component02 {
      */
     public void setRequestStatement(RCMRMT030101UK04RequestStatement value) {
         this.requestStatement = value;
+    }
+
+    public boolean hasRequestStatement() {
+        return requestStatement != null;
     }
 
     /**
