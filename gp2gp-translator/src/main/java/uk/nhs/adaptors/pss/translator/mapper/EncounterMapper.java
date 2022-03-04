@@ -74,6 +74,8 @@ public class EncounterMapper {
     private static final String OBSERVATION_REFERENCE = "Observation/%s";
     private static final String DOCUMENT_REFERENCE_REFERENCE = "DocumentReference/%s";
     private static final String IMMUNIZATION_REFERENCE = "Immunization/%s";
+    private static final String MEDICATION_STATEMENT_REFERENCE = "MedicationStatement/%s-MS";
+    private static final String MEDICATION_REQUEST_REFERENCE = "MedicationRequest/%s";
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final ConsultationListMapper consultationListMapper;
@@ -178,7 +180,7 @@ public class EncounterMapper {
             addLinkSetEntry(component.getLinkSet(), entryReferences);
             addObservationStatementEntry(component.getObservationStatement(), entryReferences, null);
             addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
-            addMedicationEntry(component.getMedicationStatement());
+            addMedicationEntry(component.getMedicationStatement(), entryReferences);
 
             /**
              * TODO: Additional References
@@ -212,6 +214,8 @@ public class EncounterMapper {
                 addPlanStatementEntry(component.getPlanStatement(), entryReferences);
                 addRequestStatementEntry(component.getRequestStatement(), entryReferences);
                 addLinkSetEntry(component.getLinkSet(), entryReferences);
+                addMedicationEntry(component.getMedicationStatement(), entryReferences);
+
                 addMappableResourcesFromCompoundStatement(component.getCompoundStatement(), list, entryReferences);
             });
         }
@@ -236,7 +240,18 @@ public class EncounterMapper {
         }
     }
 
-    private void addMedicationEntry(RCMRMT030101UK04MedicationStatement medicationStatement) {
+    private void addMedicationEntry(RCMRMT030101UK04MedicationStatement medicationStatement, List<String> entryReferences) {
+        if (medicationStatement != null) {
+            medicationStatement.getComponent().forEach(component -> {
+                if (component.hasEhrSupplyAuthorise()) {
+                    var id = component.getEhrSupplyAuthorise().getId().getRoot();
+                    entryReferences.add(MEDICATION_STATEMENT_REFERENCE.formatted(id));
+                    entryReferences.add(MEDICATION_REQUEST_REFERENCE.formatted(id));
+                } else if (component.hasEhrSupplyPrescribe()) {
+                    entryReferences.add(MEDICATION_REQUEST_REFERENCE.formatted(component.getEhrSupplyPrescribe().getId().getRoot()));
+                }
+            });
+        }
 
     }
 
