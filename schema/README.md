@@ -67,6 +67,7 @@ Please make sure you don't override the following classes with the generated one
 - ANY.java
 - IVLPQ.java
 - RCMRMT030101UK04ObservationStatement.java
+- RCMRMT030101UK04CompoundStatement.java
 - PQInc.java
 - RCMRMT030101UK04Annotation.java
 - RCMRMT030101UK04EhrComposition.java
@@ -78,6 +79,7 @@ Please make sure you don't override the following classes with the generated one
 - RCMRMT030101UK04Author.java
 - RCMRMT030101UK04Authorise.java
 - RCMRMT030101UK04Component2.java
+- RCMRMT030101UK04Component02.java
 - RCMRMT030101UK04Component4.java
 - RCMRMT030101UK04Consumable.java
 - RCMRMT030101UK04Discontinue.java
