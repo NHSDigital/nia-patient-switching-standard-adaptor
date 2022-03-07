@@ -81,7 +81,7 @@ public class ObservationCommentMapperTest {
     public void mapDiagnosticReportChildObservations() {
         var ehrExtract = unmarshallEhrExtract("multiple_narrative_statements.xml");
         var narrativeStatements = new ArrayList<RCMRMT030101UK04NarrativeStatement>();
-        observationCommentMapper.mapDiagnosticChildObservations(narrativeStatements, ehrExtract, patient, List.of());
+        observationCommentMapper.mapDiagnosticChildObservations(narrativeStatements, ehrExtract, patient, List.of(), PRACTISE_CODE);
         //TODO: Add more logic here
     }
 

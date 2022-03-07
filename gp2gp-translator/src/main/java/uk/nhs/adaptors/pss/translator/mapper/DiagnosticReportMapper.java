@@ -159,6 +159,10 @@ public class DiagnosticReportMapper {
         return specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient);
     }
 
+    public void addSpecimenChildObservationReferences(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observations, List<Observation> observationComments, List<DiagnosticReport> diagnosticReports) {
+        specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments, diagnosticReports);
+    }
+
     private List<Reference> getSpecimenReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent()
             .stream()

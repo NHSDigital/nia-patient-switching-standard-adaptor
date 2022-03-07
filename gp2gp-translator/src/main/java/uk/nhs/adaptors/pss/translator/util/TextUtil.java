@@ -11,4 +11,8 @@ public class TextUtil {
             ? text : deleteWhitespace(text.substring(text.lastIndexOf(StringUtils.LF)));
     }
 
+    public static String addLine(String text, String line) {
+        return text.concat(StringUtils.LF).concat(line);
+    }
+
 }

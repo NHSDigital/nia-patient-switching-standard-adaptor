@@ -2,11 +2,13 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.addLine;
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
 
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -34,6 +36,12 @@ public class TextUtilTest {
     public void testGettingOneLiner(String input, String expected) {
         String line = getLastLine(input);
         assertThat(line).isEqualTo(expected);
+    }
+
+    @Test
+    public void testAddingLine() {
+        String shouldBeFourLiner = addLine(THREE_LINER, "FOURTH_LINE");
+        assertThat(shouldBeFourLiner.split(StringUtils.LF).length).isEqualTo(4);
     }
 
     private static Stream<Arguments> testInputs() {
