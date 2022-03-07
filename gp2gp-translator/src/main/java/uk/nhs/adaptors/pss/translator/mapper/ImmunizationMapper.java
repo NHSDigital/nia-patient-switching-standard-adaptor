@@ -119,7 +119,7 @@ public class ImmunizationMapper {
             .stream()
             .flatMap(this::extractAllObservationStatements)
             .filter(Objects::nonNull)
-            .filter(ResourceFilterUtil::hasImmunizationCode)
+            .filter(ResourceFilterUtil::isImmunization)
             .collect(Collectors.toList());
     }
 
