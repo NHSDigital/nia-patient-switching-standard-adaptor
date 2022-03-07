@@ -94,7 +94,7 @@ public class MedicationRequestOrderMapperTest {
 
         medicationRequest
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1")
-            .forEach(extension -> assertPrescriptionType(extension, "Acute"));
+            .forEach(extension -> assertPrescriptionType(extension, "Repeat"));
         assertThat(medicationRequest.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
         assertThat(medicationRequest.getNote().size()).isEqualTo(1);
         assertThat(medicationRequest.getDosageInstructionFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);

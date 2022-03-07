@@ -12,12 +12,12 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
@@ -83,7 +83,7 @@ public class MedicationRequestPlanMapper {
 
             List<Extension> repeatInformationExtensions = new ArrayList<>();
             extractSupplyAuthoriseRepeatInformation(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
-            extractRepeatInformationIssued(medicationStatement, supplyAuthorise).ifPresent(repeatInformationExtensions::add);
+            extractRepeatInformationIssued(ehrExtract, supplyAuthorise, ehrSupplyAuthoriseId).ifPresent(repeatInformationExtensions::add);
 
             buildCondensedExtensions(REPEAT_INFORMATION_URL, repeatInformationExtensions)
                 .ifPresent(medicationRequest::addExtension);
@@ -141,14 +141,24 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private Optional<Extension> extractRepeatInformationIssued(RCMRMT030101UK04MedicationStatement medicationStatement,
-        RCMRMT030101UK04Authorise supplyAuthorise) {
+    private Optional<Extension> extractRepeatInformationIssued(RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UK04Authorise supplyAuthorise, String supplyAuthoriseId) {
 
         if ((supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() != 0)
             || !supplyAuthorise.hasRepeatNumber()) {
-            var repeatCount = medicationStatement.getComponent()
-                .stream()
-                .filter(this::hasInFulfillmentOfReference)
+
+            var repeatCount = ehrExtract.getComponent().stream()
+                .map(RCMRMT030101UK04Component::getEhrFolder)
+                .map(RCMRMT030101UK04EhrFolder::getComponent)
+                .flatMap(List::stream)
+                .map(RCMRMT030101UK04Component3::getEhrComposition)
+                .map(RCMRMT030101UK04EhrComposition::getComponent)
+                .flatMap(List::stream)
+                .flatMap(MedicationMapperUtils::extractAllMedications)
+                .filter(Objects::nonNull)
+                .map(RCMRMT030101UK04MedicationStatement::getComponent)
+                .flatMap(List::stream)
+                .filter(prescribe -> hasInFulfillmentOfReference(prescribe, supplyAuthoriseId))
                 .count();
 
             return Optional.of(
@@ -182,10 +192,13 @@ public class MedicationRequestPlanMapper {
     }
 
     private Optional<Reference> extractPriorPrescription(RCMRMT030101UK04Authorise supplyAuthorise) {
-        if (supplyAuthorise.hasId() && supplyAuthorise.getId().hasRoot()) {
+        if (supplyAuthorise.hasPredecessor() && supplyAuthorise.getPredecessorFirstRep().hasPriorMedicationRef()
+            && supplyAuthorise.getPredecessorFirstRep().getPriorMedicationRef().hasId()
+            && supplyAuthorise.getPredecessorFirstRep().getPriorMedicationRef().getId().hasRoot()) {
             return Optional.of(new Reference(
-                new IdType(ResourceType.MedicationRequest.name(), supplyAuthorise.getId().getRoot())
-            ));
+                new IdType(ResourceType.MedicationRequest.name(),
+                    supplyAuthorise.getPredecessorFirstRep().getPriorMedicationRef().getId().getRoot()
+            )));
         }
         return Optional.empty();
     }
@@ -209,7 +222,7 @@ public class MedicationRequestPlanMapper {
         }
 
         var period = buildDispenseRequestPeriodEnd(supplyAuthorise, medicationStatement);
-        extractDispenseRequestPeriodStart(supplyAuthorise).ifPresent(period::setStartElement);
+        MedicationMapperUtils.extractDispenseRequestPeriodStart(supplyAuthorise).ifPresent(period::setStartElement);
 
         return dispenseRequest.setValidityPeriod(period);
     }
@@ -225,21 +238,6 @@ public class MedicationRequestPlanMapper {
                 DateFormatUtil.parseToDateTimeType(medicationStatement.getEffectiveTime().getHigh().getValue()));
         }
         return new Period();
-    }
-
-    private Optional<DateTimeType> extractDispenseRequestPeriodStart(RCMRMT030101UK04Authorise supplyAuthorise) {
-        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasCenter()
-            && !supplyAuthorise.getEffectiveTime().getCenter().hasNullFlavor()) {
-            return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getCenter().getValue()));
-        }
-        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasLow()
-            && !supplyAuthorise.getEffectiveTime().getLow().hasNullFlavor()) {
-            return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getLow().getValue()));
-        }
-        if (supplyAuthorise.hasAvailabilityTime()) {
-            return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getAvailabilityTime().getValue()));
-        }
-        return Optional.empty();
     }
 
     private Optional<Extension> buildCondensedExtensions(String url, List<Extension> extensionList) {
@@ -282,11 +280,13 @@ public class MedicationRequestPlanMapper {
             .anyMatch(supplyAuthoriseId::equals);
     }
 
-    private boolean hasInFulfillmentOfReference(RCMRMT030101UK04Component2 component) {
+    private boolean hasInFulfillmentOfReference(RCMRMT030101UK04Component2 component, String id) {
         return component.hasEhrSupplyPrescribe()
             && component.getEhrSupplyPrescribe().hasInFulfillmentOf()
             && component.getEhrSupplyPrescribe().getInFulfillmentOf().hasPriorMedicationRef()
-            && component.getEhrSupplyPrescribe().getInFulfillmentOf().getPriorMedicationRef().hasId();
+            && component.getEhrSupplyPrescribe().getInFulfillmentOf().getPriorMedicationRef().hasId()
+            && component.getEhrSupplyPrescribe().getInFulfillmentOf().getPriorMedicationRef().getId().hasRoot()
+            && component.getEhrSupplyPrescribe().getInFulfillmentOf().getPriorMedicationRef().getId().getRoot().equals(id);
     }
 
     private boolean hasAvailability(RCMRMT030101UK04Discontinue discontinue) {

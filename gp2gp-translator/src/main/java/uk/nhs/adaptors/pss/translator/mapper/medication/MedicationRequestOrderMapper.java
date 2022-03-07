@@ -51,7 +51,6 @@ public class MedicationRequestOrderMapper {
             medicationRequest.setStatus(COMPLETED);
             medicationRequest.setIntent(ORDER);
 
-            medicationRequest.addBasedOn(buildMedicationRequestReference(ehrSupplyPrescribeId));
             medicationRequest.addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()));
             medicationRequest.setDispenseRequest(buildDispenseRequestForPrescribe(supplyPrescribe));
 
@@ -60,6 +59,7 @@ public class MedicationRequestOrderMapper {
             inFulfillmentOfId.ifPresent(inFulfillmentId -> {
                 var supplyAuthorise = extractSupplyAuthorise(medicationStatement, inFulfillmentId);
                 buildPrescriptionTypeExtension(supplyAuthorise).ifPresent(medicationRequest::addExtension);
+                medicationRequest.addBasedOn(buildMedicationRequestReference(inFulfillmentId));
             });
 
             return medicationRequest;
