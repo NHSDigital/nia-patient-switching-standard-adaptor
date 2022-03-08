@@ -363,8 +363,7 @@ public class EncounterMapper {
     }
 
     private boolean noPriorBloodPressureMapping(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
-        return compoundStatement == null ||
-            entryReferences.stream()
+        return compoundStatement == null || entryReferences.stream()
                 .map(Reference::getReference)
                 .noneMatch(reference -> reference.contains(compoundStatement.getId().get(0).getRoot()));
     }

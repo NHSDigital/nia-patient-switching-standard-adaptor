@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
