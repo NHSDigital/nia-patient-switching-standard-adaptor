@@ -99,7 +99,7 @@ public class DiagnosticReportMapper {
          * Fixed value
          */
 
-        diagnosticReport.setSubject(createPatientReference(patient));
+        diagnosticReport.setSubject(new Reference(patient));
         /**
          * Reference to global patient resource generated for transaction.
          */
@@ -188,10 +188,6 @@ public class DiagnosticReportMapper {
         return observationComments.stream()
             .filter(observationComment -> id.equals(observationComment.getId()))
             .findFirst();
-    }
-
-    private Reference createPatientReference(Patient patient) {
-        return new Reference(patient);
     }
 
     private Optional<Identifier> createIdentifierExtension(List<II> id) {
