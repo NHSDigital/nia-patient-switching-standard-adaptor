@@ -81,14 +81,7 @@ public class BundleMapperService {
         addEntries(bundle, agents);
 
         var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, practiseCode);
-        var encounters = (List<Encounter>) mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
-        var consultations = (List<ListResource>) mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
-        var topics = (List<ListResource>) mappedEncounterEhrCompositions.get(TOPIC_KEY);
-        var categories = (List<ListResource>) mappedEncounterEhrCompositions.get(CATEGORY_KEY);
-        addEntries(bundle, encounters);
-        addEntries(bundle, consultations);
-        addEntries(bundle, topics);
-        addEntries(bundle, categories);
+        var encounters = handleMappedEncounterResources(mappedEncounterEhrCompositions, bundle);
 
         var locations = mapLocations(ehrFolder, practiseCode);
         addEntries(bundle, locations);
@@ -124,6 +117,21 @@ public class BundleMapperService {
         unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
 
         return bundle;
+    }
+
+    private List<Encounter> handleMappedEncounterResources(Map<String, List<? extends DomainResource>> mappedEncounterEhrCompositions,
+        Bundle bundle) {
+        var encounters = (List<Encounter>) mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
+        var consultations = (List<ListResource>) mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
+        var topics = (List<ListResource>) mappedEncounterEhrCompositions.get(TOPIC_KEY);
+        var categories = (List<ListResource>) mappedEncounterEhrCompositions.get(CATEGORY_KEY);
+
+        addEntries(bundle, encounters);
+        addEntries(bundle, consultations);
+        addEntries(bundle, topics);
+        addEntries(bundle, categories);
+
+        return encounters;
     }
 
     private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
