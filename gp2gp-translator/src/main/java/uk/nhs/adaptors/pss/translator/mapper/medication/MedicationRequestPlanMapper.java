@@ -188,6 +188,12 @@ public class MedicationRequestPlanMapper {
                 statusReasonStringBuilder.append(text)
                     .append(StringUtils.SPACE);
             });
+
+        if (discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasNullFlavor()
+        && discontinue.getAvailabilityTime().getNullFlavor().value().equals("UNK")) {
+            statusReasonStringBuilder.append("Unknown date");
+        }
+
         return statusReasonStringBuilder.toString();
     }
 
@@ -198,7 +204,7 @@ public class MedicationRequestPlanMapper {
             return Optional.of(new Reference(
                 new IdType(ResourceType.MedicationRequest.name(),
                     supplyAuthorise.getPredecessorFirstRep().getPriorMedicationRef().getId().getRoot()
-            )));
+                )));
         }
         return Optional.empty();
     }
@@ -248,13 +254,11 @@ public class MedicationRequestPlanMapper {
     }
 
     private Extension buildStatusChangeDateExtension(RCMRMT030101UK04Discontinue discontinue) {
-        Extension extension = new Extension(STATUS_CHANGE_DATE_URL);
-        if (hasAvailability(discontinue)) {
-            extension.setValue(DateFormatUtil.parseToDateTimeType(discontinue.getAvailabilityTime().getValue()));
-        } else {
-            extension.setValue(new StringType("Unknown Date"));
+        if (discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasValue()) {
+            return new Extension(STATUS_CHANGE_DATE_URL,
+                DateFormatUtil.parseToDateTimeType(discontinue.getAvailabilityTime().getValue()));
         }
-        return extension;
+        return null;
     }
 
     private Extension buildStatusReasonCodeableConceptExtension(String statusReason) {
@@ -287,9 +291,5 @@ public class MedicationRequestPlanMapper {
             && component.getEhrSupplyPrescribe().getInFulfillmentOf().getPriorMedicationRef().hasId()
             && component.getEhrSupplyPrescribe().getInFulfillmentOf().getPriorMedicationRef().getId().hasRoot()
             && component.getEhrSupplyPrescribe().getInFulfillmentOf().getPriorMedicationRef().getId().getRoot().equals(id);
-    }
-
-    private boolean hasAvailability(RCMRMT030101UK04Discontinue discontinue) {
-        return discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasValue();
     }
 }
