@@ -176,7 +176,7 @@ public class ImmunizationMapper {
 
             if (effectiveTime.hasHigh() && !effectiveTime.hasCenter()) {
                 immunization.addNote(buildAnnotation(END_DATE_PREFIX
-                    + DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue())));
+                    + DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()).asStringValue()));
             }
 
             if (effectiveTime.hasCenter()) {
