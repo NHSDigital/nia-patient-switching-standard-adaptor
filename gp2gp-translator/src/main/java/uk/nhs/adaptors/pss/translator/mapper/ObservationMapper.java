@@ -29,7 +29,6 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
-import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
@@ -133,18 +132,6 @@ public class ObservationMapper {
             return !ALLERGY_SNOMED_CODE.equals(compoundStatement.getCode().getCodeSystem());
         }
         return true;
-    }
-
-    private II getEhrCompositionId(List<RCMRMT030101UK04EhrComposition> ehrCompositions,
-        RCMRMT030101UK04ObservationStatement observationStatement) {
-        return ehrCompositions
-            .stream()
-            .filter(e -> e.getComponent()
-                .stream()
-                .anyMatch(f -> observationStatement.equals(f.getObservationStatement()))
-            ).findFirst()
-            .map(RCMRMT030101UK04EhrComposition::getId)
-            .orElse(null);
     }
 
     private void addContext(Observation observation, Reference context) {

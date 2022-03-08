@@ -70,24 +70,19 @@ public class ObservationCommentMapper {
                         DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue())
                     );
 
-                    observation.setPerformer(
-                        Collections.singletonList(createPerformer(ehrComposition, narrativeStatement))
-                    );
+                    observation.addPerformer(createPerformer(ehrComposition, narrativeStatement));
 
-                    observation.setIdentifier(
-                        Collections.singletonList(buildIdentifier(narrativeStatementId.getRoot(), practiseCode))
-                    );
+                    observation.addIdentifier(buildIdentifier(narrativeStatementId.getRoot(), practiseCode));
 
                     setObservationComment(observation, narrativeStatement.getText());
 
                     // Context may not always be mapped
-                    setObservationContext(observation, ehrComposition, narrativeStatementId, encounters);
+                    setObservationContext(observation, ehrComposition, encounters);
                     return observation;
                 })).toList();
     }
 
-    private void setObservationContext(Observation observation, RCMRMT030101UK04EhrComposition composition,
-        II narrativeStatementId, List<Encounter> encounters) {
+    private void setObservationContext(Observation observation, RCMRMT030101UK04EhrComposition composition, List<Encounter> encounters) {
 
         encounters
             .stream()
