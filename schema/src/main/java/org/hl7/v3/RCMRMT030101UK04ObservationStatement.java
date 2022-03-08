@@ -176,6 +176,10 @@ public class RCMRMT030101UK04ObservationStatement {
         this.code = value;
     }
 
+    public boolean hasCode() {
+        return code != null;
+    }
+
     /**
      * Gets the value of the statusCode property.
      *
@@ -302,6 +306,10 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public void setUncertaintyCode(CV value) {
         this.uncertaintyCode = value;
+    }
+
+    public boolean hasUncertaintyCode() {
+        return uncertaintyCode != null;
     }
     /**
      * Gets the value of the interpretationCode property.
@@ -786,5 +794,9 @@ public class RCMRMT030101UK04ObservationStatement {
 
     public void setValue(Object value) {
         this.value = value;
+    }
+
+    public boolean hasValue() {
+        return value != null;
     }
 }

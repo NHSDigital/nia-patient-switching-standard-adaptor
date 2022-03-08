@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -44,6 +45,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 
 @Service
 @AllArgsConstructor
@@ -63,7 +65,7 @@ public class BloodPressureMapper {
         return compositionsList.stream()
             .map(RCMRMT030101UK04EhrComposition::getComponent)
             .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component4::getCompoundStatement)
+            .flatMap(this::extractAllCompoundStatements)
             .filter(Objects::nonNull)
             .filter(compoundStatement -> BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0))
                 && containsValidBloodPressureTriple(compoundStatement))
@@ -95,6 +97,18 @@ public class BloodPressureMapper {
 
                 return observation;
             }).toList();
+    }
+
+    private Stream<RCMRMT030101UK04CompoundStatement> extractAllCompoundStatements(RCMRMT030101UK04Component4 component4) {
+        return Stream.concat(
+            Stream.of(component4.getCompoundStatement()),
+            component4.hasCompoundStatement()
+                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
+                    RCMRMT030101UK04Component02::hasCompoundStatement, RCMRMT030101UK04Component02::getCompoundStatement)
+                .stream()
+                .map(RCMRMT030101UK04CompoundStatement.class::cast)
+                : Stream.empty()
+        );
     }
 
     private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {

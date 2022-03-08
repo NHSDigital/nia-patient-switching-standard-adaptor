@@ -88,6 +88,7 @@ public class ObjectFactory {
     private final static QName _EHR_SUPPLY_AUTHORISE = new QName("urn:hl7-org:v3", "ehrSupplyAuthorise");
     private final static QName _MEDICATION_STATEMENT = new QName("urn:hl7-org:v3", "MedicationStatement");
     private final static QName _CONSUMABLE = new QName("urn:hl7-org:v3", "Consumable");
+    private final static QName _COMPOUND_STATEMENT = new QName("urn:hl7-org:v3", "CompoundStatement");
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
      * 
@@ -3547,5 +3548,10 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "consumable")
     public JAXBElement<RCMRMT030101UK04Consumable> createConsumable(RCMRMT030101UK04Consumable consumable) {
         return new JAXBElement<RCMRMT030101UK04Consumable>(_CONSUMABLE, RCMRMT030101UK04Consumable.class, null, consumable);
+    }
+
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "CompoundStatement")
+    public JAXBElement<RCMRMT030101UK04CompoundStatement> createConsumable(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return new JAXBElement<RCMRMT030101UK04CompoundStatement>(_COMPOUND_STATEMENT, RCMRMT030101UK04CompoundStatement.class, null, compoundStatement);
     }
 }

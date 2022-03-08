@@ -107,7 +107,7 @@ public class EhrResourceExtractorUtil {
             .filter(EhrResourceExtractorUtil::filterForValidNarrativeStatement)
             .toList();
     }
-
+  
     private static boolean filterForMatchingEhrCompositionPlanStatement(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
         return ehrComposition.getComponent()
             .stream()

@@ -21,12 +21,9 @@ import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04Location;
 import org.hl7.v3.RCMRMT030101UK04Patient;
-import org.hl7.v3.RCMRMT030101UK04PlanStatement;
-import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -122,16 +119,14 @@ public class BundleMapperServiceTest {
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
         verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), any(String.class), any(String.class));
         verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class));
-        verify(procedureRequestMapper).mapToProcedureRequest(
+        verify(procedureRequestMapper).mapProcedureRequests(
             any(RCMRMT030101UK04EhrExtract.class),
-            any(RCMRMT030101UK04PlanStatement.class),
             any(Patient.class),
             anyList(),
             any(String.class)
         );
-        verify(referralRequestMapper).mapToReferralRequest(
-            any(RCMRMT030101UK04EhrComposition.class),
-            any(RCMRMT030101UK04RequestStatement.class),
+        verify(referralRequestMapper).mapReferralRequests(
+            any(RCMRMT030101UK04EhrExtract.class),
             any(Patient.class),
             anyList(),
             any(String.class)
