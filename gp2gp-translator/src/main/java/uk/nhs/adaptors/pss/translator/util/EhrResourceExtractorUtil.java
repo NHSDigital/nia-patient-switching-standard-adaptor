@@ -1,11 +1,9 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -80,38 +78,6 @@ public class EhrResourceExtractorUtil {
 
     public static boolean hasEhrFolder(RCMRMT030101UK04Component component) {
         return component.getEhrFolder() != null;
-    }
-
-    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForNarrativeStatement(RCMRMT030101UK04EhrExtract ehrExtract,
-        II resourceId) {
-        return ehrExtract.getComponent()
-            .stream()
-            .filter(EhrResourceExtractorUtil::hasEhrFolder)
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .filter(EhrResourceExtractorUtil::hasEhrComposition)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> filterForMatchingEhrCompositionNarrativeStatement(ehrComposition, resourceId))
-            .findFirst()
-            .get();
-    }
-
-    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForCompoundNarrativeStatement(RCMRMT030101UK04EhrExtract ehrExtract,
-        II resourceId) {
-        return ehrExtract.getComponent()
-            .stream()
-            .flatMap(component -> component.getEhrFolder().getComponent().stream())
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> ehrComposition.getComponent()
-                .stream()
-                .map(RCMRMT030101UK04Component4::getCompoundStatement)
-                .filter(Objects::nonNull)
-                .flatMap(compoundStatement -> compoundStatement.getComponent().stream())
-                .map(RCMRMT030101UK04Component02::getNarrativeStatement)
-                .filter(Objects::nonNull)
-                .anyMatch(narrativeStatement -> resourceId.equals(narrativeStatement.getId()))
-            ).findFirst().get();
     }
 
     private static boolean filterForMatchingEhrCompositionPlanStatement(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
