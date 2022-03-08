@@ -36,7 +36,8 @@ public class SpecimenMapper {
 
     private final DateTimeMapper dateTimeMapper;
 
-    public List<Specimen> mapSpecimen(RCMRMT030101UK04EhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports, Patient patient) {
+    public List<Specimen> mapSpecimen(RCMRMT030101UK04EhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports,
+        Patient patient, String practiceCode) {
         return diagnosticReports.stream()
             .flatMap(diagnosticReport -> diagnosticReport.getSpecimen().stream())
             .map(Reference::getReference)
@@ -46,16 +47,16 @@ public class SpecimenMapper {
             .map(RCMRMT030101UK04Component02::getCompoundStatement)
             .filter(Objects::nonNull)
             .distinct()
-            .map(childCompoundStatement -> createSpecimen(childCompoundStatement, patient))
+            .map(childCompoundStatement -> createSpecimen(childCompoundStatement, patient, practiceCode))
             .toList();
     }
 
-    private Specimen createSpecimen(RCMRMT030101UK04CompoundStatement specimenCompoundStatement, Patient patient) {
+    private Specimen createSpecimen(RCMRMT030101UK04CompoundStatement specimenCompoundStatement, Patient patient, String practiceCode) {
         Specimen specimen = new Specimen();
         final String id = specimenCompoundStatement.getId().get(0).getRoot();
         specimen.setId(id);
         specimen.setMeta(generateMeta(SPECIMEN_META_PROFILE_SUFFIX));
-        specimen.addIdentifier(buildIdentifier(id, "UNKNOWN")); //TODO: Add practice code
+        specimen.addIdentifier(buildIdentifier(id, practiceCode));
         specimen.setSubject(new Reference(patient));
         specimen.setNote(getNote(specimenCompoundStatement));
         getAccessionIdentifier(specimenCompoundStatement).ifPresent(specimen::setAccessionIdentifier);
@@ -100,10 +101,11 @@ public class SpecimenMapper {
     private Optional<CodeableConcept> getType(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {
         var specimenRoleOpt = getSpecimenRole(specimenCompoundStatement);
         if (specimenRoleOpt.isPresent()) {
-            var descOpt = Optional.ofNullable(
-                specimenRoleOpt.get().getSpecimenSpecimenMaterial().getDesc());
-            if (descOpt.isPresent()) {
-                return Optional.of(new CodeableConcept().setText(descOpt.get()));
+            var specimenMaterialOpt = Optional.ofNullable(specimenRoleOpt.get().getSpecimenSpecimenMaterial());
+            if (specimenMaterialOpt.isPresent()) {
+                if (specimenMaterialOpt.get().getDesc() != null) {
+                    return Optional.of(new CodeableConcept().setText(specimenMaterialOpt.get().getDesc()));
+                }
             }
         }
         return Optional.empty();
@@ -114,17 +116,15 @@ public class SpecimenMapper {
         if (specimenRoleOpt.isPresent()) {
             var specimenIds = specimenRoleOpt.get().getId();
             if (specimenIds.size() > 1) {
-                return Optional.of(new Identifier().setValue(specimenIds.get(1).getRoot()));
+                return Optional.of(new Identifier().setValue(specimenIds.get(1).getExtension()));
             }
         }
         return Optional.empty();
     }
 
     private Optional<RCMRMT030101UK04SpecimenRole> getSpecimenRole(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {
-        if (!specimenCompoundStatement.getSpecimen().isEmpty()) {
-            return Optional.of(specimenCompoundStatement.getSpecimen().get(0).getSpecimenRole());
-        }
-        return Optional.empty();
+        return !specimenCompoundStatement.getSpecimen().isEmpty() ?
+            Optional.ofNullable(specimenCompoundStatement.getSpecimen().get(0).getSpecimenRole()) : Optional.empty();
     }
 
     private Optional<RCMRMT030101UK04CompoundStatement> getParentCompoundStatementByChildId(RCMRMT030101UK04EhrExtract ehrExtract, String id) {

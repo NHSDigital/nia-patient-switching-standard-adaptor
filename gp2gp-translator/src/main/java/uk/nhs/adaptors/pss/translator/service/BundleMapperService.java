@@ -7,7 +7,6 @@ import java.util.Map;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Immunization;
@@ -119,7 +118,7 @@ public class BundleMapperService {
             mapObservationComments(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, observationComments);
 
-        mapDiagnosticReports(bundle, ehrExtract, patient, encounters, practiseCode, observations, observationComments);
+        mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, practiseCode);
 
         // TODO: Add references to mapped resources in their appropriate lists (NIAD-2051)
         addEntries(bundle, topics);
@@ -133,15 +132,13 @@ public class BundleMapperService {
         return bundle;
     }
 
-    private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract,
-        Patient patient, List<Encounter> encounters, String practiseCode, List<Observation> observations, List<Observation> observationComments) {
-        var diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(ehrExtract, patient, encounters);
-        var childrenObservationComments = diagnosticReportMapper.mapChildrenObservationComments(
-            ehrExtract, patient, encounters, practiseCode);
-        var specimen = diagnosticReportMapper.mapSpecimen(ehrExtract, diagnosticReports, patient);
+    private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        List<Observation> observations, List<Observation> observationComments, String practiceCode) {
+        var diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(ehrExtract, patient, encounters, practiceCode);
+        var specimen = diagnosticReportMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
         addEntries(bundle, diagnosticReports);
-        addEntries(bundle, childrenObservationComments);
         addEntries(bundle, specimen);
+        diagnosticReportMapper.mapChildrenObservationComments(ehrExtract, observationComments);
         diagnosticReportMapper.addSpecimenChildObservationReferences(ehrExtract, observations, observationComments, diagnosticReports);
     }
 

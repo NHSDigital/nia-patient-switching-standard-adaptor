@@ -4,12 +4,11 @@ import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantT
 import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
@@ -47,18 +46,17 @@ public class DiagnosticReportMapper {
     private static final String SPECIMEN_CODE = "123038009";
 
     private final CodeableConceptMapper codeableConceptMapper;
-    private final ObservationCommentMapper observationCommentMapper;
     private final SpecimenMapper specimenMapper;
     private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
-    public List<DiagnosticReport> mapDiagnosticReports(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters) {
+    public List<DiagnosticReport> mapDiagnosticReports(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters, String practiceCode) {
         var compositions = getCompositionsContainingClusterCompoundStatement(ehrExtract);
         return compositions.stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
             .filter(Objects::nonNull)
             .map(compoundStatement -> {
-                DiagnosticReport diagnosticReport = createDiagnosticReport(compoundStatement, patient, compositions, encounters);
+                DiagnosticReport diagnosticReport = createDiagnosticReport(compoundStatement, patient, compositions, encounters, practiceCode);
                 getIssued(ehrExtract, compositions, compoundStatement).ifPresent(diagnosticReport::setIssuedElement);
                 return diagnosticReport;
             }).toList();
@@ -72,7 +70,7 @@ public class DiagnosticReportMapper {
     }
 
     private DiagnosticReport createDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient,
-        List<RCMRMT030101UK04EhrComposition> compositions, List<Encounter> encounters) {
+        List<RCMRMT030101UK04EhrComposition> compositions, List<Encounter> encounters, String practiceCode) {
         final DiagnosticReport diagnosticReport = new DiagnosticReport();
         final String id = compoundStatement.getId().get(0).getRoot();
 
@@ -84,7 +82,7 @@ public class DiagnosticReportMapper {
          * Note that pathology reports may have 2 id instances id[1] is the pathology report id
          */
 
-        diagnosticReport.addIdentifier(buildIdentifier(id, "UNKNOWN")); // TODO: set practice code (NIAD-2021)
+        diagnosticReport.addIdentifier(buildIdentifier(id, practiceCode));
         /**
          * From CompoundStatement/id[0[/@root.
          * Note that pathology reports may have 2 id instances id[1]  is the pathology report id
@@ -130,9 +128,8 @@ public class DiagnosticReportMapper {
         return diagnosticReport;
     }
 
-    public List<Observation> mapChildrenObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        List<Encounter> encounters, String practiseCode) {
-        var narrativeStatements = getCompositionsContainingClusterCompoundStatement(ehrExtract)
+    public void mapChildrenObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observationComments) {
+        getCompositionsContainingClusterCompoundStatement(ehrExtract)
             .stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
@@ -140,23 +137,28 @@ public class DiagnosticReportMapper {
             .flatMap(compoundStatement -> compoundStatement.getComponent().stream())
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
             .filter(Objects::nonNull)
-            .toList();
+            .map(narrativeStatement -> getObservationCommentById(observationComments, narrativeStatement.getId().getRoot()))
+            .flatMap(Optional::stream)
+            .forEach(observationComment -> {
+                observationComment.setEffective(null);
+                observationComment.setComment(getLastLine(observationComment.getComment()));
+            });
 
         /**
          * 2. Process all NarrativeStatement direct children of the laboratory level CompoundStatement into Observation (Comment) and
          * reference these from DiagnosticReport.results (See Report Level Comment to Observation (Comment) Map below)
          */
-        return observationCommentMapper.mapDiagnosticChildObservations(narrativeStatements, ehrExtract, patient, encounters, practiseCode);
     }
 
-    public List<Specimen> mapSpecimen(RCMRMT030101UK04EhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports, Patient patient) {
+    public List<Specimen> mapSpecimen(RCMRMT030101UK04EhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports,
+        Patient patient, String practiceCode) {
         /**
          * For each child CompoundStatement component coded as 123038009 perform the specimen mapping and insert a reference to the
          * generated specimen. AS we intend to re-use the specimen CompoundStatement/id[0] as the Specimen.id then each reference
          * will be just a reference to the specimen CompoundStatement/id[0].
          * There can of course be many specimens per report so this needs to iterate over every instance
          */
-        return specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient);
+        return specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
     }
 
     public void addSpecimenChildObservationReferences(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observations, List<Observation> observationComments, List<DiagnosticReport> diagnosticReports) {
@@ -180,6 +182,12 @@ public class DiagnosticReportMapper {
             .filter(Objects::nonNull)
             .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
             .toList();
+    }
+
+    private Optional<Observation> getObservationCommentById(List<Observation> observationComments, String id) {
+        return observationComments.stream()
+            .filter(observationComment -> id.equals(observationComment.getId()))
+            .findFirst();
     }
 
     private Reference createPatientReference(Patient patient) {

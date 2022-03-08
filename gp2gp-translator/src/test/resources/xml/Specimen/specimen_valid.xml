@@ -20,12 +20,12 @@
                                     <specimen typeCode="SPC">
                                         <specimenRole classCode="SPEC">
                                             <id root="SPECIMEN_ROLE_ID_1"/>
-                                            <id root="2.16.840.1.113883.2.1.4.5.2" extension="CH000056DN"/>
+                                            <id root="2.16.840.1.113883.2.1.4.5.2" extension="SPECIMEN_ROLE_ID_EXTENSION"/>
                                             <effectiveTime>
                                                 <center value="20100223000000"/>
                                             </effectiveTime>
                                             <specimenSpecimenMaterial determinerCode="INSTANCE" classCode="MAT">
-                                                <desc>URINE</desc>
+                                                <desc>EINE KLEINE</desc>
                                             </specimenSpecimenMaterial>
                                         </specimenRole>
                                     </specimen>
