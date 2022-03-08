@@ -4,7 +4,6 @@ import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIVE;
 
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
-import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ExtensionUtil.buildReferenceExtension;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
@@ -34,12 +33,14 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
+import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04Component6;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
@@ -73,18 +74,25 @@ public class ConditionMapper {
 
     public List<Condition> mapConditions(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        var compositionsContainingLinkSets = getCompositionsContainingLinkSets(ehrExtract);
-        return compositionsContainingLinkSets.stream()
-            .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
-            .flatMap(this::extractAllLinkSets)
-            .filter(Objects::nonNull)
-            .map(linkSet -> getCondition(
-                ehrExtract,
-                patient,
-                encounters,
-                compositionsContainingLinkSets,
-                linkSet,
-                practiseCode))
+        return ehrExtract.getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .flatMap(ehrComposition -> ehrComposition.getComponent()
+                .stream()
+                .flatMap(this::extractAllLinkSets)
+                .filter(Objects::nonNull)
+                .map(linkSet -> getCondition(
+                    ehrExtract,
+                    patient,
+                    encounters,
+                    ehrComposition,
+                    linkSet,
+                    practiseCode
+                ))
+            )
             .toList();
     }
 
@@ -101,8 +109,7 @@ public class ConditionMapper {
     }
 
     private Condition getCondition(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        List<RCMRMT030101UK04EhrComposition> compositionsContainingLinkSets, RCMRMT030101UK04LinkSet linkSet, String practiseCode) {
-        RCMRMT030101UK04EhrComposition currentComposition = getCurrentEhrComposition(compositionsContainingLinkSets, linkSet);
+        RCMRMT030101UK04EhrComposition composition, RCMRMT030101UK04LinkSet linkSet, String practiseCode) {
         String id = linkSet.getId().getRoot();
         Condition condition = (Condition) new Condition()
             .addIdentifier(buildIdentifier(id, practiseCode))
@@ -122,16 +129,16 @@ public class ConditionMapper {
         condition.addExtension(buildProblemSignificance(linkSet.getCode()));
         generateAnnotationToMinor(linkSet.getCode()).ifPresent(condition::addNote);
 
-        buildContext(compositionsContainingLinkSets, encounters, linkSet).ifPresent(condition::setContext);
+        buildContext(composition, encounters).ifPresent(condition::setContext);
 
         buildOnsetDateTimeType(linkSet).ifPresent(condition::setOnset);
         buildAbatementDateTimeType(linkSet.getEffectiveTime()).ifPresent(condition::setAbatement);
 
-        buildAssertedDateTimeType(currentComposition).ifPresentOrElse(
+        buildAssertedDateTimeType(composition).ifPresentOrElse(
             condition::setAssertedDateElement,
             () -> condition.setAssertedDateElement(parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue())));
 
-        currentComposition.getParticipant2()
+        composition.getParticipant2()
             .stream()
             .findFirst()
             .ifPresent(participant2 -> condition.setAsserter(
@@ -205,13 +212,12 @@ public class ConditionMapper {
         return Optional.empty();
     }
 
-    private Optional<Reference> buildContext(List<RCMRMT030101UK04EhrComposition> compositions, List<Encounter> encounters,
-        RCMRMT030101UK04LinkSet linkSet) {
-        return Optional.ofNullable(getEncounterReference(
-            compositions,
-            encounters,
-            getCurrentEhrComposition(compositions, linkSet).getId().getRoot())
-        );
+    private Optional<Reference> buildContext(RCMRMT030101UK04EhrComposition composition, List<Encounter> encounters) {
+        return encounters
+            .stream()
+            .filter(encounter -> encounter.getId().equals(composition.getId().getRoot()))
+            .findFirst()
+            .map(Reference::new);
     }
 
     private Optional<Extension> buildActualProblem(Bundle bundle, RCMRMT030101UK04StatementRef namedStatementRef) {
@@ -324,15 +330,5 @@ public class ConditionMapper {
             .filter(Objects::nonNull)
             .filter(observationStatement -> id.equals(observationStatement.getId().getRoot()))
             .findFirst();
-    }
-
-    private RCMRMT030101UK04EhrComposition getCurrentEhrComposition(List<RCMRMT030101UK04EhrComposition> ehrCompositions,
-        RCMRMT030101UK04LinkSet linkSet) {
-        return ehrCompositions
-            .stream()
-            .filter(e -> e.getComponent()
-                .stream()
-                .anyMatch(f -> linkSet.equals(f.getLinkSet()))
-            ).findFirst().get();
     }
 }
