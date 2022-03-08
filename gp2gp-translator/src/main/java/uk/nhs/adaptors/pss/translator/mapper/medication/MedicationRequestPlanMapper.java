@@ -190,7 +190,7 @@ public class MedicationRequestPlanMapper {
             });
 
         if (discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasNullFlavor()
-        && discontinue.getAvailabilityTime().getNullFlavor().value().equals("UNK")) {
+            && discontinue.getAvailabilityTime().getNullFlavor().value().equals("UNK")) {
             statusReasonStringBuilder.append("Unknown date");
         }
 
