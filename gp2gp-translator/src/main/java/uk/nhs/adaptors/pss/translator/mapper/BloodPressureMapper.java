@@ -1,8 +1,10 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.containsValidBloodPressureTriple;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isDiastolicBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isSystolicBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionForCompoundStatement;
+import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.getCompositionsContainingCompoundStatement;
 import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getInterpretation;
@@ -109,28 +111,6 @@ public class BloodPressureMapper {
                 .map(RCMRMT030101UK04CompoundStatement.class::cast)
                 : Stream.empty()
         );
-    }
-
-    private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
-        return ehrExtract.getComponent().stream()
-            .flatMap(component -> component.getEhrFolder().getComponent().stream())
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> ehrComposition.getComponent()
-                .stream()
-                .map(RCMRMT030101UK04Component4::getCompoundStatement)
-                .anyMatch(Objects::nonNull))
-            .toList();
-    }
-
-    private boolean containsValidBloodPressureTriple(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
-
-        if (observationStatements.size() == 2) {
-            return BloodPressureValidatorUtil.validateBloodPressureTriple(compoundStatement.getCode().getCode(),
-                observationStatements.get(0).getCode().getCode(), observationStatements.get(1).getCode().getCode());
-        }
-
-        return false;
     }
 
     private II getEhrCompositionId(List<RCMRMT030101UK04EhrComposition> ehrCompositions,

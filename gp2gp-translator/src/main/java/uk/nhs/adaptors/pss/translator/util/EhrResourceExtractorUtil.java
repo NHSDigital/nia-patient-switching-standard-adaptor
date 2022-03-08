@@ -1,14 +1,18 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Component;
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
+import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
+import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 
 public class EhrResourceExtractorUtil {
 
@@ -70,6 +74,25 @@ public class EhrResourceExtractorUtil {
             .filter(ehrComposition -> filterForMatchingEhrCompositionCompoundStatement(ehrComposition, resourceId))
             .findFirst()
             .get();
+    }
+
+    public static List<RCMRMT030101UK04EhrComposition> getCompositionsContainingCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+        return ehrExtract.getComponent().stream()
+            .flatMap(component -> component.getEhrFolder().getComponent().stream())
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .filter(ehrComposition -> ehrComposition.getComponent()
+                .stream()
+                .map(RCMRMT030101UK04Component4::getCompoundStatement)
+                .anyMatch(Objects::nonNull))
+            .toList();
+    }
+
+    public static List<RCMRMT030101UK04ObservationStatement> getObservationStatementsFromCompoundStatement(
+        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return compoundStatement.getComponent().stream()
+            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .filter(Objects::nonNull)
+            .toList();
     }
 
     public static boolean hasEhrComposition(RCMRMT030101UK04Component3 component) {
