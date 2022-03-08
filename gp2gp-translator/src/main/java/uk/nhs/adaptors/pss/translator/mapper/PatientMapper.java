@@ -26,9 +26,8 @@ public class PatientMapper {
         String nhsNumber = patient.getId().getExtension();
         Patient mappedPatient = createPatient(nhsNumber);
 
-        if (organization != null && organization.hasIdElement()) {
-            Reference managingOrganizationReference = createManagingOrganizationReference(organization);
-            mappedPatient.setManagingOrganization(managingOrganizationReference);
+        if (organization != null) {
+            mappedPatient.setManagingOrganization(new Reference(organization));
         }
 
         return mappedPatient;
@@ -44,10 +43,6 @@ public class PatientMapper {
         return new Meta()
             .setVersionId(META_VERSION_ID)
             .addProfile(META_PROFILE_URL);
-    }
-
-    private Reference createManagingOrganizationReference(Organization organization) {
-        return new Reference(organization.getIdElement());
     }
 
     private Patient createPatient(String nhsNumber) {
