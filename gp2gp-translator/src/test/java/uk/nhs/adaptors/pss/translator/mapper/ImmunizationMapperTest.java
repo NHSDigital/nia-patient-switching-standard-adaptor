@@ -138,7 +138,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getDateElement().getValue()).isEqualTo(
             DateFormatUtil.parseToDateTimeType("20110118114100000").getValue());
         assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
-        assertThat(immunization.getNote().get(1).getText()).isEqualTo("End Date: DateTimeType[2010-01-18T11:41:00+00:00]");
+        assertThat(immunization.getNote().get(1).getText()).isEqualTo("End Date: 2010-01-18T11:41:00+00:00");
     }
 
     private void assertImmunizationWithEffectiveTimeLow(Immunization immunization) {
@@ -150,7 +150,7 @@ public class ImmunizationMapperTest {
     private void assertImmunizationWithHighEffectiveTime(Immunization immunization) {
         assertThat(immunization.getDate()).isNull();
         assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
-        assertThat(immunization.getNote().get(1).getText()).isEqualTo("End Date: DateTimeType[2010-01-18T11:41:00+00:00]");
+        assertThat(immunization.getNote().get(1).getText()).isEqualTo("End Date: 2010-01-18T11:41:00+00:00");
     }
 
     private void assertImmunizationWithHighEffectiveTimeCenter(Immunization immunization) {
@@ -169,7 +169,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getDateElement().getValue()).isEqualTo(
             DateFormatUtil.parseToDateTimeType("20100118114100000").getValue());
         assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
-        assertThat(immunization.getNote().get(1).getText()).isEqualTo("End Date: DateTimeType[2010-01-18T11:41:00+00:00]");
+        assertThat(immunization.getNote().get(1).getText()).isEqualTo("End Date: 2010-01-18T11:41:00+00:00");
         assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(immunization.getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
         assertThat(immunization.getPractitioner().get(0).getActor().getReference()).isEqualTo("Practitioner/9C1610C2-5E48-4ED5-882B"
