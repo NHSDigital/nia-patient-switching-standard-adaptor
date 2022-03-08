@@ -63,7 +63,7 @@ public class ImmunizationMapper {
                 .stream()
                 .flatMap(this::extractAllObservationStatements)
                 .filter(Objects::nonNull)
-                .filter(ImmunizationMapper::validImmunizationSnomedCode)
+                .filter(ResourceFilterUtil::isImmunization)
                 .map(observationStatement ->
                     mapImmunization(ehrComposition, observationStatement, patientResource, encounterList, practiseCode))
             ).toList();
@@ -181,10 +181,6 @@ public class ImmunizationMapper {
                 immunization.setDateElement(DateFormatUtil.parseToDateTimeType(observationStatement.getAvailabilityTime().getValue()));
             }
         }
-    }
-    private static boolean validImmunizationSnomedCode(RCMRMT030101UK04ObservationStatement observationStatement) {
-        return observationStatement != null
-            && IMMUNIZATION_SNOMED_CODE.equals(observationStatement.getCode().getCodeSystem());
     }
 
     private List<Annotation> buildNote(RCMRMT030101UK04ObservationStatement observationStatement) {

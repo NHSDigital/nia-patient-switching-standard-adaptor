@@ -22,7 +22,7 @@ public class ResourceFilterUtil {
 
     public static boolean isImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
         // TODO: Implement filtering with snomed DB (NIAD-1947)
-        return IMMUNIZATION_SNOMED_CODE.equals(observationStatement.getCode().getCodeSystem());
+        return observationStatement != null && IMMUNIZATION_SNOMED_CODE.equals(observationStatement.getCode().getCodeSystem());
     }
 
     public static boolean isBloodPressure(RCMRMT030101UK04CompoundStatement compoundStatement) {
