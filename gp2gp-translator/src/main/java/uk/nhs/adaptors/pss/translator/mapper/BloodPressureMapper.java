@@ -1,8 +1,10 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.containsValidBloodPressureTriple;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isDiastolicBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isSystolicBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionForCompoundStatement;
+import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.getObservationStatementsFromCompoundStatement;
 import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getInterpretation;
@@ -44,8 +46,6 @@ import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
-import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 
 @Service
@@ -69,9 +69,9 @@ public class BloodPressureMapper {
             .flatMap(this::extractAllCompoundStatements)
             .filter(Objects::nonNull)
             .filter(compoundStatement -> BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0))
-                && BloodPressureValidatorUtil.containsValidBloodPressureTriple(compoundStatement))
+                && containsValidBloodPressureTriple(compoundStatement))
             .map(compoundStatement -> {
-                var observationStatements = EhrResourceExtractorUtil.getObservationStatementsFromCompoundStatement(compoundStatement);
+                var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
                 var id = compoundStatement.getId().get(0);
 
                 Observation observation = new Observation()
@@ -197,7 +197,6 @@ public class BloodPressureMapper {
         return pertinentInformation != null && pertinentInformation.getPertinentAnnotation() != null
             && StringUtils.isNotEmpty(pertinentInformation.getPertinentAnnotation().getText());
     }
-
 
     private List<RCMRMT030101UK04NarrativeStatement> getNarrativeStatementsFromCompoundStatement(
         RCMRMT030101UK04CompoundStatement compoundStatement) {

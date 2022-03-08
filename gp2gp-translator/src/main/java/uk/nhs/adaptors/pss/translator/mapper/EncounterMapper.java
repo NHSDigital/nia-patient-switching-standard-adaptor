@@ -1,5 +1,11 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.hasReferredToExternalDocument;
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isAllergyIntolerance;
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isBloodPressure;
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDiagnosticReport;
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isImmunization;
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isTemplate;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -49,7 +55,6 @@ import org.springframework.util.CollectionUtils;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
-import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -340,9 +345,9 @@ public class EncounterMapper {
     private void addMappableResourcesFromCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement, ListResource list,
         List<Reference> entryReferences) {
         if (compoundStatement != null) {
-            if (ResourceFilterUtil.isDiagnosticReport(compoundStatement)) {
+            if (isDiagnosticReport(compoundStatement)) {
                 addDiagnosticReportEntry(compoundStatement, entryReferences);
-            } else if (ResourceFilterUtil.isTemplate(compoundStatement)) {
+            } else if (isTemplate(compoundStatement)) {
                 addTemplateEntry(compoundStatement, entryReferences);
             } else {
                 compoundStatement.getComponent().forEach(component -> {
@@ -364,23 +369,23 @@ public class EncounterMapper {
 
     private boolean noPriorBloodPressureMapping(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
         return compoundStatement == null || entryReferences.stream()
-                .map(Reference::getReference)
-                .noneMatch(reference -> reference.contains(compoundStatement.getId().get(0).getRoot()));
+            .map(Reference::getReference)
+            .noneMatch(reference -> reference.contains(compoundStatement.getId().get(0).getRoot()));
     }
 
     private void addTemplateEntry(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
-        entryReferences.add(new Reference(new IdType(ResourceType.QuestionnaireResponse.name(),
-            QUESTIONNAIRE_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot()))));
+        entryReferences.add(createResourceReference(ResourceType.QuestionnaireResponse.name(),
+            QUESTIONNAIRE_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot())));
     }
 
     private void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement, List<Reference> entryReferences,
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         if (observationStatement != null && noPriorBloodPressureMapping(compoundStatement, entryReferences)) {
-            if (ResourceFilterUtil.isBloodPressure(compoundStatement)) {
+            if (isBloodPressure(compoundStatement)) {
                 addBloodPressureEntry(compoundStatement, entryReferences);
-            } else if (ResourceFilterUtil.isAllergyIntolerance(compoundStatement)) {
+            } else if (isAllergyIntolerance(compoundStatement)) {
                 addAllergyIntoleranceEntry(observationStatement, entryReferences);
-            } else if (ResourceFilterUtil.isImmunization(observationStatement)) {
+            } else if (isImmunization(observationStatement)) {
                 addImmunizationEntry(observationStatement, entryReferences);
             } else {
                 addUncategorisedObservationEntry(observationStatement, entryReferences);
@@ -439,7 +444,7 @@ public class EncounterMapper {
 
     private void addNarrativeStatementEntry(RCMRMT030101UK04NarrativeStatement narrativeStatement, List<Reference> entryReferences) {
         if (narrativeStatement != null) {
-            if (ResourceFilterUtil.hasReferredToExternalDocument(narrativeStatement)) {
+            if (hasReferredToExternalDocument(narrativeStatement)) {
                 entryReferences.add(createResourceReference(ResourceType.DocumentReference.name(),
                     narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot()));
             } else {
