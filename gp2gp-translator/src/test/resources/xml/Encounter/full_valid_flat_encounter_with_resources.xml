@@ -557,77 +557,138 @@
                         </CompoundStatement>
                     </component>
 
-                    <component>
-                        <CompoundStatement moodCode="EVN" classCode="CLUSTER">
+                    <component typeCode="COMP">
+                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
                             <id root="questionnaire-response-id"/>
-                            <code code="136..00" displayName="Alcohol consumption"
-                                  codeSystem="2.16.840.1.113883.2.1.6.10">
-                                <qualifier>
-                                    <name code="entity_ty" displayName="Entity Type"/>
-                                    <value code="66" displayName="ALCOHOL"/>
-                                </qualifier>
-                                <qualifier>
-                                    <name code="private" displayName="Private"/>
-                                    <value code="0" displayName="No"/>
-                                </qualifier>
-                                <qualifier>
-                                    <name code="drinker"
-                                          displayName="Drinking status on eventdate"/>
-                                    <value code="1" displayName="Current drinker"/>
-                                </qualifier>
-                                <qualifier>
-                                    <name code="startdrink"
-                                          displayName="Date that patient started drinking"/>
-                                    <value code="20011027" displayName="27/10/2001"/>
-                                </qualifier>
-                                <translation code="136..00"
-                                             displayName="Alcohol consumption"
-                                             codeSystem="2.16.840.1.113883.2.1.6.2"/>
+                            <code code="PKyz500" codeSystem="2.16.840.1.113883.2.1.6.2"
+                                  displayName="Happy puppet syndrome">
+                                <translation code="76880004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                             displayName="Happy puppet syndrome"/>
                             </code>
                             <statusCode code="COMPLETE"/>
                             <effectiveTime>
                                 <center nullFlavor="NI"/>
                             </effectiveTime>
-                            <availabilityTime value="20050201"/>
+                            <availabilityTime value="201101111533"/>
                             <component typeCode="COMP" contextConductionInd="true">
                                 <ObservationStatement classCode="OBS" moodCode="EVN">
-                                    <id root="D850E347-CA8D-45AD-96FB-1E20534C66EF"/>
-                                    <code code="136..00" displayName="Alcohol consumption"
-                                          codeSystem="2.16.840.1.113883.2.1.6.10">
-                                        <translation code="136..00"
-                                                     displayName="Alcohol consumption"
-                                                     codeSystem="2.16.840.1.113883.2.1.6.2"/>
+                                    <id root="6418F5A3-C427-4292-ABCF-F53E71B43F15"/>
+                                    <code code="1683.00" codeSystem="2.16.840.1.113883.2.1.6.2"
+                                          displayName="Tired all the time">
+                                        <translation code="267032009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                                     displayName="Tired all the time"/>
                                     </code>
                                     <statusCode code="COMPLETE"/>
                                     <effectiveTime>
                                         <center nullFlavor="NI"/>
                                     </effectiveTime>
-                                    <availabilityTime value="20050201"/>
-                                    <value value="10" unit="/wk" type="PQ"/>
+                                    <availabilityTime value="201101111533"/>
+                                    <pertinentInformation typeCode="PERT">
+                                        <sequenceNumber value="+1"/>
+                                        <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                            <text>Notes on the tired all the time entry</text>
+                                        </pertinentAnnotation>
+                                    </pertinentInformation>
                                 </ObservationStatement>
                             </component>
                             <component typeCode="COMP" contextConductionInd="true">
                                 <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                    <id root="B72D9550-2723-4AB6-ACF1-24C1B8584007"/>
-                                    <text>Started drinking: 27/10/2001</text>
+                                    <id root="3E1A4EA2-661B-4467-8843-6A6B21DEF14F"/>
+                                    <text>Comments - Aaaargh</text>
                                     <statusCode code="COMPLETE"/>
-                                    <availabilityTime value="20050201"/>
+                                    <availabilityTime value="201101111533"/>
+                                </NarrativeStatement>
+                            </component>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <ObservationStatement classCode="OBS" moodCode="EVN">
+                                    <id root="58E20D47-F007-47F4-811E-992AE160BECC"/>
+                                    <code code="7K30.00" codeSystem="2.16.840.1.113883.2.1.6.2"
+                                          displayName="Total prosthetic replacement of knee joint using cement">
+                                        <translation code="265170009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                                     displayName="Total prosthetic replacement of knee joint using cement"/>
+                                    </code>
+                                    <statusCode code="COMPLETE"/>
+                                    <effectiveTime>
+                                        <center nullFlavor="NI"/>
+                                    </effectiveTime>
+                                    <availabilityTime value="201101111533"/>
+                                    <pertinentInformation typeCode="PERT">
+                                        <sequenceNumber value="+1"/>
+                                        <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                            <text>cementing the agreement</text>
+                                        </pertinentAnnotation>
+                                    </pertinentInformation>
+                                </ObservationStatement>
+                            </component>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <ObservationStatement classCode="OBS" moodCode="EVN">
+                                    <id root="C6D2153A-7EF6-4B1F-8F79-850372BFF67D"/>
+                                    <code code="7K20.00" codeSystem="2.16.840.1.113883.2.1.6.2"
+                                          displayName="Total prosthetic replacement of hip joint using cement">
+                                        <translation code="265157000" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                                     displayName="Total prosthetic replacement of hip joint using cement"/>
+                                    </code>
+                                    <statusCode code="COMPLETE"/>
+                                    <effectiveTime>
+                                        <center nullFlavor="NI"/>
+                                    </effectiveTime>
+                                    <availabilityTime value="20110104"/>
+                                </ObservationStatement>
+                            </component>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <ObservationStatement classCode="OBS" moodCode="EVN">
+                                    <id root="A77C238E-F630-48C0-B2EA-26F1B126DC1D"/>
+                                    <code code="35Z..00" codeSystem="2.16.840.1.113883.2.1.6.2"
+                                          displayName="Surgical biopsy (admin) NOS">
+                                        <translation code="165127005" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                                     displayName="Surgical biopsy (admin) NOS"/>
+                                    </code>
+                                    <statusCode code="COMPLETE"/>
+                                    <effectiveTime>
+                                        <center nullFlavor="NI"/>
+                                    </effectiveTime>
+                                    <availabilityTime value="201101111533"/>
+                                </ObservationStatement>
+                            </component>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                    <id root="E8746411-9D21-4A5C-B70B-9D1FF00D3AE4"/>
+                                    <text>Option A</text>
+                                    <statusCode code="COMPLETE"/>
+                                    <availabilityTime value="201101111533"/>
                                 </NarrativeStatement>
                             </component>
                             <component typeCode="COMP" contextConductionInd="true">
                                 <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                    <id root="E0E38D61-2F60-413F-92AD-8E40A5F8AA41"/>
-                                    <text>Drinking status on eventdate: Current drinker
-                                    </text>
+                                    <id root="21B95C86-121F-4BC5-A2CD-3E2955F4D604"/>
+                                    <text>Option C</text>
                                     <statusCode code="COMPLETE"/>
-                                    <availabilityTime value="20050201"/>
+                                    <availabilityTime value="201101111533"/>
                                 </NarrativeStatement>
                             </component>
-                            <Participant typeCode="PRF" contextControlCode="OP">
-                                <agentRef classCode="AGNT">
-                                    <id root="62FFDB78-97D1-4D78-97CF-16EC6A7F01E9"/>
-                                </agentRef>
-                            </Participant>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <ObservationStatement classCode="OBS" moodCode="EVN">
+                                    <id root="E0DD7160-64CA-48F3-AB00-B21C39D3FB23"/>
+                                    <code code="136Q.00" codeSystem="2.16.840.1.113883.2.1.6.2"
+                                          displayName="Very heavy drinker">
+                                        <translation code="228279004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                                     displayName="Very heavy drinker"/>
+                                    </code>
+                                    <statusCode code="COMPLETE"/>
+                                    <effectiveTime>
+                                        <center nullFlavor="NI"/>
+                                    </effectiveTime>
+                                    <availabilityTime value="201101111533"/>
+                                </ObservationStatement>
+                            </component>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                    <id root="B141FC3E-4DD2-4412-9655-DF43BBCE290B"/>
+                                    <text>Some freetext - This is total freetext madness</text>
+                                    <statusCode code="COMPLETE"/>
+                                    <availabilityTime value="201101111533"/>
+                                </NarrativeStatement>
+                            </component>
                         </CompoundStatement>
                     </component>
 
