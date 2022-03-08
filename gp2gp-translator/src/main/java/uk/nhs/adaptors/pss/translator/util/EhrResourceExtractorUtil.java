@@ -86,16 +86,6 @@ public class EhrResourceExtractorUtil {
         return component.getObservationStatement() != null && component.getObservationStatement().getId() == resourceId;
     }
 
-    private static boolean filterForMatchingEhrCompositionNarrativeStatement(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
-        return ehrComposition.getComponent()
-            .stream()
-            .anyMatch(component -> validNarrativeStatement(component, resourceId));
-    }
-
-    private static boolean validNarrativeStatement(RCMRMT030101UK04Component4 component, II resourceId) {
-        return component.getNarrativeStatement() != null && component.getNarrativeStatement().getId() == resourceId;
-    }
-
     private static boolean filterForMatchingEhrCompositionCompoundStatement(RCMRMT030101UK04EhrComposition ehrComposition,
         II resourceId) {
         return ehrComposition.getComponent()
