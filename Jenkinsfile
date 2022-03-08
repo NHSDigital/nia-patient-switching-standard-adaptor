@@ -158,27 +158,8 @@ pipeline {
                             }
 
                         }
-                    }
-                }
-
-                stage('PSS DB Migration') {
-                  when {
-                    expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') && ( GIT_BRANCH == 'main' )  }
-                    }
-                  steps {
-                      script {
-                              sh '''
-                                  pwd
-                                  sed -i 's/ = /=/' ~/.psdbsecrets.tfvars
-                                  source ~/.psdbsecrets.tfvars
-                                  sed -i -e 's/^/export /g' -e 's/ = /=/g' ~/.tfoutput.tfvars
-                                  source ~/.tfoutput.tfvars
-                                  cd db-connector
-                                  ./gradlew update
-                              '''
-                          } // PSS DB Migration script
-                  } // steps-PSS DB Migration Code
-                } // stage-PSS DB Migration Code
+                    } // steps
+                } //stage push images
             } //stages
         } //Stage Build 
     } //Stages
