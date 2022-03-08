@@ -64,6 +64,7 @@ public class MedicationRequestMapper {
                 .flatMap(List::stream)
                 .forEach(mappedResources::add);
         }
+        MedicationMapper.resetMedicationMaps();
         return mappedResources;
     }
 
@@ -113,6 +114,7 @@ public class MedicationRequestMapper {
         return medicationStatement.getConsumable()
             .stream()
             .map(medicationMapper::createMedication)
+            .filter(Objects::nonNull)
             .toList();
     }
 

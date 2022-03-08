@@ -35,21 +35,26 @@ public class MedicationMapper {
     protected Medication createMedication(RCMRMT030101UK04Consumable consumable) {
         if (hasManufacturedMaterial(consumable)) {
             CD code = consumable.getManufacturedProduct().getManufacturedMaterial().getCode();
-
-            Medication medication = new Medication();
-            medication.setId(getMedicationId(code));
-            medication.setMeta(generateMeta(MEDICATION_URL));
-            medication.setCode(codeableConceptMapper.mapToCodeableConcept(code));
-
-            return medication;
+            var key = buildKey(code);
+            if (!MEDICATION_IDS.containsKey(key)) {
+                Medication medication = new Medication();
+                medication.setId(getMedicationId(code));
+                medication.setMeta(generateMeta(MEDICATION_URL));
+                medication.setCode(codeableConceptMapper.mapToCodeableConcept(code));
+                return medication;
+            }
         }
         return null;
     }
 
-    public String getMedicationId(CD code) {
-        var key = keyBuilder(CD::hasCode, CD::getCode, code)
+    private String buildKey(CD code) {
+        return keyBuilder(CD::hasCode, CD::getCode, code)
             + keyBuilder(CD::hasOriginalText, CD::getOriginalText, code)
             + keyBuilder(CD::hasDisplayName, CD::getDisplayName, code);
+    }
+
+    public String getMedicationId(CD code) {
+        var key = buildKey(code);
         var value = MEDICATION_IDS.getOrDefault(key, StringUtils.EMPTY);
 
         if (StringUtils.isNotBlank(value)) {
@@ -89,5 +94,9 @@ public class MedicationMapper {
     private static boolean hasManufacturedMaterial(RCMRMT030101UK04Consumable consumable) {
         return consumable.hasManufacturedProduct() && consumable.getManufacturedProduct().hasManufacturedMaterial()
             && consumable.getManufacturedProduct().getManufacturedMaterial().hasCode();
+    }
+
+    protected static void resetMedicationMaps() {
+        MEDICATION_IDS.clear();
     }
 }
