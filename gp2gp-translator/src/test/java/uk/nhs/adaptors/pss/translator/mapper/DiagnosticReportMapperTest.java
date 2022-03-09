@@ -9,11 +9,11 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 
 import java.util.List;
 
+import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.InstantType;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.Specimen;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,6 +35,13 @@ public class DiagnosticReportMapperTest {
     private static final String COMPOUND_STATEMENT_CHILD_ID = "COMPOUND_STATEMENT_CHILD_ID";
     private static final InstantType ISSUED_ELEMENT = parseToInstantType("20220308163805");
     private static final Patient PATIENT = (Patient) new Patient().setId("PATIENT_TEST_ID");
+
+    @SuppressWarnings("RegexpSingleline")
+    private static final String NARRATIVE_STATEMENT_COMMENT_BLOCK = """
+        CommentType:LABORATORY RESULT COMMENT(E141)
+        CommentDate:20220308170025
+        
+        TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT""";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -59,13 +66,14 @@ public class DiagnosticReportMapperTest {
         assertThat(diagnosticReport.getIssuedElement().getValueAsString()).isEqualTo(ISSUED_ELEMENT.getValueAsString());
         assertThat(diagnosticReport.getSpecimen()).isEmpty();
         assertThat(diagnosticReport.getResult()).isEmpty();
-        assertThat(diagnosticReport.getResultFirstRep().getReference()).contains(NARRATIVE_STATEMENT_ID);
     }
 
     @Test
     public void testDiagnosticReportWithSpecimenReferencesMapping() {
         RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_specimen.xml");
-        var diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(ehrExtract, PATIENT, List.of(), PRACTISE_CODE);
+        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(
+            ehrExtract, PATIENT, List.of(), PRACTISE_CODE
+        );
         assertThat(diagnosticReports).isNotEmpty();
         assertThat(diagnosticReports.get(0).getSpecimen()).isNotEmpty();
         assertThat(diagnosticReports.get(0).getSpecimenFirstRep().getReference()).contains(COMPOUND_STATEMENT_CHILD_ID);
@@ -74,8 +82,29 @@ public class DiagnosticReportMapperTest {
     @Test
     public void testDiagnosticReportWithObservationReferencesMapping() {
         RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_observations.xml");
-        var diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(ehrExtract, PATIENT, List.of(), PRACTISE_CODE);
+        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(
+            ehrExtract, PATIENT, List.of(), PRACTISE_CODE
+        );
         assertThat(diagnosticReports).isNotEmpty();
+        assertThat(diagnosticReports.get(0).getResult().size()).isEqualTo(2);
+        assertThat(diagnosticReports.get(0).getResultFirstRep().getReference()).contains(NARRATIVE_STATEMENT_ID);
+    }
+
+    @Test
+    public void testMappingChildObservationComments() {
+        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_observations.xml");
+        List<Observation> observationComments = createObservationCommentList();
+        diagnosticReportMapper.mapChildObservationComments(ehrExtract, observationComments);
+        assertThat(observationComments.get(0).hasEffective()).isFalse();
+        assertThat(observationComments.get(0).getComment()).isEqualTo(NARRATIVE_STATEMENT_TEXT);
+    }
+
+    private List<Observation> createObservationCommentList() {
+        Observation observationComment1 = (Observation) new Observation()
+            .setEffective(new DateTimeType())
+            .setComment(NARRATIVE_STATEMENT_COMMENT_BLOCK)
+            .setId("NARRATIVE_STATEMENT_ID_1");
+        return List.of(observationComment1);
     }
 
     @SneakyThrows

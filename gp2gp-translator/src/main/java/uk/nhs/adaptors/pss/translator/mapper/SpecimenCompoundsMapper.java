@@ -76,7 +76,7 @@ public class SpecimenCompoundsMapper {
     private void handleObservationStatement(Observation observation, RCMRMT030101UK04CompoundStatement parentCompoundStatement,
         DiagnosticReport diagnosticReport) {
         /**
-         * Case 1 - ObservationStatement component TODO: IMPLEMENT TEST CASES FOR THIS
+         * Case 1 - ObservationStatement component
          * This is the simplest of cases - a single ObservationStatement component
          * This should be mapped through a variant of the general ObservationStatement -> Observation transform.
          * FIND OBSERVATION BY ID, CREATE THE REFERENCE TO THE DIAGNOSTICREPORT IT ORIGINALLY COMES FROM
@@ -92,7 +92,7 @@ public class SpecimenCompoundsMapper {
     private void handleNarrativeStatements(RCMRMT030101UK04CompoundStatement clusterCompoundStatement,
         List<Observation> observationComments, Observation observation) {
         /**
-         * Case 2 - CompoundStatement classCode="CLUSTER" TODO: IMPLEMENT TEST CASES FOR THIS
+         * Case 2 - CompoundStatement classCode="CLUSTER"
          * A CompoundStatement with classCode CLUSTER is the mechanism for grouping result text and
          * any user filing comments in the form of NarrativeStatement with the ObservationStatement carrying the result
          *
@@ -119,10 +119,15 @@ public class SpecimenCompoundsMapper {
                         observationComment.setComment(getLastLine(observationComment.getComment()));
 
                         if (observation != null) {
-                            observationComment.addRelated(new ObservationRelatedComponent(new Reference(observation)));
-                            //ObservationComment - derived-from
-                            observation.addRelated(new ObservationRelatedComponent(new Reference(observationComment)));
-                            //Observation -has-member
+                            if (!containsReference(observationComment, observation.getId())) {
+                                observationComment.addRelated(new ObservationRelatedComponent(new Reference(observation)));
+                                //ObservationComment - derived-from
+                            }
+
+                            if (!containsReference(observation, observationComment.getId())) {
+                                observation.addRelated(new ObservationRelatedComponent(new Reference(observationComment)));
+                                //Observation -has-member
+                            }
                         }
                     });
             } else {
@@ -150,7 +155,7 @@ public class SpecimenCompoundsMapper {
     private void handleBatteryCompoundStatement(RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
         List<Observation> observations, List<Observation> observationComments, DiagnosticReport diagnosticReport) {
         /**
-         * Case 3 - CompoundStatement classCode="BATTERY" TODO: IMPLEMENT TEST CASES FOR THIS
+         * Case 3 - CompoundStatement classCode="BATTERY"
          * For the Battery we want to generate a Panel/Battery header Observation resource using the mapping specified below
          *
          * For every CompoundStatement CLUSTER and ObservationStatement within the BATTERY CompoundStatement we process as Case 2
@@ -173,17 +178,14 @@ public class SpecimenCompoundsMapper {
             .map(RCMRMT030101UK04Component02::getCompoundStatement)
             .filter(compoundStatement -> CLUSTER_CLASSCODE.equals(compoundStatement.getClassCode().get(0)))
             .forEach(compoundStatement -> handleClusterCompoundStatement(
-                    compoundStatement, observations, observationComments, diagnosticReport
-                )
-            );
+                compoundStatement, observations, observationComments, diagnosticReport
+            ));
 
         batteryCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UK04Component02::hasObservationStatement)
             .map(RCMRMT030101UK04Component02::getCompoundStatement)
             .forEach(observationStatement -> getObservationById(observations, observationStatement.getId().get(0).getRoot())
-                .ifPresent(observation -> handleObservationStatement(observation, batteryCompoundStatement, diagnosticReport))
-            );
-
+                .ifPresent(observation -> handleObservationStatement(observation, batteryCompoundStatement, diagnosticReport)));
 
         batteryCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UK04Component02::hasObservationStatement)
@@ -211,6 +213,16 @@ public class SpecimenCompoundsMapper {
         return observations.stream()
             .filter(e -> id.equals(e.getId()))
             .findFirst();
+    }
+
+    private boolean containsReference(Observation observation, String id) {
+        if (!observation.getRelated().isEmpty()) {
+            return observation.getRelated().stream()
+                .map(relatedComponent -> relatedComponent.getTarget().getResource())
+                .filter(Objects::nonNull)
+                .anyMatch(resource -> id.equals(resource.getIdElement().getValue()));
+        }
+        return false;
     }
 
     private List<RCMRMT030101UK04CompoundStatement> getSpecimenCompoundStatements(

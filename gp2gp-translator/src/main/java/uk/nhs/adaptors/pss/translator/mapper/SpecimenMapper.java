@@ -123,11 +123,13 @@ public class SpecimenMapper {
     }
 
     private Optional<RCMRMT030101UK04SpecimenRole> getSpecimenRole(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {
-        return !specimenCompoundStatement.getSpecimen().isEmpty() ?
-            Optional.ofNullable(specimenCompoundStatement.getSpecimen().get(0).getSpecimenRole()) : Optional.empty();
+        return !specimenCompoundStatement.getSpecimen().isEmpty()
+            ? Optional.ofNullable(specimenCompoundStatement.getSpecimen().get(0).getSpecimenRole())
+            : Optional.empty();
     }
 
-    private Optional<RCMRMT030101UK04CompoundStatement> getParentCompoundStatementByChildId(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+    private Optional<RCMRMT030101UK04CompoundStatement> getParentCompoundStatementByChildId(
+        RCMRMT030101UK04EhrExtract ehrExtract, String id) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
             .flatMap(e -> e.getEhrComposition().getComponent().stream())
             .map(RCMRMT030101UK04Component4::getCompoundStatement)

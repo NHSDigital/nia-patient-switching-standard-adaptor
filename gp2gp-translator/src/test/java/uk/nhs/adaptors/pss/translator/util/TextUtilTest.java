@@ -26,8 +26,9 @@ public class TextUtilTest {
 
     private static final String ONE_LINER = "HELLO";
 
+    @SuppressWarnings("RegexpSingleline")
     private static final String SPATIAL_THREE_LINER = """
-        HELLO            
+        HELLO           
             PS            
                  ADAPTER       """;
 
@@ -39,6 +40,7 @@ public class TextUtilTest {
     }
 
     @Test
+    @SuppressWarnings("checkstyle:magicnumber")
     public void testAddingLine() {
         String shouldBeFourLiner = addLine(THREE_LINER, "FOURTH_LINE");
         assertThat(shouldBeFourLiner.split(StringUtils.LF).length).isEqualTo(4);
@@ -50,7 +52,8 @@ public class TextUtilTest {
             Arguments.of(TWO_LINER, "WORLD"),
             Arguments.of(THREE_LINER, "ADAPTER"),
             Arguments.of(SPATIAL_THREE_LINER, "ADAPTER"),
-            Arguments.of(StringUtils.EMPTY, StringUtils.EMPTY)
+            Arguments.of(StringUtils.EMPTY, StringUtils.EMPTY),
+            Arguments.of(null, StringUtils.EMPTY)
         );
     }
 

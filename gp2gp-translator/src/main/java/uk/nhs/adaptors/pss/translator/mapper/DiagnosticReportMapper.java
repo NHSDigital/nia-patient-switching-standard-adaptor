@@ -40,7 +40,7 @@ import lombok.RequiredArgsConstructor;
 public class DiagnosticReportMapper {
 
     private static final String EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
-    private static final String META_PROFILE_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DiagnosticReport-1";
+    private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
     private static final String CLUSTER_CLASSCODE = "CLUSTER";
     private static final String DR_SNOMED_CODE = "16488004";
     private static final String SPECIMEN_CODE = "123038009";
@@ -49,14 +49,17 @@ public class DiagnosticReportMapper {
     private final SpecimenMapper specimenMapper;
     private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
-    public List<DiagnosticReport> mapDiagnosticReports(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters, String practiceCode) {
+    public List<DiagnosticReport> mapDiagnosticReports(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+        List<Encounter> encounters, String practiceCode) {
         var compositions = getCompositionsContainingClusterCompoundStatement(ehrExtract);
         return compositions.stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
             .filter(Objects::nonNull)
             .map(compoundStatement -> {
-                DiagnosticReport diagnosticReport = createDiagnosticReport(compoundStatement, patient, compositions, encounters, practiceCode);
+                DiagnosticReport diagnosticReport = createDiagnosticReport(
+                    compoundStatement, patient, compositions, encounters, practiceCode
+                );
                 getIssued(ehrExtract, compositions, compoundStatement).ifPresent(diagnosticReport::setIssuedElement);
                 return diagnosticReport;
             }).toList();
@@ -74,7 +77,7 @@ public class DiagnosticReportMapper {
         final DiagnosticReport diagnosticReport = new DiagnosticReport();
         final String id = compoundStatement.getId().get(0).getRoot();
 
-        diagnosticReport.setMeta(generateMeta(META_PROFILE_URL));
+        diagnosticReport.setMeta(generateMeta(META_PROFILE_URL_SUFFIX));
 
         diagnosticReport.setId(id);
         /**
@@ -119,7 +122,8 @@ public class DiagnosticReportMapper {
          * There can of course be many specimens per report so this needs to iterate over every instance
          */
 
-        diagnosticReport.setResult(getResultReferences(compoundStatement));
+
+        setResultReferences(compoundStatement, diagnosticReport);
         /**
          * A result reference should be generated for every result Observation generated from the banner CompoundStatement,
          * result ObservationStatement, or result CompoundStatement CLUSTER found within each specimen CompoundStatement
@@ -128,7 +132,7 @@ public class DiagnosticReportMapper {
         return diagnosticReport;
     }
 
-    public void mapChildrenObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observationComments) {
+    public void mapChildObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observationComments) {
         getCompositionsContainingClusterCompoundStatement(ehrExtract)
             .stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
@@ -161,7 +165,8 @@ public class DiagnosticReportMapper {
         return specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
     }
 
-    public void addSpecimenChildObservationReferences(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observations, List<Observation> observationComments, List<DiagnosticReport> diagnosticReports) {
+    public void addSpecimenChildReferences(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observations,
+        List<Observation> observationComments, List<DiagnosticReport> diagnosticReports) {
         specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments, diagnosticReports);
     }
 
@@ -175,13 +180,17 @@ public class DiagnosticReportMapper {
             .toList();
     }
 
-    private List<Reference> getResultReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return compoundStatement.getComponent()
+    private void setResultReferences(RCMRMT030101UK04CompoundStatement compoundStatement, DiagnosticReport diagnosticReport) {
+        var resultReferences = compoundStatement.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
             .filter(Objects::nonNull)
             .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
             .toList();
+
+        if (!resultReferences.isEmpty()) {
+            diagnosticReport.setResult(resultReferences);
+        }
     }
 
     private Optional<Observation> getObservationCommentById(List<Observation> observationComments, String id) {

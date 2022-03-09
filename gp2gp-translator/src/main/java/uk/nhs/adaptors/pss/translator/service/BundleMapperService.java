@@ -138,8 +138,8 @@ public class BundleMapperService {
         var specimen = diagnosticReportMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
         addEntries(bundle, diagnosticReports);
         addEntries(bundle, specimen);
-        diagnosticReportMapper.mapChildrenObservationComments(ehrExtract, observationComments);
-        diagnosticReportMapper.addSpecimenChildObservationReferences(ehrExtract, observations, observationComments, diagnosticReports);
+        diagnosticReportMapper.mapChildObservationComments(ehrExtract, observationComments);
+        diagnosticReportMapper.addSpecimenChildReferences(ehrExtract, observations, observationComments, diagnosticReports);
     }
 
     private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,

@@ -5,7 +5,6 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
