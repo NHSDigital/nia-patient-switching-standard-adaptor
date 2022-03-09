@@ -92,7 +92,7 @@ public class TemplateMapper {
 
         encounter.ifPresent(parentObservation::setContext);
         addEffective(parentObservation,
-            getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime())); // check with barry if this is a bug
+            getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime()));
 
         return parentObservation;
     }
@@ -123,7 +123,7 @@ public class TemplateMapper {
             .addItem(createdLinkedId(compoundStatement))
             .setAuthoredElement(getAuthored(ehrComposition, ehrExtract))
             .setSubject(new Reference(patient))
-            // .setStatus(QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED) TODO: This needs to be FINAL
+            .setStatus(QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED)
             .setParent(List.of(new Reference(parentObservation)))
             .setIdentifier(buildIdentifier(id, practiseCode))
             .setMeta(generateMeta(QUESTIONNAIRE_META_PROFILE))
