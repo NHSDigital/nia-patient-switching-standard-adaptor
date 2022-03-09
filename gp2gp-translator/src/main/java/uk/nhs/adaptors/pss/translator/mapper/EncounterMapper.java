@@ -77,7 +77,6 @@ public class EncounterMapper {
     private static final String CATEGORY_KEY = "categories";
     private static final String MEDICATION_STATEMENT_REFERENCE = "%s-MS";
     private static final String QUESTIONNAIRE_REFERENCE = "%s-QRSP";
-    private static final String OBSERVATION_REFERENCE = "Observation/%s";
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final ConsultationListMapper consultationListMapper;
@@ -349,9 +348,6 @@ public class EncounterMapper {
             if (isDiagnosticReport(compoundStatement)) {
                 addDiagnosticReportEntry(compoundStatement, entryReferences);
             } else {
-                if (isTemplate(compoundStatement)) {
-                    addTemplateEntry(compoundStatement, entryReferences);
-                }
                 compoundStatement.getComponent().forEach(component -> {
                     addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
                     addPlanStatementEntry(component.getPlanStatement(), entryReferences);
@@ -359,8 +355,12 @@ public class EncounterMapper {
                     addLinkSetEntry(component.getLinkSet(), entryReferences);
                     addMedicationEntry(component.getMedicationStatement(), entryReferences);
 
-                    if (isNotIgnoredReferencedResource(compoundStatement, entryReferences)) {
+                    if (noPriorBloodPressureMapping(compoundStatement, entryReferences)) {
                         addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
+                    }
+
+                    if (isTemplate(compoundStatement)) {
+                        addTemplateEntry(compoundStatement, entryReferences);
                     }
 
                     addMappableResourcesFromCompoundStatement(component.getCompoundStatement(), list, entryReferences);
@@ -369,31 +369,22 @@ public class EncounterMapper {
         }
     }
 
-    private boolean isNotIgnoredReferencedResource(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
+    private boolean noPriorBloodPressureMapping(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
         return compoundStatement == null || entryReferences.stream()
             .map(Reference::getReference)
-            .anyMatch(reference -> isNotPriorMappedBloodPressure(reference, compoundStatement.getId().get(0).getRoot())
-                && isNotTemplate(reference, compoundStatement.getId().get(0).getRoot()));
-    }
-
-    private boolean isNotTemplate(String reference, String id) {
-        return !reference.contains(QUESTIONNAIRE_REFERENCE.formatted(id));
-    }
-
-    private boolean isNotPriorMappedBloodPressure(String reference, String id) {
-        return !reference.contains(OBSERVATION_REFERENCE.formatted(id));
+            .noneMatch(reference -> reference.contains(compoundStatement.getId().get(0).getRoot()));
     }
 
     private void addTemplateEntry(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
         entryReferences.add(createResourceReference(ResourceType.QuestionnaireResponse.name(),
             QUESTIONNAIRE_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot())));
-        entryReferences.add(createResourceReference(ResourceType.Observation.name(),
-            compoundStatement.getId().get(0).getRoot()));
+        entryReferences.add(createResourceReference(ResourceType.Observation.name(), .name(),
+            QUESTIONNAIRE_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot())));
     }
 
     private void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement, List<Reference> entryReferences,
         RCMRMT030101UK04CompoundStatement compoundStatement) {
-        if (observationStatement != null && isNotIgnoredReferencedResource(compoundStatement, entryReferences)) {
+        if (observationStatement != null && noPriorBloodPressureMapping(compoundStatement, entryReferences)) {
             if (isBloodPressure(compoundStatement)) {
                 addBloodPressureEntry(compoundStatement, entryReferences);
             } else if (isAllergyIntolerance(compoundStatement)) {
