@@ -14,7 +14,7 @@ public class ResourceFilterUtil {
     private static final String BATTERY_VALUE = "BATTERY";
     private static final String CLUSTER_VALUE = "CLUSTER";
 
-    public static boolean hasReferredToExternalDocument(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+    public static boolean isDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
         return narrativeStatement.getReference()
             .stream()
             .anyMatch(reference -> reference.getReferredToExternalDocument() != null);

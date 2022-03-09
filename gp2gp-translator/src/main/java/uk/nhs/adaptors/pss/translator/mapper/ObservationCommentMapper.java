@@ -55,7 +55,7 @@ public class ObservationCommentMapper {
                 .stream()
                 .flatMap(this::extractAllNarrativeStatements)
                 .filter(Objects::nonNull)
-                .filter(narrativeStatement -> !ResourceFilterUtil.hasReferredToExternalDocument(narrativeStatement))
+                .filter(narrativeStatement -> !ResourceFilterUtil.isDocumentReference(narrativeStatement))
                 .map(narrativeStatement -> {
                     var narrativeStatementId = narrativeStatement.getId();
                     var observation = new Observation();

@@ -1,9 +1,9 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.hasReferredToExternalDocument;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isAllergyIntolerance;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDiagnosticReport;
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDocumentReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isImmunization;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isTemplate;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -77,6 +77,8 @@ public class EncounterMapper {
     private static final String CATEGORY_KEY = "categories";
     private static final String MEDICATION_STATEMENT_REFERENCE = "%s-MS";
     private static final String QUESTIONNAIRE_REFERENCE = "%s-QRSP";
+    private static final String OBSERVATION_PREFIX = "Observation/";
+    private static final String QUESTIONNAIRE_PREFIX = "QuestionnaireResponse/";
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final ConsultationListMapper consultationListMapper;
@@ -119,7 +121,10 @@ public class EncounterMapper {
         RCMRMT030101UK04EhrComposition ehrComposition) {
         var topic = consultationListMapper.mapToTopic(consultation, null);
 
-        addMappableResourcesToTopicEntry(ehrComposition, topic);
+        List<Reference> entryReferences = new ArrayList<>();
+        addMappableResourcesToTopicEntry(ehrComposition, entryReferences);
+        entryReferences.forEach(reference -> addEntry(topic, reference));
+
         consultation.addEntry(new ListEntryComponent(new Reference(topic)));
         topics.add(topic);
     }
@@ -170,7 +175,7 @@ public class EncounterMapper {
             var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement);
 
             List<Reference> entryReferences = new ArrayList<>();
-            addMappableResourcesFromCompoundStatement(categoryCompoundStatement, category, entryReferences);
+            addMappableResourcesFromCompoundStatement(categoryCompoundStatement, entryReferences);
             entryReferences.forEach(reference -> addEntry(category, reference));
 
             topic.addEntry(new ListEntryComponent(new Reference(category)));
@@ -326,8 +331,7 @@ public class EncounterMapper {
         }
     }
 
-    private void addMappableResourcesToTopicEntry(RCMRMT030101UK04EhrComposition ehrComposition, ListResource topic) {
-        List<Reference> entryReferences = new ArrayList<>();
+    private void addMappableResourcesToTopicEntry(RCMRMT030101UK04EhrComposition ehrComposition, List<Reference> entryReferences) {
 
         ehrComposition.getComponent().forEach(component -> {
             addPlanStatementEntry(component.getPlanStatement(), entryReferences);
@@ -336,18 +340,20 @@ public class EncounterMapper {
             addObservationStatementEntry(component.getObservationStatement(), entryReferences, null);
             addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
             addMedicationEntry(component.getMedicationStatement(), entryReferences);
-            addMappableResourcesFromCompoundStatement(component.getCompoundStatement(), topic, entryReferences);
+            addMappableResourcesFromCompoundStatement(component.getCompoundStatement(), entryReferences);
         });
-
-        entryReferences.forEach(reference -> addEntry(topic, reference));
     }
 
-    private void addMappableResourcesFromCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement, ListResource list,
+    private void addMappableResourcesFromCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement,
         List<Reference> entryReferences) {
         if (compoundStatement != null) {
             if (isDiagnosticReport(compoundStatement)) {
                 addDiagnosticReportEntry(compoundStatement, entryReferences);
             } else {
+                if (isTemplate(compoundStatement)) {
+                    addTemplateEntry(compoundStatement, entryReferences);
+                }
+
                 compoundStatement.getComponent().forEach(component -> {
                     addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
                     addPlanStatementEntry(component.getPlanStatement(), entryReferences);
@@ -355,36 +361,36 @@ public class EncounterMapper {
                     addLinkSetEntry(component.getLinkSet(), entryReferences);
                     addMedicationEntry(component.getMedicationStatement(), entryReferences);
 
-                    if (noPriorBloodPressureMapping(compoundStatement, entryReferences)) {
+                    if (isNotIgnoredResource(compoundStatement, entryReferences)) {
                         addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
                     }
 
-                    if (isTemplate(compoundStatement)) {
-                        addTemplateEntry(compoundStatement, entryReferences);
-                    }
-
-                    addMappableResourcesFromCompoundStatement(component.getCompoundStatement(), list, entryReferences);
+                    addMappableResourcesFromCompoundStatement(component.getCompoundStatement(), entryReferences);
                 });
             }
         }
     }
 
-    private boolean noPriorBloodPressureMapping(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
-        return compoundStatement == null || entryReferences.stream()
+    private boolean isNotIgnoredResource(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
+        var references = entryReferences.stream()
             .map(Reference::getReference)
-            .noneMatch(reference -> reference.contains(compoundStatement.getId().get(0).getRoot()));
+            .toList();
+
+        return compoundStatement == null
+            || references.contains(QUESTIONNAIRE_REFERENCE.formatted(QUESTIONNAIRE_PREFIX + compoundStatement.getId().get(0).getRoot()))
+            || !references.contains(OBSERVATION_PREFIX + compoundStatement.getId().get(0).getRoot());
     }
 
     private void addTemplateEntry(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
         entryReferences.add(createResourceReference(ResourceType.QuestionnaireResponse.name(),
             QUESTIONNAIRE_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot())));
-        entryReferences.add(createResourceReference(ResourceType.Observation.name(), .name(),
-            QUESTIONNAIRE_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot())));
+        entryReferences.add(createResourceReference(ResourceType.Observation.name(),
+            compoundStatement.getId().get(0).getRoot()));
     }
 
     private void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement, List<Reference> entryReferences,
         RCMRMT030101UK04CompoundStatement compoundStatement) {
-        if (observationStatement != null && noPriorBloodPressureMapping(compoundStatement, entryReferences)) {
+        if (observationStatement != null && isNotIgnoredResource(compoundStatement, entryReferences)) {
             if (isBloodPressure(compoundStatement)) {
                 addBloodPressureEntry(compoundStatement, entryReferences);
             } else if (isAllergyIntolerance(compoundStatement)) {
@@ -448,7 +454,7 @@ public class EncounterMapper {
 
     private void addNarrativeStatementEntry(RCMRMT030101UK04NarrativeStatement narrativeStatement, List<Reference> entryReferences) {
         if (narrativeStatement != null) {
-            if (hasReferredToExternalDocument(narrativeStatement)) {
+            if (isDocumentReference(narrativeStatement)) {
                 entryReferences.add(createResourceReference(ResourceType.DocumentReference.name(),
                     narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot()));
             } else {

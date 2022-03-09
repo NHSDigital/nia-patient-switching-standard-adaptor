@@ -81,7 +81,7 @@ public class EncounterMapperTest {
     private static final String FULL_VALID_FLAT_ENCOUNTER_WITH_RESOURCES_XML = "full_valid_flat_encounter_with_resources.xml";
     private static final int ONE_MAPPED_RESOURCE = 1;
     private static final int TWO_MAPPED_RESOURCES = 2;
-    private static final int SIXTEEN_MAPPED_RESOURCES = 16;
+    private static final int NINETEEN_MAPPED_RESOURCES = 19;
     private static final String LINKSET_REFERENCE = "Condition/DCC26FC9-4D1C-11E3-A2DD-010000000161";
 
     @Mock
@@ -303,7 +303,7 @@ public class EncounterMapperTest {
             .map(Reference::getReference)
             .toList();
 
-        assertThat(entryReferences.size()).isEqualTo(SIXTEEN_MAPPED_RESOURCES);
+        assertThat(entryReferences.size()).isEqualTo(NINETEEN_MAPPED_RESOURCES);
         assertEntry(entryReferences);
     }
 
@@ -339,7 +339,7 @@ public class EncounterMapperTest {
             .map(Reference::getReference)
             .toList();
 
-        assertThat(entryReferences.size()).isEqualTo(SIXTEEN_MAPPED_RESOURCES);
+        assertThat(entryReferences.size()).isEqualTo(NINETEEN_MAPPED_RESOURCES);
         assertEntry(entryReferences);
     }
 
@@ -456,6 +456,9 @@ public class EncounterMapperTest {
         assertThat(entryReferences).contains("Observation/uncategorised-observation-id");
         assertThat(entryReferences).contains("DiagnosticReport/diagnostic-compound-id");
         assertThat(entryReferences).contains("QuestionnaireResponse/questionnaire-response-id-QRSP");
+        assertThat(entryReferences).contains("Observation/questionnaire-response-id");
+        assertThat(entryReferences).contains("Observation/questionnaire-observation-statement-id");
+        assertThat(entryReferences).contains("Observation/questionnaire-narrative-statement-id");
     }
 
     private void setUpCodeableConceptMock() {

@@ -29,7 +29,6 @@ import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
@@ -206,15 +205,13 @@ public class BloodPressureMapper {
         }
     }
 
-    private void addContext(Observation observation, Optional<Reference> context) {
-        context.ifPresent(observation::setContext);
+    private void addContext(Observation observation, Optional<Encounter> context) {
+        context.ifPresent(encounter -> observation.setContext(new Reference(encounter)));
     }
 
-    private Optional<Reference> getMatchingEncounter(RCMRMT030101UK04EhrComposition ehrComposition, List<Encounter> encounters) {
+    private Optional<Encounter> getMatchingEncounter(RCMRMT030101UK04EhrComposition ehrComposition, List<Encounter> encounters) {
         return encounters.stream()
             .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
-            .findFirst()
-            .map(Resource::getId)
-            .map(Reference::new);
+            .findFirst();
     }
 }
