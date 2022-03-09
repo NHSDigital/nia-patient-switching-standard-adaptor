@@ -51,11 +51,11 @@ public class ProcedureRequestMapper {
             .map(RCMRMT030101UK04EhrFolder::getComponent)
             .flatMap(List::stream)
             .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .map(RCMRMT030101UK04EhrComposition::getComponent)
-            .flatMap(List::stream)
-            .flatMap(this::extractAllPlanStatements)
-            .filter(Objects::nonNull)
-            .map(planStatement -> mapToProcedureRequest(ehrExtract, planStatement, patient, encounters, practiseCode))
+            .flatMap(ehrComposition -> ehrComposition.getComponent().stream()
+                .flatMap(this::extractAllPlanStatements)
+                .filter(Objects::nonNull)
+                .map(planStatement
+                    -> mapToProcedureRequest(ehrExtract, ehrComposition, planStatement, patient, encounters, practiseCode)))
             .toList();
     }
 
@@ -71,7 +71,8 @@ public class ProcedureRequestMapper {
         );
     }
 
-    public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04PlanStatement planStatement,
+    public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
+        RCMRMT030101UK04PlanStatement planStatement,
         Patient patient, List<Encounter> encounters, String practiseCode) {
         var id = planStatement.getId().getRoot();
         var procedureRequest = new ProcedureRequest();
@@ -87,17 +88,15 @@ public class ProcedureRequestMapper {
         procedureRequest.getNote().add(getNote(planStatement.getText()));
         procedureRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode()));
         procedureRequest.getRequester().setAgent(ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(),
-            EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatement.getId())));
+            ehrComposition));
 
-        setProcedureRequestContext(procedureRequest, ehrExtract, planStatement.getId(), encounters);
+        setProcedureRequestContext(procedureRequest, ehrComposition, planStatement.getId(), encounters);
 
         return procedureRequest;
     }
 
-    private void setProcedureRequestContext(ProcedureRequest procedureRequest, RCMRMT030101UK04EhrExtract ehrExtract,
+    private void setProcedureRequestContext(ProcedureRequest procedureRequest, RCMRMT030101UK04EhrComposition ehrComposition,
         II planStatementId, List<Encounter> encounters) {
-        var ehrComposition =
-            EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatementId);
 
         encounters
             .stream()
