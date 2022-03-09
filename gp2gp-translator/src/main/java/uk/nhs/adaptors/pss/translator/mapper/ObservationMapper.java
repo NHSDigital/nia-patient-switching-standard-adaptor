@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
-import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getInterpretation;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
@@ -48,7 +47,7 @@ import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ObservationMapper {
+public class ObservationMapper extends AbstractMapper<Observation> {
     private static final String META_PROFILE = "Observation-1";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
     private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
@@ -56,45 +55,44 @@ public class ObservationMapper {
 
     private final CodeableConceptMapper codeableConceptMapper;
 
-    public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        var compositionsList = getCompositionsContainingObservationStatement(ehrExtract);
 
-        return compositionsList
-            .stream()
-            .flatMap(ehrComposition -> ehrComposition.getComponent()
-                .stream()
-                .flatMap(this::extractAllObservationStatements)
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllObservationStatements(component)
                 .filter(Objects::nonNull)
                 .filter(this::isNotBloodPressure)
                 .filter(this::isNotImmunization)
-                .map(observationStatement -> {
-                    var id = observationStatement.getId().getRoot();
-
-                    Observation observation = new Observation()
-                        .setStatus(FINAL)
-                        .addIdentifier(buildIdentifier(id, practiseCode))
-                        .setCode(getCode(observationStatement.getCode()))
-                        .setIssuedElement(getIssued(ehrExtract, ehrComposition))
-                        .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
-                        .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
-                        .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject()))
-                        .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
-                        .setSubject(new Reference(patient));
-
-                    observation.setId(id);
-                    observation.setMeta(generateMeta(META_PROFILE));
-
-                    addContext(observation, getEncounterReference(compositionsList, encounters,
-                        ehrComposition.getId().getRoot()));
-                    addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
-                        getValueString(observationStatement.getValue()));
-                    addEffective(observation,
-                        getEffective(observationStatement.getEffectiveTime(), observationStatement.getAvailabilityTime()));
-
-                    return observation;
-                }))
+                .map(observationStatement
+                    -> mapObservation(extract, composition, observationStatement, patient, encounters, practiseCode)))
             .toList();
+    }
+
+    private Observation mapObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
+        RCMRMT030101UK04ObservationStatement observationStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+        var id = observationStatement.getId().getRoot();
+
+        Observation observation = new Observation()
+            .setStatus(FINAL)
+            .addIdentifier(buildIdentifier(id, practiseCode))
+            .setCode(getCode(observationStatement.getCode()))
+            .setIssuedElement(getIssued(ehrExtract, ehrComposition))
+            .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
+            .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
+            .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject()))
+            .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
+            .setSubject(new Reference(patient));
+
+        observation.setId(id);
+        observation.setMeta(generateMeta(META_PROFILE));
+
+        addContext(observation, encounters, ehrComposition);
+        addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
+            getValueString(observationStatement.getValue()));
+        addEffective(observation,
+            getEffective(observationStatement.getEffectiveTime(), observationStatement.getAvailabilityTime()));
+
+        return observation;
     }
 
     private Stream<RCMRMT030101UK04ObservationStatement> extractAllObservationStatements(RCMRMT030101UK04Component4 component4) {
@@ -134,10 +132,12 @@ public class ObservationMapper {
         return true;
     }
 
-    private void addContext(Observation observation, Reference context) {
-        if (context != null) {
-            observation.setContext(context);
-        }
+    private void addContext(Observation observation, List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
+        encounters.stream()
+            .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
+            .findFirst()
+            .map(Reference::new)
+            .ifPresent(observation::setContext);
     }
 
     private void addEffective(Observation observation, Object effective) {

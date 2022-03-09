@@ -20,13 +20,10 @@ import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.hl7.v3.RCMRMT030101UK04ResponsibleParty3;
 import org.hl7.v3.TS;
@@ -39,7 +36,7 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
 @AllArgsConstructor
-public class ReferralRequestMapper {
+public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     private static final String META_PROFILE = "ReferralRequest-1";
     private static final String PRIORITY_PREFIX = "Priority: ";
     private static final String ACTION_DATE_PREFIX = "Action Date: ";
@@ -48,19 +45,12 @@ public class ReferralRequestMapper {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    public List<ReferralRequest> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        return ehrExtract.getComponent()
-            .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .flatMap(ehrComposition -> ehrComposition.getComponent()
-                .stream()
-                .flatMap(this::extractAllRequestStatements)
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllRequestStatements(component)
                 .filter(Objects::nonNull)
-                .map(requestStatement -> mapToReferralRequest(ehrComposition, requestStatement, patient, encounters, practiseCode)))
+                .map(requestStatement -> mapToReferralRequest(composition, requestStatement, patient, encounters, practiseCode)))
             .toList();
     }
 

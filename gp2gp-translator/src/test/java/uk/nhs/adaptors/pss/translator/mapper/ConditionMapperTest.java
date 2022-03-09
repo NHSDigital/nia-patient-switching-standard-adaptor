@@ -74,7 +74,7 @@ public class ConditionMapperTest {
 
         final List<Encounter> emptyEncounterList = List.of();
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
-        final List<Condition> conditions = conditionMapper.mapConditions(ehrExtract, patient, emptyEncounterList, PRACTISE_CODE);
+        final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, emptyEncounterList, PRACTISE_CODE);
 
         assertThat(conditions).isNotEmpty();
 
@@ -108,7 +108,7 @@ public class ConditionMapperTest {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
-        final List<Condition> conditions = conditionMapper.mapConditions(ehrExtract, patient, List.of(), PRACTISE_CODE);
+        final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
         assertThat(conditions.get(0).getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY);
@@ -119,7 +119,7 @@ public class ConditionMapperTest {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
 
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
-        final List<Condition> conditions = conditionMapper.mapConditions(ehrExtract, patient, List.of(), PRACTISE_CODE);
+        final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
@@ -133,7 +133,7 @@ public class ConditionMapperTest {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
 
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
-        final List<Condition> conditions = conditionMapper.mapConditions(ehrExtract, patient, List.of(), PRACTISE_CODE);
+        final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
         conditionMapper.addReferences(buildBundleWithStatementRefObservations(), conditions, ehrExtract);
 
@@ -149,7 +149,7 @@ public class ConditionMapperTest {
         final List<Encounter> encounters = List.of((Encounter) new Encounter().setId(ENCOUNTER_ID));
 
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
-        final List<Condition> conditions = conditionMapper.mapConditions(ehrExtract, patient, encounters, PRACTISE_CODE);
+        final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, PRACTISE_CODE);
 
         assertThat(conditions).isNotEmpty();
         assertThat(conditions.get(0).getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
@@ -158,7 +158,7 @@ public class ConditionMapperTest {
     @Test
     public void testLinkSetWithNoDatesIsMappedCorrectly() {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_no_dates.xml");
-        final List<Condition> conditions = conditionMapper.mapConditions(ehrExtract, patient, List.of(), PRACTISE_CODE);
+        final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
         assertGeneratedComponentsAreCorrect(conditions.get(0));
         assertThat(conditions.get(0).getId()).isEqualTo(LINKSET_ID);

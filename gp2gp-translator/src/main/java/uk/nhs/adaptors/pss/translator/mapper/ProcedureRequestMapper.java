@@ -18,13 +18,10 @@ import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.II;
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,24 +35,18 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ProcedureRequestMapper {
+public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
     private static final String META_PROFILE = "ProcedureRequest-1";
 
     private final CodeableConceptMapper codeableConceptMapper;
 
-    public List<ProcedureRequest> mapProcedureRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    public List<ProcedureRequest> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        return ehrExtract.getComponent()
-            .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .flatMap(ehrComposition -> ehrComposition.getComponent().stream()
-                .flatMap(this::extractAllPlanStatements)
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllPlanStatements(component)
                 .filter(Objects::nonNull)
-                .map(planStatement
-                    -> mapToProcedureRequest(ehrExtract, ehrComposition, planStatement, patient, encounters, practiseCode)))
+                .map(planStatement -> mapToProcedureRequest(ehrExtract, composition, planStatement, patient, encounters, practiseCode)))
+            .map(ProcedureRequest.class::cast)
             .toList();
     }
 

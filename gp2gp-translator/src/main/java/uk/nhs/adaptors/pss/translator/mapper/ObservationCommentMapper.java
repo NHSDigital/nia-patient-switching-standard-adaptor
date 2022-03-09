@@ -17,13 +17,10 @@ import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.springframework.stereotype.Service;
 
@@ -34,50 +31,47 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
 @AllArgsConstructor
-public class ObservationCommentMapper {
+public class ObservationCommentMapper extends AbstractMapper<Observation> {
 
     private static final String META_URL = "Observation-1";
     private static final String CODING_SYSTEM = "http://snomed.info/sct";
     private static final String CODING_CODE = "37331000000100";
     private static final String CODING_DISPLAY = "Comment note";
 
-    public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
 
-        return ehrExtract.getComponent()
-            .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .flatMap(ehrComposition -> ehrComposition.getComponent()
-                .stream()
-                .flatMap(this::extractAllNarrativeStatements)
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllNarrativeStatements(component)
                 .filter(Objects::nonNull)
                 .filter(narrativeStatement -> !hasReferredToExternalDocument(narrativeStatement))
-                .map(narrativeStatement -> {
-                    var narrativeStatementId = narrativeStatement.getId();
-                    var observation = new Observation();
-                    observation.setId(narrativeStatement.getId().getRoot());
-                    observation.setMeta(generateMeta(META_URL));
-                    observation.setStatus(FINAL);
-                    observation.setSubject(new Reference(patient));
-                    observation.setIssuedElement(createIssued(ehrExtract, ehrComposition));
-                    observation.setCode(createCodeableConcept());
-                    observation.setEffective(
-                        DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue())
-                    );
+                .map(narrativeStatement -> mapObservation(ehrExtract, composition, narrativeStatement, patient, encounters, practiseCode)))
+            .toList();
+    }
 
-                    observation.addPerformer(createPerformer(ehrComposition, narrativeStatement));
+    private Observation mapObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
+        RCMRMT030101UK04NarrativeStatement narrativeStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+        var narrativeStatementId = narrativeStatement.getId();
+        var observation = new Observation();
+        observation.setId(narrativeStatement.getId().getRoot());
+        observation.setMeta(generateMeta(META_URL));
+        observation.setStatus(FINAL);
+        observation.setSubject(new Reference(patient));
+        observation.setIssuedElement(createIssued(ehrExtract, ehrComposition));
+        observation.setCode(createCodeableConcept());
+        observation.setEffective(
+            DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue())
+        );
 
-                    observation.addIdentifier(buildIdentifier(narrativeStatementId.getRoot(), practiseCode));
+        observation.addPerformer(createPerformer(ehrComposition, narrativeStatement));
 
-                    setObservationComment(observation, narrativeStatement.getText());
+        observation.addIdentifier(buildIdentifier(narrativeStatementId.getRoot(), practiseCode));
 
-                    // Context may not always be mapped
-                    setObservationContext(observation, ehrComposition, encounters);
-                    return observation;
-                })).toList();
+        setObservationComment(observation, narrativeStatement.getText());
+
+        // Context may not always be mapped
+        setObservationContext(observation, ehrComposition, encounters);
+        return observation;
     }
 
     private void setObservationContext(Observation observation, RCMRMT030101UK04EhrComposition composition, List<Encounter> encounters) {

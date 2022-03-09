@@ -19,13 +19,10 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.springframework.stereotype.Service;
@@ -37,7 +34,7 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
 @AllArgsConstructor
-public class ImmunizationMapper {
+public class ImmunizationMapper extends AbstractMapper<Immunization> {
     private static final String META_PROFILE = "Immunization-1";
     private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
     private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
@@ -50,23 +47,15 @@ public class ImmunizationMapper {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<Immunization> mapToImmunization(RCMRMT030101UK04EhrExtract ehrExtract, Patient patientResource,
+    public List<Immunization> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patientResource,
         List<Encounter> encounterList, String practiseCode) {
-        return ehrExtract.getComponent()
-            .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .flatMap(ehrComposition -> ehrComposition
-                .getComponent()
-                .stream()
-                .flatMap(this::extractAllObservationStatements)
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllObservationStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ImmunizationMapper::validImmunizationSnomedCode)
                 .map(observationStatement ->
-                    mapImmunization(ehrComposition, observationStatement, patientResource, encounterList, practiseCode))
-            ).toList();
+                    mapImmunization(composition, observationStatement, patientResource, encounterList, practiseCode)))
+            .toList();
     }
 
     private Immunization mapImmunization(RCMRMT030101UK04EhrComposition ehrComposition,

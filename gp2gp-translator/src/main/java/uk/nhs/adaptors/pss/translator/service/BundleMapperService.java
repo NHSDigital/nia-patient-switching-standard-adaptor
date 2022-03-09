@@ -135,7 +135,7 @@ public class BundleMapperService {
 
     private List<Immunization> mapImmunizations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounterList,
         String practiseCode) {
-        return immunizationMapper.mapToImmunization(ehrExtract, patient, encounterList, practiseCode);
+        return immunizationMapper.mapResources(ehrExtract, patient, encounterList, practiseCode);
     }
 
     private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UK04EhrFolder ehrFolder) {
@@ -158,32 +158,32 @@ public class BundleMapperService {
 
     private List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        return referralRequestMapper.mapReferralRequests(ehrExtract, patient, encounters, practiseCode);
+        return referralRequestMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
     }
 
     private List<ProcedureRequest> mapProcedureRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
         List<Encounter> encounters, String practiseCode) {
-        return procedureRequestMapper.mapProcedureRequests(ehrExtract, patient, encounters, practiseCode);
+        return procedureRequestMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
     }
 
     private List<Observation> mapObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        return observationCommentMapper.mapObservations(ehrExtract, patient, encounters, practiseCode);
+        return observationCommentMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
     }
 
     private List<Observation> mapBloodPressures(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        return bloodPressureMapper.mapBloodPressure(ehrExtract, patient, encounters, practiseCode);
+        return bloodPressureMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
     }
 
     private List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        return observationMapper.mapObservations(ehrExtract, patient, encounters, practiseCode);
+        return observationMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
     }
 
     private List<Condition> mapConditions(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        return conditionMapper.mapConditions(ehrExtract, patient, encounters, practiseCode);
+        return conditionMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
     }
 
     private Organization getPatientOrganization(List<? extends DomainResource> agents) {
