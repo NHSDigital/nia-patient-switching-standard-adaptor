@@ -27,7 +27,7 @@ import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 @AllArgsConstructor
 public class MedicationMapper {
     private static final String MEDICATION_URL = "Medication-1";
-    private static final Map<String, String> MEDICATION_IDS = new HashMap<>();
+    private static final ThreadLocal<Map<String, String>> MEDICATION_IDS = ThreadLocal.withInitial(HashMap::new);
 
     private CodeableConceptMapper codeableConceptMapper;
     private IdGeneratorService idGeneratorService;
@@ -36,7 +36,7 @@ public class MedicationMapper {
         if (hasManufacturedMaterial(consumable)) {
             CD code = consumable.getManufacturedProduct().getManufacturedMaterial().getCode();
             var key = buildKey(code);
-            if (!MEDICATION_IDS.containsKey(key)) {
+            if (!MEDICATION_IDS.get().containsKey(key)) {
                 Medication medication = new Medication();
                 medication.setId(getMedicationId(code));
                 medication.setMeta(generateMeta(MEDICATION_URL));
@@ -55,13 +55,13 @@ public class MedicationMapper {
 
     public String getMedicationId(CD code) {
         var key = buildKey(code);
-        var value = MEDICATION_IDS.getOrDefault(key, StringUtils.EMPTY);
+        var value = MEDICATION_IDS.get().getOrDefault(key, StringUtils.EMPTY);
 
         if (StringUtils.isNotBlank(value)) {
             return value;
         } else {
             var newId = idGeneratorService.generateUuid();
-            MEDICATION_IDS.put(key, newId);
+            MEDICATION_IDS.get().put(key, newId);
             return newId;
         }
     }
@@ -97,6 +97,6 @@ public class MedicationMapper {
     }
 
     protected static void resetMedicationMaps() {
-        MEDICATION_IDS.clear();
+        MEDICATION_IDS.get().clear();
     }
 }

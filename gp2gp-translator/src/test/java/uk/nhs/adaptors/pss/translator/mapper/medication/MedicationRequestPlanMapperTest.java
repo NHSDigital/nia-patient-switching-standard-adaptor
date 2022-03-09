@@ -102,7 +102,7 @@ public class MedicationRequestPlanMapperTest {
         assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue().intValue()).isEqualTo(TWENTY_EIGHT);
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().hasStart()).isTrue();
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().hasEnd()).isTrue();
-//        assertThat(medicationRequest.getPriorPrescription().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
+        assertThat(medicationRequest.getPriorPrescription().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
     }
 
     private void assertStatusReasonInformation(Extension extension) {
