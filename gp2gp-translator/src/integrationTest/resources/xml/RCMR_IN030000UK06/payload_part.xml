@@ -14065,7 +14065,6 @@
 
                                                 <component typeCode="COMP">
                                                     <ObservationStatement classCode="OBS" moodCode="EVN">
-                                                        <!--not being generated-->
                                                         <id root="uncategorised-observation-id"/>
                                                         <code code="360300017" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
                                                               displayName="Test display">
@@ -14240,7 +14239,6 @@
                                                         <availabilityTime value="201101111533"/>
                                                         <component typeCode="COMP" contextConductionInd="true">
                                                             <ObservationStatement classCode="OBS" moodCode="EVN">
-                                                                <!--not being generated-->
                                                                 <id root="questionnaire-observation-statement-id"/>
                                                                 <code code="1683.00" codeSystem="2.16.840.1.113883.2.1.6.7"
                                                                       displayName="Tired all the time">
