@@ -46,21 +46,6 @@ public class EhrResourceExtractorUtil {
             .get();
     }
 
-    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract,
-        II resourceId) {
-        return ehrExtract.getComponent()
-            .stream()
-            .filter(EhrResourceExtractorUtil::hasEhrFolder)
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .filter(EhrResourceExtractorUtil::hasEhrComposition)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> filterForMatchingEhrCompositionCompoundStatement(ehrComposition, resourceId))
-            .findFirst()
-            .get();
-    }
-
     public static boolean hasEhrComposition(RCMRMT030101UK04Component3 component) {
         return component.getEhrComposition() != null;
     }
