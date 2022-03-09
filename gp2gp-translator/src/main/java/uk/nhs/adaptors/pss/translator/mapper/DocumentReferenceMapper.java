@@ -35,6 +35,10 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @Service
 @AllArgsConstructor
 public class DocumentReferenceMapper {
+
+    //TODO Add custodian using the reference to Organisation that is generated for sending Practice
+    //TODO Add file Size using the uncompressed/unencoded size of the document
+
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1";
     private static final String ABSENT_ATTACHMENT = "Absent Attachment";
     private static final String PLACEHOLDER_VALUE = "GP2GP generated placeholder. Original document not available. See notes for details";
@@ -42,9 +46,8 @@ public class DocumentReferenceMapper {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-
     public List<DocumentReference> mapToDocumentReference(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        Organization organization, Long fileSize, List<Encounter> encounterList, String practiseCode) {
+        List<Encounter> encounterList, String practiseCode) {
         List<DocumentReference> mappedDocumentReferenceResources = new ArrayList<>();
         var ehrCompositionList = EhrResourceExtractorUtil.extractValidDocumentReferenceEhrCompositions(ehrExtract);
 
@@ -54,7 +57,7 @@ public class DocumentReferenceMapper {
             narrativeStatements
                 .forEach(narrativeStatement -> {
                     var mappedDocumentReferences = mapDocumentReference(narrativeStatement, patient, ehrExtract,
-                        organization, fileSize, encounterList, practiseCode);
+                        encounterList, practiseCode);
                     mappedDocumentReferenceResources.add(mappedDocumentReferences);
                 });
         });
@@ -63,8 +66,7 @@ public class DocumentReferenceMapper {
     }
 
     private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement, Patient patient,
-        RCMRMT030101UK04EhrExtract ehrExtract, Organization organization, long fileSize,
-        List<Encounter> encounterList, String practiseCode) {
+        RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounterList, String practiseCode) {
         DocumentReference documentReference = new DocumentReference();
 
         var ehrComposition = ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
@@ -81,10 +83,6 @@ public class DocumentReferenceMapper {
         documentReference.setAuthor(getAuthor(narrativeStatement, ehrComposition));
         documentReference.setDescription(buildDescription(narrativeStatement));
 
-        if (organization != null && organization.hasIdElement()) {
-            documentReference.setCustodian(createOrganizationReference(organization));
-        }
-
         if (narrativeStatement.getAvailabilityTime() != null && narrativeStatement.getAvailabilityTime().getValue() != null) {
             documentReference.setCreatedElement(
                 DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
@@ -100,7 +98,7 @@ public class DocumentReferenceMapper {
             documentReference.setContext(documentReferenceContextComponent);
         }
 
-        setContentAttachments(documentReference, narrativeStatement, fileSize);
+        setContentAttachments(documentReference, narrativeStatement);
 
         return documentReference;
     }
@@ -174,8 +172,7 @@ public class DocumentReferenceMapper {
             .equals(ABSENT_ATTACHMENT);
     }
 
-    private void setContentAttachments(DocumentReference documentReference, RCMRMT030101UK04NarrativeStatement narrativeStatement,
-        long fileSize) {
+    private void setContentAttachments(DocumentReference documentReference, RCMRMT030101UK04NarrativeStatement narrativeStatement) {
         var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
         var attachment = new Attachment();
         if (referenceToExternalDocument.getText() != null) {
@@ -183,7 +180,6 @@ public class DocumentReferenceMapper {
 
             if (!isAbsentAttachment(narrativeStatement)) {
                 attachment.setUrl(referenceToExternalDocument.getText().getReference().getValue());
-                attachment.setSize((int) fileSize);
                 attachment.setTitle(buildFileName(referenceToExternalDocument.getText().getReference().getValue()));
             } else {
                 attachment.setTitle(PLACEHOLDER_VALUE);

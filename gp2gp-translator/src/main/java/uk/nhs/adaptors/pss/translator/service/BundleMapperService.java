@@ -7,6 +7,7 @@ import java.util.Map;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.dstu3.model.Condition;
+import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Immunization;
@@ -32,6 +33,7 @@ import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
@@ -67,6 +69,7 @@ public class BundleMapperService {
     private final ConditionMapper conditionMapper;
     private final ImmunizationMapper immunizationMapper;
     private final UnknownPractitionerHandler unknownPractitionerHandler;
+    private final DocumentReferenceMapper documentReferenceMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -116,6 +119,9 @@ public class BundleMapperService {
             mapObservationComments(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, observationComments);
 
+        var documentReferences = mapDocumentReferences(ehrExtract, patient, encounters, practiseCode);
+        addEntries(bundle, documentReferences);
+
         // TODO: Add references to mapped resources in their appropriate lists (NIAD-2051)
         addEntries(bundle, topics);
         addEntries(bundle, categories);
@@ -126,6 +132,10 @@ public class BundleMapperService {
         unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
 
         return bundle;
+    }
+
+    private List<DocumentReference> mapDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters, String practiseCode) {
+        return documentReferenceMapper.mapToDocumentReference(ehrExtract, patient, encounters, practiseCode);
     }
 
     private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
