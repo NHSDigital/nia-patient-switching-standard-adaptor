@@ -34,12 +34,12 @@ import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
+import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @AllArgsConstructor
 public class ImmunizationMapper {
     private static final String META_PROFILE = "Immunization-1";
-    private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
     private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-VaccinationProcedure-1";
     private static final String END_DATE_PREFIX = "End Date: ";
@@ -63,7 +63,7 @@ public class ImmunizationMapper {
                 .stream()
                 .flatMap(this::extractAllObservationStatements)
                 .filter(Objects::nonNull)
-                .filter(ImmunizationMapper::validImmunizationSnomedCode)
+                .filter(ResourceFilterUtil::isImmunization)
                 .map(observationStatement ->
                     mapImmunization(ehrComposition, observationStatement, patientResource, encounterList, practiseCode))
             ).toList();
@@ -120,7 +120,7 @@ public class ImmunizationMapper {
             .stream()
             .flatMap(this::extractAllObservationStatements)
             .filter(Objects::nonNull)
-            .filter(this::hasImmunizationCode)
+            .filter(ResourceFilterUtil::isImmunization)
             .collect(Collectors.toList());
     }
 
@@ -149,12 +149,6 @@ public class ImmunizationMapper {
         }
 
         return null;
-    }
-
-    private boolean hasImmunizationCode(RCMRMT030101UK04ObservationStatement observationStatement) {
-        String snomedCode = observationStatement.getCode().getCodeSystem();
-
-        return IMMUNIZATION_SNOMED_CODE.equals(snomedCode);
     }
 
     private Extension createVaccineProcedureExtension(RCMRMT030101UK04ObservationStatement observationStatement) {
@@ -187,10 +181,6 @@ public class ImmunizationMapper {
                 immunization.setDateElement(DateFormatUtil.parseToDateTimeType(observationStatement.getAvailabilityTime().getValue()));
             }
         }
-    }
-    private static boolean validImmunizationSnomedCode(RCMRMT030101UK04ObservationStatement observationStatement) {
-        return observationStatement != null
-            && IMMUNIZATION_SNOMED_CODE.equals(observationStatement.getCode().getCodeSystem());
     }
 
     private List<Annotation> buildNote(RCMRMT030101UK04ObservationStatement observationStatement) {
