@@ -35,7 +35,8 @@ public class ResourceUtil {
         return new Extension(url, reference);
     }
 
-    public static void addContextToObservation(Observation observation, List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
+    public static void addContextToObservation(Observation observation, List<Encounter> encounters,
+        RCMRMT030101UK04EhrComposition ehrComposition) {
         encounters.stream()
             .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
             .findFirst()
