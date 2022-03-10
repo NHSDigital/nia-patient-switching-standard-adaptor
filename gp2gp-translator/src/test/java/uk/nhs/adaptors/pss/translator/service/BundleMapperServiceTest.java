@@ -140,7 +140,7 @@ public class BundleMapperServiceTest {
         verify(observationCommentMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
             any(String.class));
         verify(medicationRequestMapper, atLeast(1))
-            .mapResources(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), any(String.class));
+            .mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class));
         verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
     }
 

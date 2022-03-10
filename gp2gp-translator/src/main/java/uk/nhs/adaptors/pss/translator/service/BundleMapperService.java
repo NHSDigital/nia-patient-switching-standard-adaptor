@@ -97,7 +97,7 @@ public class BundleMapperService {
         var referralRequests = mapReferralRequests(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, referralRequests);
 
-        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, encounters, patient, practiseCode);
+        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, medicationResources);
 
         var bloodPressures = mapBloodPressures(ehrExtract, patient, encounters, practiseCode);
