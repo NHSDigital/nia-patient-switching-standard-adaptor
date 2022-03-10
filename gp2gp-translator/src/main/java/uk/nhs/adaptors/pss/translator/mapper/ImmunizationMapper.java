@@ -28,12 +28,12 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
+import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @AllArgsConstructor
 public class ImmunizationMapper extends AbstractMapper<Immunization> {
     private static final String META_PROFILE = "Immunization-1";
-    private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
     private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-VaccinationProcedure-1";
     private static final String END_DATE_PREFIX = "End Date: ";
@@ -49,7 +49,7 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllObservationStatements(component)
                 .filter(Objects::nonNull)
-                .filter(ImmunizationMapper::hasValidImmunizationSnomedCode)
+                .filter(ResourceFilterUtil::isImmunization)
                 .map(observationStatement ->
                     mapImmunization(composition, observationStatement, patientResource, encounterList, practiseCode)))
             .toList();
@@ -147,10 +147,6 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
                 immunization.setDateElement(DateFormatUtil.parseToDateTimeType(observationStatement.getAvailabilityTime().getValue()));
             }
         }
-    }
-    private static boolean hasValidImmunizationSnomedCode(RCMRMT030101UK04ObservationStatement observationStatement) {
-        return observationStatement != null
-            && IMMUNIZATION_SNOMED_CODE.equals(observationStatement.getCode().getCodeSystem());
     }
 
     private List<Annotation> buildNote(RCMRMT030101UK04ObservationStatement observationStatement) {
