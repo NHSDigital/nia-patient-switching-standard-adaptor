@@ -6,7 +6,6 @@ import static org.hl7.fhir.dstu3.model.QuestionnaireResponse.QuestionnaireRespon
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.containsValidBloodPressureTriple;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionsFromEhrExtract;
-import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -59,8 +58,7 @@ public class TemplateMapper {
             .filter(Objects::nonNull)
             .filter(this::isMappableTemplate)
             .forEach(compoundStatement -> {
-                var encounter = Optional.of(getEncounterReference(ehrCompositions, encounters,
-                    ehrComposition.getId().getRoot()));
+                var encounter = getEncounter(encounters, ehrComposition);
 
                 var parentObservation = createParentObservation(compoundStatement, practiseCode, patient, encounter,
                     ehrComposition, ehrExtract);
@@ -75,6 +73,14 @@ public class TemplateMapper {
             }));
 
         return mappedResources;
+    }
+
+    private Optional<Reference> getEncounter(List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
+        return encounters
+            .stream()
+            .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
+            .map(Reference::new)
+            .findFirst();
     }
 
     private Observation createParentObservation(RCMRMT030101UK04CompoundStatement compoundStatement, String practiseCode, Patient patient,
