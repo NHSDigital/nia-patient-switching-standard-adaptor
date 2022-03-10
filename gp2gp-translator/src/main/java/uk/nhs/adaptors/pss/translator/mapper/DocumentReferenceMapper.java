@@ -31,7 +31,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Slf4j
