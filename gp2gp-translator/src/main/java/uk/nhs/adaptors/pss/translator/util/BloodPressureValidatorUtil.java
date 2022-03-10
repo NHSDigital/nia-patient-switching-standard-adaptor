@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.getObservationStatementsFromCompoundStatement;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,17 +48,6 @@ public class BloodPressureValidatorUtil {
     public static boolean isDiastolicBloodPressure(String code) {
         return DIASTOLIC_1.contains(code) || DIASTOLIC_2.contains(code) || DIASTOLIC_3.contains(code) || DIASTOLIC_4.contains(code)
             || DIASTOLIC_5.contains(code);
-    }
-
-    public static boolean containsValidBloodPressureTriple(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
-
-        if (observationStatements.size() == 2) {
-            return BloodPressureValidatorUtil.validateBloodPressureTriple(compoundStatement.getCode().getCode(),
-                observationStatements.get(0).getCode().getCode(), observationStatements.get(1).getCode().getCode());
-        }
-
-        return false;
     }
 
     private static boolean validateTriple(String header, String observationStatement1, String observationStatement2) {
