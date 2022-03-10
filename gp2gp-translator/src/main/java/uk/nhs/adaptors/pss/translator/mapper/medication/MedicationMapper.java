@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationIdUtil.getMedicationId;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.Optional;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
-import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @Service
 @AllArgsConstructor
@@ -26,14 +24,14 @@ public class MedicationMapper {
     private static final String MEDICATION_URL = "Medication-1";
 
     private CodeableConceptMapper codeableConceptMapper;
-    private IdGeneratorService idGeneratorService;
+    private MedicationMapperContext medicationMapperContext;
 
     public Medication createMedication(RCMRMT030101UK04Consumable consumable) {
         if (hasManufacturedMaterial(consumable)) {
             CD code = consumable.getManufacturedProduct().getManufacturedMaterial().getCode();
-            if (!MedicationIdUtil.contains(code)) {
+            if (!medicationMapperContext.contains(code)) {
                 Medication medication = new Medication();
-                medication.setId(getMedicationId(code));
+                medication.setId(medicationMapperContext.getMedicationId(code));
                 medication.setMeta(generateMeta(MEDICATION_URL));
                 medication.setCode(codeableConceptMapper.mapToCodeableConcept(code));
                 return medication;
@@ -53,7 +51,7 @@ public class MedicationMapper {
                 .findFirst();
 
             return medicationCode
-                .map(MedicationIdUtil::getMedicationId)
+                .map(medicationMapperContext::getMedicationId)
                 .map(id -> new IdType(ResourceType.Medication.name(), id))
                 .map(Reference::new);
         }

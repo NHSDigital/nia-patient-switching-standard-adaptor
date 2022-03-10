@@ -48,6 +48,8 @@ public class MedicationRequestMapperTest {
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
     @Mock
     private MedicationStatementMapper medicationStatementMapper;
+    @Mock
+    private MedicationMapperContext medicationMapperContext;
 
     @InjectMocks
     private MedicationRequestMapper medicationRequestMapper;

@@ -36,6 +36,7 @@ public class MedicationRequestMapper {
     private MedicationRequestOrderMapper medicationRequestOrderMapper;
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
     private MedicationStatementMapper medicationStatementMapper;
+    private MedicationMapperContext medicationMapperContext;
 
     private static final String PPRF = "PPRF";
     private static final String PRF = "PRF";
@@ -64,7 +65,7 @@ public class MedicationRequestMapper {
                 .flatMap(List::stream)
                 .forEach(mappedResources::add);
         }
-        MedicationIdUtil.resetMedicationMaps();
+        medicationMapperContext.resetMedicationMaps();
         return mappedResources;
     }
 

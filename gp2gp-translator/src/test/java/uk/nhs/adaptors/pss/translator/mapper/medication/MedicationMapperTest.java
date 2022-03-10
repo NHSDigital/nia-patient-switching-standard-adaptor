@@ -33,6 +33,9 @@ public class MedicationMapperTest {
     @Mock
     private IdGeneratorService idGeneratorService;
 
+    @Mock
+    private MedicationMapperContext medicationMapperContext;
+
     @InjectMocks
     private MedicationMapper medicationMapper;
 

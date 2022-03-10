@@ -7,30 +7,32 @@ import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.v3.CD;
+import org.springframework.stereotype.Component;
 
-public class MedicationIdUtil {
+@Component
+public class MedicationMapperContext {
 
-    private static final ThreadLocal<Map<String, String>> MEDICATION_IDS = ThreadLocal.withInitial(HashMap::new);
+    private final Map<String, String> medicationIds = new HashMap<>();
 
-    public static String getMedicationId(CD code) {
+    public String getMedicationId(CD code) {
         var key = buildKey(code);
-        var value = MEDICATION_IDS.get().getOrDefault(key, StringUtils.EMPTY);
+        var value = medicationIds.getOrDefault(key, StringUtils.EMPTY);
 
         if (StringUtils.isNotBlank(value)) {
             return value;
         } else {
             var newId = UUID.randomUUID().toString();
-            MEDICATION_IDS.get().put(key, newId);
+            medicationIds.put(key, newId);
             return newId;
         }
     }
 
-    public static boolean contains(CD code) {
-        return MEDICATION_IDS.get().containsKey(buildKey(code));
+    public boolean contains(CD code) {
+        return medicationIds.containsKey(buildKey(code));
     }
 
-    public static void resetMedicationMaps() {
-        MEDICATION_IDS.get().clear();
+    public void resetMedicationMaps() {
+        medicationIds.clear();
     }
 
     private static String buildKey(CD code) {
