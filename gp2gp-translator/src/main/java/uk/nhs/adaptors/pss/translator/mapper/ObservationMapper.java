@@ -9,6 +9,7 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRange;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -80,7 +81,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         observation.setId(id);
         observation.setMeta(generateMeta(META_PROFILE));
 
-        addContext(observation, encounters, ehrComposition);
+        addContextToObservation(observation, encounters, ehrComposition);
         addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
             getValueString(observationStatement.getValue()));
         addEffective(observation,
@@ -104,14 +105,6 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             return !IMMUNIZATION_SNOMED_CODE.equals(snomedCode);
         }
         return true;
-    }
-
-    private void addContext(Observation observation, List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
-        encounters.stream()
-            .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
-            .findFirst()
-            .map(Reference::new)
-            .ifPresent(observation::setContext);
     }
 
     private void addEffective(Observation observation, Object effective) {

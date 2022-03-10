@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllNarrativeStatements;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -67,17 +68,8 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
         setObservationComment(observation, narrativeStatement.getText());
 
         // Context may not always be mapped
-        setObservationContext(observation, ehrComposition, encounters);
+        addContextToObservation(observation, encounters, ehrComposition);
         return observation;
-    }
-
-    private void setObservationContext(Observation observation, RCMRMT030101UK04EhrComposition composition, List<Encounter> encounters) {
-
-        encounters
-            .stream()
-            .filter(encounter -> encounter.getId().equals(composition.getId().getRoot()))
-            .findFirst()
-            .ifPresent(encounter -> observation.setContext(new Reference(encounter)));
     }
 
     private void setObservationComment(Observation observation, String text) {

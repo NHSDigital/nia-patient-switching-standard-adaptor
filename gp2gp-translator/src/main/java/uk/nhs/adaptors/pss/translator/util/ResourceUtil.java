@@ -2,11 +2,14 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
 
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Meta;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 
 public class ResourceUtil {
 
@@ -30,6 +33,14 @@ public class ResourceUtil {
 
     public static Extension buildReferenceExtension(String url, Reference reference) {
         return new Extension(url, reference);
+    }
+
+    public static void addContextToObservation(Observation observation, List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
+        encounters.stream()
+            .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
+            .findFirst()
+            .map(Reference::new)
+            .ifPresent(observation::setContext);
     }
 
 }

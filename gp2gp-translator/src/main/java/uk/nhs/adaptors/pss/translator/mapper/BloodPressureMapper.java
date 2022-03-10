@@ -8,6 +8,7 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRange;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 
@@ -88,7 +89,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         observation.getMeta().getProfile().add(new UriType(META_PROFILE));
 
         addEffective(observation, getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime()));
-        addContext(observation, encounters, ehrComposition);
+        addContextToObservation(observation, encounters, ehrComposition);
 
         return observation;
     }
@@ -189,13 +190,5 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         } else if (effective instanceof Period) {
             observation.setEffective((Period) effective);
         }
-    }
-
-    private void addContext(Observation observation, List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
-        encounters.stream()
-            .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
-            .findFirst()
-            .map(Reference::new)
-            .ifPresent(observation::setContext);
     }
 }
