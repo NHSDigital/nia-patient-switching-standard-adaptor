@@ -53,28 +53,26 @@ public class TemplateMapper {
         var ehrCompositions = extractEhrCompositionsFromEhrExtract(ehrExtract);
         List<DomainResource> mappedResources = new ArrayList<>();
 
-        ehrCompositions.forEach(ehrComposition -> {
-            ehrComposition.getComponent()
-                .stream()
-                .flatMap(CompoundStatementUtil::extractAllCompoundStatements)
-                .filter(Objects::nonNull)
-                .filter(this::isMappableTemplate)
-                .forEach(compoundStatement -> {
-                    var encounter = Optional.of(getEncounterReference(ehrCompositions, encounters,
-                        ehrComposition.getId().getRoot()));
+        ehrCompositions.forEach(ehrComposition -> ehrComposition.getComponent()
+            .stream()
+            .flatMap(CompoundStatementUtil::extractAllCompoundStatements)
+            .filter(Objects::nonNull)
+            .filter(this::isMappableTemplate)
+            .forEach(compoundStatement -> {
+                var encounter = Optional.of(getEncounterReference(ehrCompositions, encounters,
+                    ehrComposition.getId().getRoot()));
 
-                    var parentObservation = createParentObservation(compoundStatement, practiseCode, patient, encounter,
-                        ehrComposition, ehrExtract);
+                var parentObservation = createParentObservation(compoundStatement, practiseCode, patient, encounter,
+                    ehrComposition, ehrExtract);
 
-                    var questionnaireResponse = createQuestionnaireResponse(compoundStatement, practiseCode, patient,
-                        encounter, parentObservation, ehrComposition, ehrExtract);
+                var questionnaireResponse = createQuestionnaireResponse(compoundStatement, practiseCode, patient,
+                    encounter, parentObservation, ehrComposition, ehrExtract);
 
-                    // TODO: Add child resources as item.answers to the QuestionnaireResponse
+                // TODO: Add child resources as item.answers to the QuestionnaireResponse
 
-                    mappedResources.add(questionnaireResponse);
-                    mappedResources.add(parentObservation);
-                });
-        });
+                mappedResources.add(questionnaireResponse);
+                mappedResources.add(parentObservation);
+            }));
 
         return mappedResources;
     }
