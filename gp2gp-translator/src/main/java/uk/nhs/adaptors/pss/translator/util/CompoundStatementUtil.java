@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 
 public class CompoundStatementUtil {
@@ -42,6 +43,18 @@ public class CompoundStatementUtil {
         }
 
         return List.of();
+    }
+
+    public static Stream<RCMRMT030101UK04CompoundStatement> extractAllCompoundStatements(RCMRMT030101UK04Component4 component4) {
+        return Stream.concat(
+            Stream.of(component4.getCompoundStatement()),
+            component4.hasCompoundStatement()
+                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
+                    RCMRMT030101UK04Component02::hasCompoundStatement, RCMRMT030101UK04Component02::getCompoundStatement)
+                .stream()
+                .map(RCMRMT030101UK04CompoundStatement.class::cast)
+                : Stream.empty()
+        );
     }
 
     private static Stream<RCMRMT030101UK04Component02> flatten(RCMRMT030101UK04Component02 component02) {

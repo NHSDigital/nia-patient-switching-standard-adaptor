@@ -1,6 +1,12 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.getCompositionsContainingCompoundStatement;
+import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
+import static org.hl7.fhir.dstu3.model.QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED;
+
+import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.containsValidBloodPressureTriple;
+import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
+import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionsFromEhrExtract;
+import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -20,7 +26,6 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.QuestionnaireResponse;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -28,10 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil;
-import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -47,18 +50,17 @@ public class TemplateMapper {
     public List<? extends DomainResource> mapTemplates(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
 
-        var ehrCompositions = getCompositionsContainingCompoundStatement(ehrExtract);
+        var ehrCompositions = extractEhrCompositionsFromEhrExtract(ehrExtract);
         List<DomainResource> mappedResources = new ArrayList<>();
 
         ehrCompositions.forEach(ehrComposition -> {
             ehrComposition.getComponent()
                 .stream()
-                .map(RCMRMT030101UK04Component4::getCompoundStatement)
+                .flatMap(CompoundStatementUtil::extractAllCompoundStatements)
                 .filter(Objects::nonNull)
                 .filter(this::isMappableTemplate)
                 .forEach(compoundStatement -> {
-
-                    var encounter = Optional.of(EncounterReferenceUtil.getEncounterReference(ehrCompositions, encounters,
+                    var encounter = Optional.of(getEncounterReference(ehrCompositions, encounters,
                         ehrComposition.getId().getRoot()));
 
                     var parentObservation = createParentObservation(compoundStatement, practiseCode, patient, encounter,
@@ -66,6 +68,8 @@ public class TemplateMapper {
 
                     var questionnaireResponse = createQuestionnaireResponse(compoundStatement, practiseCode, patient,
                         encounter, parentObservation, ehrComposition, ehrExtract);
+
+                    // TODO: Add child resources as item.answers to the QuestionnaireResponse
 
                     mappedResources.add(questionnaireResponse);
                     mappedResources.add(parentObservation);
@@ -82,10 +86,11 @@ public class TemplateMapper {
         var id = compoundStatement.getId().get(0).getRoot();
 
         parentObservation
+            .setSubject(new Reference(patient))
             .setIssuedElement(getIssued(ehrComposition, ehrExtract))
             .addPerformer(getParticipantReference(compoundStatement.getParticipant(), ehrComposition))
             .setCode(codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode()))
-            .setStatus(Observation.ObservationStatus.FINAL)
+            .setStatus(FINAL)
             .addIdentifier(buildIdentifier(id, practiseCode))
             .setMeta(generateMeta(OBSERVATION_META_PROFILE))
             .setId(id);
@@ -107,9 +112,9 @@ public class TemplateMapper {
 
     private InstantType getIssued(RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04EhrExtract ehrExtract) {
         if (ehrComposition.getAuthor().getTime().hasValue()) {
-            return DateFormatUtil.parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
+            return parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
         }
-        return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
+        return parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
     }
 
     private QuestionnaireResponse createQuestionnaireResponse(RCMRMT030101UK04CompoundStatement compoundStatement, String practiseCode,
@@ -123,7 +128,7 @@ public class TemplateMapper {
             .addItem(createdLinkedId(compoundStatement))
             .setAuthoredElement(getAuthored(ehrComposition, ehrExtract))
             .setSubject(new Reference(patient))
-            .setStatus(QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED)
+            .setStatus(COMPLETED)
             .setParent(List.of(new Reference(parentObservation)))
             .setIdentifier(buildIdentifier(id, practiseCode))
             .setMeta(generateMeta(QUESTIONNAIRE_META_PROFILE))
@@ -135,10 +140,9 @@ public class TemplateMapper {
     }
 
     private QuestionnaireResponse.QuestionnaireResponseItemComponent createdLinkedId(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        if (compoundStatement.getCode().hasOriginalText()) {
-            return new QuestionnaireResponse.QuestionnaireResponseItemComponent().setLinkId(compoundStatement.getCode().getOriginalText());
-        }
-        return new QuestionnaireResponse.QuestionnaireResponseItemComponent().setLinkId(compoundStatement.getCode().getDisplayName());
+        return compoundStatement.getCode().hasOriginalText()
+            ? new QuestionnaireResponse.QuestionnaireResponseItemComponent().setLinkId(compoundStatement.getCode().getOriginalText())
+            : new QuestionnaireResponse.QuestionnaireResponseItemComponent().setLinkId(compoundStatement.getCode().getDisplayName());
     }
 
     private DateTimeType getAuthored(RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04EhrExtract ehrExtract) {
@@ -150,6 +154,6 @@ public class TemplateMapper {
     private boolean isMappableTemplate(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return COMPOUND_CODES.contains(compoundStatement.getClassCode().get(0))
             && !PATHOLOGY_CODE.equals(compoundStatement.getCode().getCode())
-            && !BloodPressureValidatorUtil.containsValidBloodPressureTriple(compoundStatement);
+            && !containsValidBloodPressureTriple(compoundStatement);
     }
 }

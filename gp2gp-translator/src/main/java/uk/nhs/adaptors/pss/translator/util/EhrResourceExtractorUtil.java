@@ -16,8 +16,7 @@ import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 
 public class EhrResourceExtractorUtil {
 
-    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract,
-        II resourceId) {
+    public static List<RCMRMT030101UK04EhrComposition> extractEhrCompositionsFromEhrExtract(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent()
             .stream()
             .filter(EhrResourceExtractorUtil::hasEhrFolder)
@@ -26,6 +25,13 @@ public class EhrResourceExtractorUtil {
             .flatMap(List::stream)
             .filter(EhrResourceExtractorUtil::hasEhrComposition)
             .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .toList();
+    }
+
+    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract,
+        II resourceId) {
+        return extractEhrCompositionsFromEhrExtract(ehrExtract)
+            .stream()
             .filter(ehrComposition -> filterForMatchingEhrCompositionPlanStatement(ehrComposition, resourceId))
             .findFirst()
             .get();
@@ -33,14 +39,8 @@ public class EhrResourceExtractorUtil {
 
     public static RCMRMT030101UK04EhrComposition extractEhrCompositionForObservationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
         II resourceId) {
-        return ehrExtract.getComponent()
+        return extractEhrCompositionsFromEhrExtract(ehrExtract)
             .stream()
-            .filter(EhrResourceExtractorUtil::hasEhrFolder)
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .filter(EhrResourceExtractorUtil::hasEhrComposition)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> filterForMatchingEhrCompositionObservationStatement(ehrComposition, resourceId))
             .findFirst()
             .get();
@@ -48,14 +48,8 @@ public class EhrResourceExtractorUtil {
 
     public static RCMRMT030101UK04EhrComposition extractEhrCompositionForCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract,
         II resourceId) {
-        return ehrExtract.getComponent()
+        return extractEhrCompositionsFromEhrExtract(ehrExtract)
             .stream()
-            .filter(EhrResourceExtractorUtil::hasEhrFolder)
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .filter(EhrResourceExtractorUtil::hasEhrComposition)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> filterForMatchingEhrCompositionCompoundStatement(ehrComposition, resourceId))
             .findFirst()
             .get();
