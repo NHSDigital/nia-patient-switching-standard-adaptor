@@ -54,7 +54,7 @@ public class MedicationStatementMapper {
 
     private final MedicationMapper medicationMapper;
 
-    protected MedicationStatement mapToMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
+    public MedicationStatement mapToMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
         RCMRMT030101UK04MedicationStatement medicationStatement,
         RCMRMT030101UK04Authorise supplyAuthorise, String practiseCode, DateTimeType authoredOn) {
         var ehrSupplyAuthoriseIdExtract = extractEhrSupplyAuthoriseId(supplyAuthorise);

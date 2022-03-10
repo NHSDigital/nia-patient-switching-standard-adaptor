@@ -43,13 +43,13 @@ public class MedicationMapperUtils {
     private static final String PRESCRIPTION_TYPE_CODING_SYSTEM
         = "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1";
 
-    protected static MedicationRequest createMedicationRequestSkeleton(String id) {
+    public static MedicationRequest createMedicationRequestSkeleton(String id) {
         return (MedicationRequest) new MedicationRequest()
             .setMeta(generateMeta(META_PROFILE))
             .setId(id);
     }
 
-    protected static Optional<Extension> buildPrescriptionTypeExtension(RCMRMT030101UK04Authorise supplyAuthorise) {
+    public static Optional<Extension> buildPrescriptionTypeExtension(RCMRMT030101UK04Authorise supplyAuthorise) {
         if (supplyAuthorise != null && supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() == 0) {
             return Optional.of(new Extension(PRESCRIPTION_TYPE_EXTENSION_URL, new CodeableConcept(
                 new Coding(PRESCRIPTION_TYPE_CODING_SYSTEM, ACUTE.toLowerCase(), ACUTE)
@@ -60,7 +60,7 @@ public class MedicationMapperUtils {
         )));
     }
 
-    protected static List<Annotation> buildNotes(List<RCMRMT030101UK04PertinentInformation2> pertinentInformationList) {
+    public static List<Annotation> buildNotes(List<RCMRMT030101UK04PertinentInformation2> pertinentInformationList) {
         return pertinentInformationList
             .stream()
             .filter(RCMRMT030101UK04PertinentInformation2::hasPertinentSupplyAnnotation)
@@ -73,7 +73,7 @@ public class MedicationMapperUtils {
             .collect(Collectors.toList());
     }
 
-    protected static Dosage buildDosage(List<RCMRMT030101UK04PertinentInformation> pertinentInformationList) {
+    public static Dosage buildDosage(List<RCMRMT030101UK04PertinentInformation> pertinentInformationList) {
         Dosage dosage = new Dosage();
         var pertinentInformationDosage = pertinentInformationList.stream()
             .filter(RCMRMT030101UK04PertinentInformation::hasPertinentMedicationDosage)
@@ -88,7 +88,7 @@ public class MedicationMapperUtils {
         return dosage;
     }
 
-    protected static Optional<SimpleQuantity> buildDosageQuantity(PQ quantitySupplied) {
+    public static Optional<SimpleQuantity> buildDosageQuantity(PQ quantitySupplied) {
         SimpleQuantity quantity = new SimpleQuantity();
         quantity.setValue(Double.parseDouble(quantitySupplied.getValue()));
         if (quantitySupplied.hasTranslation()
@@ -98,14 +98,14 @@ public class MedicationMapperUtils {
         return Optional.of(quantity);
     }
 
-    protected static Optional<String> extractEhrSupplyAuthoriseId(RCMRMT030101UK04Authorise supplyAuthorise) {
+    public static Optional<String> extractEhrSupplyAuthoriseId(RCMRMT030101UK04Authorise supplyAuthorise) {
         if (supplyAuthorise.hasId() && supplyAuthorise.getId().hasRoot()) {
             return Optional.of(supplyAuthorise.getId().getRoot());
         }
         return Optional.empty();
     }
 
-    protected static RCMRMT030101UK04Authorise extractSupplyAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement, String id) {
+    public static RCMRMT030101UK04Authorise extractSupplyAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement, String id) {
         return medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
@@ -115,7 +115,7 @@ public class MedicationMapperUtils {
             .orElse(null);
     }
 
-    protected static Optional<DateTimeType> extractDispenseRequestPeriodStart(RCMRMT030101UK04Authorise supplyAuthorise) {
+    public static Optional<DateTimeType> extractDispenseRequestPeriodStart(RCMRMT030101UK04Authorise supplyAuthorise) {
         if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasCenter()
             && !supplyAuthorise.getEffectiveTime().getCenter().hasNullFlavor()) {
             return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getCenter().getValue()));
@@ -130,7 +130,7 @@ public class MedicationMapperUtils {
         return Optional.empty();
     }
 
-    protected static Stream<RCMRMT030101UK04MedicationStatement> extractAllMedications(RCMRMT030101UK04Component4 component4) {
+    public static Stream<RCMRMT030101UK04MedicationStatement> extractAllMedications(RCMRMT030101UK04Component4 component4) {
         return Stream.concat(
             Stream.of(component4.getMedicationStatement()),
             component4.hasCompoundStatement()

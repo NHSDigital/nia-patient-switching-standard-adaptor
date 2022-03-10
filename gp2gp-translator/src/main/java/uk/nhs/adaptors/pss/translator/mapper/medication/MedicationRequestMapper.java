@@ -64,7 +64,7 @@ public class MedicationRequestMapper {
                 .flatMap(List::stream)
                 .forEach(mappedResources::add);
         }
-        MedicationMapper.resetMedicationMaps();
+        MedicationIdUtil.resetMedicationMaps();
         return mappedResources;
     }
 

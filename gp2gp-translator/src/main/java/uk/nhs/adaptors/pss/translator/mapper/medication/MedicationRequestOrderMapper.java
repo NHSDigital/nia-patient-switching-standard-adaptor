@@ -38,7 +38,7 @@ public class MedicationRequestOrderMapper {
 
     private final MedicationMapper medicationMapper;
 
-    protected MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04MedicationStatement medicationStatement,
+    public MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04MedicationStatement medicationStatement,
         RCMRMT030101UK04Prescribe supplyPrescribe, String practiseCode) {
         var ehrSupplyPrescribeIdExtract = extractEhrSupplyPrescribeId(supplyPrescribe);
         var inFulfillmentOfId = extractInFulfillmentOfId(supplyPrescribe);
