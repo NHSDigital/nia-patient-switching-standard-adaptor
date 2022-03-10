@@ -84,12 +84,7 @@ public class BundleMapperService {
         addEntries(bundle, agents);
 
         var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, practiseCode);
-        var encounters = (List<Encounter>) mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
-        var consultations = (List<ListResource>) mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
-        var topics = (List<ListResource>) mappedEncounterEhrCompositions.get(TOPIC_KEY);
-        var categories = (List<ListResource>) mappedEncounterEhrCompositions.get(CATEGORY_KEY);
-        addEntries(bundle, encounters);
-        addEntries(bundle, consultations);
+        var encounters = handleMappedEncounterResources(mappedEncounterEhrCompositions, bundle);
 
         var locations = mapLocations(ehrFolder, practiseCode);
         addEntries(bundle, locations);
@@ -122,10 +117,6 @@ public class BundleMapperService {
         var documentReferences = mapDocumentReferences(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, documentReferences);
 
-        // TODO: Add references to mapped resources in their appropriate lists (NIAD-2051)
-        addEntries(bundle, topics);
-        addEntries(bundle, categories);
-
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 
         conditionMapper.addReferences(bundle, conditions, ehrExtract);
@@ -137,6 +128,21 @@ public class BundleMapperService {
     private List<DocumentReference> mapDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
         List<Encounter> encounters, String practiseCode) {
         return documentReferenceMapper.mapToDocumentReference(ehrExtract, patient, encounters, practiseCode);
+    }
+
+    private List<Encounter> handleMappedEncounterResources(Map<String, List<? extends DomainResource>> mappedEncounterEhrCompositions,
+        Bundle bundle) {
+        var encounters = (List<Encounter>) mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
+        var consultations = (List<ListResource>) mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
+        var topics = (List<ListResource>) mappedEncounterEhrCompositions.get(TOPIC_KEY);
+        var categories = (List<ListResource>) mappedEncounterEhrCompositions.get(CATEGORY_KEY);
+
+        addEntries(bundle, encounters);
+        addEntries(bundle, consultations);
+        addEntries(bundle, topics);
+        addEntries(bundle, categories);
+
+        return encounters;
     }
 
     private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,

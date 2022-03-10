@@ -89,6 +89,8 @@ public class ObjectFactory {
     private final static QName _MEDICATION_STATEMENT = new QName("urn:hl7-org:v3", "MedicationStatement");
     private final static QName _CONSUMABLE = new QName("urn:hl7-org:v3", "Consumable");
     private final static QName _COMPOUND_STATEMENT = new QName("urn:hl7-org:v3", "CompoundStatement");
+    private final static QName _NARRATIVE_STATEMENT_QNAME = new QName("urn:hl7-org:v3", "NarrativeStatement");
+
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
      * 
@@ -3551,7 +3553,12 @@ public class ObjectFactory {
     }
 
     @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "CompoundStatement")
-    public JAXBElement<RCMRMT030101UK04CompoundStatement> createConsumable(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    public JAXBElement<RCMRMT030101UK04CompoundStatement> createCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return new JAXBElement<RCMRMT030101UK04CompoundStatement>(_COMPOUND_STATEMENT, RCMRMT030101UK04CompoundStatement.class, null, compoundStatement);
+    }
+
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "NarrativeStatement")
+    public JAXBElement<RCMRMT030101UK04NarrativeStatement> createNarrativeStatement(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+        return new JAXBElement<RCMRMT030101UK04NarrativeStatement>(_NARRATIVE_STATEMENT_QNAME, RCMRMT030101UK04NarrativeStatement.class, null, narrativeStatement);
     }
 }
