@@ -92,12 +92,14 @@ public class DocumentReferenceMapper {
             documentReference.setCreatedElement(DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
         }
 
-        var encounterReference = EncounterReferenceUtil.getEncounterReference(List.of(ehrComposition), encounterList,
-            ehrComposition.getId().getRoot());
+        var encounterReference = encounterList.stream()
+            .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
+            .findFirst()
+            .map(Reference::new);
 
-        if (encounterReference != null) {
+        if (encounterReference.isPresent()) {
             DocumentReference.DocumentReferenceContextComponent documentReferenceContextComponent =
-                new DocumentReference.DocumentReferenceContextComponent().setEncounter(encounterReference);
+                new DocumentReference.DocumentReferenceContextComponent().setEncounter(encounterReference.get());
 
             documentReference.setContext(documentReferenceContextComponent);
         }
