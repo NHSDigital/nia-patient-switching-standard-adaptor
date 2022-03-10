@@ -79,4 +79,15 @@ public class BloodPressureValidatorUtil {
             && (validSystolics.contains(observationStatement1) || validSystolics.contains(observationStatement2))
             && (validDiastolic.contains(observationStatement1) || validDiastolic.contains(observationStatement2));
     }
+
+    public static boolean containsValidBloodPressureTriple(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        var observationStatements = EhrResourceExtractorUtil.getObservationStatementsFromCompoundStatement(compoundStatement);
+
+        if (observationStatements.size() == 2) {
+            return BloodPressureValidatorUtil.validateBloodPressureTriple(compoundStatement.getCode().getCode(),
+                observationStatements.get(0).getCode().getCode(), observationStatements.get(1).getCode().getCode());
+        }
+
+        return false;
+    }
 }
