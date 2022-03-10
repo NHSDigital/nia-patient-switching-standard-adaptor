@@ -21316,5 +21316,45 @@
         } ]
       }
     }
+  }, {
+    "resource": {
+      "resourceType": "DocumentReference",
+      "id": "31B75ED0-6E88-11EA-9384-E83935108FD5",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1" ]
+      },
+      "identifier": [ {
+        "system": "https://PSSAdaptor/TESTPRACTISECODE",
+        "value": "31B75ED0-6E88-11EA-9384-E83935108FD5"
+      } ],
+      "status": "current",
+      "type": {
+        "coding": [ {
+          "display": "Original Text document"
+        } ],
+        "text": "Record Attachment"
+      },
+      "subject": {
+        "reference": "45329454-299F-432E-993E-5A6232B4E099"
+      },
+      "created": "2020-10-12T13:33:44+00:00",
+      "indexed": "2010-01-14T00:00:00.000+00:00",
+      "author": [ {
+        "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
+      } ],
+      "description": "Filename: 31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt",
+      "content": [ {
+        "attachment": {
+          "contentType": "text/plain",
+          "url": "file://localhost/31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt",
+          "title": "Filename: 31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt"
+        }
+      } ],
+      "context": {
+        "encounter": {
+          "reference": "Encounter/62A39454-299F-432E-993E-5A6232B4E099"
+        }
+      }
+    }
   } ]
 }

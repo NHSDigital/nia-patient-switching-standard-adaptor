@@ -12,6 +12,8 @@ import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 
 public class EhrResourceExtractorUtil {
 
+    private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
+
     public static RCMRMT030101UK04EhrComposition extractEhrCompositionForPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract,
         II resourceId) {
         return ehrExtract.getComponent()
@@ -92,7 +94,7 @@ public class EhrResourceExtractorUtil {
             .filter(EhrResourceExtractorUtil::filterForValidNarrativeStatement)
             .toList();
     }
-  
+
     private static boolean filterForMatchingEhrCompositionPlanStatement(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
         return ehrComposition.getComponent()
             .stream()

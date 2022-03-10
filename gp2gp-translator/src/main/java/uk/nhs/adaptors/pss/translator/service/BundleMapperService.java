@@ -134,7 +134,8 @@ public class BundleMapperService {
         return bundle;
     }
 
-    private List<DocumentReference> mapDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters, String practiseCode) {
+    private List<DocumentReference> mapDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+        List<Encounter> encounters, String practiseCode) {
         return documentReferenceMapper.mapToDocumentReference(ehrExtract, patient, encounters, practiseCode);
     }
 

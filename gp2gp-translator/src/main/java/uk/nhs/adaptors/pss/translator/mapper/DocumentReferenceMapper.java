@@ -1,33 +1,36 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static org.hl7.fhir.dstu3.model.Enumerations.DocumentReferenceStatus;
+
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Attachment;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Enumerations;
 import org.hl7.fhir.dstu3.model.InstantType;
-import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.v3.RCMRMT030101UK04Component;
+import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 import uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
@@ -36,8 +39,8 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @AllArgsConstructor
 public class DocumentReferenceMapper {
 
-    //TODO Add custodian using the reference to Organisation that is generated for sending Practice
-    //TODO Add file Size using the uncompressed/unencoded size of the document
+    //TODO Add custodian using the reference to Organisation that is generated for sending Practice (NIAD-2060)
+    //TODO Add file Size using the uncompressed/unencoded size of the document (NIAD-2030)
 
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1";
     private static final String ABSENT_ATTACHMENT = "Absent Attachment";
@@ -48,52 +51,53 @@ public class DocumentReferenceMapper {
 
     public List<DocumentReference> mapToDocumentReference(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
         List<Encounter> encounterList, String practiseCode) {
-        List<DocumentReference> mappedDocumentReferenceResources = new ArrayList<>();
-        var ehrCompositionList = EhrResourceExtractorUtil.extractValidDocumentReferenceEhrCompositions(ehrExtract);
-
-        ehrCompositionList.forEach(ehrComposition -> {
-            var narrativeStatements = getNarrativeStatements(ehrComposition);
-
-            narrativeStatements
-                .forEach(narrativeStatement -> {
-                    var mappedDocumentReferences = mapDocumentReference(narrativeStatement, patient, ehrExtract,
-                        encounterList, practiseCode);
-                    mappedDocumentReferenceResources.add(mappedDocumentReferences);
-                });
-        });
-
-        return mappedDocumentReferenceResources;
+        return ehrExtract.getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .flatMap(ehrComposition -> ehrComposition.getComponent().stream()
+                .flatMap(this::extractAllNarrativeStatements).filter(Objects::nonNull)
+                .map(narrativeStatement -> mapDocumentReference(narrativeStatement, ehrComposition, patient, ehrExtract, encounterList,
+                    practiseCode))).toList();
     }
 
-    private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement, Patient patient,
-        RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounterList, String practiseCode) {
-        DocumentReference documentReference = new DocumentReference();
+    private Stream<RCMRMT030101UK04NarrativeStatement> extractAllNarrativeStatements(RCMRMT030101UK04Component4 component4) {
+        return Stream.concat(Stream.of(component4.getNarrativeStatement()), component4.hasCompoundStatement()
+            ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
+                RCMRMT030101UK04Component02::hasNarrativeStatement, RCMRMT030101UK04Component02::getNarrativeStatement)
+                .stream().map(RCMRMT030101UK04NarrativeStatement.class::cast) : Stream.empty());
+    }
 
-        var ehrComposition = ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
+    private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement,
+        RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, RCMRMT030101UK04EhrExtract ehrExtract,
+        List<Encounter> encounterList, String practiseCode) {
+
+        DocumentReference documentReference = new DocumentReference();
 
         var id = narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot();
 
         documentReference.addIdentifier(buildIdentifier(id, practiseCode));
         documentReference.getMeta().addProfile(META_PROFILE);
-        documentReference.setStatus(Enumerations.DocumentReferenceStatus.CURRENT);
+        documentReference.setStatus(DocumentReferenceStatus.CURRENT);
         documentReference.setId(id);
         documentReference.setType(getType(narrativeStatement));
-        documentReference.setSubject(new Reference(patient));
+        documentReference.setSubject(new Reference(patient.getId()));
         documentReference.setIndexedElement(getIndexed(ehrExtract));
         documentReference.setAuthor(getAuthor(narrativeStatement, ehrComposition));
         documentReference.setDescription(buildDescription(narrativeStatement));
 
-        if (narrativeStatement.getAvailabilityTime() != null && narrativeStatement.getAvailabilityTime().getValue() != null) {
-            documentReference.setCreatedElement(
-                DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
+        if (narrativeStatement.hasAvailabilityTime() && !narrativeStatement.getAvailabilityTime().getValue().isEmpty()) {
+            documentReference.setCreatedElement(DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
         }
 
-        var encounterReference =
-            EncounterReferenceUtil.getEncounterReference(List.of(ehrComposition), encounterList, ehrComposition.getId().getRoot());
+        var encounterReference = EncounterReferenceUtil.getEncounterReference(List.of(ehrComposition), encounterList,
+            ehrComposition.getId().getRoot());
 
         if (encounterReference != null) {
-            DocumentReference.DocumentReferenceContextComponent documentReferenceContextComponent
-                = new DocumentReference.DocumentReferenceContextComponent().setEncounter(encounterReference);
+            DocumentReference.DocumentReferenceContextComponent documentReferenceContextComponent =
+                new DocumentReference.DocumentReferenceContextComponent().setEncounter(encounterReference);
 
             documentReference.setContext(documentReferenceContextComponent);
         }
@@ -103,23 +107,14 @@ public class DocumentReferenceMapper {
         return documentReference;
     }
 
-    private List<RCMRMT030101UK04NarrativeStatement> getNarrativeStatements(RCMRMT030101UK04EhrComposition ehrComposition) {
-        return ehrComposition.getComponent()
-            .stream()
-            .map(RCMRMT030101UK04Component4::getNarrativeStatement)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
-    }
-
     private CodeableConcept getType(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
         var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
 
-        if (referenceToExternalDocument != null && referenceToExternalDocument.getCode() != null) {
-            if (referenceToExternalDocument.getCode().getOriginalText() == null
-                && referenceToExternalDocument.getCode().getDisplayName() != null) {
+        if (referenceToExternalDocument != null && referenceToExternalDocument.hasCode()) {
+            if (!referenceToExternalDocument.getCode().hasOriginalText() && referenceToExternalDocument.getCode().hasDisplayName()) {
                 return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode())
                     .setText(referenceToExternalDocument.getCode().getDisplayName());
-            } else if (referenceToExternalDocument.getCode().getOriginalText() != null) {
+            } else if (referenceToExternalDocument.getCode().hasOriginalText()) {
                 return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode())
                     .setText(referenceToExternalDocument.getCode().getOriginalText());
             }
@@ -129,8 +124,8 @@ public class DocumentReferenceMapper {
     }
 
     private InstantType getIndexed(RCMRMT030101UK04EhrExtract ehrExtract) {
-        if (ehrExtract.getAuthor() != null) {
-            if (ehrExtract.getAuthor().getTime() != null && ehrExtract.getAuthor().getNullFlavor() == null) {
+        if (ehrExtract.hasAuthor()) {
+            if (ehrExtract.getAuthor().hasTime() && ehrExtract.getAuthor().getNullFlavor() == null) {
                 return DateFormatUtil.parseToInstantType(ehrExtract.getAuthor().getTime().getValue());
             }
 
@@ -145,19 +140,15 @@ public class DocumentReferenceMapper {
         return List.of(ParticipantReferenceUtil.getParticipantReference(narrativeStatement.getParticipant(), ehrComposition));
     }
 
-    private Reference createOrganizationReference(Organization organization) {
-        return new Reference(organization.getIdElement());
-    }
-
     private String buildDescription(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
         var referenceToExternalDocumentText = narrativeStatement.getReference().get(0).getReferredToExternalDocument().getText();
         if (isAbsentAttachment(narrativeStatement)) {
             return PLACEHOLDER_VALUE;
         }
         if (referenceToExternalDocumentText != null) {
-            String filename = referenceToExternalDocumentText.getReference().getValue();
-            if (filename != null) {
-                return buildFileName(filename);
+            String fileName = referenceToExternalDocumentText.getReference().getValue();
+            if (fileName != null) {
+                return buildFileName(fileName);
             }
         }
 
@@ -165,17 +156,14 @@ public class DocumentReferenceMapper {
     }
 
     private boolean isAbsentAttachment(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
-        return narrativeStatement.getReference().get(0)
-            .getReferredToExternalDocument()
-            .getCode()
-            .getOriginalText()
+        return narrativeStatement.getReference().get(0).getReferredToExternalDocument().getCode().getOriginalText()
             .equals(ABSENT_ATTACHMENT);
     }
 
     private void setContentAttachments(DocumentReference documentReference, RCMRMT030101UK04NarrativeStatement narrativeStatement) {
         var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
         var attachment = new Attachment();
-        if (referenceToExternalDocument.getText() != null) {
+        if (referenceToExternalDocument.hasText()) {
             var mediaType = referenceToExternalDocument.getText().getMediaType();
 
             if (!isAbsentAttachment(narrativeStatement)) {
@@ -190,7 +178,7 @@ public class DocumentReferenceMapper {
             } else {
                 attachment.setContentType(PLACEHOLDER_VALUE);
                 addContentTypeToNotes(documentReference);
-                LOGGER.info("Content type was not a valid MIME type");
+                LOGGER.info("Content type: '{}' was not a valid MIME type", attachment.getContentType());
             }
 
             documentReference.addContent(new DocumentReference.DocumentReferenceContentComponent(attachment));

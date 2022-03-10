@@ -1,8 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static java.util.UUID.randomUUID;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hl7.fhir.dstu3.model.Enumerations.DocumentReferenceStatus;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -15,7 +14,6 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Enumerations;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -40,6 +38,7 @@ public class DocumentReferenceTest {
     private static final String URL = "file://localhost/31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt";
     private static final String CONTENT_TYPE = "text/plain";
     private static final String ENCOUNTER_ID = "62A39454-299F-432E-993E-5A6232B4E099";
+    private static final String PATIENT_ID = "45329454-299F-432E-993E-5A6232B4E099";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String PLACEHOLDER = "GP2GP generated placeholder. Original document not available. See notes for details";
     private static final int THREE = 3;
@@ -104,22 +103,58 @@ public class DocumentReferenceTest {
         assertDocumentReferenceWithAbsentAttachment(documentReference);
     }
 
-    private void assertFullValidData(DocumentReference documentReference) {
+    @Test
+    public void mapNarrativeStatementToDocumentReferenceWithInvalidEncounterReference() {
+        var ehrExtract = unmarshallEhrExtract("narrative_statement_with_invalid_encounter.xml");
+        List<DocumentReference> documentReferences = documentReferenceMapper.mapToDocumentReference(ehrExtract, createPatient(),
+            getEncounterList(), PRACTISE_CODE);
+        var documentReference = documentReferences.get(0);
+
+        assertDocumentReferenceWithInvalidEncounter(documentReference);
+    }
+
+    @Test
+    public void mapNestedNarrativeStatement() {
+        var ehrExtract = unmarshallEhrExtract("nested_narrative_statements.xml");
+        List<DocumentReference> documentReferences = documentReferenceMapper.mapToDocumentReference(ehrExtract, createPatient(),
+            getEncounterList(), PRACTISE_CODE);
+        var documentReference = documentReferences.get(0);
+
+        assertDocumentReferenceMappedFromNestedNarrativeStatement(documentReference);
+    }
+
+    private void assertDocumentReferenceMappedFromNestedNarrativeStatement(DocumentReference documentReference) {
         assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
         assertThat(documentReference.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
-        assertThat(documentReference.getStatus()).isEqualTo(Enumerations.DocumentReferenceStatus.CURRENT);
+        assertThat(documentReference.getStatus()).isEqualTo(DocumentReferenceStatus.CURRENT);
         assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
         assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(documentReference.getDescription()).isEqualTo("Filename: 31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt");
         assertThat(documentReference.getIndexedElement().getValue().toInstant().toString()).isEqualTo("2010-01-14T00:00:00Z");
-        assertThat(documentReference.getCreatedElement().getValue().toInstant().toString()).isEqualTo("2020-10-12T13:33:44Z");
+        assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2020-10-12T13:33:44+00:00");
+        assertThat(documentReference.getSubject().getReference()).isEqualTo(PATIENT_ID);
+        assertThat(documentReference.getContext().getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
+    }
+
+    private void assertFullValidData(DocumentReference documentReference) {
+        assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
+        assertThat(documentReference.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(documentReference.getStatus()).isEqualTo(DocumentReferenceStatus.CURRENT);
+        assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
+        assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
+        assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(documentReference.getDescription()).isEqualTo("Filename: 31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt");
+        assertThat(documentReference.getIndexedElement().getValue().toInstant().toString()).isEqualTo("2010-01-14T00:00:00Z");
+        assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2020-10-12T13:33:44+00:00");
+        assertThat(documentReference.getSubject().getReference()).isEqualTo(PATIENT_ID);
+        assertThat(documentReference.getContext().getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 
     private void assertOptionalValidData(DocumentReference documentReference) {
         assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
         assertThat(documentReference.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
-        assertThat(documentReference.getStatus()).isEqualTo(Enumerations.DocumentReferenceStatus.CURRENT);
+        assertThat(documentReference.getStatus()).isEqualTo(DocumentReferenceStatus.CURRENT);
         assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
         assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
@@ -141,6 +176,15 @@ public class DocumentReferenceTest {
         assertThat(documentReference.getContent().get(0).getAttachment().getContentType()).isEqualTo(CONTENT_TYPE);
     }
 
+    private void assertDocumentReferenceWithInvalidEncounter(DocumentReference documentReference) {
+        assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
+        assertThat(documentReference.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(documentReference.getStatus()).isEqualTo(DocumentReferenceStatus.CURRENT);
+        assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
+        assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
+        assertThat(documentReference.getContext().getEncounter().getResource()).isNull();
+    }
+
     private void assertThatIdentifierIsValid(Identifier identifier, String id) {
         assertThat(identifier.getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
         assertThat(identifier.getValue()).isEqualTo(id);
@@ -148,7 +192,7 @@ public class DocumentReferenceTest {
 
     private static Patient createPatient() {
         Patient patient = new Patient();
-        patient.setId(randomUUID().toString());
+        patient.setId(PATIENT_ID);
         return patient;
     }
 
