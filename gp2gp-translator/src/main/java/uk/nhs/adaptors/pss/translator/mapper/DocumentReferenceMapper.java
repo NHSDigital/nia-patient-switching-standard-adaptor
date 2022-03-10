@@ -32,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
+import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Slf4j
 @Service
@@ -60,7 +61,7 @@ public class DocumentReferenceMapper {
                 .stream()
                 .flatMap(this::extractAllNarrativeStatements)
                 .filter(Objects::nonNull)
-                .filter(narrativeStatement -> hasReferredToExternalDocument(narrativeStatement))
+                .filter(ResourceFilterUtil::isDocumentReference)
                 .map(narrativeStatement -> mapDocumentReference(narrativeStatement, ehrComposition, patient, ehrExtract, encounterList,
                     practiseCode))).toList();
     }
@@ -206,11 +207,5 @@ public class DocumentReferenceMapper {
     private boolean isContentTypeValid(String mediaType) {
         String validContentTypeFormat = ".*/.*";
         return Pattern.matches(validContentTypeFormat, mediaType);
-    }
-
-    private boolean hasReferredToExternalDocument(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
-        return narrativeStatement.getReference()
-            .stream()
-            .anyMatch(reference -> reference.getReferredToExternalDocument() != null);
     }
 }

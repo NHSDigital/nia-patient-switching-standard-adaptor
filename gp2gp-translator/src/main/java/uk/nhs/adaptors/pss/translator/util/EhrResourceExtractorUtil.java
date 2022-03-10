@@ -56,34 +56,6 @@ public class EhrResourceExtractorUtil {
         return component.getEhrFolder() != null;
     }
 
-    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForNarrativeStatement(RCMRMT030101UK04EhrExtract ehrExtract,
-        II resourceId) {
-        return ehrExtract.getComponent()
-            .stream()
-            .filter(EhrResourceExtractorUtil::hasEhrFolder)
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .filter(EhrResourceExtractorUtil::hasEhrComposition)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> filterForMatchingEhrCompositionNarrativeStatement(ehrComposition, resourceId))
-            .findFirst()
-            .get();
-    }
-
-    public static List<RCMRMT030101UK04EhrComposition> extractValidDocumentReferenceEhrCompositions(RCMRMT030101UK04EhrExtract ehrExtract) {
-        return ehrExtract.getComponent()
-            .stream()
-            .filter(EhrResourceExtractorUtil::hasEhrFolder)
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .filter(EhrResourceExtractorUtil::hasEhrComposition)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(EhrResourceExtractorUtil::filterForValidNarrativeStatement)
-            .toList();
-    }
-
     private static boolean filterForMatchingEhrCompositionPlanStatement(RCMRMT030101UK04EhrComposition ehrComposition, II resourceId) {
         return ehrComposition.getComponent()
             .stream()
