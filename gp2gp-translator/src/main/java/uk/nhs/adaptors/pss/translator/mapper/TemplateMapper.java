@@ -8,6 +8,7 @@ import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantT
 import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionsFromEhrExtract;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
+import static uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil.extractChildReferencesFromTemplate;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -20,6 +21,7 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
+import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
@@ -66,13 +68,23 @@ public class TemplateMapper {
                 var questionnaireResponse = createQuestionnaireResponse(compoundStatement, practiseCode, patient,
                     encounter, parentObservation, ehrComposition, ehrExtract);
 
-                // TODO: Add child resources as item.answers to the QuestionnaireResponse
+                addChildReferencesToQuestionnaireResponse(questionnaireResponse, compoundStatement);
 
                 mappedResources.add(questionnaireResponse);
                 mappedResources.add(parentObservation);
             }));
 
         return mappedResources;
+    }
+
+    private void addChildReferencesToQuestionnaireResponse(QuestionnaireResponse questionnaireResponse,
+        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        List<Reference> childResourceReferences = new ArrayList<>();
+        extractChildReferencesFromTemplate(compoundStatement, childResourceReferences);
+        childResourceReferences.forEach(reference -> {
+            questionnaireResponse.addItem().addAnswer(
+                new QuestionnaireResponse.QuestionnaireResponseItemAnswerComponent().setValue(reference));
+        });
     }
 
     private Optional<Reference> getEncounter(List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
@@ -159,5 +171,9 @@ public class TemplateMapper {
         return COMPOUND_CODES.contains(compoundStatement.getClassCode().get(0))
             && !PATHOLOGY_CODE.equals(compoundStatement.getCode().getCode())
             && !containsValidBloodPressureTriple(compoundStatement);
+    }
+
+    private void addEntry(ListResource list, Reference reference) {
+        list.addEntry(new ListResource.ListEntryComponent(reference));
     }
 }

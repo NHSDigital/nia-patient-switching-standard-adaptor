@@ -68,6 +68,23 @@ public class ResourceReferenceUtil {
         }
     }
 
+    public static void extractChildReferencesFromTemplate(RCMRMT030101UK04CompoundStatement compoundStatement,
+        List<Reference> entryReferences) {
+        compoundStatement.getComponent().forEach(component -> {
+            addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
+            addPlanStatementEntry(component.getPlanStatement(), entryReferences);
+            addRequestStatementEntry(component.getRequestStatement(), entryReferences);
+            addLinkSetEntry(component.getLinkSet(), entryReferences);
+            addMedicationEntry(component.getMedicationStatement(), entryReferences);
+
+            if (isNotIgnoredResource(compoundStatement, entryReferences)) {
+                addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
+            }
+
+            extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences);
+        });
+    }
+
     private static boolean isNotIgnoredResource(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
         var references = entryReferences.stream()
             .map(Reference::getReference)
