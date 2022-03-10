@@ -9,6 +9,7 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRange;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isImmunization;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
@@ -46,7 +47,6 @@ import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
 public class ObservationMapper extends AbstractMapper<Observation> {
     private static final String META_PROFILE = "Observation-1";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
-    private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
 
     private final CodeableConceptMapper codeableConceptMapper;
 
@@ -57,7 +57,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             extractAllObservationStatementsWithoutAllergies(component)
                 .filter(Objects::nonNull)
                 .filter(this::isNotBloodPressure)
-                .filter(this::isNotImmunization)
+                .filter(observationStatement -> !isImmunization(observationStatement))
                 .map(observationStatement
                     -> mapObservation(extract, composition, observationStatement, patient, encounters, practiseCode)))
             .toList();
@@ -94,15 +94,6 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
             return !BloodPressureValidatorUtil.isSystolicBloodPressure(observationStatement.getCode().getCode())
                 && !BloodPressureValidatorUtil.isDiastolicBloodPressure(observationStatement.getCode().getCode());
-        }
-        return true;
-    }
-
-    private boolean isNotImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
-        if (observationStatement.hasCode() && observationStatement.getCode().hasCodeSystem()) {
-            String snomedCode = observationStatement.getCode().getCodeSystem();
-
-            return !IMMUNIZATION_SNOMED_CODE.equals(snomedCode);
         }
         return true;
     }

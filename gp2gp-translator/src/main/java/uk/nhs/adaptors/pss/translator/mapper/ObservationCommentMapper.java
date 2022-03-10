@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllNarrativeStatements;
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDocumentReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
@@ -42,7 +43,7 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllNarrativeStatements(component)
                 .filter(Objects::nonNull)
-                .filter(narrativeStatement -> !hasReferredToExternalDocument(narrativeStatement))
+                .filter(narrativeStatement -> !isDocumentReference(narrativeStatement))
                 .map(narrativeStatement -> mapObservation(ehrExtract, composition, narrativeStatement, patient, encounters, practiseCode)))
             .toList();
     }
@@ -96,11 +97,5 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
             Collections.singletonList(new Coding(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY)));
 
         return codeableConcept;
-    }
-
-    private boolean hasReferredToExternalDocument(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
-        return narrativeStatement.getReference()
-            .stream()
-            .anyMatch(reference -> reference.getReferredToExternalDocument() != null);
     }
 }
