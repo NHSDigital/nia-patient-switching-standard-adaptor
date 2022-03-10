@@ -1,12 +1,12 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
@@ -20,8 +20,6 @@ import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
@@ -30,7 +28,6 @@ import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
@@ -52,18 +49,6 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                 .filter(Objects::nonNull)
                 .map(requestStatement -> mapToReferralRequest(composition, requestStatement, patient, encounters, practiseCode)))
             .toList();
-    }
-
-    private Stream<RCMRMT030101UK04RequestStatement> extractAllRequestStatements(RCMRMT030101UK04Component4 component4) {
-        return Stream.concat(
-            Stream.of(component4.getRequestStatement()),
-            component4.hasCompoundStatement()
-                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasRequestStatement, RCMRMT030101UK04Component02::getRequestStatement)
-                .stream()
-                .map(RCMRMT030101UK04RequestStatement.class::cast)
-                : Stream.empty()
-        );
     }
 
     public ReferralRequest mapToReferralRequest(RCMRMT030101UK04EhrComposition ehrComposition,
@@ -109,7 +94,8 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             .stream()
             .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
             .findFirst()
-            .ifPresent(encounter -> referralRequest.setContext(new Reference(encounter)));
+            .map(Reference::new)
+            .ifPresent(referralRequest::setContext);
     }
 
     private DateTimeType getAuthoredOn(TS availabilityTime) {

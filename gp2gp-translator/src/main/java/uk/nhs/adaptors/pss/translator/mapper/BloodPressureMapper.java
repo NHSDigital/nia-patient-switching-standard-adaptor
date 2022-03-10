@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isDiastolicBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isSystolicBloodPressure;
-import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionForCompoundStatement;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getInterpretation;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
@@ -10,12 +9,12 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRa
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -29,11 +28,8 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
-import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
 import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -44,7 +40,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 
 @Service
 @AllArgsConstructor
@@ -65,57 +60,37 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
                 .filter(Objects::nonNull)
                 .filter(compoundStatement -> BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0))
                     && containsValidBloodPressureTriple(compoundStatement))
-                .map(compoundStatement -> {
-                    var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
-                    var id = compoundStatement.getId().get(0);
-
-                    Observation observation = new Observation()
-                        .addIdentifier(buildIdentifier(id.getRoot(), practiseCode))
-                        .setStatus(ObservationStatus.FINAL)
-                        .setCode(getCode(compoundStatement.getCode()))
-                        .setComponent(getComponent(observationStatements))
-                        .setComment(
-                            getComment(observationStatements, getNarrativeStatementsFromCompoundStatement(compoundStatement)))
-                        .setSubject(new Reference(patient))
-                        .setIssuedElement(getIssued(
-                            ehrExtract,
-                            extractEhrCompositionForCompoundStatement(ehrExtract, id)))
-                        .addPerformer(getParticipantReference(
-                            compoundStatement.getParticipant(),
-                            extractEhrCompositionForCompoundStatement(ehrExtract, id)));
-
-                    observation.setId(id.getRoot());
-                    observation.getMeta().getProfile().add(new UriType(META_PROFILE));
-
-                    addEffective(observation, getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime()));
-                    addContext(observation, encounters, composition);
-
-                    return observation;
-                }))
+                .map(compoundStatement -> mapObservation(extract, composition, compoundStatement, patient, encounters, practiseCode)))
             .toList();
     }
 
-    private Stream<RCMRMT030101UK04CompoundStatement> extractAllCompoundStatements(RCMRMT030101UK04Component4 component4) {
-        return Stream.concat(
-            Stream.of(component4.getCompoundStatement()),
-            component4.hasCompoundStatement()
-                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasCompoundStatement, RCMRMT030101UK04Component02::getCompoundStatement)
-                .stream()
-                .map(RCMRMT030101UK04CompoundStatement.class::cast)
-                : Stream.empty()
-        );
-    }
+    private Observation mapObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
+        RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+        var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
+        var id = compoundStatement.getId().get(0);
 
-    private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
-        return ehrExtract.getComponent().stream()
-            .flatMap(component -> component.getEhrFolder().getComponent().stream())
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> ehrComposition.getComponent()
-                .stream()
-                .map(RCMRMT030101UK04Component4::getCompoundStatement)
-                .anyMatch(Objects::nonNull))
-            .toList();
+        Observation observation = new Observation()
+            .addIdentifier(buildIdentifier(id.getRoot(), practiseCode))
+            .setStatus(ObservationStatus.FINAL)
+            .setCode(getCode(compoundStatement.getCode()))
+            .setComponent(getComponent(observationStatements))
+            .setComment(
+                getComment(observationStatements, getNarrativeStatementsFromCompoundStatement(compoundStatement)))
+            .setSubject(new Reference(patient))
+            .setIssuedElement(getIssued(
+                ehrExtract,
+                ehrComposition))
+            .addPerformer(getParticipantReference(
+                compoundStatement.getParticipant(),
+                ehrComposition));
+
+        observation.setId(id.getRoot());
+        observation.getMeta().getProfile().add(new UriType(META_PROFILE));
+
+        addEffective(observation, getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime()));
+        addContext(observation, encounters, ehrComposition);
+
+        return observation;
     }
 
     private boolean containsValidBloodPressureTriple(RCMRMT030101UK04CompoundStatement compoundStatement) {
@@ -127,18 +102,6 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         }
 
         return false;
-    }
-
-    private II getEhrCompositionId(List<RCMRMT030101UK04EhrComposition> ehrCompositions,
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return ehrCompositions
-            .stream()
-            .filter(e -> e.getComponent()
-                .stream()
-                .anyMatch(f -> compoundStatement.equals(f.getCompoundStatement()))
-            ).findFirst()
-            .map(RCMRMT030101UK04EhrComposition::getId)
-            .orElse(null);
     }
 
     private CodeableConcept getCode(CD code) {

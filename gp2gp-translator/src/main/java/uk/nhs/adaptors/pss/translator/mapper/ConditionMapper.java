@@ -3,8 +3,9 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIVE;
 
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllLinkSets;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
-import static uk.nhs.adaptors.pss.translator.util.ExtensionUtil.buildReferenceExtension;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildReferenceExtension;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
@@ -33,7 +33,6 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04Component6;
@@ -47,7 +46,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -84,18 +83,6 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                         practiseCode
                     )))
             .toList();
-    }
-
-    private Stream<RCMRMT030101UK04LinkSet> extractAllLinkSets(RCMRMT030101UK04Component4 component4) {
-        return Stream.concat(
-            Stream.of(component4.getLinkSet()),
-            component4.hasCompoundStatement()
-                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasLinkSet, RCMRMT030101UK04Component02::getLinkSet)
-                .stream()
-                .map(RCMRMT030101UK04LinkSet.class::cast)
-                : Stream.empty()
-        );
     }
 
     private Condition getCondition(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
@@ -308,7 +295,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> ehrComposition.getComponent()
                 .stream()
-                .flatMap(this::extractAllLinkSets)
+                .flatMap(CompoundStatementResourceExtractors::extractAllLinkSets)
                 .anyMatch(Objects::nonNull))
             .toList();
     }

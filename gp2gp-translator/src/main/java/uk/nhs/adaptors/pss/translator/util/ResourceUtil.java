@@ -2,8 +2,10 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
 
+import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Meta;
+import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
 
 public class ResourceUtil {
@@ -24,6 +26,10 @@ public class ResourceUtil {
         identifier.setValue(rootId);
 
         return identifier;
+    }
+
+    public static Extension buildReferenceExtension(String url, Reference reference) {
+        return new Extension(url, reference);
     }
 
 }

@@ -41,7 +41,6 @@ import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -168,13 +167,13 @@ public class EncounterMapper {
         return ehrExtract
             .getComponent()
             .stream()
-            .filter(EhrResourceExtractorUtil::hasEhrFolder)
+            .filter(RCMRMT030101UK04Component::hasEhrFolder)
             .map(RCMRMT030101UK04Component::getEhrFolder)
             .map(RCMRMT030101UK04EhrFolder::getComponent)
             .flatMap(List::stream)
-            .filter(EhrResourceExtractorUtil::hasEhrComposition)
+            .filter(RCMRMT030101UK04Component3::hasEhrComposition)
             .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> isEncounterEhrComposition(ehrComposition))
+            .filter(this::isEncounterEhrComposition)
             .toList();
     }
 

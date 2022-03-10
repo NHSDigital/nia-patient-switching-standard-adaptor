@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatementsWithoutAllergies;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getInterpretation;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
@@ -14,7 +15,6 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -29,10 +29,6 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
@@ -43,7 +39,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -51,7 +46,6 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private static final String META_PROFILE = "Observation-1";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
     private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
-    private static final String ALLERGY_SNOMED_CODE = "2.16.840.1.113883.2.1.6.2";
 
     private final CodeableConceptMapper codeableConceptMapper;
 
@@ -59,7 +53,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         String practiseCode) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
-            extractAllObservationStatements(component)
+            extractAllObservationStatementsWithoutAllergies(component)
                 .filter(Objects::nonNull)
                 .filter(this::isNotBloodPressure)
                 .filter(this::isNotImmunization)
@@ -95,19 +89,6 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return observation;
     }
 
-    private Stream<RCMRMT030101UK04ObservationStatement> extractAllObservationStatements(RCMRMT030101UK04Component4 component4) {
-        return Stream.concat(
-            Stream.of(component4.getObservationStatement()),
-            component4.hasCompoundStatement()
-                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement,
-                    this::isNotAllergy)
-                .stream()
-                .map(RCMRMT030101UK04ObservationStatement.class::cast)
-                : Stream.empty()
-        );
-    }
-
     private boolean isNotBloodPressure(RCMRMT030101UK04ObservationStatement observationStatement) {
         if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
             return !BloodPressureValidatorUtil.isSystolicBloodPressure(observationStatement.getCode().getCode())
@@ -121,13 +102,6 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             String snomedCode = observationStatement.getCode().getCodeSystem();
 
             return !IMMUNIZATION_SNOMED_CODE.equals(snomedCode);
-        }
-        return true;
-    }
-
-    private boolean isNotAllergy(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        if (compoundStatement.hasCode() && compoundStatement.getCode().hasCodeSystem()) {
-            return !ALLERGY_SNOMED_CODE.equals(compoundStatement.getCode().getCodeSystem());
         }
         return true;
     }
@@ -201,16 +175,5 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private boolean subjectHasDisplayName(RCMRMT030101UK04Subject subject) {
         return subject != null && subject.getPersonalRelationship() != null
             && subject.getPersonalRelationship().getCode() != null && subject.getPersonalRelationship().getCode().getDisplayName() != null;
-    }
-
-    private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingObservationStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
-        return ehrExtract.getComponent().stream()
-            .flatMap(component -> component.getEhrFolder().getComponent().stream())
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> ehrComposition.getComponent()
-                .stream()
-                .flatMap(this::extractAllObservationStatements)
-                .anyMatch(Objects::nonNull))
-            .toList();
     }
 }

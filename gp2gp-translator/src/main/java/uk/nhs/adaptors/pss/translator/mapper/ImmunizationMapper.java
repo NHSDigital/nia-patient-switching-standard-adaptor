@@ -1,12 +1,12 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatements;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -19,8 +19,6 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
@@ -28,7 +26,6 @@ import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
@@ -52,7 +49,7 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllObservationStatements(component)
                 .filter(Objects::nonNull)
-                .filter(ImmunizationMapper::validImmunizationSnomedCode)
+                .filter(ImmunizationMapper::hasValidImmunizationSnomedCode)
                 .map(observationStatement ->
                     mapImmunization(composition, observationStatement, patientResource, encounterList, practiseCode)))
             .toList();
@@ -104,26 +101,6 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         return encounterId.equals(ehrCompositionId.getRoot());
     }
 
-    private List<RCMRMT030101UK04ObservationStatement> getImmunizationObservationStatements(RCMRMT030101UK04EhrComposition ehrComposition) {
-        return ehrComposition.getComponent()
-            .stream()
-            .flatMap(this::extractAllObservationStatements)
-            .filter(Objects::nonNull)
-            .filter(this::hasImmunizationCode)
-            .collect(Collectors.toList());
-    }
-
-    private Stream<RCMRMT030101UK04ObservationStatement> extractAllObservationStatements(RCMRMT030101UK04Component4 component4) {
-        return Stream.concat(
-            Stream.of(component4.getObservationStatement()),
-            component4.hasCompoundStatement() ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement)
-                .stream()
-                .map(RCMRMT030101UK04ObservationStatement.class::cast)
-                : Stream.empty()
-        );
-    }
-
     private Extension createRecordedTimeExtension(RCMRMT030101UK04EhrComposition ehrComposition) {
         var extension = new Extension();
         extension.setUrl(RECORDED_DATE_EXTENSION_URL);
@@ -138,12 +115,6 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         }
 
         return null;
-    }
-
-    private boolean hasImmunizationCode(RCMRMT030101UK04ObservationStatement observationStatement) {
-        String snomedCode = observationStatement.getCode().getCodeSystem();
-
-        return IMMUNIZATION_SNOMED_CODE.equals(snomedCode);
     }
 
     private Extension createVaccineProcedureExtension(RCMRMT030101UK04ObservationStatement observationStatement) {
@@ -177,7 +148,7 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
             }
         }
     }
-    private static boolean validImmunizationSnomedCode(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private static boolean hasValidImmunizationSnomedCode(RCMRMT030101UK04ObservationStatement observationStatement) {
         return observationStatement != null
             && IMMUNIZATION_SNOMED_CODE.equals(observationStatement.getCode().getCodeSystem());
     }
