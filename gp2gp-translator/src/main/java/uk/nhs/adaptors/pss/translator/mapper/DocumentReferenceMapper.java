@@ -56,8 +56,11 @@ public class DocumentReferenceMapper {
             .map(RCMRMT030101UK04EhrFolder::getComponent)
             .flatMap(List::stream)
             .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .flatMap(ehrComposition -> ehrComposition.getComponent().stream()
-                .flatMap(this::extractAllNarrativeStatements).filter(Objects::nonNull)
+            .flatMap(ehrComposition -> ehrComposition.getComponent()
+                .stream()
+                .flatMap(this::extractAllNarrativeStatements)
+                .filter(Objects::nonNull)
+                .filter(narrativeStatement -> hasReferredToExternalDocument(narrativeStatement))
                 .map(narrativeStatement -> mapDocumentReference(narrativeStatement, ehrComposition, patient, ehrExtract, encounterList,
                     practiseCode))).toList();
     }
@@ -78,9 +81,9 @@ public class DocumentReferenceMapper {
         var id = narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot();
 
         documentReference.addIdentifier(buildIdentifier(id, practiseCode));
+        documentReference.setId(id);
         documentReference.getMeta().addProfile(META_PROFILE);
         documentReference.setStatus(DocumentReferenceStatus.CURRENT);
-        documentReference.setId(id);
         documentReference.setType(getType(narrativeStatement));
         documentReference.setSubject(new Reference(patient.getId()));
         documentReference.setIndexedElement(getIndexed(ehrExtract));
@@ -203,5 +206,11 @@ public class DocumentReferenceMapper {
     private boolean isContentTypeValid(String mediaType) {
         String validContentTypeFormat = ".*/.*";
         return Pattern.matches(validContentTypeFormat, mediaType);
+    }
+
+    private boolean hasReferredToExternalDocument(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+        return narrativeStatement.getReference()
+            .stream()
+            .anyMatch(reference -> reference.getReferredToExternalDocument() != null);
     }
 }
