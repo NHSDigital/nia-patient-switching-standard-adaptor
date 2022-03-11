@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -65,7 +66,7 @@ public class ObservationMapperTest {
 
     @Test
     public void mapObservationWithValidData() {
-        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
+        when(codeableConceptMapper.mapToCodeableConcept(any(), eq(false))).thenReturn(CODEABLE_CONCEPT);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
         var observation = observationMapper.mapObservations(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
@@ -89,7 +90,7 @@ public class ObservationMapperTest {
 
     @Test
     public void mapObservationWithNoOptionalData() {
-        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
+        when(codeableConceptMapper.mapToCodeableConcept(any(), eq(false))).thenReturn(CODEABLE_CONCEPT);
         var ehrExtract = unmarshallEhrExtractElement("no_optional_data_observation_example.xml");
         var observation = observationMapper.mapObservations(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 

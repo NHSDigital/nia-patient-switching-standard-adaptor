@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -283,7 +284,7 @@ public class ConsultationListMapperTest {
         coding.setDisplay(display);
         codeableConcept.addCoding(coding);
         codeableConcept.setText(text);
-        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+        when(codeableConceptMapper.mapToCodeableConcept(any(), eq(false))).thenReturn(codeableConcept);
     }
 
     @SneakyThrows

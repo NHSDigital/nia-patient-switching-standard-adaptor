@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
@@ -360,7 +361,7 @@ public class EncounterMapperTest {
         var coding = new Coding();
         coding.setDisplay(CODING_DISPLAY);
         codeableConcept.addCoding(coding);
-        lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+        lenient().when(codeableConceptMapper.mapToCodeableConcept(any(), eq(false))).thenReturn(codeableConcept);
     }
 
     private ListResource getList() {
