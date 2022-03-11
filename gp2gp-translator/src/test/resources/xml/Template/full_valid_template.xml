@@ -19,11 +19,17 @@
                             <id root="2E86E940-9011-11EC-B1E5-0800200C9A66"/>
                         </agentRef>
                     </author>
+                    <Participant2 typeCode="PPRF" contextControlCode="OP">
+                        <agentRef classCode="AGNT">
+                            <id root="3707E1F0-9011-11EC-B1E5-0800200C9A66" />
+                        </agentRef>
+                    </Participant2>
                     <component typeCode="COMP">
                         <CompoundStatement classCode="CLUSTER" moodCode="EVN">
                             <id root="C8B1BEAF-FB71-45D1-89DA-298148C00CE1"/>
                             <code code="PKyz500" codeSystem="2.16.840.1.113883.2.1.6.2"
-                                  displayName="Happy puppet syndrome">
+                                  displayName="display-text">
+                                <originalText>original-text</originalText>
                                 <translation code="76880004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
                                              displayName="Happy puppet syndrome"/>
                             </code>
@@ -31,6 +37,11 @@
                             <effectiveTime>
                                 <center nullFlavor="NI"/>
                             </effectiveTime>
+                            <Participant2 typeCode="PPRF" contextControlCode="OP">
+                                <agentRef classCode="AGNT">
+                                    <id root="3707E1F0-9011-11EC-B1E5-0800200C9A66" />
+                                </agentRef>
+                            </Participant2>
                             <availabilityTime value="201101111533"/>
                             <component typeCode="COMP" contextConductionInd="true">
                                 <ObservationStatement classCode="OBS" moodCode="EVN">

@@ -42,6 +42,7 @@ import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
@@ -70,6 +71,7 @@ public class BundleMapperService {
     private final ImmunizationMapper immunizationMapper;
     private final UnknownPractitionerHandler unknownPractitionerHandler;
     private final DocumentReferenceMapper documentReferenceMapper;
+    private final TemplateMapper templateMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -117,12 +119,20 @@ public class BundleMapperService {
         var documentReferences = mapDocumentReferences(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, documentReferences);
 
+        var templates = mapTemplates(ehrExtract, patient, encounters, practiseCode);
+        addEntries(bundle, templates);
+
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 
         conditionMapper.addReferences(bundle, conditions, ehrExtract);
         unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
 
         return bundle;
+    }
+
+    private List<? extends DomainResource> mapTemplates(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+        List<Encounter> encounters, String practiseCode) {
+        return templateMapper.mapTemplates(ehrExtract, patient, encounters, practiseCode);
     }
 
     private List<DocumentReference> mapDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,

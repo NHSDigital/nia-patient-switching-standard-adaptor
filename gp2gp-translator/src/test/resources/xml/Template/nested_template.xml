@@ -1,0 +1,90 @@
+<EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+    <availabilityTime value="20200101010101"/>
+    <component typeCode="COMP">
+        <ehrFolder classCode="FOLDER" moodCode="EVN">
+            <component typeCode="COMP">
+                <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
+                    <id root="NON_MATCHING_ENCOUNTER"/>
+                    <code code="24561000000109" displayName="A+E report" codeSystem="2.16.840.1.113883.2.1.3.2.4.15">
+                        <originalText>GP Surgery</originalText>
+                    </code>
+                    <statusCode code="COMPLETE"/>
+                    <effectiveTime>
+                        <low value="20100113152000"/>
+                    </effectiveTime>
+                    <availabilityTime value="20121213152000"/>
+                    <author typeCode="AUT" contextControlCode="OP">
+                        <time nullFlavor="UNK"/>
+                        <agentRef classCode="AGNT">
+                            <id root="2E86E940-9011-11EC-B1E5-0800200C9A66"/>
+                        </agentRef>
+                    </author>
+                    <Participant2 typeCode="PRF" contextControlCode="OP">
+                        <agentRef classCode="AGNT">
+                            <id root="9007E1F0-9011-11EC-B1E5-0800200C9A66" />
+                        </agentRef>
+                    </Participant2>
+                    <component typeCode="COMP">
+                        <CompoundStatement classCode="TOPIC" moodCode="EVN">
+                            <id root="C8B1BEAF-FB71-45D1-89DA-298148C00CE1"/>
+                            <code code="PKyz500" codeSystem="2.16.840.1.113883.2.1.6.2"
+                                  displayName="display-text">
+                                <translation code="76880004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                             displayName="Happy puppet syndrome"/>
+                            </code>
+                            <statusCode code="COMPLETE"/>
+                            <effectiveTime>
+                                <center nullFlavor="NI"/>
+                            </effectiveTime>
+                            <availabilityTime value="201101111533"/>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                                    <id root="C8B1BEAF-FB71-45D1-89DA-298148C00CE1"/>
+                                    <code code="PKyz500" codeSystem="2.16.840.1.113883.2.1.6.2"
+                                          displayName="display-text">
+                                        <translation code="76880004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                                     displayName="Happy puppet syndrome"/>
+                                    </code>
+                                    <statusCode code="COMPLETE"/>
+                                    <effectiveTime>
+                                        <center nullFlavor="NI"/>
+                                    </effectiveTime>
+                                    <availabilityTime value="201101111533"/>
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <ObservationStatement classCode="OBS" moodCode="EVN">
+                                            <id root="6418F5A3-C427-4292-ABCF-F53E71B43F15"/>
+                                            <code code="1683.00" codeSystem="2.16.840.1.113883.2.1.6.2"
+                                                  displayName="Tired all the time">
+                                                <translation code="267032009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                                             displayName="Tired all the time"/>
+                                            </code>
+                                            <statusCode code="COMPLETE"/>
+                                            <effectiveTime>
+                                                <center nullFlavor="NI"/>
+                                            </effectiveTime>
+                                            <availabilityTime value="201101111533"/>
+                                            <pertinentInformation typeCode="PERT">
+                                                <sequenceNumber value="+1"/>
+                                                <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                    <text>Notes on the tired all the time entry</text>
+                                                </pertinentAnnotation>
+                                            </pertinentInformation>
+                                        </ObservationStatement>
+                                    </component>
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                            <id root="3E1A4EA2-661B-4467-8843-6A6B21DEF14F"/>
+                                            <text>Comments - Aaaargh</text>
+                                            <statusCode code="COMPLETE"/>
+                                            <availabilityTime value="201101111533"/>
+                                        </NarrativeStatement>
+                                    </component>
+                                </CompoundStatement>
+                            </component>
+                        </CompoundStatement>
+                    </component>
+                </ehrComposition>
+            </component>
+        </ehrFolder>
+    </component>
+</EhrExtract>

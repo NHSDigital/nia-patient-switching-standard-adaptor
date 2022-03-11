@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 import static org.hl7.fhir.dstu3.model.QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED;
 
-import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.containsValidBloodPressureTriple;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionsFromEhrExtract;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
@@ -21,7 +20,6 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
-import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
@@ -36,12 +34,11 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TemplateMapper {
-    private static final List<String> COMPOUND_CODES = List.of("CLUSTER", "BATTERY");
-    private static final String PATHOLOGY_CODE = "16488004";
     private static final String OBSERVATION_META_PROFILE = "Observation-1";
     private static final String QUESTIONNAIRE_META_PROFILE = "QuestionnaireResponse-1";
     private static final String QUESTIONNAIRE_REFERENCE = "%s-QRSP";
@@ -58,7 +55,7 @@ public class TemplateMapper {
             .stream()
             .flatMap(CompoundStatementUtil::extractAllCompoundStatements)
             .filter(Objects::nonNull)
-            .filter(this::isMappableTemplate)
+            .filter(ResourceFilterUtil::isTemplate)
             .forEach(compoundStatement -> {
                 var encounter = getEncounter(encounters, ehrComposition);
 
@@ -165,15 +162,5 @@ public class TemplateMapper {
         return ehrComposition.getAuthor().getTime().hasValue()
             ? DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue())
             : DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
-    }
-
-    private boolean isMappableTemplate(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return COMPOUND_CODES.contains(compoundStatement.getClassCode().get(0))
-            && !PATHOLOGY_CODE.equals(compoundStatement.getCode().getCode())
-            && !containsValidBloodPressureTriple(compoundStatement);
-    }
-
-    private void addEntry(ListResource list, Reference reference) {
-        list.addEntry(new ListResource.ListEntryComponent(reference));
     }
 }
