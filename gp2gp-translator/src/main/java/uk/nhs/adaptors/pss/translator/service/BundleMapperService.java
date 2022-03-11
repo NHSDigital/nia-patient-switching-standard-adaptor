@@ -119,7 +119,7 @@ public class BundleMapperService {
         var documentReferences = mapDocumentReferences(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, documentReferences);
 
-        var templates = mapTemplates(ehrExtract, patient, encounters, practiseCode);
+        var templates = templateMapper.mapTemplates(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, templates);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
@@ -128,11 +128,6 @@ public class BundleMapperService {
         unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
 
         return bundle;
-    }
-
-    private List<? extends DomainResource> mapTemplates(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        List<Encounter> encounters, String practiseCode) {
-        return templateMapper.mapTemplates(ehrExtract, patient, encounters, practiseCode);
     }
 
     private List<DocumentReference> mapDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
