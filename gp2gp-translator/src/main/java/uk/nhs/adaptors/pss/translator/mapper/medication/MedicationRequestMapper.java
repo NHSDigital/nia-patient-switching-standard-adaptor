@@ -80,7 +80,7 @@ public class MedicationRequestMapper {
 
         List<Medication> medications = mapMedications(medicationStatement);
 
-        List<MedicationRequest> medicationRequestsOrder = mapMedicationRequestsOrder(medicationStatement, practiseCode);
+        List<MedicationRequest> medicationRequestsOrder = mapMedicationRequestsOrder(ehrExtract, medicationStatement, practiseCode);
 
         List<MedicationRequest> medicationRequestsPlan = mapMedicationRequestsPlan(ehrExtract, medicationStatement, practiseCode);
 
@@ -119,14 +119,14 @@ public class MedicationRequestMapper {
             .toList();
     }
 
-    private List<MedicationRequest> mapMedicationRequestsOrder(RCMRMT030101UK04MedicationStatement medicationStatement,
-        String practiseCode) {
+    private List<MedicationRequest> mapMedicationRequestsOrder(RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UK04MedicationStatement medicationStatement, String practiseCode) {
         return medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
             .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
-            .map(supplyPrescribe -> medicationRequestOrderMapper.mapToOrderMedicationRequest(medicationStatement, supplyPrescribe,
-                practiseCode))
+            .map(supplyPrescribe -> medicationRequestOrderMapper.mapToOrderMedicationRequest(ehrExtract, medicationStatement,
+                supplyPrescribe, practiseCode))
             .filter(Objects::nonNull)
             .toList();
     }

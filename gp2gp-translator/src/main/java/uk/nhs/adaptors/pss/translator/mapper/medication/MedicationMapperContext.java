@@ -42,10 +42,7 @@ public class MedicationMapperContext {
     }
 
     private static String keyBuilder(Function<CD, Boolean> checker, Function<CD, String> getter, CD code) {
-        if (checker.apply(code)) {
-            return getter.apply(code);
-        }
-        return null;
+        return checker.apply(code) ? getter.apply(code) : null;
     }
 
 }

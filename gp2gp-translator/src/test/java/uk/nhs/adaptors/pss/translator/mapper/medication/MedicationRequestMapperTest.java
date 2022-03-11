@@ -59,7 +59,7 @@ public class MedicationRequestMapperTest {
         var ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
-        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
         when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
         when(medicationMapper.createMedication(any())).thenReturn(new Medication());
 
@@ -67,7 +67,7 @@ public class MedicationRequestMapperTest {
             PRACTISE_CODE);
 
         verify(medicationRequestPlanMapper, times(DOUBLE_INVOCATION)).mapToPlanMedicationRequest(any(), any(), any(), any());
-        verify(medicationRequestOrderMapper, times(SINGLE_INVOCATION)).mapToOrderMedicationRequest(any(), any(), any());
+        verify(medicationRequestOrderMapper, times(SINGLE_INVOCATION)).mapToOrderMedicationRequest(any(), any(), any(), any());
         verify(medicationStatementMapper, times(DOUBLE_INVOCATION)).mapToMedicationStatement(any(), any(), any(), any(), any());
         verify(medicationMapper, times(SINGLE_INVOCATION)).createMedication(any());
 

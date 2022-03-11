@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
 
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDispenseRequestPeriodEnd;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
@@ -21,7 +22,6 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
@@ -231,19 +231,6 @@ public class MedicationRequestPlanMapper {
         MedicationMapperUtils.extractDispenseRequestPeriodStart(supplyAuthorise).ifPresent(period::setStartElement);
 
         return dispenseRequest.setValidityPeriod(period);
-    }
-
-    private Period buildDispenseRequestPeriodEnd(RCMRMT030101UK04Authorise supplyAuthorise,
-        RCMRMT030101UK04MedicationStatement medicationStatement) {
-        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasHigh()) {
-            return new Period().setEndElement(
-                DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue()));
-        }
-        if (medicationStatement.hasEffectiveTime() && medicationStatement.getEffectiveTime().hasHigh()) {
-            return new Period().setEndElement(
-                DateFormatUtil.parseToDateTimeType(medicationStatement.getEffectiveTime().getHigh().getValue()));
-        }
-        return new Period();
     }
 
     private Optional<Extension> buildCondensedExtensions(String url, List<Extension> extensionList) {

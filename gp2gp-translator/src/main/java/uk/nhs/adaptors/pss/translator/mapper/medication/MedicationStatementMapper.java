@@ -4,6 +4,7 @@ import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementSt
 import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.COMPLETED;
 import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementTaken.UNK;
 
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDispenseRequestPeriodEnd;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -20,7 +21,6 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
-import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
@@ -84,9 +84,11 @@ public class MedicationStatementMapper {
 
             MedicationMapperUtils.extractDispenseRequestPeriodStart(supplyAuthorise)
                 .ifPresentOrElse(dateTimeType -> {
-                    medicationStatement1.setEffective(new Period().setStartElement(dateTimeType));
+                    medicationStatement1.setEffective(
+                        buildDispenseRequestPeriodEnd(supplyAuthorise, medicationStatement).setStartElement(dateTimeType));
                 }, () -> {
-                    medicationStatement1.setEffective(new Period().setStartElement(authoredOn));
+                    medicationStatement1.setEffective(buildDispenseRequestPeriodEnd(supplyAuthorise, medicationStatement)
+                        .setStartElement(authoredOn));
                 });
 
             return medicationStatement1;

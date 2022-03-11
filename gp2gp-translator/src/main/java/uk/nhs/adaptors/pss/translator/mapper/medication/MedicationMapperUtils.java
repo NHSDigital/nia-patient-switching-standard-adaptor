@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -14,13 +15,19 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Dosage;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
+import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.SimpleQuantity;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
+import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component2;
+import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04MedicationDosage;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation;
@@ -105,11 +112,21 @@ public class MedicationMapperUtils {
         return Optional.empty();
     }
 
-    public static RCMRMT030101UK04Authorise extractSupplyAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement, String id) {
-        return medicationStatement.getComponent()
+    public static RCMRMT030101UK04Authorise extractSupplyAuthorise(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+        return ehrExtract.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .map(RCMRMT030101UK04EhrComposition::getComponent)
+            .flatMap(List::stream)
+            .flatMap(MedicationMapperUtils::extractAllMedications)
+            .filter(Objects::nonNull)
+            .map(RCMRMT030101UK04MedicationStatement::getComponent)
+            .flatMap(List::stream)
             .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+            .filter(Objects::nonNull)
             .filter(authorise -> authorise.getId().getRoot().equals(id))
             .findFirst()
             .orElse(null);
@@ -133,12 +150,29 @@ public class MedicationMapperUtils {
     public static Stream<RCMRMT030101UK04MedicationStatement> extractAllMedications(RCMRMT030101UK04Component4 component4) {
         return Stream.concat(
             Stream.of(component4.getMedicationStatement()),
-            component4.hasCompoundStatement()
-                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasMedicationStatement, RCMRMT030101UK04Component02::getMedicationStatement)
-                .stream()
-                .map(RCMRMT030101UK04MedicationStatement.class::cast)
-                : Stream.empty()
+            extractNestedMedications(component4)
         );
+    }
+
+    public static Period buildDispenseRequestPeriodEnd(RCMRMT030101UK04Authorise supplyAuthorise,
+        RCMRMT030101UK04MedicationStatement medicationStatement) {
+        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasHigh()) {
+            return new Period().setEndElement(
+                DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue()));
+        }
+        if (medicationStatement.hasEffectiveTime() && medicationStatement.getEffectiveTime().hasHigh()) {
+            return new Period().setEndElement(
+                DateFormatUtil.parseToDateTimeType(medicationStatement.getEffectiveTime().getHigh().getValue()));
+        }
+        return new Period();
+    }
+
+    private static Stream<RCMRMT030101UK04MedicationStatement> extractNestedMedications(RCMRMT030101UK04Component4 component4) {
+        return component4.hasCompoundStatement()
+            ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
+                RCMRMT030101UK04Component02::hasMedicationStatement, RCMRMT030101UK04Component02::getMedicationStatement)
+            .stream()
+            .map(RCMRMT030101UK04MedicationStatement.class::cast)
+            : Stream.empty();
     }
 }
