@@ -59,7 +59,8 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
         assertThat(codeableConcept.getText()).isEqualTo(ORIGINAL_TEXT);
     }
 
@@ -75,9 +76,11 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 2).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getUrl()).isEqualTo(DESCRIPTION_DISPLAY);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getValue().toString()).isEqualTo(SNOMED_DESCRIPTION.getTerm());
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getValue()
+            .toString()).isEqualTo(SNOMED_DESCRIPTION.getTerm());
         assertThat(codeableConcept.getText()).isEqualTo(ORIGINAL_TEXT);
     }
 
@@ -93,7 +96,8 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(DISPLAY_NAME_1);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
         assertThat(codeableConcept.getText()).isEqualTo(ORIGINAL_TEXT);
     }
 
@@ -109,7 +113,8 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(DISPLAY_NAME_1);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
         assertThat(codeableConcept.getText()).isEqualTo(DISPLAY_NAME_1);
     }
 
@@ -125,7 +130,8 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(DISPLAY_NAME_1);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
     }
 
     @Test
@@ -140,7 +146,8 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(DISPLAY_NAME_1);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
         assertThat(codeableConcept.getText()).isEqualTo(ORIGINAL_TEXT);
     }
 
@@ -156,13 +163,14 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(DISPLAY_NAME_1);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
         assertThat(codeableConcept.getText()).isEqualTo(DISPLAY_NAME_2);
     }
 
     @Test
     public void mapSnomedCodeWithConceptIdNoMatchingDescriptionOriginalText() {
-        when(snomedCTDao.getSnomedDescriptionUsingConceptIdAndDisplayName(any(),any())).thenReturn(null);
+        when(snomedCTDao.getSnomedDescriptionUsingConceptIdAndDisplayName(any(), any())).thenReturn(null);
         when(snomedCTDao.getSnomedDescriptionPreferredTermUsingConceptId(any())).thenReturn(null);
         var codedData = unmarshallCodeElement("concept-id-display-name-original-text-example.xml");
 
@@ -176,7 +184,7 @@ public class CodeableConceptMapperTest {
 
     @Test
     public void mapSnomedCodeWithConceptIdNoMatchingDescriptionNoOriginalText() {
-        when(snomedCTDao.getSnomedDescriptionUsingConceptIdAndDisplayName(any(),any())).thenReturn(null);
+        when(snomedCTDao.getSnomedDescriptionUsingConceptIdAndDisplayName(any(), any())).thenReturn(null);
         when(snomedCTDao.getSnomedDescriptionPreferredTermUsingConceptId(any())).thenReturn(null);
         var codedData = unmarshallCodeElement("concept-id-display-name-no-original-text-example.xml");
 
@@ -213,7 +221,8 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
         assertThat(codeableConcept.getText()).isEqualTo(ORIGINAL_TEXT);
     }
 
@@ -229,7 +238,8 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
         assertThat(codeableConcept.getText()).isEqualTo(null);
     }
 
@@ -245,7 +255,8 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
         assertThat(codeableConcept.getText()).isEqualTo(DISPLAY_NAME_3);
     }
 
@@ -261,9 +272,11 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 2).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getUrl()).isEqualTo(DESCRIPTION_DISPLAY);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getValue().toString()).isEqualTo(SNOMED_DESCRIPTION.getTerm());
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getValue().toString())
+            .isEqualTo(SNOMED_DESCRIPTION.getTerm());
         assertThat(codeableConcept.getText()).isEqualTo(ORIGINAL_TEXT);
     }
 
@@ -279,9 +292,11 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 2).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getUrl()).isEqualTo(DESCRIPTION_DISPLAY);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getValue().toString()).isEqualTo(SNOMED_DESCRIPTION.getTerm());
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getValue().toString())
+            .isEqualTo(SNOMED_DESCRIPTION.getTerm());
         assertThat(codeableConcept.getText()).isEqualTo(null);
     }
 
@@ -297,9 +312,11 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 2).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue()).isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
+            .isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getUrl()).isEqualTo(DESCRIPTION_DISPLAY);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getValue().toString()).isEqualTo(SNOMED_DESCRIPTION.getTerm());
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getValue().toString())
+            .isEqualTo(SNOMED_DESCRIPTION.getTerm());
         assertThat(codeableConcept.getText()).isEqualTo(DISPLAY_NAME_3);
     }
 

@@ -51,8 +51,6 @@ public class CodeableConceptMapper {
             return generateCodeableConceptUsingDescriptionId(codedData, mainCodeFromTranslation, isMedicationResource);
         }
 
-        //todo return cc with just text????
-
         return null;
     }
 
