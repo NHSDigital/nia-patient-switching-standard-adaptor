@@ -87,6 +87,10 @@ public class RCMRMT030101UK04Author3 {
         return time;
     }
 
+    public boolean hasTime() {
+        return time != null;
+    }
+
     /**
      * Sets the value of the time property.
      * 

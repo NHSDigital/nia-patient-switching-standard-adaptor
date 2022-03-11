@@ -183,6 +183,10 @@ public class RCMRMT030101UK04NarrativeStatement {
         return availabilityTime;
     }
 
+    public boolean hasAvailabilityTime() {
+        return availabilityTime != null;
+    }
+
     /**
      * Sets the value of the availabilityTime property.
      * 
