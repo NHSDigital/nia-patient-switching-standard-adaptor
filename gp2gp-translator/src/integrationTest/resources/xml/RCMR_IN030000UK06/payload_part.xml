@@ -17920,6 +17920,18 @@
                                                     </specimenRole>
                                                 </specimen>
                                                 <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="9326C01E-488B-4EDF-B9C9-529E69EE0361"/>
+                                                        <text mediaType="text/x-h7uk-pmip">CommentType:LAB SPECIMEN COMMENT(E271)
+                                                            CommentDate:20020330092100
+
+                                                            Received Date: 2002-03-30 09:21
+                                                        </text>
+                                                        <statusCode code="COMPLETE"/>
+                                                        <availabilityTime value="20020330000000"/>
+                                                    </NarrativeStatement>
+                                                </component>
+                                                <component typeCode="COMP" contextConductionInd="true">
                                                     <CompoundStatement classCode="CLUSTER" moodCode="EVN">
                                                         <id root="6955ABC8-E9C7-4DD5-B012-185727301FD4"/>
                                                         <code code="465..00" codeSystem="2.16.840.1.113883.2.1.6.2"

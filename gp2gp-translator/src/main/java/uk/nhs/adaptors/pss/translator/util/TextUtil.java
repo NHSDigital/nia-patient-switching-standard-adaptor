@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
-
 import org.apache.commons.lang3.StringUtils;
 
 public class TextUtil {
@@ -15,7 +13,8 @@ public class TextUtil {
             return text;
         }
 
-        return deleteWhitespace(text.substring(text.lastIndexOf(StringUtils.LF)));
+        String trimmed = text.trim();
+        return trimmed.substring(trimmed.lastIndexOf(StringUtils.LF)).trim();
     }
 
     public static String addLine(String text, String line) {
@@ -25,5 +24,4 @@ public class TextUtil {
 
         return text.concat(StringUtils.LF).concat(line);
     }
-
 }
