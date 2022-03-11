@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.containsValidBloodPressureTriple;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isDiastolicBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isSystolicBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
@@ -92,17 +93,6 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         addContextToObservation(observation, encounters, ehrComposition);
 
         return observation;
-    }
-
-    private boolean containsValidBloodPressureTriple(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
-
-        if (observationStatements.size() == 2) {
-            return BloodPressureValidatorUtil.validateBloodPressureTriple(compoundStatement.getCode().getCode(),
-                observationStatements.get(0).getCode().getCode(), observationStatements.get(1).getCode().getCode());
-        }
-
-        return false;
     }
 
     private CodeableConcept getCode(CD code) {
