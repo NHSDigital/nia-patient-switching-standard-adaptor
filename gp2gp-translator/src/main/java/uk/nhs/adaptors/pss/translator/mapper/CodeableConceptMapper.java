@@ -27,6 +27,8 @@ public class CodeableConceptMapper {
     private static final String CONCEPT_PARTITION_LONG = "10";
     private static final String DESCRIPTION_PARTITION_SHORT = "01";
     private static final String DESCRIPTION_PARTITION_LONG = "11";
+    private static final int MAX_CHARACTERS_FROM_RIGHT = 3;
+    private static final int MIN_CHARACTERS_FROM_RIGHT = 1;
 
     @Autowired
     private final SnomedCTDao snomedCTDao;
@@ -57,8 +59,8 @@ public class CodeableConceptMapper {
     private CodeableConcept generateCodeableConceptUsingConceptId(CD codedData, CD mainCodeFromTranslation, boolean isMedicationResource) {
         var conceptId = codedData.getCode();
         var displayName = codedData.getDisplayName();
-        var originalText = Objects.nonNull(mainCodeFromTranslation) ? mainCodeFromTranslation.getOriginalText() :
-            codedData.getOriginalText();
+        var originalText = Objects.nonNull(mainCodeFromTranslation) ? mainCodeFromTranslation.getOriginalText()
+            : codedData.getOriginalText();
 
         SnomedCTDescription description = null;
         SnomedCTDescription preferredTerm = getSnomedDescriptionPreferredTerm(conceptId);
@@ -107,8 +109,8 @@ public class CodeableConceptMapper {
         // No matching description for concept id
         if (Objects.isNull(description) && Objects.isNull(preferredTerm)) {
             var display = StringUtils.isNotEmpty(displayName) ? displayName
-                : Objects.nonNull(mainCodeFromTranslation) && StringUtils.isNotEmpty(mainCodeFromTranslation.getDisplayName()) ?
-                mainCodeFromTranslation.getDisplayName() : null;
+                : Objects.nonNull(mainCodeFromTranslation) && StringUtils.isNotEmpty(mainCodeFromTranslation.getDisplayName())
+                ? mainCodeFromTranslation.getDisplayName() : null;
 
             return createCodeableConcept(conceptId, SNOMED_SYSTEM, display, originalText, null);
         }
@@ -116,12 +118,13 @@ public class CodeableConceptMapper {
         return null;
     }
 
-    private CodeableConcept generateCodeableConceptUsingDescriptionId(CD codedData, CD mainCodeFromTranslation, boolean isMedicationResource) {
+    private CodeableConcept generateCodeableConceptUsingDescriptionId(CD codedData, CD mainCodeFromTranslation,
+        boolean isMedicationResource) {
         var descriptionId = codedData.getCode();
-        var displayName = Objects.nonNull(mainCodeFromTranslation) ? mainCodeFromTranslation.getDisplayName() :
-            codedData.getDisplayName();
-        var originalText = Objects.nonNull(mainCodeFromTranslation) ? mainCodeFromTranslation.getOriginalText() :
-            codedData.getOriginalText();
+        var displayName = Objects.nonNull(mainCodeFromTranslation)
+            ? mainCodeFromTranslation.getDisplayName() : codedData.getDisplayName();
+        var originalText = Objects.nonNull(mainCodeFromTranslation)
+            ? mainCodeFromTranslation.getOriginalText() : codedData.getOriginalText();
 
         SnomedCTDescription description = getSnomedDescriptionUsingDescriptionId(descriptionId);
         String text = null;
@@ -195,7 +198,7 @@ public class CodeableConceptMapper {
     private String getPartitionIdentifier(String code) {
         var codeLength = code.length();
 
-        return code.substring(code.length() - 3, code.length() - 1);
+        return code.substring(code.length() - MAX_CHARACTERS_FROM_RIGHT, code.length() - MIN_CHARACTERS_FROM_RIGHT);
     }
 
     private CodeableConcept createCodeableConcept(String code, String system, String display, String text, Extension extension) {
