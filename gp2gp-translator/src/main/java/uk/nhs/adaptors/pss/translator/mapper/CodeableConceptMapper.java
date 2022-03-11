@@ -51,7 +51,7 @@ public class CodeableConceptMapper {
             return generateCodeableConceptUsingDescriptionId(codedData, mainCodeFromTranslation, isMedicationResource);
         }
 
-        return null;
+        return new CodeableConcept().setText(generateText(codedData.getOriginalText(), codedData.getDisplayName()));
     }
 
     private CodeableConcept generateCodeableConceptUsingConceptId(CD codedData, CD mainCodeFromTranslation, boolean isMedicationResource) {

@@ -117,10 +117,10 @@ public class DocumentReferenceMapper {
 
         if (referenceToExternalDocument != null && referenceToExternalDocument.hasCode()) {
             if (!referenceToExternalDocument.getCode().hasOriginalText() && referenceToExternalDocument.getCode().hasDisplayName()) {
-                return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode())
+                return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode(), false)
                     .setText(referenceToExternalDocument.getCode().getDisplayName());
             } else if (referenceToExternalDocument.getCode().hasOriginalText()) {
-                return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode())
+                return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode(), false)
                     .setText(referenceToExternalDocument.getCode().getOriginalText());
             }
         }
