@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil.extractChildReferencesFromCompoundStatement;
+import static uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil.extractChildReferencesFromEhrComposition;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -17,11 +19,13 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterLocationComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
+import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.ListResource.ListEntryComponent;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.RCMRMT030101UK04Author;
@@ -83,7 +87,7 @@ public class EncounterMapper {
 
             var topicCompoundStatementList = getTopicCompoundStatements(ehrComposition);
             if (CollectionUtils.isEmpty(topicCompoundStatementList)) {
-                generateFlatConsultation(consultation, topics);
+                generateFlatConsultation(consultation, topics, ehrComposition);
             } else {
                 generateStructuredConsultation(topicCompoundStatementList, ehrComposition, consultation, topics, categories);
             }
@@ -100,8 +104,13 @@ public class EncounterMapper {
         return map;
     }
 
-    private void generateFlatConsultation(ListResource consultation, List<ListResource> topics) {
+    private void generateFlatConsultation(ListResource consultation, List<ListResource> topics,
+        RCMRMT030101UK04EhrComposition ehrComposition) {
         var topic = consultationListMapper.mapToTopic(consultation, null);
+
+        List<Reference> entryReferences = new ArrayList<>();
+        extractChildReferencesFromEhrComposition(ehrComposition, entryReferences);
+        entryReferences.forEach(reference -> addEntry(topic, reference));
 
         consultation.addEntry(new ListEntryComponent(new Reference(topic)));
         topics.add(topic);
@@ -112,7 +121,7 @@ public class EncounterMapper {
         List<ListResource> categories) {
         topicCompoundStatementList.forEach(topicCompoundStatement -> {
             var topic = consultationListMapper.mapToTopic(consultation, topicCompoundStatement);
-            consultation.addEntry(new ListResource.ListEntryComponent(new Reference(topic)));
+            consultation.addEntry(new ListEntryComponent(new Reference(topic)));
 
             generateCategoryLists(topicCompoundStatement, topic, categories);
             generateLinkSetTopicLists(ehrComposition, consultation, topics);
@@ -127,20 +136,10 @@ public class EncounterMapper {
         if (!CollectionUtils.isEmpty(linkSetList)) {
             var linkSetTopic = consultationListMapper.mapToTopic(consultation, null);
 
-            consultation.addEntry(new ListResource.ListEntryComponent(new Reference(linkSetTopic)));
+            addLinkSetsAsTopicEntries(linkSetList, linkSetTopic);
+            consultation.addEntry(new ListEntryComponent(new Reference(linkSetTopic)));
             topics.add(linkSetTopic);
         }
-    }
-
-    private void generateCategoryLists(RCMRMT030101UK04CompoundStatement topicCompoundStatement, ListResource topic,
-        List<ListResource> categories) {
-        var categoryCompoundStatements = getCategoryCompoundStatements(topicCompoundStatement);
-        categoryCompoundStatements.forEach(categoryCompoundStatement -> {
-            var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement);
-
-            topic.addEntry(new ListEntryComponent(new Reference(category)));
-            categories.add(category);
-        });
     }
 
     private List<RCMRMT030101UK04LinkSet> getLinkSets(RCMRMT030101UK04EhrComposition ehrComposition) {
@@ -149,6 +148,26 @@ public class EncounterMapper {
             .map(RCMRMT030101UK04Component4::getLinkSet)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
+    }
+
+    private void addLinkSetsAsTopicEntries(List<RCMRMT030101UK04LinkSet> linkSetList, ListResource linkSetTopic) {
+        linkSetList.forEach(linkSet -> linkSetTopic.addEntry(new ListEntryComponent(
+            new Reference(new IdType(ResourceType.Condition.name(), linkSet.getId().getRoot())))));
+    }
+
+    private void generateCategoryLists(RCMRMT030101UK04CompoundStatement topicCompoundStatement, ListResource topic,
+        List<ListResource> categories) {
+        var categoryCompoundStatements = getCategoryCompoundStatements(topicCompoundStatement);
+        categoryCompoundStatements.forEach(categoryCompoundStatement -> {
+            var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement);
+
+            List<Reference> entryReferences = new ArrayList<>();
+            extractChildReferencesFromCompoundStatement(categoryCompoundStatement, entryReferences);
+            entryReferences.forEach(reference -> addEntry(category, reference));
+
+            topic.addEntry(new ListEntryComponent(new Reference(category)));
+            categories.add(category);
+        });
     }
 
     private List<RCMRMT030101UK04CompoundStatement> getCategoryCompoundStatements(RCMRMT030101UK04CompoundStatement
@@ -174,13 +193,13 @@ public class EncounterMapper {
             .flatMap(List::stream)
             .filter(EhrResourceExtractorUtil::hasEhrComposition)
             .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> isEncounterEhrComposition(ehrComposition))
+            .filter(this::isEncounterEhrComposition)
             .toList();
     }
 
     private boolean isEncounterEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition) {
         return !INVALID_CODES.contains(ehrComposition.getCode().getCode())
-            && !ehrComposition.getComponent().stream().anyMatch(this::hasSuppressedContent);
+            && ehrComposition.getComponent().stream().noneMatch(this::hasSuppressedContent);
     }
 
     private boolean hasSuppressedContent(RCMRMT030101UK04Component4 component) {
@@ -297,5 +316,9 @@ public class EncounterMapper {
 
             encounter.setLocation(List.of(location));
         }
+    }
+
+    private void addEntry(ListResource list, Reference reference) {
+        list.addEntry(new ListEntryComponent(reference));
     }
 }

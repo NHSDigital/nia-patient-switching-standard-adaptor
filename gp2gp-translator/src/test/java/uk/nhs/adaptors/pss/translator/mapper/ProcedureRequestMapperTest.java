@@ -66,8 +66,8 @@ public class ProcedureRequestMapperTest {
         var planStatement = getPlanStatement(ehrExtract);
         setUpCodeableConceptMock();
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement, SUBJECT, ENCOUNTERS,
-            PRACTISE_CODE);
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, getEhrComposition(ehrExtract),
+            planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getNoteFirstRep().getText()).isEqualTo(planStatement.getText());
@@ -87,8 +87,8 @@ public class ProcedureRequestMapperTest {
         var ehrExtract = unmarshallCodeElement("no_optional_data_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement, SUBJECT, ENCOUNTERS,
-            PRACTISE_CODE);
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, getEhrComposition(ehrExtract),
+            planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getOccurrence()).isNull();
@@ -101,8 +101,8 @@ public class ProcedureRequestMapperTest {
         var ehrExtract = unmarshallCodeElement("no_referenced_encounter_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement, SUBJECT, ENCOUNTERS,
-            PRACTISE_CODE);
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, getEhrComposition(ehrExtract),
+            planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertThat(procedureRequest.getContext().getResource()).isNull();
     }
@@ -113,8 +113,8 @@ public class ProcedureRequestMapperTest {
         var planStatement = getPlanStatement(ehrExtract);
         setUpCodeableConceptMock();
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement, SUBJECT, ENCOUNTERS,
-            PRACTISE_CODE);
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, getEhrComposition(ehrExtract),
+            planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
@@ -130,8 +130,8 @@ public class ProcedureRequestMapperTest {
         var planStatement = getPlanStatement(ehrExtract);
         setUpCodeableConceptMock();
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement, SUBJECT, ENCOUNTERS,
-            PRACTISE_CODE);
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, getEhrComposition(ehrExtract),
+            planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
@@ -148,8 +148,8 @@ public class ProcedureRequestMapperTest {
         var planStatement = getPlanStatement(ehrExtract);
         setUpCodeableConceptMock();
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement, SUBJECT, ENCOUNTERS,
-            PRACTISE_CODE);
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, getEhrComposition(ehrExtract),
+            planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
@@ -165,8 +165,8 @@ public class ProcedureRequestMapperTest {
         var planStatement = getPlanStatement(ehrExtract);
         setUpCodeableConceptMock();
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, planStatement, SUBJECT, ENCOUNTERS,
-            PRACTISE_CODE);
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, getEhrComposition(ehrExtract),
+            planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
