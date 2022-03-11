@@ -1,14 +1,18 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Component;
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
+import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
+import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 
 public class EhrResourceExtractorUtil {
 
@@ -29,19 +33,6 @@ public class EhrResourceExtractorUtil {
             .get();
     }
 
-    public static List<RCMRMT030101UK04EhrComposition> extractValidImmunizationEhrCompositions(RCMRMT030101UK04EhrExtract ehrExtract) {
-        return ehrExtract.getComponent()
-            .stream()
-            .filter(EhrResourceExtractorUtil::hasEhrFolder)
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .filter(EhrResourceExtractorUtil::hasEhrComposition)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(EhrResourceExtractorUtil::filterForValidImmunizationObservationStatements)
-            .toList();
-    }
-
     public static RCMRMT030101UK04EhrComposition extractEhrCompositionForObservationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
         II resourceId) {
         return ehrExtract.getComponent()
@@ -53,21 +44,6 @@ public class EhrResourceExtractorUtil {
             .filter(EhrResourceExtractorUtil::hasEhrComposition)
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> filterForMatchingEhrCompositionObservationStatement(ehrComposition, resourceId))
-            .findFirst()
-            .get();
-    }
-
-    public static RCMRMT030101UK04EhrComposition extractEhrCompositionForCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract,
-        II resourceId) {
-        return ehrExtract.getComponent()
-            .stream()
-            .filter(EhrResourceExtractorUtil::hasEhrFolder)
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .filter(EhrResourceExtractorUtil::hasEhrComposition)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> filterForMatchingEhrCompositionCompoundStatement(ehrComposition, resourceId))
             .findFirst()
             .get();
     }
@@ -88,6 +64,14 @@ public class EhrResourceExtractorUtil {
 
     private static boolean validPlanStatement(RCMRMT030101UK04Component4 component, II resourceId) {
         return component.getPlanStatement() != null && component.getPlanStatement().getId() == resourceId;
+    }
+
+    public static List<RCMRMT030101UK04ObservationStatement> getObservationStatementsFromCompoundStatement(
+        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return compoundStatement.getComponent().stream()
+            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .filter(Objects::nonNull)
+            .toList();
     }
 
     private static boolean filterForMatchingEhrCompositionObservationStatement(RCMRMT030101UK04EhrComposition ehrComposition,
@@ -115,6 +99,16 @@ public class EhrResourceExtractorUtil {
         return ehrComposition.getComponent()
             .stream()
             .anyMatch(EhrResourceExtractorUtil::validImmunizationSnomedCode);
+    }
+
+    private static boolean filterForValidNarrativeStatement(RCMRMT030101UK04EhrComposition ehrComposition) {
+        return ehrComposition.getComponent()
+            .stream()
+            .anyMatch(EhrResourceExtractorUtil::validDocumentReference);
+    }
+
+    private static boolean validDocumentReference(RCMRMT030101UK04Component4 component) {
+        return !component.getNarrativeStatement().getReference().isEmpty();
     }
 
     private static boolean validImmunizationSnomedCode(RCMRMT030101UK04Component4 component) {

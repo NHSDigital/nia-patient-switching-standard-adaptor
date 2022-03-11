@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
-import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getInterpretation;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
@@ -30,12 +29,14 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
+import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.RCMRMT030101UK04Subject;
@@ -58,10 +59,13 @@ public class ObservationMapper {
 
     public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        var compositionsList = getCompositionsContainingObservationStatement(ehrExtract);
-
-        return compositionsList
+        System.out.println(practiseCode);
+        return ehrExtract.getComponent()
             .stream()
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
             .flatMap(ehrComposition -> ehrComposition.getComponent()
                 .stream()
                 .flatMap(this::extractAllObservationStatements)
@@ -85,8 +89,7 @@ public class ObservationMapper {
                     observation.setId(id);
                     observation.setMeta(generateMeta(META_PROFILE));
 
-                    addContext(observation, getEncounterReference(compositionsList, encounters,
-                        ehrComposition.getId().getRoot()));
+                    addContext(observation, encounters, ehrComposition);
                     addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
                         getValueString(observationStatement.getValue()));
                     addEffective(observation,
@@ -134,10 +137,12 @@ public class ObservationMapper {
         return true;
     }
 
-    private void addContext(Observation observation, Reference context) {
-        if (context != null) {
-            observation.setContext(context);
-        }
+    private void addContext(Observation observation, List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
+        encounters.stream()
+            .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
+            .findFirst()
+            .map(Reference::new)
+            .ifPresent(observation::setContext);
     }
 
     private void addEffective(Observation observation, Object effective) {
