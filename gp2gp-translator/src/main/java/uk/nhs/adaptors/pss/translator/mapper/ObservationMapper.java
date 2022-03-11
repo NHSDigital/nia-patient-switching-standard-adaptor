@@ -157,7 +157,7 @@ public class ObservationMapper {
     }
 
     private CodeableConcept getCode(CD code) {
-        return code != null ? codeableConceptMapper.mapToCodeableConcept(code) : null;
+        return code != null ? codeableConceptMapper.mapToCodeableConcept(code, false) : null;
     }
 
     private String getValueString(Object value) {

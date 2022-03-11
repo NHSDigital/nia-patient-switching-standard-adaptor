@@ -138,7 +138,7 @@ public class ConsultationListMapper {
 
     private String getTitle(RCMRMT030101UK04CompoundStatement compoundStatement) {
         if (compoundStatement != null) {
-            var codeableConcept = codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
+            var codeableConcept = codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode(), false);
             if (codeableConcept.hasText()) {
                 return codeableConcept.getText();
             } else if (codeableConcept.getCoding().get(0).hasDisplay()) {

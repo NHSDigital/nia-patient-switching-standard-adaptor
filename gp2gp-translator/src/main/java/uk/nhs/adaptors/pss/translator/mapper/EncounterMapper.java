@@ -220,7 +220,7 @@ public class EncounterMapper {
     }
 
     private List<CodeableConcept> getType(CD code) {
-        return List.of(codeableConceptMapper.mapToCodeableConcept(code));
+        return List.of(codeableConceptMapper.mapToCodeableConcept(code, false));
     }
 
     private Period getPeriod(RCMRMT030101UK04EhrComposition ehrComposition) {

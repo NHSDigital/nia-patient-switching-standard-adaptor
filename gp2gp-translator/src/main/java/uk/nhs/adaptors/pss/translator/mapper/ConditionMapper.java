@@ -165,7 +165,7 @@ public class ConditionMapper {
 
                         referencedObservationStatement.ifPresent(
                             observationStatement -> condition.setCode(
-                                codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
+                                codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode(), false))
                         );
 
                         var statementRefs = linkSet.getComponent()

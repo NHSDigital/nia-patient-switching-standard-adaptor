@@ -161,7 +161,7 @@ public class ImmunizationMapper {
             .setUrl(VACCINE_PROCEDURE_URL)
             .setValue(new Extension()
                 .setUrl(VACCINATION_CODING_EXTENSION_URL)
-                .setValue(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
+                .setValue(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode(), false))
             );
     }
 

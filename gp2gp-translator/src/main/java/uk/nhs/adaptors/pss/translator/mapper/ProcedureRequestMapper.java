@@ -85,7 +85,7 @@ public class ProcedureRequestMapper {
             .setId(id);
         procedureRequest.getIdentifier().add(buildIdentifier(id, practiseCode));
         procedureRequest.getNote().add(getNote(planStatement.getText()));
-        procedureRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode()));
+        procedureRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode(), false));
         procedureRequest.getRequester().setAgent(ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(),
             EhrResourceExtractorUtil.extractEhrCompositionForPlanStatement(ehrExtract, planStatement.getId())));
 

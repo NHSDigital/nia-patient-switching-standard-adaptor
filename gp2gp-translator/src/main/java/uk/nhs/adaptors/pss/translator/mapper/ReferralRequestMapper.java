@@ -101,7 +101,7 @@ public class ReferralRequestMapper {
 
     private void setReferralRequestReasonCode(ReferralRequest referralRequest, CD code) {
         if (code != null) {
-            referralRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(code));
+            referralRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(code, false));
         }
     }
 

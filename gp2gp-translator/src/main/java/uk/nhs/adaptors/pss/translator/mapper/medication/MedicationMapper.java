@@ -39,7 +39,7 @@ public class MedicationMapper {
             Medication medication = new Medication();
             medication.setId(getMedicationId(code));
             medication.setMeta(generateMeta(MEDICATION_URL));
-            medication.setCode(codeableConceptMapper.mapToCodeableConcept(code));
+            medication.setCode(codeableConceptMapper.mapToCodeableConcept(code, true));
 
             return medication;
         }
