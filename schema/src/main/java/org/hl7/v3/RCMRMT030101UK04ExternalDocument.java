@@ -124,6 +124,10 @@ public class RCMRMT030101UK04ExternalDocument {
         return code;
     }
 
+    public boolean hasCode() {
+        return code != null;
+    }
+
     /**
      * Sets the value of the code property.
      * 
@@ -146,6 +150,10 @@ public class RCMRMT030101UK04ExternalDocument {
      */
     public ED getText() {
         return text;
+    }
+
+    public boolean hasText() {
+        return text != null;
     }
 
     /**

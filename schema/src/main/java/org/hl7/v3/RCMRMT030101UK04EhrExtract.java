@@ -208,6 +208,10 @@ public class RCMRMT030101UK04EhrExtract {
         return author;
     }
 
+    public boolean hasAuthor() {
+        return author != null;
+    }
+
     /**
      * Sets the value of the author property.
      * 
