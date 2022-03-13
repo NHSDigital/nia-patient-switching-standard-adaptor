@@ -141,7 +141,7 @@ public class MedicationMapperUtils {
             && !supplyAuthorise.getEffectiveTime().getLow().hasNullFlavor()) {
             return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getLow().getValue()));
         }
-        if (supplyAuthorise.hasAvailabilityTime()) {
+        if (supplyAuthorise.hasAvailabilityTime() && !supplyAuthorise.getEffectiveTime().hasNullFlavor()) {
             return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getAvailabilityTime().getValue()));
         }
         return Optional.empty();
