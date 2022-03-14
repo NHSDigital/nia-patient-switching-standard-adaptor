@@ -38,6 +38,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
+import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -60,7 +61,7 @@ public class DiagnosticReportMapper {
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .flatMap(CompoundStatementUtil::extractAllCompoundStatements)
             .filter(Objects::nonNull)
-            .filter(this::isDiagnosticReportCandidate)
+            .filter(ResourceFilterUtil::isDiagnosticReport)
             .map(compoundStatement -> {
                 DiagnosticReport diagnosticReport = createDiagnosticReport(
                     compoundStatement, patient, compositions, encounters, practiceCode
@@ -120,7 +121,7 @@ public class DiagnosticReportMapper {
             .stream()
             .map(RCMRMT030101UK04Component02::getCompoundStatement)
             .filter(Objects::nonNull)
-            .filter(compoundStatement1 -> SPECIMEN_CODE.equals(compoundStatement1.getCode().getCode()))
+            .filter(ResourceFilterUtil::isSpecimen)
             .map(compoundStatement1 -> new Reference(new IdType(ResourceType.Specimen.name(), compoundStatement1.getId().get(0).getRoot())))
             .toList();
     }
@@ -181,17 +182,13 @@ public class DiagnosticReportMapper {
     }
 
     private boolean authorHasValidTimeValue(RCMRMT030101UK04Author author) {
-        return author != null && author.getTime() != null
-            && author.getTime().getValue() != null
-            && author.getTime().getNullFlavor() == null;
+        return author != null && author.hasTime()
+            && author.getTime().hasValue()
+            && author.getTime().hasNullFlavor();
     }
 
     private boolean availabilityTimeHasValue(TS availabilityTime) {
-        return availabilityTime != null && availabilityTime.getValue() != null && !timeHasNullFlavor(availabilityTime);
-    }
-
-    private boolean timeHasNullFlavor(TS time) {
-        return time.getNullFlavor() != null;
+        return availabilityTime != null && availabilityTime.hasValue() && !availabilityTime.hasNullFlavor();
     }
 
     private CodeableConcept createCodeableConcept(RCMRMT030101UK04CompoundStatement compoundStatement) {
@@ -206,18 +203,8 @@ public class DiagnosticReportMapper {
                 .stream()
                 .flatMap(CompoundStatementUtil::extractAllCompoundStatements)
                 .filter(Objects::nonNull)
-                .anyMatch(this::isDiagnosticReportCandidate))
+                .anyMatch(ResourceFilterUtil::isDiagnosticReport))
             .toList();
-    }
-
-    private boolean isDiagnosticReportCandidate(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return compoundStatement.getClassCode()
-            .stream()
-            .findFirst()
-            .filter(
-                classCode -> CLUSTER_CLASSCODE.equals(classCode)
-                    && DR_SNOMED_CODE.equals(compoundStatement.getCode().getCode())
-            ).isPresent();
     }
 
     private RCMRMT030101UK04EhrComposition getCurrentEhrComposition(List<RCMRMT030101UK04EhrComposition> ehrCompositions,
