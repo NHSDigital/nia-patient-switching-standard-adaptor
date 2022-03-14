@@ -15,6 +15,7 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
+import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04Component;
@@ -50,7 +51,7 @@ public class DocumentReferenceMapper {
     private CodeableConceptMapper codeableConceptMapper;
 
     public List<DocumentReference> mapToDocumentReference(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        List<Encounter> encounterList, String practiseCode) {
+        List<Encounter> encounterList, Organization organization) {
         return ehrExtract.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component::getEhrFolder)
@@ -63,7 +64,7 @@ public class DocumentReferenceMapper {
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isDocumentReference)
                 .map(narrativeStatement -> mapDocumentReference(narrativeStatement, ehrComposition, patient, ehrExtract, encounterList,
-                    practiseCode))).toList();
+                    organization))).toList();
     }
 
     private Stream<RCMRMT030101UK04NarrativeStatement> extractAllNarrativeStatements(RCMRMT030101UK04Component4 component4) {
@@ -75,13 +76,13 @@ public class DocumentReferenceMapper {
 
     private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement,
         RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, RCMRMT030101UK04EhrExtract ehrExtract,
-        List<Encounter> encounterList, String practiseCode) {
+        List<Encounter> encounterList, Organization organization) {
 
         DocumentReference documentReference = new DocumentReference();
 
         var id = narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot();
 
-        documentReference.addIdentifier(buildIdentifier(id, practiseCode));
+        documentReference.addIdentifier(buildIdentifier(id, organization.getIdentifierFirstRep().getValue()));
         documentReference.setId(id);
         documentReference.getMeta().addProfile(META_PROFILE);
         documentReference.setStatus(DocumentReferenceStatus.CURRENT);
@@ -90,6 +91,7 @@ public class DocumentReferenceMapper {
         documentReference.setIndexedElement(getIndexed(ehrExtract));
         documentReference.setAuthor(getAuthor(narrativeStatement, ehrComposition));
         documentReference.setDescription(buildDescription(narrativeStatement));
+        documentReference.setCustodian(new Reference(organization));
 
         if (narrativeStatement.hasAvailabilityTime() && !narrativeStatement.getAvailabilityTime().getValue().isEmpty()) {
             documentReference.setCreatedElement(DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
