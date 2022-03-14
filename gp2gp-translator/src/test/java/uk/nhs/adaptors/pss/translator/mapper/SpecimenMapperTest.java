@@ -38,6 +38,7 @@ public class SpecimenMapperTest {
     private static final DateTimeType SPECIMEN_COLLECTED_DATETIME = parseToDateTimeType("20100223000000");
     private static final String NOTE_TEXT = "Received Date: 2002-03-30 09:21";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TEST_PRACTICE_CODE";
+    private static final String DR_ID = "DIAGNOSTIC_REPORT_ID";
     private static final DiagnosticReport DIAGNOSTIC_REPORT_WITH_SPECIMEN = generateDiagnosticReportWithSpecimenReference();
     private static final DiagnosticReport DIAGNOSTIC_REPORT_WITHOUT_SPECIMEN = generateDiagnosticReportWithNoSpecimenReference();
 
@@ -98,7 +99,7 @@ public class SpecimenMapperTest {
     }
 
     private static DiagnosticReport generateDiagnosticReportWithSpecimenReference() {
-        DiagnosticReport diagnosticReport = (DiagnosticReport) new DiagnosticReport().setId("DIAGNOSTIC_REPORT_ID");
+        DiagnosticReport diagnosticReport = (DiagnosticReport) new DiagnosticReport().setId(DR_ID);
         List<Reference> specimen = List.of(new Reference(SPECIMEN_PREFIX + TEST_SPECIMEN_ID));
         diagnosticReport.setSpecimen(specimen);
 
@@ -106,8 +107,8 @@ public class SpecimenMapperTest {
     }
 
     private static DiagnosticReport generateDiagnosticReportWithNoSpecimenReference() {
-        DiagnosticReport diagnosticReport = (DiagnosticReport) new DiagnosticReport().setId("DIAGNOSTIC_REPORT_ID");
-        return diagnosticReport;
+        return (DiagnosticReport) new DiagnosticReport().setId(DR_ID);
+
     }
 
     @SneakyThrows

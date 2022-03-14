@@ -24,6 +24,15 @@ public class SpecimenCompoundsMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/SpecimenComponents/";
 
+    private static final String OBSERVATION_STATEMENT_ID = "OBSERVATION_STATEMENT_ID";
+    private static final String NARRATIVE_STATEMENT_ID = "NARRATIVE_STATEMENT_ID";
+    private static final String NARRATIVE_STATEMENT_ID_1 = "NARRATIVE_STATEMENT_ID_1";
+    private static final String BATTERY_OBSERVATION_STATEMENT_ID = "BATTERY_DIRECT_CHILD_OBSERVATION_STATEMENT";
+    private static final String DIAGNOSTIC_REPORT_ID = "DR_TEST_ID";
+    private static final String SPECIMEN_ID = "TEST_SPECIMEN_ID";
+    private static final String TEST_COMMENT_LINE = "First Comment Line";
+    private static final String TEST_COMMENT_LINE_1 = "Test Comment";
+
     private List<Observation> observations;
     private List<Observation> observationComments;
     private List<DiagnosticReport> diagnosticReports;
@@ -53,7 +62,7 @@ public class SpecimenCompoundsMapperTest {
 
         final Reference result = diagnosticReports.get(0).getResult().get(0);
         assertThat(result.getResource()).isNotNull();
-        assertThat(result.getResource().getIdElement().getValue()).isEqualTo("OBSERVATION_STATEMENT_ID");
+        assertThat(result.getResource().getIdElement().getValue()).isEqualTo(OBSERVATION_STATEMENT_ID);
     }
 
     @Test
@@ -67,16 +76,16 @@ public class SpecimenCompoundsMapperTest {
         final Observation observationComment = observationComments.get(0);
         assertParentSpecimenIsReferenced(observation);
 
-        assertThat(observationComment.getComment()).isEqualTo("Test Comment");
+        assertThat(observationComment.getComment()).isEqualTo(TEST_COMMENT_LINE_1);
         assertThat(observationComment.getRelated()).isNotEmpty();
         assertThat(observationComment.getRelatedFirstRep().getTarget().getResource()).isNotNull();
         assertThat(observationComment.getRelatedFirstRep().getTarget().getResource().getIdElement().getValue())
-            .isEqualTo("OBSERVATION_STATEMENT_ID");
+            .isEqualTo(OBSERVATION_STATEMENT_ID);
 
         assertThat(observation.getRelated()).isNotEmpty();
         assertThat(observation.getRelatedFirstRep().getTarget().getResource()).isNotNull();
         assertThat(observation.getRelatedFirstRep().getTarget().getResource().getIdElement().getValue())
-            .isEqualTo("NARRATIVE_STATEMENT_ID");
+            .isEqualTo(NARRATIVE_STATEMENT_ID);
     }
 
     @Test
@@ -88,7 +97,7 @@ public class SpecimenCompoundsMapperTest {
 
         assertParentSpecimenIsReferenced(observations.get(0));
         assertParentSpecimenIsReferenced(observations.get(1));
-        assertThat(observationComments.get(0).getComment()).isEqualTo("Test Comment");
+        assertThat(observationComments.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE_1);
     }
 
     @Test
@@ -111,25 +120,24 @@ public class SpecimenCompoundsMapperTest {
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
-        assertThat(observations.get(0).getComment()).isEqualTo("First comment line\n" + "Test Comment");
+        assertThat(observations.get(0).getComment()).isEqualTo("First comment line\n" + TEST_COMMENT_LINE_1);
     }
 
     private void assertParentSpecimenIsReferenced(Observation observation) {
         assertThat(observation.hasSpecimen()).isTrue();
         assertThat(observation.getSpecimen().hasReference()).isTrue();
-        assertThat(observation.getSpecimen().getReference()).contains("TEST_SPECIMEN_ID");
+        assertThat(observation.getSpecimen().getReference()).contains(SPECIMEN_ID);
     }
 
     private List<DiagnosticReport> createDiagnosticReports() {
-        DiagnosticReport diagnosticReport = (DiagnosticReport) new DiagnosticReport().setId("DR_TEST_ID");
-        return List.of(diagnosticReport);
+        return List.of((DiagnosticReport) new DiagnosticReport().setId(DIAGNOSTIC_REPORT_ID));
     }
 
     private List<Observation> createObservations() {
         Observation observation = (Observation) new Observation()
-            .setComment("First comment line")
-            .setId("OBSERVATION_STATEMENT_ID");
-        Observation observation1 = (Observation) new Observation().setId("BATTERY_DIRECT_CHILD_OBSERVATION_STATEMENT");
+            .setComment(TEST_COMMENT_LINE)
+            .setId(OBSERVATION_STATEMENT_ID);
+        Observation observation1 = (Observation) new Observation().setId(BATTERY_OBSERVATION_STATEMENT_ID);
         return List.of(observation, observation1);
     }
 
@@ -140,7 +148,7 @@ public class SpecimenCompoundsMapperTest {
                 CommentDate:20100223000000
 
                 Test Comment""")
-            .setId("NARRATIVE_STATEMENT_ID");
+            .setId(NARRATIVE_STATEMENT_ID);
 
         Observation observationCommentNonUser = (Observation) new Observation()
             .setComment("""
@@ -148,7 +156,7 @@ public class SpecimenCompoundsMapperTest {
                 CommentDate:20100223000000
 
                 Test Comment""")
-            .setId("NARRATIVE_STATEMENT_ID_1");
+            .setId(NARRATIVE_STATEMENT_ID_1);
         return List.of(observationCommentUser, observationCommentNonUser);
     }
 

@@ -88,10 +88,8 @@ public class SpecimenCompoundsMapper {
                             }
                         }
                     });
-            } else {
-                if (observation != null) {
-                    observation.setComment(addLine(observation.getComment(), getLastLine(clusterChildNarrativeStatement.getText())));
-                }
+            } else if (observation != null) {
+                observation.setComment(addLine(observation.getComment(), getLastLine(clusterChildNarrativeStatement.getText())));
             }
         });
     }

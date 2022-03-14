@@ -18,10 +18,6 @@ public class TextUtil {
     }
 
     public static String addLine(String text, String line) {
-        if (text == null) {
-            return line;
-        }
-
-        return text.concat(StringUtils.LF).concat(line);
+        return text == null ? line : text.concat(StringUtils.LF).concat(line);
     }
 }

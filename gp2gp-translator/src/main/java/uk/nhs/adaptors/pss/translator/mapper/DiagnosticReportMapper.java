@@ -47,8 +47,6 @@ public class DiagnosticReportMapper {
     private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
 
     private final CodeableConceptMapper codeableConceptMapper;
-    private final SpecimenMapper specimenMapper;
-    private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
     public List<DiagnosticReport> mapDiagnosticReports(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
         List<Encounter> encounters, String practiceCode) {
