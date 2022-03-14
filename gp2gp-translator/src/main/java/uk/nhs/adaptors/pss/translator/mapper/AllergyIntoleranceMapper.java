@@ -1,5 +1,14 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.ENVIRONMENT;
+import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.MEDICATION;
+import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
+import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
+
+import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionsFromEhrExtract;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -11,29 +20,15 @@ import org.hl7.fhir.dstu3.model.Enumeration;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.Type;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
-
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
-import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
-import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.MEDICATION;
-import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.ENVIRONMENT;
 
 @Service
 @AllArgsConstructor
@@ -48,12 +43,11 @@ public class AllergyIntoleranceMapper {
 
     public List<AllergyIntolerance> mapToAllergyIntolerance(RCMRMT030101UK04EhrExtract ehrExtract, String practiceCode,
         List<Encounter> encounterList, Patient patientResource) {
-        return ehrExtract.getComponent()
+
+        var ehrCompositions = extractEhrCompositionsFromEhrExtract(ehrExtract);
+
+        return ehrCompositions
             .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
             .flatMap(ehrComposition -> ehrComposition
                 .getComponent()
                 .stream()
@@ -79,7 +73,6 @@ public class AllergyIntoleranceMapper {
         allergyIntolerance.setVerificationStatus(UNCONFIRMED);
         allergyIntolerance.setPatient(new Reference(patientResource));
 
-
         if (compoundStatement.getCode().getCode().equals(DRUG_ALLERGY_CODE)) {
             allergyIntolerance.setCategory(List.of((Enumeration<AllergyIntolerance.AllergyIntoleranceCategory>) List.of(MEDICATION)));
             createAllergyIntoleranceCodeForDrugAllergy(allergyIntolerance, compoundStatement);
@@ -99,14 +92,16 @@ public class AllergyIntoleranceMapper {
         return allergyIntolerance;
     }
 
-    private void createAllergyIntoleranceCodeForDrugAllergy(AllergyIntolerance allergyIntolerance, RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private void createAllergyIntoleranceCodeForDrugAllergy(AllergyIntolerance allergyIntolerance,
+        RCMRMT030101UK04CompoundStatement compoundStatement) {
         if (compoundStatement.getComponent().get(0).getObservationStatement().hasValue()
             && !compoundStatement.getComponent().get(0).getObservationStatement().getValue().equals("@xsi:type='CD' ")) {
 
         }
     }
 
-    private void createAllergyIntoleranceCodeForNonDrugAllergy(AllergyIntolerance allergyIntolerance, RCMRMT030101UK04EhrComposition ehrComposition) {
+    private void createAllergyIntoleranceCodeForNonDrugAllergy(AllergyIntolerance allergyIntolerance,
+        RCMRMT030101UK04EhrComposition ehrComposition) {
         allergyIntolerance.setCode(
             codeableConceptMapper.mapToCodeableConcept(ehrComposition.getComponent().get(0)
                 .getCompoundStatement()

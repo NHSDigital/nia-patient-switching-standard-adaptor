@@ -59,7 +59,6 @@ public class ObservationMapper {
 
     public List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        System.out.println(practiseCode);
         return ehrExtract.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component::getEhrFolder)

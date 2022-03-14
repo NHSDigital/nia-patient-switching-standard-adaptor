@@ -33,7 +33,6 @@ public class AllergyIntoleranceMapperTest {
     private static final String CODING_DISPLAY = "Ischaemic heart disease";
     private static final String PATIENT_ID = "9A5D5A78-1F63-434C-9637-1D7E7843341B";
 
-
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
 
@@ -48,15 +47,15 @@ public class AllergyIntoleranceMapperTest {
     @Test
     public void mapAllergyToAllergyIntolerance() {
         var ehrExtract = unmarshallEhrExtract("allergy-structure.xml");
-        List<AllergyIntolerance> AllergyIntoleranceList = allergyIntoleranceMapper.mapToAllergyIntolerance(ehrExtract, PRACTISE_CODE,
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapToAllergyIntolerance(ehrExtract, PRACTISE_CODE,
             getEncounterList(), getPatient());
 
-        var AllergyIntolerance = (AllergyIntolerance) AllergyIntoleranceList.get(0);
-        assertData(AllergyIntolerance, AllergyIntoleranceList);
+        var allergyIntolerance = (AllergyIntolerance) allergyIntolerances.get(0);
+        assertData(allergyIntolerance, allergyIntolerances);
     }
 
-    private void assertData(AllergyIntolerance allergyIntolerance, List<AllergyIntolerance> allergyIntoleranceList) {
-        assertThat(allergyIntoleranceList.size()).isEqualTo(1);
+    private void assertData(AllergyIntolerance allergyIntolerance, List<AllergyIntolerance> allergyIntolerances) {
+        assertThat(allergyIntolerances.size()).isEqualTo(1);
         assertThat(allergyIntolerance.getId()).isEqualTo(COMPOUND_STATEMENT_ROOT_ID);
     }
 
