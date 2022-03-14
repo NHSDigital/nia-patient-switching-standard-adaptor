@@ -2,7 +2,9 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 
 public class BloodPressureValidatorUtil {
@@ -68,7 +70,11 @@ public class BloodPressureValidatorUtil {
     }
 
     public static boolean containsValidBloodPressureTriple(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        var observationStatements = EhrResourceExtractorUtil.getObservationStatementsFromCompoundStatement(compoundStatement);
+        var observationStatements = compoundStatement.getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .filter(Objects::nonNull)
+            .toList();
 
         if (observationStatements.size() == 2) {
             return BloodPressureValidatorUtil.validateBloodPressureTriple(compoundStatement.getCode().getCode(),

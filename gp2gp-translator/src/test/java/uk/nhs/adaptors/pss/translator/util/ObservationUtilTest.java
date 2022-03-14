@@ -12,6 +12,7 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Period;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,10 @@ public class ObservationUtilTest {
     private RCMRMT030101UK04ObservationStatement getObservationStatementFromEhrExtract(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition().getComponent().get(0)
             .getObservationStatement();
+    }
+
+    private RCMRMT030101UK04EhrComposition getEhrCompositionFromEhrExtract(RCMRMT030101UK04EhrExtract ehrExtract) {
+        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
     }
 
     private void assertInterpretation(CodeableConcept interpretation, String text, String code, String display) {
@@ -96,9 +101,7 @@ public class ObservationUtilTest {
     public void mapIssuedUsingEhrComposition() {
         var ehrExtract = unmarshallEhrExtractElement(
             "issued_using_ehr_composition_observation_example.xml");
-        var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
-        var ehrComposition = EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement(
-            ehrExtract, observationStatement.getId());
+        var ehrComposition = getEhrCompositionFromEhrExtract(ehrExtract);
 
         InstantType issued = ObservationUtil.getIssued(ehrExtract, ehrComposition);
 
@@ -108,9 +111,7 @@ public class ObservationUtilTest {
     @Test
     public void mapIssuedUsingEhrExtract() {
         var ehrExtract = unmarshallEhrExtractElement("issued_using_ehr_extract_observation_example.xml");
-        var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
-        var ehrComposition = EhrResourceExtractorUtil.extractEhrCompositionForObservationStatement(
-            ehrExtract, observationStatement.getId());
+        var ehrComposition = getEhrCompositionFromEhrExtract(ehrExtract);
 
         InstantType issued = ObservationUtil.getIssued(ehrExtract, ehrComposition);
 

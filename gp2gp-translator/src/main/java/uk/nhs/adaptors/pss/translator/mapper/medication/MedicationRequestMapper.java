@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
-import java.util.ArrayList;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllMedications;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -16,22 +17,20 @@ import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
-import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 
+import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
 @AllArgsConstructor
-public class MedicationRequestMapper {
+public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
     private MedicationMapper medicationMapper;
     private MedicationRequestOrderMapper medicationRequestOrderMapper;
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
@@ -41,38 +40,22 @@ public class MedicationRequestMapper {
     private static final String PPRF = "PPRF";
     private static final String PRF = "PRF";
 
-    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, List<Encounter> encounters, Patient patient,
+    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        List<DomainResource> mappedResources = new ArrayList<>();
-        List<RCMRMT030101UK04EhrComposition> ehrCompositions = ehrExtract.getComponent()
-            .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .toList();
-
-        for (RCMRMT030101UK04EhrComposition ehrComposition : ehrCompositions) {
-            var context = encounters.stream()
-                .filter(encounter1 -> encounter1.getId().equals(ehrComposition.getId().getRoot())).findFirst();
-
-            ehrComposition.getComponent()
-                .stream()
-                .flatMap(MedicationMapperUtils::extractAllMedications)
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllMedications(component)
                 .filter(Objects::nonNull)
-                .map(medicationStatement
-                    -> mapMedicationStatement(ehrExtract, ehrComposition, medicationStatement, patient, context, practiseCode))
-                .flatMap(List::stream)
-                .forEach(mappedResources::add);
-        }
-        medicationMapperContext.resetMedicationMaps();
-        return mappedResources;
+                .flatMap(medicationStatement
+                    -> mapMedicationStatement(ehrExtract, composition, medicationStatement, patient, encounters, practiseCode)))
+            .toList();
     }
 
-    private List<DomainResource> mapMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
+    private Stream<DomainResource> mapMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
         RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04MedicationStatement medicationStatement,
-        Patient subject, Optional<Encounter> context, String practiseCode) {
+        Patient subject, List<Encounter> encounters, String practiseCode) {
 
+        var context = encounters.stream()
+            .filter(encounter1 -> encounter1.getId().equals(ehrComposition.getId().getRoot())).findFirst();
         var authoredOn = extractAuthoredOn(ehrComposition,
             DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue()));
         var requester = extractRequester(ehrComposition, medicationStatement);
@@ -91,8 +74,7 @@ public class MedicationRequestMapper {
             .flatMap(List::stream)
             .map(DomainResource.class::cast)
             .map(medicationRequest -> setCommonFields(
-                medicationRequest, requester, recorder, subject, context, authoredOn))
-            .toList();
+                medicationRequest, requester, recorder, subject, context, authoredOn));
     }
 
     private DomainResource setCommonFields(DomainResource resource, Optional<Reference> requester,
