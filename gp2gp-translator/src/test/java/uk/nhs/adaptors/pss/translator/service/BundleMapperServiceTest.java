@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -36,15 +37,18 @@ import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DiagnosticReportMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationCommentMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
@@ -87,6 +91,12 @@ public class BundleMapperServiceTest {
     @Mock
     private UnknownPractitionerHandler unknownPractitionerHandler;
     @Mock
+    private DocumentReferenceMapper documentReferenceMapper;
+    @Mock
+    private TemplateMapper templateMapper;
+    @Mock
+    private OrganizationMapper organizationMapper;
+    @Mock
     private DiagnosticReportMapper diagnosticReportMapper;
 
     @InjectMocks
@@ -111,6 +121,7 @@ public class BundleMapperServiceTest {
         when(patientMapper.mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class))).thenReturn(new Patient());
         when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class)))
             .thenReturn(encounterResources);
+        when(organizationMapper.mapAuthorOrganization(anyString())).thenReturn(new Organization());
     }
 
     @Test
@@ -119,6 +130,7 @@ public class BundleMapperServiceTest {
         Bundle bundle = bundleMapperService.mapToBundle(xml);
 
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
+        verify(organizationMapper).mapAuthorOrganization(anyString());
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
         verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), any(String.class), any(String.class));
         verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class));
@@ -145,6 +157,10 @@ public class BundleMapperServiceTest {
         verify(medicationRequestMapper, atLeast(1))
             .mapResources(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), any(String.class));
         verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
+        verify(documentReferenceMapper).mapToDocumentReference(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+            any(Organization.class));
+        verify(templateMapper).mapTemplates(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+            any(String.class));
         verify(diagnosticReportMapper).mapDiagnosticReports(
             any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class)
         );

@@ -31,6 +31,7 @@ import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
+import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @AllArgsConstructor
@@ -54,7 +55,7 @@ public class ObservationCommentMapper {
                 .stream()
                 .flatMap(this::extractAllNarrativeStatements)
                 .filter(Objects::nonNull)
-                .filter(narrativeStatement -> !hasReferredToExternalDocument(narrativeStatement))
+                .filter(narrativeStatement -> !ResourceFilterUtil.isDocumentReference(narrativeStatement))
                 .map(narrativeStatement -> {
                     var narrativeStatementId = narrativeStatement.getId();
                     var observation = new Observation();
@@ -124,11 +125,5 @@ public class ObservationCommentMapper {
                 .map(RCMRMT030101UK04NarrativeStatement.class::cast)
                 : Stream.empty()
         );
-    }
-
-    private boolean hasReferredToExternalDocument(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
-        return narrativeStatement.getReference()
-            .stream()
-            .anyMatch(reference -> reference.getReferredToExternalDocument() != null);
     }
 }

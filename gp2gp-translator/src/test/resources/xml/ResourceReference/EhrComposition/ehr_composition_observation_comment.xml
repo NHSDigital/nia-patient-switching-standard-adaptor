@@ -1,0 +1,14 @@
+<ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
+    <id root="CA4AD477-C33B-4FE7-8417-A242BB3D23AF"/>
+    <author typeCode="AUT" contextControlCode="OP">
+        <time value="20200101010101"/>
+        <agentRef classCode="AGNT">
+            <id root="749107A2-4975-441F-8EDF-ADFF451FD12D"/>
+        </agentRef>
+    </author>
+    <component typeCode="COMP">
+        <NarrativeStatement classCode="OBS" moodCode="EVN">
+            <id root="5E496953-065B-41F2-9577-BE8F2FBD0757"/>
+        </NarrativeStatement>
+    </component>
+</ehrComposition>
