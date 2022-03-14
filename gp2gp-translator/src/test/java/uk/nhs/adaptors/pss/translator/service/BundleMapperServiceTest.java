@@ -156,7 +156,7 @@ public class BundleMapperServiceTest {
         verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
         verify(documentReferenceMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
             any(Organization.class));
-        verify(templateMapper).mapTemplates(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+        verify(templateMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
             any(String.class));
     }
 

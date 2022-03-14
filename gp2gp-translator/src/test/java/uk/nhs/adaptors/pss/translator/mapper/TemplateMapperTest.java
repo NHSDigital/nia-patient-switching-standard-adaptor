@@ -58,7 +58,7 @@ public class TemplateMapperTest {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_template.xml");
-        var mappedResources = templateMapper.mapTemplates(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
+        var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(mappedResources.size()).isEqualTo(2);
         var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
@@ -79,7 +79,7 @@ public class TemplateMapperTest {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
 
         var ehrExtract = unmarshallEhrExtractElement("fallback_template.xml");
-        var mappedResources = templateMapper.mapTemplates(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
+        var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(mappedResources.size()).isEqualTo(2);
         var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
@@ -96,7 +96,7 @@ public class TemplateMapperTest {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
 
         var ehrExtract = unmarshallEhrExtractElement("nested_template.xml");
-        var mappedResources = templateMapper.mapTemplates(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
+        var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(mappedResources.size()).isEqualTo(2);
         var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
@@ -115,7 +115,7 @@ public class TemplateMapperTest {
     @Test
     public void testNoMappableTemplates() {
         var ehrExtract = unmarshallEhrExtractElement("no_mappable_template.xml");
-        var mappedResources = templateMapper.mapTemplates(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
+        var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(mappedResources.size()).isZero();
     }

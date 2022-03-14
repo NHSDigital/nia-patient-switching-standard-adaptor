@@ -118,7 +118,7 @@ public class BundleMapperService {
         var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg);
         addEntries(bundle, documentReferences);
 
-        var templates = templateMapper.mapTemplates(ehrExtract, patient, encounters, practiseCode);
+        var templates = templateMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, templates);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
