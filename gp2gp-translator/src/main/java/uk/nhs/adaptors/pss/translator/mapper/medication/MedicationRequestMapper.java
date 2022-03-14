@@ -42,14 +42,12 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
     public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        var medicationResources = mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllMedications(component)
                 .filter(Objects::nonNull)
                 .flatMap(medicationStatement
                     -> mapMedicationStatement(ehrExtract, composition, medicationStatement, patient, encounters, practiseCode)))
             .toList();
-        medicationMapperContext.resetMedicationMaps();
-        return medicationResources;
     }
 
     private Stream<DomainResource> mapMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
