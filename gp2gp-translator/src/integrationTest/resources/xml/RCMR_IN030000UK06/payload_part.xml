@@ -18590,7 +18590,7 @@
                                 </Participant2>
                                 <component typeCode="COMP">
                                     <CompoundStatement classCode="CLUSTER" moodCode="EVN">
-                                        <id root="DIAGNOSTIC_REPORT_ID_3"/>
+                                        <id root="DIAGNOSTIC_REPORT_ID_2"/>
                                         <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
                                               displayName="laboratory reporting">
                                             <originalText>Filed Report</originalText>
@@ -19317,7 +19317,7 @@
                                         <availabilityTime value="20030221115000"/>
                                         <component typeCode="COMP" contextConductionInd="true">
                                             <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                                <id root="0217BE3-481B-4254-AA8E-17B2529244B6"/>
+                                                <id root="1328CF4-370Z-3143-BB9F-17B2529244B6"/>
                                                 <text mediaType="text/x-h7uk-pmip">CommentType:LABORATORY RESULT COMMENT(E141)
                                                     CommentDate:20030221115000
 

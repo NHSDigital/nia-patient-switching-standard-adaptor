@@ -90,7 +90,7 @@ public class SpecimenCompoundsMapper {
         );
         observation.setSpecimen(specimenReference);
 
-        if(!containsReference(diagnosticReport.getResult(), observation.getId())) {
+        if (!containsReference(diagnosticReport.getResult(), observation.getId())) {
             diagnosticReport.addResult(new Reference(observation));
         }
     }
@@ -233,8 +233,6 @@ public class SpecimenCompoundsMapper {
                     }
                     return StringUtils.EMPTY;
                 }).anyMatch(referenceId -> referenceId.contains(id));
-            
-               // .anyMatch(reference -> id.equals(reference.getResource().getIdElement().getValue()));
         }
         return false;
     }

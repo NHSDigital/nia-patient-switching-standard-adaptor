@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static java.util.stream.Collectors.toCollection;
+
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.EncounterReferenceUtil.getEncounterReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -10,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
@@ -190,7 +191,7 @@ public class DiagnosticReportMapper {
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
             .filter(Objects::nonNull)
             .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
-            .collect(Collectors.toCollection(ArrayList::new)); //THIS NEEDS TO BE A MODIFIABLE LIST
+            .collect(toCollection(ArrayList::new));
 
         if (!resultReferences.isEmpty()) {
             diagnosticReport.setResult(resultReferences);
