@@ -27,7 +27,7 @@ public class ExtensionUtilTest {
     public void shouldCreateExpectedExtension(String url, Resource resource, ResourceType resourceType) {
         resource.setId(url);
         Reference reference = new Reference(resource);
-        Extension extension = ExtensionUtil.buildReferenceExtension(url, reference);
+        Extension extension = ResourceUtil.buildReferenceExtension(url, reference);
 
         assertThat(extension.getUrl()).isEqualTo(url);
         Reference extensionRef = (Reference) extension.getValue();

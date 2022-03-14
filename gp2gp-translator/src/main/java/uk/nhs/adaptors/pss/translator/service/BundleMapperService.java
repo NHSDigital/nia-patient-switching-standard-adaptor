@@ -6,18 +6,12 @@ import java.util.Map;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Immunization;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Location;
-import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.ProcedureRequest;
-import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRMT030101UK04Component3;
@@ -103,37 +97,36 @@ public class BundleMapperService {
         var locations = mapLocations(ehrFolder, practiseCode);
         addEntries(bundle, locations);
 
-        var procedureRequests = mapProcedureRequests(ehrExtract, patient, encounters, practiseCode);
+        var procedureRequests = procedureRequestMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, procedureRequests);
 
-        var referralRequests = mapReferralRequests(ehrExtract, patient, encounters, practiseCode);
+        var referralRequests = referralRequestMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, referralRequests);
 
-        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, encounters, patient, practiseCode);
+        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, medicationResources);
 
-        var bloodPressures = mapBloodPressures(ehrExtract, patient, encounters, practiseCode);
+        var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, bloodPressures);
 
-        var observations = mapObservations(ehrExtract, patient, encounters, practiseCode);
+        var observations = observationMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, observations);
 
-        var immunizations = mapImmunizations(ehrExtract, patient, encounters, practiseCode);
+        var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, immunizations);
 
-        var conditions = mapConditions(ehrExtract, patient, encounters, practiseCode);
+        var conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, conditions);
 
-        var observationComments =
-            mapObservationComments(ehrExtract, patient, encounters, practiseCode);
+        var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, observationComments);
 
         mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, practiseCode);
 
-        var documentReferences = mapDocumentReferences(ehrExtract, patient, encounters, authorOrg);
+        var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg);
         addEntries(bundle, documentReferences);
 
-        var templates = templateMapper.mapTemplates(ehrExtract, patient, encounters, practiseCode);
+        var templates = templateMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, templates);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
@@ -179,11 +172,6 @@ public class BundleMapperService {
         return encounterMapper.mapEncounters(ehrExtract, patient, practiseCode);
     }
 
-    private List<Immunization> mapImmunizations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounterList,
-        String practiseCode) {
-        return immunizationMapper.mapToImmunization(ehrExtract, patient, encounterList, practiseCode);
-    }
-
     private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UK04EhrFolder ehrFolder) {
         return agentDirectoryMapper.mapAgentDirectory(ehrFolder.getResponsibleParty().getAgentDirectory());
     }
@@ -200,36 +188,6 @@ public class BundleMapperService {
     private Patient mapPatient(RCMRMT030101UK04EhrExtract ehrExtract, Organization organization) {
         RCMRMT030101UK04Patient xmlPatient = ehrExtract.getRecordTarget().getPatient();
         return patientMapper.mapToPatient(xmlPatient, organization);
-    }
-
-    private List<ReferralRequest> mapReferralRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
-        return referralRequestMapper.mapReferralRequests(ehrExtract, patient, encounters, practiseCode);
-    }
-
-    private List<ProcedureRequest> mapProcedureRequests(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        List<Encounter> encounters, String practiseCode) {
-        return procedureRequestMapper.mapProcedureRequests(ehrExtract, patient, encounters, practiseCode);
-    }
-
-    private List<Observation> mapObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
-        return observationCommentMapper.mapObservations(ehrExtract, patient, encounters, practiseCode);
-    }
-
-    private List<Observation> mapBloodPressures(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
-        return bloodPressureMapper.mapBloodPressure(ehrExtract, patient, encounters, practiseCode);
-    }
-
-    private List<Observation> mapObservations(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
-        return observationMapper.mapObservations(ehrExtract, patient, encounters, practiseCode);
-    }
-
-    private List<Condition> mapConditions(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
-        return conditionMapper.mapConditions(ehrExtract, patient, encounters, practiseCode);
     }
 
     private Organization getPatientOrganization(List<? extends DomainResource> agents) {
