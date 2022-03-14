@@ -83,10 +83,15 @@ public class SpecimenCompoundsMapper {
          * need to be referenced from DiagnosticReport.results and
          * each Observation will include a reference to the Specimen resource
          */
-        final Reference specimenReference = new Reference(new IdType(ResourceType.Specimen.name(),
-            parentCompoundStatement.getId().get(0).getRoot()));
+        final Reference specimenReference = new Reference(new IdType(
+            ResourceType.Specimen.name(),
+            parentCompoundStatement.getId().get(0).getRoot())
+        );
         observation.setSpecimen(specimenReference);
-        diagnosticReport.addResult(new Reference(observation));
+
+        if(!containsReference(diagnosticReport.getResult(), observation.getId())) {
+            diagnosticReport.addResult(new Reference(observation));
+        }
     }
 
     private void handleNarrativeStatements(RCMRMT030101UK04CompoundStatement clusterCompoundStatement,
@@ -119,12 +124,12 @@ public class SpecimenCompoundsMapper {
                         observationComment.setComment(getLastLine(observationComment.getComment()));
 
                         if (observation != null) {
-                            if (!containsReference(observationComment, observation.getId())) {
+                            if (!containsRelatedComponent(observationComment, observation.getId())) {
                                 observationComment.addRelated(new ObservationRelatedComponent(new Reference(observation)));
                                 //ObservationComment - derived-from
                             }
 
-                            if (!containsReference(observation, observationComment.getId())) {
+                            if (!containsRelatedComponent(observation, observationComment.getId())) {
                                 observation.addRelated(new ObservationRelatedComponent(new Reference(observationComment)));
                                 //Observation -has-member
                             }
@@ -215,7 +220,15 @@ public class SpecimenCompoundsMapper {
             .findFirst();
     }
 
-    private boolean containsReference(Observation observation, String id) {
+    private boolean containsReference(List<Reference> references, String id) {
+        if (!references.isEmpty()) {
+            return references.stream()
+                .anyMatch(reference -> id.equals(reference.getResource().getIdElement().getValue()));
+        }
+        return false;
+    }
+
+    private boolean containsRelatedComponent(Observation observation, String id) {
         if (!observation.getRelated().isEmpty()) {
             return observation.getRelated().stream()
                 .map(relatedComponent -> relatedComponent.getTarget().getResource())
