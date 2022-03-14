@@ -6,9 +6,11 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
@@ -34,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -54,8 +57,9 @@ public class DiagnosticReportMapper {
         var compositions = getCompositionsContainingClusterCompoundStatement(ehrExtract);
         return compositions.stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
-            .map(RCMRMT030101UK04Component4::getCompoundStatement)
+            .flatMap(CompoundStatementUtil::extractAllCompoundStatements)
             .filter(Objects::nonNull)
+            .filter(this::isDiagnosticReportCandidate)
             .map(compoundStatement -> {
                 DiagnosticReport diagnosticReport = createDiagnosticReport(
                     compoundStatement, patient, compositions, encounters, practiceCode
@@ -186,7 +190,7 @@ public class DiagnosticReportMapper {
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
             .filter(Objects::nonNull)
             .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
-            .toList();
+            .collect(Collectors.toCollection(ArrayList::new)); //THIS NEEDS TO BE A MODIFIABLE LIST
 
         if (!resultReferences.isEmpty()) {
             diagnosticReport.setResult(resultReferences);
@@ -259,7 +263,7 @@ public class DiagnosticReportMapper {
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> ehrComposition.getComponent()
                 .stream()
-                .map(RCMRMT030101UK04Component4::getCompoundStatement)
+                .flatMap(CompoundStatementUtil::extractAllCompoundStatements)
                 .filter(Objects::nonNull)
                 .anyMatch(this::isDiagnosticReportCandidate))
             .toList();
@@ -281,7 +285,8 @@ public class DiagnosticReportMapper {
             .stream()
             .filter(ehrComposition -> ehrComposition.getComponent()
                 .stream()
-                .anyMatch(component4 -> compoundStatement.equals(component4.getCompoundStatement()))
+                .flatMap(CompoundStatementUtil::extractAllCompoundStatements)
+                .anyMatch(compoundStatement::equals)
             ).findFirst().get();
     }
 }

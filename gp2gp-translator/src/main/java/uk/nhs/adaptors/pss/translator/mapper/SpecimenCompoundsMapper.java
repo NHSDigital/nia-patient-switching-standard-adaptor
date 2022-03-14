@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Observation;
@@ -223,7 +224,17 @@ public class SpecimenCompoundsMapper {
     private boolean containsReference(List<Reference> references, String id) {
         if (!references.isEmpty()) {
             return references.stream()
-                .anyMatch(reference -> id.equals(reference.getResource().getIdElement().getValue()));
+                .map(reference -> {
+                    if (reference.hasReference()) {
+                        return reference.getReference();
+                    }
+                    if (reference.getResource() != null) {
+                        return reference.getResource().getIdElement().getValue();
+                    }
+                    return StringUtils.EMPTY;
+                }).anyMatch(referenceId -> referenceId.contains(id));
+            
+               // .anyMatch(reference -> id.equals(reference.getResource().getIdElement().getValue()));
         }
         return false;
     }

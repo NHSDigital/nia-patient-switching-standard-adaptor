@@ -40,7 +40,6 @@ import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 @AllArgsConstructor
 public class DocumentReferenceMapper {
 
-    //TODO Add custodian using the reference to Organisation that is generated for sending Practice (NIAD-2060)
     //TODO Add file Size using the uncompressed/unencoded size of the document (NIAD-2030)
 
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1";
