@@ -102,7 +102,7 @@ public class TemplateMapper {
             .setSubject(new Reference(patient))
             .setIssuedElement(getIssued(ehrComposition, ehrExtract))
             .addPerformer(getParticipantReference(compoundStatement.getParticipant(), ehrComposition))
-            .setCode(codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode()))
+            .setCode(codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode(), false))
             .setStatus(FINAL)
             .addIdentifier(buildIdentifier(id, practiseCode))
             .setMeta(generateMeta(OBSERVATION_META_PROFILE))

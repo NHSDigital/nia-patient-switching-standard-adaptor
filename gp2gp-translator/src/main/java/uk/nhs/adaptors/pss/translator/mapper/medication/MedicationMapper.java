@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
-import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @Service
 @AllArgsConstructor
