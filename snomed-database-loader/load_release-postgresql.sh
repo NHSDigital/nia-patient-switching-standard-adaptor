@@ -12,21 +12,21 @@ then
 	exit -1
 fi
 
-if [ -z ${DB_OWNER_USERNAME} ]
+if [ -z ${PS_DB_OWNER_NAME} ]
 then
-  echo "Please set the following env var: DB_OWNER_USERNAME, e.g. \"export DB_OWNER_USERNAME='postgres'\""
+  echo "Please set the following env var: PS_DB_OWNER_NAME, e.g. \"export PS_DB_OWNER_NAME='postgres'\""
 	exit -1
 fi
 
-if [ -z ${DB_HOSTNAME} ]
+if [ -z ${PS_DB_HOST} ]
 then
-  echo "Please set the following env var: DB_HOSTNAME, e.g. \"export DB_HOSTNAME='localhost'\""
+  echo "Please set the following env var: PS_DB_HOST, e.g. \"export PS_DB_HOST='localhost'\""
 	exit -1
 fi
 
-if [ -z ${DB_PORT} ]
+if [ -z ${PS_DB_PORT} ]
 then
-  echo "Please set the following env var: DB_PORT, e.g. \"export DB_PORT='5432'\""
+  echo "Please set the following env var: PS_DB_PORT, e.g. \"export PS_DB_PORT='5432'\""
 	exit -1
 fi
 
@@ -44,7 +44,7 @@ generatedEnvScript="tmp_environment-postgresql.sql"
 
 fileTypes=(Snapshot)
 unzip -j ${releasePath} "*Snapshot*" -d ${localExtract}
-	
+
 #Determine the release date from the filenames
 releaseDateINT=`ls -1 ${localExtract}/*INT*.txt | head -1 | egrep -o '[0-9]{8}'`
 releaseDateUK=`ls -1 ${localExtract}/*UKEDSnapshot*.txt | head -1 | egrep -o '[0-9]{8}'`
@@ -62,7 +62,7 @@ function addLoadScript() {
 		fi
 	fi
 	tableName=${3}_s
-	echo -e "psql -h ${DB_HOSTNAME} -p ${DB_PORT} -d ${dbName} -U ${DB_OWNER_USERNAME} -c \"\\\copy ${snomedCtSchema}.${tableName} FROM '${basedir}/${localExtract}/${fileName}' DELIMITER E'	' CSV HEADER QUOTE E'\b'\"\n" >> ${generatedLoadScript}
+	echo -e "psql -h ${PS_DB_HOST} -p ${PS_DB_PORT} -d ${dbName} -U ${PS_DB_OWNER_NAME} -c \"\\\copy ${snomedCtSchema}.${tableName} FROM '${basedir}/${localExtract}/${fileName}' DELIMITER E'	' CSV HEADER QUOTE E'\b'\"\n" >> ${generatedLoadScript}
 }
 
 echo -e "\nGenerating loading script for releaseDateINT"
@@ -75,7 +75,7 @@ addLoadScript sct2_Description_TYPE-en_INT_DATE.txt Snapshot description $releas
 addLoadScript der2_cRefset_LanguageTYPE-en_GB_DATE.txt UKEDSnapshot langrefset $releaseDateUK
 
 #create schema, tables, indexes
-psql -h ${DB_HOSTNAME} -U ${DB_OWNER_USERNAME} -p ${DB_PORT} -d ${dbName} << EOF
+psql -h ${PS_DB_HOST} -U ${PS_DB_OWNER_NAME} -p ${PS_DB_PORT} -d ${dbName} << EOF
 	\ir create-database-postgres.sql;
 EOF
 

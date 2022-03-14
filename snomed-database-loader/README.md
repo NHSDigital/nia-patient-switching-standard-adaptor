@@ -14,11 +14,11 @@ Script does not load full SNOMED DB - only the subset required by PS Adaptor.
 
 ### Prerequsistes
 1. Download SNOMED CT Release 
-2. Set the follwing env vars:
-- DB_OWNER_USERNAME (database user, needs permissions to create/drop schemas), e.g. `export DB_OWNER_USERNAME='postgres'`
+2. Set the following env vars:
+- PS_DB_OWNER_NAME (database user, needs permissions to create/drop schemas), e.g. `export PS_DB_OWNER_NAME='postgres'`
 - PGPASSWORD (database user password), e.g. `export PGPASSWORD='********'`
-- DB_HOSTNAME (database host), e.g. `export DB_HOSTNAME='localhost'`
-- DB_PORT (databse port), e.g. `export DB_PORT='5432'`
+- PS_DB_HOST (database host), e.g. `export PS_DB_HOST='localhost'`
+- PS_DB_PORT (database port), e.g. `export PS_DB_PORT='5432'`
 
 ### Run the script
 e.g. `load_release-postgresql.sh ~/Downloads/uk_sct2cl_32.0.0_20210512000001Z.zip`

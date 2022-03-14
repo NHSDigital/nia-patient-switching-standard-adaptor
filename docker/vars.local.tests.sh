@@ -3,6 +3,9 @@
 export PS_DB_URL="jdbc:postgresql://ps_db:5432"
 export PS_DB_OWNER_NAME="postgres"
 export PS_DB_OWNER_PASSWORD="pass_test"
+export PS_DB_HOST="ps_db"
+export PGPASSWORD=`echo $PS_DB_OWNER_PASSWORD`
+export PS_DB_PORT="5432"
 export POSTGRES_PASSWORD=`echo $PS_DB_OWNER_PASSWORD`
 export GPC_FACADE_USER_DB_PASSWORD="pass_test"
 export GP2GP_TRANSLATOR_USER_DB_PASSWORD="pass_test"

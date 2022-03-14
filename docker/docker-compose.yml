@@ -69,6 +69,18 @@ services:
     networks:
       - ps-network
 
+  snomed_schema:
+    build:
+      context: ../
+      dockerfile: ./docker/snomed-schema/Dockerfile
+    environment:
+      - PS_DB_OWNER_NAME
+      - PGPASSWORD
+      - PS_DB_HOST
+      - PS_DB_PORT
+    networks:
+      - ps-network
+
   mhs-adaptor-mock:
     build: ./mhs-adaptor-mock
     ports:
