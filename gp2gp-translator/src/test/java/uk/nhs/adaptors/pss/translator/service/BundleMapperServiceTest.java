@@ -48,6 +48,8 @@ import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.SpecimenCompoundsMapper;
+import uk.nhs.adaptors.pss.translator.mapper.SpecimenMapper;
 import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
@@ -98,6 +100,10 @@ public class BundleMapperServiceTest {
     private OrganizationMapper organizationMapper;
     @Mock
     private DiagnosticReportMapper diagnosticReportMapper;
+    @Mock
+    private SpecimenMapper specimenMapper;
+    @Mock
+    private SpecimenCompoundsMapper specimenCompoundsMapper;
 
     @InjectMocks
     private BundleMapperService bundleMapperService;
@@ -164,9 +170,9 @@ public class BundleMapperServiceTest {
         verify(diagnosticReportMapper).mapDiagnosticReports(
             any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class)
         );
-        verify(diagnosticReportMapper).mapSpecimen(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), any(String.class));
+        verify(specimenMapper).mapSpecimen(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), any(String.class));
         verify(diagnosticReportMapper).mapChildObservationComments(any(RCMRMT030101UK04EhrExtract.class), anyList());
-        verify(diagnosticReportMapper).addSpecimenChildReferences(
+        verify(specimenCompoundsMapper).handleSpecimenChildComponents(
             any(RCMRMT030101UK04EhrExtract.class), anyList(), anyList(), anyList()
         );
     }

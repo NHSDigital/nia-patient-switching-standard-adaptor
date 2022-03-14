@@ -44,6 +44,8 @@ import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.SpecimenCompoundsMapper;
+import uk.nhs.adaptors.pss.translator.mapper.SpecimenMapper;
 import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
@@ -76,6 +78,8 @@ public class BundleMapperService {
     private final TemplateMapper templateMapper;
     private final OrganizationMapper organizationMapper;
     private final DiagnosticReportMapper diagnosticReportMapper;
+    private final SpecimenMapper specimenMapper;
+    private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -143,11 +147,11 @@ public class BundleMapperService {
     private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         List<Observation> observations, List<Observation> observationComments, String practiceCode) {
         var diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(ehrExtract, patient, encounters, practiceCode);
-        var specimen = diagnosticReportMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
+        var specimen = specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
         addEntries(bundle, diagnosticReports);
         addEntries(bundle, specimen);
         diagnosticReportMapper.mapChildObservationComments(ehrExtract, observationComments);
-        diagnosticReportMapper.addSpecimenChildReferences(ehrExtract, observations, observationComments, diagnosticReports);
+        specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments, diagnosticReports);
     }
 
     private List<DocumentReference> mapDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,

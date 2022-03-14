@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
@@ -33,6 +34,7 @@ public class DiagnosticReportMapperTest {
     private static final String NARRATIVE_STATEMENT_ID = "NARRATIVE_STATEMENT_ID_1";
     private static final String NARRATIVE_STATEMENT_TEXT = "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT";
     private static final String COMPOUND_STATEMENT_CHILD_ID = "COMPOUND_STATEMENT_CHILD_ID";
+    private static final String ENCOUNTER_ID = "EHR_COMPOSITION_ID_1";
     private static final InstantType ISSUED_ELEMENT = parseToInstantType("20220308163805");
     private static final Patient PATIENT = (Patient) new Patient().setId("PATIENT_TEST_ID");
 
@@ -64,6 +66,7 @@ public class DiagnosticReportMapperTest {
         assertThat(diagnosticReport.getIdentifierFirstRep().getValue()).isEqualTo(DIAGNOSTIC_REPORT_ID);
         assertThat(diagnosticReport.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT.getId());
         assertThat(diagnosticReport.getIssuedElement().getValueAsString()).isEqualTo(ISSUED_ELEMENT.getValueAsString());
+        assertThat(diagnosticReport.hasContext()).isFalse();
         assertThat(diagnosticReport.getSpecimen()).isEmpty();
         assertThat(diagnosticReport.getResult()).isEmpty();
     }
@@ -99,12 +102,28 @@ public class DiagnosticReportMapperTest {
         assertThat(observationComments.get(0).getComment()).isEqualTo(NARRATIVE_STATEMENT_TEXT);
     }
 
+    @Test
+    public void testMappingEncountersToContext() {
+        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_specimen.xml");
+        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(
+            ehrExtract, PATIENT, createEncounterList(), PRACTISE_CODE
+        );
+
+        assertThat(diagnosticReports.get(0).hasContext()).isTrue();
+        assertThat(diagnosticReports.get(0).getContext().getResource()).isNotNull();
+        assertThat(diagnosticReports.get(0).getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
+    }
+
     private List<Observation> createObservationCommentList() {
         Observation observationComment1 = (Observation) new Observation()
             .setEffective(new DateTimeType())
             .setComment(NARRATIVE_STATEMENT_COMMENT_BLOCK)
             .setId("NARRATIVE_STATEMENT_ID_1");
         return List.of(observationComment1);
+    }
+
+    private List<Encounter> createEncounterList() {
+        return List.of((Encounter) new Encounter().setId(ENCOUNTER_ID));
     }
 
     @SneakyThrows

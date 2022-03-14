@@ -19,7 +19,7 @@ public class TextUtil {
 
     public static String addLine(String text, String line) {
         if (text == null) {
-            return StringUtils.EMPTY;
+            return line;
         }
 
         return text.concat(StringUtils.LF).concat(line);

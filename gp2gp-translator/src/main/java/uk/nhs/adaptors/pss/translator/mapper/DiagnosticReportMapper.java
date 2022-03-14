@@ -23,7 +23,6 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.fhir.dstu3.model.Specimen;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component02;
@@ -46,9 +45,6 @@ public class DiagnosticReportMapper {
 
     private static final String EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
     private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
-    private static final String CLUSTER_CLASSCODE = "CLUSTER";
-    private static final String DR_SNOMED_CODE = "16488004";
-    private static final String SPECIMEN_CODE = "123038009";
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final SpecimenMapper specimenMapper;
@@ -104,16 +100,6 @@ public class DiagnosticReportMapper {
                 observationComment.setEffective(null);
                 observationComment.setComment(getLastLine(observationComment.getComment()));
             });
-    }
-
-    public List<Specimen> mapSpecimen(RCMRMT030101UK04EhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports,
-        Patient patient, String practiceCode) {
-        return specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
-    }
-
-    public void addSpecimenChildReferences(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observations,
-        List<Observation> observationComments, List<DiagnosticReport> diagnosticReports) {
-        specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments, diagnosticReports);
     }
 
     private List<Reference> getSpecimenReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
@@ -184,7 +170,7 @@ public class DiagnosticReportMapper {
     private boolean authorHasValidTimeValue(RCMRMT030101UK04Author author) {
         return author != null && author.hasTime()
             && author.getTime().hasValue()
-            && author.getTime().hasNullFlavor();
+            && !author.getTime().hasNullFlavor();
     }
 
     private boolean availabilityTimeHasValue(TS availabilityTime) {
