@@ -58,6 +58,8 @@ pipeline {
                                         source docker/vars.local.tests.sh
                                         docker-compose -f docker/docker-compose.yml up -d ps_db
                                         docker-compose -f docker/docker-compose.yml up db_migration
+                                        wget -P testing/snomedDB/ https://snomed-schema.s3.eu-west-2.amazonaws.com/uk_sct2cl_32.10.0_20220216000001Z.zip
+                                        ./snomed-database-loader/load_release-postgresql.sql /testing/snomedDB/uk_sct2cl_32.10.0_20220216000001Z.zip
                                     '''
                                 }
                             }
