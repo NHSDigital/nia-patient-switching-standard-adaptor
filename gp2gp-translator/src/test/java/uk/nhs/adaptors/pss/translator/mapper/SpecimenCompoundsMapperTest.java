@@ -30,7 +30,7 @@ public class SpecimenCompoundsMapperTest {
     private static final String BATTERY_OBSERVATION_STATEMENT_ID = "BATTERY_DIRECT_CHILD_OBSERVATION_STATEMENT";
     private static final String DIAGNOSTIC_REPORT_ID = "DR_TEST_ID";
     private static final String SPECIMEN_ID = "TEST_SPECIMEN_ID";
-    private static final String TEST_COMMENT_LINE = "First Comment Line";
+    private static final String TEST_COMMENT_LINE = "First comment Line";
     private static final String TEST_COMMENT_LINE_1 = "Test Comment";
 
     private List<Observation> observations;
@@ -109,7 +109,7 @@ public class SpecimenCompoundsMapperTest {
 
         assertParentSpecimenIsReferenced(observations.get(0));
         assertThat(observations.get(0).getRelated()).isNotEmpty();
-        assertThat(observations.get(0).getComment()).isEqualTo("First comment line");
+        assertThat(observations.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE);
     }
 
     @Test
@@ -120,7 +120,7 @@ public class SpecimenCompoundsMapperTest {
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
-        assertThat(observations.get(0).getComment()).isEqualTo("First comment line\n" + TEST_COMMENT_LINE_1);
+        assertThat(observations.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE + "\n" + TEST_COMMENT_LINE_1);
     }
 
     private void assertParentSpecimenIsReferenced(Observation observation) {

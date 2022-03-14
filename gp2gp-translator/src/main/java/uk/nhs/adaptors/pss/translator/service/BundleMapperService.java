@@ -10,6 +10,7 @@ import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ResourceType;
@@ -121,13 +122,13 @@ public class BundleMapperService {
         var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, observationComments);
 
-        mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, practiseCode);
-
         var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg);
         addEntries(bundle, documentReferences);
 
         var templates = templateMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, templates);
+
+        mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, practiseCode);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 
@@ -145,11 +146,6 @@ public class BundleMapperService {
         addEntries(bundle, specimen);
         diagnosticReportMapper.mapChildObservationComments(ehrExtract, observationComments);
         specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments, diagnosticReports);
-    }
-
-    private List<DocumentReference> mapDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        List<Encounter> encounters, Organization organization) {
-        return documentReferenceMapper.mapToDocumentReference(ehrExtract, patient, encounters, organization);
     }
 
     private List<Encounter> handleMappedEncounterResources(Map<String, List<? extends DomainResource>> mappedEncounterEhrCompositions,
