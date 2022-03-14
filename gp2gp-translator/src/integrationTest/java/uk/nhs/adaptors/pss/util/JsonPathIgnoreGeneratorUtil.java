@@ -33,7 +33,8 @@ public class JsonPathIgnoreGeneratorUtil {
         new IgnoreParameters(ResourceType.List, "entry[*].item.reference",
             resource -> isList(resource, CONSULTATION_DISPLAY)),
         new IgnoreParameters(ResourceType.Practitioner, "id", JsonPathIgnoreGeneratorUtil::isUnknownPractitioner),
-        new IgnoreParameters(ResourceType.ProcedureRequest, "performer", JsonPathIgnoreGeneratorUtil::isUnknownPerformer)
+        new IgnoreParameters(ResourceType.ProcedureRequest, "performer", JsonPathIgnoreGeneratorUtil::isUnknownPerformer),
+        new IgnoreParameters(ResourceType.DocumentReference, "custodian")
     );
 
     public static List<String> generateJsonPathIgnores(Bundle fhirBundle) {

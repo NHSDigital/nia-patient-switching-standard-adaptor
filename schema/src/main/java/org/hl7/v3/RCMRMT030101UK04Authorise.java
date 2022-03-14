@@ -327,6 +327,17 @@ public class RCMRMT030101UK04Authorise {
         return this.predecessor;
     }
 
+    public RCMRMT030101UK04Predecessor getPredecessorFirstRep() {
+        if (!predecessor.isEmpty()) {
+            return predecessor.get(0);
+        }
+        return null;
+    }
+
+    public boolean hasPredecessor() {
+        return predecessor != null && !predecessor.isEmpty();
+    }
+
     /**
      * Gets the value of the performer property.
      * 
