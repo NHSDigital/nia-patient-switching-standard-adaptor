@@ -43,6 +43,7 @@ import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
@@ -71,6 +72,7 @@ public class BundleMapperService {
     private final ImmunizationMapper immunizationMapper;
     private final UnknownPractitionerHandler unknownPractitionerHandler;
     private final DocumentReferenceMapper documentReferenceMapper;
+    private final TemplateMapper templateMapper;
     private final OrganizationMapper organizationMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
@@ -122,6 +124,9 @@ public class BundleMapperService {
 
         var documentReferences = mapDocumentReferences(ehrExtract, patient, encounters, authorOrg);
         addEntries(bundle, documentReferences);
+
+        var templates = templateMapper.mapTemplates(ehrExtract, patient, encounters, practiseCode);
+        addEntries(bundle, templates);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 

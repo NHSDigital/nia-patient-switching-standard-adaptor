@@ -32,6 +32,7 @@ public class ResourceFilterUtil {
 
     public static boolean isAllergyIntolerance(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement != null
+            && hasCode(compoundStatement)
             && ALLERGY_CODES.contains(compoundStatement.getCode().getCode())
             && ALLERGY_SNOMED_CODE.equals(compoundStatement.getCode().getCodeSystem())
             && compoundStatement.getComponent().size() == 1
@@ -40,6 +41,7 @@ public class ResourceFilterUtil {
 
     public static boolean isDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement != null
+            && hasCode(compoundStatement)
             && CLUSTER_VALUE.equals(compoundStatement.getClassCode().get(0))
             && PATHOLOGY_CODE.equals(compoundStatement.getCode().getCode());
     }
@@ -49,5 +51,9 @@ public class ResourceFilterUtil {
             && !isBloodPressure(compoundStatement)
             && !isDiagnosticReport(compoundStatement)
             && List.of(BATTERY_VALUE, CLUSTER_VALUE).contains(compoundStatement.getClassCode().get(0));
+    }
+
+    private static boolean hasCode(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return compoundStatement.hasCode() && compoundStatement.getCode().hasCode();
     }
 }

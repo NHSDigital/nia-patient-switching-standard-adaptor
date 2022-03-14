@@ -47,6 +47,7 @@ import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
@@ -90,6 +91,8 @@ public class BundleMapperServiceTest {
     private UnknownPractitionerHandler unknownPractitionerHandler;
     @Mock
     private DocumentReferenceMapper documentReferenceMapper;
+    @Mock
+    private TemplateMapper templateMapper;
     @Mock
     private OrganizationMapper organizationMapper;
 
@@ -153,6 +156,8 @@ public class BundleMapperServiceTest {
         verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
         verify(documentReferenceMapper).mapToDocumentReference(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
             any(Organization.class));
+        verify(templateMapper).mapTemplates(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+            any(String.class));
     }
 
     @SneakyThrows
