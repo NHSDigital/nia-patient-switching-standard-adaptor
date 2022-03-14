@@ -21,6 +21,7 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04Prescribe;
 import org.hl7.v3.TS;
@@ -38,8 +39,8 @@ public class MedicationRequestOrderMapper {
 
     private final MedicationMapper medicationMapper;
 
-    protected MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04MedicationStatement medicationStatement,
-        RCMRMT030101UK04Prescribe supplyPrescribe, String practiseCode) {
+    public MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Prescribe supplyPrescribe, String practiseCode) {
         var ehrSupplyPrescribeIdExtract = extractEhrSupplyPrescribeId(supplyPrescribe);
         var inFulfillmentOfId = extractInFulfillmentOfId(supplyPrescribe);
 
@@ -51,15 +52,15 @@ public class MedicationRequestOrderMapper {
             medicationRequest.setStatus(COMPLETED);
             medicationRequest.setIntent(ORDER);
 
-            medicationRequest.addBasedOn(buildMedicationRequestReference(ehrSupplyPrescribeId));
             medicationRequest.addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()));
             medicationRequest.setDispenseRequest(buildDispenseRequestForPrescribe(supplyPrescribe));
 
             buildNotesForPrescribe(supplyPrescribe).forEach(medicationRequest::addNote);
             medicationMapper.extractMedicationReference(medicationStatement).ifPresent(medicationRequest::setMedication);
             inFulfillmentOfId.ifPresent(inFulfillmentId -> {
-                var supplyAuthorise = extractSupplyAuthorise(medicationStatement, inFulfillmentId);
+                var supplyAuthorise = extractSupplyAuthorise(ehrExtract, inFulfillmentId);
                 buildPrescriptionTypeExtension(supplyAuthorise).ifPresent(medicationRequest::addExtension);
+                medicationRequest.addBasedOn(buildMedicationRequestReference(inFulfillmentId));
             });
 
             return medicationRequest;
@@ -79,8 +80,12 @@ public class MedicationRequestOrderMapper {
         if (supplyPrescribe.hasQuantity()) {
             buildDosageQuantity(supplyPrescribe.getQuantity()).ifPresent(dispenseRequest::setQuantity);
         }
-        dispenseRequest.setValidityPeriod(buildValidityPeriod(supplyPrescribe.getAvailabilityTime()));
 
+        if (supplyPrescribe.getAvailabilityTime().hasNullFlavor()) {
+            dispenseRequest.setValidityPeriod(new Period());
+        } else if (supplyPrescribe.getAvailabilityTime().hasValue()) {
+            dispenseRequest.setValidityPeriod(buildValidityPeriod(supplyPrescribe.getAvailabilityTime()));
+        }
         return dispenseRequest;
     }
 

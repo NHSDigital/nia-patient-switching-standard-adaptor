@@ -23,9 +23,9 @@ import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 
 public class ResourceReferenceUtil {
     private static final String MEDICATION_STATEMENT_REFERENCE = "%s-MS";
-    private static final String QUESTIONNAIRE_REFERENCE = "%s-QRSP";
-    private static final String OBSERVATION_PREFIX = "Observation/";
-    private static final String QUESTIONNAIRE_PREFIX = "QuestionnaireResponse/";
+    private static final String QUESTIONNAIRE_ID = "%s-QRSP";
+    private static final String OBSERVATION_REFERENCE = "Observation/%s";
+    private static final String QUESTIONNAIRE_REFERENCE = "QuestionnaireResponse/%s";
 
     public static void extractChildReferencesFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition,
         List<Reference> entryReferences) {
@@ -68,19 +68,33 @@ public class ResourceReferenceUtil {
         }
     }
 
+    public static void extractChildReferencesFromTemplate(RCMRMT030101UK04CompoundStatement compoundStatement,
+        List<Reference> entryReferences) {
+        compoundStatement.getComponent().forEach(component -> {
+            addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
+            addPlanStatementEntry(component.getPlanStatement(), entryReferences);
+            addRequestStatementEntry(component.getRequestStatement(), entryReferences);
+            addLinkSetEntry(component.getLinkSet(), entryReferences);
+            addMedicationEntry(component.getMedicationStatement(), entryReferences);
+            addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
+            extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences);
+        });
+    }
+
     private static boolean isNotIgnoredResource(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
         var references = entryReferences.stream()
             .map(Reference::getReference)
             .toList();
 
         return compoundStatement == null
-            || references.contains(QUESTIONNAIRE_REFERENCE.formatted(QUESTIONNAIRE_PREFIX + compoundStatement.getId().get(0).getRoot()))
-            || !references.contains(OBSERVATION_PREFIX + compoundStatement.getId().get(0).getRoot());
+            || references.contains(QUESTIONNAIRE_ID.formatted(QUESTIONNAIRE_REFERENCE.formatted(
+            compoundStatement.getId().get(0).getRoot())))
+            || !references.contains(OBSERVATION_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot()));
     }
 
     private static void addTemplateEntry(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {
         entryReferences.add(createResourceReference(ResourceType.QuestionnaireResponse.name(),
-            QUESTIONNAIRE_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot())));
+            QUESTIONNAIRE_ID.formatted(compoundStatement.getId().get(0).getRoot())));
         entryReferences.add(createResourceReference(ResourceType.Observation.name(),
             compoundStatement.getId().get(0).getRoot()));
     }

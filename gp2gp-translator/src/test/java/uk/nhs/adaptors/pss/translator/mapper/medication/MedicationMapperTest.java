@@ -34,13 +34,15 @@ public class MedicationMapperTest {
     @Mock
     private IdGeneratorService idGeneratorService;
 
+    @Mock
+    private MedicationMapperContext medicationMapperContext;
+
     @InjectMocks
     private MedicationMapper medicationMapper;
 
     @BeforeEach
     public void setup() {
         when(codeableConceptMapper.mapToCodeableConcept(any(), eq(true))).thenReturn(new CodeableConcept());
-        when(idGeneratorService.generateUuid()).thenReturn(TEST_ID);
     }
 
     @Test
@@ -50,7 +52,6 @@ public class MedicationMapperTest {
 
         verify(codeableConceptMapper, times(1)).mapToCodeableConcept(any(), eq(true));
 
-        assertThat(medication.getId()).isEqualTo(TEST_ID);
         assertThat(medication.getMeta()).isNotNull();
         assertThat(medication.getCode()).isNotNull();
     }

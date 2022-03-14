@@ -140,8 +140,11 @@ public class ObservationUtil {
                 }
             }
 
-            return effectivePeriod;
-        } else if (availabilityTimeHasValue(availabilityTime)) {
+            if (effectivePeriod.hasStart() || effectivePeriod.hasEnd()) {
+                return effectivePeriod;
+            }
+        }
+        if (availabilityTimeHasValue(availabilityTime)) {
             return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         }
         return null;
