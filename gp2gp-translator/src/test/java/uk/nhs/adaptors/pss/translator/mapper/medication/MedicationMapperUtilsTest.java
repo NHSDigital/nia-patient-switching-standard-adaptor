@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.junit.jupiter.api.Test;
 
@@ -117,8 +118,8 @@ public class MedicationMapperUtilsTest {
 
     @Test
     public void When_ExtractingSupplyAuthorise_Expect_CorrectIdToBeReturned() {
-        var medicationStatement = unmarshallMedicationStatement("buildDosage.xml");
-        var supplyAuthorise = MedicationMapperUtils.extractSupplyAuthorise(medicationStatement, AUTHORISE_ID);
+        var ehrExtract = unmarshallEhrExtract("ehrExtract4.xml");
+        var supplyAuthorise = MedicationMapperUtils.extractSupplyAuthorise(ehrExtract, AUTHORISE_ID);
 
         assertThat(supplyAuthorise.hasId()).isTrue();
         assertThat(supplyAuthorise.getId().hasRoot()).isTrue();
@@ -138,5 +139,10 @@ public class MedicationMapperUtilsTest {
     private RCMRMT030101UK04MedicationStatement unmarshallMedicationStatement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName),
             RCMRMT030101UK04MedicationStatement.class);
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName), RCMRMT030101UK04EhrExtract.class);
     }
 }

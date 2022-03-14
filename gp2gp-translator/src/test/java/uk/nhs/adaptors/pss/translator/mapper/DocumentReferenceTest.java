@@ -15,6 +15,7 @@ import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,7 @@ public class DocumentReferenceTest {
     private static final String CONTENT_TYPE = "text/plain";
     private static final String ENCOUNTER_ID = "62A39454-299F-432E-993E-5A6232B4E099";
     private static final String PATIENT_ID = "45329454-299F-432E-993E-5A6232B4E099";
-    private static final String PRACTISE_CODE = "TESTPRACTISECODE";
+    private static final Organization AUTHOR_ORG = new Organization().addIdentifier(new Identifier().setValue("TESTPRACTISECODE"));
     private static final String PLACEHOLDER = "GP2GP generated placeholder. Original document not available. See notes for details";
     private static final int THREE = 3;
 
@@ -58,7 +59,7 @@ public class DocumentReferenceTest {
     public void mapNarrativeStatementToDocumentReferenceWithValidData() {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
-            getEncounterList(), PRACTISE_CODE);
+            getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 
         assertFullValidData(documentReference);
@@ -68,7 +69,7 @@ public class DocumentReferenceTest {
     public void mapNarrativeStatementToDocumentReferenceWithOptionalData() {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document_with_optional_data.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
-            getEncounterList(), PRACTISE_CODE);
+            getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 
         assertOptionalValidData(documentReference);
@@ -78,7 +79,7 @@ public class DocumentReferenceTest {
     public void mapMultpleNarrativeStatementToDocumentReference() {
         var ehrExtract = unmarshallEhrExtract("multiple_narrative_statements_has_referred_to_external_document.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
-            getEncounterList(), PRACTISE_CODE);
+            getEncounterList(), AUTHOR_ORG);
 
         assertThat(documentReferences.size()).isEqualTo(THREE);
     }
@@ -87,7 +88,7 @@ public class DocumentReferenceTest {
     public void mapNarrativeStatementToDocumentReferenceWithAttachments() {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
-            getEncounterList(), PRACTISE_CODE);
+            getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 
         assertAttachmentData(documentReference);
@@ -97,7 +98,7 @@ public class DocumentReferenceTest {
     public void mapNarrativeStatementToDocumentReferenceWithAbsentAttachment() {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document_with_absent_attachment.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
-            getEncounterList(), PRACTISE_CODE);
+            getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 
         assertDocumentReferenceWithAbsentAttachment(documentReference);
@@ -107,7 +108,7 @@ public class DocumentReferenceTest {
     public void mapNarrativeStatementToDocumentReferenceWithInvalidEncounterReference() {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_with_invalid_encounter.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
-            getEncounterList(), PRACTISE_CODE);
+            getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 
         assertDocumentReferenceWithInvalidEncounter(documentReference);
@@ -117,7 +118,7 @@ public class DocumentReferenceTest {
     public void mapNestedNarrativeStatement() {
         var ehrExtract = unmarshallEhrExtract("nested_narrative_statements.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
-            getEncounterList(), PRACTISE_CODE);
+            getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 
         assertDocumentReferenceMappedFromNestedNarrativeStatement(documentReference);

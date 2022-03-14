@@ -48,6 +48,8 @@ public class MedicationRequestMapperTest {
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
     @Mock
     private MedicationStatementMapper medicationStatementMapper;
+    @Mock
+    private MedicationMapperContext medicationMapperContext;
 
     @InjectMocks
     private MedicationRequestMapper medicationRequestMapper;
@@ -57,16 +59,16 @@ public class MedicationRequestMapperTest {
         var ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
-        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any())).thenReturn(new MedicationRequest());
-        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any())).thenReturn(new MedicationStatement());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
         when(medicationMapper.createMedication(any())).thenReturn(new Medication());
 
         var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
             PRACTISE_CODE);
 
         verify(medicationRequestPlanMapper, times(DOUBLE_INVOCATION)).mapToPlanMedicationRequest(any(), any(), any(), any());
-        verify(medicationRequestOrderMapper, times(SINGLE_INVOCATION)).mapToOrderMedicationRequest(any(), any(), any());
-        verify(medicationStatementMapper, times(DOUBLE_INVOCATION)).mapToMedicationStatement(any(), any(), any());
+        verify(medicationRequestOrderMapper, times(SINGLE_INVOCATION)).mapToOrderMedicationRequest(any(), any(), any(), any());
+        verify(medicationStatementMapper, times(DOUBLE_INVOCATION)).mapToMedicationStatement(any(), any(), any(), any(), any());
         verify(medicationMapper, times(SINGLE_INVOCATION)).createMedication(any());
 
         assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
@@ -86,8 +88,6 @@ public class MedicationRequestMapperTest {
             .map(MedicationStatement.class::cast)
             .forEach(medicationStatement -> {
                 assertThat(medicationStatement.getSubject().getResource().getIdElement().getIdPart()).isEqualTo(PATIENT_ID);
-                assertThat(medicationStatement.getEffectiveDateTimeType().getValue())
-                    .isEqualTo(EXPECTED_DATE_TIME_TYPE.getValue());
                 assertThat(medicationStatement.getDateAssertedElement().getValue())
                     .isEqualTo(EXPECTED_DATE_TIME_TYPE.getValue());
             });

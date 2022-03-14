@@ -15,6 +15,7 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
+import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -44,26 +45,26 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     private CodeableConceptMapper codeableConceptMapper;
 
     public List<DocumentReference> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        List<Encounter> encounterList, String practiseCode) {
+        List<Encounter> encounterList, Organization organization) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllNarrativeStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isDocumentReference)
                 .map(narrativeStatement -> mapDocumentReference(narrativeStatement, composition, patient, extract, encounterList,
-                    practiseCode)))
+                    organization)))
             .toList();
     }
 
     private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement,
         RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, RCMRMT030101UK04EhrExtract ehrExtract,
-        List<Encounter> encounterList, String practiseCode) {
+        List<Encounter> encounterList, Organization organization) {
 
         DocumentReference documentReference = new DocumentReference();
 
         var id = narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot();
 
-        documentReference.addIdentifier(buildIdentifier(id, practiseCode));
+        documentReference.addIdentifier(buildIdentifier(id, organization.getIdentifierFirstRep().getValue()));
         documentReference.setId(id);
         documentReference.getMeta().addProfile(META_PROFILE);
         documentReference.setStatus(DocumentReferenceStatus.CURRENT);
@@ -72,6 +73,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         documentReference.setIndexedElement(getIndexed(ehrExtract));
         documentReference.setAuthor(getAuthor(narrativeStatement, ehrComposition));
         documentReference.setDescription(buildDescription(narrativeStatement));
+        documentReference.setCustodian(new Reference(organization));
 
         if (narrativeStatement.hasAvailabilityTime() && !narrativeStatement.getAvailabilityTime().getValue().isEmpty()) {
             documentReference.setCreatedElement(DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
@@ -189,5 +191,11 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     private boolean isContentTypeValid(String mediaType) {
         String validContentTypeFormat = ".*/.*";
         return Pattern.matches(validContentTypeFormat, mediaType);
+    }
+
+    // stubbed method for abstract class
+    public List<DocumentReference> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+        List<Encounter> encounterList, String practiseCode) {
+        return null;
     }
 }

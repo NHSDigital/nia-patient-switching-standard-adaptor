@@ -33,6 +33,7 @@ import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationCommentMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
@@ -64,6 +65,7 @@ public class BundleMapperService {
     private final ImmunizationMapper immunizationMapper;
     private final UnknownPractitionerHandler unknownPractitionerHandler;
     private final DocumentReferenceMapper documentReferenceMapper;
+    private final OrganizationMapper organizationMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -75,6 +77,10 @@ public class BundleMapperService {
         var agents = mapAgentDirectories(ehrFolder);
         var patient = mapPatient(getEhrExtract(xmlMessage), getPatientOrganization(agents));
         addEntry(bundle, patient);
+
+        Organization authorOrg = organizationMapper.mapAuthorOrganization(practiseCode);
+        addEntry(bundle, authorOrg);
+
         addEntries(bundle, agents);
 
         var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, practiseCode);
@@ -107,7 +113,7 @@ public class BundleMapperService {
         var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, observationComments);
 
-        var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg);
         addEntries(bundle, documentReferences);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());

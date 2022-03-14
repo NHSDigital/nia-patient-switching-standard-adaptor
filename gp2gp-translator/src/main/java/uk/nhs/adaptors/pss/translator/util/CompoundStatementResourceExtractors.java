@@ -9,6 +9,7 @@ import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
+import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
@@ -96,6 +97,18 @@ public class CompoundStatementResourceExtractors {
                     RCMRMT030101UK04Component02::hasNarrativeStatement, RCMRMT030101UK04Component02::getNarrativeStatement)
                 .stream()
                 .map(RCMRMT030101UK04NarrativeStatement.class::cast)
+                : Stream.empty()
+        );
+    }
+
+    public static Stream<RCMRMT030101UK04MedicationStatement> extractAllMedications(RCMRMT030101UK04Component4 component4) {
+        return Stream.concat(
+            Stream.of(component4.getMedicationStatement()),
+            component4.hasCompoundStatement()
+                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
+                    RCMRMT030101UK04Component02::hasMedicationStatement, RCMRMT030101UK04Component02::getMedicationStatement)
+                .stream()
+                .map(RCMRMT030101UK04MedicationStatement.class::cast)
                 : Stream.empty()
         );
     }
