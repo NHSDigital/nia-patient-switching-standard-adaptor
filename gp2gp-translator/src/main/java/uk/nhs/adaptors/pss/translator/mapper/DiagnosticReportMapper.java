@@ -68,13 +68,6 @@ public class DiagnosticReportMapper {
                 getIssued(ehrExtract, compositions, compoundStatement).ifPresent(diagnosticReport::setIssuedElement);
                 return diagnosticReport;
             }).toList();
-
-        /**
-         * ISSUED
-         * 1. From CompoundStatement/availabilityTime/@value
-         * 2. From the containing ehtComposition/author/time/@value
-         * 3. From EhrExtract/availabilityTime/@value
-         */
     }
 
     private DiagnosticReport createDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient,
@@ -83,56 +76,14 @@ public class DiagnosticReportMapper {
         final String id = compoundStatement.getId().get(0).getRoot();
 
         diagnosticReport.setMeta(generateMeta(META_PROFILE_URL_SUFFIX));
-
         diagnosticReport.setId(id);
-        /**
-         * From CompoundStatement/id[0]/@root.
-         * Note that pathology reports may have 2 id instances id[1] is the pathology report id
-         */
-
         diagnosticReport.addIdentifier(buildIdentifier(id, practiceCode));
-        /**
-         * From CompoundStatement/id[0[/@root.
-         * Note that pathology reports may have 2 id instances id[1]  is the pathology report id
-         */
-
-        createIdentifierExtension(compoundStatement.getId()).ifPresent(diagnosticReport::addIdentifier);
-        /**
-         * If there is an instance of f CompoundStatement/id[1] with @root=="2.16.840.1.113883.2.1.4.5.5",
-         * output the @extension as an identifier under the code system OID 2.16.840.1.113883.2.1.4.5.5
-         */
-
         diagnosticReport.setCode(createCodeableConcept(compoundStatement));
-        /**
-         * Fixed value
-         */
-
         diagnosticReport.setSubject(new Reference(patient));
-        /**
-         * Reference to global patient resource generated for transaction.
-         */
-
-        buildContext(compositions, encounters, compoundStatement).ifPresent(diagnosticReport::setContext);
-        /**
-         * If an Encounter resource is generated from the containing ehrComposition then references the corresponding Encounter.
-         * See ehrComposition to Encounter mapping.
-         * Encounters are suppressed for certain ehrComposition codes so will not always be populated.
-         */
-
         diagnosticReport.setSpecimen(getSpecimenReferences(compoundStatement));
-        /**
-         * For each child CompoundStatement component coded as 123038009 perform the specimen mapping and insert a reference to the
-         * generated specimen. AS we intend to re-use the specimen CompoundStatement/id[0] as the Specimen.id
-         * then each reference will be just a reference to the specimen CompoundStatement/id[0].
-         * There can of course be many specimens per report so this needs to iterate over every instance
-         */
-
-
+        createIdentifierExtension(compoundStatement.getId()).ifPresent(diagnosticReport::addIdentifier);
+        buildContext(compositions, encounters, compoundStatement).ifPresent(diagnosticReport::setContext);
         setResultReferences(compoundStatement, diagnosticReport);
-        /**
-         * A result reference should be generated for every result Observation generated from the banner CompoundStatement,
-         * result ObservationStatement, or result CompoundStatement CLUSTER found within each specimen CompoundStatement
-         */
 
         return diagnosticReport;
     }
@@ -152,21 +103,10 @@ public class DiagnosticReportMapper {
                 observationComment.setEffective(null);
                 observationComment.setComment(getLastLine(observationComment.getComment()));
             });
-
-        /**
-         * 2. Process all NarrativeStatement direct children of the laboratory level CompoundStatement into Observation (Comment) and
-         * reference these from DiagnosticReport.results (See Report Level Comment to Observation (Comment) Map below)
-         */
     }
 
     public List<Specimen> mapSpecimen(RCMRMT030101UK04EhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports,
         Patient patient, String practiceCode) {
-        /**
-         * For each child CompoundStatement component coded as 123038009 perform the specimen mapping and insert a reference to the
-         * generated specimen. AS we intend to re-use the specimen CompoundStatement/id[0] as the Specimen.id then each reference
-         * will be just a reference to the specimen CompoundStatement/id[0].
-         * There can of course be many specimens per report so this needs to iterate over every instance
-         */
         return specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
     }
 

@@ -67,11 +67,6 @@ public class SpecimenMapper {
     }
 
     private Optional<SpecimenCollectionComponent> getCollectedDateTime(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {
-        /**
-         * If CompoundStatement/specimen/specimenRole/effectiveTime/center/@value is set use it to generate the collection
-         * .collectedDateTime (suitable TS to FHIR DateTime conversion).
-         * otherwise no collection.collectedDateTime shoild be generated
-         */
         var specimenRoleOpt = getSpecimenRole(specimenCompoundStatement);
         if (specimenRoleOpt.isPresent() && specimenRoleOpt.get().getEffectiveTime() != null) {
             var effectiveTime = specimenRoleOpt.get().getEffectiveTime();
@@ -84,11 +79,6 @@ public class SpecimenMapper {
     }
 
     private List<Annotation> getNote(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {
-        /**
-         * Find every NarrativeStatement component which is a direct child of the specimen CompoundStatement level.
-         * Strip the GP2GP pathology CommentType and blank line and append to the note newline separated.
-         * Usual conversion of linebreaks to newline characters
-         */
         return specimenCompoundStatement.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
