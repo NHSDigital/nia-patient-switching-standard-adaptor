@@ -72,7 +72,8 @@ public class ResourceFilterUtilTest {
         return Stream.of(
             Arguments.of("allergy_intolerance_resource.xml"),
             Arguments.of("diagnostic_report_resource.xml"),
-            Arguments.of("template_resource.xml")
+            Arguments.of("template_resource.xml"),
+            Arguments.of("specimen_resource.xml")
         );
     }
 
@@ -95,7 +96,8 @@ public class ResourceFilterUtilTest {
         return Stream.of(
             Arguments.of("blood_pressure_resource.xml"),
             Arguments.of("diagnostic_report_resource.xml"),
-            Arguments.of("template_resource.xml")
+            Arguments.of("template_resource.xml"),
+            Arguments.of("specimen_resource.xml")
         );
     }
 
@@ -118,7 +120,8 @@ public class ResourceFilterUtilTest {
         return Stream.of(
             Arguments.of("allergy_intolerance_resource.xml"),
             Arguments.of("blood_pressure_resource.xml"),
-            Arguments.of("template_resource.xml")
+            Arguments.of("template_resource.xml"),
+            Arguments.of("specimen_resource.xml")
         );
     }
 
@@ -141,7 +144,32 @@ public class ResourceFilterUtilTest {
         return Stream.of(
             Arguments.of("allergy_intolerance_resource.xml"),
             Arguments.of("diagnostic_report_resource.xml"),
-            Arguments.of("blood_pressure_resource.xml")
+            Arguments.of("blood_pressure_resource.xml"),
+            Arguments.of("specimen_resource.xml")
+        );
+    }
+
+    @Test
+    public void testIsSpecimenResource() {
+        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("specimen_resource.xml");
+
+        assertThat(ResourceFilterUtil.isSpecimen(compoundStatement)).isTrue();
+    }
+
+    @ParameterizedTest
+    @MethodSource("nonSpecimenTestFiles")
+    public void testIsNotSpecimenResource(String inputXML) {
+        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
+
+        assertThat(ResourceFilterUtil.isSpecimen(compoundStatement)).isFalse();
+    }
+
+    private static Stream<Arguments> nonSpecimenTestFiles() {
+        return Stream.of(
+            Arguments.of("allergy_intolerance_resource.xml"),
+            Arguments.of("diagnostic_report_resource.xml"),
+            Arguments.of("blood_pressure_resource.xml"),
+            Arguments.of("template_resource.xml")
         );
     }
 
