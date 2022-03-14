@@ -16,6 +16,7 @@ import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UK04Component2;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +43,7 @@ public class MedicationStatementMapperTest {
 
     @Test
     public void When_MappingPrescribeResourceWithNoOptionals_Expect_AllFieldsToBeMappedCorrectly() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract3.xml");
         var medicationStatement = unmarshallMedicationStatement("medicationStatementAuthoriseAllOptionals_MedicationStatement.xml");
         var authorise = medicationStatement.getComponent()
             .stream()
@@ -53,7 +55,8 @@ public class MedicationStatementMapperTest {
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
         assertThat(authorise.isPresent()).isTrue();
-        var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(medicationStatement, authorise.get(), PRACTISE_CODE);
+        var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(
+            ehrExtract, medicationStatement, authorise.get(), PRACTISE_CODE, new DateTimeType());
 
         var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
@@ -84,7 +87,8 @@ public class MedicationStatementMapperTest {
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
         assertThat(authorise.isPresent()).isTrue();
-        var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(medicationStatement, authorise.get(), PRACTISE_CODE);
+        var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(
+            new RCMRMT030101UK04EhrExtract(), medicationStatement, authorise.get(), PRACTISE_CODE, new DateTimeType());
 
         var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
@@ -104,5 +108,10 @@ public class MedicationStatementMapperTest {
     private RCMRMT030101UK04MedicationStatement unmarshallMedicationStatement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName),
             RCMRMT030101UK04MedicationStatement.class);
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName), RCMRMT030101UK04EhrExtract.class);
     }
 }
