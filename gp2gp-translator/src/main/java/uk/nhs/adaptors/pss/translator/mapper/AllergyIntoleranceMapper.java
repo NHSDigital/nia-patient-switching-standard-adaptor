@@ -5,13 +5,12 @@ import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCate
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
 
-import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionsFromEhrExtract;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.DateTimeType;
@@ -21,7 +20,6 @@ import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -32,7 +30,7 @@ import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @AllArgsConstructor
-public class AllergyIntoleranceMapper {
+public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance> {
     private static final String DRUG_ALLERGY_CODE = "14L..00";
     private static final String NON_DRUG_ALLERGY_CODE = "SN53.00";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1";
@@ -41,25 +39,19 @@ public class AllergyIntoleranceMapper {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<AllergyIntolerance> mapToAllergyIntolerance(RCMRMT030101UK04EhrExtract ehrExtract, String practiceCode,
-        List<Encounter> encounterList, Patient patientResource) {
+    @Override
+    public List<AllergyIntolerance> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        String practiseCode) {
 
-        var ehrCompositions = extractEhrCompositionsFromEhrExtract(ehrExtract);
-
-        return ehrCompositions
-            .stream()
-            .flatMap(ehrComposition -> ehrComposition
-                .getComponent()
-                .stream()
-                .flatMap(this::extractAllCompoundStatements)
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllCompoundStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isAllergyIntolerance)
-                .map(compoundStatement ->
-                    mapAllergyIntolerance(ehrComposition, compoundStatement, practiceCode, encounterList, patientResource))
-            ).toList();
+                .map(compoundStatement -> mapAllergyIntolerance(composition, compoundStatement, practiseCode, encounters, patient))
+        ).toList();
     }
 
-    private AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UK04EhrComposition ehrComposition,
+    public AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04CompoundStatement compoundStatement, String practiseCode, List<Encounter> encounterList, Patient patientResource) {
         AllergyIntolerance allergyIntolerance = new AllergyIntolerance();
 
@@ -74,10 +66,10 @@ public class AllergyIntoleranceMapper {
         allergyIntolerance.setPatient(new Reference(patientResource));
 
         if (compoundStatement.getCode().getCode().equals(DRUG_ALLERGY_CODE)) {
-            allergyIntolerance.setCategory(List.of((Enumeration<AllergyIntolerance.AllergyIntoleranceCategory>) List.of(MEDICATION)));
+            //allergyIntolerance.setCategory(List.of((Enumeration<AllergyIntolerance.AllergyIntoleranceCategory>) List.of(MEDICATION)));
             createAllergyIntoleranceCodeForDrugAllergy(allergyIntolerance, compoundStatement);
         } else if (compoundStatement.getCode().getCode().equals(NON_DRUG_ALLERGY_CODE)) {
-            allergyIntolerance.setCategory(List.of((Enumeration<AllergyIntolerance.AllergyIntoleranceCategory>) List.of(ENVIRONMENT)));
+            //allergyIntolerance.setCategory(List.of((Enumeration<AllergyIntolerance.AllergyIntoleranceCategory>) List.of(ENVIRONMENT)));
             createAllergyIntoleranceCodeForNonDrugAllergy(allergyIntolerance, ehrComposition);
         }
 
@@ -139,14 +131,6 @@ public class AllergyIntoleranceMapper {
 
         } else if (effectiveTime.hasHigh()) {
 
-        }
-
-        return null;
-    }
-
-    private Stream<RCMRMT030101UK04CompoundStatement> extractAllCompoundStatements(RCMRMT030101UK04Component4 component4) {
-        if (component4.hasCompoundStatement()) {
-            return Stream.of(component4.getCompoundStatement());
         }
 
         return null;

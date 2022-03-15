@@ -47,8 +47,8 @@ public class AllergyIntoleranceMapperTest {
     @Test
     public void mapAllergyToAllergyIntolerance() {
         var ehrExtract = unmarshallEhrExtract("allergy-structure.xml");
-        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapToAllergyIntolerance(ehrExtract, PRACTISE_CODE,
-            getEncounterList(), getPatient());
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+            getEncounterList(), PRACTISE_CODE);
 
         var allergyIntolerance = (AllergyIntolerance) allergyIntolerances.get(0);
         assertData(allergyIntolerance, allergyIntolerances);
