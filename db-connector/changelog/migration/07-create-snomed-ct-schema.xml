@@ -14,7 +14,7 @@
         <sql dbms="postgresql">
             DROP SCHEMA IF EXISTS snomedct CASCADE;
             CREATE SCHEMA snomedct;
-            GRANT ALL ON TABLES IN SCHEMA snomedct TO application_user;
+            GRANT ALL ON SCHEMA snomedct TO application_user;
         </sql>
     </changeSet>
 </databaseChangeLog>
