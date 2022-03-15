@@ -15,7 +15,7 @@
             DROP SCHEMA IF EXISTS snomedct CASCADE;
             CREATE SCHEMA snomedct;
             GRANT ALL ON SCHEMA snomedct TO application_user;
-            GRANT ALL ON TABLES IN SCHEMA snomedct TO application_user;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA snomedct TO application_user;
         </sql>
     </changeSet>
 </databaseChangeLog>
