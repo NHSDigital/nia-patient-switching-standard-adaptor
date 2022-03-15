@@ -54,7 +54,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithValidData() {
         var ehrExtract = unmarshallEhrExtract("full_valid_immunization.xml");
-        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList(),
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(),
             PRACTISE_CODE);
 
         var immunization = (Immunization) immunizationList.get(0);
@@ -64,7 +64,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithMissingValues() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_missing_optional_values.xml");
-        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList(),
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(),
             PRACTISE_CODE);
 
         var immunization = (Immunization) immunizationList.get(0);
@@ -74,7 +74,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWhenEhrCompositionIdIsNotPresentOnEncounterList() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_ehr_composition_id_not_matching_encounter_id.xml");
-        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList(),
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(),
             PRACTISE_CODE);
 
         var immunization = (Immunization) immunizationList.get(0);
@@ -84,7 +84,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithMultipleObservationStatements() {
         var ehrExtract = unmarshallEhrExtract("full_valid_immunization_with_multiple_observation_statements.xml");
-        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList(),
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(),
             PRACTISE_CODE);
 
         var immunization = (Immunization) immunizationList.get(0);
@@ -97,7 +97,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithEffectiveTimeCenter() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_only_center_effective_time.xml");
-        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList(),
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(),
             PRACTISE_CODE);
 
         var immunization = (Immunization) immunizationList.get(0);
@@ -107,7 +107,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithEffectiveTimeLow() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_only_low_effective_time.xml");
-        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList(),
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(),
             PRACTISE_CODE);
 
         var immunization = (Immunization) immunizationList.get(0);
@@ -117,7 +117,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithHighAndLowEffectiveTime() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_high_and_low_effective_time.xml");
-        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList(),
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(),
             PRACTISE_CODE);
 
         var immunization = (Immunization) immunizationList.get(0);
@@ -127,7 +127,7 @@ public class ImmunizationMapperTest {
     @Test
     public void mapObservationToImmunizationWithHighEffectiveTime() {
         var ehrExtract = unmarshallEhrExtract("immunization_with_only_high_effective_time.xml");
-        List<Immunization> immunizationList = immunizationMapper.mapToImmunization(ehrExtract, getPatient(), getEncounterList(),
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(),
             PRACTISE_CODE);
 
         var immunization = (Immunization) immunizationList.get(0);

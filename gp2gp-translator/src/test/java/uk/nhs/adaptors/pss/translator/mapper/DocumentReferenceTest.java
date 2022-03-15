@@ -58,7 +58,7 @@ public class DocumentReferenceTest {
     @Test
     public void mapNarrativeStatementToDocumentReferenceWithValidData() {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document.xml");
-        List<DocumentReference> documentReferences = documentReferenceMapper.mapToDocumentReference(ehrExtract, createPatient(),
+        List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 
@@ -68,7 +68,7 @@ public class DocumentReferenceTest {
     @Test
     public void mapNarrativeStatementToDocumentReferenceWithOptionalData() {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document_with_optional_data.xml");
-        List<DocumentReference> documentReferences = documentReferenceMapper.mapToDocumentReference(ehrExtract, createPatient(),
+        List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 
@@ -78,7 +78,7 @@ public class DocumentReferenceTest {
     @Test
     public void mapMultpleNarrativeStatementToDocumentReference() {
         var ehrExtract = unmarshallEhrExtract("multiple_narrative_statements_has_referred_to_external_document.xml");
-        List<DocumentReference> documentReferences = documentReferenceMapper.mapToDocumentReference(ehrExtract, createPatient(),
+        List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG);
 
         assertThat(documentReferences.size()).isEqualTo(THREE);
@@ -87,7 +87,7 @@ public class DocumentReferenceTest {
     @Test
     public void mapNarrativeStatementToDocumentReferenceWithAttachments() {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document.xml");
-        List<DocumentReference> documentReferences = documentReferenceMapper.mapToDocumentReference(ehrExtract, createPatient(),
+        List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 
@@ -97,7 +97,7 @@ public class DocumentReferenceTest {
     @Test
     public void mapNarrativeStatementToDocumentReferenceWithAbsentAttachment() {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document_with_absent_attachment.xml");
-        List<DocumentReference> documentReferences = documentReferenceMapper.mapToDocumentReference(ehrExtract, createPatient(),
+        List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 
@@ -107,7 +107,7 @@ public class DocumentReferenceTest {
     @Test
     public void mapNarrativeStatementToDocumentReferenceWithInvalidEncounterReference() {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_with_invalid_encounter.xml");
-        List<DocumentReference> documentReferences = documentReferenceMapper.mapToDocumentReference(ehrExtract, createPatient(),
+        List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 
@@ -117,7 +117,7 @@ public class DocumentReferenceTest {
     @Test
     public void mapNestedNarrativeStatement() {
         var ehrExtract = unmarshallEhrExtract("nested_narrative_statements.xml");
-        List<DocumentReference> documentReferences = documentReferenceMapper.mapToDocumentReference(ehrExtract, createPatient(),
+        List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG);
         var documentReference = documentReferences.get(0);
 

@@ -2,12 +2,12 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.Enumerations.DocumentReferenceStatus;
 
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllNarrativeStatements;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Attachment;
@@ -18,19 +18,13 @@ import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
@@ -38,7 +32,7 @@ import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class DocumentReferenceMapper {
+public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     // TODO: Add file Size using the uncompressed/unencoded size of the document (NIAD-2030)
 
@@ -49,28 +43,16 @@ public class DocumentReferenceMapper {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<DocumentReference> mapToDocumentReference(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+    public List<DocumentReference> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
         List<Encounter> encounterList, Organization organization) {
-        return ehrExtract.getComponent()
-            .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .flatMap(ehrComposition -> ehrComposition.getComponent()
-                .stream()
-                .flatMap(this::extractAllNarrativeStatements)
+
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllNarrativeStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isDocumentReference)
-                .map(narrativeStatement -> mapDocumentReference(narrativeStatement, ehrComposition, patient, ehrExtract, encounterList,
-                    organization))).toList();
-    }
-
-    private Stream<RCMRMT030101UK04NarrativeStatement> extractAllNarrativeStatements(RCMRMT030101UK04Component4 component4) {
-        return Stream.concat(Stream.of(component4.getNarrativeStatement()), component4.hasCompoundStatement()
-            ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                RCMRMT030101UK04Component02::hasNarrativeStatement, RCMRMT030101UK04Component02::getNarrativeStatement)
-                .stream().map(RCMRMT030101UK04NarrativeStatement.class::cast) : Stream.empty());
+                .map(narrativeStatement -> mapDocumentReference(narrativeStatement, composition, patient, extract, encounterList,
+                    organization)))
+            .toList();
     }
 
     private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement,
@@ -208,5 +190,11 @@ public class DocumentReferenceMapper {
     private boolean isContentTypeValid(String mediaType) {
         String validContentTypeFormat = ".*/.*";
         return Pattern.matches(validContentTypeFormat, mediaType);
+    }
+
+    // stubbed method for abstract class
+    public List<DocumentReference> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+        List<Encounter> encounterList, String practiseCode) {
+        return null;
     }
 }
