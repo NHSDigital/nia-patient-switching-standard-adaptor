@@ -11,6 +11,7 @@ public class ResourceFilterUtil {
     private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
     private static final String ALLERGY_SNOMED_CODE = "2.16.840.1.113883.2.1.6.2";
     private static final String PATHOLOGY_CODE = "16488004";
+    private static final String SPECIMEN_CODE = "123038009";
     private static final String BATTERY_VALUE = "BATTERY";
     private static final String CLUSTER_VALUE = "CLUSTER";
 
@@ -22,7 +23,8 @@ public class ResourceFilterUtil {
 
     public static boolean isImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
         // TODO: Implement filtering with snomed DB (NIAD-1947)
-        return observationStatement != null && IMMUNIZATION_SNOMED_CODE.equals(observationStatement.getCode().getCodeSystem());
+        return observationStatement != null && observationStatement.hasCode()
+            && IMMUNIZATION_SNOMED_CODE.equals(observationStatement.getCode().getCodeSystem());
     }
 
     public static boolean isBloodPressure(RCMRMT030101UK04CompoundStatement compoundStatement) {
@@ -46,10 +48,17 @@ public class ResourceFilterUtil {
             && PATHOLOGY_CODE.equals(compoundStatement.getCode().getCode());
     }
 
+    public static boolean isSpecimen(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return compoundStatement != null
+            && hasCode(compoundStatement)
+            && SPECIMEN_CODE.equals(compoundStatement.getCode().getCode());
+    }
+
     public static boolean isTemplate(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement != null
             && !isBloodPressure(compoundStatement)
             && !isDiagnosticReport(compoundStatement)
+            && !isSpecimen(compoundStatement)
             && List.of(BATTERY_VALUE, CLUSTER_VALUE).contains(compoundStatement.getClassCode().get(0));
     }
 

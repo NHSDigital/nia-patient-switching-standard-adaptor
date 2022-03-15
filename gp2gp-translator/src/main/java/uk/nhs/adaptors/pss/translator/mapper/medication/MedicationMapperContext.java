@@ -12,27 +12,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class MedicationMapperContext {
 
-    private final Map<String, String> medicationIds = new HashMap<>();
+    private final ThreadLocal<Map<String, String>> medicationIds = ThreadLocal.withInitial(HashMap::new);
 
     public String getMedicationId(CD code) {
         var key = buildKey(code);
-        var value = medicationIds.getOrDefault(key, StringUtils.EMPTY);
+        var value = medicationIds.get().getOrDefault(key, StringUtils.EMPTY);
 
         if (StringUtils.isNotBlank(value)) {
             return value;
         } else {
             var newId = UUID.randomUUID().toString();
-            medicationIds.put(key, newId);
+            medicationIds.get().put(key, newId);
             return newId;
         }
     }
 
     public boolean contains(CD code) {
-        return medicationIds.containsKey(buildKey(code));
-    }
-
-    public void resetMedicationMaps() {
-        medicationIds.clear();
+        return medicationIds.get().containsKey(buildKey(code));
     }
 
     private static String buildKey(CD code) {

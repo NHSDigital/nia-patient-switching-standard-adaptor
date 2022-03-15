@@ -3,8 +3,8 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 import static org.hl7.fhir.dstu3.model.QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED;
 
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
-import static uk.nhs.adaptors.pss.translator.util.EhrResourceExtractorUtil.extractEhrCompositionsFromEhrExtract;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil.extractChildReferencesFromTemplate;
@@ -32,46 +32,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class TemplateMapper {
+public class TemplateMapper extends AbstractMapper<DomainResource> {
     private static final String OBSERVATION_META_PROFILE = "Observation-1";
     private static final String QUESTIONNAIRE_META_PROFILE = "QuestionnaireResponse-1";
     private static final String QUESTIONNAIRE_REFERENCE = "%s-QRSP";
 
     private final CodeableConceptMapper codeableConceptMapper;
 
-    public List<? extends DomainResource> mapTemplates(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    @Override
+    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
 
-        var ehrCompositions = extractEhrCompositionsFromEhrExtract(ehrExtract);
-        List<DomainResource> mappedResources = new ArrayList<>();
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllCompoundStatements(component)
+                .filter(Objects::nonNull)
+                .filter(ResourceFilterUtil::isTemplate)
+                .map(compoundStatement -> mapTemplate(extract, composition, compoundStatement, patient, encounters, practiseCode))
+                .flatMap(List::stream)
+        ).toList();
+    }
 
-        ehrCompositions.forEach(ehrComposition -> ehrComposition.getComponent()
-            .stream()
-            .flatMap(CompoundStatementUtil::extractAllCompoundStatements)
-            .filter(Objects::nonNull)
-            .filter(ResourceFilterUtil::isTemplate)
-            .forEach(compoundStatement -> {
-                var encounter = getEncounter(encounters, ehrComposition);
+    private List<DomainResource> mapTemplate(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
+        RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+        var encounter = getEncounter(encounters, ehrComposition);
 
-                var parentObservation = createParentObservation(compoundStatement, practiseCode, patient, encounter,
-                    ehrComposition, ehrExtract);
+        var parentObservation = createParentObservation(compoundStatement, practiseCode, patient, encounter,
+            ehrComposition, ehrExtract);
 
-                var questionnaireResponse = createQuestionnaireResponse(compoundStatement, practiseCode, patient,
-                    encounter, parentObservation, ehrComposition, ehrExtract);
+        var questionnaireResponse = createQuestionnaireResponse(compoundStatement, practiseCode, patient,
+            encounter, parentObservation, ehrComposition, ehrExtract);
 
-                addChildReferencesToQuestionnaireResponse(questionnaireResponse, compoundStatement);
+        addChildReferencesToQuestionnaireResponse(questionnaireResponse, compoundStatement);
 
-                mappedResources.add(questionnaireResponse);
-                mappedResources.add(parentObservation);
-            }));
-
-        return mappedResources;
+        return List.of(questionnaireResponse, parentObservation);
     }
 
     private void addChildReferencesToQuestionnaireResponse(QuestionnaireResponse questionnaireResponse,

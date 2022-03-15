@@ -1,12 +1,12 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatements;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -19,26 +19,20 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @AllArgsConstructor
-public class ImmunizationMapper {
+public class ImmunizationMapper extends AbstractMapper<Immunization> {
     private static final String META_PROFILE = "Immunization-1";
     private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-VaccinationProcedure-1";
@@ -50,23 +44,15 @@ public class ImmunizationMapper {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<Immunization> mapToImmunization(RCMRMT030101UK04EhrExtract ehrExtract, Patient patientResource,
+    public List<Immunization> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patientResource,
         List<Encounter> encounterList, String practiseCode) {
-        return ehrExtract.getComponent()
-            .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .flatMap(ehrComposition -> ehrComposition
-                .getComponent()
-                .stream()
-                .flatMap(this::extractAllObservationStatements)
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllObservationStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isImmunization)
                 .map(observationStatement ->
-                    mapImmunization(ehrComposition, observationStatement, patientResource, encounterList, practiseCode))
-            ).toList();
+                    mapImmunization(composition, observationStatement, patientResource, encounterList, practiseCode)))
+            .toList();
     }
 
     private Immunization mapImmunization(RCMRMT030101UK04EhrComposition ehrComposition,
@@ -113,26 +99,6 @@ public class ImmunizationMapper {
 
     private boolean hasMatchingId(String encounterId, II ehrCompositionId) {
         return encounterId.equals(ehrCompositionId.getRoot());
-    }
-
-    private List<RCMRMT030101UK04ObservationStatement> getImmunizationObservationStatements(RCMRMT030101UK04EhrComposition ehrComposition) {
-        return ehrComposition.getComponent()
-            .stream()
-            .flatMap(this::extractAllObservationStatements)
-            .filter(Objects::nonNull)
-            .filter(ResourceFilterUtil::isImmunization)
-            .collect(Collectors.toList());
-    }
-
-    private Stream<RCMRMT030101UK04ObservationStatement> extractAllObservationStatements(RCMRMT030101UK04Component4 component4) {
-        return Stream.concat(
-            Stream.of(component4.getObservationStatement()),
-            component4.hasCompoundStatement() ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement)
-                .stream()
-                .map(RCMRMT030101UK04ObservationStatement.class::cast)
-                : Stream.empty()
-        );
     }
 
     private Extension createRecordedTimeExtension(RCMRMT030101UK04EhrComposition ehrComposition) {
