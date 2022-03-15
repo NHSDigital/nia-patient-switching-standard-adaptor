@@ -54,7 +54,7 @@ public class DiagnosticReportMapperTest {
     @Test
     public void testDiagnosticReportIsMappedWithNoReferences() {
         RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_no_references.xml");
-        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(
+        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapResources(
             ehrExtract, PATIENT, List.of(), PRACTISE_CODE
         );
         assertThat(diagnosticReports).isNotEmpty();
@@ -74,7 +74,7 @@ public class DiagnosticReportMapperTest {
     @Test
     public void testDiagnosticReportWithSpecimenReferencesMapping() {
         RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_specimen.xml");
-        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(
+        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapResources(
             ehrExtract, PATIENT, List.of(), PRACTISE_CODE
         );
         assertThat(diagnosticReports).isNotEmpty();
@@ -85,7 +85,7 @@ public class DiagnosticReportMapperTest {
     @Test
     public void testDiagnosticReportWithObservationReferencesMapping() {
         RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_observations.xml");
-        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(
+        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapResources(
             ehrExtract, PATIENT, List.of(), PRACTISE_CODE
         );
         assertThat(diagnosticReports).isNotEmpty();
@@ -105,7 +105,7 @@ public class DiagnosticReportMapperTest {
     @Test
     public void testMappingEncountersToContext() {
         RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_specimen.xml");
-        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapDiagnosticReports(
+        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapResources(
             ehrExtract, PATIENT, createEncounterList(), PRACTISE_CODE
         );
 

@@ -167,7 +167,7 @@ public class BundleMapperServiceTest {
             any(Organization.class));
         verify(templateMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
             any(String.class));
-        verify(diagnosticReportMapper).mapDiagnosticReports(
+        verify(diagnosticReportMapper).mapResources(
             any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class)
         );
         verify(specimenMapper).mapSpecimen(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), any(String.class));
