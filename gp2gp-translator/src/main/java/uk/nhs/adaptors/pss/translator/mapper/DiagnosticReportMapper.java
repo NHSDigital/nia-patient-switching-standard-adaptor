@@ -61,7 +61,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
                         );
                         getIssued(ehrExtract, composition).ifPresent(diagnosticReport::setIssuedElement);
                         return diagnosticReport;
-                    }
+                }
                 )).toList();
     }
 
