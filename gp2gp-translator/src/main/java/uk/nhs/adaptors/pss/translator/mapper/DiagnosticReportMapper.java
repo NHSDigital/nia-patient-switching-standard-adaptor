@@ -56,11 +56,11 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isDiagnosticReport)
                 .map(compoundStatement -> {
-                        DiagnosticReport diagnosticReport = createDiagnosticReport(
-                            compoundStatement, patient, composition, encounters, practiseCode
-                        );
-                        getIssued(ehrExtract, composition).ifPresent(diagnosticReport::setIssuedElement);
-                        return diagnosticReport;
+                    DiagnosticReport diagnosticReport = createDiagnosticReport(
+                        compoundStatement, patient, composition, encounters, practiseCode
+                    );
+                    getIssued(ehrExtract, composition).ifPresent(diagnosticReport::setIssuedElement);
+                    return diagnosticReport;
                 }
                 )).toList();
     }

@@ -130,10 +130,10 @@ public class BundleMapperService {
 
         mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, practiseCode);
 
-        LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
-
         conditionMapper.addReferences(bundle, conditions, ehrExtract);
         unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
+
+        LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 
         return bundle;
     }
