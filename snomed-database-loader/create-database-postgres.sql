@@ -1,5 +1,3 @@
-drop schema if exists snomedct cascade;
-create schema snomedct;
 set schema 'snomedct';
 
 create table description_s(
