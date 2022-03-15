@@ -18,7 +18,6 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Specimen;
 import org.hl7.fhir.dstu3.model.Specimen.SpecimenCollectionComponent;
 import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04SpecimenRole;
@@ -26,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -121,8 +121,8 @@ public class SpecimenMapper {
     private Optional<RCMRMT030101UK04CompoundStatement> getParentCompoundStatementByChildId(
         RCMRMT030101UK04EhrExtract ehrExtract, String id) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
-            .flatMap(e -> e.getEhrComposition().getComponent().stream())
-            .map(RCMRMT030101UK04Component4::getCompoundStatement)
+            .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
+            .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
             .filter(Objects::nonNull)
             .filter(compoundStatement -> compoundStatement.getComponent()
                 .stream()

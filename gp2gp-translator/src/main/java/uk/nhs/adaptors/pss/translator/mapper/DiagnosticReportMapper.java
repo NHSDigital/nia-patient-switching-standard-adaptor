@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static java.util.stream.Collectors.toCollection;
 
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
@@ -50,23 +51,22 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     @Override
     public List<DiagnosticReport> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        var compositions = getCompositionsContainingClusterCompoundStatement(ehrExtract);
-        return compositions.stream()
-            .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
-            .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
-            .filter(Objects::nonNull)
-            .filter(ResourceFilterUtil::isDiagnosticReport)
-            .map(compoundStatement -> {
-                DiagnosticReport diagnosticReport = createDiagnosticReport(
-                    compoundStatement, patient, compositions, encounters, practiseCode
-                );
-                getIssued(ehrExtract, compositions, compoundStatement).ifPresent(diagnosticReport::setIssuedElement);
-                return diagnosticReport;
-            }).toList();
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllCompoundStatements(component)
+                .filter(Objects::nonNull)
+                .filter(ResourceFilterUtil::isDiagnosticReport)
+                .map(compoundStatement -> {
+                        DiagnosticReport diagnosticReport = createDiagnosticReport(
+                            compoundStatement, patient, composition, encounters, practiseCode
+                        );
+                        getIssued(ehrExtract, composition).ifPresent(diagnosticReport::setIssuedElement);
+                        return diagnosticReport;
+                    }
+                )).toList();
     }
 
     private DiagnosticReport createDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient,
-        List<RCMRMT030101UK04EhrComposition> compositions, List<Encounter> encounters, String practiceCode) {
+        RCMRMT030101UK04EhrComposition composition, List<Encounter> encounters, String practiceCode) {
         final DiagnosticReport diagnosticReport = new DiagnosticReport();
         final String id = compoundStatement.getId().get(0).getRoot();
 
@@ -77,7 +77,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         diagnosticReport.setSubject(new Reference(patient));
         diagnosticReport.setSpecimen(getSpecimenReferences(compoundStatement));
         createIdentifierExtension(compoundStatement.getId()).ifPresent(diagnosticReport::addIdentifier);
-        buildContext(compositions, encounters, compoundStatement).ifPresent(diagnosticReport::setContext);
+        buildContext(composition, encounters).ifPresent(diagnosticReport::setContext);
         setResultReferences(compoundStatement, diagnosticReport);
 
         return diagnosticReport;
@@ -141,19 +141,14 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         return Optional.empty();
     }
 
-    private Optional<Reference> buildContext(List<RCMRMT030101UK04EhrComposition> compositions, List<Encounter> encounters,
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
-        var currentEhrComposition = getCurrentEhrComposition(compositions, compoundStatement);
+    private Optional<Reference> buildContext(RCMRMT030101UK04EhrComposition ehrComposition, List<Encounter> encounters) {
         return encounters.stream()
-            .filter(encounter -> encounter.getId().equals(currentEhrComposition.getId().getRoot()))
+            .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
             .findFirst()
             .map(Reference::new);
     }
 
-    private Optional<InstantType> getIssued(RCMRMT030101UK04EhrExtract ehrExtract, List<RCMRMT030101UK04EhrComposition> compositions,
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
-        var ehrComposition = getCurrentEhrComposition(compositions, compoundStatement);
-
+    private Optional<InstantType> getIssued(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition) {
         if (authorHasValidTimeValue(ehrComposition.getAuthor())) {
             return Optional.of(parseToInstantType(ehrComposition.getAuthor().getTime().getValue()));
         }
@@ -189,16 +184,5 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
                 .filter(Objects::nonNull)
                 .anyMatch(ResourceFilterUtil::isDiagnosticReport))
             .toList();
-    }
-
-    private RCMRMT030101UK04EhrComposition getCurrentEhrComposition(List<RCMRMT030101UK04EhrComposition> ehrCompositions,
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return ehrCompositions
-            .stream()
-            .filter(ehrComposition -> ehrComposition.getComponent()
-                .stream()
-                .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
-                .anyMatch(compoundStatement::equals)
-            ).findFirst().get();
     }
 }
