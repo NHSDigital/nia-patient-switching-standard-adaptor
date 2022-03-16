@@ -2,7 +2,6 @@
 
 export PS_DB_URL="jdbc:postgresql://localhost:5436"
 export PS_DB_OWNER_NAME="postgres"
-export PS_FROM_ODS_CODE="PSS_001"
 export PS_DB_OWNER_PASSWORD=
 export POSTGRES_PASSWORD=`echo $PS_DB_OWNER_PASSWORD`
 export GPC_FACADE_USER_DB_PASSWORD=

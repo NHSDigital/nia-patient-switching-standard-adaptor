@@ -44,7 +44,7 @@ public class ResourceFilterUtil {
     public static boolean isDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement != null
             && hasCode(compoundStatement)
-            && CLUSTER_VALUE.equals(compoundStatement.getClassCode().get(0))
+            && compoundStatement.getClassCode().stream().anyMatch(CLUSTER_VALUE::equals)
             && PATHOLOGY_CODE.equals(compoundStatement.getCode().getCode());
     }
 
