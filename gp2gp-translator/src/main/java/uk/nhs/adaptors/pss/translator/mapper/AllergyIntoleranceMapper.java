@@ -18,7 +18,9 @@ import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
+import org.hl7.v3.CD;
 import org.hl7.v3.II;
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -36,6 +38,10 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     private static final String NON_DRUG_ALLERGY_CODE = "SN53.00";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1";
     private static final String ENCOUNTER_URL = "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter";
+    private static final String CODING_EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid";
+    private static final String CODE_SYSTEM = "2.16.840.1.113883.2.1.6.3";
+    private static final String ALLERGY_TERM_TEXT = "H/O: drug allergy";
+    private static final String ALLERGY_NOTE = "Allergy Code: %s";
 
     private CodeableConceptMapper codeableConceptMapper;
 
@@ -90,8 +96,38 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         }
 
         buildNote(allergyIntolerance, compoundStatement);
+        buildCode(allergyIntolerance, compoundStatement);
 
         return allergyIntolerance;
+    }
+
+    private void buildCode(AllergyIntolerance allergyIntolerance, RCMRMT030101UK04CompoundStatement compoundStatement) {
+        var observationStatement =
+            compoundStatement.getComponent().stream().map(RCMRMT030101UK04Component02::getObservationStatement).findFirst().get();
+        var codeableConceptFromCode = codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode());
+        var compoundCode = compoundStatement.getCode().getCode();
+
+        if (NON_DRUG_ALLERGY_CODE.equals(compoundCode)) {
+            allergyIntolerance.setCode(codeableConceptFromCode);
+        }
+
+        if (DRUG_ALLERGY_CODE.equals(compoundCode)) {
+            if (observationStatement.hasValue() && observationStatement.getValue() instanceof CD value) {
+                if (CODE_SYSTEM.equals(value.getCodeSystem())) {
+                    var codeableConceptFromValue = codeableConceptMapper.mapToCodeableConcept(value);
+                    allergyIntolerance.setCode(codeableConceptFromValue);
+
+                    var codeDisplayName = codeableConceptFromCode.getCodingFirstRep().getDisplay();
+                    if (!ALLERGY_TERM_TEXT.equals(codeDisplayName) && codeDisplayName.equals(codeableConceptFromValue.getCodingFirstRep().getDisplay())) {
+                        allergyIntolerance.getNote().add(new Annotation().setText(ALLERGY_NOTE.formatted(codeDisplayName)));
+                    }
+                } else {
+                    allergyIntolerance.setCode(codeableConceptFromCode);
+                }
+            } else {
+                allergyIntolerance.setCode(codeableConceptFromCode);
+            }
+        }
     }
 
     private void createAllergyIntoleranceCodeForDrugAllergy(AllergyIntolerance allergyIntolerance,

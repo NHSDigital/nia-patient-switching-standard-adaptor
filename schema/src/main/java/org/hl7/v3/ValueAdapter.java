@@ -11,7 +11,13 @@ import org.w3c.dom.Element;
 public class ValueAdapter extends XmlAdapter<Object, Object> {
     private static final String VALUE_ATTRIBUTE = "value";
     private static final String UNIT_ATTRIBUTE = "unit";
+    private static final String TYPE_ATTRIBUTE = "type";
+    private static final String CODE_ATTRIBUTE = "code";
+    private static final String CODE_SYSTEM_ATTRIBUTE = "codeSystem";
+    private static final String DISPLAY_NAME_ATTRIBUTE = "displayName";
+    private static final String ORIGINAL_TEXT_ATTRIBUTE = "originalText";
     private static final String TRANSLATION_ELEMENT = "translation";
+    private static final String TYPE_CD = "CD";
 
     @Override
     public Object unmarshal(Object v) {
@@ -27,6 +33,23 @@ public class ValueAdapter extends XmlAdapter<Object, Object> {
             setPqTranslations(element, pq);
 
             return pq;
+        }
+
+        if (element.hasAttribute(TYPE_ATTRIBUTE) && TYPE_CD.equals(element.getAttribute(TYPE_ATTRIBUTE))) {
+
+            CD cd = new CD();
+
+            cd.setCode(element.getAttribute(CODE_ATTRIBUTE));
+            cd.setDisplayName(element.getAttribute(DISPLAY_NAME_ATTRIBUTE));
+            cd.setCodeSystem(element.getAttribute(CODE_SYSTEM_ATTRIBUTE));
+
+            if (element.hasAttribute(ORIGINAL_TEXT_ATTRIBUTE)) {
+                cd.setOriginalText(element.getAttribute(ORIGINAL_TEXT_ATTRIBUTE));
+            }
+
+            // TODO: Add translation functionality
+
+            return cd;
         }
 
         return element.getTextContent();
