@@ -13,9 +13,11 @@ import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Extension;
+import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,6 +25,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @ExtendWith(MockitoExtension.class)
 public class AllergyIntoleranceMapperTest {
@@ -32,6 +35,11 @@ public class AllergyIntoleranceMapperTest {
     private static final String ENCOUNTER_ID = "62A39454-299F-432E-993E-5A6232B4E099";
     private static final String CODING_DISPLAY = "Ischaemic heart disease";
     private static final String PATIENT_ID = "9A5D5A78-1F63-434C-9637-1D7E7843341B";
+    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs"
+        + ".uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1";
+    private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
+    private static final String NOTE_TEXT = "Reason Ended: Patient reports no subsequent recurrence on same medication Status:"
+        + " Resolved Type: Allergy Criticality: Low Risk Last Occurred: 1978-12-31 Example note text";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -39,10 +47,10 @@ public class AllergyIntoleranceMapperTest {
     @InjectMocks
     private AllergyIntoleranceMapper allergyIntoleranceMapper;
 
-    @BeforeEach
-    public void setup() {
-        setUpCodeableConceptMock();
-    }
+    //    @BeforeEach
+    //    public void setup() {
+    //        setUpCodeableConceptMock();
+    //    }
 
     @Test
     public void mapAllergyToAllergyIntolerance() {
@@ -54,9 +62,87 @@ public class AllergyIntoleranceMapperTest {
         assertData(allergyIntolerance, allergyIntolerances);
     }
 
+    @Test
+    public void mapAllergyToAllergyIntoleranceWithOptionalData() {
+        var ehrExtract = unmarshallEhrExtract("allergy-structure-with-optional-data.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+            getEncounterList(), PRACTISE_CODE);
+
+        var allergyIntolerance = (AllergyIntolerance) allergyIntolerances.get(0);
+        assertOptionalData(allergyIntolerance, allergyIntolerances);
+    }
+
+    @Test
+    public void mapAllergyToAllergyIntoleranceWithMultipleAllergy() {
+        var ehrExtract = unmarshallEhrExtract("allergy-structure-with-multiple-allergy.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+            getEncounterList(), PRACTISE_CODE);
+
+        assertThat(allergyIntolerances.size()).isEqualTo(3);
+    }
+
+    @Test
+    public void mapAllergyToAllergyIntoleranceWithInvalidEncounterReference() {
+        var ehrExtract = unmarshallEhrExtract("allergy-structure-invalid-encounter-reference.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+            getEncounterList(), PRACTISE_CODE);
+
+        var allergyIntolerance = (AllergyIntolerance) allergyIntolerances.get(0);
+        assertThatInvalidEncounterReference(allergyIntolerance);
+    }
+
+    private void assertOptionalData(AllergyIntolerance allergyIntolerance, List<AllergyIntolerance> allergyIntolerances) {
+        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        assertThat(allergyIntolerance.getId()).isEqualTo(COMPOUND_STATEMENT_ROOT_ID);
+        assertThat(allergyIntolerance.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThatIdentifierIsValid(allergyIntolerance.getIdentifierFirstRep(), allergyIntolerance.getId());
+        assertThat(allergyIntolerance.getClinicalStatus().toString()).isEqualTo("ACTIVE");
+        assertThat(allergyIntolerance.getVerificationStatus().toString()).isEqualTo("UNCONFIRMED");
+        assertThat(allergyIntolerance.getPatient().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
+        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
+        assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(allergyIntolerance.getOnset()).isNull();
+        assertThat(allergyIntolerance.getNote()).isEmpty();
+    }
+
     private void assertData(AllergyIntolerance allergyIntolerance, List<AllergyIntolerance> allergyIntolerances) {
         assertThat(allergyIntolerances.size()).isEqualTo(1);
         assertThat(allergyIntolerance.getId()).isEqualTo(COMPOUND_STATEMENT_ROOT_ID);
+        assertThat(allergyIntolerance.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThatIdentifierIsValid(allergyIntolerance.getIdentifierFirstRep(), allergyIntolerance.getId());
+        assertThat(allergyIntolerance.getClinicalStatus().toString()).isEqualTo("ACTIVE");
+        assertThat(allergyIntolerance.getVerificationStatus().toString()).isEqualTo("UNCONFIRMED");
+        assertThat(allergyIntolerance.getPatient().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
+        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
+        assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
+        assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
+        assertExtension(allergyIntolerance);
+    }
+
+    private void assertExtension(AllergyIntolerance allergyIntolerance) {
+        var encounterID = allergyIntolerance.getExtension().stream()
+            .map(Extension::getValue)
+            .map(Reference.class::cast)
+            .map(Reference::getResource)
+            .map(encounter -> encounter.getIdElement().getValue())
+            .findFirst()
+            .get();
+
+        assertThat(encounterID).isEqualTo(ENCOUNTER_ID);
+    }
+
+    private void assertThatInvalidEncounterReference(AllergyIntolerance allergyIntolerance) {
+        assertThat(allergyIntolerance.getId()).isEqualTo(COMPOUND_STATEMENT_ROOT_ID);
+        assertThatIdentifierIsValid(allergyIntolerance.getIdentifierFirstRep(), allergyIntolerance.getId());
+        assertThat(allergyIntolerance.getExtension()).isEmpty();
+    }
+
+    private void assertThatIdentifierIsValid(Identifier identifier, String id) {
+        assertThat(identifier.getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
+        assertThat(identifier.getValue()).isEqualTo(id);
     }
 
     private List<Encounter> getEncounterList() {

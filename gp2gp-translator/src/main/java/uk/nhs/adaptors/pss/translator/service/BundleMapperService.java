@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
+import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
@@ -68,6 +69,7 @@ public class BundleMapperService {
     private final DocumentReferenceMapper documentReferenceMapper;
     private final TemplateMapper templateMapper;
     private final OrganizationMapper organizationMapper;
+    private final AllergyIntoleranceMapper allergyIntoleranceMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -120,6 +122,9 @@ public class BundleMapperService {
 
         var templates = templateMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, templates);
+
+        var allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        addEntries(bundle, allergyIntolerances);
 
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 

@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.ENVIRONMENT;
-import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.MEDICATION;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
 
@@ -13,12 +11,13 @@ import java.util.List;
 import java.util.Objects;
 
 import org.hl7.fhir.dstu3.model.AllergyIntolerance;
+import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Enumeration;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -26,6 +25,8 @@ import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
@@ -35,7 +36,6 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     private static final String NON_DRUG_ALLERGY_CODE = "SN53.00";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1";
     private static final String ENCOUNTER_URL = "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter";
-    private static final String CODING_EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid";
 
     private CodeableConceptMapper codeableConceptMapper;
 
@@ -47,16 +47,18 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
             extractAllCompoundStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isAllergyIntolerance)
-                .map(compoundStatement -> mapAllergyIntolerance(composition, compoundStatement, practiseCode, encounters, patient))
+                .map(compoundStatement -> mapAllergyIntolerance(ehrExtract, composition, compoundStatement, practiseCode, encounters,
+                    patient))
         ).toList();
     }
 
-    public AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UK04EhrComposition ehrComposition,
+    public AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04CompoundStatement compoundStatement, String practiseCode, List<Encounter> encounterList, Patient patientResource) {
         AllergyIntolerance allergyIntolerance = new AllergyIntolerance();
 
         var id = compoundStatement.getId().get(0).getRoot();
         var encounterReference = getEncounterReference(encounterList, ehrComposition.getId());
+        var practitioner = ParticipantReferenceUtil.getParticipantReference(compoundStatement.getParticipant(), ehrComposition);
 
         allergyIntolerance.setId(id);
         allergyIntolerance.setMeta(generateMeta(META_PROFILE));
@@ -64,22 +66,30 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         allergyIntolerance.setClinicalStatus(ACTIVE);
         allergyIntolerance.setVerificationStatus(UNCONFIRMED);
         allergyIntolerance.setPatient(new Reference(patientResource));
+        allergyIntolerance.setAssertedDateElement(getAssertedDateElement(ehrExtract, ehrComposition));
+        allergyIntolerance.setRecorder(practitioner);
 
         if (compoundStatement.getCode().getCode().equals(DRUG_ALLERGY_CODE)) {
-            //allergyIntolerance.setCategory(List.of((Enumeration<AllergyIntolerance.AllergyIntoleranceCategory>) List.of(MEDICATION)));
+            allergyIntolerance.addCategory(AllergyIntolerance.AllergyIntoleranceCategory.MEDICATION);
             createAllergyIntoleranceCodeForDrugAllergy(allergyIntolerance, compoundStatement);
         } else if (compoundStatement.getCode().getCode().equals(NON_DRUG_ALLERGY_CODE)) {
-            //allergyIntolerance.setCategory(List.of((Enumeration<AllergyIntolerance.AllergyIntoleranceCategory>) List.of(ENVIRONMENT)));
+            allergyIntolerance.addCategory(AllergyIntolerance.AllergyIntoleranceCategory.ENVIRONMENT);
             createAllergyIntoleranceCodeForNonDrugAllergy(allergyIntolerance, ehrComposition);
         }
 
-        if (!encounterReference.isEmpty()) {
+        if (encounterReference != null) {
             allergyIntolerance.addExtension(createEncounterExtension(encounterReference));
         }
 
         if (compoundStatement.hasEffectiveTime()) {
             allergyIntolerance.setOnset(getOnsetDate(compoundStatement));
         }
+
+        if (practitioner != null) {
+            allergyIntolerance.setAsserter(practitioner);
+        }
+
+        buildNote(allergyIntolerance, compoundStatement);
 
         return allergyIntolerance;
     }
@@ -126,14 +136,35 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         var effectiveTime = compoundStatement.getEffectiveTime();
 
         if (effectiveTime.hasLow()) {
-
+            return DateFormatUtil.parseToDateTimeType(effectiveTime.getLow().getValue());
         } else if (effectiveTime.hasCenter()) {
-
+            return DateFormatUtil.parseToDateTimeType(effectiveTime.getCenter().getValue());
         } else if (effectiveTime.hasHigh()) {
-
+            return DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue());
         }
 
         return null;
+    }
+
+    private DateTimeType getAssertedDateElement(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition) {
+        if (ehrComposition.hasAuthor()) {
+            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
+        }
+
+        return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
+    }
+
+    private void buildNote(AllergyIntolerance allergyIntolerance, RCMRMT030101UK04CompoundStatement compoundStatement) {
+        compoundStatement.getComponent().get(0)
+            .getObservationStatement()
+            .getPertinentInformation()
+            .forEach(rcmrmt030101UK04PertinentInformation02 ->
+                allergyIntolerance.setNote(List.of(
+                    new Annotation(
+                        new StringType(rcmrmt030101UK04PertinentInformation02.getPertinentAnnotation().getText())
+                    )
+                ))
+            );
     }
 
     private boolean hasMatchingId(String encounterId, II ehrCompositionId) {
