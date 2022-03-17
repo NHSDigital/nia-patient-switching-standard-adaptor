@@ -36,7 +36,6 @@ public class ValueAdapter extends XmlAdapter<Object, Object> {
         }
 
         if (element.hasAttribute(TYPE_ATTRIBUTE) && TYPE_CD.equals(element.getAttribute(TYPE_ATTRIBUTE))) {
-
             CD cd = new CD();
 
             cd.setCode(element.getAttribute(CODE_ATTRIBUTE));

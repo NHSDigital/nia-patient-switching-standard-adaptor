@@ -11,9 +11,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -24,21 +22,16 @@ import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
 @ExtendWith(MockitoExtension.class)
 public class AllergyIntoleranceMapperTest {
@@ -64,7 +57,7 @@ public class AllergyIntoleranceMapperTest {
     public void setup() {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenCallRealMethod();
     }
-    
+
     @Test
     public void testMapDrugAllergyWithAllData() {
         var ehrExtract = unmarshallEhrExtract("drug-allergy-structure.xml");
