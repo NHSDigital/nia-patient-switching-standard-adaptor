@@ -195,8 +195,7 @@ public class CodeableConceptMapper {
 
     private String getPartitionIdentifier(String code) {
         var codeLength = code.length();
-
-        return code.substring(code.length() - MAX_CHARACTERS_FROM_RIGHT, code.length() - MIN_CHARACTERS_FROM_RIGHT);
+        return code.substring(codeLength - MAX_CHARACTERS_FROM_RIGHT, codeLength - MIN_CHARACTERS_FROM_RIGHT);
     }
 
     private CodeableConcept createCodeableConcept(String code, String system, String display, String text, Extension extension) {
