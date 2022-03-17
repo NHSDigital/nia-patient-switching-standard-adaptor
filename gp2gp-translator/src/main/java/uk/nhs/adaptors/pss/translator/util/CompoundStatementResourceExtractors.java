@@ -59,7 +59,7 @@ public class CompoundStatementResourceExtractors {
             component4.hasCompoundStatement()
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement,
-                    CompoundStatementResourceExtractors::isNotAllergyOrDiagnosticReport)
+                    CompoundStatementResourceExtractors::isNotAllergy)
                 .stream()
                 .map(RCMRMT030101UK04ObservationStatement.class::cast)
                 : Stream.empty()
@@ -113,9 +113,9 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
-    private static boolean isNotAllergyOrDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private static boolean isNotAllergy(RCMRMT030101UK04CompoundStatement compoundStatement) {
         if (compoundStatement.hasCode() && compoundStatement.getCode().hasCodeSystem()) {
-            return !isAllergyIntolerance(compoundStatement) && !isDiagnosticReport(compoundStatement);
+            return !isAllergyIntolerance(compoundStatement);
         }
         return true;
     }

@@ -18655,7 +18655,7 @@
                                                         <availabilityTime value="20100225154100"/>
                                                         <component typeCode="COMP" contextConductionInd="true">
                                                             <ObservationStatement classCode="OBS" moodCode="EVN">
-                                                                <id root="C725E747-2BDD-447A-A3E0-026FE6C3AD88"/>
+                                                                <id root="C725E747-2109-558B-A3E0-026FE6C3AD88"/>
                                                                 <code code="465..00" codeSystem="2.16.840.1.113883.2.1.6.2"
                                                                       displayName="Urine pregnancy Test">
                                                                     <translation code="1003161000000106"
@@ -18815,7 +18815,7 @@
                                                         <availabilityTime value="20100225154100"/>
                                                         <component typeCode="COMP" contextConductionInd="true">
                                                             <ObservationStatement classCode="OBS" moodCode="EVN">
-                                                                <id root="C725E747-2BDD-447A-A3E0-026FE6C3AD88"/>
+                                                                <id root="C725E747-2CAA-447A-B4F1-026FE6C3AD88"/>
                                                                 <code code="4465.00" codeSystem="2.16.840.1.113883.2.1.6.2"
                                                                       displayName="Serum ACTH">
                                                                     <translation code="997201000000100"
