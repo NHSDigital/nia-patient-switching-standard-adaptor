@@ -10,6 +10,7 @@ import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ResourceType;
@@ -28,6 +29,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DiagnosticReportMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
@@ -37,6 +39,8 @@ import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.SpecimenCompoundsMapper;
+import uk.nhs.adaptors.pss.translator.mapper.SpecimenMapper;
 import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
@@ -68,6 +72,9 @@ public class BundleMapperService {
     private final DocumentReferenceMapper documentReferenceMapper;
     private final TemplateMapper templateMapper;
     private final OrganizationMapper organizationMapper;
+    private final DiagnosticReportMapper diagnosticReportMapper;
+    private final SpecimenMapper specimenMapper;
+    private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
     public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
         Bundle bundle = generator.generateBundle();
@@ -121,12 +128,24 @@ public class BundleMapperService {
         var templates = templateMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
         addEntries(bundle, templates);
 
-        LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
+        mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, practiseCode);
 
         conditionMapper.addReferences(bundle, conditions, ehrExtract);
         unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
 
+        LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
+
         return bundle;
+    }
+
+    private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        List<Observation> observations, List<Observation> observationComments, String practiceCode) {
+        var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, patient, encounters, practiceCode);
+        var specimen = specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
+        addEntries(bundle, diagnosticReports);
+        addEntries(bundle, specimen);
+        diagnosticReportMapper.mapChildObservationComments(ehrExtract, observationComments);
+        specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments, diagnosticReports);
     }
 
     private List<Encounter> handleMappedEncounterResources(Map<String, List<? extends DomainResource>> mappedEncounterEhrCompositions,
