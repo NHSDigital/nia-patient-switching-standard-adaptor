@@ -7,18 +7,14 @@
             <ehrComposition classCode="COMPOSITION" moodCode="EVN">
                 <id root="62A39454-299F-432E-993E-5A6232B4E099"/>
                 <availabilityTime value="20190708143500"/>
-                <Participant2 typeCode="PRF" contextControlCode="OP">
-                    <agentRef classCode="AGNT">
-                        <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
-                    </agentRef>
-                </Participant2>
+                <Participant2 typeCode="PRF" contextControlCode="OP" nullFlavor="UNK" />
                 <component typeCode="COMP">
                     <CompoundStatement classCode="CATEGORY" moodCode="EVN">
                         <id root="394559384658936"/>
                         <code code="14L..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: drug allergy"/>
                         <statusCode code="COMPLETE"/>
                         <effectiveTime nullFlavor="UNK" />
-                        <availabilityTime value="19781231" />
+                        <availabilityTime nullFlavor="UNK" />
                         <component typeCode="COMP" contextConductionInd="true">
                             <ObservationStatement classCode="OBS" moodCode="ENV">
                                 <id root="394559384658936"/>

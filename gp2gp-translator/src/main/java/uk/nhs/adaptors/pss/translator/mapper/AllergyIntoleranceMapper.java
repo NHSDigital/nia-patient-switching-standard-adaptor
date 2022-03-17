@@ -78,7 +78,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         buildParticipantReferences(ehrComposition, compoundStatement, allergyIntolerance);
         buildExtension(ehrComposition, encounters, allergyIntolerance);
         buildNote(allergyIntolerance, compoundStatement);
-//        buildCode(allergyIntolerance, compoundStatement);
+        buildCode(allergyIntolerance, compoundStatement);
 
         return allergyIntolerance;
     }
