@@ -62,7 +62,7 @@ pipeline {
                                         aws s3 cp s3://snomed-schema/uk_sct2cl_32.10.0_20220216000001Z.zip /snomed-database-loader/uk_sct2cl_32.10.0_20220216000001Z.zip
                                         ls
                                         echo "---test---"
-                                        ls snomed_schema/
+                                        ls snomed-database-loader/
                                         docker-compose -f docker/docker-compose.yml up snomed_schema
                                     '''
                                 }
