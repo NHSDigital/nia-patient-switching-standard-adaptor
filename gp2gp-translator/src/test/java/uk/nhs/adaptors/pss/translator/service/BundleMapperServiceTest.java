@@ -35,6 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
+import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
@@ -95,6 +96,8 @@ public class BundleMapperServiceTest {
     private TemplateMapper templateMapper;
     @Mock
     private OrganizationMapper organizationMapper;
+    @Mock
+    private AllergyIntoleranceMapper allergyIntoleranceMapper;
 
     @InjectMocks
     private BundleMapperService bundleMapperService;
@@ -129,35 +132,36 @@ public class BundleMapperServiceTest {
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(organizationMapper).mapAuthorOrganization(anyString());
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
-        verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), any(String.class), any(String.class));
-        verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class));
+        verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), anyString(), anyString());
+        verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyString());
         verify(procedureRequestMapper).mapResources(
             any(RCMRMT030101UK04EhrExtract.class),
             any(Patient.class),
             anyList(),
-            any(String.class)
+            anyString()
         );
         verify(referralRequestMapper).mapResources(
             any(RCMRMT030101UK04EhrExtract.class),
             any(Patient.class),
             anyList(),
-            any(String.class)
+            anyString()
         );
         verify(bloodPressureMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
             any(String.class));
-        verify(observationMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class));
-        verify(conditionMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class));
+        verify(observationMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
+        verify(conditionMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
         verify(immunizationMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
             any(String.class));
         verify(observationCommentMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
-            any(String.class));
+            anyString());
         verify(medicationRequestMapper, atLeast(1))
-            .mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class));
+            .mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
         verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
         verify(documentReferenceMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
             any(Organization.class));
         verify(templateMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
-            any(String.class));
+            anyString());
+        verify(allergyIntoleranceMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
     }
 
     @SneakyThrows

@@ -58,7 +58,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         ).toList();
     }
 
-    public AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
+    private AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04CompoundStatement compoundStatement, String practiseCode, List<Encounter> encounters, Patient patient) {
         AllergyIntolerance allergyIntolerance = new AllergyIntolerance();
 

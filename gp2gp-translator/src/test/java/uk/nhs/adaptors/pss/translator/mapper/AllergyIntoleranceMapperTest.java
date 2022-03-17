@@ -1,6 +1,10 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
+import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
+import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.ENVIRONMENT;
+import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.MEDICATION;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -53,12 +57,18 @@ public class AllergyIntoleranceMapperTest {
     //    }
 
     @Test
-    public void mapAllergyToAllergyIntolerance() {
+    public void testMapDrugAllergyWithAllData() {
         var ehrExtract = unmarshallEhrExtract("allergy-structure.xml");
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
-        var allergyIntolerance = (AllergyIntolerance) allergyIntolerances.get(0);
+        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertFixedValues(allergyIntolerance);
+        assertExtension(allergyIntolerance);
+        assertThat(allergyIntolerance.getCategory()).isEqualTo(MEDICATION);
+
         assertData(allergyIntolerance, allergyIntolerances);
     }
 
@@ -68,7 +78,7 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
-        var allergyIntolerance = (AllergyIntolerance) allergyIntolerances.get(0);
+        var allergyIntolerance = allergyIntolerances.get(0);
         assertOptionalData(allergyIntolerance, allergyIntolerances);
     }
 
@@ -87,18 +97,11 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
-        var allergyIntolerance = (AllergyIntolerance) allergyIntolerances.get(0);
-        assertThatInvalidEncounterReference(allergyIntolerance);
+        var allergyIntolerance = allergyIntolerances.get(0);
+        assertThat(allergyIntolerance.getExtension()).isEmpty();
     }
 
     private void assertOptionalData(AllergyIntolerance allergyIntolerance, List<AllergyIntolerance> allergyIntolerances) {
-        assertThat(allergyIntolerances.size()).isEqualTo(1);
-        assertThat(allergyIntolerance.getId()).isEqualTo(COMPOUND_STATEMENT_ROOT_ID);
-        assertThat(allergyIntolerance.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
-        assertThatIdentifierIsValid(allergyIntolerance.getIdentifierFirstRep(), allergyIntolerance.getId());
-        assertThat(allergyIntolerance.getClinicalStatus().toString()).isEqualTo("ACTIVE");
-        assertThat(allergyIntolerance.getVerificationStatus().toString()).isEqualTo("UNCONFIRMED");
-        assertThat(allergyIntolerance.getPatient().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
         assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
@@ -122,6 +125,15 @@ public class AllergyIntoleranceMapperTest {
         assertExtension(allergyIntolerance);
     }
 
+    private void assertFixedValues(AllergyIntolerance allergyIntolerance) {
+        assertThat(allergyIntolerance.getId()).isEqualTo(COMPOUND_STATEMENT_ROOT_ID);
+        assertThat(allergyIntolerance.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThatIdentifierIsValid(allergyIntolerance.getIdentifierFirstRep(), allergyIntolerance.getId());
+        assertThat(allergyIntolerance.getClinicalStatus()).isEqualTo(ACTIVE);
+        assertThat(allergyIntolerance.getVerificationStatus()).isEqualTo(UNCONFIRMED);
+        assertThat(allergyIntolerance.getPatient().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
+    }
+
     private void assertExtension(AllergyIntolerance allergyIntolerance) {
         var encounterID = allergyIntolerance.getExtension().stream()
             .map(Extension::getValue)
@@ -132,12 +144,6 @@ public class AllergyIntoleranceMapperTest {
             .get();
 
         assertThat(encounterID).isEqualTo(ENCOUNTER_ID);
-    }
-
-    private void assertThatInvalidEncounterReference(AllergyIntolerance allergyIntolerance) {
-        assertThat(allergyIntolerance.getId()).isEqualTo(COMPOUND_STATEMENT_ROOT_ID);
-        assertThatIdentifierIsValid(allergyIntolerance.getIdentifierFirstRep(), allergyIntolerance.getId());
-        assertThat(allergyIntolerance.getExtension()).isEmpty();
     }
 
     private void assertThatIdentifierIsValid(Identifier identifier, String id) {
