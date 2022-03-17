@@ -38,7 +38,6 @@ public class SpecimenCompoundsMapper {
         diagnosticReports.forEach(diagnosticReport ->
             getCompoundStatementByDRId(ehrExtract, diagnosticReport.getId()).ifPresent(parentCompoundStatement ->
                 getSpecimenCompoundStatements(parentCompoundStatement).forEach(specimenCompoundStatement -> {
-
                     getObservationStatementsInCompound(specimenCompoundStatement).forEach(
                         specimenObservationStatement -> getObservationById(observations, specimenObservationStatement.getId().getRoot())
                             .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation, diagnosticReport))
@@ -58,7 +57,6 @@ public class SpecimenCompoundsMapper {
 
     private void handleObservationStatement(RCMRMT030101UK04CompoundStatement specimenCompoundStatement,
         Observation observation, DiagnosticReport diagnosticReport) {
-
         final Reference specimenReference = new Reference(new IdType(
             ResourceType.Specimen.name(),
             specimenCompoundStatement.getId().get(0).getRoot()
@@ -112,7 +110,6 @@ public class SpecimenCompoundsMapper {
     private void handleBatteryCompoundStatement(RCMRMT030101UK04CompoundStatement specimenCompoundStatement,
         RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
         List<Observation> observations, List<Observation> observationComments, DiagnosticReport diagnosticReport) {
-
         batteryCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
             .map(RCMRMT030101UK04Component02::getCompoundStatement)
