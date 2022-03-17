@@ -32,6 +32,7 @@ pipeline {
             stages {
                 stage('Tests') {
                     stages {
+                    
                         stage('Common modules Check') {
                             steps {
                                 script {
@@ -58,6 +59,7 @@ pipeline {
                                         source docker/vars.local.tests.sh
                                         docker-compose -f docker/docker-compose.yml up -d ps_db
                                         docker-compose -f docker/docker-compose.yml up db_migration
+                                        aws s3 cp s3://snomed-schema.s3.eu-west-2.amazonaws.com/uk_sct2cl_32.10.0_20220216000001Z.zip /snomed-database-loader
                                         docker-compose -f docker/docker-compose.yml up snomed_schema
                                     '''
                                 }
