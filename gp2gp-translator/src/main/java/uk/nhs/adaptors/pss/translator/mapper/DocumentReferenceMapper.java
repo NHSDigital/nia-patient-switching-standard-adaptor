@@ -68,7 +68,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         documentReference.getMeta().addProfile(META_PROFILE);
         documentReference.setStatus(DocumentReferenceStatus.CURRENT);
         documentReference.setType(getType(narrativeStatement));
-        documentReference.setSubject(new Reference(patient.getId()));
+        documentReference.setSubject(new Reference(patient));
         documentReference.setIndexedElement(getIndexed(ehrExtract));
         documentReference.setAuthor(getAuthor(narrativeStatement, ehrComposition));
         documentReference.setDescription(buildDescription(narrativeStatement));
