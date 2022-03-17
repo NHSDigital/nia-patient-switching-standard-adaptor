@@ -171,7 +171,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     }
 
     private CodeableConcept createCodeableConcept(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
+        return codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode(), false);
     }
 
     private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingClusterCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
