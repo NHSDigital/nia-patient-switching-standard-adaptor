@@ -24,7 +24,8 @@
                         <component typeCode="COMP" contextConductionInd="true">
                             <ObservationStatement classCode="OBS" moodCode="ENV">
                                 <id root="394559384658936"/>
-                                <code nullFlavor="UNK"><originalText>Mocked code</originalText></code>
+                                <code code="ALLERGY-READ2-14LK" codeSystem="2.16.840.1.113883.2.1.6.3"
+                                      displayName="H/O: aspirin allergy"/>
                                 <statusCode code="COMPLETE"/>
                                 <effectiveTime>
                                     <center value="19781231"/>
