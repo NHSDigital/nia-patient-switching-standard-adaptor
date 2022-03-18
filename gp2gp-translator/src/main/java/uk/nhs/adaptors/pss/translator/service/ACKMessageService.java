@@ -19,13 +19,11 @@ import static uk.nhs.adaptors.pss.translator.util.template.TemplateUtil.loadTemp
 public class ACKMessageService {
     private static final Mustache ACK_MESSAGE_TEMPLATE =
             loadTemplate("MCCI_IN010000UK13ApplicationAcknowledgment.mustache");
-    private static final String NACK_TYPE_STRING = "AE";
-    private static final String ACK_TYPE_STRING = "AA";
 
     private final DateUtils dateUtils;
     private final IdGeneratorService idGeneratorService;
 
-    public String buildNACKMessage(ACKMessageData messageData) {
+    public String buildMessage(ACKMessageData messageData) {
         LOGGER.debug("Building NACK message for message = [{}]", messageData.getMessageRef());
 
         ApplicationAcknowledgmentParams params = ApplicationAcknowledgmentParams.builder()
@@ -34,7 +32,7 @@ public class ACKMessageService {
                 .toAsid(messageData.getToAsid())
                 .fromAsid(messageData.getFromAsid())
                 .messageRef(messageData.getMessageRef())
-                .ackType(NACK_TYPE_STRING)
+                .ackType(messageData.getAckType())
                 .build();
 
         return fillTemplate(ACK_MESSAGE_TEMPLATE, params);

@@ -8,6 +8,26 @@ import lombok.NonNull;
 @Getter
 public class ACKMessageData {
     /**
+     * The conversation ID the message relates to
+     */
+    @NonNull
+    private String conversationId;
+    /**
+     * The acknowledgement type
+     * <pre>
+     *     Accept = AA
+     *     Error = AE
+     *     Reject = AR
+     * </pre>
+     */
+    @NonNull
+    private String ackType;
+    /**
+     * The ODS code of the incumbent system
+     */
+    @NonNull
+    private String toOdsCode;
+    /**
      * The UUID of the messages being acknowledged
      */
     @NonNull
