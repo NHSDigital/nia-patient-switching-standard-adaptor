@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.mapper;
+package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static java.util.stream.Collectors.toCollection;
 
@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
+import org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportStatus;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -23,6 +24,7 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.v3.CD;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component02;
@@ -36,6 +38,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
+import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
@@ -59,7 +63,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
                     DiagnosticReport diagnosticReport = createDiagnosticReport(
                         compoundStatement, patient, composition, encounters, practiseCode
                     );
-                    getIssued(ehrExtract, composition).ifPresent(diagnosticReport::setIssuedElement);
+                    getIssued(ehrExtract, compoundStatement, composition).ifPresent(diagnosticReport::setIssuedElement);
                     return diagnosticReport;
                 }
                 )).toList();
@@ -73,7 +77,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         diagnosticReport.setMeta(generateMeta(META_PROFILE_URL_SUFFIX));
         diagnosticReport.setId(id);
         diagnosticReport.addIdentifier(buildIdentifier(id, practiceCode));
-        diagnosticReport.setCode(createCodeableConcept(compoundStatement));
+        diagnosticReport.setCode(createCodeableConcept());
+        diagnosticReport.setStatus(DiagnosticReportStatus.UNKNOWN);
         diagnosticReport.setSubject(new Reference(patient));
         diagnosticReport.setSpecimen(getSpecimenReferences(compoundStatement));
         createIdentifierExtension(compoundStatement.getId()).ifPresent(diagnosticReport::addIdentifier);
@@ -148,7 +153,12 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .map(Reference::new);
     }
 
-    private Optional<InstantType> getIssued(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition) {
+    private Optional<InstantType> getIssued(RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UK04CompoundStatement compoundStatement, RCMRMT030101UK04EhrComposition ehrComposition) {
+        if (compoundStatementHasValidAvailabilityTime(compoundStatement)) {
+            return Optional.of(parseToInstantType(compoundStatement.getAvailabilityTime().getValue()));
+        }
+
         if (authorHasValidTimeValue(ehrComposition.getAuthor())) {
             return Optional.of(parseToInstantType(ehrComposition.getAuthor().getTime().getValue()));
         }
@@ -158,6 +168,12 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         }
 
         return Optional.empty();
+    }
+
+    private boolean compoundStatementHasValidAvailabilityTime(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return compoundStatement != null && compoundStatement.getAvailabilityTime() != null
+            && compoundStatement.getAvailabilityTime().hasValue()
+            && !compoundStatement.getAvailabilityTime().hasNullFlavor();
     }
 
     private boolean authorHasValidTimeValue(RCMRMT030101UK04Author author) {
@@ -170,8 +186,13 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         return availabilityTime != null && availabilityTime.hasValue() && !availabilityTime.hasNullFlavor();
     }
 
-    private CodeableConcept createCodeableConcept(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
+    private CodeableConcept createCodeableConcept() {
+        final CD code = new CD();
+        code.setCode("721981007");
+        code.setCodeSystem("http://snomed.info/sct");
+        code.setDisplayName("Diagnostic studies report");
+
+        return codeableConceptMapper.mapToCodeableConcept(code);
     }
 
     private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingClusterCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {

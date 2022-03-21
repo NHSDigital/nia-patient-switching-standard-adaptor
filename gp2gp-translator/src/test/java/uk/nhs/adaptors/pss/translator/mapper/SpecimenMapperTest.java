@@ -23,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class SpecimenMapperTest {
@@ -108,7 +109,6 @@ public class SpecimenMapperTest {
 
     private static DiagnosticReport generateDiagnosticReportWithNoSpecimenReference() {
         return (DiagnosticReport) new DiagnosticReport().setId(DR_ID);
-
     }
 
     @SneakyThrows
