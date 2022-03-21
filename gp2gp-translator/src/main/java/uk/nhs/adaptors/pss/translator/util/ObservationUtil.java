@@ -161,12 +161,13 @@ public class ObservationUtil {
     }
 
     private static String getInterpretationDisplay(String interpretationCode) {
-        return switch (interpretationCode) {
+        String s = switch (interpretationCode) {
             case ("HI") -> "High";
             case ("LO") -> "Low";
             case ("OR") -> "Abnormal";
             default -> StringUtils.EMPTY;
         };
+        return s;
     }
 
     private static boolean referenceInterpretationRangeHasValue(RCMRMT030101UK04InterpretationRange referenceInterpretationRange) {

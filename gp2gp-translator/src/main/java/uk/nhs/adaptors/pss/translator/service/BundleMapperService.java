@@ -121,7 +121,7 @@ public class BundleMapperService {
         LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 
         conditionMapper.addReferences(bundle, conditions, ehrExtract);
-        unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
+//        unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
 
         return bundle;
     }
