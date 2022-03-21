@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
@@ -16,11 +15,10 @@ import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 @Slf4j
 @Component
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class SendACKRequestHandler {
+public class SendACKMessageHandler {
 
     private final MhsRequestBuilder requestBuilder;
     private final MhsClientService mhsClientService;
-    private final MigrationStatusLogService migrationStatusLogService;
     private final ACKMessageService messageService;
 
     @SneakyThrows

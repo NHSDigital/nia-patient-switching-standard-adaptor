@@ -1,11 +1,13 @@
 package uk.nhs.adaptors.pss.translator.model;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 
 @Builder
 @Getter
+@EqualsAndHashCode
 public class ACKMessageData {
     /**
      * The conversation ID the message relates to
