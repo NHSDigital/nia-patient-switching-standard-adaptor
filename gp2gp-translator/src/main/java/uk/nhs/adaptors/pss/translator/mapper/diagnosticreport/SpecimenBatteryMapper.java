@@ -9,6 +9,7 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -32,6 +33,8 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UK04Participant;
+import org.hl7.v3.RCMRMT030101UK04Participant2;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +49,8 @@ public class SpecimenBatteryMapper {
 
     private static final String META_PROFILE_URL_SUFFIX = "Observation-1";
     private static final String USER_COMMENT_HEADER = "USER COMMENT";
+    private static final String TYPECODE_PRF = "PRF";
+    private static final String TYPECODE_PPRF = "PPRF";
 
     private final CodeableConceptMapper codeableConceptMapper;
 
@@ -66,8 +71,39 @@ public class SpecimenBatteryMapper {
         getContext(encounters, ehrComposition).ifPresent(observation::setContext);
         getEffective(ehrExtract, batteryCompoundStatement).ifPresent(observation::setEffective); //line 165
         getIssued(ehrExtract, ehrComposition).ifPresent(observation::setIssuedElement);
+        getPerformer(batteryCompoundStatement, ehrComposition).ifPresent(observation::addPerformer);
 
         return observation;
+    }
+
+    private Optional<Reference> getPerformer(RCMRMT030101UK04CompoundStatement batteryCompoundStatement, RCMRMT030101UK04EhrComposition ehrComposition) {
+        if (!batteryCompoundStatement.getParticipant().isEmpty()) {
+            return batteryCompoundStatement.getParticipant()
+                .stream()
+                .filter(participant -> !participant.hasNullFlavour())
+                .filter(this::hasTypeCode)
+                .map(RCMRMT030101UK04Participant::getAgentRef)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .map(agentRef -> new Reference(new IdType(ResourceType.Practitioner.name(), agentRef.getId().getRoot())));
+        }
+        if (!ehrComposition.getParticipant2().isEmpty()) {
+            return ehrComposition.getParticipant2()
+                .stream()
+                .filter(participant2 -> !participant2.hasNullFlavor())
+                .map(RCMRMT030101UK04Participant2::getAgentRef)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .map(agentRef -> new Reference(new IdType(ResourceType.Practitioner.name(), agentRef.getId().getRoot())));
+
+        }
+        return Optional.empty();
+    }
+
+    private boolean hasTypeCode(RCMRMT030101UK04Participant participant) {
+        return participant.getTypeCode()
+            .stream()
+            .anyMatch(typeCode -> TYPECODE_PRF.equals(typeCode) || TYPECODE_PPRF.equals(typeCode));
     }
 
     private Optional<Reference> getContext(List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
