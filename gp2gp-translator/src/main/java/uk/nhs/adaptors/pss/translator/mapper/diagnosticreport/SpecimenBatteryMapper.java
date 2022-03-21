@@ -11,6 +11,7 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -133,6 +134,13 @@ public class SpecimenBatteryMapper {
         return availabilityTime != null && availabilityTime.hasValue() && !availabilityTime.hasNullFlavor();
     }
 
+    private List<ObservationRelatedComponent> getRelated(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
+        return Stream.concat(
+            getDirectUserCommentNarrativeStatements(batteryCompoundStatement),
+            getObservationReferences(batteryCompoundStatement)
+        ).toList();
+    }
+
     private String getAllNarrativeStatementComments(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
         return extractResourcesFromCompound(batteryCompoundStatement, RCMRMT030101UK04Component02::hasNarrativeStatement,
             RCMRMT030101UK04Component02::getNarrativeStatement)
@@ -145,41 +153,21 @@ public class SpecimenBatteryMapper {
             .collect(Collectors.joining(StringUtils.LF));
     }
 
-    /**
-     * related references are generated for each occurrence
-     * of USER COMMENT NarrativeStatement found as direct children of the CompoundStatement BATTERY
-     * related.references are generated for each result Observation generated
-     * from ObservationStatement or CompoundStatement CLUSTER
-     * found as direct children of the CompoundStatement BATTERY
-     */
-
-    private List<RCMRMT030101UK04NarrativeStatement> getDirectUserCommentNarrativeStatements(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
+    private Stream<ObservationRelatedComponent> getDirectUserCommentNarrativeStatements(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
         return batteryCompoundStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
             .filter(narrativeStatement -> narrativeStatement.getText().contains(USER_COMMENT_HEADER))
-            .toList();
+            .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
+            .map(reference -> new ObservationRelatedComponent().setTarget(reference));
     }
-
-    private List<ObservationRelatedComponent> getObservationReferences(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
+    private Stream<ObservationRelatedComponent> getObservationReferences(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
         return extractResourcesFromCompound(batteryCompoundStatement, RCMRMT030101UK04Component02::hasObservationStatement,
             RCMRMT030101UK04Component02::getObservationStatement)
             .stream()
             .map(RCMRMT030101UK04ObservationStatement.class::cast)
             .map(observationStatement -> new Reference(new IdType(ResourceType.Observation.name(), observationStatement.getId().getRoot())))
-            .map(reference -> new ObservationRelatedComponent().setTarget(reference))
-            .toList();
-    }
-
-    private List<ObservationRelatedComponent> getRelated(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
-       var relatedComponents = getDirectUserCommentNarrativeStatements(batteryCompoundStatement)
-            .stream()
-            .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
-            .map(reference -> new ObservationRelatedComponent().setTarget(reference))
-            .toList();
-
-       relatedComponents.addAll(getObservationReferences(batteryCompoundStatement));
-       return relatedComponents;
+            .map(reference -> new ObservationRelatedComponent().setTarget(reference));
     }
 }

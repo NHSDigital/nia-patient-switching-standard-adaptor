@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.hl7.fhir.dstu3.model.ResourceType.Specimen;
 
-import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.addLine;
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
 
@@ -33,7 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 
@@ -48,7 +46,7 @@ public class SpecimenCompoundsMapper {
     private final CodeableConceptMapper codeableConceptMapper;
     private final SpecimenBatteryMapper batteryMapper;
 
-    public List<Observation> mapBatteryObservations(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observations,
+    public List<Observation> handleSpecimenChildComponents(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observations,
         List<Observation> observationComments, List<DiagnosticReport> diagnosticReports,
         Patient patient, List<Encounter> encounters, String practiseCode) {
         final List<Observation> batteryObservations = new ArrayList<>();
@@ -80,28 +78,6 @@ public class SpecimenCompoundsMapper {
                     );
                 })));
         return batteryObservations;
-    }
-
-    public void handleSpecimenChildComponents(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observations,
-        List<Observation> observationComments, List<DiagnosticReport> diagnosticReports) {
-        diagnosticReports.forEach(diagnosticReport ->
-            getCompoundStatementByDRId(ehrExtract, diagnosticReport.getId()).ifPresent(parentCompoundStatement ->
-                getSpecimenCompoundStatements(parentCompoundStatement).forEach(specimenCompoundStatement -> {
-                    getObservationStatementsInCompound(specimenCompoundStatement).forEach(
-                        specimenObservationStatement -> getObservationById(observations, specimenObservationStatement.getId().getRoot())
-                            .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation, diagnosticReport))
-                    );
-                    getCompoundStatementsInSpecimenCompound(specimenCompoundStatement, CLUSTER_CLASSCODE).forEach(
-                        specimenChildCompoundStatement -> handleClusterCompoundStatement(
-                            specimenCompoundStatement, specimenChildCompoundStatement, observations, observationComments, diagnosticReport
-                        )
-                    );
-                    getCompoundStatementsInSpecimenCompound(specimenCompoundStatement, BATTERY_CLASSCODE).forEach(
-                        specimenChildCompoundStatement -> handleBatteryCompoundStatement(
-                            specimenCompoundStatement, specimenChildCompoundStatement, observations, observationComments, diagnosticReport
-                        )
-                    );
-                })));
     }
 
     private void handleObservationStatement(RCMRMT030101UK04CompoundStatement specimenCompoundStatement,

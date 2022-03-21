@@ -145,7 +145,9 @@ public class BundleMapperService {
         addEntries(bundle, diagnosticReports);
         addEntries(bundle, specimen);
         diagnosticReportMapper.mapChildObservationComments(ehrExtract, observationComments);
-        specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments, diagnosticReports);
+        var batteryObservations = specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments,
+            diagnosticReports, patient, encounters, practiceCode);
+        addEntries(bundle, batteryObservations);
     }
 
     private List<Encounter> handleMappedEncounterResources(Map<String, List<? extends DomainResource>> mappedEncounterEhrCompositions,

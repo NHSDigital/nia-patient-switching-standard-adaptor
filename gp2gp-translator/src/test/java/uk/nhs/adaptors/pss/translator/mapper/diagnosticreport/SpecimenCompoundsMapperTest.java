@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.mapper;
+package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -7,7 +7,9 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Observation;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +20,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DateTimeMapper;
+import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenCompoundsMapper;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,10 +34,13 @@ public class SpecimenCompoundsMapperTest {
     private static final String NARRATIVE_STATEMENT_ID = "NARRATIVE_STATEMENT_ID";
     private static final String NARRATIVE_STATEMENT_ID_1 = "NARRATIVE_STATEMENT_ID_1";
     private static final String BATTERY_OBSERVATION_STATEMENT_ID = "BATTERY_DIRECT_CHILD_OBSERVATION_STATEMENT";
+    private static final String TEST_PRACTISE_CODE = "TEST_PRACTISE_CODE";
     private static final String DIAGNOSTIC_REPORT_ID = "DR_TEST_ID";
     private static final String SPECIMEN_ID = "TEST_SPECIMEN_ID";
     private static final String TEST_COMMENT_LINE = "First comment Line";
     private static final String TEST_COMMENT_LINE_1 = "Test Comment";
+
+    private static final Patient PATIENT = (Patient) new Patient().setId("TEST_PATIENT_ID");
 
     private List<Observation> observations;
     private List<Observation> observationComments;
@@ -40,6 +48,12 @@ public class SpecimenCompoundsMapperTest {
 
     @Mock
     private DateTimeMapper dateTimeMapper;
+
+    @Mock
+    private CodeableConceptMapper codeableConceptMapper;
+
+    @Mock
+    private SpecimenBatteryMapper specimenBatteryMapper;
 
     @InjectMocks
     private SpecimenCompoundsMapper specimenCompoundsMapper;
@@ -55,7 +69,7 @@ public class SpecimenCompoundsMapperTest {
     public void testHandlingFirstLevelObservationStatement() {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_observation_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
-            ehrExtract, observations, observationComments, diagnosticReports
+            ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
@@ -70,7 +84,7 @@ public class SpecimenCompoundsMapperTest {
     public void testHandlingSpecimenChildClusterCompoundStatement() {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_cluster_compound_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
-            ehrExtract, observations, observationComments, diagnosticReports
+            ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
 
         final Observation observation = observations.get(0);
@@ -93,7 +107,7 @@ public class SpecimenCompoundsMapperTest {
     public void testHandlingSpecimenChildBatteryCompoundStatement() {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
-            ehrExtract, observations, observationComments, diagnosticReports
+            ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
@@ -105,7 +119,7 @@ public class SpecimenCompoundsMapperTest {
     public void testHandlingUserNarrativeStatement() {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_user_narrative_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
-            ehrExtract, observations, observationComments, diagnosticReports
+            ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
@@ -117,7 +131,7 @@ public class SpecimenCompoundsMapperTest {
     public void testHandlingNonUserNarrativeStatement() {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_non_user_narrative_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
-            ehrExtract, observations, observationComments, diagnosticReports
+            ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));

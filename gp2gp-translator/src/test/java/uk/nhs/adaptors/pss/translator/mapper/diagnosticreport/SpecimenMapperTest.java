@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.mapper;
+package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,7 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DateTimeMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class SpecimenMapperTest {
