@@ -1,8 +1,22 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
+import static java.util.UUID.randomUUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
+
+import javax.xml.bind.JAXBException;
+
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
@@ -12,22 +26,17 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
-
-import javax.xml.bind.JAXBException;
-
-import static java.util.UUID.randomUUID;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.*;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @ExtendWith(MockitoExtension.class)
 public class EhrExtractMessageHandlerTest {
@@ -35,15 +44,17 @@ public class EhrExtractMessageHandlerTest {
     private static final String CONVERSATION_ID = randomUUID().toString();
     private static final String INBOUND_MESSAGE_STRING = "{hi i'm inbound message}";
     private static final String BUNDLE_STRING = "{bundle}";
-    private static final String APPLICATION_ERROR_ACK_TYPE = "AE";
     private static final String TEST_TO_ODS = "M85019";
     private static final String TEST_MESSAGE_REF = "31FA3430-6E88-11EA-9384-E83935108FD5";
     private static final String TEST_TO_ASID = "200000000149";
     private static final String TEST_FROM_ASID = "200000001161";
+    private static final String TEST_NACK_CODE = "30";
+
+    @Captor
+    ArgumentCaptor<NACKMessageData> ackMessageDataCaptor;
 
     @Mock
     private ObjectMapper objectMapper;
-
     @Mock
     private MigrationStatusLogService migrationStatusLogService;
 
@@ -54,13 +65,10 @@ public class EhrExtractMessageHandlerTest {
     private BundleMapperService bundleMapperService;
 
     @Mock
-    private SendACKMessageHandler sendACKMessageHandler;
+    private SendNACKMessageHandler sendNACKMessageHandler;
 
     @InjectMocks
     private EhrExtractMessageHandler ehrExtractMessageHandler;
-
-    @Captor
-    ArgumentCaptor<ACKMessageData> ackMessageDataCaptor;
 
     @Test
     public void handleMessageWithoutErrorsShouldReturnTrue() throws JsonProcessingException, JAXBException {
@@ -71,50 +79,7 @@ public class EhrExtractMessageHandlerTest {
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID);
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
-                CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
-    }
-
-    @Test
-    public void sendNackMessageWithoutErrorsShouldUpdateLog() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
-
-        when(sendACKMessageHandler.prepareAndSendMessage(any(ACKMessageData.class))).thenReturn(true);
-
-        assertTrue(ehrExtractMessageHandler.sendNackMessage(payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR, CONVERSATION_ID);
-    }
-
-    @Test
-    public void sendNackMessageWithErrorsShouldUpdateLog() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
-
-        when(sendACKMessageHandler.prepareAndSendMessage(any(ACKMessageData.class))).thenReturn(false);
-
-        assertFalse(ehrExtractMessageHandler.sendNackMessage(payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR, CONVERSATION_ID);
-    }
-
-    @Test
-    public void sendNackMessageShouldParseMessageDataCorrectly() throws JAXBException {
-
-        ACKMessageData expectedMessageData = ACKMessageData.builder()
-                .ackType(APPLICATION_ERROR_ACK_TYPE)
-                .toOdsCode(TEST_TO_ODS)
-                .toAsid(TEST_TO_ASID)
-                .fromAsid(TEST_FROM_ASID)
-                .conversationId(CONVERSATION_ID)
-                .messageRef(TEST_MESSAGE_REF)
-                .build();
-
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
-
-        ehrExtractMessageHandler.sendNackMessage(payload, CONVERSATION_ID);
-
-        verify(sendACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals(expectedMessageData, ackMessageDataCaptor.getValue());
+            CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
     }
 
     @SneakyThrows
@@ -130,5 +95,107 @@ public class EhrExtractMessageHandlerTest {
     @SneakyThrows
     private String readInboundMessagePayloadFromFile() {
         return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
+    }
+
+    @Test
+    public void sendNackMessageWithoutErrorsShouldUpdateLog() throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(true);
+
+        assertTrue(ehrExtractMessageHandler.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
+        verify(migrationStatusLogService).addMigrationStatusLog(ERROR, CONVERSATION_ID);
+    }
+
+    @Test
+    public void sendNackMessageWithErrorsShouldUpdateLog() throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(false);
+
+        assertFalse(ehrExtractMessageHandler.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
+        verify(migrationStatusLogService).addMigrationStatusLog(ERROR, CONVERSATION_ID);
+    }
+
+    @Test
+    public void sendNackMessageShouldParseMessageDataCorrectly() throws JAXBException {
+
+        NACKMessageData expectedMessageData = NACKMessageData.builder()
+            .nackCode(TEST_NACK_CODE)
+            .toOdsCode(TEST_TO_ODS)
+            .toAsid(TEST_TO_ASID)
+            .fromAsid(TEST_FROM_ASID)
+            .conversationId(CONVERSATION_ID)
+            .messageRef(TEST_MESSAGE_REF)
+            .build();
+
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        ehrExtractMessageHandler.sendNackMessage(
+            NACKReason.LARGE_MESSAGE_GENERAL_FAILURE,
+            payload,
+            CONVERSATION_ID);
+
+        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
+        assertEquals(expectedMessageData, ackMessageDataCaptor.getValue());
+    }
+
+    @Test
+    public void sendNackMessageWithReAssemblyFailureShouldHaveCorrectValue() throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        ehrExtractMessageHandler.sendNackMessage(
+            NACKReason.LARGE_MESSAGE_REASSEMBLY_FAILURE,
+            payload,
+            CONVERSATION_ID);
+
+        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
+        assertEquals("29", ackMessageDataCaptor.getValue().getNackCode());
+    }
+
+    @Test
+    public void sendNeckMessageWithAttachmentsNotReceivedShouldHaveCorrectValue() throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        ehrExtractMessageHandler.sendNackMessage(
+            NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED,
+            payload,
+            CONVERSATION_ID);
+
+        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
+        assertEquals("31", ackMessageDataCaptor.getValue().getNackCode());
+    }
+
+    @Test
+    public void sendNackMessageWithGeneralFailureShouldHaveCorrectValue() throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        ehrExtractMessageHandler.sendNackMessage(
+            NACKReason.LARGE_MESSAGE_GENERAL_FAILURE,
+            payload,
+            CONVERSATION_ID);
+
+        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
+        assertEquals("30", ackMessageDataCaptor.getValue().getNackCode());
+    }
+
+    @Test
+    public void sendNackMessageWithTimeoutFailureShouldHaveCorrectValue() throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        ehrExtractMessageHandler.sendNackMessage(
+            NACKReason.LARGE_MESSAGE_TIMEOUT,
+            payload,
+            CONVERSATION_ID);
+
+        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
+        assertEquals("25", ackMessageDataCaptor.getValue().getNackCode());
     }
 }

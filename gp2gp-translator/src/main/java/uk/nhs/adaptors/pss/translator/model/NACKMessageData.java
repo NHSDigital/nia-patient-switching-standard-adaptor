@@ -8,22 +8,23 @@ import lombok.NonNull;
 @Builder
 @Getter
 @EqualsAndHashCode
-public class ACKMessageData {
+public class NACKMessageData {
     /**
      * The conversation ID the message relates to
      */
     @NonNull
     private String conversationId;
     /**
-     * The acknowledgement type
-     * <pre>
-     *     Accept = AA
-     *     Error = AE
-     *     Reject = AR
-     * </pre>
+     * The reason for the negative acknowledgement:
+     * <ul>
+     *    <li>Large message re-assembly failure = 29</li>
+     *    <li>Rejection because one or more attachments were not received = 31</li>
+     *    <li>Large message general failure = 30</li>
+     *    <li>Large messaging timeout = 25</li>
+     * </ul>
      */
     @NonNull
-    private String ackType;
+    private String nackCode;
     /**
      * The ODS code of the incumbent system
      */

@@ -1,34 +1,35 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+
+import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
-import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
-import uk.nhs.adaptors.pss.translator.service.ACKMessageService;
+import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
+import uk.nhs.adaptors.pss.translator.service.NACKMessageService;
 
 @Slf4j
 @Component
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class SendACKMessageHandler {
+public class SendNACKMessageHandler {
 
     private final MhsRequestBuilder requestBuilder;
     private final MhsClientService mhsClientService;
-    private final ACKMessageService messageService;
+    private final NACKMessageService messageService;
 
     @SneakyThrows
-    public boolean prepareAndSendMessage(ACKMessageData messageData) {
+    public boolean prepareAndSendMessage(NACKMessageData messageData) {
         String ackMessage = messageService.buildMessage(messageData);
         OutboundMessage outboundMessage = new OutboundMessage(ackMessage);
         var request = requestBuilder.buildSendACKRequest(
-                messageData.getConversationId(),
-                messageData.getToOdsCode(),
-                outboundMessage);
+            messageData.getConversationId(),
+            messageData.getToOdsCode(),
+            outboundMessage);
 
         try {
             String response = mhsClientService.send(request);
@@ -41,6 +42,4 @@ public class SendACKMessageHandler {
         LOGGER.info("Got response from MHS - 202 Accepted");
         return true;
     }
-
-
 }

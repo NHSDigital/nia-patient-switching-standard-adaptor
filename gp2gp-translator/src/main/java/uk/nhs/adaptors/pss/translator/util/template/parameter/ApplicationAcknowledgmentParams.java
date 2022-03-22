@@ -8,7 +8,7 @@ import lombok.Getter;
 public class ApplicationAcknowledgmentParams {
     private String messageId;
     private String creationTime;
-    private String ackType;
+    private String nackCode;
     private String messageRef;
     private String toAsid;
     private String fromAsid;
