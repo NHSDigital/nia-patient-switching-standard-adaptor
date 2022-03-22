@@ -14,9 +14,9 @@ public class ImmunizationSnomedCTMapper implements RowMapper<ImmunizationSnomedC
     @Override
     public ImmunizationSnomedCT map(ResultSet rs, StatementContext ctx) throws SQLException {
         return ImmunizationSnomedCT.builder()
-            .id(rs.getString("id"))
             .conceptid(rs.getString("conceptid"))
-            .term(rs.getString("term"))
+            .description(rs.getString("description"))
+            .safetyCode(rs.getString("safetycode"))
             .build();
     }
 }

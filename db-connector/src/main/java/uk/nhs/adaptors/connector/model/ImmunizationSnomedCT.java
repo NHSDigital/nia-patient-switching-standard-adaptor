@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ImmunizationSnomedCT {
-    private String id;
     private String conceptid;
-    private String term;
+    private String description;
+    private String safetyCode;
 }

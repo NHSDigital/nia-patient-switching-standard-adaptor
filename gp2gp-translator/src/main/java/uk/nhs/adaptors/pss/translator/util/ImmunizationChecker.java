@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import org.hl7.v3.CD;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.RequiredArgsConstructor;
@@ -11,11 +10,8 @@ public class ImmunizationChecker implements iImmunizationChecker {
     private final ImmunizationSnomedCTDao immunizationSnomedDao;
 
     @Override
-    public boolean isImmunization(CD code) {
-        if (code.hasCodeSystem()) {
-            var immunizationCode = immunizationSnomedDao.getImmunizationSnomednUsingConceptId(code.getCodeSystem());
-            return immunizationCode != null;
-        }
-        return false;
+    public boolean isImmunization(String code) {
+        var immunizationCode = immunizationSnomedDao.getImmunizationSnomednUsingConceptId(code);
+        return immunizationCode != null;
     }
 }

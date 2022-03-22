@@ -31,16 +31,7 @@ CREATE INDEX langrefset_referencedcomponentid_idx ON snomedct.langrefset_s
     USING btree (referencedcomponentid);
 
 create table immunization_codes(
-                              id varchar(18) not null,
-                              effectivetime char(8) not null,
-                              active char(1) not null,
-                              moduleid varchar(18) not null,
                               conceptid varchar(18) not null,
-                              languagecode varchar(2) not null,
-                              typeid varchar(18) not null,
-                              term text not null,
-                              casesignificanceid varchar(18) not null,
-                              PRIMARY KEY(id, effectivetime)
+                              description text not null,
+                              safetycode varchar(18) not null
 );
-CREATE INDEX immunization_codes_conceptid_idx ON snomedct.immunization_codes
-    USING btree (conceptid COLLATE pg_catalog."default");
