@@ -76,7 +76,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
 
     private void setReferralRequestReasonCode(ReferralRequest referralRequest, CD code) {
         if (code != null) {
-            referralRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(code, false));
+            referralRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(code));
         }
     }
 

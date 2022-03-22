@@ -60,7 +60,7 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
             .setId(id);
         procedureRequest.getIdentifier().add(buildIdentifier(id, practiseCode));
         procedureRequest.getNote().add(getNote(planStatement.getText()));
-        procedureRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode(), false));
+        procedureRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode()));
         procedureRequest.getRequester().setAgent(ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(),
             ehrComposition));
 

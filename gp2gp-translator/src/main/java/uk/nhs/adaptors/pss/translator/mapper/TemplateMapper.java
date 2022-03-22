@@ -100,7 +100,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
             .setSubject(new Reference(patient))
             .setIssuedElement(getIssued(ehrComposition, ehrExtract))
             .addPerformer(getParticipantReference(compoundStatement.getParticipant(), ehrComposition))
-            .setCode(codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode(), false))
+            .setCode(codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode()))
             .setStatus(FINAL)
             .addIdentifier(buildIdentifier(id, practiseCode))
             .setMeta(generateMeta(OBSERVATION_META_PROFILE))

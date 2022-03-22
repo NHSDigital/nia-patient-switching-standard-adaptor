@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -56,7 +55,7 @@ public class TemplateMapperTest {
 
     @Test
     public void testMapTemplateWithAllData() {
-        when(codeableConceptMapper.mapToCodeableConcept(any(), eq(false))).thenReturn(CODEABLE_CONCEPT);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_template.xml");
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
@@ -77,7 +76,7 @@ public class TemplateMapperTest {
 
     @Test
     public void testMapTemplateWithFallbackData() {
-        when(codeableConceptMapper.mapToCodeableConcept(any(), eq(false))).thenReturn(CODEABLE_CONCEPT);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
 
         var ehrExtract = unmarshallEhrExtractElement("fallback_template.xml");
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
@@ -94,7 +93,7 @@ public class TemplateMapperTest {
 
     @Test
     public void testMapNestedTemplate() {
-        when(codeableConceptMapper.mapToCodeableConcept(any(), eq(false))).thenReturn(CODEABLE_CONCEPT);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
 
         var ehrExtract = unmarshallEhrExtractElement("nested_template.xml");
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);

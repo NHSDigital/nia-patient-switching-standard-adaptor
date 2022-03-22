@@ -22,7 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -106,7 +105,7 @@ public class ConditionMapperTest {
     public void testConditionIsMappedCorrectlyWithNamedStatementRef() {
         when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
         var codeableConcept = new CodeableConcept().addCoding(new Coding().setDisplay(CODING_DISPLAY));
-        when(codeableConceptMapper.mapToCodeableConcept(any(), eq(false))).thenReturn(codeableConcept);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);

@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.springframework.util.ResourceUtils.getFile;
 import static org.mockito.Mockito.when;
@@ -42,7 +41,7 @@ public class MedicationMapperTest {
 
     @BeforeEach
     public void setup() {
-        when(codeableConceptMapper.mapToCodeableConcept(any(), eq(true))).thenReturn(new CodeableConcept());
+        when(codeableConceptMapper.mapToCodeableConceptForMedication(any())).thenReturn(new CodeableConcept());
     }
 
     @Test
@@ -50,7 +49,7 @@ public class MedicationMapperTest {
         var consumable = unmarshallConsumable("consumable1.xml");
         var medication = medicationMapper.createMedication(consumable);
 
-        verify(codeableConceptMapper, times(1)).mapToCodeableConcept(any(), eq(true));
+        verify(codeableConceptMapper, times(1)).mapToCodeableConceptForMedication(any());
 
         assertThat(medication.getMeta()).isNotNull();
         assertThat(medication.getCode()).isNotNull();

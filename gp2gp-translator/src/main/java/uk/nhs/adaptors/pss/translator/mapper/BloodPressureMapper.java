@@ -94,7 +94,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
     }
 
     private CodeableConcept getCode(CD code) {
-        return code != null ? codeableConceptMapper.mapToCodeableConcept(code, false) : null;
+        return code != null ? codeableConceptMapper.mapToCodeableConcept(code) : null;
     }
 
     private List<ObservationComponentComponent> getComponent(List<RCMRMT030101UK04ObservationStatement> observationStatements) {

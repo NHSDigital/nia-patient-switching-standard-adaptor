@@ -100,10 +100,10 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
         if (referenceToExternalDocument != null && referenceToExternalDocument.hasCode()) {
             if (!referenceToExternalDocument.getCode().hasOriginalText() && referenceToExternalDocument.getCode().hasDisplayName()) {
-                return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode(), false)
+                return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode())
                     .setText(referenceToExternalDocument.getCode().getDisplayName());
             } else if (referenceToExternalDocument.getCode().hasOriginalText()) {
-                return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode(), false)
+                return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode())
                     .setText(referenceToExternalDocument.getCode().getOriginalText());
             }
         }

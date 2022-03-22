@@ -115,7 +115,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     }
 
     private CodeableConcept getCode(CD code) {
-        return code != null ? codeableConceptMapper.mapToCodeableConcept(code, false) : null;
+        return code != null ? codeableConceptMapper.mapToCodeableConcept(code) : null;
     }
 
     private String getValueString(Object value) {

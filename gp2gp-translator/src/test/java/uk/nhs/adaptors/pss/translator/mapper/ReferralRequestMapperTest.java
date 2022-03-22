@@ -4,7 +4,6 @@ import static java.util.UUID.randomUUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -87,7 +86,7 @@ public class ReferralRequestMapperTest {
         var coding = new Coding();
         coding.setDisplay(CODING_DISPLAY);
         codeableConcept.addCoding(coding);
-        when(codeableConceptMapper.mapToCodeableConcept(any(), eq(false))).thenReturn(codeableConcept);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT,
             ENCOUNTERS, PRACTISE_CODE);

@@ -122,7 +122,7 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
             .setUrl(VACCINE_PROCEDURE_URL)
             .setValue(new Extension()
                 .setUrl(VACCINATION_CODING_EXTENSION_URL)
-                .setValue(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode(), false))
+                .setValue(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
             );
     }
 
