@@ -16,6 +16,12 @@ services:
       - PS_AMQP_PASSWORD
       - PS_AMQP_MAX_REDELIVERIES
       - PS_LOGGING_LEVEL
+      - SSL_ENABLED
+      - KEY_STORE
+      - KEY_STORE_PASSWORD
+      - KEY_PASSWORD
+      - TRUST_STORE
+      - TRUST_STORE_PASSWORD
     networks:
       - ps-network
 

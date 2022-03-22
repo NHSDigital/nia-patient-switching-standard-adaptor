@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-export PS_DB_URL="jdbc:postgresql://localhost:5436"
 export PS_DB_OWNER_NAME="postgres"
 export PS_DB_OWNER_PASSWORD=
 export POSTGRES_PASSWORD=`echo $PS_DB_OWNER_PASSWORD`
@@ -14,3 +13,4 @@ export PS_AMQP_MAX_REDELIVERIES="3"
 export MHS_AMQP_MAX_REDELIVERIES="3"
 export MHS_BASE_URL="http://localhost:8080/"
 export PS_LOGGING_LEVEL="DEBUG"
+export SSL_ENABLED=false
