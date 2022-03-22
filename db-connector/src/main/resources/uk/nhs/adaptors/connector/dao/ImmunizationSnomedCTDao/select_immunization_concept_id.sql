@@ -1,0 +1,1 @@
+SELECT d.id, d.conceptid, d.term FROM "snomedct".immunization_codes d WHERE conceptid = :conceptId;
