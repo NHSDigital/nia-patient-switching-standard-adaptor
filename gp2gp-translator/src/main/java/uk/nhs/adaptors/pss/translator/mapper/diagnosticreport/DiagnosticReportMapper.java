@@ -33,12 +33,9 @@ import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.TS;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
-import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
