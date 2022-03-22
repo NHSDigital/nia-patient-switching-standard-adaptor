@@ -45,6 +45,7 @@ import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.ImmunizationChecker;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -68,6 +69,7 @@ public class EncounterMapper {
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final ConsultationListMapper consultationListMapper;
+    private final ImmunizationChecker immunizationChecker;
 
     public Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
         String practiseCode) {
@@ -108,7 +110,7 @@ public class EncounterMapper {
         var topic = consultationListMapper.mapToTopic(consultation, null);
 
         List<Reference> entryReferences = new ArrayList<>();
-        extractChildReferencesFromEhrComposition(ehrComposition, entryReferences);
+        extractChildReferencesFromEhrComposition(ehrComposition, entryReferences, immunizationChecker);
         entryReferences.forEach(reference -> addEntry(topic, reference));
 
         consultation.addEntry(new ListEntryComponent(new Reference(topic)));
@@ -161,7 +163,7 @@ public class EncounterMapper {
             var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement);
 
             List<Reference> entryReferences = new ArrayList<>();
-            extractChildReferencesFromCompoundStatement(categoryCompoundStatement, entryReferences);
+            extractChildReferencesFromCompoundStatement(categoryCompoundStatement, entryReferences, immunizationChecker);
             entryReferences.forEach(reference -> addEntry(category, reference));
 
             topic.addEntry(new ListEntryComponent(new Reference(category)));

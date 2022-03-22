@@ -28,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.util.ImmunizationChecker;
 
 @ExtendWith(MockitoExtension.class)
 public class ObservationMapperTest {
@@ -58,6 +59,9 @@ public class ObservationMapperTest {
     private CodeableConceptMapper codeableConceptMapper;
 
     @Mock
+    private ImmunizationChecker immunizationChecker;
+
+    @Mock
     private Patient patient;
 
     @InjectMocks
@@ -66,6 +70,7 @@ public class ObservationMapperTest {
     @Test
     public void mapObservationWithValidData() {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
+        when(immunizationChecker.isImmunization(any(String.class))).thenReturn(false);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);

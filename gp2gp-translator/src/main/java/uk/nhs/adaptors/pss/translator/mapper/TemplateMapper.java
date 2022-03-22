@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.ImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
@@ -43,6 +44,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
     private static final String QUESTIONNAIRE_REFERENCE = "%s-QRSP";
 
     private final CodeableConceptMapper codeableConceptMapper;
+    private final ImmunizationChecker immunizationChecker;
 
     @Override
     public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
@@ -75,7 +77,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
     private void addChildReferencesToQuestionnaireResponse(QuestionnaireResponse questionnaireResponse,
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         List<Reference> childResourceReferences = new ArrayList<>();
-        extractChildReferencesFromTemplate(compoundStatement, childResourceReferences);
+        extractChildReferencesFromTemplate(compoundStatement, childResourceReferences, immunizationChecker);
         childResourceReferences.forEach(reference -> {
             questionnaireResponse.addItem().addAnswer(
                 new QuestionnaireResponse.QuestionnaireResponseItemAnswerComponent().setValue(reference));

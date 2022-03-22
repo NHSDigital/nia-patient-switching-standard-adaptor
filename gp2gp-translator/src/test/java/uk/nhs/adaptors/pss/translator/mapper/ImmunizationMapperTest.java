@@ -25,6 +25,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.ImmunizationChecker;
 
 @ExtendWith(MockitoExtension.class)
 public class ImmunizationMapperTest {
@@ -42,6 +43,9 @@ public class ImmunizationMapperTest {
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
+
+    @Mock
+    private ImmunizationChecker immunizationChecker;
 
     @InjectMocks
     private ImmunizationMapper immunizationMapper;
@@ -200,6 +204,7 @@ public class ImmunizationMapperTest {
         coding.setDisplay(CODING_DISPLAY);
         codeableConcept.addCoding(coding);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+        when(immunizationChecker.isImmunization(any(String.class))).thenReturn(true);
     }
 
     private Patient getPatient() {

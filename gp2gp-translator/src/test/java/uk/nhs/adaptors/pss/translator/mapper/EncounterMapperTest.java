@@ -33,10 +33,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
+import uk.nhs.adaptors.pss.translator.util.ImmunizationChecker;
 
 @ExtendWith(MockitoExtension.class)
 public class EncounterMapperTest {
@@ -92,6 +95,9 @@ public class EncounterMapperTest {
 
     @Mock
     private ConsultationListMapper consultationListMapper;
+
+    @Mock
+    private ImmunizationChecker immunizationChecker;
 
     @InjectMocks
     private EncounterMapper encounterMapper;
@@ -467,6 +473,13 @@ public class EncounterMapperTest {
         coding.setDisplay(CODING_DISPLAY);
         codeableConcept.addCoding(coding);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+        lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
+            @Override
+            public Boolean answer(InvocationOnMock invocation) throws Throwable {
+                String code = invocation.getArgument(0);
+                return code.equals("1664081000000114");
+            }
+        });
     }
 
     private ListResource getList() {

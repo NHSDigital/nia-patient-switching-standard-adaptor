@@ -27,8 +27,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.ImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
-import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @AllArgsConstructor
@@ -43,13 +43,15 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         + "-DateRecorded-1";
 
     private CodeableConceptMapper codeableConceptMapper;
+    private ImmunizationChecker immunizationChecker;
 
     public List<Immunization> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patientResource,
         List<Encounter> encounterList, String practiseCode) {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllObservationStatements(component)
                 .filter(Objects::nonNull)
-                .filter(ResourceFilterUtil::isImmunization)
+                .filter(observationStatement -> observationStatement.hasCode()
+                    && immunizationChecker.isImmunization(observationStatement.getCode().getCode()))
                 .map(observationStatement ->
                     mapImmunization(composition, observationStatement, patientResource, encounterList, practiseCode)))
             .toList();

@@ -4,7 +4,6 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isAllergyIn
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDiagnosticReport;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDocumentReference;
-import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isImmunization;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isTemplate;
 
 import java.util.List;
@@ -28,21 +27,21 @@ public class ResourceReferenceUtil {
     private static final String QUESTIONNAIRE_REFERENCE = "QuestionnaireResponse/%s";
 
     public static void extractChildReferencesFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition,
-        List<Reference> entryReferences) {
+        List<Reference> entryReferences, ImmunizationChecker immunizationChecker) {
 
         ehrComposition.getComponent().forEach(component -> {
             addPlanStatementEntry(component.getPlanStatement(), entryReferences);
             addRequestStatementEntry(component.getRequestStatement(), entryReferences);
             addLinkSetEntry(component.getLinkSet(), entryReferences);
-            addObservationStatementEntry(component.getObservationStatement(), entryReferences, null);
+            addObservationStatementEntry(component.getObservationStatement(), entryReferences, null, immunizationChecker);
             addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
             addMedicationEntry(component.getMedicationStatement(), entryReferences);
-            extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences);
+            extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences, immunizationChecker);
         });
     }
 
     public static void extractChildReferencesFromCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement,
-        List<Reference> entryReferences) {
+        List<Reference> entryReferences, ImmunizationChecker immunizationChecker) {
         if (compoundStatement != null) {
             if (isDiagnosticReport(compoundStatement)) {
                 addDiagnosticReportEntry(compoundStatement, entryReferences);
@@ -52,7 +51,8 @@ public class ResourceReferenceUtil {
                 }
 
                 compoundStatement.getComponent().forEach(component -> {
-                    addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
+                    addObservationStatementEntry(
+                        component.getObservationStatement(), entryReferences, compoundStatement, immunizationChecker);
                     addPlanStatementEntry(component.getPlanStatement(), entryReferences);
                     addRequestStatementEntry(component.getRequestStatement(), entryReferences);
                     addLinkSetEntry(component.getLinkSet(), entryReferences);
@@ -62,22 +62,22 @@ public class ResourceReferenceUtil {
                         addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
                     }
 
-                    extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences);
+                    extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences, immunizationChecker);
                 });
             }
         }
     }
 
     public static void extractChildReferencesFromTemplate(RCMRMT030101UK04CompoundStatement compoundStatement,
-        List<Reference> entryReferences) {
+        List<Reference> entryReferences, ImmunizationChecker immunizationChecker) {
         compoundStatement.getComponent().forEach(component -> {
-            addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
+            addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement, immunizationChecker);
             addPlanStatementEntry(component.getPlanStatement(), entryReferences);
             addRequestStatementEntry(component.getRequestStatement(), entryReferences);
             addLinkSetEntry(component.getLinkSet(), entryReferences);
             addMedicationEntry(component.getMedicationStatement(), entryReferences);
             addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
-            extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences);
+            extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences, immunizationChecker);
         });
     }
 
@@ -100,14 +100,14 @@ public class ResourceReferenceUtil {
     }
 
     private static void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement,
-        List<Reference> entryReferences,
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        List<Reference> entryReferences, RCMRMT030101UK04CompoundStatement compoundStatement,
+        ImmunizationChecker immunizationChecker) {
         if (observationStatement != null && isNotIgnoredResource(compoundStatement, entryReferences)) {
             if (isBloodPressure(compoundStatement)) {
                 addBloodPressureEntry(compoundStatement, entryReferences);
             } else if (isAllergyIntolerance(compoundStatement)) {
                 addAllergyIntoleranceEntry(observationStatement, entryReferences);
-            } else if (isImmunization(observationStatement)) {
+            } else if (observationStatement.hasCode() && immunizationChecker.isImmunization(observationStatement.getCode().getCode())) {
                 addImmunizationEntry(observationStatement, entryReferences);
             } else {
                 addUncategorisedObservationEntry(observationStatement, entryReferences);

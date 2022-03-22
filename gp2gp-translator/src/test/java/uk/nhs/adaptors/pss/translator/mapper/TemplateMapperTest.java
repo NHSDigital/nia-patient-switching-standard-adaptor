@@ -24,6 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.ImmunizationChecker;
 
 @ExtendWith(MockitoExtension.class)
 public class TemplateMapperTest {
@@ -49,6 +50,9 @@ public class TemplateMapperTest {
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
+
+    @Mock
+    private ImmunizationChecker immunizationChecker;
 
     @InjectMocks
     private TemplateMapper templateMapper;
