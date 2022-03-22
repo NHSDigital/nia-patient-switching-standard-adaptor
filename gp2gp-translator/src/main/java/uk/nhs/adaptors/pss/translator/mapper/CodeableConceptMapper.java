@@ -35,6 +35,8 @@ public class CodeableConceptMapper {
     private boolean isMedicationResource = false;
 
     public CodeableConcept mapToCodeableConcept(CD codedData) {
+        this.isMedicationResource = false;
+
         if (hasSnomedCodeInMainCode(codedData)) {
             return generateSnomedCodeableConcept(codedData, null);
         } else if (hasSnomedCodeInTranslationElement(codedData)) {
@@ -74,16 +76,16 @@ public class CodeableConceptMapper {
             description = snomedCTDao.getSnomedDescriptionUsingConceptIdAndDisplayName(conceptId, displayName);
 
             if (preferredValuePresentNoDescriptionValue(preferredTerm, description)) {
-                return createCodeableConcept(conceptId, preferredTerm.getTerm(), determineTextFieldValue(originalText, displayName),
-                    createExtension(preferredTerm.getId(), null));
+                return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(),
+                    determineTextFieldValue(originalText, displayName), createExtension(preferredTerm.getId(), null));
             }
 
             if (preferredAndDescriptionValuesPresent(preferredTerm, description)) {
                 if (isDescriptionPreferredTerm(description, preferredTerm)) {
-                    return createCodeableConcept(conceptId, displayName, codedData.getOriginalText(),
+                    return createCodeableConcept(conceptId, SNOMED_SYSTEM, displayName, codedData.getOriginalText(),
                         createExtension(description.getId(), null));
                 } else {
-                    return createCodeableConcept(preferredTerm.getId(), preferredTerm.getTerm(), codedData.getOriginalText(),
+                    return createCodeableConcept(preferredTerm.getId(), SNOMED_SYSTEM, preferredTerm.getTerm(), codedData.getOriginalText(),
                         createExtension(description.getId(), description.getTerm()));
                 }
             }
@@ -98,7 +100,8 @@ public class CodeableConceptMapper {
                         : preferredTerm.getTerm();
                 }
 
-                return createCodeableConcept(conceptId, preferredTerm.getTerm(), text, createExtension(description.getId(), null));
+                return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(), text,
+                    createExtension(description.getId(), null));
             }
         }
 
@@ -107,7 +110,7 @@ public class CodeableConceptMapper {
                 ? displayName
                 : translationMainCodeHasDisplayName(mainCodeFromTranslation) ? mainCodeFromTranslation.getDisplayName() : null;
 
-            return createCodeableConcept(conceptId, display, originalText, null);
+            return createCodeableConcept(conceptId, SNOMED_SYSTEM, display, originalText, null);
         }
 
         return null;
@@ -142,13 +145,13 @@ public class CodeableConceptMapper {
                 if (!displayName.equals(description.getTerm())) {
                     text = displayName;
                 }
-                return createCodeableConcept(description.getConceptid(), description.getTerm(), determineTextFieldValue(originalText, text),
-                    createExtension(description.getId(), null));
+                return createCodeableConcept(description.getConceptid(), SNOMED_SYSTEM, description.getTerm(),
+                    determineTextFieldValue(originalText, text), createExtension(description.getId(), null));
             } else {
                 if (!displayName.equals(preferredTerm.getTerm())) {
                     text = displayName;
                 }
-                return createCodeableConcept(preferredTerm.getConceptid(), preferredTerm.getTerm(),
+                return createCodeableConcept(preferredTerm.getConceptid(), SNOMED_SYSTEM, preferredTerm.getTerm(),
                     determineTextFieldValue(originalText, text), createExtension(description.getId(), description.getTerm()));
             }
         }
@@ -156,13 +159,13 @@ public class CodeableConceptMapper {
         return null;
     }
 
-    private CodeableConcept createCodeableConcept(String code, String display, String text, Extension extension) {
+    private CodeableConcept createCodeableConcept(String code, String system, String display, String text, Extension extension) {
         var codeableConcept = new CodeableConcept();
         codeableConcept
             .setText(text)
             .getCodingFirstRep()
             .setCode(code)
-            .setSystem(CodeableConceptMapper.SNOMED_SYSTEM)
+            .setSystem(system)
             .setDisplay(display)
             .addExtension(extension);
         return codeableConcept;
