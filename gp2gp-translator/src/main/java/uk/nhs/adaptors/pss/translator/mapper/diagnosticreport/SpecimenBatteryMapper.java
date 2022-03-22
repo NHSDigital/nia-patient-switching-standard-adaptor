@@ -147,13 +147,6 @@ public class SpecimenBatteryMapper {
     }
 
     private Optional<InstantType> getIssued(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition) {
-        /**
-         * Taken from TransformHL7TSToFHIRinstant(containing ehrComposition/author/time/@value) or if
-         * value is nullFlavor taken from EhrEXtract/availabilityTime/@value converted to FHIR instant
-         * ** need to get something that is guaranteed not to be nullFlavor to fall back to.
-         * The  TransformHL7TSToFHIRinstant needs to be able to format and pad any valid non nullFlavor
-         * HL7 TS to the FHIR instant type
-         */
         if (hasValidTimeValue(ehrComposition.getAuthor())) {
             return Optional.of(parseToInstantType(ehrComposition.getAuthor().getTime().getValue()));
         }
