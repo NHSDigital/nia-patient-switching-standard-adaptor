@@ -115,7 +115,8 @@ public class CodeableConceptMapper {
         return null;
     }
 
-    private CodeableConcept generateCodeableConceptUsingDescriptionId(CD codedData, CD mainCodeFromTranslation, boolean isMedicationResource) {
+    private CodeableConcept generateCodeableConceptUsingDescriptionId(CD codedData, CD mainCodeFromTranslation,
+        boolean isMedicationResource) {
         var descriptionId = codedData.getCode();
 
         var displayName = translationMainCodeHasDisplayName(mainCodeFromTranslation)
