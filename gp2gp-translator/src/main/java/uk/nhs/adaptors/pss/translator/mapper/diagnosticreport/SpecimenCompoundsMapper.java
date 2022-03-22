@@ -104,6 +104,7 @@ public class SpecimenCompoundsMapper {
             if (clusterChildNarrativeStatement.getText().contains(USER_COMMENT_HEADER)) {
                 getObservationById(observationComments, clusterChildNarrativeStatement.getId().getRoot())
                     .ifPresent(observationComment -> {
+                        observationComment.setEffective(null);
                         observationComment.setComment(getLastLine(observationComment.getComment()));
                         createRelationship(observation, observationComment);
                     });

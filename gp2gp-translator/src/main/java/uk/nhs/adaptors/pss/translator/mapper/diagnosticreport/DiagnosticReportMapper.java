@@ -43,13 +43,10 @@ import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
 
     private static final String EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
     private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
-
-    private final CodeableConceptMapper codeableConceptMapper;
 
     @Override
     public List<DiagnosticReport> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
