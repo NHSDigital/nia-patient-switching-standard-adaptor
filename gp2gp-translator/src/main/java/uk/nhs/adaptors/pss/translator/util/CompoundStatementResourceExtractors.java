@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isAllergyIntolerance;
-import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDiagnosticReport;
 
 import java.util.stream.Stream;
 

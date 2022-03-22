@@ -24,7 +24,6 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.CD;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component02;
@@ -77,7 +76,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         diagnosticReport.setMeta(generateMeta(META_PROFILE_URL_SUFFIX));
         diagnosticReport.setId(id);
         diagnosticReport.addIdentifier(buildIdentifier(id, practiceCode));
-        diagnosticReport.setCode(createCodeableConcept());
+        diagnosticReport.setCode(createCode());
         diagnosticReport.setStatus(DiagnosticReportStatus.UNKNOWN);
         diagnosticReport.setSubject(new Reference(patient));
         diagnosticReport.setSpecimen(getSpecimenReferences(compoundStatement));
@@ -92,11 +91,11 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         getCompositionsContainingClusterCompoundStatement(ehrExtract)
             .stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
+            .filter(RCMRMT030101UK04Component4::hasCompoundStatement)
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
-            .filter(Objects::nonNull)
             .flatMap(compoundStatement -> compoundStatement.getComponent().stream())
+            .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
-            .filter(Objects::nonNull)
             .map(narrativeStatement -> getObservationCommentById(observationComments, narrativeStatement.getId().getRoot()))
             .flatMap(Optional::stream)
             .forEach(observationComment -> {
@@ -108,8 +107,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     private List<Reference> getSpecimenReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent()
             .stream()
+            .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
             .map(RCMRMT030101UK04Component02::getCompoundStatement)
-            .filter(Objects::nonNull)
             .filter(ResourceFilterUtil::isSpecimen)
             .map(compoundStatement1 -> new Reference(new IdType(ResourceType.Specimen.name(), compoundStatement1.getId().get(0).getRoot())))
             .toList();
@@ -118,8 +117,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     private void setResultReferences(RCMRMT030101UK04CompoundStatement compoundStatement, DiagnosticReport diagnosticReport) {
         var resultReferences = compoundStatement.getComponent()
             .stream()
+            .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
-            .filter(Objects::nonNull)
             .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
             .collect(toCollection(ArrayList::new));
 
@@ -186,13 +185,14 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         return availabilityTime != null && availabilityTime.hasValue() && !availabilityTime.hasNullFlavor();
     }
 
-    private CodeableConcept createCodeableConcept() {
-        final CD code = new CD();
-        code.setCode("721981007");
-        code.setCodeSystem("http://snomed.info/sct");
-        code.setDisplayName("Diagnostic studies report");
-
-        return codeableConceptMapper.mapToCodeableConcept(code);
+    private CodeableConcept createCode() {
+        var codeableConcept = new CodeableConcept();
+        codeableConcept
+            .getCodingFirstRep()
+            .setCode("721981007")
+            .setSystem("http://snomed.info/sct")
+            .setDisplay("Diagnostic studies report");
+        return codeableConcept;
     }
 
     private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingClusterCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {

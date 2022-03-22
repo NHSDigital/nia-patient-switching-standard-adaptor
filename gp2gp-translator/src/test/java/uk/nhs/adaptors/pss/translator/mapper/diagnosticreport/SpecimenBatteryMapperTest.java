@@ -1,7 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hl7.fhir.dstu3.model.Observation.*;
+import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
@@ -11,6 +11,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
+import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
@@ -26,6 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
+import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMapper.SpecimenBatteryParameters;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,16 +40,18 @@ public class SpecimenBatteryMapperTest {
     private static final String OBSERVATION_ID = "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1";
     private static final String OBSERVATION_STATEMENT_ID_1 = "BATTERY_DIRECT_CHILD_OBSERVATION_STATEMENT";
     private static final String OBSERVATION_STATEMENT_ID_2 = "OBSERVATION_STATEMENT_ID";
+    private static final String DIAGNOSTIC_REPORT_ID = "DIAGNOSTIC_REPORT_ID";
     private static final String ENCOUNTER_ID = "ENCOUNTER_ID";
     private static final String PATIENT_ID = "TEST_PATIENT_ID";
     private static final String SPECIMEN_ID = "TEST_SPECIMEN_ID_1";
     private static final String META_PROFILE_SUFFIX = "Observation-1";
     private static final String EXPECTED_COMMENT = "Looks like Covid\nOr maybe not?";
     private static final Patient PATIENT = (Patient) new Patient().setId(PATIENT_ID);
+    private static final DiagnosticReport DIAGNOSTIC_REPORT = (DiagnosticReport) new DiagnosticReport().setId(DIAGNOSTIC_REPORT_ID);
     private static final InstantType OBSERVATION_ISSUED = parseToInstantType("202203021160700");
-    private static final DateTimeType OBSERVATION_EFFECTIVE = parseToDateTimeType("20100225154100");
+    private static final DateTimeType OBSERVATION_EFFECTIVE = parseToDateTimeType("20100223000000");
 
-    private final List<Encounter> ENCOUNTERS = generateEncounters();
+    private final List<Encounter> encounters = generateEncounters();
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -59,10 +63,20 @@ public class SpecimenBatteryMapperTest {
     public void testMappingObservationFromBatteryCompoundStatement() {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
         var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
-        final Observation observation = specimenBatteryMapper.mapBatteryObservation(
-            ehrExtract, batteryCompoundStatement, getSpecimenCompoundStatement(ehrExtract),
-            getEhrComposition(ehrExtract), PATIENT, ENCOUNTERS, PRACTISE_CODE
-        );
+
+        var batteryParameters = SpecimenBatteryParameters.builder()
+            .ehrExtract(ehrExtract)
+            .batteryCompoundStatement(batteryCompoundStatement)
+            .specimenCompoundStatement(getSpecimenCompoundStatement(ehrExtract))
+            .ehrComposition(getEhrComposition(ehrExtract))
+            .diagnosticReport(DIAGNOSTIC_REPORT)
+            .patient(PATIENT)
+            .encounters(encounters)
+            .practiseCode(PRACTISE_CODE)
+            .build();
+
+        final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
+
         assertThat(observation.getId()).isEqualTo(OBSERVATION_ID);
         assertThat(observation.getIdentifierFirstRep().getSystem()).contains(PRACTISE_CODE);
         assertThat(observation.getEffectiveDateTimeType().getValueAsString()).isEqualTo(OBSERVATION_EFFECTIVE.getValueAsString());
@@ -102,7 +116,7 @@ public class SpecimenBatteryMapperTest {
     }
 
     private RCMRMT030101UK04CompoundStatement getBatteryCompoundStatements(RCMRMT030101UK04EhrExtract ehrExtract) {
-         return getEhrComposition(ehrExtract).getComponent()
+        return getEhrComposition(ehrExtract).getComponent()
             .stream()
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
             .filter(compoundStatement -> BATTERY_CLASSCODE.equals(compoundStatement.getClassCode().get(0)))

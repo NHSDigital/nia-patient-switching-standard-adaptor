@@ -20,7 +20,6 @@ import org.hl7.fhir.dstu3.model.Observation.ObservationRelatedComponent;
 import org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.CD;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
@@ -32,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
+import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMapper.SpecimenBatteryParameters;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 
 @Service
@@ -43,7 +42,6 @@ public class SpecimenCompoundsMapper {
     private static final String CLUSTER_CLASSCODE = "CLUSTER";
     private static final String USER_COMMENT_HEADER = "USER COMMENT";
 
-    private final CodeableConceptMapper codeableConceptMapper;
     private final SpecimenBatteryMapper batteryMapper;
 
     public List<Observation> handleSpecimenChildComponents(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observations,
@@ -68,12 +66,18 @@ public class SpecimenCompoundsMapper {
                                 specimenCompoundStatement, batteryCompoundStatement, observations, observationComments, diagnosticReport
                             );
 
-                            final Observation batteryObservation = batteryMapper.mapBatteryObservation(
-                                ehrExtract, batteryCompoundStatement, specimenCompoundStatement,
-                                getCurrentEhrComposition(ehrExtract, parentCompoundStatement), patient, encounters, practiseCode
-                            );
+                            final SpecimenBatteryParameters batteryParameters = SpecimenBatteryParameters.builder()
+                                .ehrExtract(ehrExtract)
+                                .batteryCompoundStatement(batteryCompoundStatement)
+                                .specimenCompoundStatement(specimenCompoundStatement)
+                                .ehrComposition(getCurrentEhrComposition(ehrExtract, parentCompoundStatement))
+                                .diagnosticReport(diagnosticReport)
+                                .patient(patient)
+                                .encounters(encounters)
+                                .practiseCode(practiseCode)
+                                .build();
 
-                            batteryObservations.add(batteryObservation);
+                            batteryObservations.add(batteryMapper.mapBatteryObservation(batteryParameters));
                         }
                     );
                 })));
@@ -215,11 +219,13 @@ public class SpecimenCompoundsMapper {
     }
 
     private CodeableConcept createCategory() {
-        final CD cd = new CD();
-        cd.setCodeSystem("http://hl7.org/fhir/observation-category");
-        cd.setCode("laboratory");
-        cd.setDisplayName("Laboratory");
-        return codeableConceptMapper.mapToCodeableConcept(cd);
+        var codeableConcept = new CodeableConcept();
+        codeableConcept
+            .getCodingFirstRep()
+            .setCode("laboratory")
+            .setSystem("http://hl7.org/fhir/observation-category")
+            .setDisplay("Laboratory");
+        return codeableConcept;
     }
 
     private List<RCMRMT030101UK04CompoundStatement> getSpecimenCompoundStatements(
@@ -259,7 +265,8 @@ public class SpecimenCompoundsMapper {
             .toList();
     }
 
-    private RCMRMT030101UK04EhrComposition getCurrentEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04CompoundStatement parentCompoundStatement) {
+    private RCMRMT030101UK04EhrComposition getCurrentEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UK04CompoundStatement parentCompoundStatement) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component3::hasEhrComposition)

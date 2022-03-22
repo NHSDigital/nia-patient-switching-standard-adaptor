@@ -7,7 +7,6 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
-import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
@@ -22,8 +21,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DateTimeMapper;
-import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMapper;
-import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenCompoundsMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class SpecimenCompoundsMapperTest {
