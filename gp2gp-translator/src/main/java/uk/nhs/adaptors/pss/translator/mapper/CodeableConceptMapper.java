@@ -174,7 +174,7 @@ public class CodeableConceptMapper {
         }
 
         Extension extension = new Extension();
-        
+
         extension.setUrl(EXTENSION_URL);
 
         if (StringUtils.isNotEmpty(descriptionId)) {
