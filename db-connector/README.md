@@ -14,7 +14,7 @@ will be executed on the patient_switching database.
 
 Set the following env variables:
 - PS_DB_OWNER_NAME
-- PGPASSWORD
+- POSTGRES_PASSWORD
 - PS_DB_URL
 
 To run the migrations use the following command:

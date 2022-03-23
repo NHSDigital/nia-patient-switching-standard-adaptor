@@ -16,7 +16,7 @@ Script does not load full SNOMED DB - only the subset required by PS Adaptor.
 1. Download SNOMED CT Release 
 2. Set the following env vars:
 - PS_DB_OWNER_NAME (database user, needs permissions to create/drop schemas), e.g. `export PS_DB_OWNER_NAME='postgres'`
-- PGPASSWORD (database user password), e.g. `export PGPASSWORD='********'`
+- POSTGRES_PASSWORD (database user password), e.g. `export POSTGRES_PASSWORD='********'`
 - PS_DB_HOST (database host), e.g. `export PS_DB_HOST='localhost'`
 - PS_DB_PORT (database port), e.g. `export PS_DB_PORT='5432'`
 
