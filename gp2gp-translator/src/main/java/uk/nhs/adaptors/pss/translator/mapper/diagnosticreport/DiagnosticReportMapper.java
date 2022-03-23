@@ -27,8 +27,6 @@ import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -62,6 +60,24 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
                 )).toList();
     }
 
+    public void handleChildObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observationComments) {
+        ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
+            .stream()
+            .flatMap(e -> e.getEhrComposition().getComponent().stream())
+            .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
+            .filter(Objects::nonNull)
+            .filter(ResourceFilterUtil::isDiagnosticReport)
+            .flatMap(e -> e.getComponent().stream())
+            .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
+            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .map(narrativeStatement -> getObservationCommentById(observationComments, narrativeStatement.getId().getRoot()))
+            .flatMap(Optional::stream)
+            .forEach(observationComment -> {
+                observationComment.setEffective(null);
+                observationComment.setComment(getLastLine(observationComment.getComment()));
+            });
+    }
+
     private DiagnosticReport createDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient,
         RCMRMT030101UK04EhrComposition composition, List<Encounter> encounters, String practiceCode) {
         final DiagnosticReport diagnosticReport = new DiagnosticReport();
@@ -79,23 +95,6 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         setResultReferences(compoundStatement, diagnosticReport);
 
         return diagnosticReport;
-    }
-
-    public void mapChildObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observationComments) {
-        getCompositionsContainingClusterCompoundStatement(ehrExtract)
-            .stream()
-            .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
-            .filter(RCMRMT030101UK04Component4::hasCompoundStatement)
-            .map(RCMRMT030101UK04Component4::getCompoundStatement)
-            .flatMap(compoundStatement -> compoundStatement.getComponent().stream())
-            .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
-            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
-            .map(narrativeStatement -> getObservationCommentById(observationComments, narrativeStatement.getId().getRoot()))
-            .flatMap(Optional::stream)
-            .forEach(observationComment -> {
-                observationComment.setEffective(null);
-                observationComment.setComment(getLastLine(observationComment.getComment()));
-            });
     }
 
     private List<Reference> getSpecimenReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
@@ -187,17 +186,5 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .setSystem("http://snomed.info/sct")
             .setDisplay("Diagnostic studies report");
         return codeableConcept;
-    }
-
-    private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingClusterCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
-        return ehrExtract.getComponent().stream()
-            .flatMap(component -> component.getEhrFolder().getComponent().stream())
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> ehrComposition.getComponent()
-                .stream()
-                .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
-                .filter(Objects::nonNull)
-                .anyMatch(ResourceFilterUtil::isDiagnosticReport))
-            .toList();
     }
 }

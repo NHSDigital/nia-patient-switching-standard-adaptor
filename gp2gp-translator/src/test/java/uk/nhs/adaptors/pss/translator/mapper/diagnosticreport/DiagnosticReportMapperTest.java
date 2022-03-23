@@ -98,7 +98,7 @@ public class DiagnosticReportMapperTest {
     public void testMappingChildObservationComments() {
         RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_observations.xml");
         List<Observation> observationComments = createObservationCommentList();
-        diagnosticReportMapper.mapChildObservationComments(ehrExtract, observationComments);
+        diagnosticReportMapper.handleChildObservationComments(ehrExtract, observationComments);
         assertThat(observationComments.get(0).hasEffective()).isFalse();
         assertThat(observationComments.get(0).getComment()).isEqualTo(NARRATIVE_STATEMENT_TEXT);
     }

@@ -171,7 +171,7 @@ public class BundleMapperServiceTest {
             any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString()
         );
         verify(specimenMapper).mapSpecimen(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), anyString());
-        verify(diagnosticReportMapper).mapChildObservationComments(any(RCMRMT030101UK04EhrExtract.class), anyList());
+        verify(diagnosticReportMapper).handleChildObservationComments(any(RCMRMT030101UK04EhrExtract.class), anyList());
         verify(specimenCompoundsMapper).handleSpecimenChildComponents(
             any(RCMRMT030101UK04EhrExtract.class), anyList(), anyList(), anyList(), any(Patient.class), anyList(), anyString()
         );

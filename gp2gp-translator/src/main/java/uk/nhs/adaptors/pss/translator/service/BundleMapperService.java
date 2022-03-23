@@ -141,10 +141,10 @@ public class BundleMapperService {
     private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         List<Observation> observations, List<Observation> observationComments, String practiceCode) {
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, patient, encounters, practiceCode);
+        diagnosticReportMapper.handleChildObservationComments(ehrExtract, observationComments);
         var specimen = specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
         addEntries(bundle, diagnosticReports);
         addEntries(bundle, specimen);
-        diagnosticReportMapper.mapChildObservationComments(ehrExtract, observationComments);
         var batteryObservations = specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments,
             diagnosticReports, patient, encounters, practiceCode);
         addEntries(bundle, batteryObservations);
