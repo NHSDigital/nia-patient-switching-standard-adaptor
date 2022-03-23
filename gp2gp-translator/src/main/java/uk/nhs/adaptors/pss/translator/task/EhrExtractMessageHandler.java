@@ -15,6 +15,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
+import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
@@ -24,6 +26,7 @@ import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EhrExtractMessageHandler {
     private final MigrationStatusLogService migrationStatusLogService;
+    private final PatientMigrationRequestDao migrationRequestDao;
     private final FhirParser fhirParser;
     private final BundleMapperService bundleMapperService;
     private final ObjectMapper objectMapper;
@@ -31,8 +34,9 @@ public class EhrExtractMessageHandler {
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException {
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
+        PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
 
-        var bundle = bundleMapperService.mapToBundle(payload);
+        var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLoosingPracticeOdsCode());
         migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
             conversationId,
             fhirParser.encodeToJson(bundle),
