@@ -40,7 +40,7 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [snomed
 1. Go to `docker` directory
 2. Create a copy of `example.vars.sh`, name it `vars.sh`
 3. Fill in the passwords inside `vars.sh` file:
-   - POSTGRES_PASSWORD: Password to be set for the user used to run migrations.It will also be the password for the default postgres user.
+   - POSTGRES_PASSWORD: Password to be set for the user used to run migrations. It will also be the password for the default postgres user.
    - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
    - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
    
