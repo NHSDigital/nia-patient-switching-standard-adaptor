@@ -49,7 +49,7 @@ services:
     ports:
       - "5436:5432"
     environment:
-      - PGPASSWORD
+      - POSTGRES_PASSWORD
       - PS_DB_OWNER_NAME
     networks:
       - ps-network
@@ -59,7 +59,7 @@ services:
       context: ../
       dockerfile: ./docker/db-migration/Dockerfile
     environment:
-      - PGPASSWORD
+      - POSTGRES_PASSWORD
       - PS_DB_OWNER_NAME
       - PS_DB_URL
       - GPC_FACADE_USER_DB_PASSWORD
@@ -73,7 +73,7 @@ services:
       dockerfile: ./docker/snomed-schema/Dockerfile
     environment:
       - PS_DB_OWNER_NAME
-      - PGPASSWORD
+      - POSTGRES_PASSWORD
       - PS_DB_HOST
       - PS_DB_PORT
     networks:

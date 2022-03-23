@@ -2,7 +2,7 @@
 
 export PS_DB_URL="jdbc:postgresql://localhost:5436"
 export PS_DB_OWNER_NAME="postgres"
-export PGPASSWORD=
+export POSTGRES_PASSWORD=
 export GPC_FACADE_USER_DB_PASSWORD=
 export GP2GP_TRANSLATOR_USER_DB_PASSWORD=
 export GP2GP_TRANSLATOR_SERVER_PORT="8085"
