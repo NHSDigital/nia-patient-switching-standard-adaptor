@@ -50,11 +50,17 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllObservationStatements(component)
                 .filter(Objects::nonNull)
-                .filter(observationStatement -> observationStatement.hasCode()
-                    && immunizationChecker.isImmunization(observationStatement.getCode().getCode()))
+                .filter(this::isImmunization)
                 .map(observationStatement ->
                     mapImmunization(composition, observationStatement, patientResource, encounterList, practiseCode)))
             .toList();
+    }
+
+    private boolean isImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
+        if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
+            return immunizationChecker.isImmunization(observationStatement.getCode().getCode());
+        }
+        return false;
     }
 
     private Immunization mapImmunization(RCMRMT030101UK04EhrComposition ehrComposition,

@@ -27,6 +27,10 @@ public class MedicationMapperContext {
         }
     }
 
+    public void reset() {
+        medicationIds.get().clear();
+    }
+
     public boolean contains(CD code) {
         return medicationIds.get().containsKey(buildKey(code));
     }
