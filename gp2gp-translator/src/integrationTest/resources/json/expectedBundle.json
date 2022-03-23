@@ -2197,13 +2197,33 @@
           "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
         }
       },
-      "reasonCode": [ {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "282653015",
-          "display": "Medication review"
-        } ]
-      } ]
+      "reasonCode": [
+        {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "282653015"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Medication review"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "182836005",
+              "display": "Review of medication"
+            }
+          ],
+          "text": "Medication review"
+        }
+      ]
     }
   }, {
     "resource": {
@@ -2231,13 +2251,28 @@
           "reference": "Practitioner/8D1610C2-5E48-4ED5-882B-5A4A172AFA35"
         }
       },
-      "reasonCode": [ {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "2534664018",
-          "display": "Ischaemic heart disease"
-        } ]
-      } ],
+      "reasonCode": [
+        {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "2534664018"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "414545008",
+              "display": "Ischaemic heart disease"
+            }
+          ]
+        }
+      ],
       "note": [ {
         "text": "Added from a problem within a consultation"
       } ]
@@ -2268,13 +2303,28 @@
           "reference": "Practitioner/8D1610C2-5E48-4ED5-882B-5A4A172AFA35"
         }
       },
-      "reasonCode": [ {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "2534664018",
-          "display": "Ischaemic heart disease"
-        } ]
-      } ],
+      "reasonCode": [
+        {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "2534664018"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "414545008",
+              "display": "Ischaemic heart disease"
+            }
+          ]
+        }
+      ],
       "note": [ {
         "text": "Added from a problem within a consultation"
       } ]
@@ -2307,13 +2357,29 @@
       "recipient": [ {
         "reference": "Practitioner/B8CA3710-4D1C-11E3-9E6B-010000001205"
       } ],
-      "reasonCode": [ {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "183885007",
-          "display": "Reason Code 1"
-        } ]
-      } ],
+      "reasonCode": [
+        {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "284094011"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "183885007",
+              "display": "Private referral to obstetrician"
+            }
+          ],
+          "text": "Reason Code 1"
+        }
+      ],
       "note": [ {
         "text": "Priority: Routine"
       }, {
@@ -2350,13 +2416,29 @@
       "recipient": [ {
         "reference": "Practitioner/B8CA3710-4D1C-11E3-9E6B-010000001205"
       } ],
-      "reasonCode": [ {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "183885007",
-          "display": "Reason Code 1"
-        } ]
-      } ],
+      "reasonCode": [
+        {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "284094011"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "183885007",
+              "display": "Private referral to obstetrician"
+            }
+          ],
+          "text": "Reason Code 1"
+        }
+      ],
       "note": [ {
         "text": "Priority: Routine"
       }, {
@@ -2393,13 +2475,29 @@
       "recipient": [ {
         "reference": "Practitioner/B8CA3710-4D1C-11E3-9E6B-010000001205"
       } ],
-      "reasonCode": [ {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "183885007",
-          "display": "Reason Code 1"
-        } ]
-      } ],
+      "reasonCode": [
+        {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "284094011"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "183885007",
+              "display": "Private referral to obstetrician"
+            }
+          ],
+          "text": "Reason Code 1"
+        }
+      ],
       "note": [ {
         "text": "Priority: Routine"
       }, {
@@ -12711,11 +12809,13 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "320537007",
-          "display": "Beclometasone 100micrograms/dose inhaler"
-        } ]
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "3700154017",
+            "display": "Beclometasone dipropionate 100 microgram/actuation pressurised solution for inhalation"
+          }
+        ]
       }
     }
   }, {
@@ -21173,11 +21273,24 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "163020007",
-          "display": "O/E - blood pressure reading"
-        } ],
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "254063019"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "163020007",
+            "display": "O/E - blood pressure reading"
+          }
+        ],
         "text": "O/E - blood pressure reading"
       },
       "subject": {
@@ -21194,11 +21307,24 @@
       "comment": "Systolic Note: Test systolic pressure text Diastolic Note: Test diastolic pressure text BP Note: Systolic Measurement Absent: Unknown",
       "component": [ {
         "code": {
-          "coding": [ {
-            "system": "http://snomed.info/sct",
-            "code": "72313002",
-            "display": "Systolic arterial pressure"
-          } ],
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "120159016"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "72313002",
+              "display": "Systolic arterial pressure"
+            }
+          ],
           "text": "Systolic arterial pressure"
         },
         "valueQuantity": {
@@ -21283,11 +21409,24 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "163020007",
-          "display": "O/E - blood pressure reading"
-        } ],
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "254063019"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "163020007",
+            "display": "O/E - blood pressure reading"
+          }
+        ],
         "text": "O/E - blood pressure reading"
       },
       "subject": {
@@ -21301,11 +21440,24 @@
       "comment": "Systolic Note: Test systolic pressure text Diastolic Note: Test diastolic pressure text BP Note: Systolic Measurement Absent: Unknown",
       "component": [ {
         "code": {
-          "coding": [ {
-            "system": "http://snomed.info/sct",
-            "code": "72313002",
-            "display": "Systolic arterial pressure"
-          } ],
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "120159016"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "72313002",
+              "display": "Systolic arterial pressure"
+            }
+          ],
           "text": "Systolic arterial pressure"
         },
         "valueQuantity": {
@@ -21390,11 +21542,24 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "163020007",
-          "display": "O/E - blood pressure reading"
-        } ],
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "254063019"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "163020007",
+            "display": "O/E - blood pressure reading"
+          }
+        ],
         "text": "O/E - blood pressure reading"
       },
       "subject": {
@@ -21411,11 +21576,24 @@
       "comment": "Systolic Note: Test systolic pressure text Diastolic Note: Test diastolic pressure text BP Note: Systolic Measurement Absent: Unknown",
       "component": [ {
         "code": {
-          "coding": [ {
-            "system": "http://snomed.info/sct",
-            "code": "72313002",
-            "display": "Systolic arterial pressure"
-          } ],
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "120159016"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "72313002",
+              "display": "Systolic arterial pressure"
+            }
+          ],
           "text": "Systolic arterial pressure"
         },
         "valueQuantity": {
@@ -21500,11 +21678,7 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "137851000000113",
-          "display": "Medication review with patient"
-        } ]
+        "text": "Medication review with patient"
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -21531,11 +21705,29 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "282653015",
-          "display": "Medication review"
-        } ]
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "282653015"
+                  },
+                  {
+                    "url": "descriptionDisplay",
+                    "valueString": "Medication review"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "182836005",
+            "display": "Review of medication"
+          }
+        ],
+        "text": "Medication review"
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -21562,11 +21754,24 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "150085018",
-          "display": "Gout"
-        } ]
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "150085018"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "90560007",
+            "display": "Gout"
+          }
+        ]
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -21594,11 +21799,24 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "150085018",
-          "display": "Gout"
-        } ]
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "150085018"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "90560007",
+            "display": "Gout"
+          }
+        ]
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -21626,11 +21844,24 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "292686019",
-          "display": "Haemorrhage of parathyroid"
-        } ]
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "292686019"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "190460008",
+            "display": "Haemorrhage of parathyroid"
+          }
+        ]
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -21658,11 +21889,24 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "395102008",
-          "display": "H/O: aspirin allergy"
-        } ]
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "1488801013"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "395102008",
+            "display": "H/O: aspirin allergy"
+          }
+        ]
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -21690,11 +21934,25 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "360300017",
-          "display": "Test display"
-        } ]
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "360300017"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "240534005",
+            "display": "Hand wart"
+          }
+        ],
+        "text": "Test display"
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -21819,11 +22077,29 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "250208012",
-          "display": "Civil state unknown"
-        } ]
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "250208012"
+                  },
+                  {
+                    "url": "descriptionDisplay",
+                    "valueString": "Civil state unknown"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "160504008",
+            "display": "Marital state unknown"
+          }
+        ],
+        "text": "Civil state unknown"
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -21847,11 +22123,7 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "1990681000006116",
-          "display": "Preferred method of contact: unknown"
-        } ]
+        "text": "Preferred method of contact: unknown"
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -21934,11 +22206,24 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "267032009",
-          "display": "Tired all the time"
-        } ]
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "397879018"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "267032009",
+            "display": "Tired all the time"
+          }
+        ]
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -22150,11 +22435,24 @@
         } ]
       } ],
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "150085018",
-          "display": "Gout"
-        } ]
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "150085018"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "90560007",
+            "display": "Gout"
+          }
+        ]
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -23603,11 +23901,28 @@
       } ],
       "status": "final",
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "76880004",
-          "display": "Happy puppet syndrome"
-        } ]
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "127639017"
+                  },
+                  {
+                    "url": "descriptionDisplay",
+                    "valueString": "Happy puppet syndrome"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "127638013",
+            "display": "Angelman syndrome"
+          }
+        ]
       },
       "subject": {
         "reference": "Patient/c826aaa3-0f32-4a9c-bc82-86a79c56c894"
@@ -23633,11 +23948,24 @@
         "value": "diagnostic-compound-id"
       } ],
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "16488004",
-          "display": "laboratory reporting"
-        } ],
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "27898010"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "16488004",
+            "display": "Laboratory reporting"
+          }
+        ],
         "text": "Filed Report"
       },
       "subject": {
@@ -23668,11 +23996,24 @@
         "value": "DIAGNOSTIC_REPORT_ID_1"
       } ],
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "16488004",
-          "display": "laboratory reporting"
-        } ],
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "27898010"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "16488004",
+            "display": "Laboratory reporting"
+          }
+        ],
         "text": "Filed Report"
       },
       "subject": {
@@ -23695,11 +24036,24 @@
         "value": "DIAGNOSTIC_REPORT_ID_2"
       } ],
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "16488004",
-          "display": "laboratory reporting"
-        } ],
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "27898010"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "16488004",
+            "display": "Laboratory reporting"
+          }
+        ],
         "text": "Filed Report"
       },
       "subject": {
@@ -23726,11 +24080,24 @@
         "value": "39B3493E-2AAF-4780-9A2A-A3DCDC48C048"
       } ],
       "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "16488004",
-          "display": "laboratory reporting"
-        } ],
+        "coding": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                "extension": [
+                  {
+                    "url": "descriptionId",
+                    "valueId": "27898010"
+                  }
+                ]
+              }
+            ],
+            "system": "http://snomed.info/sct",
+            "code": "16488004",
+            "display": "Laboratory reporting"
+          }
+        ],
         "text": "Filed Report"
       },
       "subject": {
