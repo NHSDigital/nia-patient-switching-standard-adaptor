@@ -40,16 +40,15 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [snomed
 1. Go to `docker` directory
 2. Create a copy of `example.vars.sh`, name it `vars.sh`
 3. Fill in the passwords inside `vars.sh` file:
-   - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations. It will be set also as POSTGRES_PASSWORD variable, for default postgres user.
+   - PGPASSWORD: Password to be set for the user used to run migrations.It will also be the password for the default postgres user.
    - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
    - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
    
    There is an option to set following env variables when needed:
    - PS_DB_URL: Database URL required to run migrations (for local environment set 'jdbc:postgresql://localhost:5436/patient_switching')
-   - POSTGRES_PASSWORD: Password to be set for default postgres user.
-     This user is used to run the init script on the database. It is required during database creation.
    - PS_DB_OWNER_NAME: Username of user used to run migrations.
-   - PS_DB_OWNER_PASSWORD: Password to be set for the user used to run migrations.
+   - PGPASSWORD: Password to be set for the user used to run migrations. Also set for the default postgres user.
+     This user is used to run the init script on the database. It is required during database creation.
    - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
    - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
    - PS_AMQP_BROKER: Address of the broker with the pss queue
