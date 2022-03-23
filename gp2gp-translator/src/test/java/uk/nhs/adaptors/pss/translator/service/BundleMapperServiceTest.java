@@ -38,6 +38,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DiagnosticReportMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
@@ -48,6 +49,8 @@ import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.SpecimenCompoundsMapper;
+import uk.nhs.adaptors.pss.translator.mapper.SpecimenMapper;
 import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
@@ -61,6 +64,7 @@ public class BundleMapperServiceTest {
     private static final String CONSULTATION_KEY = "consultations";
     private static final String TOPIC_KEY = "topics";
     private static final String CATEGORY_KEY = "categories";
+    private static final String LOOSING_ODS_CODE = "S234";
 
     @Mock
     private BundleGenerator bundleGenerator;
@@ -98,6 +102,12 @@ public class BundleMapperServiceTest {
     private OrganizationMapper organizationMapper;
     @Mock
     private AllergyIntoleranceMapper allergyIntoleranceMapper;
+    @Mock
+    private DiagnosticReportMapper diagnosticReportMapper;
+    @Mock
+    private SpecimenMapper specimenMapper;
+    @Mock
+    private SpecimenCompoundsMapper specimenCompoundsMapper;
 
     @InjectMocks
     private BundleMapperService bundleMapperService;
@@ -127,7 +137,7 @@ public class BundleMapperServiceTest {
     @Test
     public void testAllMappersHaveBeenUsed() {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
-        Bundle bundle = bundleMapperService.mapToBundle(xml);
+        Bundle bundle = bundleMapperService.mapToBundle(xml, LOOSING_ODS_CODE);
 
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(organizationMapper).mapAuthorOrganization(anyString());
@@ -162,6 +172,14 @@ public class BundleMapperServiceTest {
         verify(templateMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
             anyString());
         verify(allergyIntoleranceMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
+        verify(diagnosticReportMapper).mapResources(
+            any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class)
+        );
+        verify(specimenMapper).mapSpecimen(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), any(String.class));
+        verify(diagnosticReportMapper).mapChildObservationComments(any(RCMRMT030101UK04EhrExtract.class), anyList());
+        verify(specimenCompoundsMapper).handleSpecimenChildComponents(
+            any(RCMRMT030101UK04EhrExtract.class), anyList(), anyList(), anyList()
+        );
     }
 
     @SneakyThrows

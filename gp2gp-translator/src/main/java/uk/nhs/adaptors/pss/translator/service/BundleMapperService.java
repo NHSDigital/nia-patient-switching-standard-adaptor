@@ -10,6 +10,7 @@ import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ResourceType;
@@ -29,6 +30,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DiagnosticReportMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
@@ -38,6 +40,8 @@ import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.SpecimenCompoundsMapper;
+import uk.nhs.adaptors.pss.translator.mapper.SpecimenMapper;
 import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
@@ -70,68 +74,81 @@ public class BundleMapperService {
     private final TemplateMapper templateMapper;
     private final OrganizationMapper organizationMapper;
     private final AllergyIntoleranceMapper allergyIntoleranceMapper;
+    private final DiagnosticReportMapper diagnosticReportMapper;
+    private final SpecimenMapper specimenMapper;
+    private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
-    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage) {
+    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage, String losingPracticeOdsCode) {
         Bundle bundle = generator.generateBundle();
         final RCMRMT030101UK04EhrExtract ehrExtract = getEhrExtract(xmlMessage);
         final RCMRMT030101UK04EhrFolder ehrFolder = getEhrFolder(xmlMessage);
-
-        var practiseCode = getPractiseCode(ehrExtract);
 
         var agents = mapAgentDirectories(ehrFolder);
         var patient = mapPatient(getEhrExtract(xmlMessage), getPatientOrganization(agents));
         addEntry(bundle, patient);
 
-        Organization authorOrg = organizationMapper.mapAuthorOrganization(practiseCode);
+        Organization authorOrg = organizationMapper.mapAuthorOrganization(losingPracticeOdsCode);
         addEntry(bundle, authorOrg);
 
         addEntries(bundle, agents);
 
-        var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, practiseCode);
+        var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, losingPracticeOdsCode);
         var encounters = handleMappedEncounterResources(mappedEncounterEhrCompositions, bundle);
 
-        var locations = mapLocations(ehrFolder, practiseCode);
+        var locations = mapLocations(ehrFolder, losingPracticeOdsCode);
         addEntries(bundle, locations);
 
-        var procedureRequests = procedureRequestMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        var procedureRequests = procedureRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
         addEntries(bundle, procedureRequests);
 
-        var referralRequests = referralRequestMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        var referralRequests = referralRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
         addEntries(bundle, referralRequests);
 
-        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
         addEntries(bundle, medicationResources);
 
-        var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
         addEntries(bundle, bloodPressures);
 
-        var observations = observationMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        var observations = observationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
         addEntries(bundle, observations);
 
-        var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
         addEntries(bundle, immunizations);
 
-        var conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        var conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
         addEntries(bundle, conditions);
 
-        var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
         addEntries(bundle, observationComments);
 
         var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg);
         addEntries(bundle, documentReferences);
 
-        var templates = templateMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        var templates = templateMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
         addEntries(bundle, templates);
 
-        var allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, patient, encounters, practiseCode);
+        var allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
         addEntries(bundle, allergyIntolerances);
 
-        LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
+        mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, losingPracticeOdsCode);
 
         conditionMapper.addReferences(bundle, conditions, ehrExtract);
         unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
 
+        LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
+
         return bundle;
+    }
+
+    private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+        List<Observation> observations, List<Observation> observationComments, String practiceCode) {
+        var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, patient, encounters, practiceCode);
+        var specimen = specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
+        addEntries(bundle, diagnosticReports);
+        addEntries(bundle, specimen);
+        diagnosticReportMapper.mapChildObservationComments(ehrExtract, observationComments);
+        specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments, diagnosticReports);
     }
 
     private List<Encounter> handleMappedEncounterResources(Map<String, List<? extends DomainResource>> mappedEncounterEhrCompositions,
@@ -150,20 +167,20 @@ public class BundleMapperService {
     }
 
     private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        String practiseCode) {
-        return encounterMapper.mapEncounters(ehrExtract, patient, practiseCode);
+        String loosingPracticeOdsCode) {
+        return encounterMapper.mapEncounters(ehrExtract, patient, loosingPracticeOdsCode);
     }
 
     private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UK04EhrFolder ehrFolder) {
         return agentDirectoryMapper.mapAgentDirectory(ehrFolder.getResponsibleParty().getAgentDirectory());
     }
 
-    private List<Location> mapLocations(RCMRMT030101UK04EhrFolder ehrFolder, String practiseCode) {
+    private List<Location> mapLocations(RCMRMT030101UK04EhrFolder ehrFolder, String loosingPracticeOdsCode) {
         return ehrFolder.getComponent().stream()
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> ehrComposition.getLocation() != null)
             .map(ehrComposition -> locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(),
-                practiseCode))
+                loosingPracticeOdsCode))
             .toList();
     }
 
@@ -193,9 +210,5 @@ public class BundleMapperService {
 
     private <T extends DomainResource> void addEntry(Bundle bundle, T resource) {
         bundle.addEntry(new BundleEntryComponent().setResource(resource));
-    }
-
-    private String getPractiseCode(RCMRMT030101UK04EhrExtract ehrExtract) {
-        return ehrExtract.getAuthor().getAgentOrgSDS().getAgentOrganizationSDS().getId().getExtension();
     }
 }
