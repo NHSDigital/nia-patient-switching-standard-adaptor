@@ -11,6 +11,7 @@ import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getPa
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,11 +25,13 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
+import org.hl7.v3.PQR;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Element;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
@@ -118,7 +121,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
 
         if (DRUG_ALLERGY_CODE.equals(compoundCode)) {
             if (observationStatement.hasValue() && observationStatement.getValue() instanceof CD value) {
-                if (CODE_SYSTEM.equals(value.getCodeSystem())) {
+                if (!CODE_SYSTEM.equals(value.getCodeSystem())) {
                     var codeableConceptFromValue = codeableConceptMapper.mapToCodeableConcept(value);
                     allergyIntolerance.setCode(codeableConceptFromValue);
 

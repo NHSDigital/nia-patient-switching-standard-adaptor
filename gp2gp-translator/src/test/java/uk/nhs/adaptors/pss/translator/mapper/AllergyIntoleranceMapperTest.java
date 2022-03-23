@@ -140,6 +140,27 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getExtension()).isEmpty();
     }
 
+    @Test
+    public void testMapAllergyWithTermText() {
+        var ehrExtract = unmarshallEhrExtract("drug-allergy-structure-with-term-text.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+            getEncounterList(), PRACTISE_CODE);
+
+        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertFixedValues(allergyIntolerance);
+
+        assertExtension(allergyIntolerance);
+        assertThat(allergyIntolerance.getCategory().get(0).getValue()).isEqualTo(MEDICATION);
+        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
+        assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
+        assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
+        assertThat(allergyIntolerance.getCode().getText()).isEqualTo("H/O: aspirin allergy");
+    }
+
     private void assertFixedValues(AllergyIntolerance allergyIntolerance) {
         assertThat(allergyIntolerance.getId()).isEqualTo(COMPOUND_STATEMENT_ROOT_ID);
         assertThat(allergyIntolerance.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
