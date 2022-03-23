@@ -12,73 +12,71 @@ then
 	exit -1
 fi
 
-if [ -z ${DB_OWNER_USERNAME} ]
+if [ -z ${PS_DB_OWNER_NAME} ]
 then
-  echo "Please set the following env var: DB_OWNER_USERNAME, e.g. \"export DB_OWNER_USERNAME='postgres'\""
+  echo "Please set the following env var: PS_DB_OWNER_NAME, e.g. \"export PS_DB_OWNER_NAME='postgres'\""
 	exit -1
 fi
 
-if [ -z ${DB_HOSTNAME} ]
+if [ -z ${PS_DB_HOST} ]
 then
-  echo "Please set the following env var: DB_HOSTNAME, e.g. \"export DB_HOSTNAME='localhost'\""
+  echo "Please set the following env var: PS_DB_HOST, e.g. \"export PS_DB_HOST='localhost'\""
 	exit -1
 fi
 
-if [ -z ${DB_PORT} ]
+if [ -z ${PS_DB_PORT} ]
 then
-  echo "Please set the following env var: DB_PORT, e.g. \"export DB_PORT='5432'\""
+  echo "Please set the following env var: PS_DB_PORT, e.g. \"export PS_DB_PORT='5432'\""
 	exit -1
 fi
 
-if [ -z ${PGPASSWORD} ]
+if [ -z ${POSTGRES_PASSWORD} ]
 then
-  echo "Please set the following env var: PGPASSWORD, e.g. \"export PGPASSWORD='********'\""
+  echo "Please set the following env var: POSTGRES_PASSWORD, e.g. \"export POSTGRES_PASSWORD='********'\""
 	exit -1
 fi
 
+databaseUri="postgresql://${PS_DB_OWNER_NAME}:${POSTGRES_PASSWORD}@${PS_DB_HOST}:${PS_DB_PORT}/${dbName}"
 
 #Unzip the files here, junking the structure
 localExtract="tmp_extracted"
 generatedLoadScript="tmp_loader.sh"
 generatedEnvScript="tmp_environment-postgresql.sql"
 
-fileTypes=(UKEDSnapshot)
-unzip -j ${releasePath} "*UKEDSnapshot*" -d ${localExtract}
-	
+fileTypes=(Snapshot)
+unzip -j ${releasePath} "*Snapshot*" -d ${localExtract}
+
 #Determine the release date from the filenames
-releaseDate=`ls -1 ${localExtract}/*.txt | head -1 | egrep -o '[0-9]{8}'`	
+releaseDateINT=`ls -1 ${localExtract}/*INT*.txt | head -1 | egrep -o '[0-9]{8}'`
+releaseDateUK=`ls -1 ${localExtract}/*UKEDSnapshot*.txt | head -1 | egrep -o '[0-9]{8}'`
 
 function addLoadScript() {
-	for fileType in ${fileTypes[@]}; do
-		fileName=${1/TYPE/${fileType}}
-		fileName=${fileName/DATE/${releaseDate}}
-
-		#Check file exists - try beta version if not
+	fileName=${1/TYPE/${2}}
+	fileName=${fileName/DATE/${4}}
+	#Check file exists - try beta version if not
+	if [ ! -f ${localExtract}/${fileName} ]; then
+		origFilename=${fileName}
+		fileName="x${fileName}"
 		if [ ! -f ${localExtract}/${fileName} ]; then
-			origFilename=${fileName}
-			fileName="x${fileName}"
-			if [ ! -f ${localExtract}/${fileName} ]; then
-				echo "Unable to find ${origFilename} or beta version"
-				exit -1
-			fi
+			echo "Unable to find ${origFilename} or beta version"
+			exit -1
 		fi
-
-		tableName=${2}_s
-
-		echo -e "psql -h ${DB_HOSTNAME} -p ${DB_PORT} -d ${dbName} -U ${DB_OWNER_USERNAME} -c \"\\\copy ${snomedCtSchema}.${tableName} FROM '${basedir}/${localExtract}/${fileName}' DELIMITER E'	' CSV HEADER QUOTE E'\b'\"\n" >> ${generatedLoadScript}
-	done
+	fi
+	tableName=${3}_s
+	echo -e "psql ${databaseUri} -c \"\\\copy ${snomedCtSchema}.${tableName} FROM '${basedir}/${localExtract}/${fileName}' DELIMITER E'	' CSV HEADER QUOTE E'\b'\"\n" >> ${generatedLoadScript}
 }
 
-echo -e "\nGenerating loading script for $releaseDate"
+echo -e "\nGenerating loading script for releaseDateINT"
 echo "#!/bin/bash" >> ${generatedLoadScript}
 echo "# Generated Loader Script" >  ${generatedLoadScript}
 chmod +x ${generatedLoadScript}
 
-addLoadScript sct2_Description_TYPE-en_GB_DATE.txt description
-addLoadScript der2_cRefset_LanguageTYPE-en_GB_DATE.txt langrefset
+addLoadScript sct2_Description_TYPE-en_GB_DATE.txt UKEDSnapshot description $releaseDateUK
+addLoadScript sct2_Description_TYPE-en_INT_DATE.txt Snapshot description $releaseDateINT
+addLoadScript der2_cRefset_LanguageTYPE-en_GB_DATE.txt UKEDSnapshot langrefset $releaseDateUK
 
 #create schema, tables, indexes
-psql -h ${DB_HOSTNAME} -U ${DB_OWNER_USERNAME} -p ${DB_PORT} -d ${dbName} << EOF
+psql ${databaseUri} << EOF
 	\ir create-database-postgres.sql;
 EOF
 

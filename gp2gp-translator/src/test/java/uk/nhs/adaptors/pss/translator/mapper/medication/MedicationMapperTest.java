@@ -41,7 +41,7 @@ public class MedicationMapperTest {
 
     @BeforeEach
     public void setup() {
-        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(new CodeableConcept());
+        when(codeableConceptMapper.mapToCodeableConceptForMedication(any())).thenReturn(new CodeableConcept());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class MedicationMapperTest {
         var consumable = unmarshallConsumable("consumable1.xml");
         var medication = medicationMapper.createMedication(consumable);
 
-        verify(codeableConceptMapper, times(1)).mapToCodeableConcept(any());
+        verify(codeableConceptMapper, times(1)).mapToCodeableConceptForMedication(any());
 
         assertThat(medication.getMeta()).isNotNull();
         assertThat(medication.getCode()).isNotNull();
