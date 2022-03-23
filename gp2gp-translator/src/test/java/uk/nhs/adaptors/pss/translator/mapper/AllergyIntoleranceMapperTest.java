@@ -23,7 +23,6 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -39,7 +38,9 @@ public class AllergyIntoleranceMapperTest {
     private static final String COMPOUND_STATEMENT_ROOT_ID = "394559384658936";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String ENCOUNTER_ID = "62A39454-299F-432E-993E-5A6232B4E099";
-    private static final String CODING_DISPLAY = "Ischaemic heart disease";
+    private static final String CODING_DISPLAY_1 = "Ischaemic heart disease";
+    private static final String CODING_DISPLAY_2 = "H/O: aspirin allergy";
+    private static final String CODING_DISPLAY_3 = "H/O: drug allergy";
     private static final String PATIENT_ID = "9A5D5A78-1F63-434C-9637-1D7E7843341B";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs"
         + ".uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1";
@@ -54,13 +55,11 @@ public class AllergyIntoleranceMapperTest {
     @InjectMocks
     private AllergyIntoleranceMapper allergyIntoleranceMapper;
 
-    @BeforeEach
-    public void setup() {
-        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenCallRealMethod();
-    }
-
     @Test
     public void testMapDrugAllergyWithAllData() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+            .thenReturn(defaultCodeableConcept())
+            .thenReturn(secondaryCodeableConcept());
         var ehrExtract = unmarshallEhrExtract("drug-allergy-structure.xml");
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
@@ -78,11 +77,15 @@ public class AllergyIntoleranceMapperTest {
             .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
-        assertThat(allergyIntolerance.getCode().getText()).isEqualTo("H/O: aspirin allergy");
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_2);
+        assertThat(allergyIntolerance.getNote().get(1).getText()).isEqualTo("Allergy Code: " + CODING_DISPLAY_1);
     }
 
     @Test
     public void testMapNonDrugAllergyWithAllData() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+            .thenReturn(defaultCodeableConcept())
+            .thenReturn(secondaryCodeableConcept());
         var ehrExtract = unmarshallEhrExtract("non-drug-allergy-structure.xml");
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
@@ -100,11 +103,12 @@ public class AllergyIntoleranceMapperTest {
             .asStringValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
-        assertThat(allergyIntolerance.getCode().getText()).isEqualTo("H/O: aspirin allergy");
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_1);
     }
 
     @Test
     public void testMapAllergyWithNoOptionalData() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
         var ehrExtract = unmarshallEhrExtract("allergy-structure-with-optional-data.xml");
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
@@ -114,6 +118,7 @@ public class AllergyIntoleranceMapperTest {
 
         assertFixedValues(allergyIntolerance);
 
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_1);
         assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
         assertThat(allergyIntolerance.getRecorder().getReference()).isNull(); // this is added later in the UnknownPractitionerHandler
         assertThat(allergyIntolerance.getAsserter().getReference()).isNull();
@@ -123,6 +128,7 @@ public class AllergyIntoleranceMapperTest {
 
     @Test
     public void testMapMultipleAllergies() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
         var ehrExtract = unmarshallEhrExtract("allergy-structure-with-multiple-allergy.xml");
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
@@ -132,6 +138,7 @@ public class AllergyIntoleranceMapperTest {
 
     @Test
     public void testMapStandaloneAllergy() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
         var ehrExtract = unmarshallEhrExtract("allergy-structure-invalid-encounter-reference.xml");
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
@@ -141,7 +148,8 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testMapAllergyWithTermText() {
+    public void testMapAllergyWithSameTermTexts() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
         var ehrExtract = unmarshallEhrExtract("drug-allergy-structure-with-term-text.xml");
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
@@ -155,10 +163,38 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getCategory().get(0).getValue()).isEqualTo(MEDICATION);
         assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
         assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
-        assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
+        assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue())
+            .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
-        assertThat(allergyIntolerance.getCode().getText()).isEqualTo("H/O: aspirin allergy");
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_1);
+        assertThat(allergyIntolerance.getNote().size()).isOne();
+    }
+
+    @Test
+    public void testMapAllergyWithDrugTermText() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+            .thenReturn(tertiaryCodeableConcept())
+            .thenReturn(tertiaryCodeableConcept());
+        var ehrExtract = unmarshallEhrExtract("drug-allergy-structure-with-term-text.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+            getEncounterList(), PRACTISE_CODE);
+
+        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertFixedValues(allergyIntolerance);
+
+        assertExtension(allergyIntolerance);
+        assertThat(allergyIntolerance.getCategory().get(0).getValue()).isEqualTo(MEDICATION);
+        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
+        assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue())
+            .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
+        assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_3);
+        assertThat(allergyIntolerance.getNote().size()).isOne();
     }
 
     private void assertFixedValues(AllergyIntolerance allergyIntolerance) {
@@ -199,10 +235,28 @@ public class AllergyIntoleranceMapperTest {
         return patient;
     }
 
-    private CodeableConcept codeableConceptFromCode() {
+    private CodeableConcept defaultCodeableConcept() {
         var codeableConcept = new CodeableConcept();
         var coding = new Coding();
-        coding.setDisplay(CODING_DISPLAY);
+        coding.setDisplay(CODING_DISPLAY_1);
+        codeableConcept.addCoding(coding);
+
+        return codeableConcept;
+    }
+
+    private CodeableConcept secondaryCodeableConcept() {
+        var codeableConcept = new CodeableConcept();
+        var coding = new Coding();
+        coding.setDisplay(CODING_DISPLAY_2);
+        codeableConcept.addCoding(coding);
+
+        return codeableConcept;
+    }
+
+    private CodeableConcept tertiaryCodeableConcept() {
+        var codeableConcept = new CodeableConcept();
+        var coding = new Coding();
+        coding.setDisplay(CODING_DISPLAY_3);
         codeableConcept.addCoding(coding);
 
         return codeableConcept;
