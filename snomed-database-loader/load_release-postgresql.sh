@@ -76,7 +76,7 @@ addLoadScript sct2_Description_TYPE-en_INT_DATE.txt Snapshot description $releas
 addLoadScript der2_cRefset_LanguageTYPE-en_GB_DATE.txt UKEDSnapshot langrefset $releaseDateUK
 
 #create schema, tables, indexes
-psql -h ${PS_DB_HOST} -U ${PS_DB_OWNER_NAME} -p ${PS_DB_PORT} -d ${dbName} << EOF
+psql ${databaseUri} << EOF
 	\ir create-database-postgres.sql;
 EOF
 
