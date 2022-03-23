@@ -234,7 +234,7 @@ int terraformOutput(String tfStateBucket, String project, String environment, St
         psDbSecrets.put(it,rawSecret)
     }
     psDbSecretsExtracted.put("export PS_DB_OWNER_NAME",psDbSecrets.get('postgres-master-username'))
-    psDbSecretsExtracted.put("export PGPASSWORD",psDbSecrets.get('postgres-master-password'))
+    psDbSecretsExtracted.put("export POSTGRES_PASSWORD",psDbSecrets.get('postgres-master-password'))
     psDbSecretsExtracted.put("export GP2GP_TRANSLATOR_USER_DB_PASSWORD",psDbSecrets.get('postgres_psdb_gp2gp_translator_user_password'))
     psDbSecretsExtracted.put("export GPC_FACADE_USER_DB_PASSWORD",psDbSecrets.get('postgres_psdb_gpc_facade_user_password'))
 
