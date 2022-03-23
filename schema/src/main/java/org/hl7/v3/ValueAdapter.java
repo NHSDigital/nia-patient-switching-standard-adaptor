@@ -36,22 +36,37 @@ public class ValueAdapter extends XmlAdapter<Object, Object> {
         }
 
         if (element.hasAttribute(TYPE_ATTRIBUTE) && TYPE_CD.equals(element.getAttribute(TYPE_ATTRIBUTE))) {
-            CD cd = new CD();
+            CD valueCD = buildCD(element);
+            buildTranslationElements((Element) element.getFirstChild(), valueCD);
 
-            cd.setCode(element.getAttribute(CODE_ATTRIBUTE));
-            cd.setDisplayName(element.getAttribute(DISPLAY_NAME_ATTRIBUTE));
-            cd.setCodeSystem(element.getAttribute(CODE_SYSTEM_ATTRIBUTE));
-
-            if (element.hasAttribute(ORIGINAL_TEXT_ATTRIBUTE)) {
-                cd.setOriginalText(element.getAttribute(ORIGINAL_TEXT_ATTRIBUTE));
-            }
-
-            // TODO: Add translation functionality
-
-            return cd;
+            return valueCD;
         }
 
         return element.getTextContent();
+    }
+
+    private CD buildCD(Element element) {
+        var cd = new CD();
+
+        cd.setCode(element.getAttribute(CODE_ATTRIBUTE));
+        cd.setDisplayName(element.getAttribute(DISPLAY_NAME_ATTRIBUTE));
+        cd.setCodeSystem(element.getAttribute(CODE_SYSTEM_ATTRIBUTE));
+
+        if (element.hasAttribute(ORIGINAL_TEXT_ATTRIBUTE)) {
+            cd.setOriginalText(element.getAttribute(ORIGINAL_TEXT_ATTRIBUTE));
+        }
+
+        return cd;
+    }
+
+    private void buildTranslationElements(Element childElement, CD valueCD) {
+        if (childElement.hasAttributes() && TRANSLATION_ELEMENT.equals(childElement.getNodeName())) {
+            valueCD.getTranslation().add(buildCD(childElement));
+        }
+
+        if (childElement.getNextSibling().hasAttributes()) {
+            buildTranslationElements((Element) childElement.getNextSibling(), valueCD);
+        }
     }
 
     @Override

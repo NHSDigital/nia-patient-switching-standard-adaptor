@@ -46,6 +46,7 @@ public class AllergyIntoleranceMapperTest {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String NOTE_TEXT = "Reason Ended: Patient reports no subsequent recurrence on same medication Status:"
         + " Resolved Type: Allergy Criticality: Low Risk Last Occurred: 1978-12-31 Example note text";
+    private static final int THREE = 3;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -73,7 +74,8 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getCategory().get(0).getValue()).isEqualTo(MEDICATION);
         assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
         assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
-        assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
+        assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue())
+            .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
         assertThat(allergyIntolerance.getCode().getText()).isEqualTo("H/O: aspirin allergy");
@@ -94,7 +96,8 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getCategory().get(0).getValue()).isEqualTo(ENVIRONMENT);
         assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
         assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
-        assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
+        assertThat(allergyIntolerance.getOnsetDateTimeType()
+            .asStringValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
         assertThat(allergyIntolerance.getCode().getText()).isEqualTo("H/O: aspirin allergy");
@@ -124,7 +127,7 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(3);
+        assertThat(allergyIntolerances.size()).isEqualTo(THREE);
     }
 
     @Test
