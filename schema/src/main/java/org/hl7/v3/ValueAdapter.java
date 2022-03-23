@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class ValueAdapter extends XmlAdapter<Object, Object> {
     private static final String VALUE_ATTRIBUTE = "value";
@@ -37,7 +38,10 @@ public class ValueAdapter extends XmlAdapter<Object, Object> {
 
         if (element.hasAttribute(TYPE_ATTRIBUTE) && TYPE_CD.equals(element.getAttribute(TYPE_ATTRIBUTE))) {
             CD valueCD = buildCD(element);
-            buildTranslationElements((Element) element.getFirstChild(), valueCD);
+
+            if (element.getFirstChild().hasAttributes()) {
+                buildTranslationElements(element.getFirstChild(), valueCD);
+            }
 
             return valueCD;
         }
@@ -59,13 +63,13 @@ public class ValueAdapter extends XmlAdapter<Object, Object> {
         return cd;
     }
 
-    private void buildTranslationElements(Element childElement, CD valueCD) {
+    private void buildTranslationElements(Node childElement, CD valueCD) {
         if (childElement.hasAttributes() && TRANSLATION_ELEMENT.equals(childElement.getNodeName())) {
-            valueCD.getTranslation().add(buildCD(childElement));
+            valueCD.getTranslation().add(buildCD((Element) childElement));
         }
 
         if (childElement.getNextSibling().hasAttributes()) {
-            buildTranslationElements((Element) childElement.getNextSibling(), valueCD);
+            buildTranslationElements(childElement.getNextSibling(), valueCD);
         }
     }
 
