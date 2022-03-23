@@ -17,6 +17,7 @@ import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.dao.SnomedCTDao;
 
 @Configuration
 @EntityScan(basePackages = {"uk.nhs.adaptors.connector"})
@@ -50,5 +51,10 @@ public class DbConnectorConfiguration {
     @Bean
     public MigrationStatusLogDao migrationStatusLogDao(Jdbi jdbi) {
         return jdbi.onDemand(MigrationStatusLogDao.class);
+    }
+
+    @Bean
+    public SnomedCTDao snomedCTDao(Jdbi jdbi) {
+        return jdbi.onDemand(SnomedCTDao.class);
     }
 }
