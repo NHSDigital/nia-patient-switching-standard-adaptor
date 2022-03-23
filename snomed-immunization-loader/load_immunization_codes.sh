@@ -23,10 +23,11 @@ then
 	exit -1
 fi
 
-if [ -z ${PS_DB_OWNER_PASSWORD} ]
+if [ -z ${POSTGRES_PASSWORD} ]
 then
-  echo "Please set the following env var: PGPASSWORD, e.g. \"export PGPASSWORD='********'\""
+  echo "Please set the following env var: POSTGRES_PASSWORD, e.g. \"export POSTGRES_PASSWORD='********'\""
 	exit -1
 fi
 
-psql -h ${PS_DB_HOST} -p ${PS_DB_PORT} -d ${dbName} -U ${PS_DB_OWNER_NAME} -c "\copy ${snomedCtSchema}.immunization_codes (conceptid, description, safetycode) FROM '${basedir}/$1' DELIMITER ',' CSV HEADER QUOTE '\"'"
+databaseUri="postgresql://${PS_DB_OWNER_NAME}:${POSTGRES_PASSWORD}@${PS_DB_HOST}:${PS_DB_PORT}/${dbName}"
+psql ${databaseUri} -c "\copy ${snomedCtSchema}.immunization_codes (conceptid, description, safetycode) FROM '${basedir}/$1' DELIMITER ',' CSV HEADER QUOTE '\"'"
