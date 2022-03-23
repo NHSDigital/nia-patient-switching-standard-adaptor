@@ -79,14 +79,14 @@ liquibase {
             changeLogFile 'changelog/setup/db.changelog-setup.xml'
             url System.getenv('PS_DB_URL') + '/postgres'
             username System.getenv('PS_DB_OWNER_NAME')
-            password System.getenv('PGPASSWORD')
+            password System.getenv('POSTGRES_PASSWORD')
         }
 
         main {
             changeLogFile 'changelog/db.changelog-master.xml'
             url System.getenv('PS_DB_URL') + '/patient_switching'
             username System.getenv('PS_DB_OWNER_NAME')
-            password System.getenv('PGPASSWORD')
+            password System.getenv('POSTGRES_PASSWORD')
         }
 
         runList = 'setup, main'

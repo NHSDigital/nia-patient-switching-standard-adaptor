@@ -30,12 +30,13 @@ then
 	exit -1
 fi
 
-if [ -z ${PGPASSWORD} ]
+if [ -z ${POSTGRES_PASSWORD} ]
 then
-  echo "Please set the following env var: PGPASSWORD, e.g. \"export PGPASSWORD='********'\""
+  echo "Please set the following env var: POSTGRES_PASSWORD, e.g. \"export POSTGRES_PASSWORD='********'\""
 	exit -1
 fi
 
+databaseUri="postgresql://${PS_DB_OWNER_NAME}:${POSTGRES_PASSWORD}@${PS_DB_HOST}:${PS_DB_PORT}/${dbName}"
 
 #Unzip the files here, junking the structure
 localExtract="tmp_extracted"
@@ -62,7 +63,7 @@ function addLoadScript() {
 		fi
 	fi
 	tableName=${3}_s
-	echo -e "psql -h ${PS_DB_HOST} -p ${PS_DB_PORT} -d ${dbName} -U ${PS_DB_OWNER_NAME} -c \"\\\copy ${snomedCtSchema}.${tableName} FROM '${basedir}/${localExtract}/${fileName}' DELIMITER E'	' CSV HEADER QUOTE E'\b'\"\n" >> ${generatedLoadScript}
+	echo -e "psql ${databaseUri} -c \"\\\copy ${snomedCtSchema}.${tableName} FROM '${basedir}/${localExtract}/${fileName}' DELIMITER E'	' CSV HEADER QUOTE E'\b'\"\n" >> ${generatedLoadScript}
 }
 
 echo -e "\nGenerating loading script for releaseDateINT"
