@@ -37,8 +37,8 @@ import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
-import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DiagnosticReportMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
@@ -63,6 +63,7 @@ public class BundleMapperServiceTest {
     private static final String CONSULTATION_KEY = "consultations";
     private static final String TOPIC_KEY = "topics";
     private static final String CATEGORY_KEY = "categories";
+    private static final String LOOSING_ODE_CODE = "S234";
 
     @Mock
     private BundleGenerator bundleGenerator;
@@ -133,7 +134,7 @@ public class BundleMapperServiceTest {
     @Test
     public void testAllMappersHaveBeenUsed() {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
-        Bundle bundle = bundleMapperService.mapToBundle(xml);
+        Bundle bundle = bundleMapperService.mapToBundle(xml, LOOSING_ODE_CODE);
 
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(organizationMapper).mapAuthorOrganization(anyString());
