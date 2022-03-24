@@ -2,6 +2,9 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -16,15 +19,14 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.QuestionnaireResponse;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,16 +55,10 @@ public class TemplateMapperTest {
     private CodeableConceptMapper codeableConceptMapper;
 
     @Mock
-    private DatabaseImmunizationChecker immunizationChecker;
-
     private ResourceReferenceUtil resourceReferenceUtil;
-    private TemplateMapper templateMapper;
 
-    @BeforeEach
-    public void setup() {
-        resourceReferenceUtil = new ResourceReferenceUtil(immunizationChecker);
-        templateMapper = new TemplateMapper(codeableConceptMapper, resourceReferenceUtil);
-    }
+    @InjectMocks
+    private TemplateMapper templateMapper;
 
     @Test
     public void testMapTemplateWithAllData() {
@@ -78,11 +74,7 @@ public class TemplateMapperTest {
         assertQuestionnaireResponse(questionnaireResponse, ENCOUNTER_ID, "original-text", "20100113151332");
         assertParentObservation(parentObservation, ENCOUNTER_ID, "20100113151332", "3707E1F0-9011-11EC-B1E5-0800200C9A66");
 
-        assertThat(questionnaireResponse.getItem().size()).isEqualTo(THREE);
-        assertThat(questionnaireResponse.getItem().get(1).getAnswerFirstRep().getValueReference().getReference()).isEqualTo("Observation"
-            + "/6418F5A3-C427-4292-ABCF-F53E71B43F15");
-        assertThat(questionnaireResponse.getItem().get(2).getAnswerFirstRep().getValueReference().getReference()).isEqualTo("Observation"
-            + "/3E1A4EA2-661B-4467-8843-6A6B21DEF14F");
+        verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromTemplate(any(), anyList());
     }
 
     @Test
@@ -116,11 +108,7 @@ public class TemplateMapperTest {
         assertQuestionnaireResponse(questionnaireResponse, null, "display-text", "20200101010101");
         assertParentObservation(parentObservation, null, "20200101010101", "9007E1F0-9011-11EC-B1E5-0800200C9A66");
 
-        assertThat(questionnaireResponse.getItem().size()).isEqualTo(THREE);
-        assertThat(questionnaireResponse.getItem().get(1).getAnswerFirstRep().getValueReference().getReference()).isEqualTo("Observation"
-            + "/6418F5A3-C427-4292-ABCF-F53E71B43F15");
-        assertThat(questionnaireResponse.getItem().get(2).getAnswerFirstRep().getValueReference().getReference()).isEqualTo("Observation"
-            + "/3E1A4EA2-661B-4467-8843-6A6B21DEF14F");
+        verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromTemplate(any(), anyList());
     }
 
     @Test
