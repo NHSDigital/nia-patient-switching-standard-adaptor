@@ -122,7 +122,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                     allergyIntolerance.setCode(codeableConceptFromValue);
 
                     var codeDisplayName = codeableConceptFromCode.getCodingFirstRep().getDisplay();
-                    if (!ALLERGY_TERM_TEXT.equals(codeDisplayName)
+                    if (codeDisplayName != null && !ALLERGY_TERM_TEXT.equals(codeDisplayName)
                         && !codeDisplayName.equals(codeableConceptFromValue.getCodingFirstRep().getDisplay())) {
                         allergyIntolerance.getNote().add(new Annotation().setText(ALLERGY_NOTE.formatted(codeDisplayName)));
                     }
