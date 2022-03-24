@@ -452,7 +452,7 @@ public class EncounterMapperTest {
         assertThat(entryReferences).contains("MedicationRequest/prescribe-id");
         assertThat(entryReferences).contains("Observation/blood-pressure-compound-statement-id");
         assertThat(entryReferences).contains("Observation/observation-comment-id");
-        assertThat(entryReferences).contains("AllergyIntolerance/allergy-observation-id");
+        assertThat(entryReferences).contains("AllergyIntolerance/allergy-compound-id");
         assertThat(entryReferences).contains("Observation/uncategorised-observation-id");
         assertThat(entryReferences).contains("DiagnosticReport/diagnostic-compound-id");
         assertThat(entryReferences).contains("QuestionnaireResponse/questionnaire-response-id-QRSP");
