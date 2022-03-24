@@ -16,15 +16,16 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.QuestionnaireResponse;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.ImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
 @ExtendWith(MockitoExtension.class)
 public class TemplateMapperTest {
@@ -52,10 +53,16 @@ public class TemplateMapperTest {
     private CodeableConceptMapper codeableConceptMapper;
 
     @Mock
-    private ImmunizationChecker immunizationChecker;
+    private DatabaseImmunizationChecker immunizationChecker;
 
-    @InjectMocks
+    private ResourceReferenceUtil resourceReferenceUtil;
     private TemplateMapper templateMapper;
+
+    @BeforeEach
+    public void setup() {
+        resourceReferenceUtil = new ResourceReferenceUtil(immunizationChecker);
+        templateMapper = new TemplateMapper(codeableConceptMapper, resourceReferenceUtil);
+    }
 
     @Test
     public void testMapTemplateWithAllData() {

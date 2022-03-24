@@ -19,15 +19,23 @@ import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ResourceReferenceUtil {
     private static final String MEDICATION_STATEMENT_REFERENCE = "%s-MS";
     private static final String QUESTIONNAIRE_ID = "%s-QRSP";
     private static final String OBSERVATION_REFERENCE = "Observation/%s";
     private static final String QUESTIONNAIRE_REFERENCE = "QuestionnaireResponse/%s";
 
-    public static void extractChildReferencesFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition,
-        List<Reference> entryReferences, ImmunizationChecker immunizationChecker) {
+    private final DatabaseImmunizationChecker immunizationChecker;
+
+    public void extractChildReferencesFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition,
+        List<Reference> entryReferences) {
 
         ehrComposition.getComponent().forEach(component -> {
             addPlanStatementEntry(component.getPlanStatement(), entryReferences);
@@ -36,12 +44,12 @@ public class ResourceReferenceUtil {
             addObservationStatementEntry(component.getObservationStatement(), entryReferences, null, immunizationChecker);
             addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
             addMedicationEntry(component.getMedicationStatement(), entryReferences);
-            extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences, immunizationChecker);
+            extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences);
         });
     }
 
-    public static void extractChildReferencesFromCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement,
-        List<Reference> entryReferences, ImmunizationChecker immunizationChecker) {
+    public void extractChildReferencesFromCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement,
+        List<Reference> entryReferences) {
         if (compoundStatement != null) {
             if (isDiagnosticReport(compoundStatement)) {
                 addDiagnosticReportEntry(compoundStatement, entryReferences);
@@ -62,14 +70,14 @@ public class ResourceReferenceUtil {
                         addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
                     }
 
-                    extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences, immunizationChecker);
+                    extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences);
                 });
             }
         }
     }
 
-    public static void extractChildReferencesFromTemplate(RCMRMT030101UK04CompoundStatement compoundStatement,
-        List<Reference> entryReferences, ImmunizationChecker immunizationChecker) {
+    public void extractChildReferencesFromTemplate(RCMRMT030101UK04CompoundStatement compoundStatement,
+        List<Reference> entryReferences) {
         compoundStatement.getComponent().forEach(component -> {
             addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement, immunizationChecker);
             addPlanStatementEntry(component.getPlanStatement(), entryReferences);
@@ -77,7 +85,7 @@ public class ResourceReferenceUtil {
             addLinkSetEntry(component.getLinkSet(), entryReferences);
             addMedicationEntry(component.getMedicationStatement(), entryReferences);
             addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
-            extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences, immunizationChecker);
+            extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences);
         });
     }
 
@@ -99,9 +107,9 @@ public class ResourceReferenceUtil {
             compoundStatement.getId().get(0).getRoot()));
     }
 
-    private static void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement,
+    private void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement,
         List<Reference> entryReferences, RCMRMT030101UK04CompoundStatement compoundStatement,
-        ImmunizationChecker immunizationChecker) {
+        DatabaseImmunizationChecker immunizationChecker) {
         if (observationStatement != null && isNotIgnoredResource(compoundStatement, entryReferences)) {
             if (isBloodPressure(compoundStatement)) {
                 addBloodPressureEntry(compoundStatement, entryReferences);

@@ -31,7 +31,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -39,7 +38,8 @@ import org.mockito.stubbing.Answer;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
-import uk.nhs.adaptors.pss.translator.util.ImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
 @ExtendWith(MockitoExtension.class)
 public class EncounterMapperTest {
@@ -97,11 +97,10 @@ public class EncounterMapperTest {
     private ConsultationListMapper consultationListMapper;
 
     @Mock
-    private ImmunizationChecker immunizationChecker;
+    private DatabaseImmunizationChecker immunizationChecker;
 
-    @InjectMocks
+    private ResourceReferenceUtil resourceReferenceUtil;
     private EncounterMapper encounterMapper;
-
     private Patient patient;
 
     @BeforeEach
@@ -109,6 +108,8 @@ public class EncounterMapperTest {
         patient = new Patient();
         patient.setId(PATIENT_ID);
         setUpCodeableConceptMock();
+        resourceReferenceUtil = new ResourceReferenceUtil(immunizationChecker);
+        encounterMapper = new EncounterMapper(codeableConceptMapper, consultationListMapper, resourceReferenceUtil);
     }
 
     @Test

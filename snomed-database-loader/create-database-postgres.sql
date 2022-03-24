@@ -30,7 +30,7 @@ create table langrefset_s(
 CREATE INDEX langrefset_referencedcomponentid_idx ON snomedct.langrefset_s
     USING btree (referencedcomponentid);
 
-create table immunization_codes(
+CREATE TABLE immunization_codes(
                               conceptid varchar(18) not null,
                               description text not null,
                               safetycode varchar(18) not null

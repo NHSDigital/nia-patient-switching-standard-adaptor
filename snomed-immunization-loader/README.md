@@ -9,7 +9,7 @@ This script needs to be run after the db has been created in the snomed database
 1. Format codes into CSV with 3 columns (Concept Id,Description,Safety Code)
 2. Set the follwing env vars:
 - DB_OWNER_USERNAME (database user, needs permissions to create/drop schemas), e.g. `export DB_OWNER_USERNAME='postgres'`
-- PGPASSWORD (database user password), e.g. `export PGPASSWORD='********'`
+- POSTGRES_PASSWORD (database user password), e.g. `export POSTGRES_PASSWORD='********'`
 - DB_HOSTNAME (database host), e.g. `export DB_HOSTNAME='localhost'`
 - DB_PORT (databse port), e.g. `export DB_PORT='5432'`
 

@@ -28,7 +28,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.util.ImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 
 @ExtendWith(MockitoExtension.class)
 public class ObservationMapperTest {
@@ -59,7 +59,7 @@ public class ObservationMapperTest {
     private CodeableConceptMapper codeableConceptMapper;
 
     @Mock
-    private ImmunizationChecker immunizationChecker;
+    private DatabaseImmunizationChecker immunizationChecker;
 
     @Mock
     private Patient patient;

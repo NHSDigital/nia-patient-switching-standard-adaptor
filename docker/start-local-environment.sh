@@ -11,7 +11,7 @@ docker-compose up -d ps_db mhs-adaptor-mock activemq;
 
 cd ../db-connector
 ./gradlew update
- cd ../docker
+cd ../docker
 
- docker-compose build gpc_facade gp2gp_translator;
- docker-compose up gpc_facade gp2gp_translator;
+docker-compose build gpc_facade gp2gp_translator;
+docker-compose up gpc_facade gp2gp_translator;

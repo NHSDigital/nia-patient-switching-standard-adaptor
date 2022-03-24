@@ -40,7 +40,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
-import uk.nhs.adaptors.pss.translator.util.ImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -49,7 +49,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private static final String SUBJECT_COMMENT = "Subject: %s ";
 
     private final CodeableConceptMapper codeableConceptMapper;
-    private final ImmunizationChecker immunizationChecker;
+    private final DatabaseImmunizationChecker immunizationChecker;
 
     public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
