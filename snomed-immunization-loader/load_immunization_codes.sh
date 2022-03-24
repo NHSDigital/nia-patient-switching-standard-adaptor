@@ -19,7 +19,7 @@ fi
 
 if [ -z ${PS_DB_PORT} ]
 then
-  echo "Please set the following env var: DB_PORT, e.g. \"export DB_PORT='5432'\""
+  echo "Please set the following env var: PS_DB_HOST, e.g. \"export PS_DB_HOST='5436'\""
 	exit -1
 fi
 
