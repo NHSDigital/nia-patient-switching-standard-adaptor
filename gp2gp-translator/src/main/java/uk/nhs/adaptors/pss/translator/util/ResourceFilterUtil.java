@@ -2,7 +2,9 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
 
+import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 
@@ -46,6 +48,18 @@ public class ResourceFilterUtil {
             && hasCode(compoundStatement)
             && compoundStatement.getClassCode().stream().anyMatch(CLUSTER_VALUE::equals)
             && PATHOLOGY_CODE.equals(compoundStatement.getCode().getCode());
+    }
+
+    public static boolean hasDiagnosticReportParent(RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
+            .flatMap(e -> e.getEhrComposition().getComponent().stream())
+            .filter(RCMRMT030101UK04Component4::hasCompoundStatement)
+            .map(RCMRMT030101UK04Component4::getCompoundStatement)
+            .filter(ResourceFilterUtil::isDiagnosticReport)
+            .flatMap(e -> e.getComponent().stream())
+            .flatMap(CompoundStatementResourceExtractors::extractAllChildCompoundStatements)
+            .anyMatch(compoundStatement::equals);
     }
 
     public static boolean isSpecimen(RCMRMT030101UK04CompoundStatement compoundStatement) {

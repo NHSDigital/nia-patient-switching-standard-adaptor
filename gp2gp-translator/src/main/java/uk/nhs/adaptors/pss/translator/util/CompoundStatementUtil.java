@@ -9,6 +9,26 @@ import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 
 public class CompoundStatementUtil {
 
+    public static List<RCMRMT030101UK04CompoundStatement> extractCompoundsFromCompound(
+        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return compoundStatement.getComponent()
+            .stream()
+            .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
+            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .flatMap(CompoundStatementUtil::flattenCompounds)
+            .toList();
+    }
+
+    public static Stream<RCMRMT030101UK04CompoundStatement> flattenCompounds(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return Stream.concat(
+            Stream.of(compoundStatement),
+            compoundStatement.getComponent()
+                .stream()
+                .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
+                .map(RCMRMT030101UK04Component02::getCompoundStatement)
+        );
+    }
+
     public static List<RCMRMT030101UK04Component02> extractResourcesFromCompound(RCMRMT030101UK04CompoundStatement compoundStatement,
         Function<RCMRMT030101UK04Component02, Boolean> checker) {
         return compoundStatement

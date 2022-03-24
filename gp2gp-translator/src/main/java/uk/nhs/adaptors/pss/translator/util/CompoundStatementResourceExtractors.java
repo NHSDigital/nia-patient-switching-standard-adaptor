@@ -28,6 +28,17 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
+    public static Stream<RCMRMT030101UK04CompoundStatement> extractAllChildCompoundStatements(RCMRMT030101UK04Component02 component02) {
+        return Stream.concat(
+            Stream.of(component02.getCompoundStatement()),
+            component02.hasCompoundStatement()
+                ? CompoundStatementUtil.extractCompoundsFromCompound(component02.getCompoundStatement())
+                .stream()
+                .map(RCMRMT030101UK04CompoundStatement.class::cast)
+                : Stream.empty()
+        );
+    }
+
     public static Stream<RCMRMT030101UK04LinkSet> extractAllLinkSets(RCMRMT030101UK04Component4 component4) {
         return Stream.concat(
             Stream.of(component4.getLinkSet()),

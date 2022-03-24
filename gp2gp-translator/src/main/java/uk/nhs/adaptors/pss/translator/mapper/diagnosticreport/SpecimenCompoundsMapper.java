@@ -98,18 +98,18 @@ public class SpecimenCompoundsMapper {
         }
     }
 
-    private void handleNarrativeStatements(RCMRMT030101UK04CompoundStatement clusterCompoundStatement,
+    private void handleNarrativeStatements(RCMRMT030101UK04CompoundStatement compoundStatement,
         List<Observation> observationComments, Observation observation) {
-        getNarrativeStatementsInCompound(clusterCompoundStatement).forEach(clusterChildNarrativeStatement -> {
-            if (clusterChildNarrativeStatement.getText().contains(USER_COMMENT_HEADER)) {
-                getObservationById(observationComments, clusterChildNarrativeStatement.getId().getRoot())
+        getNarrativeStatementsInCompound(compoundStatement).forEach(childNarrativeStatement -> {
+            if (childNarrativeStatement.getText().contains(USER_COMMENT_HEADER)) {
+                getObservationById(observationComments, childNarrativeStatement.getId().getRoot())
                     .ifPresent(observationComment -> {
                         observationComment.setEffective(null);
                         observationComment.setComment(getLastLine(observationComment.getComment()));
                         createRelationship(observation, observationComment);
                     });
             } else if (observation != null) {
-                observation.setComment(addLine(observation.getComment(), getLastLine(clusterChildNarrativeStatement.getText())));
+                observation.setComment(addLine(observation.getComment(), getLastLine(childNarrativeStatement.getText())));
             }
         });
     }

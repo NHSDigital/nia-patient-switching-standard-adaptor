@@ -72,7 +72,7 @@ public class SpecimenBatteryMapper {
         observation.setStatus(Observation.ObservationStatus.FINAL);
         observation.addCategory(createCategory());
         observation.setCode(createCode(batteryCompoundStatement));
-        observation.setComment(getAllNarrativeStatementComments(batteryParameters.getBatteryCompoundStatement()));
+        observation.setComment(getDirectChildNarrativeStatementComments(batteryParameters.getBatteryCompoundStatement()));
         observation.setRelated(getRelated(batteryParameters.getBatteryCompoundStatement()));
         getContext(batteryParameters.getEncounters(), ehrComposition).ifPresent(observation::setContext);
         addEffective(batteryCompoundStatement, observation);
@@ -90,10 +90,19 @@ public class SpecimenBatteryMapper {
         }
     }
 
+    private String getDirectChildNarrativeStatementComments(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
+        return getDirectNarrativeStatements(batteryCompoundStatement)
+            .map(RCMRMT030101UK04NarrativeStatement::getText)
+            .filter(text -> !text.contains(USER_COMMENT_HEADER))
+            .map(TextUtil::getLastLine)
+            .collect(Collectors.joining(StringUtils.LF));
+    }
+
     private Optional<Reference> getPerformer(RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
         RCMRMT030101UK04EhrComposition ehrComposition) {
+        Optional<Reference> referenceOpt = Optional.empty();
         if (!batteryCompoundStatement.getParticipant().isEmpty()) {
-            return batteryCompoundStatement.getParticipant()
+            referenceOpt = batteryCompoundStatement.getParticipant()
                 .stream()
                 .filter(participant -> !participant.hasNullFlavour())
                 .filter(this::hasTypeCode)
@@ -102,8 +111,8 @@ public class SpecimenBatteryMapper {
                 .findFirst()
                 .map(agentRef -> new Reference(new IdType(ResourceType.Practitioner.name(), agentRef.getId().getRoot())));
         }
-        if (!ehrComposition.getParticipant2().isEmpty()) {
-            return ehrComposition.getParticipant2()
+        if (referenceOpt.isEmpty() && !ehrComposition.getParticipant2().isEmpty()) {
+            referenceOpt = ehrComposition.getParticipant2()
                 .stream()
                 .filter(participant2 -> !participant2.hasNullFlavor())
                 .map(RCMRMT030101UK04Participant2::getAgentRef)
@@ -111,7 +120,7 @@ public class SpecimenBatteryMapper {
                 .findFirst()
                 .map(agentRef -> new Reference(new IdType(ResourceType.Practitioner.name(), agentRef.getId().getRoot())));
         }
-        return Optional.empty();
+        return referenceOpt;
     }
 
     private boolean hasTypeCode(RCMRMT030101UK04Participant participant) {
@@ -179,40 +188,31 @@ public class SpecimenBatteryMapper {
 
     private List<ObservationRelatedComponent> getRelated(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
         return Stream.concat(
-            getDirectUserCommentNarrativeStatements(batteryCompoundStatement),
+            getDirectNarrativeStatements(batteryCompoundStatement)
+                .filter(narrativeStatement -> narrativeStatement.getText().contains(USER_COMMENT_HEADER))
+                .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
+                .map(reference -> new ObservationRelatedComponent().setTarget(reference)
+                    .setType(Observation.ObservationRelationshipType.DERIVEDFROM)),
             getObservationReferences(batteryCompoundStatement)
         ).toList();
     }
 
-    private String getAllNarrativeStatementComments(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
-        return extractResourcesFromCompound(batteryCompoundStatement, RCMRMT030101UK04Component02::hasNarrativeStatement,
-            RCMRMT030101UK04Component02::getNarrativeStatement)
-            .stream()
-            .map(RCMRMT030101UK04NarrativeStatement.class::cast)
-            .map(RCMRMT030101UK04NarrativeStatement::getText)
-            .filter(StringUtils::isNotEmpty)
-            .filter(text -> !text.contains(USER_COMMENT_HEADER))
-            .map(TextUtil::getLastLine)
-            .collect(Collectors.joining(StringUtils.LF));
-    }
-
-    private Stream<ObservationRelatedComponent> getDirectUserCommentNarrativeStatements(
+    private Stream<RCMRMT030101UK04NarrativeStatement> getDirectNarrativeStatements(
         RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
         return batteryCompoundStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
-            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
-            .filter(narrativeStatement -> narrativeStatement.getText().contains(USER_COMMENT_HEADER))
-            .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
-            .map(reference -> new ObservationRelatedComponent().setTarget(reference));
+            .map(RCMRMT030101UK04Component02::getNarrativeStatement);
     }
+
     private Stream<ObservationRelatedComponent> getObservationReferences(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
         return extractResourcesFromCompound(batteryCompoundStatement, RCMRMT030101UK04Component02::hasObservationStatement,
             RCMRMT030101UK04Component02::getObservationStatement)
             .stream()
             .map(RCMRMT030101UK04ObservationStatement.class::cast)
             .map(observationStatement -> new Reference(new IdType(ResourceType.Observation.name(), observationStatement.getId().getRoot())))
-            .map(reference -> new ObservationRelatedComponent().setTarget(reference));
+            .map(reference -> new ObservationRelatedComponent().setTarget(reference)
+                .setType(Observation.ObservationRelationshipType.HASMEMBER));
     }
 
     @Getter
