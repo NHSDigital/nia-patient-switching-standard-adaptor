@@ -402,7 +402,6 @@ public class EncounterMapperTest {
         assertThat(encounter.getSubject().getResource()).isEqualTo(patient);
         assertLocation(encounter, id, hasLocation);
         assertPeriod(encounter.getPeriod(), startDate, endDate);
-        assertParticipant(encounter.getParticipant(), authorId, participant2Id);
     }
 
     private void assertLocation(Encounter encounter, String id, boolean hasLocation) {
@@ -417,23 +416,6 @@ public class EncounterMapperTest {
     private void assertPeriod(Period period, String startDate, String endDate) {
         assertThat(period.getStartElement().getValueAsString()).isEqualTo(startDate);
         assertThat(period.getEndElement().getValueAsString()).isEqualTo(endDate);
-    }
-
-    private void assertParticipant(List<EncounterParticipantComponent> participantList, String authorId, String participant2Id) {
-        if (participantList.size() > 0) {
-            participantList.forEach(participant -> {
-                var coding = participant.getTypeFirstRep().getCodingFirstRep();
-                if (coding.getCode().equals(PERFORMER_CODE)) {
-                    assertThat(coding.getDisplay().equals(PERFORMER_DISPLAY));
-                    assertThat(coding.getSystem().equals(PERFORMER_SYSTEM));
-                    assertThat(participant.getIndividual().getReference().equals(PRACTITIONER_REFERENCE_PREFIX + participant2Id));
-                } else if (coding.getCode().equals(RECORDER_CODE)) {
-                    assertThat(coding.getDisplay().equals(RECORDER_DISPLAY));
-                    assertThat(coding.getSystem().equals(RECORDER_SYSTEM));
-                    assertThat(participant.getIndividual().getReference().equals(PRACTITIONER_REFERENCE_PREFIX + authorId));
-                }
-            });
-        }
     }
 
     private void setUpCodeableConceptMock() {
