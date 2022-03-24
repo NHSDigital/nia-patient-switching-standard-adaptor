@@ -167,20 +167,20 @@ public class BundleMapperService {
     }
 
     private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        String loosingPracticeOdsCode) {
-        return encounterMapper.mapEncounters(ehrExtract, patient, loosingPracticeOdsCode);
+        String losingPracticeOdsCode) {
+        return encounterMapper.mapEncounters(ehrExtract, patient, losingPracticeOdsCode);
     }
 
     private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UK04EhrFolder ehrFolder) {
         return agentDirectoryMapper.mapAgentDirectory(ehrFolder.getResponsibleParty().getAgentDirectory());
     }
 
-    private List<Location> mapLocations(RCMRMT030101UK04EhrFolder ehrFolder, String loosingPracticeOdsCode) {
+    private List<Location> mapLocations(RCMRMT030101UK04EhrFolder ehrFolder, String losingPracticeOdsCode) {
         return ehrFolder.getComponent().stream()
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> ehrComposition.getLocation() != null)
             .map(ehrComposition -> locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(),
-                loosingPracticeOdsCode))
+                losingPracticeOdsCode))
             .toList();
     }
 
