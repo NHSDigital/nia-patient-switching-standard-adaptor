@@ -2,7 +2,10 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_REASSEMBLY_FAILURE;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import javax.xml.bind.JAXBException;
@@ -16,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
@@ -46,7 +50,15 @@ public class EhrExtractMessageHandler {
     }
 
     boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conservationId) {
-        migrationStatusLogService.addMigrationStatusLog(ERROR, conservationId);
+        MigrationStatus migrationStatus = switch(reason) {
+            case LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED -> ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED;
+            case LARGE_MESSAGE_GENERAL_FAILURE -> ERROR_LRG_MSG_GENERAL_FAILURE;
+            case LARGE_MESSAGE_REASSEMBLY_FAILURE -> ERROR_LRG_MSG_REASSEMBLY_FAILURE;
+            case LARGE_MESSAGE_TIMEOUT -> ERROR_LRG_MSG_TIMEOUT;
+        };
+
+        migrationStatusLogService.addMigrationStatusLog(migrationStatus, conservationId);
+
         return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
             reason,
             payload,

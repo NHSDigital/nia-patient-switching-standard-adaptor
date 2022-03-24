@@ -47,6 +47,13 @@ public class PatientTransferController {
         CONTINUE_REQUEST_ACCEPTED
     );
 
+    private static final List<MigrationStatus> LRG_MESSAGE_ERRORS = List.of(
+        ERROR_LRG_MSG_REASSEMBLY_FAILURE,
+        ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED,
+        ERROR_LRG_MSG_GENERAL_FAILURE,
+        ERROR_LRG_MSG_TIMEOUT
+    );
+
     private final PatientTransferService patientTransferService;
 
     @PostMapping(
@@ -75,7 +82,7 @@ public class PatientTransferController {
             return new ResponseEntity<>(NO_CONTENT);
         } else if (MIGRATION_COMPLETED == request.getMigrationStatus()) {
             return new ResponseEntity<>(patientTransferService.getEmptyBundle(), OK);
-        } else if (ERROR == request.getMigrationStatus()) {
+        } else if (LRG_MESSAGE_ERRORS.contains(request.getMigrationStatus())) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } else {
             throw new IllegalStateException("Unsupported transfer status: " + request.getMigrationStatus());
