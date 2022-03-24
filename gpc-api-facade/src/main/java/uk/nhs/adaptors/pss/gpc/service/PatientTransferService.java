@@ -53,8 +53,10 @@ public class PatientTransferService {
         return null;
     }
 
-    public String getEmptyBundle() {
-        return fhirParser.encodeToJson(new Bundle());
+    public String getBundleResource() {
+        var conversationId = mdcService.getConversationId();
+        PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
+        return patientMigrationRequest.getBundleResource();
     }
 
     private TransferRequestMessage createTransferRequestMessage(String patientNhsNumber, Map<String, String> headers,
