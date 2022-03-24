@@ -19,6 +19,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
@@ -56,6 +57,7 @@ public class MedicationRequestPlanMapper {
 
     private static final String REPEATS_ISSUED_URL = "numberOfRepeatPrescriptionsIssued";
     private static final String REPEATS_ALLOWED_URL = "numberOfRepeatPrescriptionsAllowed";
+    private static final String REPEATS_EXPIRY_DATE_URL = "authorisationExpiryDate";
     private static final String STATUS_CHANGE_DATE_URL = "statusChangeDate";
     private static final String STATUS_REASON = "statusReason";
 
@@ -84,6 +86,12 @@ public class MedicationRequestPlanMapper {
             List<Extension> repeatInformationExtensions = new ArrayList<>();
             extractSupplyAuthoriseRepeatInformation(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
             extractRepeatInformationIssued(ehrExtract, supplyAuthorise, ehrSupplyAuthoriseId).ifPresent(repeatInformationExtensions::add);
+            extractAuthorisationExpiryDate(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
+
+            if(supplyAuthorise.getEffectiveTime().getNullFlavor() == null) {
+                repeatInformationExtensions.add(new Extension(
+                    REPEATS_EXPIRY_DATE_URL, DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue())));
+            }
 
             buildCondensedExtensions(REPEAT_INFORMATION_URL, repeatInformationExtensions)
                 .ifPresent(medicationRequest::addExtension);
@@ -163,6 +171,14 @@ public class MedicationRequestPlanMapper {
 
             return Optional.of(
                 new Extension(REPEATS_ISSUED_URL, new UnsignedIntType(repeatCount)));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<Extension> extractAuthorisationExpiryDate(RCMRMT030101UK04Authorise supplyAuthorise) {
+        if(supplyAuthorise.getEffectiveTime().getNullFlavor() == null) {
+            return Optional.of(new Extension(
+                    REPEATS_EXPIRY_DATE_URL, DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue())));
         }
         return Optional.empty();
     }
