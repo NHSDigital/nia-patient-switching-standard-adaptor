@@ -41,7 +41,7 @@ public class ResourceReferenceUtil {
             addPlanStatementEntry(component.getPlanStatement(), entryReferences);
             addRequestStatementEntry(component.getRequestStatement(), entryReferences);
             addLinkSetEntry(component.getLinkSet(), entryReferences);
-            addObservationStatementEntry(component.getObservationStatement(), entryReferences, null, immunizationChecker);
+            addObservationStatementEntry(component.getObservationStatement(), entryReferences, null);
             addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
             addMedicationEntry(component.getMedicationStatement(), entryReferences);
             extractChildReferencesFromCompoundStatement(component.getCompoundStatement(), entryReferences);
@@ -60,7 +60,7 @@ public class ResourceReferenceUtil {
 
                 compoundStatement.getComponent().forEach(component -> {
                     addObservationStatementEntry(
-                        component.getObservationStatement(), entryReferences, compoundStatement, immunizationChecker);
+                        component.getObservationStatement(), entryReferences, compoundStatement);
                     addPlanStatementEntry(component.getPlanStatement(), entryReferences);
                     addRequestStatementEntry(component.getRequestStatement(), entryReferences);
                     addLinkSetEntry(component.getLinkSet(), entryReferences);
@@ -79,7 +79,7 @@ public class ResourceReferenceUtil {
     public void extractChildReferencesFromTemplate(RCMRMT030101UK04CompoundStatement compoundStatement,
         List<Reference> entryReferences) {
         compoundStatement.getComponent().forEach(component -> {
-            addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement, immunizationChecker);
+            addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
             addPlanStatementEntry(component.getPlanStatement(), entryReferences);
             addRequestStatementEntry(component.getRequestStatement(), entryReferences);
             addLinkSetEntry(component.getLinkSet(), entryReferences);
@@ -108,8 +108,7 @@ public class ResourceReferenceUtil {
     }
 
     private void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement,
-        List<Reference> entryReferences, RCMRMT030101UK04CompoundStatement compoundStatement,
-        DatabaseImmunizationChecker immunizationChecker) {
+        List<Reference> entryReferences, RCMRMT030101UK04CompoundStatement compoundStatement) {
         if (observationStatement != null && isNotIgnoredResource(compoundStatement, entryReferences)) {
             if (isBloodPressure(compoundStatement)) {
                 addBloodPressureEntry(compoundStatement, entryReferences);

@@ -2,7 +2,9 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -24,6 +26,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,6 +34,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -99,8 +103,12 @@ public class EncounterMapperTest {
     @Mock
     private DatabaseImmunizationChecker immunizationChecker;
 
+    @Mock
     private ResourceReferenceUtil resourceReferenceUtil;
+
+    @InjectMocks
     private EncounterMapper encounterMapper;
+
     private Patient patient;
 
     @BeforeEach
@@ -108,8 +116,6 @@ public class EncounterMapperTest {
         patient = new Patient();
         patient.setId(PATIENT_ID);
         setUpCodeableConceptMock();
-        resourceReferenceUtil = new ResourceReferenceUtil(immunizationChecker);
-        encounterMapper = new EncounterMapper(codeableConceptMapper, consultationListMapper, resourceReferenceUtil);
     }
 
     @Test
@@ -278,6 +284,11 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
+//        doAnswer(invocation -> {
+//            List<Reference> references = invocation.getArgument(1);
+//
+//            return null;
+//        }).when(resourceReferenceUtil).extractChildReferencesFromEhrComposition(any(), any());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_RESOURCES_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(ehrExtract, patient, PRACTISE_CODE);
