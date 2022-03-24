@@ -8,6 +8,7 @@ import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.toHl7Format;
 
 import java.time.Instant;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,13 +38,15 @@ public class NACKMessageServiceTest {
     @InjectMocks
     private NACKMessageService NACKMessageService;
 
-    @Test
-    public void whenBuildNACKMessageThenTemplateIsFilled() {
+    private NACKMessageData messageData;
+
+    @BeforeEach
+    public void setup() {
         Instant instant = Instant.now();
         when(dateUtils.getCurrentInstant()).thenReturn(instant);
         when(idGeneratorService.generateUuid()).thenReturn(MESSAGE_ID);
 
-        NACKMessageData messageData = NACKMessageData.builder()
+        messageData = NACKMessageData.builder()
             .conversationId(TEST_CONVERSATION_ID)
             .toOdsCode(TEST_TO_ODS)
             .nackCode(NACK_CODE)
@@ -51,16 +54,51 @@ public class NACKMessageServiceTest {
             .fromAsid(TEST_FROM_ASID)
             .toAsid(TEST_TO_ASID)
             .build();
+    }
+
+    @Test
+    public void whenBuildMessage_withValidTestData_thenNackCodeIsSetCorrectly() {
+        String nackMessage = NACKMessageService.buildMessage(messageData);
+
+        assertTrue(nackMessage.contains(NACK_CODE));
+    }
+
+    @Test
+    public void whenBuildMessage_withValidTestData_thenMessageIdIsSetCorrectly() {
+        String nackMessage = NACKMessageService.buildMessage(messageData);
+
+        assertTrue(nackMessage.contains(MESSAGE_ID));
+    }
+
+    @Test
+    public void whenBuildMessage_withValidTestData_thenMessageRefIsSetCorrectly() {
+        String nackMessage = NACKMessageService.buildMessage(messageData);
+
+        assertTrue(nackMessage.contains(MESSAGE_REF));
+    }
+
+    @Test
+    public void whenBuildMessage_withValidTestData_thenToAsidIsSetCorrectly() {
+        String nackMessage = NACKMessageService.buildMessage(messageData);
+
+        assertTrue(nackMessage.contains(TEST_TO_ASID));
+    }
+
+    @Test
+    public void whenBuildMessage_withValidTestData_thenFromAsidIsSetCorrectly() {
+        String nackMessage = NACKMessageService.buildMessage(messageData);
+
+        assertTrue(nackMessage.contains(TEST_FROM_ASID));
+    }
+
+    @Test
+    public void whenBuildMessage_withValidTestData_thenCreationTimeIsSetCorrectly() {
+        Instant instant = Instant.now();
+        when(dateUtils.getCurrentInstant()).thenReturn(instant);
 
         String nackMessage = NACKMessageService.buildMessage(messageData);
 
-        assertFalse(nackMessage.contains(TEST_CONVERSATION_ID));
-        assertFalse(nackMessage.contains(TEST_TO_ODS));
-        assertTrue(nackMessage.contains(NACK_CODE));
-        assertTrue(nackMessage.contains(MESSAGE_ID));
-        assertTrue(nackMessage.contains(MESSAGE_REF));
-        assertTrue(nackMessage.contains(TEST_FROM_ASID));
-        assertTrue(nackMessage.contains(TEST_TO_ASID));
         assertTrue(nackMessage.contains(toHl7Format(instant)));
     }
+
 }
