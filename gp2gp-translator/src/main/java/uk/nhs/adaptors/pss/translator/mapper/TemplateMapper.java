@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
+import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
