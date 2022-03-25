@@ -15,6 +15,7 @@ import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
+import org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -45,7 +46,7 @@ public class SpecimenBatteryMapperTest {
     private static final String PATIENT_ID = "TEST_PATIENT_ID";
     private static final String SPECIMEN_ID = "TEST_SPECIMEN_ID_1";
     private static final String META_PROFILE_SUFFIX = "Observation-1";
-    private static final String EXPECTED_COMMENT = "Looks like Covid\nOr maybe not?";
+    private static final String EXPECTED_COMMENT = "Looks like Covid";
     private static final Patient PATIENT = (Patient) new Patient().setId(PATIENT_ID);
     private static final DiagnosticReport DIAGNOSTIC_REPORT = (DiagnosticReport) new DiagnosticReport().setId(DIAGNOSTIC_REPORT_ID);
     private static final InstantType OBSERVATION_ISSUED = parseToInstantType("202203021160700");
@@ -64,6 +65,8 @@ public class SpecimenBatteryMapperTest {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
         var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
 
+        final List<Observation> observations = getObservations();
+
         var batteryParameters = SpecimenBatteryParameters.builder()
             .ehrExtract(ehrExtract)
             .batteryCompoundStatement(batteryCompoundStatement)
@@ -73,6 +76,7 @@ public class SpecimenBatteryMapperTest {
             .patient(PATIENT)
             .encounters(encounters)
             .practiseCode(PRACTISE_CODE)
+            .observations(observations)
             .build();
 
         final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
@@ -88,6 +92,9 @@ public class SpecimenBatteryMapperTest {
         assertThat(observation.getComment()).isEqualTo(EXPECTED_COMMENT);
         assertThat(observation.getContext().hasReference()).isTrue();
         assertThat(observation.getContext().getReference()).contains(ENCOUNTER_ID);
+
+        assertThat(observations.get(0).getRelated()).isNotEmpty();
+        assertThat(observations.get(0).getRelatedFirstRep().getType()).isEqualTo(ObservationRelationshipType.DERIVEDFROM);
 
         assertSubject(observation);
         assertRelated(observation);
@@ -113,6 +120,13 @@ public class SpecimenBatteryMapperTest {
     private RCMRMT030101UK04CompoundStatement getSpecimenCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
         return getEhrComposition(ehrExtract).getComponent().get(0).getCompoundStatement()
             .getComponent().get(0).getCompoundStatement();
+    }
+
+    private List<Observation> getObservations() {
+        return List.of(
+            (Observation) new Observation().setId(OBSERVATION_STATEMENT_ID_1),
+            (Observation) new Observation().setId(OBSERVATION_STATEMENT_ID_2)
+        );
     }
 
     private RCMRMT030101UK04CompoundStatement getBatteryCompoundStatements(RCMRMT030101UK04EhrExtract ehrExtract) {

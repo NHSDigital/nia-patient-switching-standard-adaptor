@@ -23,6 +23,7 @@ import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationRelatedComponent;
+import org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
@@ -44,6 +45,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.TextUtil;
 
 @Service
@@ -80,8 +82,28 @@ public class SpecimenBatteryMapper {
         getPerformer(batteryCompoundStatement, ehrComposition).ifPresent(observation::addPerformer);
 
         referenceObservationInDiagnosticReport(observation, batteryParameters.getDiagnosticReport());
+        referenceBatteryInChildObservations(batteryCompoundStatement, observation, batteryParameters.getObservations());
 
         return observation;
+    }
+
+    private void referenceBatteryInChildObservations(RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
+        Observation batteryObservation, List<Observation> observations) {
+        batteryCompoundStatement.getComponent()
+            .stream()
+            .flatMap(CompoundStatementResourceExtractors::extractInnerObservationStatements)
+            .filter(Objects::nonNull)
+            .map(observationStatement -> getObservationById(observations, observationStatement.getId().getRoot()))
+            .flatMap(Optional::stream)
+            .forEach(observation ->
+                observation.addRelated(new ObservationRelatedComponent(new Reference(batteryObservation))
+                    .setType(ObservationRelationshipType.DERIVEDFROM)));
+    }
+
+    private Optional<Observation> getObservationById(List<Observation> observations, String id) {
+        return observations.stream()
+            .filter(observation -> id.equals(observation.getId()))
+            .findFirst();
     }
 
     private void referenceObservationInDiagnosticReport(Observation observation, DiagnosticReport diagnosticReport) {
@@ -192,7 +214,7 @@ public class SpecimenBatteryMapper {
                 .filter(narrativeStatement -> narrativeStatement.getText().contains(USER_COMMENT_HEADER))
                 .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
                 .map(reference -> new ObservationRelatedComponent().setTarget(reference)
-                    .setType(Observation.ObservationRelationshipType.DERIVEDFROM)),
+                    .setType(ObservationRelationshipType.DERIVEDFROM)),
             getObservationReferences(batteryCompoundStatement)
         ).toList();
     }
@@ -212,7 +234,7 @@ public class SpecimenBatteryMapper {
             .map(RCMRMT030101UK04ObservationStatement.class::cast)
             .map(observationStatement -> new Reference(new IdType(ResourceType.Observation.name(), observationStatement.getId().getRoot())))
             .map(reference -> new ObservationRelatedComponent().setTarget(reference)
-                .setType(Observation.ObservationRelationshipType.HASMEMBER));
+                .setType(ObservationRelationshipType.HASMEMBER));
     }
 
     @Getter
@@ -225,6 +247,7 @@ public class SpecimenBatteryMapper {
         private DiagnosticReport diagnosticReport;
         private Patient patient;
         private List<Encounter> encounters;
+        private List<Observation> observations;
         private String practiseCode;
     }
 }

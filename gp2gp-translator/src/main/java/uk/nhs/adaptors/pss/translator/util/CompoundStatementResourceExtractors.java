@@ -62,6 +62,17 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
+    public static Stream<RCMRMT030101UK04ObservationStatement> extractInnerObservationStatements(RCMRMT030101UK04Component02 component02) {
+        return Stream.concat(
+            Stream.of(component02.getObservationStatement()),
+            component02.hasCompoundStatement() ? CompoundStatementUtil.extractResourcesFromCompound(component02.getCompoundStatement(),
+                    RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement)
+                .stream()
+                .map(RCMRMT030101UK04ObservationStatement.class::cast)
+                : Stream.empty()
+        );
+    }
+
     public static Stream<RCMRMT030101UK04ObservationStatement> extractAllObservationStatementsWithoutAllergies(
         RCMRMT030101UK04Component4 component4) {
         return Stream.concat(

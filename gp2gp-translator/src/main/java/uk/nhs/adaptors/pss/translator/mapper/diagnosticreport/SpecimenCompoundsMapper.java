@@ -74,6 +74,7 @@ public class SpecimenCompoundsMapper {
                                 .diagnosticReport(diagnosticReport)
                                 .patient(patient)
                                 .encounters(encounters)
+                                .observations(observations)
                                 .practiseCode(practiseCode)
                                 .build();
 
