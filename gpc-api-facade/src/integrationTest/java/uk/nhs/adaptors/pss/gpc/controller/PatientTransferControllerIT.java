@@ -54,7 +54,7 @@ public class PatientTransferControllerIT {
 
     @Autowired
     private MigrationStatusLogDao migrationStatusLogDao;
-    
+
     @Autowired
     private MigrationStatusLogService migrationStatusLogService;
 
@@ -73,11 +73,11 @@ public class PatientTransferControllerIT {
         assertThat(migrationRequestBefore).isNull();
 
         mockMvc.perform(
-            post(MIGRATE_PATIENT_RECORD_ENDPOINT)
-                .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .headers(REQUIRED_HEADERS)
-                .header(CONVERSATION_ID_HEADER, conversationId)
-                .content(requestBody))
+                post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .headers(REQUIRED_HEADERS)
+                    .header(CONVERSATION_ID_HEADER, conversationId)
+                    .content(requestBody))
             .andExpect(status().isAccepted());
 
         var migrationRequestAfterFirstRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
@@ -93,19 +93,19 @@ public class PatientTransferControllerIT {
         assertThat(migrationRequestBefore).isNull();
 
         mockMvc.perform(
-            post(MIGRATE_PATIENT_RECORD_ENDPOINT)
-                .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .headers(REQUIRED_HEADERS)
-                .header(CONVERSATION_ID_HEADER, conversationId)
-                .content(requestBody))
+                post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .headers(REQUIRED_HEADERS)
+                    .header(CONVERSATION_ID_HEADER, conversationId)
+                    .content(requestBody))
             .andExpect(status().isAccepted());
 
         mockMvc.perform(
-            post(MIGRATE_PATIENT_RECORD_ENDPOINT)
-                .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .headers(REQUIRED_HEADERS)
-                .header(CONVERSATION_ID_HEADER, conversationId)
-                .content(requestBody))
+                post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .headers(REQUIRED_HEADERS)
+                    .header(CONVERSATION_ID_HEADER, conversationId)
+                    .content(requestBody))
             .andExpect(status().isNoContent());
 
         var migrationRequestAfterSecondRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
@@ -118,10 +118,10 @@ public class PatientTransferControllerIT {
         var expectedResponseBody = readResourceAsString("/responses/common/unsupportedMediaTypeResponseBody.json");
 
         mockMvc.perform(
-            post(MIGRATE_PATIENT_RECORD_ENDPOINT)
-                .contentType(MediaType.TEXT_PLAIN)
-                .headers(REQUIRED_HEADERS)
-                .content(requestBody))
+                post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .headers(REQUIRED_HEADERS)
+                    .content(requestBody))
             .andExpect(status().isUnsupportedMediaType())
             .andExpect(content().json(expectedResponseBody));
     }
@@ -134,10 +134,10 @@ public class PatientTransferControllerIT {
             .replace("{{endpointUrl}}", nonexistentEndpoint);
 
         mockMvc.perform(
-            post(nonexistentEndpoint)
-                .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .headers(REQUIRED_HEADERS)
-                .content(requestBody))
+                post(nonexistentEndpoint)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .headers(REQUIRED_HEADERS)
+                    .content(requestBody))
             .andExpect(status().isNotFound())
             .andExpect(content().json(expectedResponseBody));
     }
@@ -149,10 +149,10 @@ public class PatientTransferControllerIT {
             .replace("{{requestMethod}}", "PATCH");
 
         mockMvc.perform(
-            patch(MIGRATE_PATIENT_RECORD_ENDPOINT)
-                .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .headers(REQUIRED_HEADERS)
-                .content(requestBody))
+                patch(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .headers(REQUIRED_HEADERS)
+                    .content(requestBody))
             .andExpect(status().isMethodNotAllowed())
             .andExpect(content().json(expectedResponseBody));
     }
@@ -163,10 +163,10 @@ public class PatientTransferControllerIT {
         var expectedResponseBody = readResourceAsString(UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH);
 
         mockMvc.perform(
-            post(MIGRATE_PATIENT_RECORD_ENDPOINT)
-                .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .headers(REQUIRED_HEADERS)
-                .content(requestBody))
+                post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .headers(REQUIRED_HEADERS)
+                    .content(requestBody))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(content().json(expectedResponseBody));
     }
@@ -177,10 +177,10 @@ public class PatientTransferControllerIT {
         var expectedResponseBody = readResourceAsString(UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH);
 
         mockMvc.perform(
-            post(MIGRATE_PATIENT_RECORD_ENDPOINT)
-                .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .headers(REQUIRED_HEADERS)
-                .content(requestBody))
+                post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .headers(REQUIRED_HEADERS)
+                    .content(requestBody))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(content().json(expectedResponseBody));
     }
@@ -190,10 +190,10 @@ public class PatientTransferControllerIT {
         var expectedResponseBody = readResourceAsString(UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH);
 
         mockMvc.perform(
-            post(MIGRATE_PATIENT_RECORD_ENDPOINT)
-                .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .headers(REQUIRED_HEADERS)
-                .content(StringUtils.EMPTY))
+                post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .headers(REQUIRED_HEADERS)
+                    .content(StringUtils.EMPTY))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(content().json(expectedResponseBody));
     }
@@ -204,9 +204,9 @@ public class PatientTransferControllerIT {
         var expectedResponseBody = readResourceAsString("/responses/migrate-patient-record/badRequestResponseBody.json");
 
         mockMvc.perform(
-            post(MIGRATE_PATIENT_RECORD_ENDPOINT)
-                .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .content(requestBody))
+                post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .content(requestBody))
             .andExpect(status().isBadRequest())
             .andExpect(content().json(expectedResponseBody));
     }
@@ -217,7 +217,7 @@ public class PatientTransferControllerIT {
         var conversationId = generateConversationId();
 
         completePatientMigrationJourney(conversationId);
-        
+
         mockMvc.perform(
                 post(MIGRATE_PATIENT_RECORD_ENDPOINT)
                     .contentType(APPLICATION_FHIR_JSON_VALUE)
@@ -226,7 +226,6 @@ public class PatientTransferControllerIT {
                     .content(requestBody))
             .andExpect(status().isOk())
             .andExpect(content().json(readResourceAsString(EXAMPLE_JSON_BUNDLE)));
-
 
         var migrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         verifyPatientMigrationRequest(migrationRequest, MIGRATION_COMPLETED);
