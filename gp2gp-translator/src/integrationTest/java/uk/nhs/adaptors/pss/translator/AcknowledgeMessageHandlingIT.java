@@ -67,7 +67,7 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AA");
 
         // verify if correct status is set in the DB
-        await().until(() -> isEhrExtractTranslated(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AE");
 
         // verify if correct status is set in the DB
-        await().until(() -> isEhrExtractTranslated(EHR_EXTRACT_REQUEST_NEGATIVE_ACK));
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK));
     }
 
     private String generatePatientNhsNumber() {
@@ -100,9 +100,9 @@ public class AcknowledgeMessageHandlingIT {
         return inboundMessage;
     }
 
-    private boolean isEhrExtractTranslated(MigrationStatus expectedStatus) {
+    private boolean isCorrectStatusSet(MigrationStatus expectedStatus) {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        return expectedStatus.equals(migrationStatusLog.getMigrationStatus());
+        return migrationStatusLog != null && expectedStatus.equals(migrationStatusLog.getMigrationStatus());
     }
 
     @SneakyThrows
