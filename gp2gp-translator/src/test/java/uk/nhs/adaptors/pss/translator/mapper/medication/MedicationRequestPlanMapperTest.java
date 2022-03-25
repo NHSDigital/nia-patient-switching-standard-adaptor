@@ -56,7 +56,7 @@ public class MedicationRequestPlanMapperTest {
     private static final String MEDICATION_STATUS_REASON_URL =
         "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1";
     private static final String PRESCRIPTION_TYPE_URL =
-    "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1";
+        "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1";
 
     private static final int ONE = 1;
     private static final int TWO = 2;
@@ -85,7 +85,8 @@ public class MedicationRequestPlanMapperTest {
         assertThat(supplyAuthorise.isPresent()).isTrue();
 
         var medicationRequest =
-            medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.get(), PRACTISE_CODE);
+            medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.get(),
+                PRACTISE_CODE);
 
         var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
         assertThat(repeatInformation.size()).isEqualTo(ONE);
@@ -114,7 +115,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResourceWithNoEffectiveTime_NoExpiryDateExtensionAdded() {
+    public void When_MappingAuthoriseResourceWithNoEffectiveTime_Expect_NoExpiryDateExtensionAdded() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract5.xml");
         Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         assertThat(medicationStatement.isPresent()).isTrue();
@@ -134,7 +135,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResourceEffectiveTimeWithNullHighValue_NoExpiryDateExtensionAdded() {
+    public void When_MappingAuthoriseResourceEffectiveTimeWithNullHighValue_Expect_NoExpiryDateExtensionAdded() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract6.xml");
         Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         assertThat(medicationStatement.isPresent()).isTrue();
@@ -143,7 +144,8 @@ public class MedicationRequestPlanMapperTest {
         assertThat(supplyAuthorise.isPresent()).isTrue();
 
         var medicationRequest =
-            medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.get(), PRACTISE_CODE);
+            medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.get(),
+                PRACTISE_CODE);
 
         var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
         assertThat(repeatInformation.size()).isEqualTo(ONE);

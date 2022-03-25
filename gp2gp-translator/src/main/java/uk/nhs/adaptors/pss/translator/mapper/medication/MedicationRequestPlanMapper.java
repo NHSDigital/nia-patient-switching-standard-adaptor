@@ -170,7 +170,7 @@ public class MedicationRequestPlanMapper {
     }
 
     private Optional<Extension> extractAuthorisationExpiryDate(RCMRMT030101UK04Authorise supplyAuthorise) {
-        if(supplyAuthorise.hasEffectiveTime()) {
+        if (supplyAuthorise.hasEffectiveTime()) {
             if (supplyAuthorise.getEffectiveTime().hasHigh() && supplyAuthorise.getEffectiveTime().getHigh().getNullFlavor() == null) {
                 return Optional.of(new Extension(
                     REPEATS_EXPIRY_DATE_URL, DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue())));
