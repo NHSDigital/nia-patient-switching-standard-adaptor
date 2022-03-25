@@ -38,7 +38,7 @@ public class EhrExtractMessageHandlerTest {
     private static final String CONVERSATION_ID = randomUUID().toString();
     private static final String INBOUND_MESSAGE_STRING = "{hi i'm inbound message}";
     private static final String BUNDLE_STRING = "{bundle}";
-    private static final String LOOSING_ODE_CODE = "G543";
+    private static final String LOSING_ODE_CODE = "G543";
 
     @Mock
     private ObjectMapper objectMapper;
@@ -75,9 +75,9 @@ public class EhrExtractMessageHandlerTest {
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
-        PatientMigrationRequest migrationRequest = PatientMigrationRequest.builder().loosingPracticeOdsCode(LOOSING_ODE_CODE).build();
+        PatientMigrationRequest migrationRequest = PatientMigrationRequest.builder().losingPracticeOdsCode(LOSING_ODE_CODE).build();
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOOSING_ODE_CODE))).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
     }

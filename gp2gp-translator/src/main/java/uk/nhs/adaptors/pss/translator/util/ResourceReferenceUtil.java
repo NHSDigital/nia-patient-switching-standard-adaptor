@@ -113,7 +113,7 @@ public class ResourceReferenceUtil {
             if (isBloodPressure(compoundStatement)) {
                 addBloodPressureEntry(compoundStatement, entryReferences);
             } else if (isAllergyIntolerance(compoundStatement)) {
-                addAllergyIntoleranceEntry(observationStatement, entryReferences);
+                addAllergyIntoleranceEntry(compoundStatement, entryReferences);
             } else if (observationStatement.hasCode() && immunizationChecker.isImmunization(observationStatement.getCode().getCode())) {
                 addImmunizationEntry(observationStatement, entryReferences);
             } else {
@@ -122,9 +122,9 @@ public class ResourceReferenceUtil {
         }
     }
 
-    private static void addAllergyIntoleranceEntry(RCMRMT030101UK04ObservationStatement observationStatement,
+    private static void addAllergyIntoleranceEntry(RCMRMT030101UK04CompoundStatement compoundStatement,
         List<Reference> entryReferences) {
-        entryReferences.add(createResourceReference(ResourceType.AllergyIntolerance.name(), observationStatement.getId().getRoot()));
+        entryReferences.add(createResourceReference(ResourceType.AllergyIntolerance.name(), compoundStatement.getId().get(0).getRoot()));
     }
 
     private static void addDiagnosticReportEntry(RCMRMT030101UK04CompoundStatement compoundStatement, List<Reference> entryReferences) {

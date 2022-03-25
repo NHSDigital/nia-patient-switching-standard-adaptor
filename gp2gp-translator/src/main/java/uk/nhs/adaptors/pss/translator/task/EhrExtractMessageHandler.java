@@ -36,7 +36,7 @@ public class EhrExtractMessageHandler {
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
 
-        var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLoosingPracticeOdsCode());
+        var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
         migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
             conversationId,
             fhirParser.encodeToJson(bundle),

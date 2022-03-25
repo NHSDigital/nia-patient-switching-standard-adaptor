@@ -209,6 +209,10 @@ public class RCMRMT030101UK04CompoundStatement {
         return effectiveTime;
     }
 
+    public boolean hasEffectiveTime() {
+        return effectiveTime != null;
+    }
+
     /**
      * Sets the value of the effectiveTime property.
      * 

@@ -43,7 +43,7 @@ public class PatientTransferControllerIT {
         "/responses/migrate-patient-record/unprocessableEntityResponseBody.json";
     private static final HttpHeaders REQUIRED_HEADERS = generateHeaders();
     private static final String CONVERSATION_ID_HEADER = "ConversationId";
-    private static final String LOOSING_PRACTICE_ODS = "F765";
+    private static final String LOSING_PRACTICE_ODS = "F765";
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -212,7 +212,7 @@ public class PatientTransferControllerIT {
     private void verifyPatientMigrationRequest(PatientMigrationRequest patientMigrationRequest, MigrationStatus status) {
         var migrationStatusLog = migrationStatusLogDao.getLatestMigrationStatusLog(patientMigrationRequest.getId());
         assertThat(patientMigrationRequest).isNotNull();
-        assertThat(patientMigrationRequest.getLoosingPracticeOdsCode()).isEqualTo(LOOSING_PRACTICE_ODS);
+        assertThat(patientMigrationRequest.getLosingPracticeOdsCode()).isEqualTo(LOSING_PRACTICE_ODS);
         assertThat(migrationStatusLog.getMigrationStatus()).isEqualTo(status);
     }
 
@@ -229,7 +229,7 @@ public class PatientTransferControllerIT {
         headers.set("from-asid", "123456");
         headers.set("to-asid", "32145");
         headers.set("from-ods", "ABC");
-        headers.set("to-ods", LOOSING_PRACTICE_ODS);
+        headers.set("to-ods", LOSING_PRACTICE_ODS);
 
         return headers;
     }
