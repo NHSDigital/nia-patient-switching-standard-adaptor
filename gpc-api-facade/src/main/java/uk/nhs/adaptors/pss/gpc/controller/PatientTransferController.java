@@ -79,7 +79,7 @@ public class PatientTransferController {
         } else if (IN_PROGRESS_STATUSES.contains(request.getMigrationStatus())) {
             return new ResponseEntity<>(NO_CONTENT);
         } else if (MIGRATION_COMPLETED == request.getMigrationStatus()) {
-            return new ResponseEntity<>(patientTransferService.getEmptyBundle(), OK);
+            return new ResponseEntity<>(patientTransferService.getBundleResource(), OK);
         } else {
             throw new IllegalStateException("Unsupported transfer status: " + request.getMigrationStatus());
         }
