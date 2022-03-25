@@ -79,6 +79,18 @@ services:
     networks:
       - ps-network
 
+  snomed_immunization:
+    build:
+      context: ../
+      dockerfile: ./docker/snomed-immunization/Dockerfile
+    environment:
+      - PS_DB_OWNER_NAME
+      - POSTGRES_PASSWORD
+      - PS_DB_HOST
+      - PS_DB_PORT
+    networks:
+      - ps-network
+
   mhs-adaptor-mock:
     build: ./mhs-adaptor-mock
     ports:

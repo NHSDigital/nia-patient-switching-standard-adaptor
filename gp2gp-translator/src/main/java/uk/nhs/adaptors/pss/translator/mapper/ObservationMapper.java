@@ -9,7 +9,6 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRange;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
-import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isImmunization;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
@@ -41,6 +40,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
+import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -49,6 +49,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private static final String SUBJECT_COMMENT = "Subject: %s ";
 
     private final CodeableConceptMapper codeableConceptMapper;
+    private final DatabaseImmunizationChecker immunizationChecker;
 
     public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
@@ -56,7 +57,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             extractAllObservationStatementsWithoutAllergies(component)
                 .filter(Objects::nonNull)
                 .filter(this::isNotBloodPressure)
-                .filter(observationStatement -> !isImmunization(observationStatement))
+                .filter(this::isNotImmunization)
                 .map(observationStatement
                     -> mapObservation(extract, composition, observationStatement, patient, encounters, practiseCode)))
             .toList();
@@ -93,6 +94,13 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
             return !BloodPressureValidatorUtil.isSystolicBloodPressure(observationStatement.getCode().getCode())
                 && !BloodPressureValidatorUtil.isDiastolicBloodPressure(observationStatement.getCode().getCode());
+        }
+        return true;
+    }
+
+    private boolean isNotImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
+        if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
+            return !immunizationChecker.isImmunization(observationStatement.getCode().getCode());
         }
         return true;
     }
