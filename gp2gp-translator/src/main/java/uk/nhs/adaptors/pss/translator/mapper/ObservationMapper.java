@@ -53,7 +53,6 @@ public class ObservationMapper extends AbstractMapper<Observation> {
 
     public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllObservationStatementsWithoutAllergies(component)
                 .filter(Objects::nonNull)

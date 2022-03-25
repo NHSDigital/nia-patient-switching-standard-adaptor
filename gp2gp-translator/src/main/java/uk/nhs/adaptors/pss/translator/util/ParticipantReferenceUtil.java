@@ -14,7 +14,7 @@ import org.hl7.v3.RCMRMT030101UK04Participant2;
 public class ParticipantReferenceUtil {
     private static final String PRF_TYPE_CODE = "PRF";
     private static final String PPRF_TYPE_CODE = "PPRF";
-    private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/";
+    private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/%s";
 
     public static Reference getParticipantReference(List<RCMRMT030101UK04Participant> participantList,
         RCMRMT030101UK04EhrComposition ehrComposition) {
@@ -24,17 +24,17 @@ public class ParticipantReferenceUtil {
 
         var pprfParticipants = getParticipantReference(nonNullFlavorParticipants, PPRF_TYPE_CODE);
         if (pprfParticipants.isPresent()) {
-            return new Reference(PRACTITIONER_REFERENCE_PREFIX + pprfParticipants.get());
+            return new Reference(PRACTITIONER_REFERENCE_PREFIX.formatted(pprfParticipants.get()));
         }
 
         var prfParticipants = getParticipantReference(nonNullFlavorParticipants, PRF_TYPE_CODE);
         if (prfParticipants.isPresent()) {
-            return new Reference(PRACTITIONER_REFERENCE_PREFIX + prfParticipants.get());
+            return new Reference(PRACTITIONER_REFERENCE_PREFIX.formatted(prfParticipants.get()));
         }
 
         var participant2Reference = getParticipant2Reference(ehrComposition);
         if (participant2Reference.isPresent()) {
-            return new Reference(PRACTITIONER_REFERENCE_PREFIX + participant2Reference.get());
+            return new Reference(PRACTITIONER_REFERENCE_PREFIX.formatted(participant2Reference.get()));
         }
 
         return null;
