@@ -4,7 +4,6 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isAllergyIn
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDiagnosticReport;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDocumentReference;
-import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isImmunization;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isTemplate;
 
 import java.util.List;
@@ -20,14 +19,22 @@ import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ResourceReferenceUtil {
     private static final String MEDICATION_STATEMENT_REFERENCE = "%s-MS";
     private static final String QUESTIONNAIRE_ID = "%s-QRSP";
     private static final String OBSERVATION_REFERENCE = "Observation/%s";
     private static final String QUESTIONNAIRE_REFERENCE = "QuestionnaireResponse/%s";
 
-    public static void extractChildReferencesFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition,
+    private final DatabaseImmunizationChecker immunizationChecker;
+
+    public void extractChildReferencesFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition,
         List<Reference> entryReferences) {
 
         ehrComposition.getComponent().forEach(component -> {
@@ -41,7 +48,7 @@ public class ResourceReferenceUtil {
         });
     }
 
-    public static void extractChildReferencesFromCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement,
+    public void extractChildReferencesFromCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement,
         List<Reference> entryReferences) {
         if (compoundStatement != null) {
             if (isDiagnosticReport(compoundStatement)) {
@@ -52,7 +59,8 @@ public class ResourceReferenceUtil {
                 }
 
                 compoundStatement.getComponent().forEach(component -> {
-                    addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
+                    addObservationStatementEntry(
+                        component.getObservationStatement(), entryReferences, compoundStatement);
                     addPlanStatementEntry(component.getPlanStatement(), entryReferences);
                     addRequestStatementEntry(component.getRequestStatement(), entryReferences);
                     addLinkSetEntry(component.getLinkSet(), entryReferences);
@@ -68,7 +76,7 @@ public class ResourceReferenceUtil {
         }
     }
 
-    public static void extractChildReferencesFromTemplate(RCMRMT030101UK04CompoundStatement compoundStatement,
+    public void extractChildReferencesFromTemplate(RCMRMT030101UK04CompoundStatement compoundStatement,
         List<Reference> entryReferences) {
         compoundStatement.getComponent().forEach(component -> {
             addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
@@ -99,15 +107,14 @@ public class ResourceReferenceUtil {
             compoundStatement.getId().get(0).getRoot()));
     }
 
-    private static void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement,
-        List<Reference> entryReferences,
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement,
+        List<Reference> entryReferences, RCMRMT030101UK04CompoundStatement compoundStatement) {
         if (observationStatement != null && isNotIgnoredResource(compoundStatement, entryReferences)) {
             if (isBloodPressure(compoundStatement)) {
                 addBloodPressureEntry(compoundStatement, entryReferences);
             } else if (isAllergyIntolerance(compoundStatement)) {
                 addAllergyIntoleranceEntry(observationStatement, entryReferences);
-            } else if (isImmunization(observationStatement)) {
+            } else if (observationStatement.hasCode() && immunizationChecker.isImmunization(observationStatement.getCode().getCode())) {
                 addImmunizationEntry(observationStatement, entryReferences);
             } else {
                 addUncategorisedObservationEntry(observationStatement, entryReferences);
