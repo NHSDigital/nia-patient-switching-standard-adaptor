@@ -60,7 +60,12 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [snomed
    - GPC_FACADE_SERVER_PORT: port of the GPC API Facade application
    - GP2GP_TRANSLATOR_SERVER_PORT: port of the GP2GP Translator application
    - MHS_BASE_URL: base URL of the MHS Adapter
-   - // todo ssl
+   - SSL_ENABLED: is SS: enabled (default is false)
+   - KEY_STORE: path to the keystore
+   - KEY_STORE_PASSWORD: keystore password
+   - KEY_PASSWORD: server private key password
+   - TRUST_STORE: path to the truststore
+   - TRUST_STORE_PASSWORD: truststore password
 
    If you plan to use external queues (like ActiveMQ on AWS), you also need to set credentials for those queues:
    - PS_AMQP_USERNAME
