@@ -44,7 +44,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     private static final String ALLERGY_TERM_TEXT = "H/O: drug allergy";
     private static final String ALLERGY_NOTE = "Allergy Code: %s";
 
-    private CodeableConceptMapper codeableConceptMapper;
+    private final CodeableConceptMapper codeableConceptMapper;
 
     @Override
     public List<AllergyIntolerance> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
