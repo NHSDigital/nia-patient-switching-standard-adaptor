@@ -86,7 +86,7 @@ public class MedicationRequestPlanMapper {
             List<Extension> repeatInformationExtensions = new ArrayList<>();
             extractSupplyAuthoriseRepeatInformation(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
             extractRepeatInformationIssued(ehrExtract, supplyAuthorise, ehrSupplyAuthoriseId).ifPresent(repeatInformationExtensions::add);
-//            extractAuthorisationExpiryDate(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
+            extractAuthorisationExpiryDate(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
 
             buildCondensedExtensions(REPEAT_INFORMATION_URL, repeatInformationExtensions)
                 .ifPresent(medicationRequest::addExtension);

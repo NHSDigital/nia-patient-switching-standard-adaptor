@@ -117,7 +117,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResourceWithNoEffectiveTime() {
+    public void When_MappingAuthoriseResourceWithNoEffectiveTime_NoExpiryDateExtensionAdded() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract5.xml");
         var medicationStatement = extractMedicationStatement(ehrExtract);
         assertThat(medicationStatement.isPresent()).isTrue();
@@ -144,7 +144,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResourceEffectiveTimeWithNullHighValue() {
+    public void When_MappingAuthoriseResourceEffectiveTimeWithNullHighValue_NoExpiryDateExtensionAdded() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract6.xml");
         var medicationStatement = extractMedicationStatement(ehrExtract);
         assertThat(medicationStatement.isPresent()).isTrue();
@@ -180,17 +180,18 @@ public class MedicationRequestPlanMapperTest {
     }
 
     private void assertRepeatInformation(Extension extension) {
-//        var repeatsAllowed = extension.getExtensionsByUrl(REPEATS_ISSUED_URL);
-//        assertThat(repeatsAllowed.size()).isEqualTo(ONE);
-//        assertThat(((UnsignedIntType) repeatsAllowed.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(SIX).getValue());
+        var repeatsAllowed = extension.getExtensionsByUrl(REPEATS_ALLOWED_URL);
+        assertThat(repeatsAllowed.size()).isEqualTo(ONE);
+        assertThat(((UnsignedIntType) repeatsAllowed.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(SIX).getValue());
 
-        var repeatsIssued = extension.getExtensionsByUrl(REPEATS_ALLOWED_URL);
+        var repeatsIssued = extension.getExtensionsByUrl(REPEATS_ISSUED_URL);
         assertThat(repeatsIssued.size()).isEqualTo(ONE);
         assertThat(((UnsignedIntType) repeatsIssued.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(ONE).getValue());
 
         var expiryDate = extension.getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL);
         assertThat(expiryDate.size()).isEqualTo(ONE);
-        assertThat(expiryDate.get(0).getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("20060427"));
+        var date = expiryDate.get(0).getValue().toString();
+        assertThat(date).isEqualTo(DateFormatUtil.parseToDateTimeType("20060427").toString());
     }
 
     private Optional<RCMRMT030101UK04MedicationStatement> extractMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
