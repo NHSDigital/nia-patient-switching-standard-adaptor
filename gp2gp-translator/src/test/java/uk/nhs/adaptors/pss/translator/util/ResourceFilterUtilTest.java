@@ -38,22 +38,6 @@ public class ResourceFilterUtilTest {
     }
 
     @Test
-    public void testIsImmunizationResource() {
-        final RCMRMT030101UK04ObservationStatement observationStatement = unmarshallObservationStatementElement(
-            "immunization_resource.xml");
-
-        assertThat(ResourceFilterUtil.isImmunization(observationStatement)).isTrue();
-    }
-
-    @Test
-    public void testIsNotImmunizationResource() {
-        final RCMRMT030101UK04ObservationStatement observationStatement = unmarshallObservationStatementElement(
-            "observation_uncategorised_resource.xml");
-
-        assertThat(ResourceFilterUtil.isImmunization(observationStatement)).isFalse();
-    }
-
-    @Test
     public void testIsBloodPressureResource() {
         final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("blood_pressure_resource.xml");
 
