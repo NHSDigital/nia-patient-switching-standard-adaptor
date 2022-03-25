@@ -12,7 +12,7 @@
 
     <changeSet id="7" author="dawids">
         <addColumn schemaName="public" tableName="patient_migration_request">
-            <column name="loosing_practice_ods_code" type="varchar(32)">
+            <column name="losing_practice_ods_code" type="varchar(32)">
                 <constraints nullable="false"/>
             </column>
         </addColumn>

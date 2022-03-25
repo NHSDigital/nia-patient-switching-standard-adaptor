@@ -1,6 +1,8 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -13,12 +15,19 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import lombok.SneakyThrows;
 
+@ExtendWith(MockitoExtension.class)
 public class ResourceReferenceUtilTest {
 
     private static final String XML_RESOURCES_COMPOSITION = "xml/ResourceReference/EhrComposition/";
@@ -26,12 +35,18 @@ public class ResourceReferenceUtilTest {
     private static final int THREE = 3;
     private static final int FOUR = 4;
 
+    @Mock
+    private DatabaseImmunizationChecker immunizationChecker;
+
+    @InjectMocks
+    private ResourceReferenceUtil resourceReferenceUtil;
+
     @Test
     public void testMedicationResourcesReferencedAtEhrCompositionLevel() {
         final RCMRMT030101UK04EhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_medication.xml");
 
         List<Reference> references = new ArrayList<>();
-        ResourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
+        resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
 
         assertThat(references.size()).isEqualTo(THREE);
         assertThat(references.get(0).getReference()).isEqualTo("MedicationStatement/A0A70B62-2649-4C8F-B3AB-618B8257C942-MS");
@@ -44,7 +59,7 @@ public class ResourceReferenceUtilTest {
         final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("compound_statement_medication.xml");
 
         List<Reference> references = new ArrayList<>();
-        ResourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
+        resourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
 
         assertThat(references.size()).isEqualTo(THREE);
         assertThat(references.get(0).getReference()).isEqualTo("MedicationStatement/A0A70B62-2649-4C8F-B3AB-618B8257C942-MS");
@@ -57,7 +72,7 @@ public class ResourceReferenceUtilTest {
         final RCMRMT030101UK04EhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_template.xml");
 
         List<Reference> references = new ArrayList<>();
-        ResourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
+        resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
 
         assertThat(references.size()).isEqualTo(FOUR);
         assertThat(references.get(0).getReference()).isEqualTo("QuestionnaireResponse/7334D39A-BBB3-424A-B5D3-E841BCA39BF7-QRSP");
@@ -71,7 +86,7 @@ public class ResourceReferenceUtilTest {
         final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("compound_statement_template.xml");
 
         List<Reference> references = new ArrayList<>();
-        ResourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
+        resourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
 
         assertThat(references.size()).isEqualTo(FOUR);
         assertThat(references.get(0).getReference()).isEqualTo("QuestionnaireResponse/7334D39A-BBB3-424A-B5D3-E841BCA39BF7-QRSP");
@@ -85,7 +100,8 @@ public class ResourceReferenceUtilTest {
         final RCMRMT030101UK04EhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_template.xml");
 
         List<Reference> references = new ArrayList<>();
-        ResourceReferenceUtil.extractChildReferencesFromTemplate(ehrComposition.getComponent().get(0).getCompoundStatement(), references);
+        resourceReferenceUtil.extractChildReferencesFromTemplate(
+            ehrComposition.getComponent().get(0).getCompoundStatement(), references);
 
         assertThat(references.size()).isEqualTo(2);
         assertThat(references.get(0).getReference()).isEqualTo("Observation/3DCC9FC9-1873-4004-9789-C4E5C52B02B9");
@@ -96,9 +112,16 @@ public class ResourceReferenceUtilTest {
     @MethodSource("ehrCompositionResourceFiles")
     public void testResourcesReferencedAtEhrCompositionLevel(String inputXML, String referenceString) {
         final RCMRMT030101UK04EhrComposition ehrComposition = unmarshallEhrCompositionElement(inputXML);
+        lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
+            @Override
+            public Boolean answer(InvocationOnMock invocation) throws Throwable {
+                String input = (String) invocation.getArgument(0);
+                return input.equals("1664081000000114");
+            }
+        });
 
         List<Reference> references = new ArrayList<>();
-        ResourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
+        resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
 
         assertThat(references.size()).isOne();
         assertThat(references.get(0).getReference()).isEqualTo(referenceString);
@@ -109,7 +132,7 @@ public class ResourceReferenceUtilTest {
             Arguments.of("ehr_composition_observation_comment.xml", "Observation/5E496953-065B-41F2-9577-BE8F2FBD0757"),
             Arguments.of("ehr_composition_document_reference.xml", "DocumentReference/31B75ED0-6E88-11EA-9384-E83935108FD5"),
             Arguments.of("ehr_composition_immunization.xml", "Immunization/82A39454-299F-432E-993E-5A6232B4E099"),
-            Arguments.of("ehr_composition_allergy_intolerance.xml", "AllergyIntolerance/6D35AFC6-464A-4432-88E0-0A7380E281C5"),
+            Arguments.of("ehr_composition_allergy_intolerance.xml", "AllergyIntolerance/35C0BE8D-F5F9-41C4-B819-4BE66FF8ED27"),
             Arguments.of("ehr_composition_observation_uncategorised.xml", "Observation/E9396E5B-B81A-4D69-BF0F-DFB1DFE80A33"),
             Arguments.of("ehr_composition_condition.xml", "Condition/5968B6B2-8E9A-4A78-8979-C8F14F4D274B"),
             Arguments.of("ehr_composition_blood_pressure.xml", "Observation/FE739904-2AAB-4B3F-9718-84BE019FD483"),
@@ -121,9 +144,16 @@ public class ResourceReferenceUtilTest {
     @MethodSource("compoundStatementResourceFiles")
     public void testResourcesReferencedAtCompoundStatementLevel(String inputXML, String referenceString) {
         final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
+        lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
+            @Override
+            public Boolean answer(InvocationOnMock invocation) throws Throwable {
+                String input = (String) invocation.getArgument(0);
+                return input.equals("1664081000000114");
+            }
+        });
 
         List<Reference> references = new ArrayList<>();
-        ResourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
+        resourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
 
         assertThat(references.size()).isOne();
         assertThat(references.get(0).getReference()).isEqualTo(referenceString);
@@ -134,7 +164,7 @@ public class ResourceReferenceUtilTest {
             Arguments.of("compound_statement_observation_comment.xml", "Observation/5E496953-065B-41F2-9577-BE8F2FBD0757"),
             Arguments.of("compound_statement_document_reference.xml", "DocumentReference/31B75ED0-6E88-11EA-9384-E83935108FD5"),
             Arguments.of("compound_statement_immunization.xml", "Immunization/82A39454-299F-432E-993E-5A6232B4E099"),
-            Arguments.of("compound_statement_allergy_intolerance.xml", "AllergyIntolerance/6D35AFC6-464A-4432-88E0-0A7380E281C5"),
+            Arguments.of("compound_statement_allergy_intolerance.xml", "AllergyIntolerance/35C0BE8D-F5F9-41C4-B819-4BE66FF8ED27"),
             Arguments.of("compound_statement_observation_uncategorised.xml", "Observation/E9396E5B-B81A-4D69-BF0F-DFB1DFE80A33"),
             Arguments.of("compound_statement_condition.xml", "Condition/5968B6B2-8E9A-4A78-8979-C8F14F4D274B"),
             Arguments.of("compound_statement_blood_pressure.xml", "Observation/FE739904-2AAB-4B3F-9718-84BE019FD483"),

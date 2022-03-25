@@ -3,7 +3,9 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -17,7 +19,6 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Patient;
@@ -33,10 +34,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
+import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
 @ExtendWith(MockitoExtension.class)
 public class EncounterMapperTest {
@@ -81,17 +85,19 @@ public class EncounterMapperTest {
     private static final String FULL_VALID_FLAT_ENCOUNTER_WITH_RESOURCES_XML = "full_valid_flat_encounter_with_resources.xml";
     private static final int ONE_MAPPED_RESOURCE = 1;
     private static final int TWO_MAPPED_RESOURCES = 2;
-    private static final int NINETEEN_MAPPED_RESOURCES = 19;
     private static final String LINKSET_REFERENCE = "Condition/DCC26FC9-4D1C-11E3-A2DD-010000000161";
-
-    @Mock
-    private IdGeneratorService idGenerator;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
 
     @Mock
     private ConsultationListMapper consultationListMapper;
+
+    @Mock
+    private DatabaseImmunizationChecker immunizationChecker;
+
+    @Mock
+    private ResourceReferenceUtil resourceReferenceUtil;
 
     @InjectMocks
     private EncounterMapper encounterMapper;
@@ -298,13 +304,7 @@ public class EncounterMapperTest {
         assertThat(topic.getEntryFirstRep().getItem().getReference())
             .isEqualTo(ENCOUNTER_ID);
 
-        var entryReferences = category.getEntry().stream()
-            .map(ListResource.ListEntryComponent::getItem)
-            .map(Reference::getReference)
-            .toList();
-
-        assertThat(entryReferences.size()).isEqualTo(NINETEEN_MAPPED_RESOURCES);
-        assertEntry(entryReferences);
+        verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromCompoundStatement(any(), any());
     }
 
     @Test
@@ -334,13 +334,7 @@ public class EncounterMapperTest {
         assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(consultation.getEntryFirstRep().getItem().getReference()).isEqualTo(ENCOUNTER_ID);
 
-        var entryReferences = topic.getEntry().stream()
-            .map(ListResource.ListEntryComponent::getItem)
-            .map(Reference::getReference)
-            .toList();
-
-        assertThat(entryReferences.size()).isEqualTo(NINETEEN_MAPPED_RESOURCES);
-        assertEntry(entryReferences);
+        verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromEhrComposition(any(), any());
     }
 
     @ParameterizedTest
@@ -407,7 +401,6 @@ public class EncounterMapperTest {
         assertThat(encounter.getSubject().getResource()).isEqualTo(patient);
         assertLocation(encounter, id, hasLocation);
         assertPeriod(encounter.getPeriod(), startDate, endDate);
-        assertParticipant(encounter.getParticipant(), authorId, participant2Id);
     }
 
     private void assertLocation(Encounter encounter, String id, boolean hasLocation) {
@@ -424,49 +417,19 @@ public class EncounterMapperTest {
         assertThat(period.getEndElement().getValueAsString()).isEqualTo(endDate);
     }
 
-    private void assertParticipant(List<EncounterParticipantComponent> participantList, String authorId, String participant2Id) {
-        if (participantList.size() > 0) {
-            participantList.forEach(participant -> {
-                var coding = participant.getTypeFirstRep().getCodingFirstRep();
-                if (coding.getCode().equals(PERFORMER_CODE)) {
-                    assertThat(coding.getDisplay().equals(PERFORMER_DISPLAY));
-                    assertThat(coding.getSystem().equals(PERFORMER_SYSTEM));
-                    assertThat(participant.getIndividual().getReference().equals(PRACTITIONER_REFERENCE_PREFIX + participant2Id));
-                } else if (coding.getCode().equals(RECORDER_CODE)) {
-                    assertThat(coding.getDisplay().equals(RECORDER_DISPLAY));
-                    assertThat(coding.getSystem().equals(RECORDER_SYSTEM));
-                    assertThat(participant.getIndividual().getReference().equals(PRACTITIONER_REFERENCE_PREFIX + authorId));
-                }
-            });
-        }
-    }
-
-    private void assertEntry(List<String> entryReferences) {
-        assertThat(entryReferences).contains("ProcedureRequest/procedure-request-id");
-        assertThat(entryReferences).contains("ReferralRequest/referral-request-id");
-        assertThat(entryReferences).contains("Condition/linkset-id");
-        assertThat(entryReferences).contains("Immunization/immunization-id");
-        assertThat(entryReferences).contains("DocumentReference/doc-ref-id");
-        assertThat(entryReferences).contains("MedicationStatement/authorise-id-MS");
-        assertThat(entryReferences).contains("MedicationRequest/authorise-id");
-        assertThat(entryReferences).contains("MedicationRequest/prescribe-id");
-        assertThat(entryReferences).contains("Observation/blood-pressure-compound-statement-id");
-        assertThat(entryReferences).contains("Observation/observation-comment-id");
-        assertThat(entryReferences).contains("AllergyIntolerance/allergy-observation-id");
-        assertThat(entryReferences).contains("Observation/uncategorised-observation-id");
-        assertThat(entryReferences).contains("DiagnosticReport/diagnostic-compound-id");
-        assertThat(entryReferences).contains("QuestionnaireResponse/questionnaire-response-id-QRSP");
-        assertThat(entryReferences).contains("Observation/questionnaire-response-id");
-        assertThat(entryReferences).contains("Observation/questionnaire-observation-statement-id");
-        assertThat(entryReferences).contains("Observation/questionnaire-narrative-statement-id");
-    }
-
     private void setUpCodeableConceptMock() {
         var codeableConcept = new CodeableConcept();
         var coding = new Coding();
         coding.setDisplay(CODING_DISPLAY);
         codeableConcept.addCoding(coding);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+        lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
+            @Override
+            public Boolean answer(InvocationOnMock invocation) throws Throwable {
+                String code = invocation.getArgument(0);
+                return code.equals("1664081000000114");
+            }
+        });
     }
 
     private ListResource getList() {
