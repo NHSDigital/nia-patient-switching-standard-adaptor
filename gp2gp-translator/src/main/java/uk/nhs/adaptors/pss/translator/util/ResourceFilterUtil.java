@@ -6,7 +6,6 @@ import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 
 public class ResourceFilterUtil {
     private static final List<String> ALLERGY_CODES = List.of("SN53.00", "14L..00");
@@ -21,12 +20,6 @@ public class ResourceFilterUtil {
         return narrativeStatement.getReference()
             .stream()
             .anyMatch(reference -> reference.getReferredToExternalDocument() != null);
-    }
-
-    public static boolean isImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
-        // TODO: Implement filtering with snomed DB (NIAD-1947)
-        return observationStatement != null && observationStatement.hasCode()
-            && IMMUNIZATION_SNOMED_CODE.equals(observationStatement.getCode().getCodeSystem());
     }
 
     public static boolean isBloodPressure(RCMRMT030101UK04CompoundStatement compoundStatement) {
