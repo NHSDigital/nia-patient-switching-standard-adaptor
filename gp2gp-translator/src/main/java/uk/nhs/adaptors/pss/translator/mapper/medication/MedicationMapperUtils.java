@@ -156,9 +156,11 @@ public class MedicationMapperUtils {
 
     public static Period buildDispenseRequestPeriodEnd(RCMRMT030101UK04Authorise supplyAuthorise,
         RCMRMT030101UK04MedicationStatement medicationStatement) {
-        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasHigh()) {
-            return new Period().setEndElement(
-                DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue()));
+        if (supplyAuthorise.hasEffectiveTime()) {
+            if (supplyAuthorise.getEffectiveTime().hasHigh() && supplyAuthorise.getEffectiveTime().getHigh().getNullFlavor() == null) {
+                return new Period().setEndElement(
+                    DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue()));
+            }
         }
         if (medicationStatement.hasEffectiveTime() && medicationStatement.getEffectiveTime().hasHigh()) {
             return new Period().setEndElement(
