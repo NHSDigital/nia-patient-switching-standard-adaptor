@@ -27,13 +27,14 @@ import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance> {
     private static final String DRUG_ALLERGY_CODE = "14L..00";
     private static final String NON_DRUG_ALLERGY_CODE = "SN53.00";

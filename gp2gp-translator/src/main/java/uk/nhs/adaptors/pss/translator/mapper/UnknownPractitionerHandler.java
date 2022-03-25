@@ -86,6 +86,7 @@ public class UnknownPractitionerHandler {
             AllergyIntolerance allergyIntolerance = (AllergyIntolerance) resource;
             if (!allergyIntolerance.hasRecorder()) {
                 allergyIntolerance.setRecorder(new Reference(unknown));
+                return true;
             }
         }
 
