@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})
@@ -44,12 +46,17 @@ public class PatientTransferControllerIT {
     private static final HttpHeaders REQUIRED_HEADERS = generateHeaders();
     private static final String CONVERSATION_ID_HEADER = "ConversationId";
     private static final String LOOSING_PRACTICE_ODS = "F765";
+    private static final String MOCK_PATIENT_NUMBER = "123456789";
+    private static final String EXAMPLE_JSON_BUNDLE = "/responses/json/exampleBundle.json";
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
 
     @Autowired
     private MigrationStatusLogDao migrationStatusLogDao;
+    
+    @Autowired
+    private MigrationStatusLogService migrationStatusLogService;
 
     @Autowired
     private FhirParser fhirParser;
@@ -204,6 +211,27 @@ public class PatientTransferControllerIT {
             .andExpect(content().json(expectedResponseBody));
     }
 
+    @Test
+    public void handleCompletedMigrationPatientRequest() throws Exception {
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
+        var conversationId = generateConversationId();
+
+        completePatientMigrationJourney(conversationId);
+        
+        mockMvc.perform(
+                post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .headers(REQUIRED_HEADERS)
+                    .header(CONVERSATION_ID_HEADER, conversationId)
+                    .content(requestBody))
+            .andExpect(status().isOk())
+            .andExpect(content().json(readResourceAsString(EXAMPLE_JSON_BUNDLE)));
+
+
+        var migrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
+        verifyPatientMigrationRequest(migrationRequest, MIGRATION_COMPLETED);
+    }
+
     private String getRequestBody(String path) {
         var patientNhsNumber = generatePatientNhsNumber();
         return readResourceAsString(path).replace("{{nhsNumber}}", patientNhsNumber);
@@ -232,5 +260,12 @@ public class PatientTransferControllerIT {
         headers.set("to-ods", LOOSING_PRACTICE_ODS);
 
         return headers;
+    }
+
+    private void completePatientMigrationJourney(String conversationId) {
+        patientMigrationRequestDao.addNewRequest(MOCK_PATIENT_NUMBER, conversationId, LOOSING_PRACTICE_ODS);
+        patientMigrationRequestDao.saveBundleAndInboundMessageData(conversationId, readResourceAsString(EXAMPLE_JSON_BUNDLE),
+            StringUtils.EMPTY);
+        migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId);
     }
 }
