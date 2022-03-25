@@ -7,11 +7,18 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class ValueAdapter extends XmlAdapter<Object, Object> {
     private static final String VALUE_ATTRIBUTE = "value";
     private static final String UNIT_ATTRIBUTE = "unit";
+    private static final String TYPE_ATTRIBUTE = "type";
+    private static final String CODE_ATTRIBUTE = "code";
+    private static final String CODE_SYSTEM_ATTRIBUTE = "codeSystem";
+    private static final String DISPLAY_NAME_ATTRIBUTE = "displayName";
+    private static final String ORIGINAL_TEXT_ATTRIBUTE = "originalText";
     private static final String TRANSLATION_ELEMENT = "translation";
+    private static final String TYPE_CD = "CD";
 
     @Override
     public Object unmarshal(Object v) {
@@ -29,7 +36,41 @@ public class ValueAdapter extends XmlAdapter<Object, Object> {
             return pq;
         }
 
+        if (element.hasAttribute(TYPE_ATTRIBUTE) && TYPE_CD.equals(element.getAttribute(TYPE_ATTRIBUTE))) {
+            CD valueCD = buildCD(element);
+
+            if (element.getFirstChild().hasAttributes()) {
+                buildTranslationElements(element.getFirstChild(), valueCD);
+            }
+
+            return valueCD;
+        }
+
         return element.getTextContent();
+    }
+
+    private CD buildCD(Element element) {
+        var cd = new CD();
+
+        cd.setCode(element.getAttribute(CODE_ATTRIBUTE));
+        cd.setDisplayName(element.getAttribute(DISPLAY_NAME_ATTRIBUTE));
+        cd.setCodeSystem(element.getAttribute(CODE_SYSTEM_ATTRIBUTE));
+
+        if (element.hasAttribute(ORIGINAL_TEXT_ATTRIBUTE)) {
+            cd.setOriginalText(element.getAttribute(ORIGINAL_TEXT_ATTRIBUTE));
+        }
+
+        return cd;
+    }
+
+    private void buildTranslationElements(Node childElement, CD valueCD) {
+        if (childElement.hasAttributes() && TRANSLATION_ELEMENT.equals(childElement.getNodeName())) {
+            valueCD.getTranslation().add(buildCD((Element) childElement));
+        }
+
+        if (childElement.getNextSibling().hasAttributes()) {
+            buildTranslationElements(childElement.getNextSibling(), valueCD);
+        }
     }
 
     @Override

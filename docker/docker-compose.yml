@@ -57,7 +57,6 @@ services:
     environment:
       - POSTGRES_PASSWORD
       - PS_DB_OWNER_NAME
-      - PS_DB_OWNER_PASSWORD
     networks:
       - ps-network
 
@@ -68,10 +67,33 @@ services:
     environment:
       - POSTGRES_PASSWORD
       - PS_DB_OWNER_NAME
-      - PS_DB_OWNER_PASSWORD
       - PS_DB_URL
       - GPC_FACADE_USER_DB_PASSWORD
       - GP2GP_TRANSLATOR_USER_DB_PASSWORD
+    networks:
+      - ps-network
+
+  snomed_schema:
+    build:
+      context: ../
+      dockerfile: ./docker/snomed-schema/Dockerfile
+    environment:
+      - PS_DB_OWNER_NAME
+      - POSTGRES_PASSWORD
+      - PS_DB_HOST
+      - PS_DB_PORT
+    networks:
+      - ps-network
+
+  snomed_immunization:
+    build:
+      context: ../
+      dockerfile: ./docker/snomed-immunization/Dockerfile
+    environment:
+      - PS_DB_OWNER_NAME
+      - POSTGRES_PASSWORD
+      - PS_DB_HOST
+      - PS_DB_PORT
     networks:
       - ps-network
 

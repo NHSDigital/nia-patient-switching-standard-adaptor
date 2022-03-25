@@ -34,7 +34,7 @@ import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 @AllArgsConstructor
 public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
-    //TODO Add file Size using the uncompressed/unencoded size of the document (NIAD-2030)
+    // TODO: Add file Size using the uncompressed/unencoded size of the document (NIAD-2030)
 
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1";
     private static final String ABSENT_ATTACHMENT = "Absent Attachment";

@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.task;
 import static java.util.UUID.randomUUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,6 +26,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
+import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
@@ -35,12 +38,16 @@ public class EhrExtractMessageHandlerTest {
     private static final String CONVERSATION_ID = randomUUID().toString();
     private static final String INBOUND_MESSAGE_STRING = "{hi i'm inbound message}";
     private static final String BUNDLE_STRING = "{bundle}";
+    private static final String LOSING_ODE_CODE = "G543";
 
     @Mock
     private ObjectMapper objectMapper;
 
     @Mock
     private MigrationStatusLogService migrationStatusLogService;
+
+    @Mock
+    private PatientMigrationRequestDao migrationRequestDao;
 
     @Mock
     private FhirParser fhirParser;
@@ -60,7 +67,7 @@ public class EhrExtractMessageHandlerTest {
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID);
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
-                CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
+            CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
     }
 
     @SneakyThrows
@@ -68,7 +75,9 @@ public class EhrExtractMessageHandlerTest {
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class))).thenReturn(bundle);
+        PatientMigrationRequest migrationRequest = PatientMigrationRequest.builder().losingPracticeOdsCode(LOSING_ODE_CODE).build();
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
     }

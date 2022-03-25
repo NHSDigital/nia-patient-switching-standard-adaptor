@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import java.util.List;
 
+import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -79,6 +80,12 @@ public class UnknownPractitionerHandler {
             MedicationRequest medicationRequest = (MedicationRequest) resource;
             if (!medicationRequest.hasRecorder()) {
                 medicationRequest.setRecorder(new Reference(unknown));
+                return true;
+            }
+        } else if (ResourceType.AllergyIntolerance == resource.getResourceType()) {
+            AllergyIntolerance allergyIntolerance = (AllergyIntolerance) resource;
+            if (!allergyIntolerance.hasRecorder()) {
+                allergyIntolerance.setRecorder(new Reference(unknown));
                 return true;
             }
         }

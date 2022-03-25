@@ -11,7 +11,8 @@ public interface PatientMigrationRequestDao {
 
     @SqlUpdate("insert_patient_migration_request")
     @UseClasspathSqlLocator
-    void addNewRequest(@Bind("nhsNumber") String patientNhsNumber, @Bind("conversationId") String conversationId);
+    void addNewRequest(@Bind("nhsNumber") String patientNhsNumber, @Bind("conversationId") String conversationId,
+        @Bind("losingOdsCode") String losingOdsCode);
 
     @SqlQuery("select_patient_migration_request")
     @UseClasspathSqlLocator
