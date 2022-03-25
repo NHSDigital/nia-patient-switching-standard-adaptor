@@ -36,10 +36,6 @@
                                     <code code="9bG0.00" codeSystem="2.16.840.1.113883.2.1.6.2"
                                           displayName="NHS prescription"/>
                                     <statusCode code="ACTIVE"/>
-                                    <effectiveTime>
-                                        <high value="20060427"/>
-                                        <center nullFlavor="NI"/>
-                                    </effectiveTime>
                                     <availabilityTime value="20100114"/>
                                     <repeatNumber value="6"/>
                                     <quantity value="28" unit="1">

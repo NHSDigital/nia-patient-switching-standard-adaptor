@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Reference;
@@ -28,6 +29,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -46,6 +48,9 @@ public class MedicationRequestPlanMapperTest {
     private static final String TEST_ID = "TEST_ID";
     private static final String TAKE_ONE_DAILY = "One To Be Taken Each Day";
     private static final String AVAILABILITY_TIME = "20060426";
+    private static final String REPEATS_ISSUED_URL = "numberOfRepeatPrescriptionsIssued";
+    private static final String REPEATS_ALLOWED_URL = "numberOfRepeatPrescriptionsAllowed";
+    private static final String REPEATS_EXPIRY_DATE_URL = "authorisationExpiryDate";
 
     private static final int ONE = 1;
     private static final int TWO = 2;
@@ -57,6 +62,12 @@ public class MedicationRequestPlanMapperTest {
 
     @InjectMocks
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
+
+//    @BeforeEach
+//    public void setup() {
+//        when(medicationMapper.extractMedicationReference(any()))
+//            .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
+//    }
 
     @Test
     public void When_MappingAuthoriseResourceWithAllOptionals_Expect_AllFieldsToBeMappedCorrectly() {
@@ -105,6 +116,60 @@ public class MedicationRequestPlanMapperTest {
         assertThat(medicationRequest.getPriorPrescription().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
     }
 
+    @Test
+    public void When_MappingAuthoriseResourceWithNoEffectiveTime() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract5.xml");
+        var medicationStatement = extractMedicationStatement(ehrExtract);
+        assertThat(medicationStatement.isPresent()).isTrue();
+
+        var supplyAuthorise = medicationStatement.get()
+            .getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+            .findFirst();
+
+        when(medicationMapper.extractMedicationReference(any()))
+            .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
+
+        var medicationRequest
+            = medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.get(),
+            PRACTISE_CODE);
+
+        var repeatInformation = medicationRequest
+            .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1");
+        assertThat(repeatInformation.size()).isEqualTo(ONE);
+
+        var expiryDate = repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL);
+        assertThat(expiryDate.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void When_MappingAuthoriseResourceEffectiveTimeWithNullHighValue() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract6.xml");
+        var medicationStatement = extractMedicationStatement(ehrExtract);
+        assertThat(medicationStatement.isPresent()).isTrue();
+
+        var supplyAuthorise = medicationStatement.get()
+            .getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+            .findFirst();
+
+        when(medicationMapper.extractMedicationReference(any()))
+            .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
+
+        var medicationRequest
+            = medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.get(),
+            PRACTISE_CODE);
+
+        var repeatInformation = medicationRequest
+            .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1");
+        assertThat(repeatInformation.size()).isEqualTo(ONE);
+
+        var expiryDate = repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL);
+        assertThat(expiryDate.size()).isEqualTo(0);
+    }
+
     private void assertStatusReasonInformation(Extension extension) {
         var changeDate = extension.getExtensionsByUrl("statusChangeDate").get(0);
         var changeDateValue = (DateTimeType) changeDate.getValue();
@@ -115,13 +180,17 @@ public class MedicationRequestPlanMapperTest {
     }
 
     private void assertRepeatInformation(Extension extension) {
-        var repeatsAllowed = extension.getExtensionsByUrl("numberOfRepeatPrescriptionsAllowed");
-        assertThat(repeatsAllowed.size()).isEqualTo(ONE);
-        assertThat(((UnsignedIntType) repeatsAllowed.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(SIX).getValue());
+//        var repeatsAllowed = extension.getExtensionsByUrl(REPEATS_ISSUED_URL);
+//        assertThat(repeatsAllowed.size()).isEqualTo(ONE);
+//        assertThat(((UnsignedIntType) repeatsAllowed.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(SIX).getValue());
 
-        var repeatsIssued = extension.getExtensionsByUrl("numberOfRepeatPrescriptionsIssued");
+        var repeatsIssued = extension.getExtensionsByUrl(REPEATS_ALLOWED_URL);
         assertThat(repeatsIssued.size()).isEqualTo(ONE);
         assertThat(((UnsignedIntType) repeatsIssued.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(ONE).getValue());
+
+        var expiryDate = extension.getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL);
+        assertThat(expiryDate.size()).isEqualTo(ONE);
+        assertThat(expiryDate.get(0).getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("20060427"));
     }
 
     private Optional<RCMRMT030101UK04MedicationStatement> extractMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
