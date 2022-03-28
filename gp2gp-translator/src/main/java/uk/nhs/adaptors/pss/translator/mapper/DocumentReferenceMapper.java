@@ -3,10 +3,12 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.hl7.fhir.dstu3.model.Enumerations.DocumentReferenceStatus;
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllNarrativeStatements;
+import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +28,6 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Slf4j
@@ -68,11 +69,11 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         documentReference.getMeta().addProfile(META_PROFILE);
         documentReference.setStatus(DocumentReferenceStatus.CURRENT);
         documentReference.setType(getType(narrativeStatement));
-        documentReference.setSubject(new Reference(patient.getId()));
+        documentReference.setSubject(new Reference(patient));
         documentReference.setIndexedElement(getIndexed(ehrExtract));
-        documentReference.setAuthor(getAuthor(narrativeStatement, ehrComposition));
         documentReference.setDescription(buildDescription(narrativeStatement));
         documentReference.setCustodian(new Reference(organization));
+        getAuthor(narrativeStatement, ehrComposition).ifPresent(documentReference::addAuthor);
 
         if (narrativeStatement.hasAvailabilityTime() && !narrativeStatement.getAvailabilityTime().getValue().isEmpty()) {
             documentReference.setCreatedElement(DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
@@ -123,9 +124,13 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         return null;
     }
 
-    private List<Reference> getAuthor(RCMRMT030101UK04NarrativeStatement narrativeStatement,
+    private Optional<Reference> getAuthor(RCMRMT030101UK04NarrativeStatement narrativeStatement,
         RCMRMT030101UK04EhrComposition ehrComposition) {
-        return List.of(ParticipantReferenceUtil.getParticipantReference(narrativeStatement.getParticipant(), ehrComposition));
+        final Reference ref = getParticipantReference(narrativeStatement.getParticipant(), ehrComposition);
+        if (ref != null) {
+            return Optional.of(ref);
+        }
+        return Optional.empty();
     }
 
     private String buildDescription(RCMRMT030101UK04NarrativeStatement narrativeStatement) {

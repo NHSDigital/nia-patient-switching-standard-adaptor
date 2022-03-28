@@ -80,7 +80,7 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
     }
 
     private InstantType createIssued(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition composition) {
-        if (composition.getAuthor().getTime().getNullFlavor() == null) {
+        if (!composition.getAuthor().getTime().hasNullFlavor()) {
             return DateFormatUtil.parseToInstantType(composition.getAuthor().getTime().getValue());
         }
 

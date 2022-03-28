@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.mapper;
+package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
@@ -7,6 +7,7 @@ import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.mapper.DateTimeMapper;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 
 @Service
@@ -79,13 +81,14 @@ public class SpecimenMapper {
     }
 
     private List<Annotation> getNote(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {
-        return specimenCompoundStatement.getComponent()
+        var text = specimenCompoundStatement.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
             .filter(Objects::nonNull)
             .map(narrativeStatement -> getLastLine(narrativeStatement.getText()))
-            .map(e -> new Annotation().setText(e))
-            .toList();
+            .collect(Collectors.joining(StringUtils.LF));
+
+        return List.of(new Annotation().setText(text));
     }
 
     private Optional<CodeableConcept> getType(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {
