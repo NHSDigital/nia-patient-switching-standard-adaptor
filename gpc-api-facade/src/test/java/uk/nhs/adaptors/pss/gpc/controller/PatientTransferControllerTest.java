@@ -86,7 +86,7 @@ public class PatientTransferControllerTest {
     public void migratePatientStructuredRecordWhenTransferStatusIsCompleted() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(MIGRATION_COMPLETED));
-        when(patientTransferService.getEmptyBundle()).thenReturn(RESPONSE_BODY);
+        when(patientTransferService.getBundleResource()).thenReturn(RESPONSE_BODY);
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
