@@ -1,8 +1,8 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isAllergyIntolerance;
-import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDiagnosticReport;
 
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.hl7.v3.RCMRMT030101UK04Component02;
@@ -25,6 +25,18 @@ public class CompoundStatementResourceExtractors {
                     RCMRMT030101UK04Component02::hasCompoundStatement, RCMRMT030101UK04Component02::getCompoundStatement)
                 .stream()
                 .map(RCMRMT030101UK04CompoundStatement.class::cast)
+                : Stream.empty()
+        );
+    }
+
+    public static Stream<RCMRMT030101UK04CompoundStatement> extractAllChildCompoundStatements(RCMRMT030101UK04Component02 component02) {
+        return Stream.concat(
+            Stream.of(component02.getCompoundStatement()),
+            component02.hasCompoundStatement()
+                ? CompoundStatementUtil.extractCompoundsFromCompound(component02.getCompoundStatement())
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .map(RCMRMT030101UK04CompoundStatement.class::cast)
                 : Stream.empty()
         );
     }
@@ -52,6 +64,18 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
+    public static Stream<RCMRMT030101UK04ObservationStatement> extractInnerObservationStatements(RCMRMT030101UK04Component02 component02) {
+        return Stream.concat(
+            Stream.of(component02.getObservationStatement()),
+            component02.hasCompoundStatement()
+                ? CompoundStatementUtil.extractResourcesFromCompound(component02.getCompoundStatement(),
+                    RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement)
+                    .stream()
+                    .map(RCMRMT030101UK04ObservationStatement.class::cast)
+                : Stream.empty()
+        );
+    }
+
     public static Stream<RCMRMT030101UK04ObservationStatement> extractAllObservationStatementsWithoutAllergies(
         RCMRMT030101UK04Component4 component4) {
         return Stream.concat(
@@ -59,7 +83,7 @@ public class CompoundStatementResourceExtractors {
             component4.hasCompoundStatement()
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement,
-                    CompoundStatementResourceExtractors::isNotAllergyOrDiagnosticReport)
+                    CompoundStatementResourceExtractors::isNotAllergy)
                 .stream()
                 .map(RCMRMT030101UK04ObservationStatement.class::cast)
                 : Stream.empty()
@@ -113,9 +137,9 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
-    private static boolean isNotAllergyOrDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private static boolean isNotAllergy(RCMRMT030101UK04CompoundStatement compoundStatement) {
         if (compoundStatement.hasCode() && compoundStatement.getCode().hasCodeSystem()) {
-            return !isAllergyIntolerance(compoundStatement) && !isDiagnosticReport(compoundStatement);
+            return !isAllergyIntolerance(compoundStatement);
         }
         return true;
     }
