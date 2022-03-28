@@ -9,6 +9,8 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRange;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.hasDiagnosticReportParent;
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDiagnosticReport;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
@@ -41,6 +43,7 @@ import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
 @AllArgsConstructor
@@ -60,6 +63,8 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
                 .filter(Objects::nonNull)
                 .filter(compoundStatement -> BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0))
                     && containsValidBloodPressureTriple(compoundStatement))
+                .filter(compoundStatement -> !isDiagnosticReport(compoundStatement)
+                    && !hasDiagnosticReportParent(ehrExtract, compoundStatement))
                 .map(compoundStatement -> mapObservation(extract, composition, compoundStatement, patient, encounters, practiseCode)))
             .toList();
     }
