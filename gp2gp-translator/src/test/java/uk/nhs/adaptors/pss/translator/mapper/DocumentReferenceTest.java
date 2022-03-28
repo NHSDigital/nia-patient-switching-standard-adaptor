@@ -134,7 +134,8 @@ public class DocumentReferenceTest {
         assertThat(documentReference.getDescription()).isEqualTo("Filename: 31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt");
         assertThat(documentReference.getIndexedElement().getValue().toInstant().toString()).isEqualTo("2010-01-14T00:00:00Z");
         assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2020-10-12T13:33:44+00:00");
-        assertThat(documentReference.getSubject().getReference()).isEqualTo(PATIENT_ID);
+        assertThat(documentReference.getSubject().getResource()).isNotNull();
+        assertThat(documentReference.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(documentReference.getContext().getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 
@@ -148,7 +149,8 @@ public class DocumentReferenceTest {
         assertThat(documentReference.getDescription()).isEqualTo("Filename: 31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt");
         assertThat(documentReference.getIndexedElement().getValue().toInstant().toString()).isEqualTo("2010-01-14T00:00:00Z");
         assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2020-10-12T13:33:44+00:00");
-        assertThat(documentReference.getSubject().getReference()).isEqualTo(PATIENT_ID);
+        assertThat(documentReference.getSubject().getResource()).isNotNull();
+        assertThat(documentReference.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(documentReference.getContext().getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 

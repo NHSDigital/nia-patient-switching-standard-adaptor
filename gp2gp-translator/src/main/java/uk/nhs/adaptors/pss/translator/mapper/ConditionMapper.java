@@ -176,14 +176,18 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private Optional<DateTimeType> buildAbatementDateTimeType(IVLTS abatementDateTime) {
-        if (abatementDateTime != null && abatementDateTime.hasHigh() && abatementDateTime.getHigh().getValue() != null) {
+        if (abatementDateTime != null && abatementDateTime.hasHigh()
+            && abatementDateTime.getHigh().hasValue()
+            && !abatementDateTime.getHigh().hasNullFlavor()) {
             return Optional.of(dateTimeMapper.mapDateTime(abatementDateTime.getHigh().getValue()));
         }
         return Optional.empty();
     }
 
     private Optional<DateTimeType> buildAssertedDateTimeType(RCMRMT030101UK04EhrComposition ehrComposition) {
-        if (ehrComposition.getAuthor() != null && ehrComposition.getAuthor().getTime() != null) {
+        if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime()
+            && ehrComposition.getAuthor().getTime().hasValue()
+            && !ehrComposition.getAuthor().getTime().hasNullFlavor()) {
             return Optional.of(dateTimeMapper.mapDateTime(ehrComposition.getAuthor().getTime().getValue()));
         }
         return Optional.empty();

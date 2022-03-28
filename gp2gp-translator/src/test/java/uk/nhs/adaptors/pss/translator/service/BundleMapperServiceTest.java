@@ -38,7 +38,6 @@ import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
-import uk.nhs.adaptors.pss.translator.mapper.DiagnosticReportMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
@@ -49,10 +48,11 @@ import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
-import uk.nhs.adaptors.pss.translator.mapper.SpecimenCompoundsMapper;
-import uk.nhs.adaptors.pss.translator.mapper.SpecimenMapper;
 import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
+import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.DiagnosticReportMapper;
+import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenCompoundsMapper;
+import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenMapper;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
 
 @ExtendWith(MockitoExtension.class)
@@ -175,10 +175,10 @@ public class BundleMapperServiceTest {
         verify(diagnosticReportMapper).mapResources(
             any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class)
         );
-        verify(specimenMapper).mapSpecimen(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), any(String.class));
-        verify(diagnosticReportMapper).mapChildObservationComments(any(RCMRMT030101UK04EhrExtract.class), anyList());
+        verify(specimenMapper).mapSpecimen(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), anyString());
+        verify(diagnosticReportMapper).handleChildObservationComments(any(RCMRMT030101UK04EhrExtract.class), anyList());
         verify(specimenCompoundsMapper).handleSpecimenChildComponents(
-            any(RCMRMT030101UK04EhrExtract.class), anyList(), anyList(), anyList()
+            any(RCMRMT030101UK04EhrExtract.class), anyList(), anyList(), anyList(), any(Patient.class), anyList(), anyString()
         );
     }
 
