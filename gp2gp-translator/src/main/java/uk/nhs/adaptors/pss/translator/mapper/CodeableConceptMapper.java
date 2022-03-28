@@ -126,7 +126,7 @@ public class CodeableConceptMapper {
         var originalText = translationMainCodeHasOriginalText(mainCodeFromTranslation)
             ? mainCodeFromTranslation.getOriginalText()
             : codedData.getOriginalText();
-        
+
         if (isMedicationResource) {
             return new CodeableConcept().setText(determineTextFieldValue(originalText, displayName));
         }
