@@ -1,8 +1,8 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
+import java.util.Objects;
 
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
@@ -46,12 +46,12 @@ public class ResourceFilterUtil {
     public static boolean hasDiagnosticReportParent(RCMRMT030101UK04EhrExtract ehrExtract,
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
-            .flatMap(e -> e.getEhrComposition().getComponent().stream())
-            .filter(RCMRMT030101UK04Component4::hasCompoundStatement)
-            .map(RCMRMT030101UK04Component4::getCompoundStatement)
+            .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
+            .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
             .filter(ResourceFilterUtil::isDiagnosticReport)
-            .flatMap(e -> e.getComponent().stream())
+            .flatMap(compoundStatement1 -> compoundStatement1.getComponent().stream())
             .flatMap(CompoundStatementResourceExtractors::extractAllChildCompoundStatements)
+            .filter(Objects::nonNull)
             .anyMatch(compoundStatement::equals);
     }
 

@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isAllergyIntolerance;
 
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.hl7.v3.RCMRMT030101UK04Component02;
@@ -33,8 +34,9 @@ public class CompoundStatementResourceExtractors {
             Stream.of(component02.getCompoundStatement()),
             component02.hasCompoundStatement()
                 ? CompoundStatementUtil.extractCompoundsFromCompound(component02.getCompoundStatement())
-                .stream()
-                .map(RCMRMT030101UK04CompoundStatement.class::cast)
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .map(RCMRMT030101UK04CompoundStatement.class::cast)
                 : Stream.empty()
         );
     }
