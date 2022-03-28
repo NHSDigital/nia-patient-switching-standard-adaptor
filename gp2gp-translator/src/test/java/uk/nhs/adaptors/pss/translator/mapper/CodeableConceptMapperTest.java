@@ -7,6 +7,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.v3.CD;
@@ -379,6 +380,18 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
         assertThat(codeableConcept.getCoding().get(0).getExtension()).isNullOrEmpty();
         assertThat(codeableConcept.getText()).isEqualTo(ORIGINAL_TEXT);
+    }
+
+    @Test
+    public void mapSnomedCodeForMedicationResourceUsingDescriptionId() {
+        var codedData = unmarshallCodeElement("description-id-no-original-text-example-1.xml");
+
+        CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConceptForMedication(codedData);
+
+        assertThat(codeableConcept.getCoding().get(0).getCode()).isEqualTo("37436014");
+        assertThat(StringUtils.isEmpty(codeableConcept.getCoding().get(0).getDisplay())).isTrue();
+        assertThat(codeableConcept.getCoding().get(0).getExtension()).isNullOrEmpty();
+        assertThat(codeableConcept.getText()).isEqualTo(DISPLAY_NAME_1);
     }
 
     @Test

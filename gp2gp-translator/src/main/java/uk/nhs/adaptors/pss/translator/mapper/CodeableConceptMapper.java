@@ -126,6 +126,10 @@ public class CodeableConceptMapper {
         var originalText = translationMainCodeHasOriginalText(mainCodeFromTranslation)
             ? mainCodeFromTranslation.getOriginalText()
             : codedData.getOriginalText();
+        
+        if (isMedicationResource) {
+            return createCodeableConcept(descriptionId, null,null,determineTextFieldValue(originalText, displayName), null);
+        }
 
         SnomedCTDescription description = snomedCTDao.getSnomedDescriptionUsingDescriptionId(descriptionId);
         String text = null;
@@ -146,14 +150,14 @@ public class CodeableConceptMapper {
                     text = displayName;
                 }
                 return createCodeableConcept(description.getConceptid(), SNOMED_SYSTEM, description.getTerm(),
-                    determineTextFieldValue(originalText, text), createExtension(description.getId(), null, isMedicationResource));
+                    determineTextFieldValue(originalText, text), createExtension(description.getId(), null, false));
             } else {
                 if (!displayName.equals(preferredTerm.getTerm())) {
                     text = displayName;
                 }
                 return createCodeableConcept(preferredTerm.getConceptid(), SNOMED_SYSTEM, preferredTerm.getTerm(),
                     determineTextFieldValue(originalText, text),
-                    createExtension(description.getId(), description.getTerm(), isMedicationResource));
+                    createExtension(description.getId(), description.getTerm(), false));
             }
         }
 
