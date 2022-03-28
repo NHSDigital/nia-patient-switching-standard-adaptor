@@ -388,9 +388,7 @@ public class CodeableConceptMapperTest {
 
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConceptForMedication(codedData);
 
-        assertThat(codeableConcept.getCoding().get(0).getCode()).isEqualTo("37436014");
-        assertThat(StringUtils.isEmpty(codeableConcept.getCoding().get(0).getDisplay())).isTrue();
-        assertThat(codeableConcept.getCoding().get(0).getExtension()).isNullOrEmpty();
+        assertThat(codeableConcept.getCoding()).isNullOrEmpty();
         assertThat(codeableConcept.getText()).isEqualTo(DISPLAY_NAME_1);
     }
 

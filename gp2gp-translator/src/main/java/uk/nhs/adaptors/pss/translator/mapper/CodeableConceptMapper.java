@@ -128,7 +128,7 @@ public class CodeableConceptMapper {
             : codedData.getOriginalText();
         
         if (isMedicationResource) {
-            return createCodeableConcept(descriptionId, null,null,determineTextFieldValue(originalText, displayName), null);
+            return new CodeableConcept().setText(determineTextFieldValue(originalText, displayName));
         }
 
         SnomedCTDescription description = snomedCTDao.getSnomedDescriptionUsingDescriptionId(descriptionId);
