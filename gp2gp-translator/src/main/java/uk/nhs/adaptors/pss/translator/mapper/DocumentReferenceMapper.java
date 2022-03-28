@@ -28,7 +28,6 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Slf4j

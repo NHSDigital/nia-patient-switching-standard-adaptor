@@ -7,6 +7,7 @@ import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantT
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
 
 import java.util.List;
 import java.util.Objects;
@@ -75,12 +76,12 @@ public class SpecimenBatteryMapper {
         observation.addCategory(createCategory());
         observation.setCode(createCode(batteryCompoundStatement));
         observation.setComment(getDirectChildNarrativeStatementComments(batteryParameters.getBatteryCompoundStatement()));
-        observation.setRelated(getRelated(batteryParameters.getBatteryCompoundStatement()));
         getContext(batteryParameters.getEncounters(), ehrComposition).ifPresent(observation::setContext);
         addEffective(batteryCompoundStatement, observation);
         getIssued(ehrExtract, ehrComposition).ifPresent(observation::setIssuedElement);
         getPerformer(batteryCompoundStatement, ehrComposition).ifPresent(observation::addPerformer);
-
+        getRelated(batteryCompoundStatement).forEach(observation::addRelated);
+        handleDirectChildNarrativeStatementUserComments(batteryCompoundStatement, observation, batteryParameters.getObservationComments());
         referenceObservationInDiagnosticReport(observation, batteryParameters.getDiagnosticReport());
         referenceBatteryInChildObservations(batteryCompoundStatement, observation, batteryParameters.getObservations());
 
@@ -110,6 +111,18 @@ public class SpecimenBatteryMapper {
         if (diagnosticReport != null) {
             diagnosticReport.addResult(new Reference(new IdType(ResourceType.Observation.name(), observation.getId())));
         }
+    }
+
+    private void handleDirectChildNarrativeStatementUserComments(RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
+        Observation batteryObservation, List<Observation> observationComments) {
+        getDirectNarrativeStatements(batteryCompoundStatement)
+            .filter(narrativeStatement -> narrativeStatement.getText().contains(USER_COMMENT_HEADER))
+            .forEach(narrativeStatement -> getObservationById(observationComments, narrativeStatement.getId().getRoot())
+                .ifPresent(observationComment -> {
+                    observationComment.setComment(getLastLine(observationComment.getComment()));
+                    observationComment.addRelated(new ObservationRelatedComponent(new Reference(batteryObservation))
+                        .setType(ObservationRelationshipType.DERIVEDFROM));
+                }));
     }
 
     private String getDirectChildNarrativeStatementComments(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
@@ -214,7 +227,7 @@ public class SpecimenBatteryMapper {
                 .filter(narrativeStatement -> narrativeStatement.getText().contains(USER_COMMENT_HEADER))
                 .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
                 .map(reference -> new ObservationRelatedComponent().setTarget(reference)
-                    .setType(ObservationRelationshipType.DERIVEDFROM)),
+                    .setType(ObservationRelationshipType.HASMEMBER)),
             getObservationReferences(batteryCompoundStatement)
         ).toList();
     }
@@ -248,6 +261,7 @@ public class SpecimenBatteryMapper {
         private Patient patient;
         private List<Encounter> encounters;
         private List<Observation> observations;
+        private List<Observation> observationComments;
         private String practiseCode;
     }
 }
