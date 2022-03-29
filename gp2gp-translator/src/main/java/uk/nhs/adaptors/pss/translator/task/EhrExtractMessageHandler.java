@@ -18,6 +18,7 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
+import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 
 @Component
@@ -27,12 +28,14 @@ public class EhrExtractMessageHandler {
     private final FhirParser fhirParser;
     private final BundleMapperService bundleMapperService;
     private final ObjectMapper objectMapper;
+    private final AttachmentHandlerService attachmentHandlerService;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException {
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
         var bundle = bundleMapperService.mapToBundle(payload);
+        attachmentHandlerService.StoreAttachments(inboundMessage.getAttachments());
         migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
             conversationId,
             fhirParser.encodeToJson(bundle),
