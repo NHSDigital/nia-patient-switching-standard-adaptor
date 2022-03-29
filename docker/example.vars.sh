@@ -13,3 +13,5 @@ export MHS_AMQP_MAX_REDELIVERIES="3"
 export MHS_BASE_URL="http://localhost:8080/"
 export PS_LOGGING_LEVEL="DEBUG"
 export SSL_ENABLED=false
+export KEY_STORE=/certs/keystore.jks
+export TRUST_STORE=/certs/truststore.jks

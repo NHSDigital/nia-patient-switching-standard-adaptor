@@ -13,6 +13,15 @@ and set paths to them along with required passwords in those variables:
 - TRUST_STORE: path to the truststore
 - TRUST_STORE_PASSWORD: truststore password
 
+To allow docker to fetch the keystore and truststore, you need to bind a directory containing them.
+You can achieve this by adding these lines to gpc_facade service in docker-compose.yml, below the `networks` part:
+```yml
+volumes:
+  - type: bind
+    source: /Users/someuser/certs #path on your machine
+    target: /certs #path on the docker volume
+```
+
 You also need to import server's private key to the keystore, and import trusted client's public certificates
 (or root CA cert) to the truststore. Below you can find the instruction on how to create the server and client certificates
 and how to import them.
