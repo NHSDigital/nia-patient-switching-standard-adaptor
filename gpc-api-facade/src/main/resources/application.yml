@@ -1,5 +1,15 @@
 server:
   port: ${GPC_FACADE_SERVER_PORT:8081}
+  ssl:
+    enabled: ${SSL_ENABLED:false}
+    protocol: TLS
+    enabled-protocols: TLSv1.2
+    key-store: ${KEY_STORE:classpath:certs/keystore.jks}
+    key-password: ${KEY_PASSWORD}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    trust-store: ${TRUST_STORE:classpath:certs/truststore.jks}
+    trust-store-password: ${TRUST_STORE_PASSWORD}
+    client-auth: need
 
 logging:
   level:
