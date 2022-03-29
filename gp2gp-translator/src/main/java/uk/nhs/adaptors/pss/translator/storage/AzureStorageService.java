@@ -21,10 +21,14 @@ public class  AzureStorageService implements StorageService {
     private String _containerName;
 
     public AzureStorageService(StorageServiceConfiguration configuration){
-        StorageSharedKeyCredential credentials = CreateAzureCredentials(configuration.getAccountReference(), configuration.getAccountSecret());
-        String azureEndpoint = CreateAzureStorageEndpoint(configuration.getAccountReference());
-        _blobServiceClient = CreateBlobServiceClient(azureEndpoint, credentials);
-        _containerName = configuration.getContainerName();
+        if (!configuration.getAccountReference().isEmpty()) {
+            StorageSharedKeyCredential credentials = CreateAzureCredentials(configuration.getAccountReference(), configuration.getAccountSecret());
+            String azureEndpoint = CreateAzureStorageEndpoint(configuration.getAccountReference());
+            _blobServiceClient = CreateBlobServiceClient(azureEndpoint, credentials);
+            _containerName = configuration.getContainerName();
+        } else {
+            _blobServiceClient = null;
+        }
     }
 
     public void UploadFile(String filename, byte[] fileAsString) throws StorageException {
