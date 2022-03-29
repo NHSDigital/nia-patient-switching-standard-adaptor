@@ -382,6 +382,16 @@ public class CodeableConceptMapperTest {
     }
 
     @Test
+    public void mapSnomedCodeForMedicationResourceUsingDescriptionId() {
+        var codedData = unmarshallCodeElement("description-id-no-original-text-example-1.xml");
+
+        CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConceptForMedication(codedData);
+
+        assertThat(codeableConcept.getCoding()).isNullOrEmpty();
+        assertThat(codeableConcept.getText()).isEqualTo(DISPLAY_NAME_1);
+    }
+
+    @Test
     public void mapNoSnomedCodeWithOriginalText() {
         var codedData = unmarshallCodeElement("no_snomed_code_with_original_text_example.xml");
 
