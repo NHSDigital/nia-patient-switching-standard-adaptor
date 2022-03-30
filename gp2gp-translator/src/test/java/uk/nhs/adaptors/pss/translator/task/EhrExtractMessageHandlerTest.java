@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import javax.xml.bind.JAXBException;
 
@@ -27,6 +28,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,6 +45,9 @@ public class EhrExtractMessageHandlerTest {
     private MigrationStatusLogService migrationStatusLogService;
 
     @Mock
+    private AttachmentHandlerService attachmentHandlerService;
+
+    @Mock
     private FhirParser fhirParser;
 
     @Mock
@@ -52,15 +57,46 @@ public class EhrExtractMessageHandlerTest {
     private EhrExtractMessageHandler ehrExtractMessageHandler;
 
     @Test
-    public void handleMessageWithoutErrorsShouldReturnTrue() throws JsonProcessingException, JAXBException {
+    public void handleMessage_withValidData_callsMigrationStatusLogServiceAddMigrationStatusLog() throws JsonProcessingException, JAXBException {
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID);
+
+    }
+
+    @Test
+    public void handleMessage_withValidData_callsBundleMapperServiceMapToBundle() throws JsonProcessingException, JAXBException {
+        InboundMessage inboundMessage = new InboundMessage();
+        prepareMocks(inboundMessage);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(bundleMapperService).mapToBundle(any()); // mapped item is private to the class so we cannot test an exact object
+
+    }
+
+    @Test
+    public void handleMessage_withValidData_callsAttachmentHandlerServiceStoreAttachments() throws JsonProcessingException, JAXBException {
+        InboundMessage inboundMessage = new InboundMessage();
+        prepareMocks(inboundMessage);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(attachmentHandlerService).StoreAttachments(inboundMessage.getAttachments(), CONVERSATION_ID);
+    }
+
+    @Test
+    public void handleMessage_withValidData_callsMigrationStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog() throws JsonProcessingException, JAXBException {
+        InboundMessage inboundMessage = new InboundMessage();
+        prepareMocks(inboundMessage);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
                 CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
+
     }
 
     @SneakyThrows
