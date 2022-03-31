@@ -27,7 +27,7 @@ public class SendContinueRequestHandler {
 
     @SneakyThrows
     public boolean prepareAndSendRequest(ContinueRequestData data) {
-        String continueRequest = continueRequestService.buildContinueRequest(data.getFromAsid(), data.getToAsid());
+        String continueRequest = continueRequestService.buildContinueRequest(data.getFromAsid(), data.getToAsid()); //a
         var outboundMessage = new OutboundMessage(continueRequest);
         var request = requestBuilder.buildSendContinueRequest(data.getConversationId(), data.getToOdsCode(), outboundMessage);
 
