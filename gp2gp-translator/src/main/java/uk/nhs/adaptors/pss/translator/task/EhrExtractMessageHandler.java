@@ -49,7 +49,7 @@ public class EhrExtractMessageHandler {
         );
     }
 
-    boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conservationId) {
+    boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conversationId) {
         MigrationStatus migrationStatus = switch (reason) {
             case LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED -> ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED;
             case LARGE_MESSAGE_GENERAL_FAILURE -> ERROR_LRG_MSG_GENERAL_FAILURE;
@@ -57,12 +57,12 @@ public class EhrExtractMessageHandler {
             case LARGE_MESSAGE_TIMEOUT -> ERROR_LRG_MSG_TIMEOUT;
         };
 
-        migrationStatusLogService.addMigrationStatusLog(migrationStatus, conservationId);
+        migrationStatusLogService.addMigrationStatusLog(migrationStatus, conversationId);
 
         return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
             reason,
             payload,
-            conservationId
+            conversationId
         ));
     }
 
