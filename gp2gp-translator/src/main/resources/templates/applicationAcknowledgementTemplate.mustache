@@ -15,7 +15,7 @@ https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm-->
     <processingCode code="P"/>
     <processingModeCode code="T"/>
     <acceptAckCode code="NE"/>
-    <acknowledgement typeCode="AE">
+    <acknowledgement {{#nackCode}}typeCode="AE"{{/nackCode}}{{^nackCode}}typeCode="AA"{{/nackCode}}>
         <messageRef>
             <id root="{{messageRef}}"/>
         </messageRef>
@@ -38,6 +38,7 @@ https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm-->
                 </agentSystemSDS>
             </AgentSystemSDS>
         </author1>
+        {{#nackCode}}
         <reason typeCode="RSON">
             <justifyingDetectedIssueEvent classCode="ALRT" moodCode="EVN">
                 <code code="{{nackCode}}" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.101">
@@ -47,5 +48,6 @@ https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm-->
                 </code>
             </justifyingDetectedIssueEvent>
         </reason>
+        {{/nackCode}}
     </ControlActEvent>
 </MCCI_IN010000UK13>

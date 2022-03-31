@@ -15,6 +15,8 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSL
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
+import java.util.Optional;
+
 import javax.xml.bind.JAXBException;
 
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -34,7 +36,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.ApplicationAcknowledgmentData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 
@@ -51,7 +53,7 @@ public class EhrExtractMessageHandlerTest {
     private static final String TEST_NACK_CODE = "30";
 
     @Captor
-    ArgumentCaptor<NACKMessageData> ackMessageDataCaptor;
+    ArgumentCaptor<ApplicationAcknowledgmentData> ackMessageDataCaptor;
 
     @Mock
     private ObjectMapper objectMapper;
@@ -102,7 +104,7 @@ public class EhrExtractMessageHandlerTest {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
-        when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(true);
+        when(sendNACKMessageHandler.prepareAndSendMessage(any(ApplicationAcknowledgmentData.class))).thenReturn(true);
 
         assertTrue(ehrExtractMessageHandler.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
         verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID);
@@ -113,7 +115,7 @@ public class EhrExtractMessageHandlerTest {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
-        when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(false);
+        when(sendNACKMessageHandler.prepareAndSendMessage(any(ApplicationAcknowledgmentData.class))).thenReturn(false);
 
         assertFalse(ehrExtractMessageHandler.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
         verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID);
@@ -122,7 +124,7 @@ public class EhrExtractMessageHandlerTest {
     @Test
     public void whenSendNackMessage_withValidParameters_thenShouldParseMessageDataCorrectly() throws JAXBException {
 
-        NACKMessageData expectedMessageData = NACKMessageData.builder()
+        ApplicationAcknowledgmentData expectedMessageData = ApplicationAcknowledgmentData.builder()
             .nackCode(TEST_NACK_CODE)
             .toOdsCode(TEST_TO_ODS)
             .toAsid(TEST_TO_ASID)
@@ -154,7 +156,7 @@ public class EhrExtractMessageHandlerTest {
             CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("29", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(Optional.of("29"), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -168,7 +170,7 @@ public class EhrExtractMessageHandlerTest {
             CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("31", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(Optional.of("31"), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -182,7 +184,7 @@ public class EhrExtractMessageHandlerTest {
             CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("30", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(Optional.of("30"), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -196,6 +198,6 @@ public class EhrExtractMessageHandlerTest {
             CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("25", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(Optional.of("25"), ackMessageDataCaptor.getValue().getNackCode());
     }
 }

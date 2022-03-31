@@ -23,9 +23,9 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
-import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.ApplicationAcknowledgmentData;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
-import uk.nhs.adaptors.pss.translator.service.NACKMessageService;
+import uk.nhs.adaptors.pss.translator.service.ApplicationAcknowledgementMessageService;
 
 @ExtendWith(MockitoExtension.class)
 public class SendNACKMessageHandlerTest {
@@ -41,7 +41,7 @@ public class SendNACKMessageHandlerTest {
     private MhsClientService mhsClientService;
 
     @Mock
-    private NACKMessageService messageService;
+    private ApplicationAcknowledgementMessageService messageService;
 
     @Mock
     private MhsRequestBuilder requestBuilder;
@@ -52,11 +52,11 @@ public class SendNACKMessageHandlerTest {
     @InjectMocks
     private SendNACKMessageHandler messageHandler;
 
-    private NACKMessageData messageData;
+    private ApplicationAcknowledgmentData messageData;
 
     @BeforeEach
     public void setup() {
-        messageData = NACKMessageData.builder()
+        messageData = ApplicationAcknowledgmentData.builder()
             .messageRef(TEST_MESSAGE_REF)
             .conversationId(TEST_CONVERSATION_ID)
             .toOdsCode(TEST_TO_ODS)
@@ -70,12 +70,12 @@ public class SendNACKMessageHandlerTest {
     }
 
     @Test
-    public void whenSendMessageSuccessThenTrueIsReturned() {
+    public void whenSendMessage_withSuccess_thenTrueIsReturned() {
         assertTrue(messageHandler.prepareAndSendMessage(messageData));
     }
 
     @Test
-    public void whenSendMessageFailsThenFalseIsReturned() {
+    public void whenSendMessage_withFails_thenFalseIsReturned() {
         when(mhsClientService.send(request)).thenThrow(
             new WebClientResponseException(
                 HttpStatus.BAD_REQUEST.value(),

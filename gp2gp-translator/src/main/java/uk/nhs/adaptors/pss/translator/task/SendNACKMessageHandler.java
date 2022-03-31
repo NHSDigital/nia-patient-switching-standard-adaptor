@@ -9,9 +9,9 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
-import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.ApplicationAcknowledgmentData;
+import uk.nhs.adaptors.pss.translator.service.ApplicationAcknowledgementMessageService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
-import uk.nhs.adaptors.pss.translator.service.NACKMessageService;
 
 @Slf4j
 @Component
@@ -20,20 +20,26 @@ public class SendNACKMessageHandler {
 
     private final MhsRequestBuilder requestBuilder;
     private final MhsClientService mhsClientService;
-    private final NACKMessageService messageService;
+    private final ApplicationAcknowledgementMessageService messageService;
 
     @SneakyThrows
-    public boolean prepareAndSendMessage(NACKMessageData messageData) {
-        String ackMessage = messageService.buildMessage(messageData);
+    public boolean prepareAndSendMessage(ApplicationAcknowledgmentData messageData) {
+        String ackMessage = messageService.buildNackMessage(messageData);
         OutboundMessage outboundMessage = new OutboundMessage(ackMessage);
-        var request = requestBuilder.buildSendACKRequest(
-            messageData.getConversationId(),
-            messageData.getToOdsCode(),
-            outboundMessage);
 
         try {
+
+            var request = requestBuilder.buildSendACKRequest(
+                messageData.getConversationId(),
+                messageData.getToOdsCode(),
+                outboundMessage);
+
             String response = mhsClientService.send(request);
+
             LOGGER.debug(response);
+        } catch (IllegalArgumentException e) {
+            LOGGER.error("Error building NACK message: [{}]", e.getMessage());
+            return false;
         } catch (WebClientResponseException e) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", e.getMessage());
             return false;

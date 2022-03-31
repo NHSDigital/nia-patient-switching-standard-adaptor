@@ -22,8 +22,8 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.model.ApplicationAcknowledgmentData;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
-import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 
@@ -66,7 +66,8 @@ public class EhrExtractMessageHandler {
         ));
     }
 
-    private NACKMessageData prepareNackMessageData(NACKReason reason, RCMRIN030000UK06Message payload, String conversationId) {
+    private ApplicationAcknowledgmentData prepareNackMessageData(NACKReason reason, RCMRIN030000UK06Message payload,
+        String conversationId) {
 
         String toOdsCode = parseToOdsCode(payload);
         String messageRef = parseMessageRef(payload);
@@ -74,7 +75,7 @@ public class EhrExtractMessageHandler {
         String fromAsid = parseFromAsid(payload);
         String nackCode = reason.getCode();
 
-        return NACKMessageData.builder()
+        return ApplicationAcknowledgmentData.builder()
             .conversationId(conversationId)
             .nackCode(nackCode)
             .toOdsCode(toOdsCode)
