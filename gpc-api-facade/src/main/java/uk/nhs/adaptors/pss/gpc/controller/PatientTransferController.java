@@ -9,6 +9,7 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIV
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_REASSEMBLY_FAILURE;
@@ -92,7 +93,8 @@ public class PatientTransferController {
             return new ResponseEntity<>(NO_CONTENT);
         } else if (MIGRATION_COMPLETED == request.getMigrationStatus()) {
             return new ResponseEntity<>(patientTransferService.getEmptyBundle(), OK);
-        } else if (LRG_MESSAGE_ERRORS.contains(request.getMigrationStatus())) {
+        } else if (LRG_MESSAGE_ERRORS.contains(request.getMigrationStatus())
+            || EHR_GENERAL_PROCESSING_ERROR == request.getMigrationStatus()) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } else {
             throw new IllegalStateException("Unsupported transfer status: " + request.getMigrationStatus());

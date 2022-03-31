@@ -200,4 +200,46 @@ public class EhrExtractMessageHandlerTest {
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
         assertEquals(Optional.of("25"), ackMessageDataCaptor.getValue().getNackCode());
     }
+
+    @Test
+    public void whenSendNackMessage_withClinicalSysIntegrationFailure_thenShouldHaveCorrectNackCode() throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        ehrExtractMessageHandler.sendNackMessage(
+            NACKReason.CLINICAL_SYSTEM_INTEGRATION_FAILURE,
+            payload,
+            CONVERSATION_ID);
+
+        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
+        assertEquals(Optional.of("11"), ackMessageDataCaptor.getValue().getNackCode());
+    }
+
+    @Test
+    public void whenSendNackMessage_withEHRExtractCannotBeProcessed_thenShouldHaveCorrectNackCode() throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        ehrExtractMessageHandler.sendNackMessage(
+            NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED,
+            payload,
+            CONVERSATION_ID);
+
+        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
+        assertEquals(Optional.of("21"), ackMessageDataCaptor.getValue().getNackCode());
+    }
+
+    @Test
+    public void whenSendNackMessage_withUnexpectedCondition_thenShouldHaveCorrectNackCode() throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        ehrExtractMessageHandler.sendNackMessage(
+            NACKReason.UNEXPECTED_CONDITION,
+            payload,
+            CONVERSATION_ID);
+
+        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
+        assertEquals(Optional.of("99"), ackMessageDataCaptor.getValue().getNackCode());
+    }
 }
