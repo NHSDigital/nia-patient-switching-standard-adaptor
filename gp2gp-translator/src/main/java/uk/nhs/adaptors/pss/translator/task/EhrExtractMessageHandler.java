@@ -36,7 +36,7 @@ public class EhrExtractMessageHandler {
 
         var bundle = bundleMapperService.mapToBundle(payload);
 
-        attachmentHandlerService.StoreAttachments(inboundMessage.getAttachments(), conversationId);
+        attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
 
         migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
             conversationId,

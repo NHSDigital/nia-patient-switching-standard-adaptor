@@ -6,26 +6,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Setter
 public class StorageServiceFactory {
 
-    private StorageService _storageService;
+    private StorageService storageService;
 
     @Autowired
-    private StorageServiceConfiguration _configuration;
+    private StorageServiceConfiguration configuration;
 
     //    @Override
     public StorageService getObject() {
-        if (_storageService == null) {
-            switch (StorageServiceOptionsEnum.enumOf(_configuration.getType())) {
+        if (storageService == null) {
+            switch (StorageServiceOptionsEnum.enumOf(configuration.getType())) {
                 case S3:
-                    _storageService = new AWSStorageService(_configuration);
+                    storageService = new AWSStorageService(configuration);
                     break;
                 case AZURE:
-                    _storageService = new AzureStorageService(_configuration);
+                    storageService = new AzureStorageService(configuration);
                     break;
                 default:
-                    _storageService = new LocalStorageService();
+                    storageService = new LocalStorageService();
             }
         }
-        return _storageService;
+        return storageService;
     }
 
     //    @Override

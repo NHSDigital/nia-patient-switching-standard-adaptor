@@ -1,7 +1,7 @@
 package uk.nhs.adaptors.pss.translator.storage;
 
 public interface StorageService {
-    void UploadFile(String filename, byte[] fileAsString) throws StorageException;
-    byte[] DownloadFile(String filename) throws StorageException;
-    void DeleteFile(String filename) throws StorageException;
+    void uploadFile(String filename, byte[] fileAsString) throws StorageException;
+    byte[] downloadFile(String filename) throws StorageException;
+    void deleteFile(String filename) throws StorageException;
 }

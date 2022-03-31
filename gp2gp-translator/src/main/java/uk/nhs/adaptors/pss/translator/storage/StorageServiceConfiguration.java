@@ -16,5 +16,6 @@ public class StorageServiceConfiguration {
     private String containerName;
     private String accountReference;
     private String accountSecret;
+    private Integer retryLimit;
 
 }

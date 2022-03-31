@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import javax.xml.bind.JAXBException;
 
@@ -57,7 +56,9 @@ public class EhrExtractMessageHandlerTest {
     private EhrExtractMessageHandler ehrExtractMessageHandler;
 
     @Test
-    public void handleMessage_withValidData_callsMigrationStatusLogServiceAddMigrationStatusLog() throws JsonProcessingException, JAXBException {
+    public void When_HandleMessagewithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
+        throws JsonProcessingException, JAXBException {
+
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
@@ -68,7 +69,9 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void handleMessage_withValidData_callsBundleMapperServiceMapToBundle() throws JsonProcessingException, JAXBException {
+    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
+        throws JsonProcessingException, JAXBException {
+
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
@@ -78,17 +81,21 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void handleMessage_withValidData_callsAttachmentHandlerServiceStoreAttachments() throws JsonProcessingException, JAXBException {
+    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentHandlerServiceStoreAttachments()
+        throws JsonProcessingException, JAXBException {
+
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(attachmentHandlerService).StoreAttachments(inboundMessage.getAttachments(), CONVERSATION_ID);
+        verify(attachmentHandlerService).storeAttachments(inboundMessage.getAttachments(), CONVERSATION_ID);
     }
 
     @Test
-    public void handleMessage_withValidData_callsMigrationStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog() throws JsonProcessingException, JAXBException {
+    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
+        throws JsonProcessingException, JAXBException {
+
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 

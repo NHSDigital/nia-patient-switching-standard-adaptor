@@ -14,52 +14,54 @@ import java.io.InputStream;
 import java.util.Locale;
 
 @Service
-public class  AzureStorageService implements StorageService {
+public class AzureStorageService implements StorageService {
 
     // Consistent objects
-    private final BlobServiceClient _blobServiceClient;
-    private String _containerName;
+    private final BlobServiceClient blobServiceClient;
+    private String containerName;
 
-    public AzureStorageService(StorageServiceConfiguration configuration){
+    public AzureStorageService(StorageServiceConfiguration configuration) {
         if (!configuration.getAccountReference().isEmpty()) {
-            StorageSharedKeyCredential credentials = CreateAzureCredentials(configuration.getAccountReference(), configuration.getAccountSecret());
-            String azureEndpoint = CreateAzureStorageEndpoint(configuration.getAccountReference());
-            _blobServiceClient = CreateBlobServiceClient(azureEndpoint, credentials);
-            _containerName = configuration.getContainerName();
+
+            StorageSharedKeyCredential credentials = createAzureCredentials(
+                configuration.getAccountReference(), configuration.getAccountSecret());
+
+            String azureEndpoint = createAzureStorageEndpoint(configuration.getAccountReference());
+            blobServiceClient = createBlobServiceClient(azureEndpoint, credentials);
+            containerName = configuration.getContainerName();
         } else {
-            _blobServiceClient = null;
+            blobServiceClient = null;
         }
     }
 
-    public void UploadFile(String filename, byte[] fileAsString) throws StorageException {
+    public void uploadFile(String filename, byte[] fileAsString) throws StorageException {
         try {
-            AddFileStringToMainContainer(filename, fileAsString);
-        }
-        catch (IOException e) {
+            addFileStringToMainContainer(filename, fileAsString);
+        } catch (IOException e) {
             throw new StorageException("Failed adding file to Azure Blob storage", e);
         }
     }
 
-    public byte[] DownloadFile(String filename) throws StorageException {
-        ByteArrayOutputStream stream = DownloadFileToStream(filename);
+    public byte[] downloadFile(String filename) throws StorageException {
+        ByteArrayOutputStream stream = downloadFileToStream(filename);
         return stream.toByteArray();
     }
 
-    public void DeleteFile(String filename){
-        BlobContainerClient containerClient = CreateBlobContainerClient();
+    public void deleteFile(String filename) {
+        BlobContainerClient containerClient = createBlobContainerClient();
         BlockBlobClient blobClient = containerClient.getBlobClient(filename).getBlockBlobClient();
         blobClient.delete();
     }
 
-    private StorageSharedKeyCredential CreateAzureCredentials(String accountName, String accountKey){
+    private StorageSharedKeyCredential createAzureCredentials(String accountName, String accountKey) {
         return new StorageSharedKeyCredential(accountName, accountKey);
     }
 
-    private String CreateAzureStorageEndpoint(String containerName){
+    private String createAzureStorageEndpoint(String containerName) {
         return String.format(Locale.ROOT, "https://%s.blob.core.windows.net", containerName);
     }
 
-    private BlobServiceClient CreateBlobServiceClient(String endpoint, StorageSharedKeyCredential credentials){
+    private BlobServiceClient createBlobServiceClient(String endpoint, StorageSharedKeyCredential credentials) {
 
         return new BlobServiceClientBuilder()
                 .endpoint(endpoint)
@@ -67,34 +69,32 @@ public class  AzureStorageService implements StorageService {
                 .buildClient();
     }
 
-    private BlobContainerClient CreateBlobContainerClient() {
-        return _blobServiceClient.getBlobContainerClient(_containerName);
+    private BlobContainerClient createBlobContainerClient() {
+        return blobServiceClient.getBlobContainerClient(containerName);
     }
 
-    private void AddFileStringToMainContainer(String filename, byte[] fileAsString) throws StorageException, IOException {
+    private void addFileStringToMainContainer(String filename, byte[] fileAsString) throws StorageException, IOException {
         try {
-            BlobContainerClient containerClient = CreateBlobContainerClient();
+            BlobContainerClient containerClient = createBlobContainerClient();
             BlockBlobClient blobClient = containerClient.getBlobClient(filename).getBlockBlobClient();
             InputStream dataStream = new ByteArrayInputStream(fileAsString);
             blobClient.upload(dataStream, fileAsString.length);
             dataStream.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new StorageException("Failed to upload blob to Azure Blob storage", e);
         }
     }
 
-    private ByteArrayOutputStream DownloadFileToStream(String filename) throws StorageException {
+    private ByteArrayOutputStream downloadFileToStream(String filename) throws StorageException {
         try {
-            BlobContainerClient containerClient = CreateBlobContainerClient();
+            BlobContainerClient containerClient = createBlobContainerClient();
             BlockBlobClient blobClient = containerClient.getBlobClient(filename).getBlockBlobClient();
             int dataSize = (int) blobClient.getProperties().getBlobSize();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream(dataSize);
             blobClient.downloadStream(outputStream);
             outputStream.close();
             return outputStream;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new StorageException("Failed to download blob from Azure Blob storage", e);
         }
     }

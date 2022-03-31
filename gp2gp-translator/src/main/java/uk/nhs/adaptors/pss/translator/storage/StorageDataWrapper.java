@@ -1,6 +1,8 @@
 package uk.nhs.adaptors.pss.translator.storage;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -8,6 +10,5 @@ import lombok.*;
 public class StorageDataWrapper {
     private String type;
     private String conversationId;
-    private String taskId;
     private byte[] data;
 }

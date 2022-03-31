@@ -42,6 +42,7 @@ storage:
   containerName: ${STORAGE_CONTAINER_NAME:}
   accountReference: ${STORAGE_REFERENCE:}
   accountSecret: ${STORAGE_SECRET:}
+  retryLimit: ${STORAGE_RETRY_Limit:3}
 
 
 
