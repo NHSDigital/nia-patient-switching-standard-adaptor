@@ -50,7 +50,7 @@ public class EhrExtractMessageHandler {
     }
 
     boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conservationId) {
-        MigrationStatus migrationStatus = switch(reason) {
+        MigrationStatus migrationStatus = switch (reason) {
             case LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED -> ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED;
             case LARGE_MESSAGE_GENERAL_FAILURE -> ERROR_LRG_MSG_GENERAL_FAILURE;
             case LARGE_MESSAGE_REASSEMBLY_FAILURE -> ERROR_LRG_MSG_REASSEMBLY_FAILURE;
