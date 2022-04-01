@@ -15,7 +15,6 @@ spring:
     username: ${GPC_FACADE_USER_NAME:gpc_user}
     password: ${GPC_FACADE_USER_DB_PASSWORD:}
 
-
 management:
   endpoints:
     web:
