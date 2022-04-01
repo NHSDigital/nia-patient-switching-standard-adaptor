@@ -30,7 +30,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import uk.nhs.adaptors.common.util.DateUtils;
-import uk.nhs.adaptors.pss.translator.model.ApplicationAcknowledgmentData;
+import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 
 @ExtendWith(MockitoExtension.class)
 public class ApplicationAcknowledgementMessageServiceTest {
@@ -52,7 +52,7 @@ public class ApplicationAcknowledgementMessageServiceTest {
     @InjectMocks
     private ApplicationAcknowledgementMessageService messageService;
 
-    private ApplicationAcknowledgmentData messageData;
+    private NACKMessageData messageData;
 
     @BeforeEach
     public void setup() {
@@ -60,7 +60,7 @@ public class ApplicationAcknowledgementMessageServiceTest {
         when(dateUtils.getCurrentInstant()).thenReturn(instant);
         when(idGeneratorService.generateUuid()).thenReturn(MESSAGE_ID);
 
-        messageData = ApplicationAcknowledgmentData.builder()
+        messageData = NACKMessageData.builder()
             .conversationId(TEST_CONVERSATION_ID)
             .toOdsCode(TEST_TO_ODS)
             .nackCode(NACK_CODE)
@@ -99,14 +99,14 @@ public class ApplicationAcknowledgementMessageServiceTest {
     }
 
     @Test
-    public void whenBuildNackMessage_withValidTestData_thenFromAsidIsSetCorrectly() {
+    public void whenNackMessage_withTestData_thenFromAsidIsSetCorrectly() {
         String nackMessage = messageService.buildNackMessage(messageData);
 
         assertTrue(nackMessage.contains(TEST_FROM_ASID));
     }
 
     @Test
-    public void whenBuildNackMessage_withValidTestData_thenCreationTimeIsSetCorrectly() {
+    public void whenNackMessageWhen_withTestData_thenCreationTimeIsSetCorrectly() {
         Instant instant = Instant.now();
         when(dateUtils.getCurrentInstant()).thenReturn(instant);
 
@@ -116,26 +116,11 @@ public class ApplicationAcknowledgementMessageServiceTest {
     }
 
     @Test
-    public void whenBuildNackMessage_withNackCodePresent_thenTypeCodeSetCorrectly() {
+    public void whenNackMessage_withNackCodePresent_thenTypeCodeSetCorrectly() {
         String nackMessage = messageService.buildNackMessage(messageData);
 
         assertTrue(nackMessage.contains("typeCode=\"AE\""));
         assertFalse(nackMessage.contains("typeCode=\"AA\""));
-    }
-
-    @Test
-    @MockitoSettings(strictness = Strictness.LENIENT)
-    public void whenBuildNackMessage_withNackCodeMissing_thenThrowIllegalArgumentException() {
-
-        ApplicationAcknowledgmentData missingNackData = ApplicationAcknowledgmentData.builder()
-            .conversationId(TEST_CONVERSATION_ID)
-            .toOdsCode(TEST_TO_ODS)
-            .messageRef(MESSAGE_REF)
-            .fromAsid(TEST_FROM_ASID)
-            .toAsid(TEST_TO_ASID)
-            .build();
-
-        assertThrowsExactly(IllegalArgumentException.class, () -> messageService.buildNackMessage(missingNackData));
     }
 
     @Test

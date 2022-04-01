@@ -23,7 +23,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
-import uk.nhs.adaptors.pss.translator.model.ApplicationAcknowledgmentData;
+import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 import uk.nhs.adaptors.pss.translator.service.ApplicationAcknowledgementMessageService;
 
@@ -52,11 +52,11 @@ public class SendNACKMessageHandlerTest {
     @InjectMocks
     private SendNACKMessageHandler messageHandler;
 
-    private ApplicationAcknowledgmentData messageData;
+    private NACKMessageData messageData;
 
     @BeforeEach
     public void setup() {
-        messageData = ApplicationAcknowledgmentData.builder()
+        messageData = NACKMessageData.builder()
             .messageRef(TEST_MESSAGE_REF)
             .conversationId(TEST_CONVERSATION_ID)
             .toOdsCode(TEST_TO_ODS)

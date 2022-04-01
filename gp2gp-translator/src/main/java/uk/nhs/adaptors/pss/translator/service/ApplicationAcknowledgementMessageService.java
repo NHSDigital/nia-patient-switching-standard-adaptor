@@ -12,7 +12,7 @@ import com.github.mustachejava.Mustache;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.util.DateUtils;
-import uk.nhs.adaptors.pss.translator.model.ApplicationAcknowledgmentData;
+import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.util.template.parameter.ApplicationAcknowledgmentParams;
 
 @Service
@@ -25,11 +25,7 @@ public class ApplicationAcknowledgementMessageService {
     private final DateUtils dateUtils;
     private final IdGeneratorService idGeneratorService;
 
-    public String buildNackMessage(ApplicationAcknowledgmentData messageData) throws IllegalArgumentException {
-
-        if (messageData.getNackCode().isEmpty()) {
-            throw new IllegalArgumentException("Missing nackCode");
-        }
+    public String buildNackMessage(NACKMessageData messageData) throws IllegalArgumentException {
 
         LOGGER.debug("Building NACK message for message = [{}]", messageData.getMessageRef());
 
@@ -39,7 +35,7 @@ public class ApplicationAcknowledgementMessageService {
             .toAsid(messageData.getToAsid())
             .fromAsid(messageData.getFromAsid())
             .messageRef(messageData.getMessageRef())
-            .nackCode(messageData.getNackCode().get())
+            .nackCode(messageData.getNackCode())
             .build();
 
         return fillTemplate(NACK_MESSAGE_TEMPLATE, params);

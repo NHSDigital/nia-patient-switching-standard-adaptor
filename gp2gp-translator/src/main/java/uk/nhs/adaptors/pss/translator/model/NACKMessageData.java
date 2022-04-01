@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.pss.translator.model;
 
-import java.util.Optional;
-
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -10,10 +8,11 @@ import lombok.NonNull;
 @Builder
 @Getter
 @EqualsAndHashCode
-public class ApplicationAcknowledgmentData {
+public class NACKMessageData {
     @NonNull
     private String conversationId;
 
+    @NonNull
     private String nackCode;
 
     @NonNull
@@ -27,8 +26,4 @@ public class ApplicationAcknowledgmentData {
 
     @NonNull
     private String fromAsid;
-
-    public Optional<String> getNackCode() {
-        return nackCode == null ? Optional.empty() : Optional.of(nackCode);
-    }
 }
