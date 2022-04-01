@@ -7,6 +7,7 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_ATTA
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_REASSEMBLY_FAILURE;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import javax.xml.bind.JAXBException;
@@ -24,8 +25,8 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
+import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 
@@ -40,16 +41,22 @@ public class EhrExtractMessageHandler {
     private final SendNACKMessageHandler sendNACKMessageHandler;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException {
+
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
-        var bundle = bundleMapperService.mapToBundle(payload);
-        migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
-            conversationId,
-            fhirParser.encodeToJson(bundle),
-            objectMapper.writeValueAsString(inboundMessage),
-            EHR_EXTRACT_TRANSLATED
-        );
+        try {
+            var bundle = bundleMapperService.mapToBundle(payload);
+            migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
+                conversationId,
+                fhirParser.encodeToJson(bundle),
+                objectMapper.writeValueAsString(inboundMessage),
+                EHR_EXTRACT_TRANSLATED
+            );
+        } catch (JsonProcessingException ex) {
+            sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+            throw ex;
+        }
     }
 
     boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conversationId) {
