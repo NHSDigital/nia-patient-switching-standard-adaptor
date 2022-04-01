@@ -1,22 +1,18 @@
 package uk.nhs.adaptors.pss.translator.storage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class StorageManagerService {
 
-    // Configuration singleton parameters
     private final StorageService storageService;
-
     private final StorageServiceConfiguration configuration;
-
-
-    public StorageManagerService(StorageService storageService, StorageServiceConfiguration configuration) {
-        this.storageService = storageService;
-        this.configuration = configuration;
-    }
 
     public void uploadFile(String filename, StorageDataWrapper dataWrapper) throws StorageException {
 
@@ -33,7 +29,7 @@ public class StorageManagerService {
                 } else {
                     deleteFile(filename);
                     retryAttempts++;
-                    if (retryAttempts == retryLimit) {
+                    if (retryAttempts.equals(retryLimit)) {
                         throw new Exception();
                     }
                 }

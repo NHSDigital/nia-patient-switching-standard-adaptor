@@ -24,7 +24,7 @@ public class StorageServiceTests {
     private StorageService storageService;
 
     @Test
-    public void When_FileISUploadedToStorage_Expect_SameFileIsDownloaded() throws IOException {
+    public void When_FileIsUploadedToStorage_Expect_SameFileIsDownloaded() throws IOException {
         var filename = UUID.randomUUID().toString() + ".txt";
         try (var fileUploadStream = StorageServiceTests.class.getResourceAsStream("/test.txt");
             var expectedFileStream = StorageServiceTests.class.getResourceAsStream("/test.txt")) {

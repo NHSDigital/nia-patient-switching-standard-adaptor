@@ -60,7 +60,7 @@ public class StorageManagerServiceDownloadFileTests {
 
         byte[] result = storageManagerService.downloadFile(filename);
 
-        assertEquals(result, expectedResponse);
+        assertTrue(java.util.Arrays.equals(result, expectedResponse));
     }
 
     @Test

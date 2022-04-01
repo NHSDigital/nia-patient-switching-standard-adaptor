@@ -1,6 +1,9 @@
 package uk.nhs.adaptors.pss.translator.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.storage.StorageDataWrapper;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
@@ -14,13 +17,10 @@ import java.util.Base64;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AttachmentHandlerService {
 
-    private StorageManagerService storageManagerService;
-
-    public AttachmentHandlerService(StorageManagerService storageManagerService) {
-        this.storageManagerService = storageManagerService;
-    }
+    private final StorageManagerService storageManagerService;
 
     public void storeAttachments(List<InboundMessage.Attachment> attachments, String conversationId) throws ValidationException {
 

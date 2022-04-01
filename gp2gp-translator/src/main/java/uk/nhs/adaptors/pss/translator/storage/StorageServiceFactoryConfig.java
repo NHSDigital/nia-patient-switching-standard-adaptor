@@ -6,13 +6,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class StorageServiceFactoryConfig {
-    @Autowired
-//    private StorageServiceConfiguration configuration;
 
-    @Bean(name = "storage-connector")
+    @Autowired
+    @Bean(name = "storage-service")
     public StorageServiceFactory storageServiceFactory() {
         StorageServiceFactory factory = new StorageServiceFactory();
-//        factory.setConfiguration(configuration);
         return factory;
     }
 
