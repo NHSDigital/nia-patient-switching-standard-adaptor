@@ -70,12 +70,12 @@ public class SendNACKMessageHandlerTest {
     }
 
     @Test
-    public void whenSendMessage_withSuccess_thenTrueIsReturned() {
+    public void When_SendMessage_WithSuccess_Expect_TrueIsReturned() {
         assertTrue(messageHandler.prepareAndSendMessage(messageData));
     }
 
     @Test
-    public void whenSendMessage_withFails_thenFalseIsReturned() {
+    public void When_SendMessage_WithFails_Expect_FalseIsReturned() {
         when(mhsClientService.send(request)).thenThrow(
             new WebClientResponseException(
                 HttpStatus.BAD_REQUEST.value(),

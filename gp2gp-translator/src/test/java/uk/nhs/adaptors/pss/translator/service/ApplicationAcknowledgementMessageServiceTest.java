@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -22,8 +21,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -71,42 +68,42 @@ public class ApplicationAcknowledgementMessageServiceTest {
     }
 
     @Test
-    public void whenBuildNackMessage_withValidTestData_thenNackCodeIsSetCorrectly() {
+    public void When_BuildNackMessage_WithValidTestData_Expect_NackCodeIsSetCorrectly() {
         String nackMessage = messageService.buildNackMessage(messageData);
 
         assertTrue(nackMessage.contains(NACK_CODE));
     }
 
     @Test
-    public void whenBuildNackMessage_withValidTestData_thenMessageIdIsSetCorrectly() {
+    public void When_BuildNackMessage_WithValidTestData_Expect_MessageIdIsSetCorrectly() {
         String nackMessage = messageService.buildNackMessage(messageData);
 
         assertTrue(nackMessage.contains(MESSAGE_ID));
     }
 
     @Test
-    public void whenBuildNackMessage_withValidTestData_thenMessageRefIsSetCorrectly() {
+    public void When_BuildNackMessage_WithValidTestData_Expect_MessageRefIsSetCorrectly() {
         String nackMessage = messageService.buildNackMessage(messageData);
 
         assertTrue(nackMessage.contains(MESSAGE_REF));
     }
 
     @Test
-    public void whenBuildNackMessage_withValidTestData_thenToAsidIsSetCorrectly() {
+    public void When_BuildNackMessage_WithValidTestData_Expect_ToAsidIsSetCorrectly() {
         String nackMessage = messageService.buildNackMessage(messageData);
 
         assertTrue(nackMessage.contains(TEST_TO_ASID));
     }
 
     @Test
-    public void whenNackMessage_withTestData_thenFromAsidIsSetCorrectly() {
+    public void When_NackMessage_WithTestData_Expect_FromAsidIsSetCorrectly() {
         String nackMessage = messageService.buildNackMessage(messageData);
 
         assertTrue(nackMessage.contains(TEST_FROM_ASID));
     }
 
     @Test
-    public void whenNackMessageWhen_withTestData_thenCreationTimeIsSetCorrectly() {
+    public void When_NackMessage_WithTestData_Expect_CreationTimeIsSetCorrectly() {
         Instant instant = Instant.now();
         when(dateUtils.getCurrentInstant()).thenReturn(instant);
 
@@ -116,7 +113,7 @@ public class ApplicationAcknowledgementMessageServiceTest {
     }
 
     @Test
-    public void whenNackMessage_withNackCodePresent_thenTypeCodeSetCorrectly() {
+    public void When_NackMessage_WithNackCodePresent_Expect_TypeCodeSetCorrectly() {
         String nackMessage = messageService.buildNackMessage(messageData);
 
         assertTrue(nackMessage.contains("typeCode=\"AE\""));
@@ -124,7 +121,7 @@ public class ApplicationAcknowledgementMessageServiceTest {
     }
 
     @Test
-    public void whenBuildNackMessage_withNackCodePresent_thenReasonElementIncluded() throws ParserConfigurationException, IOException,
+    public void When_BuildNackMessage_WithNackCodePresent_Expect_ReasonElementIncluded() throws ParserConfigurationException, IOException,
         SAXException {
         String nackMessage = messageService.buildNackMessage(messageData);
 
@@ -137,7 +134,8 @@ public class ApplicationAcknowledgementMessageServiceTest {
     }
 
     @Test
-    public void whenBuildNackMessage_withNackCodePresent_thenReasonHasCorrectAttribute() throws ParserConfigurationException, IOException, SAXException {
+    public void When_BuildNackMessage_WithNackCodePresent_Expect_ReasonHasCorrectAttribute() throws ParserConfigurationException,
+        IOException, SAXException {
         String nackMessage = messageService.buildNackMessage(messageData);
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

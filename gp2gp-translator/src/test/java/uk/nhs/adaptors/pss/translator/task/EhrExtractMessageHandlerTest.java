@@ -51,7 +51,7 @@ public class EhrExtractMessageHandlerTest {
     private static final String TEST_NACK_CODE = "30";
 
     @Captor
-    ArgumentCaptor<NACKMessageData> ackMessageDataCaptor;
+    private ArgumentCaptor<NACKMessageData> ackMessageDataCaptor;
 
     @Mock
     private ObjectMapper objectMapper;
@@ -98,7 +98,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void whenSendNackMessage_withNoErrors_thenShouldUpdateLog() throws JAXBException {
+    public void When_SendNackMessage_WithNoErrors_Expect_ShouldUpdateLog() throws JAXBException {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
@@ -109,7 +109,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void whenSendNackMessage_withErrors_thenShouldUpdateLog() throws JAXBException {
+    public void When_SendNackMessage_WithErrors_Expect_ShouldUpdateLog() throws JAXBException {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
@@ -120,7 +120,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void whenSendNackMessage_withValidParameters_thenShouldParseMessageDataCorrectly() throws JAXBException {
+    public void When_SendNackMessage_WithValidParameters_Expect_ShouldParseMessageDataCorrectly() throws JAXBException {
 
         NACKMessageData expectedMessageData = NACKMessageData.builder()
             .nackCode(TEST_NACK_CODE)
@@ -144,7 +144,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void whenSendNackMessage_withReAssemblyFailure_thenShouldHaveCorrectNackCode() throws JAXBException {
+    public void When_SendNackMessage_WithReAssemblyFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
@@ -158,7 +158,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void whenSendNackMessage_withAttachmentsNotReceived_thenShouldHaveCorrectNackCode() throws JAXBException {
+    public void When_SendNackMessage_WithAttachmentsNotReceived_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
@@ -172,7 +172,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void whenSendNackMessage_withGeneralFailure_thenShouldHaveCorrectNackCode() throws JAXBException {
+    public void When_SendNackMessage_WithGeneralFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
@@ -186,7 +186,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void whenSendNackMessage_withTimeoutFailure_thenShouldHaveCorrectNackCode() throws JAXBException {
+    public void When_SendNackMessage_WithTimeoutFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
@@ -200,7 +200,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void whenSendNackMessage_withClinicalSysIntegrationFailure_thenShouldHaveCorrectNackCode() throws JAXBException {
+    public void When_SendNackMessage_WithClinicalSysIntegrationFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
@@ -214,7 +214,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void whenSendNackMessage_withEHRExtractCannotBeProcessed_thenShouldHaveCorrectNackCode() throws JAXBException {
+    public void When_SendNackMessage_WithEHRExtractCannotBeProcessed_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
@@ -228,7 +228,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void whenSendNackMessage_withUnexpectedCondition_thenShouldHaveCorrectNackCode() throws JAXBException {
+    public void When_SendNackMessage_WithUnexpectedCondition_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
