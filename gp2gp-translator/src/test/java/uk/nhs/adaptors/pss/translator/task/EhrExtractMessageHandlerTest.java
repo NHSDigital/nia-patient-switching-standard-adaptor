@@ -34,6 +34,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
@@ -59,6 +60,9 @@ public class EhrExtractMessageHandlerTest {
     private MigrationStatusLogService migrationStatusLogService;
 
     @Mock
+    private AttachmentHandlerService attachmentHandlerService;
+
+    @Mock
     private FhirParser fhirParser;
 
     @Mock
@@ -71,13 +75,51 @@ public class EhrExtractMessageHandlerTest {
     private EhrExtractMessageHandler ehrExtractMessageHandler;
 
     @Test
-    public void handleMessageWithoutErrorsShouldReturnTrue() throws JsonProcessingException, JAXBException {
+    public void When_HandleMessagewithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
+        throws JsonProcessingException, JAXBException {
+
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID);
+
+    }
+
+    @Test
+    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
+        throws JsonProcessingException, JAXBException {
+
+        InboundMessage inboundMessage = new InboundMessage();
+        prepareMocks(inboundMessage);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(bundleMapperService).mapToBundle(any()); // mapped item is private to the class so we cannot test an exact object
+
+    }
+
+    @Test
+    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentHandlerServiceStoreAttachments()
+        throws JsonProcessingException, JAXBException {
+
+        InboundMessage inboundMessage = new InboundMessage();
+        prepareMocks(inboundMessage);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(attachmentHandlerService).storeAttachments(inboundMessage.getAttachments(), CONVERSATION_ID);
+    }
+
+    @Test
+    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
+        throws JsonProcessingException, JAXBException {
+
+        InboundMessage inboundMessage = new InboundMessage();
+        prepareMocks(inboundMessage);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
             CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
     }

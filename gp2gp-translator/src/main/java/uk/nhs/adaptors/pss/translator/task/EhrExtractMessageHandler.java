@@ -26,6 +26,7 @@ import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
+import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
@@ -38,6 +39,7 @@ public class EhrExtractMessageHandler {
     private final FhirParser fhirParser;
     private final BundleMapperService bundleMapperService;
     private final ObjectMapper objectMapper;
+    private final AttachmentHandlerService attachmentHandlerService;
     private final SendNACKMessageHandler sendNACKMessageHandler;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException {
@@ -47,6 +49,7 @@ public class EhrExtractMessageHandler {
 
         try {
             var bundle = bundleMapperService.mapToBundle(payload);
+            attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
             migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
                 conversationId,
                 fhirParser.encodeToJson(bundle),
@@ -59,7 +62,7 @@ public class EhrExtractMessageHandler {
         }
     }
 
-    boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conversationId) {
+    public boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conversationId) {
 
         LOGGER.debug("Sending NACK message with acknowledgement code [{}]", reason.getCode());
 

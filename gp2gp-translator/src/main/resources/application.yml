@@ -35,3 +35,14 @@ amqp:
 
 mhs:
   url: ${MHS_BASE_URL:http://localhost:8080}
+
+storage:
+  type: ${STORAGE_TYPE:LocalMock}
+  region: ${STORAGE_REGION:}
+  containerName: ${STORAGE_CONTAINER_NAME:}
+  accountReference: ${STORAGE_REFERENCE:}
+  accountSecret: ${STORAGE_SECRET:}
+  retryLimit: ${STORAGE_RETRY_Limit:3}
+
+
+
