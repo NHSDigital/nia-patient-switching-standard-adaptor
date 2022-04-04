@@ -11,5 +11,8 @@ public class ContinueRequestData {
     private String fromAsid;
     private String toAsid;
     private String toOdsCode;
+    private String fromOdsCode;
     private String conversationId;
+    private String MCCI_IN010000UK13_creationTime;
+
 }

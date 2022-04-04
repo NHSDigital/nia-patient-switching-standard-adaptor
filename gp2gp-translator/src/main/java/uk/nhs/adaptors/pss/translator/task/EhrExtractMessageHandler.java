@@ -21,12 +21,16 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+
+import java.time.Instant;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -41,8 +45,10 @@ public class EhrExtractMessageHandler {
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException {
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
-        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
+        MigrationStatusLog migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
+
+        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
         var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLoosingPracticeOdsCode());
         migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
@@ -52,60 +58,46 @@ public class EhrExtractMessageHandler {
             EHR_EXTRACT_TRANSLATED
         );
 
-
         try {
+            System.out.println(inboundMessage.getEbXML());
             String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
             Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML()); //xml document
+
+            if(ebXmlDocument == null){
+                return;
+            }
             NodeList referencesAttachment = xPathService.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH); //node of references
 
-            for (int index = 0; index < referencesAttachment.getLength() ; index++)
-            {
-                Node referenceNode = referencesAttachment.item(index);
-                if (referenceNode.getNodeType() == Node.ELEMENT_NODE){
-                    Element reference = (Element) referenceNode;
+            if(referencesAttachment != null){
+                for (int index = 0; index < referencesAttachment.getLength() ; index++)
+                {
+                    Node referenceNode = referencesAttachment.item(index);
+                    if (referenceNode.getNodeType() == Node.ELEMENT_NODE){
+                        Element reference = (Element) referenceNode;
 
-                    String hrefAttribute2 = reference.getAttribute("xlink:href");
+                        String hrefAttribute2 = reference.getAttribute("xlink:href");
 
-                    if(hrefAttribute2.startsWith("mid:")){
-                        String patientNhsNumber = payload.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().getPatient().getId().getExtension();
-                        sendContinueRequest(payload, conversationId, patientNhsNumber);
-                        break;
+                        if(hrefAttribute2.startsWith("mid:")){
+                            String patientNhsNumber = payload.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().getPatient().getId().getExtension();
+                            sendContinueRequest(payload, conversationId, patientNhsNumber, migrationRequest.getWinningPracticeOdsCode(), migrationStatusLog.getDate().toInstant());
+                            break;
+                        }
                     }
                 }
-                System.out.println("Ado" + index + "Ado MARTINS 34");
             }
+
+
         } catch (SAXException e) {
             e.printStackTrace();
         }
     }
 
-    //TODO: this method is related to the large messaging epic and should be called after saving translated Boundle resource.
-    //  Can be used during implementation of NIAD-2045
-    private boolean sendContinueRequest(RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber) {
-        return sendContinueRequestHandler.prepareAndSendRequest(prepareContinueRequestData(payload, conversationId, patientNhsNumber));
+    private boolean sendContinueRequest(RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber, String winning_practice_ods_code, Instant mcci_IN010000UK13_creationTime) {
+        return sendContinueRequestHandler.prepareAndSendRequest(prepareContinueRequestData(payload, conversationId, patientNhsNumber, winning_practice_ods_code, mcci_IN010000UK13_creationTime));
     }
-    /*
-    Requirement
 
-        As a consumer of PSS adaptorI want the adaptor to send CONTINUE message when large
-        messages existSo that the remaining large messages could be sent by the losing practice.
-
-    Prerequisites
-
-        EHR Extract message is received - either large or simple.
-
-    Acceptance Criteria
-
-        If there exists an eb:Reference element in ebXML SOAP payload that points
-        to a message via xlink:href="mid:<message_id>" then the COPC_IN000001UK01       //some files have a cid reference. what to do here?
-        Continue message is sent
-
-
-     */
-
-    //TODO: this method is only used inside sendContinueRequest() method above
     private ContinueRequestData prepareContinueRequestData(
-        RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber) {
+            RCMRIN030000UK06Message payload, String conversationId, String patientNhsNumber, String winning_practice_ods_code, Instant mcci_IN010000UK13_creationTime) {
         var fromAsid = payload.getCommunicationFunctionRcv()
             .get(0)
             .getDevice()
@@ -128,12 +120,18 @@ public class EhrExtractMessageHandler {
             .getId()
             .getExtension();
 
+        var fromOdsCode = winning_practice_ods_code;
+
+        var MCCI_IN010000UK13_creationTime = DateFormatUtil.toHl7Format(mcci_IN010000UK13_creationTime);
+
         return ContinueRequestData.builder()
             .conversationId(conversationId)
             .nhsNumber(patientNhsNumber)
             .fromAsid(fromAsid)
-            .toAsid(toAsid)
+            .toAsid(toAsid) //losing practice ods code
             .toOdsCode(toOdsCode)
+            .fromOdsCode(fromOdsCode)
+            .MCCI_IN010000UK13_creationTime(MCCI_IN010000UK13_creationTime)
             .build();
     }
 }

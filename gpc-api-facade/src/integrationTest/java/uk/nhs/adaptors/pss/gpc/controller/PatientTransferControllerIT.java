@@ -212,7 +212,7 @@ public class PatientTransferControllerIT {
     private void verifyPatientMigrationRequest(PatientMigrationRequest patientMigrationRequest, MigrationStatus status) {
         var migrationStatusLog = migrationStatusLogDao.getLatestMigrationStatusLog(patientMigrationRequest.getId());
         assertThat(patientMigrationRequest).isNotNull();
-        assertThat(patientMigrationRequest.getLoosingPracticeOdsCode()).isEqualTo(LOOSING_PRACTICE_ODS);
+        assertThat(patientMigrationRequest.getLoosingPracticeOdsCode()).isEqualTo(LOOSING_PRACTICE_ODS); //need to change
         assertThat(migrationStatusLog.getMigrationStatus()).isEqualTo(status);
     }
 

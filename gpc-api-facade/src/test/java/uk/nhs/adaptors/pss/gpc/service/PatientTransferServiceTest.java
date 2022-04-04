@@ -88,7 +88,7 @@ public class PatientTransferServiceTest {
         when(patientMigrationRequestDao.getMigrationRequestId(CONVERSATION_ID)).thenReturn(migrationRequestId);
         when(mdcService.getConversationId()).thenReturn(CONVERSATION_ID);
 
-        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);
+        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);//need to change
 
         assertThat(patientMigrationRequest).isEqualTo(null);
         verify(pssQueuePublisher).sendToPssQueue(expectedPssQueueMessage);
@@ -117,7 +117,7 @@ public class PatientTransferServiceTest {
     private PatientMigrationRequest createPatientMigrationRequest() {
         return PatientMigrationRequest.builder()
             .id(1)
-            .patientNhsNumber(PATIENT_NHS_NUMBER)
+            .patientNhsNumber(PATIENT_NHS_NUMBER)//need to change
             .build();
     }
 

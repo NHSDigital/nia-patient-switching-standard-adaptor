@@ -14,4 +14,5 @@ public class PatientMigrationRequest {
     private String inboundMessage;
     private String conversationId;
     private String loosingPracticeOdsCode;
+    private String winningPracticeOdsCode;
 }

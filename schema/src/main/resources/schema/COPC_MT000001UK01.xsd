@@ -38,8 +38,6 @@
 	<xs:include schemaLocation="../../../../../schema/src/main/resources/dt/infrastructureRoot.xsd"/>
 	<xs:include schemaLocation="../../../../../schema/src/main/resources/VocabularySchemas/CDAVocab.xsd"/>
 	<xs:include schemaLocation="../../../../../schema/src/main/resources/dt/datatypeflavours.xsd"/>
-	<xs:include schemaLocation="../../../../../schema/src/main/resources/dt/xhtmlNPfIT.xsd"/> <!--modifying-->
-
 	<xs:import namespace="NPFIT:HL7:Localisation" schemaLocation="../../../../../schema/src/main/resources/dt/NHSLocalisation.xsd"/>
 	<xs:element name="PayloadInformation" type="COPC_MT000001UK01.PayloadInformation"/>
 	<xs:complexType name="COPC_MT000001UK01.PayloadBody">
