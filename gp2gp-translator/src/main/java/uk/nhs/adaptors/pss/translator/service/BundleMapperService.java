@@ -195,7 +195,8 @@ public class BundleMapperService {
         return agents.stream()
             .filter(agent -> ResourceType.Organization.equals(agent.getResourceType()))
             .map(Organization.class::cast)
-            .findFirst().get();
+            .findFirst()
+            .orElse(null);
     }
 
     private RCMRMT030101UK04EhrFolder getEhrFolder(RCMRIN030000UK06Message xmlMessage) {
