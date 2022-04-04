@@ -14,7 +14,7 @@ public class StorageManagerService {
     private final StorageService storageService;
     private final StorageServiceConfiguration configuration;
 
-    public void uploadFile(String filename, StorageDataWrapper dataWrapper) throws StorageException {
+    public void uploadFile(String filename, StorageDataUploadWrapper dataWrapper) throws StorageException {
 
         Integer retryAttempts = 0;
         Integer retryLimit = configuration.getRetryLimit();

@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.storage.StorageDataWrapper;
+import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 
 import javax.xml.bind.ValidationException;
@@ -35,7 +35,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     private StorageManagerService storageManagerService;
 
     @Mock
-    private StorageDataWrapper testStorageDataWrapper;
+    private StorageDataUploadWrapper testStorageDataWrapper;
 
     @InjectMocks
     private AttachmentHandlerService attachmentHandlerService;

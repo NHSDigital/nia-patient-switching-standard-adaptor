@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.storage.StorageDataWrapper;
+import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 
@@ -32,17 +32,19 @@ public class AttachmentHandlerService {
             attachments.forEach((InboundMessage.Attachment attachment) -> {
 
                 try {
-                    StorageDataWrapper dataWrapper = new StorageDataWrapper(
+                    // Filename format will be further defined with later tickets
+                    StorageDataUploadWrapper dataWrapper = new StorageDataUploadWrapper(
                         attachment.getContentType(),
                         conversationId,
-                        Base64.getDecoder().decode(attachment.getPayload()));
-
-                    storageManagerService.uploadFile(
-                        conversationId + "-"
-                            + Timestamp.from(Instant.now()).toString().replace(" ", "-")
-                             + "." + attachment.getContentType(),
-                        dataWrapper
+                        Base64.getDecoder().decode(attachment.getPayload())
                     );
+
+                    String filename = conversationId + "-"
+                        + Timestamp.from(Instant.now()).toString().replace(" ", "-")
+                        + "." + attachment.getContentType()
+                        + attachment.getContentType();
+
+                    storageManagerService.uploadFile(filename, dataWrapper);
                 } catch (StorageException ex)  {
                     // We don't want to stop uploading a list of failures but we should log them here
                     // this is for a later ticket to manage

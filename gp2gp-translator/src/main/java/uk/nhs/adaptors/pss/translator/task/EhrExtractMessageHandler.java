@@ -62,7 +62,7 @@ public class EhrExtractMessageHandler {
         }
     }
 
-    private boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conversationId) {
+    public boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conversationId) {
 
         LOGGER.debug("Sending NACK message with acknowledgement code [{}]", reason.getCode());
 

@@ -23,7 +23,7 @@ public class StorageManagerServiceUploadFileTests {
     @InjectMocks
     private StorageManagerService storageManagerService;
     @Mock
-    private StorageDataWrapper anyStorageDataWrapper;
+    private StorageDataUploadWrapper anyStorageDataWrapper;
     @Mock
     private StorageServiceConfiguration storageServiceConfiguration;
 

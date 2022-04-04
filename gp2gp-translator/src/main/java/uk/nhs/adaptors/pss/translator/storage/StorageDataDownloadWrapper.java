@@ -7,7 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class StorageDataWrapper {
+public class StorageDataDownloadWrapper {
+    private String filename;
     private String type;
     private String conversationId;
     private byte[] data;
