@@ -61,6 +61,8 @@ public class PatientMapperTest {
         assertThat(patient.hasIdentifier()).isTrue();
         assertThat(patient.getIdentifierFirstRep().getSystem()).isEqualTo(EXPECTED_NHS_NUMBER_SYSTEM_URL);
         assertThat(patient.getIdentifierFirstRep().getValue()).isEqualTo(EXPECTED_NHS_NUMBER);
+
+        assertThat(patient.hasManagingOrganization()).isFalse();
     }
 
     @Test
