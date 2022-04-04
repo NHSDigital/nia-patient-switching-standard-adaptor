@@ -9,6 +9,11 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIV
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_REASSEMBLY_FAILURE;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.handler.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
@@ -24,6 +29,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +56,13 @@ public class PatientTransferController {
         EHR_EXTRACT_REQUEST_ACKNOWLEDGED,
         EHR_EXTRACT_TRANSLATED,
         CONTINUE_REQUEST_ACCEPTED
+    );
+
+    private static final List<MigrationStatus> LRG_MESSAGE_ERRORS = List.of(
+        ERROR_LRG_MSG_REASSEMBLY_FAILURE,
+        ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED,
+        ERROR_LRG_MSG_GENERAL_FAILURE,
+        ERROR_LRG_MSG_TIMEOUT
     );
 
     private final PatientTransferService patientTransferService;
@@ -80,6 +93,9 @@ public class PatientTransferController {
             return new ResponseEntity<>(NO_CONTENT);
         } else if (MIGRATION_COMPLETED == request.getMigrationStatus()) {
             return new ResponseEntity<>(patientTransferService.getEmptyBundle(), OK);
+        } else if (LRG_MESSAGE_ERRORS.contains(request.getMigrationStatus())
+            || EHR_GENERAL_PROCESSING_ERROR == request.getMigrationStatus()) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } else {
             throw new IllegalStateException("Unsupported transfer status: " + request.getMigrationStatus());
         }
