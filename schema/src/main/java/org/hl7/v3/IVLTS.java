@@ -64,7 +64,7 @@ public class IVLTS
     }
 
     public boolean hasLow() {
-        return low != null && !low.hasNullFlavor();
+        return low != null && low.hasValue();
     }
 
     public PQ getWidth() {
@@ -88,7 +88,7 @@ public class IVLTS
     }
 
     public boolean hasHigh() {
-        return high != null && !high.hasNullFlavor();
+        return high != null && high.hasValue();
     }
 
     public TS getCenter() {
@@ -100,6 +100,6 @@ public class IVLTS
     }
 
     public boolean hasCenter() {
-        return center != null && !center.hasNullFlavor();
+        return center != null && center.hasValue();
     }
 }
