@@ -163,9 +163,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UK04LinkSet linkSet) {
         if (linkSet.getEffectiveTime() != null) {
             IVLTS effectiveTime = linkSet.getEffectiveTime();
-            if (effectiveTime.hasLow() && effectiveTime.getLow().hasValue()) {
+            if (effectiveTime.hasLow()) {
                 return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getLow().getValue()));
-            } else if (effectiveTime.hasCenter() && effectiveTime.getCenter().hasValue()) {
+            } else if (effectiveTime.hasCenter()) {
                 return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getCenter().getValue()));
             }
         }
@@ -176,9 +176,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private Optional<DateTimeType> buildAbatementDateTimeType(IVLTS abatementDateTime) {
-        if (abatementDateTime != null && abatementDateTime.hasHigh()
-            && abatementDateTime.getHigh().hasValue()
-            && !abatementDateTime.getHigh().hasNullFlavor()) {
+        if (abatementDateTime != null && abatementDateTime.hasHigh()) {
             return Optional.of(dateTimeMapper.mapDateTime(abatementDateTime.getHigh().getValue()));
         }
         return Optional.empty();

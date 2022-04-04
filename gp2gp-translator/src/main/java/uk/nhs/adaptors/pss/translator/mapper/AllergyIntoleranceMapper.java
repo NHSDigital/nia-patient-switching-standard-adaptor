@@ -140,9 +140,9 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         var effectiveTime = compoundStatement.getEffectiveTime();
         var availabilityTime = compoundStatement.getAvailabilityTime();
 
-        if (effectiveTime.hasLow() && effectiveTime.getLow().hasValue()) {
+        if (effectiveTime.hasLow()) {
             allergyIntolerance.setOnset(parseToDateTimeType(effectiveTime.getLow().getValue()));
-        } else if (effectiveTime.hasCenter() && effectiveTime.getCenter().hasValue()) {
+        } else if (effectiveTime.hasCenter()) {
             allergyIntolerance.setOnset(parseToDateTimeType(effectiveTime.getCenter().getValue()));
         } else if (availabilityTime.hasValue()) {
             allergyIntolerance.setOnset(parseToDateTimeType(availabilityTime.getValue()));

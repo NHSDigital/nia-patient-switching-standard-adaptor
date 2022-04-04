@@ -9,7 +9,9 @@
                     <originalText>GP Surgery</originalText></code>
                 <statusCode code="COMPLETE" />
                 <effectiveTime>
-                    <center nullFlavor="UNK"/>
+                    <center nullFlavor="NI"/>
+                    <low nullFlavor="NI"/>
+                    <high nullFlavor="NI"/>
                 </effectiveTime>
                 <availabilityTime value="20100113152000" />
                 <author typeCode="AUT" contextControlCode="OP">

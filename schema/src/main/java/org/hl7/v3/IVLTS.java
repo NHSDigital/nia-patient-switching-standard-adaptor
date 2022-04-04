@@ -64,7 +64,7 @@ public class IVLTS
     }
 
     public boolean hasLow() {
-        return low != null;
+        return low != null && low.hasValue();
     }
 
     public PQ getWidth() {
@@ -88,7 +88,7 @@ public class IVLTS
     }
 
     public boolean hasHigh() {
-        return high != null;
+        return high != null && high.hasValue();
     }
 
     public TS getCenter() {
@@ -100,6 +100,6 @@ public class IVLTS
     }
 
     public boolean hasCenter() {
-        return center != null;
+        return center != null && center.hasValue();
     }
 }
