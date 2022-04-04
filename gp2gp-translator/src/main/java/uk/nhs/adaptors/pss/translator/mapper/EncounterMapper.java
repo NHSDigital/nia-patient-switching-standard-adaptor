@@ -255,7 +255,9 @@ public class EncounterMapper {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getLow().getValue()));
         } else if (!effectiveTime.hasLow() && effectiveTime.hasHigh()) {
             return period.setEndElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()));
-        } else if (CsNullFlavor.UNK.value().equals(effectiveTime.getNullFlavor().value())) {
+        } else if (effectiveTime.getCenter() != null
+            && effectiveTime.getCenter().hasNullFlavor()
+            && CsNullFlavor.UNK.value().equals(effectiveTime.getCenter().getNullFlavor().value())) {
             return null;
         } else if (availabilityTime.hasValue()) {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()));
