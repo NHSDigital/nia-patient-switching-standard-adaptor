@@ -1,20 +1,23 @@
 package uk.nhs.adaptors.pss.translator.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Base64;
+import java.util.List;
+import java.util.zip.GZIPInputStream;
+
+import javax.xml.bind.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
 import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
-
-import javax.xml.bind.ValidationException;
-
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Base64;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -32,25 +35,34 @@ public class AttachmentHandlerService {
             attachments.forEach((InboundMessage.Attachment attachment) -> {
 
                 try {
-                    // Filename format will be further defined with later tickets
+
+                    InlineAttachment inlineAttachment = new InlineAttachment(attachment);
+
+                    byte[] decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
+
+                    byte[] payload;
+
+                    if (inlineAttachment.isCompressed()) {
+                        GZIPInputStream inputStream = new GZIPInputStream(new ByteArrayInputStream(decodedPayload));
+                        payload = inputStream.readAllBytes();
+                    } else {
+                        payload = decodedPayload;
+                    }
+
                     StorageDataUploadWrapper dataWrapper = new StorageDataUploadWrapper(
                         attachment.getContentType(),
                         conversationId,
-                        Base64.getDecoder().decode(attachment.getPayload())
+                        payload
                     );
 
-                    String filename = conversationId + "-"
-                        + Timestamp.from(Instant.now()).toString().replace(" ", "-")
-                        + "." + attachment.getContentType()
-                        + attachment.getContentType();
+                    String filename = inlineAttachment.getOriginalFilename();
 
                     storageManagerService.uploadFile(filename, dataWrapper);
-                } catch (StorageException ex)  {
+                } catch (StorageException | IOException | ParseException ex) {
                     // We don't want to stop uploading a list of failures but we should log them here
                     // this is for a later ticket to manage
                 }
             });
         }
     }
-
 }
