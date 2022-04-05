@@ -293,4 +293,16 @@ public class ObservationUtilTest {
         assertThat(referenceRanges.get(1).getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_2);
         assertThat(referenceRanges.get(1).getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_2);
     }
+
+    @Test
+    public void mapReferenceRangeWithDecimalValues() {
+        var ehrExtract = unmarshallEhrExtractElement("decimal_reference_range_observation_example.xml");
+        var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
+
+        var referenceRange = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
+
+        assertThat(referenceRange.get(0).getText()).isEqualTo("Test Range 1");
+        assertThat(referenceRange.get(0).getLow().getValue().doubleValue()).isEqualTo(10.5);
+        assertThat(referenceRange.get(0).getHigh().getValue().doubleValue()).isEqualTo(12.2);
+    }
 }
