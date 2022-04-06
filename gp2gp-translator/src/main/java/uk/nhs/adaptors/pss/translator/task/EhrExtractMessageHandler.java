@@ -6,6 +6,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallSt
 
 import javax.xml.bind.JAXBException;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 import java.time.Instant;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EhrExtractMessageHandler {
@@ -99,8 +101,8 @@ public class EhrExtractMessageHandler {
                 }
             }
         } catch (SAXException e) {
-            //LOGGER.debug("failed to extract \"mid:\" from xlink:href. ");
-            e.printStackTrace(); //need to change
+            LOGGER.error("failed to parse RCMR_IN030000UK06 ebxml: " +
+                    "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
         }
     }
 
