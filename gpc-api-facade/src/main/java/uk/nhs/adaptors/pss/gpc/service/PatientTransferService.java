@@ -1,10 +1,7 @@
 package uk.nhs.adaptors.pss.gpc.service;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.*;
 import static uk.nhs.adaptors.pss.gpc.util.fhir.ParametersUtils.getNhsNumberFromParameters;
 
 import java.util.Map;
@@ -41,7 +38,8 @@ public class PatientTransferService {
 
         if (patientMigrationRequest == null) {
             var patientNhsNumber = getNhsNumberFromParameters(parameters).get().getValue();
-            patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, headers.get(TO_ODS)); //need to change
+            patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, headers.get(TO_ODS), headers.get(FROM_ODS));
+
             int addedId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
             migrationStatusLogDao.addMigrationStatusLog(REQUEST_RECEIVED, dateUtils.getCurrentOffsetDateTime(), addedId);
 

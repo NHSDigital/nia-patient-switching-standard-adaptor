@@ -1,0 +1,31 @@
+{
+  "mappings":[
+    {
+      "scenarioName": "CorrectRequest",
+      "request": {
+        "method": "POST",
+        "url": "/",
+        "headers": {
+          "Content-Type": {
+            "equalTo": "application/json"
+          },
+          "Interaction-Id": {
+            "equalTo": "COPC_IN000001UK01"
+          },
+          "Ods-Code": {
+            "matches": ".*"
+          },
+          "Wait-For-Response": {
+            "equalTo": "false"
+          }
+        },
+        "bodyPatterns": [
+          { "matchesJsonPath": "$.payload" }
+        ]
+      },
+      "response": {
+        "status": 202
+      }
+    }
+  ]
+}

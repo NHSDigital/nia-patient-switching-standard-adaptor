@@ -66,9 +66,6 @@ public class EhrExtractMessageHandlerTest {
     @Mock
     private Document ebXmlDocument;
 
-    @Mock
-    private NodeList nodeList;
-
     @InjectMocks
     private EhrExtractMessageHandler ehrExtractMessageHandler;
 
@@ -76,8 +73,6 @@ public class EhrExtractMessageHandlerTest {
     public void handleMessageWithoutErrorsShouldReturnTrue() throws JsonProcessingException, JAXBException {
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
-
-        System.out.println();
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
@@ -89,13 +84,10 @@ public class EhrExtractMessageHandlerTest {
     @SneakyThrows
     private void prepareMocks(InboundMessage inboundMessage) {
         inboundMessage.setPayload("payload");
-
-
-
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
-        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile()); //myself
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
         PatientMigrationRequest migrationRequest = PatientMigrationRequest.builder().loosingPracticeOdsCode(LOOSING_ODE_CODE).winningPracticeOdsCode(WINNING_ODE_CODE).build();
 
@@ -103,7 +95,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
 
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class),  eq(LOOSING_ODE_CODE))).thenReturn(bundle);//need to add winning practice here
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class),  eq(LOOSING_ODE_CODE))).thenReturn(bundle);
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
     }
@@ -117,7 +109,4 @@ public class EhrExtractMessageHandlerTest {
     private String readInboundMessageEbXmlFromFile() {
         return readResourceAsString("/xml/inbound_message_ebxml.xml");
     }
-
-
-
 }

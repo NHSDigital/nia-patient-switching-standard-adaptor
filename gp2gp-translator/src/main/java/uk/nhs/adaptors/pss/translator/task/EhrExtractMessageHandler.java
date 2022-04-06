@@ -59,7 +59,6 @@ public class EhrExtractMessageHandler {
         );
 
         try {
-            System.out.println(inboundMessage.getEbXML());
             String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
             Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML()); //xml document
 
@@ -85,10 +84,9 @@ public class EhrExtractMessageHandler {
                     }
                 }
             }
-
-
         } catch (SAXException e) {
-            e.printStackTrace();
+            //LOGGER.debug("failed to extract \"mid:\" from xlink:href. ");
+            e.printStackTrace(); //need to change
         }
     }
 

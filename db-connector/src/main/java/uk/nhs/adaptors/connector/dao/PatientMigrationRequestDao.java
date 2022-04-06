@@ -12,7 +12,7 @@ public interface PatientMigrationRequestDao {
     @SqlUpdate("insert_patient_migration_request")
     @UseClasspathSqlLocator
     void addNewRequest(@Bind("nhsNumber") String patientNhsNumber, @Bind("conversationId") String conversationId,
-        @Bind("loosingOdsCode") String loosingOdsCode);
+        @Bind("loosingOdsCode") String loosingOdsCode, @Bind("winningOdsCode") String winningOdsCode);
 
     @SqlQuery("select_patient_migration_request")
     @UseClasspathSqlLocator
@@ -20,7 +20,7 @@ public interface PatientMigrationRequestDao {
 
     @SqlQuery("select_patient_migration_request_id")
     @UseClasspathSqlLocator
-    int getMigrationRequestId(@Bind("conversationId") String conversationId);
+    int getMigrationRequestId(@Bind("conversationId") String conversationId);///
 
     @SqlUpdate("save_bundle_resource_and_inbound_message_data")
     @UseClasspathSqlLocator

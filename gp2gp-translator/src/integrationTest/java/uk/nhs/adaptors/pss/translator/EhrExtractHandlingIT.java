@@ -53,6 +53,7 @@ public class EhrExtractHandlingIT {
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
     private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
     private static final String LOOSING_ODS_CODE = "D5445";
+    private static final String WINNING_ODS_CODE = "ABC";
     private static final List<String> STATIC_IGNORED_JSON_PATHS = List.of(
         "id",
         "entry[0].resource.id",
@@ -97,11 +98,11 @@ public class EhrExtractHandlingIT {
         await().until(this::isEhrExtractTranslated);
 
         // verify generated bundle resource
-        verifyBundle("/json/expectedBundle.json");
+        verifyBundle("/json/expectedBundle.json"); //here
     }
 
     private void startPatientMigrationJourney() {
-        patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, LOOSING_ODS_CODE);
+        patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, LOOSING_ODS_CODE, WINNING_ODS_CODE);
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId);
     }
 
@@ -145,7 +146,7 @@ public class EhrExtractHandlingIT {
             .flatMap(List::stream)
             .collect(Collectors.toList());
 
-        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle, combinedList);
+        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle, combinedList); //here
     }
 
     private void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
@@ -155,7 +156,7 @@ public class EhrExtractHandlingIT {
             .toArray(Customization[]::new);
 
         JSONAssert.assertEquals(expected, actual,
-            new CustomComparator(JSONCompareMode.STRICT, customizations));
+            new CustomComparator(JSONCompareMode.STRICT, customizations)); //here
     }
 
     @SneakyThrows
