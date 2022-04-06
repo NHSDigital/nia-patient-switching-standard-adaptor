@@ -74,7 +74,7 @@ public class MhsQueueMessageHandlerTest {
     private InboundMessage inboundMessage;
 
     @Test
-    public void handleEhrExtractMessageWithoutErrorsShouldReturnTrue() throws JsonProcessingException, JAXBException {
+    public void handleEhrExtractMessageWithoutErrorsShouldReturnTrue() throws JsonProcessingException, JAXBException, SAXException {
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
 
@@ -88,7 +88,7 @@ public class MhsQueueMessageHandlerTest {
 
     @Test
     public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse() throws JAXBException,
-        JsonProcessingException {
+            JsonProcessingException, SAXException {
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
         doThrow(new JAXBException("Nobody expects the spanish inquisition!"))

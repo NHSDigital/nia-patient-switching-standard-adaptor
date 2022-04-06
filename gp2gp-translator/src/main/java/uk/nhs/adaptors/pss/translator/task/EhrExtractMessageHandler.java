@@ -58,7 +58,7 @@ public class EhrExtractMessageHandler {
     private final AttachmentHandlerService attachmentHandlerService;
     private final SendNACKMessageHandler sendNACKMessageHandler;
 
-    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException {
+    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException, SAXException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -67,7 +67,7 @@ public class EhrExtractMessageHandler {
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
         try {
-            var bundle = bundleMapperService.mapToBundle(payload);
+            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLoosingPracticeOdsCode());
             attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
             migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
                 conversationId,
@@ -121,10 +121,10 @@ public class EhrExtractMessageHandler {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
         } catch (SAXException e) {
-              LOGGER.error("failed to parse RCMR_IN030000UK06 ebxml: " +
-                      "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
-              sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
-              throw e;
+            LOGGER.error("failed to parse RCMR_IN030000UK06 ebxml: " +
+                "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
+            sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+            throw e;
         }
     }
 

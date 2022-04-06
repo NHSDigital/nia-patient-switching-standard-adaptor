@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
@@ -94,7 +95,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessagewithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
-        throws JsonProcessingException, JAXBException {
+            throws JsonProcessingException, JAXBException, SAXException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -107,7 +108,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
-        throws JsonProcessingException, JAXBException {
+            throws JsonProcessingException, JAXBException, SAXException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -119,7 +120,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentHandlerServiceStoreAttachments()
-        throws JsonProcessingException, JAXBException {
+            throws JsonProcessingException, JAXBException, SAXException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -131,7 +132,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
-        throws JsonProcessingException, JAXBException {
+            throws JsonProcessingException, JAXBException, SAXException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
