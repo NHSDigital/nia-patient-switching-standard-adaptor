@@ -62,16 +62,16 @@ public class EhrExtractMessageHandlerTest {
 
     @Captor
     private ArgumentCaptor<NACKMessageData> ackMessageDataCaptor;
-  
+
     @Mock
     private ObjectMapper objectMapper;
-  
+
     @Mock
     private MigrationStatusLogService migrationStatusLogService;
 
     @Mock
     private PatientMigrationRequestDao migrationRequestDao;
-  
+
     @Mock
     private AttachmentHandlerService attachmentHandlerService;
 
@@ -174,7 +174,7 @@ public class EhrExtractMessageHandlerTest {
     private String readInboundMessageEbXmlFromFile() {
         return readResourceAsString("/xml/inbound_message_ebxml.xml");
     }
-      
+
     @Test
     public void When_SendNackMessage_WithNoErrors_Expect_ShouldUpdateLog() throws JAXBException {
         RCMRIN030000UK06Message payload = unmarshallString(

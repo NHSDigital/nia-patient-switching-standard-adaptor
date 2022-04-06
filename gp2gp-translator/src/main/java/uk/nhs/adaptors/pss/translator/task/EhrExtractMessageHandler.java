@@ -30,7 +30,6 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -58,7 +57,8 @@ public class EhrExtractMessageHandler {
     private final AttachmentHandlerService attachmentHandlerService;
     private final SendNACKMessageHandler sendNACKMessageHandler;
 
-    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException, SAXException {
+    public void handleMessage(InboundMessage inboundMessage, String conversationId)
+            throws JAXBException, JsonProcessingException, SAXException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -75,9 +75,9 @@ public class EhrExtractMessageHandler {
                 objectMapper.writeValueAsString(inboundMessage),
                 EHR_EXTRACT_TRANSLATED
             );
-          
+
             ////sending continue message
-          
+
             final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
             Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML()); //xml document
 
@@ -121,8 +121,8 @@ public class EhrExtractMessageHandler {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
         } catch (SAXException e) {
-            LOGGER.error("failed to parse RCMR_IN030000UK06 ebxml: " +
-                "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
+            LOGGER.error("failed to parse RCMR_IN030000UK06 ebxml: "
+                + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw e;
         }
@@ -222,9 +222,6 @@ public class EhrExtractMessageHandler {
         var fromAsid = parseFromAsid(payload);
         var toAsid = parseToAsid(payload);
         var toOdsCode = parseToOdsCode(payload);
-
-        var fromOdsCode = winningPracticeOdsCode;
-
         var mcciIN010000UK13creationTimeToHl7Format = DateFormatUtil.toHl7Format(mcciIN010000UK13creationTime);
 
         return ContinueRequestData.builder()
@@ -233,7 +230,7 @@ public class EhrExtractMessageHandler {
             .fromAsid(fromAsid)
             .toAsid(toAsid) //losing practice ods code
             .toOdsCode(toOdsCode)
-            .fromOdsCode(fromOdsCode)
+            .fromOdsCode(winningPracticeOdsCode)
             .mcciIN010000UK13creationTime(mcciIN010000UK13creationTimeToHl7Format)
             .build();
     }
