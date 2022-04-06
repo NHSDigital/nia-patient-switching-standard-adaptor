@@ -26,6 +26,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
@@ -34,12 +35,14 @@ import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 public class AttachmentHandlerServiceStoreAttachmentTests {
     private static List<InboundMessage.Attachment> mockAttachments;
     private static List<InboundMessage.Attachment> mockCompressedAttachments;
+    private static List<InboundMessage.Attachment> mockMislabeledUncompressedAttachments;
+    private static List<InboundMessage.Attachment> mockMissingDescriptionElementsAttachments;
     private final String conversationId = "1";
     @Captor
-    ArgumentCaptor<StorageDataUploadWrapper> dataWrapperCaptor;
+    private ArgumentCaptor<StorageDataUploadWrapper> dataWrapperCaptor;
 
     @Captor
-    ArgumentCaptor<String> filenameCaptor;
+    private ArgumentCaptor<String> filenameCaptor;
 
     @Mock
     private StorageManagerService storageManagerService;
@@ -53,15 +56,15 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
             InboundMessage.Attachment.builder()
                 .contentType("txt")
                 .isBase64("true")
-                .description("Filename=\"text_attachment_encoded_and_compressed.txt\" ContentType=text/plain Compressed=Yes " +
-                    "LargeAttachment=No OriginalBase64=No")
+                .description("Filename=\"text_attachment_encoded_and_compressed.txt\" ContentType=text/plain Compressed=Yes "
+                    + "LargeAttachment=No OriginalBase64=No")
                 .payload(readFileAsString("InlineAttachments/text_attachment_encoded_and_compressed.txt"))
                 .build(),
             InboundMessage.Attachment.builder()
                 .contentType("application/pdf")
                 .isBase64("true")
-                .description("Filename=\"large_messages.pdf\" ContentType=application/pdf Compressed=Yes " +
-                    "LargeAttachment=No OriginalBase64=No")
+                .description("Filename=\"large_messages.pdf\" ContentType=application/pdf Compressed=Yes "
+                    + "LargeAttachment=No OriginalBase64=No")
                 .payload(readFileAsString("InlineAttachments/large_messages.pdf.txt"))
                 .build()
         );
@@ -72,27 +75,58 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         return Files.readString(Paths.get(resource.getURI()));
     }
 
+    private static byte[] readFileAsBytes(String path) throws IOException {
+        Resource resource = new ClassPathResource(path);
+        return Files.readAllBytes(Paths.get(resource.getURI()));
+    }
+
     @BeforeAll
     static void setMockedAttachments() throws IOException {
         mockAttachments = List.of(
             InboundMessage.Attachment.builder()
                 .contentType("txt")
                 .isBase64("true")
-                .description("Filename=\"277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt\" ContentType=text/plain Compressed=No " +
-                    "LargeAttachment=No OriginalBase64=Yes")
+                .description("Filename=\"277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt\" ContentType=text/plain Compressed=No "
+                    + "LargeAttachment=No OriginalBase64=Yes")
                 .payload("SGVsbG8gV29ybGQgZnJvbSBTY290dCBBbGV4YW5kZXI=").build(),
             InboundMessage.Attachment.builder()
                 .contentType("txt")
                 .isBase64("true")
-                .description("Filename=\"text_attachment_encoded.txt\" ContentType=text/plain Compressed=No " +
-                    "LargeAttachment=No OriginalBase64=No")
+                .description("Filename=\"text_attachment_encoded.txt\" ContentType=text/plain Compressed=No "
+                    + "LargeAttachment=No OriginalBase64=No")
+                .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
+                .build()
+        );
+    }
+
+    @BeforeAll
+    static void setMockMislabeledUncompressedAttachments() throws IOException {
+        mockMislabeledUncompressedAttachments = List.of(
+            InboundMessage.Attachment.builder()
+                .contentType("text/plain")
+                .isBase64("true")
+                .description("Filename=\"text_attachment_encoded.txt\" ContentType=text/plain Compressed=Yes "
+                    + "LargeAttachment=No OriginalBase64=No")
+                .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
+                .build()
+        );
+    }
+
+    @BeforeAll
+    static void setMockMissingDescriptionElementsAttachments() throws IOException {
+        mockMissingDescriptionElementsAttachments = List.of(
+            InboundMessage.Attachment.builder()
+                .contentType("text/plain")
+                .isBase64("true")
+                .description("Incorrect format test")
                 .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
                 .build()
         );
     }
 
     @Test
-    public void When_ValidListOfAttachmentsAndConversationIdIsGiven_Expect_DoesNotThrow() throws ValidationException {
+    public void When_ValidListOfAttachmentsAndConversationIdIsGiven_Expect_DoesNotThrow() throws ValidationException,
+        InlineAttachmentProcessingException {
 
         attachmentHandlerService.storeAttachments(mockAttachments, conversationId);
         // No assertion required for a DoesNotThrow Test
@@ -129,7 +163,34 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     }
 
     @Test
-    public void When_ValidListOfAttachmentsAndConversationId_Expect_CallsStorageManagerUploadFile() throws ValidationException {
+    public void When_DecompressionFails_Expect_InlineProcessingException() {
+
+        Exception exception = assertThrows(InlineAttachmentProcessingException.class, () -> {
+            attachmentHandlerService.storeAttachments(mockMislabeledUncompressedAttachments, conversationId);
+        });
+
+        String expectedMessage = "Unable to decompress attachment:";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void When_AttachmentDescriptionNotParsedCorrectly_Expect_InlineProcessingException() {
+
+        Exception exception = assertThrows(InlineAttachmentProcessingException.class, () -> {
+            attachmentHandlerService.storeAttachments(mockMissingDescriptionElementsAttachments, conversationId);
+        });
+
+        String expectedMessage = "Unable to parse inline attachment description:";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void When_ValidListOfAttachmentsAndConversationId_Expect_CallsStorageManagerUploadFile() throws ValidationException,
+        InlineAttachmentProcessingException {
 
         attachmentHandlerService.storeAttachments(mockAttachments, conversationId);
         verify(storageManagerService, atLeast(1)).uploadFile(any(), any());
@@ -137,7 +198,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
     @Test
     public void When_CompressedListOfAttachmentsAndConversationId_Expect_PayloadIsDecodedAndDecompressed() throws ValidationException,
-        IOException {
+        IOException, InlineAttachmentProcessingException {
 
         attachmentHandlerService.storeAttachments(mockCompressedAttachments, conversationId);
 
@@ -149,7 +210,8 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     }
 
     @Test
-    public void When_UncompressedListOfAttachmentsAndConversationId_Expect_PayloadIsDecoded() throws ValidationException, IOException {
+    public void When_UncompressedListOfAttachmentsAndConversationId_Expect_PayloadIsDecoded() throws ValidationException, IOException,
+        InlineAttachmentProcessingException {
 
         attachmentHandlerService.storeAttachments(mockAttachments, conversationId);
 
@@ -162,7 +224,8 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     }
 
     @Test
-    public void When_ValidListOfAttachmentsAndConversationId_Expect_FilenameIsCorrect() throws ValidationException {
+    public void When_ValidListOfAttachmentsAndConversationId_Expect_FilenameIsCorrect() throws ValidationException,
+        InlineAttachmentProcessingException {
 
         attachmentHandlerService.storeAttachments(mockAttachments, conversationId);
 
@@ -175,7 +238,8 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     }
 
     @Test
-    public void When_CompressedListOfAttachmentContainsPdf_Expect_decodedAndDecompressed() throws ValidationException, IOException {
+    public void When_CompressedListOfAttachmentContainsPdf_Expect_DecodedAndDecompressed() throws ValidationException, IOException,
+        InlineAttachmentProcessingException {
         attachmentHandlerService.storeAttachments(mockCompressedAttachments, conversationId);
 
         verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture());
@@ -187,8 +251,4 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         assertArrayEquals(readFileAsBytes("InlineAttachments/large_messages.pdf"), dataByteArray);
     }
 
-    private static byte[] readFileAsBytes(String path) throws IOException {
-        Resource resource = new ClassPathResource(path);
-        return Files.readAllBytes(Paths.get(resource.getURI()));
-    }
 }
