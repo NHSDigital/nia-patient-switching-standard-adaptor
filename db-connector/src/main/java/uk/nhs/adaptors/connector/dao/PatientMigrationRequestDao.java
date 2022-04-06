@@ -20,7 +20,7 @@ public interface PatientMigrationRequestDao {
 
     @SqlQuery("select_patient_migration_request_id")
     @UseClasspathSqlLocator
-    int getMigrationRequestId(@Bind("conversationId") String conversationId);///
+    int getMigrationRequestId(@Bind("conversationId") String conversationId);
 
     @SqlUpdate("save_bundle_resource_and_inbound_message_data")
     @UseClasspathSqlLocator

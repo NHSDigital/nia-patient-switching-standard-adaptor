@@ -39,7 +39,8 @@ public class PatientTransferControllerIT {
     private static final String APPLICATION_FHIR_JSON_VALUE = "application/fhir+json";
     private static final String MIGRATE_PATIENT_RECORD_ENDPOINT = "/Patient/$gpc.migratestructuredrecord";
     private static final String VALID_REQUEST_BODY_PATH = "/requests/migrate-patient-record/validRequestBody.json";
-    private static final String UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH = "/responses/migrate-patient-record/unprocessableEntityResponseBody.json";
+    private static final String UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH =
+            "/responses/migrate-patient-record/unprocessableEntityResponseBody.json";
     private static final HttpHeaders REQUIRED_HEADERS = generateHeaders();
     private static final String CONVERSATION_ID_HEADER = "ConversationId";
     private static final String LOOSING_PRACTICE_ODS = "F765";

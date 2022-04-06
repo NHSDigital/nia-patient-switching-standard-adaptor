@@ -30,7 +30,7 @@ public class SendEhrExtractRequestHandler {
         String conversationId = message.getConversationId();
         String toOdsCode = message.getToOds();
 
-        String ehrExtractRequest = ehrExtractRequestService.buildEhrExtractRequest(message);//a
+        String ehrExtractRequest = ehrExtractRequestService.buildEhrExtractRequest(message);
 
         var outboundMessage = new OutboundMessage(ehrExtractRequest);
         var request = requestBuilder.buildSendEhrExtractRequest(conversationId, toOdsCode, outboundMessage);

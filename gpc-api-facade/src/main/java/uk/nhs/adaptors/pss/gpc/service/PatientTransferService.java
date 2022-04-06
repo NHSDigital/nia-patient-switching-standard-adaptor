@@ -1,7 +1,10 @@
 package uk.nhs.adaptors.pss.gpc.service;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.*;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 import static uk.nhs.adaptors.pss.gpc.util.fhir.ParametersUtils.getNhsNumberFromParameters;
 
 import java.util.Map;

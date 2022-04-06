@@ -33,7 +33,7 @@ public class SendContinueRequestHandler {
                 data.getToAsid(),
                 data.getFromOdsCode(),
                 data.getToOdsCode(),
-                data.getMCCI_IN010000UK13_creationTime()
+                data.getMcciIN010000UK13creationTime()
         );
         var outboundMessage = new OutboundMessage(continueRequest);
         var request = requestBuilder.buildSendContinueRequest(data.getConversationId(), data.getToOdsCode(), outboundMessage);

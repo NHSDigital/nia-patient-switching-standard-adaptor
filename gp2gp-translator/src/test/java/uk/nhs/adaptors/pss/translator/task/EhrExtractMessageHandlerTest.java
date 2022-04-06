@@ -26,7 +26,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
@@ -89,7 +88,11 @@ public class EhrExtractMessageHandlerTest {
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
         inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
-        PatientMigrationRequest migrationRequest = PatientMigrationRequest.builder().loosingPracticeOdsCode(LOOSING_ODE_CODE).winningPracticeOdsCode(WINNING_ODE_CODE).build();
+        PatientMigrationRequest migrationRequest =
+                PatientMigrationRequest.builder()
+                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                .winningPracticeOdsCode(WINNING_ODE_CODE)
+                .build();
 
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);

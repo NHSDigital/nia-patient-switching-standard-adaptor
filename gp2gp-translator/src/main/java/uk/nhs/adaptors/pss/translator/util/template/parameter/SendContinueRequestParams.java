@@ -14,5 +14,5 @@ public class SendContinueRequestParams {
     private String fromAsid;
     private String toOdsCode;
     private String fromOdsCode;
-    private String MCCI_IN010000UK13_creationTime;
+    private String mcciIN010000UK13creationTime;
 }
