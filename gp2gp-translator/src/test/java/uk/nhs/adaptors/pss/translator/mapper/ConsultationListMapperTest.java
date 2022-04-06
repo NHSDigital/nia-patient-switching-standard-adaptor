@@ -98,7 +98,8 @@ public class ConsultationListMapperTest {
         setUpCodeableConceptMock("test-display", "test-text");
         setUpEncounter("20100113152000", "20130213152000", "test-display", "test-text");
         var consultation = setUpConsultation();
-        var compoundStatement = setUpCompoundStatement("test-text", "test-display", "20150213152000");
+        var compoundStatement = setUpCompoundStatement("test-text", "test-display",
+            "20150213152000", false);
 
         var topic = listMapper.mapToTopic(consultation, compoundStatement);
 
@@ -110,11 +111,12 @@ public class ConsultationListMapperTest {
         setUpCodeableConceptMock("test-display", null);
         setUpEncounter(null, null, "test-display", null);
         var consultation = setUpConsultation();
-        var compoundStatement = setUpCompoundStatement(null, "test-display", null);
+        var compoundStatement = setUpCompoundStatement(null, "test-display",
+            null, true);
 
         var topic = listMapper.mapToTopic(consultation, compoundStatement);
 
-        assertTopic(topic, compoundStatement.getId().get(0).getRoot(), "20130213152000", "test-display");
+        assertTopic(topic, compoundStatement.getId().get(0).getRoot(), "20130213152000", null);
     }
 
     @Test
@@ -133,7 +135,8 @@ public class ConsultationListMapperTest {
         setUpCodeableConceptMock("test-display", "test-text");
         setUpEncounter("20100113152000", "20130213152000", "test-display", "test-text");
         var topic = setUpTopic();
-        var compoundStatement = setUpCompoundStatement("test-text", "test-display", "20150213152000");
+        var compoundStatement = setUpCompoundStatement("test-text", "test-display",
+            "20150213152000", false);
 
         var category = listMapper.mapToCategory(topic, compoundStatement);
 
@@ -145,7 +148,8 @@ public class ConsultationListMapperTest {
         setUpCodeableConceptMock("test-display", null);
         setUpEncounter("20100113152000", null, "test-display", null);
         var topic = setUpTopic();
-        var compoundStatement = setUpCompoundStatement(null, "test-display", null);
+        var compoundStatement = setUpCompoundStatement(null, "test-display",
+            null, false);
 
         var category = listMapper.mapToCategory(topic, compoundStatement);
 
@@ -252,16 +256,20 @@ public class ConsultationListMapperTest {
     }
 
     private RCMRMT030101UK04CompoundStatement setUpCompoundStatement(String originalText, String display,
-        String availabilityTime) {
+        String availabilityTime, boolean nullFlavorCode) {
         RCMRMT030101UK04CompoundStatement compoundStatement = new RCMRMT030101UK04CompoundStatement();
         II id = new II();
         id.setRoot(COMPOUND_STATEMENT_ID);
 
         CD cd = new CD();
-        cd.setOriginalText(originalText);
-        cd.setDisplayName(display);
-        cd.setCodeSystem("2.16.840.1.113883.2.1.6.2");
-        cd.setCode("14L..00");
+        if (nullFlavorCode) {
+            cd.setNullFlavor(CsNullFlavor.UNK);
+        } else {
+            cd.setOriginalText(originalText);
+            cd.setDisplayName(display);
+            cd.setCodeSystem("2.16.840.1.113883.2.1.6.2");
+            cd.setCode("14L..00");
+        }
 
         TS ts = new TS();
         if (availabilityTime != null) {
