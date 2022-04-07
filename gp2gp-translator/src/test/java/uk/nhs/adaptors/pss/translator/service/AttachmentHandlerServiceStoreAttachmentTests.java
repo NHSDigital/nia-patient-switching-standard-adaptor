@@ -39,7 +39,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     private static List<InboundMessage.Attachment> mockCompressedAttachments;
     private static List<InboundMessage.Attachment> mockMislabeledUncompressedAttachments;
     private static List<InboundMessage.Attachment> mockMissingDescriptionElementsAttachments;
-    private static final String conversationId = "1";
+    private static final String CONVERSATION_ID = "1";
 
     @Captor
     private ArgumentCaptor<StorageDataUploadWrapper> dataWrapperCaptor;
@@ -131,7 +131,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     public void When_ValidListOfAttachmentsAndConversationIdIsGiven_Expect_DoesNotThrow() throws ValidationException,
         InlineAttachmentProcessingException {
 
-        attachmentHandlerService.storeAttachments(mockAttachments, conversationId);
+        attachmentHandlerService.storeAttachments(mockAttachments, CONVERSATION_ID);
         // No assertion required for a DoesNotThrow Test
     }
 
@@ -169,7 +169,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     public void When_DecompressionFails_Expect_InlineProcessingException() {
 
         Exception exception = assertThrows(InlineAttachmentProcessingException.class, () -> {
-            attachmentHandlerService.storeAttachments(mockMislabeledUncompressedAttachments, conversationId);
+            attachmentHandlerService.storeAttachments(mockMislabeledUncompressedAttachments, CONVERSATION_ID);
         });
 
         String expectedMessage = "Unable to decompress attachment:";
@@ -182,7 +182,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     public void When_AttachmentDescriptionNotParsedCorrectly_Expect_InlineProcessingException() {
 
         Exception exception = assertThrows(InlineAttachmentProcessingException.class, () -> {
-            attachmentHandlerService.storeAttachments(mockMissingDescriptionElementsAttachments, conversationId);
+            attachmentHandlerService.storeAttachments(mockMissingDescriptionElementsAttachments, CONVERSATION_ID);
         });
 
         String expectedMessage = "Unable to parse inline attachment description:";
@@ -195,7 +195,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     public void When_ValidListOfAttachmentsAndConversationId_Expect_CallsStorageManagerUploadFile() throws ValidationException,
         InlineAttachmentProcessingException {
 
-        attachmentHandlerService.storeAttachments(mockAttachments, conversationId);
+        attachmentHandlerService.storeAttachments(mockAttachments, CONVERSATION_ID);
         verify(storageManagerService, atLeast(1)).uploadFile(any(), any());
     }
 
@@ -203,7 +203,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     public void When_CompressedListOfAttachmentsAndConversationId_Expect_PayloadIsDecodedAndDecompressed() throws ValidationException,
         IOException, InlineAttachmentProcessingException {
 
-        attachmentHandlerService.storeAttachments(mockCompressedAttachments, conversationId);
+        attachmentHandlerService.storeAttachments(mockCompressedAttachments, CONVERSATION_ID);
 
         verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture());
 
@@ -216,7 +216,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     public void When_UncompressedListOfAttachmentsAndConversationId_Expect_PayloadIsDecoded() throws ValidationException, IOException,
         InlineAttachmentProcessingException {
 
-        attachmentHandlerService.storeAttachments(mockAttachments, conversationId);
+        attachmentHandlerService.storeAttachments(mockAttachments, CONVERSATION_ID);
 
         verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture());
 
@@ -230,7 +230,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     public void When_ValidListOfAttachmentsAndConversationId_Expect_FilenameIsCorrect() throws ValidationException,
         InlineAttachmentProcessingException {
 
-        attachmentHandlerService.storeAttachments(mockAttachments, conversationId);
+        attachmentHandlerService.storeAttachments(mockAttachments, CONVERSATION_ID);
 
         verify(storageManagerService, atLeast(1)).uploadFile(filenameCaptor.capture(), any());
 
@@ -243,7 +243,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     @Test
     public void When_CompressedListOfAttachmentContainsPdf_Expect_DecodedAndDecompressed() throws ValidationException, IOException,
         InlineAttachmentProcessingException {
-        attachmentHandlerService.storeAttachments(mockCompressedAttachments, conversationId);
+        attachmentHandlerService.storeAttachments(mockCompressedAttachments, CONVERSATION_ID);
 
         verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture());
 
