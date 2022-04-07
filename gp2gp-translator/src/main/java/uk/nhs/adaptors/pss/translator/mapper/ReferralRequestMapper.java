@@ -99,7 +99,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     }
 
     private DateTimeType getAuthoredOn(TS availabilityTime) {
-        if (availabilityTime != null) {
+        if (availabilityTime != null && availabilityTime.hasValue()) {
             return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         }
         return null;
