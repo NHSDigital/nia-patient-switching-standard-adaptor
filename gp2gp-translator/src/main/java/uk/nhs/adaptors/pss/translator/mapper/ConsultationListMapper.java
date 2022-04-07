@@ -141,7 +141,7 @@ public class ConsultationListMapper {
             var codeableConcept = codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
             if (codeableConcept.hasText()) {
                 return codeableConcept.getText();
-            } else if (codeableConcept.getCoding().get(0).hasDisplay()) {
+            } else if (!compoundStatement.getCode().hasNullFlavor() && codeableConcept.getCodingFirstRep().hasDisplay()) {
                 return codeableConcept.getCoding().get(0).getDisplay();
             }
         }
