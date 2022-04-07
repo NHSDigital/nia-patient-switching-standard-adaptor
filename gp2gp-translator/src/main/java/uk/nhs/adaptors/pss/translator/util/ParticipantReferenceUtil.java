@@ -46,6 +46,7 @@ public class ParticipantReferenceUtil {
             .filter(ParticipantReferenceUtil::hasAgentReference)
             .map(RCMRMT030101UK04Participant::getAgentRef)
             .map(RCMRMT030101UK04AgentRef::getId)
+            .filter(II::hasRoot)
             .map(II::getRoot)
             .findFirst();
     }
@@ -55,6 +56,7 @@ public class ParticipantReferenceUtil {
             .filter(participant2 -> participant2.getNullFlavor() == null)
             .map(RCMRMT030101UK04Participant2::getAgentRef)
             .map(RCMRMT030101UK04AgentRef::getId)
+            .filter(II::hasRoot)
             .map(II::getRoot)
             .findFirst();
     }
