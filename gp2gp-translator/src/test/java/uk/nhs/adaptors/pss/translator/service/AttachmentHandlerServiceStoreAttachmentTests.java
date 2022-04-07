@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.service;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -37,7 +39,8 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     private static List<InboundMessage.Attachment> mockCompressedAttachments;
     private static List<InboundMessage.Attachment> mockMislabeledUncompressedAttachments;
     private static List<InboundMessage.Attachment> mockMissingDescriptionElementsAttachments;
-    private final String conversationId = "1";
+    private static final String conversationId = "1";
+
     @Captor
     private ArgumentCaptor<StorageDataUploadWrapper> dataWrapperCaptor;
 
@@ -204,7 +207,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture());
 
-        List<String> dataStringList = dataWrapperCaptor.getAllValues().stream().map(dw -> new String(dw.getData())).toList();
+        List<String> dataStringList = dataWrapperCaptor.getAllValues().stream().map(dw -> new String(dw.getData(), UTF_8)).toList();
 
         assertEquals(readFileAsString("InlineAttachments/text_attachment.txt"), dataStringList.get(0));
     }
@@ -217,7 +220,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture());
 
-        List<String> dataStringList = dataWrapperCaptor.getAllValues().stream().map(dw -> new String(dw.getData())).toList();
+        List<String> dataStringList = dataWrapperCaptor.getAllValues().stream().map(dw -> new String(dw.getData(), UTF_8)).toList();
 
         assertEquals("Hello World from Scott Alexander", dataStringList.get(0));
         assertEquals(readFileAsString("InlineAttachments/text_attachment.txt"), dataStringList.get(1));
@@ -250,5 +253,4 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         assertArrayEquals(readFileAsBytes("InlineAttachments/large_messages.pdf"), dataByteArray);
     }
-
 }
