@@ -60,7 +60,8 @@ public class EhrExtractMessageHandler {
 
     public boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conversationId) {
 
-        LOGGER.debug("Sending NACK message with acknowledgement code [{}]", reason.getCode());
+        LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
+            payload.getId().getRoot());
 
         migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId);
 
