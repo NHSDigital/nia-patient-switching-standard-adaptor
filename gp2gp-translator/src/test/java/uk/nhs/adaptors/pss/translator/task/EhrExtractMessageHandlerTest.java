@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -56,6 +57,9 @@ public class EhrExtractMessageHandlerTest {
 
     @Captor
     private ArgumentCaptor<NACKMessageData> ackMessageDataCaptor;
+
+    @Captor
+    private ArgumentCaptor<MigrationStatus> migrationStatusCaptor;
 
     @Mock
     private ObjectMapper objectMapper;
@@ -298,5 +302,20 @@ public class EhrExtractMessageHandlerTest {
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
         assertEquals("99", ackMessageDataCaptor.getValue().getNackCode());
+    }
+
+    @Test
+    public void When_SendNackMessage_WithEHRExtractCannotBeProcessed_Expect_AddMigrationStatusLogCalledWithGeneralProcessingError() throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        ehrExtractMessageHandler.sendNackMessage(
+            NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED,
+            payload,
+            CONVERSATION_ID);
+
+        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any());
+
+        assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
     }
 }
