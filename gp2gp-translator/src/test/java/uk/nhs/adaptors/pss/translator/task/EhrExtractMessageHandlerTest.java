@@ -32,11 +32,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
+import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,6 +54,9 @@ public class EhrExtractMessageHandlerTest {
 
     @Captor
     private ArgumentCaptor<NACKMessageData> ackMessageDataCaptor;
+
+    @Captor
+    private ArgumentCaptor<MigrationStatus> migrationStatusCaptor;
 
     @Mock
     private ObjectMapper objectMapper;
@@ -84,7 +88,21 @@ public class EhrExtractMessageHandlerTest {
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID);
+    }
 
+    @SneakyThrows
+    private void prepareMocks(InboundMessage inboundMessage) {
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class))).thenReturn(bundle);
+        when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
+        when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
+    }
+
+    @SneakyThrows
+    private String readInboundMessagePayloadFromFile() {
+        return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 
     @Test
@@ -96,7 +114,6 @@ public class EhrExtractMessageHandlerTest {
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
         verify(bundleMapperService).mapToBundle(any()); // mapped item is private to the class so we cannot test an exact object
-
     }
 
     @Test
@@ -122,21 +139,6 @@ public class EhrExtractMessageHandlerTest {
 
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
             CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
-    }
-
-    @SneakyThrows
-    private void prepareMocks(InboundMessage inboundMessage) {
-        Bundle bundle = new Bundle();
-        bundle.setId("Test");
-        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class))).thenReturn(bundle);
-        when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
-        when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
-    }
-
-    @SneakyThrows
-    private String readInboundMessagePayloadFromFile() {
-        return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 
     @Test
@@ -281,5 +283,20 @@ public class EhrExtractMessageHandlerTest {
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
         assertEquals("99", ackMessageDataCaptor.getValue().getNackCode());
+    }
+
+    @Test
+    public void When_SendNackMessage_WithEHRExtractCannotBeProcessed_Expect_AddMigrationStatusLogCalledWithGeneralProcessingError() throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        ehrExtractMessageHandler.sendNackMessage(
+            NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED,
+            payload,
+            CONVERSATION_ID);
+
+        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any());
+
+        assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
     }
 }
