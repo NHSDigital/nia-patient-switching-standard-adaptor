@@ -1,0 +1,58 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+	http://www.liquibase.org/xml/ns/dbchangelog-ext
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/pro
+	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+    <changeSet id="4" author="rknightley">
+        <createTable tableName="patient_migration_data">
+            <column name="mid" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="parent_mid" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="filename" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_type" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="compressed" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="large_attachment" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="base64" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="skeleton" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="uploaded" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="length" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="patient_req_link" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="patient_migration_req_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_patient_migration_req_id" referencedTableName="patient_migration_request" referencedColumnNames="id"/>
+            </column>
+            <column name="order" type="int" defaultValue="0">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <sql dbms="postgresql">
+            GRANT SELECT, INSERT, UPDATE, DELETE ON patient_migration_data TO application_user;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
