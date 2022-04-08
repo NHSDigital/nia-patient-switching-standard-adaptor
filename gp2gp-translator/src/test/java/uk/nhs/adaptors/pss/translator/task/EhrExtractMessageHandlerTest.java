@@ -305,7 +305,8 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void When_SendNackMessage_WithEHRExtractCannotBeProcessed_Expect_AddMigrationStatusLogCalledWithGeneralProcessingError() throws JAXBException {
+    public void When_SendNackMessage_WithEHRExtractCannotBeProcessed_Expect_AddMigrationStatusLogCalledWithGeneralProcessingError()
+        throws JAXBException {
         RCMRIN030000UK06Message payload = unmarshallString(
             readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
 
