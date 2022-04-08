@@ -67,6 +67,7 @@ public class EhrExtractMessageHandler {
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
         try {
+/*
             var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLoosingPracticeOdsCode());
             attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
             migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
@@ -75,57 +76,65 @@ public class EhrExtractMessageHandler {
                 objectMapper.writeValueAsString(inboundMessage),
                 EHR_EXTRACT_TRANSLATED
             );
+*/
 
             ////sending continue message
+            if(inboundMessage.getEbXML().contains("mid:")){
+                String patientNhsNumber = payload
+                        .getControlActEvent()
+                        .getSubject()
+                        .getEhrExtract()
+                        .getRecordTarget()
+                        .getPatient()
+                        .getId()
+                        .getExtension();
 
-            final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
-            Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML()); //xml document
-
-            if (ebXmlDocument == null) {
-                return;
-            }
-            NodeList referencesAttachment = xPathService.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH); //node of references
-
-            if (referencesAttachment != null) {
-                for (int index = 0; index < referencesAttachment.getLength(); index++) {
-
-                    Node referenceNode = referencesAttachment.item(index);
-                    if (referenceNode.getNodeType() == Node.ELEMENT_NODE) {
-                        Element reference = (Element) referenceNode;
-
-                        String hrefAttribute2 = reference.getAttribute("xlink:href");
-
-                        if (hrefAttribute2.startsWith("mid:")) {
-                            String patientNhsNumber = payload
-                                .getControlActEvent()
-                                .getSubject()
-                                .getEhrExtract()
-                                .getRecordTarget()
-                                .getPatient()
-                                .getId()
-                                .getExtension();
-
-                            sendContinueRequest(
-                                    payload,
-                                    conversationId,
-                                    patientNhsNumber,
-                                    migrationRequest.getWinningPracticeOdsCode(),
-                                    migrationStatusLog.getDate().toInstant()
-                            );
-                            break;
-                        }
-                    }
+                if(checkIfEHRExtractIsHasAttachments(inboundMessage)){
+                    sendContinueRequest(
+                            payload,
+                            conversationId,
+                            patientNhsNumber,
+                            migrationRequest.getWinningPracticeOdsCode(),
+                            migrationStatusLog.getDate().toInstant()
+                    );
                 }
             }
-        } catch (JsonProcessingException ex) {
+        }/* catch (JsonProcessingException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
-        } catch (SAXException e) {
+        }*/ catch (SAXException e) {
             LOGGER.error("failed to parse RCMR_IN030000UK06 ebxml: "
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw e;
         }
+    }
+
+    public boolean checkIfEHRExtractIsHasAttachments(InboundMessage inboundMessage) throws SAXException {
+        final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
+        Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
+
+        if (ebXmlDocument == null) {
+            return false;
+        }
+        NodeList referencesAttachment = xPathService.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH);
+
+        if (referencesAttachment != null) {
+            for (int index = 0; index < referencesAttachment.getLength(); index++) {
+
+                Node referenceNode = referencesAttachment.item(index);
+                if (referenceNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element reference = (Element) referenceNode;
+
+                    String hrefAttribute2 = reference.getAttribute("xlink:href");
+
+                    if (hrefAttribute2.startsWith("mid:")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conversationId) {
@@ -200,14 +209,15 @@ public class EhrExtractMessageHandler {
             .getExtension();
     }
 
-    private boolean sendContinueRequest(
+    public void sendContinueRequest(
             RCMRIN030000UK06Message payload,
             String conversationId,
             String patientNhsNumber,
             String winningPracticeOdsCode,
             Instant mcciIN010000UK13creationTime
     ) {
-        return sendContinueRequestHandler.prepareAndSendRequest(
+
+        sendContinueRequestHandler.prepareAndSendRequest(
                 prepareContinueRequestData(payload, conversationId, patientNhsNumber, winningPracticeOdsCode, mcciIN010000UK13creationTime)
         );
     }

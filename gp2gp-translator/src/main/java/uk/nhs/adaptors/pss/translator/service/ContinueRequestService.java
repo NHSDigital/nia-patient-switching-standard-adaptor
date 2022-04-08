@@ -18,7 +18,7 @@ import static uk.nhs.adaptors.pss.translator.util.template.TemplateUtil.loadTemp
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class ContinueRequestService {
-    private static final Mustache CONTINUE_REQUEST_FILE = loadTemplate("sendContinueRequest.xml");
+    private static final Mustache CONTINUE_REQUEST_FILE = loadTemplate("sendContinueRequest.mustache");
     private final DateUtils dateUtils;
     private final IdGeneratorService idGeneratorService;
 

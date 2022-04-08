@@ -98,7 +98,7 @@ public class EhrExtractHandlingIT {
         await().until(this::isEhrExtractTranslated);
 
         // verify generated bundle resource
-        verifyBundle("/json/expectedBundle.json"); //here
+        verifyBundle("/json/expectedBundle.json");
     }
 
     private void startPatientMigrationJourney() {
@@ -146,7 +146,7 @@ public class EhrExtractHandlingIT {
             .flatMap(List::stream)
             .collect(Collectors.toList());
 
-        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle, combinedList); //here
+        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle, combinedList);
     }
 
     private void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
@@ -156,7 +156,7 @@ public class EhrExtractHandlingIT {
             .toArray(Customization[]::new);
 
         JSONAssert.assertEquals(expected, actual,
-            new CustomComparator(JSONCompareMode.STRICT, customizations)); //here
+            new CustomComparator(JSONCompareMode.STRICT, customizations));
     }
 
     @SneakyThrows

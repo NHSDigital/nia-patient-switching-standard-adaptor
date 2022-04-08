@@ -18,6 +18,7 @@
             <eb:DuplicateElimination/>
         </eb:MessageHeader>
         <eb:AckRequested SOAP:mustUnderstand="1" eb:version="2.0" eb:signed="false" SOAP:actor="urn:oasis:names:tc:ebxml-msg:actor:nextMSH"/>
+
     </SOAP:Header>
     <SOAP:Body>
         <eb:Manifest SOAP:mustUnderstand="1" eb:version="2.0">

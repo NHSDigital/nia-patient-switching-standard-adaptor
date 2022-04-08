@@ -25,7 +25,7 @@ public class SendContinueRequestHandler {
     private final ContinueRequestService continueRequestService;
 
     @SneakyThrows
-    public boolean prepareAndSendRequest(ContinueRequestData data) {
+    public void prepareAndSendRequest(ContinueRequestData data) { //test that the data is incorrect
         String continueRequest = continueRequestService.buildContinueRequest(
                 data.getConversationId(),
                 data.getNhsNumber(),
@@ -43,11 +43,10 @@ public class SendContinueRequestHandler {
         } catch (WebClientResponseException wcre) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", wcre.getMessage());
             migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, data.getConversationId());
-            return false;
+            throw wcre;
         }
 
         LOGGER.info("Got response from MHS - 202 Accepted");
-        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getNhsNumber());
-        return true;
+        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getNhsNumber()); //this method exeuted
     }
 }
