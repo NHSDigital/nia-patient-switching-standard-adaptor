@@ -16,6 +16,12 @@ public interface PatientAttachmentLogDao {
         @Bind() Integer order_num
         );
 
+    @SqlUpdate("delete_patient_attachment_log")
+    @UseClasspathSqlLocator
+    void deleteAttachmentLog(
+        @Bind() String filename
+    );
+
     @SqlUpdate("update_patient_attachment_log")
     @UseClasspathSqlLocator
     void updateAttachmentLog(

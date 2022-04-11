@@ -47,6 +47,9 @@
             <column name="order_num" type="int" defaultValue="0">
                 <constraints nullable="false" />
             </column>
+            <column name="deleted" type="boolean" defaultValue="false">
+                <constraints nullable="false" />
+            </column>
         </createTable>
         <sql dbms="postgresql">
             GRANT SELECT, INSERT, UPDATE, DELETE ON patient_attachment_log TO application_user;

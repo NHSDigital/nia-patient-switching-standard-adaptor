@@ -57,5 +57,14 @@ public class PatientAttachmentLogService {
         );
         LOGGER.debug("Updated migration log mid=[{}]", mid);
     }
+
+    public void deleteAttachmentLog(
+        String file_name
+    ) {
+        patientAttachmentLogDao.deleteAttachmentLog(
+            file_name
+        );
+        LOGGER.debug("Updated migration log filename=[{}]", file_name);
+
     }
 }
