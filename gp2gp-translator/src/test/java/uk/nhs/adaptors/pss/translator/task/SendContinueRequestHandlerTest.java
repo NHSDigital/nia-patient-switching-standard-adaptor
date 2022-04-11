@@ -1,19 +1,27 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
-import uk.nhs.adaptors.pss.translator.service.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import uk.nhs.adaptors.pss.translator.service.ContinueRequestService;
+import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 public class SendContinueRequestHandlerTest {
     private static final String NHS_NUMBER = "9446363101";
@@ -22,9 +30,7 @@ public class SendContinueRequestHandlerTest {
     private static final String WINNING_ODS_CODE = "C81007"; //from odds code
     private static final String TO_ASID = "715373337545";
     private static final String FROM_ASID = "276827251543";
-    private static final String MCCI_IN010000UK13creationTime = "20220407194614";
-
-
+    private static final String MCCI_IN010000UK13_CREATIONTIME = "20220407194614";
 
     @Mock
     private MhsRequestBuilder requestBuilder;
@@ -38,15 +44,12 @@ public class SendContinueRequestHandlerTest {
     @Mock
     private MhsClientService mhsClientService;
 
+    @Mock
+    private ContinueRequestData data;
+
     @InjectMocks
     private SendContinueRequestHandler sendContinueRequestHandler;
 
-
-    //////////////////////////////////////////////////////////////
-
-
-    //When_SendNackMessage_WithValidParameters_Expect_ShouldParseMessageDataCorrectly  //need to change
-    //test error is thrown
     @Test
     public void When_PrepareAndSendRequest_ToMhsAndGetError_Expect_ThrowError() {
 
@@ -57,25 +60,55 @@ public class SendContinueRequestHandlerTest {
                 .nhsNumber(NHS_NUMBER)
                 .fromOdsCode(WINNING_ODS_CODE)
                 .toOdsCode(LOOSING_ODS_CODE)
-                .mcciIN010000UK13creationTime(MCCI_IN010000UK13creationTime)
+                .mcciIN010000UK13creationTime(MCCI_IN010000UK13_CREATIONTIME)
                 .build();
 
-
-        ///sendContinueRequestHandler.prepareAndSendRequest();
         PatientMigrationRequest migrationRequest =
                 PatientMigrationRequest.builder()
                         .loosingPracticeOdsCode(LOOSING_ODS_CODE)
                         .winningPracticeOdsCode(WINNING_ODS_CODE)
                         .build();
 
+        when(mhsClientService.send(any())).thenThrow(WebClientResponseException.class);
+
         assertThrows(WebClientResponseException.class, () -> {
             sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
         });
     }
 
-    //test parameters
     @Test
-    public void PrepareAndSendRequest_WhenParametersCorrect_ExpectNoErrors (){
+    public void When_MHSClientService_SendThrowsErrors_Expect_MigrationStatusLogAddStatusIsCalledWithContinueRequestError()
+            throws WebClientResponseException {
+
+        ContinueRequestData continueRequestData = ContinueRequestData.builder()
+                .conversationId(CONVERSATION_ID)
+                .fromAsid(FROM_ASID)
+                .toAsid(TO_ASID)
+                .nhsNumber(NHS_NUMBER)
+                .fromOdsCode(WINNING_ODS_CODE)
+                .toOdsCode(LOOSING_ODS_CODE)
+                .mcciIN010000UK13creationTime(MCCI_IN010000UK13_CREATIONTIME)
+                .build();
+
+        PatientMigrationRequest migrationRequest =
+                PatientMigrationRequest.builder()
+                        .loosingPracticeOdsCode(LOOSING_ODS_CODE)
+                        .winningPracticeOdsCode(WINNING_ODS_CODE)
+                        .build();
+
+        when(mhsClientService.send(any())).thenThrow(WebClientResponseException.class);
+
+
+        try {
+            sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
+        } catch (Exception e) {
+        }
+
+        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, CONVERSATION_ID);
+    }
+
+    @Test
+    public void When_PrepareAndSendRequest_IsCalled_Expect_NoErrors() {
 
         ContinueRequestData continueRequestData = ContinueRequestData
                 .builder()
@@ -85,22 +118,45 @@ public class SendContinueRequestHandlerTest {
                 .nhsNumber(NHS_NUMBER)
                 .fromOdsCode(WINNING_ODS_CODE)
                 .toOdsCode(LOOSING_ODS_CODE)
-                .mcciIN010000UK13creationTime(MCCI_IN010000UK13creationTime)
+                .mcciIN010000UK13creationTime(MCCI_IN010000UK13_CREATIONTIME)
                 .build();
 
-
-        //verify(LOGGER).info("Got response from MHS - 202 Accepted");;
-        //assert last line of method /////////////////////////////////
+        sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
     }
 
-    //test parameters
     @Test
-    public void PrepareAndSendRequest_WhenParametersIncorrect_ExpectErrors (){
+    public void When_ParametersCorrect_Expect_MHSClientServiceSendIsCalled() {
 
+        ContinueRequestData continueRequestData = ContinueRequestData
+                .builder()
+                .conversationId(CONVERSATION_ID)
+                .fromAsid(FROM_ASID)
+                .toAsid(TO_ASID)
+                .nhsNumber(NHS_NUMBER)
+                .fromOdsCode(WINNING_ODS_CODE)
+                .toOdsCode(LOOSING_ODS_CODE)
+                .mcciIN010000UK13creationTime(MCCI_IN010000UK13_CREATIONTIME)
+                .build();
 
+        sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
+        verify(mhsClientService).send(any());
     }
 
+    @Test
+    public void When_ParametersCorrect_Expect_MigrationStatusLogServiceAddMigrationStatusLogIsCalled() {
 
+        ContinueRequestData continueRequestData = ContinueRequestData
+                .builder()
+                .conversationId(CONVERSATION_ID)
+                .fromAsid(FROM_ASID)
+                .toAsid(TO_ASID)
+                .nhsNumber(NHS_NUMBER)
+                .fromOdsCode(WINNING_ODS_CODE)
+                .toOdsCode(LOOSING_ODS_CODE)
+                .mcciIN010000UK13creationTime(MCCI_IN010000UK13_CREATIONTIME)
+                .build();
 
-
+        sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
+        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, CONVERSATION_ID);
+    }
 }

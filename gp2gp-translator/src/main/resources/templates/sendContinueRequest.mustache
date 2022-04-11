@@ -34,9 +34,9 @@
                     <gp:Gp2gpfragment>
                         <gp:Version>01</gp:Version>
                         <gp:Recipients>
-                            <gp:Recipient>{{toODS}}</gp:Recipient>
+                            <gp:Recipient>{{toOdsCode}}</gp:Recipient>
                         </gp:Recipients>
-                        <gp:From>{{fromODS}}</gp:From>
+                        <gp:From>{{fromOdsCode}}</gp:From>
                         <gp:subject>Continue Acknowledgement</gp:subject>
                         <gp:message-id>{{messageId}}</gp:message-id>
                     </gp:Gp2gpfragment>
@@ -51,7 +51,7 @@
                                 <Message type="Message" xmlns="urn:hl7-org:v3">
                                     <id root="{{messageId}}"/>
                                     <code code="0" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.101" displayName="Continue"/>
-                                    <creationTime value="{{MCCI_IN010000UK13_creationTime}}"/>
+                                    <creationTime value="{{mcciIN010000UK13creationTime}}"/>
                                     <versionCode code="V3NPfIT3.1.09"/>
                                     <interactionId extension="MCCI_IN010000UK13" root="2.16.840.1.113883.2.1.3.2.4.12"/>
                                     <processingCode code="P"/>
@@ -62,7 +62,7 @@
                                             <code code="0" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.101" displayName="Continue"/>
                                         </acknowledgementDetail>
                                         <messageRef>
-                                            <id root="{{conversationid}}"/>
+                                            <id root="{{conversationId}}"/>
                                         </messageRef>
                                     </acknowledgement>
                                     <communicationFunctionRcv>
@@ -77,7 +77,7 @@
                                     </communicationFunctionSnd>
                                 </Message>
                                 <gp:acknowledgedMessage>
-                                    <gp:id root="{{conversationid}}"/>
+                                    <gp:id root="{{conversationId}}"/>
                                 </gp:acknowledgedMessage>
                             </gp:Gp2gpfragment>
                         </value>

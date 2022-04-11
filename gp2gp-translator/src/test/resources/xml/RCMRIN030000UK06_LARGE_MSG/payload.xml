@@ -1,5 +1,5 @@
-<RCMR_IN030000UK06 xmlns="urn:hl7-org:v3"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<RCMR_IN030000UK06 xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <id root="C258107F-7A3F-4FB5-8B36-D7C0F6496A17" />
     <creationTime value="20131025165328" />
     <versionCode code="V3NPfIT3.1.10" />

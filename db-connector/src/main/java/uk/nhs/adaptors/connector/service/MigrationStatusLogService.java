@@ -20,7 +20,7 @@ public class MigrationStatusLogService {
     private final DateUtils dateUtils;
 
     public void addMigrationStatusLog(MigrationStatus migrationStatus, String conversationId) {
-        int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(conversationId); //
+        int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
         migrationStatusLogDao.addMigrationStatusLog(
             migrationStatus,
             dateUtils.getCurrentOffsetDateTime(),

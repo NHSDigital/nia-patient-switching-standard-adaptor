@@ -22,18 +22,22 @@ import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
-import org.mockito.junit.jupiter.MockitoExtension;
+
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.ArgumentCaptor;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
-import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
@@ -56,7 +60,6 @@ public class EhrExtractMessageHandlerTest {
     private static final String BUNDLE_STRING = "{bundle}";
     private static final String LOOSING_ODE_CODE = "G543";
     private static final String WINNING_ODE_CODE = "B943";
-    private static final String ACK_TYPE_CODE_XPATH = "//MCCI_IN010000UK13/acknowledgement/@typeCode";
     private static final String TEST_TO_ODS = "M85019";
     private static final String TEST_MESSAGE_REF = "31FA3430-6E88-11EA-9384-E83935108FD5";
     private static final String TEST_TO_ASID = "200000000149";
@@ -109,7 +112,6 @@ public class EhrExtractMessageHandlerTest {
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID);
-
     }
 
     @Test
@@ -120,7 +122,7 @@ public class EhrExtractMessageHandlerTest {
         prepareMocks(inboundMessage);
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-        verify(bundleMapperService).mapToBundle(any(), any()); // mapped item is private to the class so we cannot test an exact object
+        verify(bundleMapperService).mapToBundle(any(), any()); // mapped item is private to the class, so we cannot test an exact object
     }
 
     @Test
@@ -140,6 +142,9 @@ public class EhrExtractMessageHandlerTest {
             throws JsonProcessingException, JAXBException, SAXException {
         final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
 
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+
         InboundMessage inboundMessage = new InboundMessage();
         XPathService xPathService2 = new XPathService();
 
@@ -156,11 +161,14 @@ public class EhrExtractMessageHandlerTest {
                                 ZoneId.systemDefault()))
                         .build();
 
-        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
-
         inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class),  eq(LOOSING_ODE_CODE))).thenReturn(bundle);
+        when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
+        when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
 
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML()))
                 .thenReturn(xPathService2.parseDocumentFromXml(inboundMessage.getEbXML()));
@@ -217,7 +225,6 @@ public class EhrExtractMessageHandlerTest {
 
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
-
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class),  eq(LOOSING_ODE_CODE))).thenReturn(bundle);
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
@@ -380,8 +387,6 @@ public class EhrExtractMessageHandlerTest {
         return readResourceAsString("/xml/inbound_message_ebxml.xml");
     }
 
-
-
     @SneakyThrows
     private String readLargeInboundMessagePayloadFromFile() {
         return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/payload.xml");
@@ -391,6 +396,4 @@ public class EhrExtractMessageHandlerTest {
     private String readLargeInboundMessageEbXmlFromFile() {
         return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/ebxml.xml");
     }
-
-
 }

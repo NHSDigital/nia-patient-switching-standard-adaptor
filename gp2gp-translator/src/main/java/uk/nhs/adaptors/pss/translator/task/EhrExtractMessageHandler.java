@@ -67,7 +67,6 @@ public class EhrExtractMessageHandler {
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
         try {
-/*
             var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLoosingPracticeOdsCode());
             attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
             migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
@@ -76,10 +75,9 @@ public class EhrExtractMessageHandler {
                 objectMapper.writeValueAsString(inboundMessage),
                 EHR_EXTRACT_TRANSLATED
             );
-*/
 
             ////sending continue message
-            if(inboundMessage.getEbXML().contains("mid:")){
+            if (inboundMessage.getEbXML().contains("mid:")) {
                 String patientNhsNumber = payload
                         .getControlActEvent()
                         .getSubject()
@@ -89,7 +87,7 @@ public class EhrExtractMessageHandler {
                         .getId()
                         .getExtension();
 
-                if(checkIfEHRExtractIsHasAttachments(inboundMessage)){
+                if (checkIfEHRExtractIsHasAttachments(inboundMessage)) {
                     sendContinueRequest(
                             payload,
                             conversationId,
@@ -99,10 +97,10 @@ public class EhrExtractMessageHandler {
                     );
                 }
             }
-        }/* catch (JsonProcessingException ex) {
+        } catch (JsonProcessingException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
-        }*/ catch (SAXException e) {
+        } catch (SAXException e) {
             LOGGER.error("failed to parse RCMR_IN030000UK06 ebxml: "
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
