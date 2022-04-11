@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
+import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
@@ -56,6 +57,9 @@ public class MhsQueueMessageHandler {
             return false;
         } catch (JsonProcessingException e) {
             LOGGER.error("Content of the inbound MHS message is not valid JSON", e);
+            return false;
+        } catch (InlineAttachmentProcessingException e) {
+            LOGGER.error("Unable to process inline attachments", e);
             return false;
         }
     }
