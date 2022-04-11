@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.connector.model;
 
-import org.jdbi.v3.core.enums.EnumByName;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +9,6 @@ import lombok.Setter;
 @Builder
 public class PatientAttachmentLog {
     private String mid;
-    @EnumByName
     private String parent_mid;
     private String filename;
     private String content_type;

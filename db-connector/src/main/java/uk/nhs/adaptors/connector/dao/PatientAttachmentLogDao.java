@@ -8,7 +8,7 @@ public interface PatientAttachmentLogDao {
 
     @SqlUpdate("insert_patient_attachment_log")
     @UseClasspathSqlLocator
-    void addPatientData(
+    void addAttachmentLog(
         @Bind() String mid,
         @Bind() String filename,
         @Bind() Boolean uploaded,
@@ -17,7 +17,12 @@ public interface PatientAttachmentLogDao {
         @Bind() Integer order_num
         );
 
-//    @SqlQuery("select_patient_migration_data")
-//    @UseClasspathSqlLocator
-//    PatientMigrationData getPatientMigrationData(@Bind() String migrationRequestId);
+    @SqlUpdate("update_patient_attachment_log")
+    @UseClasspathSqlLocator
+    void updateAttachmentLog(
+        @Bind() String mid,
+        @Bind() String filename,
+        @Bind() Boolean uploaded
+
+    );
 }

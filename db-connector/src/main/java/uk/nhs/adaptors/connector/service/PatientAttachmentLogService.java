@@ -14,8 +14,8 @@ import uk.nhs.adaptors.connector.dao.PatientAttachmentLogDao;
 public class PatientAttachmentLogService {
     private final PatientAttachmentLogDao patientAttachmentLogDao;
 
-    public void addPatientData(String mid, String filename, Boolean uploaded, String patient_req_link, Integer patient_migration_req_id, Integer order_num) {
-        patientAttachmentLogDao.addPatientData(
+    public void addAttachmentLog(String mid, String filename, Boolean uploaded, String patient_req_link, Integer patient_migration_req_id, Integer order_num) {
+        patientAttachmentLogDao.addAttachmentLog(
             mid,
             filename,
             uploaded,
@@ -23,27 +23,16 @@ public class PatientAttachmentLogService {
             patient_migration_req_id,
             order_num
         );
-//        LOGGER.debug("Changed MigrationStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, migrationStatus.name());
+        LOGGER.debug("Created migration log mid=[{}] for patient migration request id=[{}]", mid, patient_migration_req_id);
     }
 
-//    public void removePatientData() {
-//        patientMigrationDataDao.removePatientData(
-//            "test",
-//            "test",
-//            "test"
-//        );
-////        LOGGER.debug("Changed MigrationStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, migrationStatus.name());
-//    }
-//
-//    public PatientMigrationData getPatientMigrationData() {
-//        return patientMigrationDataDao.getPatientMigrationData("test");
-//    }
-//
-//    public void updatePatientData() {
-//        patientMigrationDataDao.updatePatientData(
-//            "test",
-//            "test",
-//            "test"
-//        );
-//    }
+
+
+    public void updateAttachmentLog(String mid, String filename, Boolean uploaded) {
+        patientAttachmentLogDao.updateAttachmentLog(
+            mid,
+            filename,
+            uploaded
+        );
+    }
 }

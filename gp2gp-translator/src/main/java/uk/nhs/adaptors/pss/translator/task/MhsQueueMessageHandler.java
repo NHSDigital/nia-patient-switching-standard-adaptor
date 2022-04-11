@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.xml.bind.JAXBException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
+import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -34,7 +34,7 @@ public class MhsQueueMessageHandler {
     private final MDCService mdcService;
     private final EhrExtractMessageHandler ehrExtractMessageHandler;
     private final AcknowledgmentMessageHandler acknowledgmentMessageHandler;
-
+    private final PatientAttachmentLogService patientAttachmentLogService;
     public boolean handleMessage(Message message) {
         try {
             InboundMessage inboundMessage = readMessage(message);
@@ -44,14 +44,16 @@ public class MhsQueueMessageHandler {
             String interactionId = xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH);
 
             if (EHR_EXTRACT_INTERACTION_ID.equals(interactionId)) {
-                ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
+//              patientAttachmentLogService.addAttachmentLog("test", "test", false, "test", 1, 0);
+                patientAttachmentLogService.updateAttachmentLog("test", "test_filename", true);
+//              ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
             } else if (ACKNOWLEDGEMENT_INTERACTION_ID.equals(interactionId)) {
                 acknowledgmentMessageHandler.handleMessage(inboundMessage, conversationId);
             } else {
                 LOGGER.info("Handling message with [{}] interaction id not implemented", interactionId);
             }
             return true;
-        } catch (JMSException | JAXBException | SAXException e) {
+        } catch (JMSException | SAXException e) {
             LOGGER.error("Unable to read the content of the inbound MHS message", e);
             return false;
         } catch (JsonProcessingException e) {
