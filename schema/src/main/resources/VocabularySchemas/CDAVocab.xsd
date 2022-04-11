@@ -1,0 +1,855 @@
+<xs:schema xmlns="urn:hl7-org:v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:hl7-org:v3" elementFormDefault="qualified">
+	<xs:include schemaLocation="../../../../../schema/src/main/resources/dt/datatypes.xsd"/>
+	<xs:simpleType name="AuthorFunctionType_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="OA"/>
+			<xs:enumeration value="SA"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AuthorFunctionType_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="Originating Author"/>
+			<xs:enumeration value="Sealing Author"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AuthorFunctionType_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.178"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_AuthorFunctionType">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="AuthorFunctionType_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="AuthorFunctionType_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_AuthorFunctionType">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="AuthorFunctionType_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="BusinessSectionType_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>3.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="AI"/>
+			<xs:enumeration value="PI"/>
+			<xs:enumeration value="CCEI"/>
+			<xs:enumeration value="ARFP"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BusinessSectionType_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>3.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="Administrative Information"/>
+			<xs:enumeration value="Presenting Information"/>
+			<xs:enumeration value="Current Care Event Information"/>
+			<xs:enumeration value="Advice, Recommendations and Future Plan"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BusinessSectionType_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>3.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.159"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_BusinessSectionType">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="BusinessSectionType_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="BusinessSectionType_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_BusinessSectionType">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="BusinessSectionType_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="CDAActCode_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="CRT"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDAActCode_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="Clinically Relevant Time"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDAActCode_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.180"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_CDAActCode">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="CDAActCode_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="CDAActCode_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_CDAActCode">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="CDAActCode_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="CDAAdministrationType_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="DO"/>
+			<xs:enumeration value="CO"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDAAdministrationType_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="administration of a dose"/>
+			<xs:enumeration value="administration of a complete course"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDAAdministrationType_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.185"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_CDAAdministrationType">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="CDAAdministrationType_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="CDAAdministrationType_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_CDAAdministrationType">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="CDAAdministrationType_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="CDAOrganizationType_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="001"/>
+			<xs:enumeration value="002"/>
+			<xs:enumeration value="003"/>
+			<xs:enumeration value="004"/>
+			<xs:enumeration value="005"/>
+			<xs:enumeration value="006"/>
+			<xs:enumeration value="007"/>
+			<xs:enumeration value="008"/>
+			<xs:enumeration value="009"/>
+			<xs:enumeration value="010"/>
+			<xs:enumeration value="011"/>
+			<xs:enumeration value="012"/>
+			<xs:enumeration value="013"/>
+			<xs:enumeration value="014"/>
+			<xs:enumeration value="015"/>
+			<xs:enumeration value="016"/>
+			<xs:enumeration value="017"/>
+			<xs:enumeration value="018"/>
+			<xs:enumeration value="019"/>
+			<xs:enumeration value="020"/>
+			<xs:enumeration value="021"/>
+			<xs:enumeration value="999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDAOrganizationType_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="General Medical Practice"/>
+			<xs:enumeration value="General Dental Practice"/>
+			<xs:enumeration value="Community Pharmacy"/>
+			<xs:enumeration value="Community Opticians"/>
+			<xs:enumeration value="Primary Care Trust"/>
+			<xs:enumeration value="Strategic Health Authority"/>
+			<xs:enumeration value="Special Health Authority"/>
+			<xs:enumeration value="Acute Trust"/>
+			<xs:enumeration value="Care Trust"/>
+			<xs:enumeration value="Community Trust"/>
+			<xs:enumeration value="Diagnostic and Investigation Centre"/>
+			<xs:enumeration value="Walk-in Centre"/>
+			<xs:enumeration value="NHS Direct"/>
+			<xs:enumeration value="Local Authority Social Services Department"/>
+			<xs:enumeration value="Nursing Home"/>
+			<xs:enumeration value="Residential Home"/>
+			<xs:enumeration value="Hospice"/>
+			<xs:enumeration value="Ambulance Trust"/>
+			<xs:enumeration value="Private Hospital"/>
+			<xs:enumeration value="GMP Deputising Service"/>
+			<xs:enumeration value="Nursing Agency"/>
+			<xs:enumeration value="Not specified"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDAOrganizationType_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.191"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_CDAOrganizationType">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="CDAOrganizationType_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="CDAOrganizationType_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_CDAOrganizationType">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="CDAOrganizationType_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="CDAObservationType_code">
+		<xs:restriction base="cs">
+			<xs:enumeration value="RAF"/>
+			<xs:enumeration value="LAR"/>
+			<xs:enumeration value="PAR"/>
+			<xs:enumeration value="CPF"/>
+			<xs:enumeration value="CPA"/>
+			<xs:enumeration value="CPED"/>
+			<xs:enumeration value="NCR"/>
+			<xs:enumeration value="LCR"/>
+			<xs:enumeration value="CAFIS"/>
+			<xs:enumeration value="CTHT"/>
+			<xs:enumeration value="EDD"/>
+			<xs:enumeration value="LCPR"/>
+			<xs:enumeration value="NCPR"/>
+			<xs:enumeration value="THT"/>
+			<xs:enumeration value="PDR"/>
+			<xs:enumeration value="DIRS"/>
+			<xs:enumeration value="DIUI"/>
+			<xs:enumeration value="NMHATD"/>
+			<xs:enumeration value="ARRE"/>
+			<xs:enumeration value="PRC"/>
+			<xs:enumeration value="CPDCFR"/>
+			<xs:enumeration value="CPDCMRR"/>
+			<xs:enumeration value="CPAD"/>
+			<xs:enumeration value="CRA"/>
+			<xs:enumeration value="CPDOPR"/>
+			<xs:enumeration value="CPDONPR"/>
+			<xs:enumeration value="OEAWP"/>
+			<xs:enumeration value="CRS"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDAObservationType_displayName">
+		<xs:restriction base="st">
+			<xs:enumeration value="ReAdmission Flag"/>
+			<xs:enumeration value="Last Assessment Review"/>
+			<xs:enumeration value="Planned Assessment Review"/>
+			<xs:enumeration value="Copy Provided Flag"/>
+			<xs:enumeration value="Care Plan Agreement"/>
+			<xs:enumeration value="Component Planned End Date"/>
+			<xs:enumeration value="Next Component Review"/>
+			<xs:enumeration value="Last Component Review"/>
+			<xs:enumeration value="CAF Information Set"/>
+			<xs:enumeration value="Component Text Heading Type"/>
+			<xs:enumeration value="Estimated Discharge Date"/>
+			<xs:enumeration value="Last Care Plan Review"/>
+			<xs:enumeration value="Next Care Plan Review"/>
+			<xs:enumeration value="Text Heading Type"/>
+			<xs:enumeration value="Procedure Date Reported"/>
+			<xs:enumeration value="DI Report Status"/>
+			<xs:enumeration value="Diagnostic Imaging Urgency Indicator"/>
+			<xs:enumeration value="Next Mental Health Act Tribunal Date"/>
+			<xs:enumeration value="At Risk Register Entry"/>
+			<xs:enumeration value="ProtectionRegisterCategory"/>
+			<xs:enumeration value="Care Process Date Commenced or First Review"/>
+			<xs:enumeration value="Care Process Date Concluded or Most Recent Review"/>
+			<xs:enumeration value="Care Process Administration"/>
+			<xs:enumeration value="Care Review Administration"/>
+			<xs:enumeration value="Care Process Date of Previous Review"/>
+			<xs:enumeration value="Care Process Date of Next Planned Review"/>
+			<xs:enumeration value="Other Entity Associated With Patient"/>
+			<xs:enumeration value="Care Review Status"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDAObservationType_codeSystem">
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.220"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_CDAObservationType">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="CDAObservationType_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="CDAObservationType_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_CDAObservationType">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="CDAObservationType_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="CDAPrescriptionAnnotation_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="SI"/>
+			<xs:enumeration value="DI"/>
+			<xs:enumeration value="AI"/>
+			<xs:enumeration value="AD"/>
+			<xs:enumeration value="AT"/>
+			<xs:enumeration value="ASF"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDAPrescriptionAnnotation_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="Supply Instructions"/>
+			<xs:enumeration value="Dose Instructions"/>
+			<xs:enumeration value="Additional Instructions"/>
+			<xs:enumeration value="Medication administration Instructions"/>
+			<xs:enumeration value="Medication administration type"/>
+			<xs:enumeration value="Acute Script Flag"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDAPrescriptionAnnotation_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.192"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_CDAPrescriptionAnnotation">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="CDAPrescriptionAnnotation_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="CDAPrescriptionAnnotation_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_CDAPrescriptionAnnotation">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="CDAPrescriptionAnnotation_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="HealthSpaceBusinessSectionType_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="PACO"/>
+			<xs:enumeration value="DTRQ"/>
+			<xs:enumeration value="FAPR"/>
+			<xs:enumeration value="DSRQ"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HealthSpaceBusinessSectionType_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="Patient Comments"/>
+			<xs:enumeration value="Dietary Requirements"/>
+			<xs:enumeration value="Faith Preferences"/>
+			<xs:enumeration value="Disability Requirements"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HealthSpaceBusinessSectionType_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.175"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_HealthSpaceBusinessSectionType">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="HealthSpaceBusinessSectionType_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="HealthSpaceBusinessSectionType_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_HealthSpaceBusinessSectionType">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="HealthSpaceBusinessSectionType_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="ReasonForDocumentNullification_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="01"/>
+			<xs:enumeration value="02"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ReasonForDocumentNullification_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="Sent in error"/>
+			<xs:enumeration value="Sent to wrong patient record"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ReasonForDocumentNullification_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.176"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_ReasonForDocumentNullification">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="ReasonForDocumentNullification_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="ReasonForDocumentNullification_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_ReasonForDocumentNullification">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="ReasonForDocumentNullification_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="RequesterRelationshipType_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>2.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RequesterRelationshipType_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>2.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="Parent/Legal Guardian of child"/>
+			<xs:enumeration value="Clinician on behalf of an adult"/>
+			<xs:enumeration value="Clinician on behalf of a child"/>
+			<xs:enumeration value="Power of Attorney"/>
+			<xs:enumeration value="Court Appointed"/>
+			<xs:enumeration value="Patient"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RequesterRelationshipType_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>2.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.162"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_RequesterRelationshipType">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="RequesterRelationshipType_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="RequesterRelationshipType_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_RequesterRelationshipType">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="RequesterRelationshipType_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="SealEventActionCode_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+			<xs:enumeration value="6"/>
+			<xs:enumeration value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SealEventActionCode_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="Information has been sealed"/>
+			<xs:enumeration value="Information has been sealed and locked"/>
+			<xs:enumeration value="Information that was sealed and locked is now sealed"/>
+			<xs:enumeration value="Information has been unsealed"/>
+			<xs:enumeration value="An additional workgroup now has access to some sealed information"/>
+			<xs:enumeration value="The new GP workgroup now has access to some sealed information"/>
+			<xs:enumeration value="A replacement workgroup now has access to some sealed information due to organizational change"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SealEventActionCode_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.197"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_SealEventActionCode">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="SealEventActionCode_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="SealEventActionCode_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_SealEventActionCode">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="SealEventActionCode_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="SealingActType_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>3.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="RQTS"/>
+			<xs:enumeration value="SE"/>
+			<xs:enumeration value="USE"/>
+			<xs:enumeration value="RTS"/>
+			<xs:enumeration value="RR"/>
+			<xs:enumeration value="RQTUS"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SealingActType_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>3.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="Request to seal"/>
+			<xs:enumeration value="Sealing event"/>
+			<xs:enumeration value="Unsealing event"/>
+			<xs:enumeration value="Refusal to seal"/>
+			<xs:enumeration value="Refusal reason"/>
+			<xs:enumeration value="Request to unseal"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SealingActType_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>3.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.161"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_SealingActType">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="SealingActType_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="SealingActType_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_SealingActType">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="SealingActType_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="SealingRefusalReason_code">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="cs">
+			<xs:enumeration value="PI"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SealingRefusalReason_displayName">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="st">
+			<xs:enumeration value="Public Interest"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SealingRefusalReason_codeSystem">
+		<xs:annotation>
+			<xs:appinfo>
+				<status>active</status>
+				<version>1.0</version>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.160"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_SealingRefusalReason">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="SealingRefusalReason_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="SealingRefusalReason_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_SealingRefusalReason">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="SealingRefusalReason_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="x_BasicConfidentialityKind_code">
+		<xs:restriction base="cs">
+			<xs:enumeration value="N"/>
+			<xs:enumeration value="R"/>
+			<xs:enumeration value="V"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="x_BasicConfidentialityKind_displayName">
+		<xs:restriction base="st">
+			<xs:enumeration value="normal"/>
+			<xs:enumeration value="restricted"/>
+			<xs:enumeration value="very restricted"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="x_BasicConfidentialityKind_codeSystem">
+		<xs:restriction base="uid">
+			<xs:enumeration value="2.16.840.1.113883.5.25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CV_x_BasicConfidentialityKind">
+		<xs:complexContent>
+			<xs:restriction base="CV">
+				<xs:sequence>
+					<xs:element name="originalText" type="ED" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="code" type="x_BasicConfidentialityKind_code" use="optional"/>
+				<xs:attribute name="codeSystem" type="x_BasicConfidentialityKind_codeSystem" use="optional"/>
+				<xs:attribute name="displayName" type="st" use="optional"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CS_x_BasicConfidentialityKind">
+		<xs:complexContent>
+			<xs:restriction base="CS">
+				<xs:attribute name="code" type="x_BasicConfidentialityKind_code" use="required"/>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

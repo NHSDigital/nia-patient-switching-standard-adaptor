@@ -44,10 +44,10 @@ public class MhsQueueMessageHandler {
             applyConversationId(conversationId);
             String interactionId = xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH);
 
-            if (EHR_EXTRACT_INTERACTION_ID.equals(interactionId)) {
-                ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
-            } else if (ACKNOWLEDGEMENT_INTERACTION_ID.equals(interactionId)) {
+            if (ACKNOWLEDGEMENT_INTERACTION_ID.equals(interactionId)) {
                 acknowledgmentMessageHandler.handleMessage(inboundMessage, conversationId);
+            } else if (EHR_EXTRACT_INTERACTION_ID.equals(interactionId)) {
+                ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
             } else {
                 LOGGER.info("Handling message with [{}] interaction id not implemented", interactionId);
             }

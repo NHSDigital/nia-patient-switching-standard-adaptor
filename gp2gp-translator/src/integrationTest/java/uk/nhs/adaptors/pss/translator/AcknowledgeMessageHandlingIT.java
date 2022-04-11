@@ -39,6 +39,8 @@ public class AcknowledgeMessageHandlingIT {
     private static final String PAYLOAD_PART_PATH = "/xml/MCCI_IN010000UK13/payload_part.xml";
     private static final String TYPE_CODE_PLACEHOLDER = "{{typeCode}}";
     private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
+    private static final String LOOSING_ODS_CODE = "K547";
+    private static final String WINNING_ODS_CODE = "ABC";
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -58,7 +60,7 @@ public class AcknowledgeMessageHandlingIT {
     @BeforeEach
     public void setUp() {
         conversationId = generateConversationId();
-        patientMigrationRequestDao.addNewRequest(generatePatientNhsNumber(), conversationId);
+        patientMigrationRequestDao.addNewRequest(generatePatientNhsNumber(), conversationId, LOOSING_ODS_CODE, WINNING_ODS_CODE);
     }
 
     @Test

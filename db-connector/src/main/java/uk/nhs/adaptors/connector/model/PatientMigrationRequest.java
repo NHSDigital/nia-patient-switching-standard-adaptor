@@ -13,4 +13,6 @@ public class PatientMigrationRequest {
     private String bundleResource;
     private String inboundMessage;
     private String conversationId;
+    private String loosingPracticeOdsCode;
+    private String winningPracticeOdsCode;
 }
