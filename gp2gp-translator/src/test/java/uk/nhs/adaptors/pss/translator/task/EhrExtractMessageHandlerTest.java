@@ -4,8 +4,10 @@ import static java.util.UUID.randomUUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,10 +35,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
+import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 
 @ExtendWith(MockitoExtension.class)
@@ -76,7 +79,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessagewithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
-        throws JsonProcessingException, JAXBException {
+        throws JsonProcessingException, JAXBException, InlineAttachmentProcessingException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -84,44 +87,6 @@ public class EhrExtractMessageHandlerTest {
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID);
-
-    }
-
-    @Test
-    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
-        throws JsonProcessingException, JAXBException {
-
-        InboundMessage inboundMessage = new InboundMessage();
-        prepareMocks(inboundMessage);
-
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-        verify(bundleMapperService).mapToBundle(any()); // mapped item is private to the class so we cannot test an exact object
-
-    }
-
-    @Test
-    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentHandlerServiceStoreAttachments()
-        throws JsonProcessingException, JAXBException {
-
-        InboundMessage inboundMessage = new InboundMessage();
-        prepareMocks(inboundMessage);
-
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-
-        verify(attachmentHandlerService).storeAttachments(inboundMessage.getAttachments(), CONVERSATION_ID);
-    }
-
-    @Test
-    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
-        throws JsonProcessingException, JAXBException {
-
-        InboundMessage inboundMessage = new InboundMessage();
-        prepareMocks(inboundMessage);
-
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-
-        verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
-            CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
     }
 
     @SneakyThrows
@@ -137,6 +102,58 @@ public class EhrExtractMessageHandlerTest {
     @SneakyThrows
     private String readInboundMessagePayloadFromFile() {
         return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
+    }
+
+    @Test
+    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
+        throws JsonProcessingException, JAXBException, InlineAttachmentProcessingException {
+
+        InboundMessage inboundMessage = new InboundMessage();
+        prepareMocks(inboundMessage);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(bundleMapperService).mapToBundle(any()); // mapped item is private to the class so we cannot test an exact object
+    }
+
+    @Test
+    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentHandlerServiceStoreAttachments()
+        throws JsonProcessingException, JAXBException, InlineAttachmentProcessingException {
+
+        InboundMessage inboundMessage = new InboundMessage();
+        prepareMocks(inboundMessage);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(attachmentHandlerService).storeAttachments(inboundMessage.getAttachments(), CONVERSATION_ID);
+    }
+
+    @Test
+    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
+        throws JsonProcessingException, JAXBException, InlineAttachmentProcessingException {
+
+        InboundMessage inboundMessage = new InboundMessage();
+        prepareMocks(inboundMessage);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
+            CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
+    }
+
+    @Test
+    public void When_HandleMessage_WithStoreAttachmentsThrows_Expect_InlineAttachmentProcessingException() throws JAXBException,
+        InlineAttachmentProcessingException {
+        InboundMessage inboundMessage = new InboundMessage();
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class))).thenReturn(bundle);
+
+        doThrow(new InlineAttachmentProcessingException("Test Exception"))
+            .when(attachmentHandlerService).storeAttachments(any(), any());
+
+        assertThrows(InlineAttachmentProcessingException.class, () -> ehrExtractMessageHandler.handleMessage(inboundMessage,
+            CONVERSATION_ID));
     }
 
     @Test
