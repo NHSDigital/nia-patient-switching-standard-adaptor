@@ -120,12 +120,32 @@ public class EhrExtractMessageHandlerTest {
 
     @SneakyThrows
     private void prepareMocks(InboundMessage inboundMessage) {
+        inboundMessage.setPayload("payload");
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class))).thenReturn(bundle);
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
+
+        PatientMigrationRequest migrationRequest =
+            PatientMigrationRequest.builder()
+                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                .winningPracticeOdsCode(WINNING_ODE_CODE)
+                .build();
+
+        MigrationStatusLog migrationStatusLog =
+            MigrationStatusLog.builder()
+                .date(OffsetDateTime.ofInstant(
+                    Instant.now(),
+                    ZoneId.systemDefault()))
+                .build();
+
+        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOOSING_ODE_CODE))).thenReturn(bundle);
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
+        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
     }
 
     @SneakyThrows
@@ -158,7 +178,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallSendContinueRequest()
-            throws JsonProcessingException, JAXBException, SAXException {
+            throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException {
         final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
 
         Bundle bundle = new Bundle();
@@ -210,7 +230,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
-        throws JsonProcessingException, JAXBException, SAXException InlineAttachmentProcessingException {
+        throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -221,35 +241,6 @@ public class EhrExtractMessageHandlerTest {
             CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
     }
 
-    @SneakyThrows
-    private void prepareMocks(InboundMessage inboundMessage) {
-        inboundMessage.setPayload("payload");
-        Bundle bundle = new Bundle();
-        bundle.setId("Test");
-        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
-        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
-
-        PatientMigrationRequest migrationRequest =
-                PatientMigrationRequest.builder()
-                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
-                .winningPracticeOdsCode(WINNING_ODE_CODE)
-                .build();
-
-        MigrationStatusLog migrationStatusLog =
-                MigrationStatusLog.builder()
-                        .date(OffsetDateTime.ofInstant(
-                                Instant.now(),
-                                ZoneId.systemDefault()))
-                        .build();
-
-        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
-        when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
-        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class),  eq(LOOSING_ODE_CODE))).thenReturn(bundle);
-        when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
-        when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
-        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
-
     @Test
     public void When_HandleMessage_WithStoreAttachmentsThrows_Expect_InlineAttachmentProcessingException() throws JAXBException,
         InlineAttachmentProcessingException {
@@ -257,7 +248,7 @@ public class EhrExtractMessageHandlerTest {
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class))).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOOSING_ODE_CODE))).thenReturn(bundle);
 
         doThrow(new InlineAttachmentProcessingException("Test Exception"))
             .when(attachmentHandlerService).storeAttachments(any(), any());
@@ -411,10 +402,6 @@ public class EhrExtractMessageHandlerTest {
     }
 
 
-    @SneakyThrows
-    private String readInboundMessagePayloadFromFile() {
-        return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
-    }
 
     @SneakyThrows
     private String readInboundMessageEbXmlFromFile() {
