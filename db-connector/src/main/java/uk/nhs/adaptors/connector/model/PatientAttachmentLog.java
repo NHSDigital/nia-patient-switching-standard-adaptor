@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class PatientMigrationData {
+public class PatientAttachmentLog {
     private String mid;
     @EnumByName
     private String parent_mid;
@@ -23,6 +23,6 @@ public class PatientMigrationData {
     private Integer length;
     private String patient_req_link;
     private Integer patient_migration_req_id;
-    private Integer Order;
+    private Integer order_num;
 
 }

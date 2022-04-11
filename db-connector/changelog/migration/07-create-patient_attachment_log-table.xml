@@ -10,7 +10,7 @@
     http://www.liquibase.org/xml/ns/pro
 	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
     <changeSet id="4" author="rknightley">
-        <createTable tableName="patient_migration_data">
+        <createTable tableName="patient_attachment_log">
             <column name="mid" type="varchar(255)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -47,12 +47,12 @@
             <column name="patient_migration_req_id" type="int">
                 <constraints nullable="false" foreignKeyName="fk_patient_migration_req_id" referencedTableName="patient_migration_request" referencedColumnNames="id"/>
             </column>
-            <column name="order" type="int" defaultValue="0">
+            <column name="order_num" type="int" defaultValue="0">
                 <constraints nullable="false" />
             </column>
         </createTable>
         <sql dbms="postgresql">
-            GRANT SELECT, INSERT, UPDATE, DELETE ON patient_migration_data TO application_user;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON patient_attachment_log TO application_user;
         </sql>
     </changeSet>
 </databaseChangeLog>

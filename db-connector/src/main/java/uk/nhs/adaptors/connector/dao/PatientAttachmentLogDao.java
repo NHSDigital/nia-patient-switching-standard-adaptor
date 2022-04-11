@@ -4,12 +4,18 @@ import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.locator.UseClasspathSqlLocator;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
-public interface PatientMigrationDataDao {
+public interface PatientAttachmentLogDao {
 
-    @SqlUpdate("insert_patient_migration_data")
+    @SqlUpdate("insert_patient_attachment_log")
     @UseClasspathSqlLocator
-    void addPatientData(@Bind() String status);
-    INSERT INTO patient_migration_data(mid, filename, uploaded, patient_req_link, patient_migration_req_id, orderNum)
+    void addPatientData(
+        @Bind() String mid,
+        @Bind() String filename,
+        @Bind() Boolean uploaded,
+        @Bind() String patient_req_link,
+        @Bind() Integer patient_migration_req_id,
+        @Bind() Integer order_num
+        );
 
 //    @SqlQuery("select_patient_migration_data")
 //    @UseClasspathSqlLocator

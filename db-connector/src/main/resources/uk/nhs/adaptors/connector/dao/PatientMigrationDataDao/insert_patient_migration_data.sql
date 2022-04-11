@@ -1,2 +1,0 @@
-INSERT INTO patient_migration_data(mid, filename, uploaded, patient_req_link, patient_migration_req_id, orderNum)
-VALUES (:mid, :filename, :uploaded, :patient_req_link, :patient_migration_req_id, :orderNum);
