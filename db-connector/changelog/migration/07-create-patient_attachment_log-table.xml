@@ -38,11 +38,8 @@
             <column name="uploaded" type="boolean" defaultValue="false">
                 <constraints nullable="false"/>
             </column>
-            <column name="length" type="int">
+            <column name="length_num" type="int">
                 <constraints nullable="true"/>
-            </column>
-            <column name="patient_req_link" type="varchar(255)">
-                <constraints nullable="false"/>
             </column>
             <column name="patient_migration_req_id" type="int">
                 <constraints nullable="false" foreignKeyName="fk_patient_migration_req_id" referencedTableName="patient_migration_request" referencedColumnNames="id"/>

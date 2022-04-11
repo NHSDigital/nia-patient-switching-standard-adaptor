@@ -14,25 +14,48 @@ import uk.nhs.adaptors.connector.dao.PatientAttachmentLogDao;
 public class PatientAttachmentLogService {
     private final PatientAttachmentLogDao patientAttachmentLogDao;
 
-    public void addAttachmentLog(String mid, String filename, Boolean uploaded, String patient_req_link, Integer patient_migration_req_id, Integer order_num) {
+    public void addAttachmentLog(
+        String mid,
+        String filename,
+        Boolean uploaded,
+        Integer patient_migration_req_id,
+        Integer order_num
+    ) {
         patientAttachmentLogDao.addAttachmentLog(
             mid,
             filename,
             uploaded,
-            patient_req_link,
             patient_migration_req_id,
             order_num
         );
         LOGGER.debug("Created migration log mid=[{}] for patient migration request id=[{}]", mid, patient_migration_req_id);
     }
 
-
-
-    public void updateAttachmentLog(String mid, String filename, Boolean uploaded) {
+    public void updateAttachmentLog(
+        String mid,
+        String parent_mid,
+        String content_type,
+        Boolean compressed,
+        Boolean large_attachment,
+        Boolean base64,
+        Boolean skeleton,
+        Boolean uploaded,
+        Integer length_num,
+        Integer order_num
+    ) {
         patientAttachmentLogDao.updateAttachmentLog(
             mid,
-            filename,
-            uploaded
+            parent_mid,
+            content_type,
+            compressed,
+            large_attachment,
+            base64,
+            skeleton,
+            uploaded,
+            length_num,
+            order_num
         );
+        LOGGER.debug("Updated migration log mid=[{}]", mid);
+    }
     }
 }

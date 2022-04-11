@@ -18,7 +18,6 @@ public class PatientAttachmentLog {
     private Boolean skeleton;
     private Boolean uploaded;
     private Integer length;
-    private String patient_req_link;
     private Integer patient_migration_req_id;
     private Integer order_num;
 

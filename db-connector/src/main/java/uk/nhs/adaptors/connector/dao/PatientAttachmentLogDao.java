@@ -12,7 +12,6 @@ public interface PatientAttachmentLogDao {
         @Bind() String mid,
         @Bind() String filename,
         @Bind() Boolean uploaded,
-        @Bind() String patient_req_link,
         @Bind() Integer patient_migration_req_id,
         @Bind() Integer order_num
         );
@@ -21,8 +20,15 @@ public interface PatientAttachmentLogDao {
     @UseClasspathSqlLocator
     void updateAttachmentLog(
         @Bind() String mid,
-        @Bind() String filename,
-        @Bind() Boolean uploaded
+        @Bind() String parent_mid,
+        @Bind() String content_type,
+        @Bind() Boolean compressed,
+        @Bind() Boolean large_attachment,
+        @Bind() Boolean base64,
+        @Bind() Boolean skeleton,
+        @Bind() Boolean uploaded,
+        @Bind() Integer length_num,
+        @Bind() Integer order_num
 
     );
 }

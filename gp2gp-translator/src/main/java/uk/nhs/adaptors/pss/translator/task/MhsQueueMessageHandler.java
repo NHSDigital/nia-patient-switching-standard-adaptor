@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
+import javax.xml.bind.JAXBException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,16 +45,16 @@ public class MhsQueueMessageHandler {
             String interactionId = xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH);
 
             if (EHR_EXTRACT_INTERACTION_ID.equals(interactionId)) {
-//              patientAttachmentLogService.addAttachmentLog("test", "test", false, "test", 1, 0);
-                patientAttachmentLogService.updateAttachmentLog("test", "test_filename", true);
-//              ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
+//            patientAttachmentLogService.addAttachmentLog("test", "test", false, 1, 0);
+//            patientAttachmentLogService.updateAttachmentLog("test", "test_filename", "test", true, true, true, true, true, 2, 1);
+              ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
             } else if (ACKNOWLEDGEMENT_INTERACTION_ID.equals(interactionId)) {
                 acknowledgmentMessageHandler.handleMessage(inboundMessage, conversationId);
             } else {
                 LOGGER.info("Handling message with [{}] interaction id not implemented", interactionId);
             }
             return true;
-        } catch (JMSException | SAXException e) {
+        } catch (JMSException | JAXBException | SAXException e) {
             LOGGER.error("Unable to read the content of the inbound MHS message", e);
             return false;
         } catch (JsonProcessingException e) {
