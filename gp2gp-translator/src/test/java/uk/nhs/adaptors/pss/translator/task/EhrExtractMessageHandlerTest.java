@@ -248,7 +248,16 @@ public class EhrExtractMessageHandlerTest {
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+
+        PatientMigrationRequest migrationRequest =
+                PatientMigrationRequest.builder()
+                        .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                        .winningPracticeOdsCode(WINNING_ODE_CODE)
+                        .build();
+
+
         when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOOSING_ODE_CODE))).thenReturn(bundle);
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
 
         doThrow(new InlineAttachmentProcessingException("Test Exception"))
             .when(attachmentHandlerService).storeAttachments(any(), any());
