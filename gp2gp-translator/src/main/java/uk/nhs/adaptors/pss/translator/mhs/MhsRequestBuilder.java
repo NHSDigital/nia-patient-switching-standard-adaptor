@@ -67,7 +67,7 @@ public class MhsRequestBuilder {
 
         return uri
             .accept(APPLICATION_JSON)
-            .header(ODS_CODE, toOdsCode) //need to check if mhs receives this
+            .header(ODS_CODE, toOdsCode)
             .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
             .header(INTERACTION_ID, interactionId)
             .header(WAIT_FOR_RESPONSE, FALSE)

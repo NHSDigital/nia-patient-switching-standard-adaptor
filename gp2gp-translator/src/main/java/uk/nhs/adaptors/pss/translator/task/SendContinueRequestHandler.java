@@ -40,10 +40,10 @@ public class SendContinueRequestHandler {
 
         try {
             mhsClientService.send(request);
-        } catch (WebClientResponseException wcre) {
-            LOGGER.error("Received an ERROR response from MHS: [{}]", wcre.getMessage());
+        } catch (WebClientResponseException webClientResponseException) {
+            LOGGER.error("Received an ERROR response from MHS: [{}]", webClientResponseException.getMessage());
             migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getConversationId());
-            throw wcre;
+            throw webClientResponseException;
         }
 
         LOGGER.info("Got response from MHS - 202 Accepted");

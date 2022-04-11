@@ -239,7 +239,7 @@ public class EhrExtractMessageHandler {
             .conversationId(conversationId)
             .nhsNumber(patientNhsNumber)
             .fromAsid(fromAsid)
-            .toAsid(toAsid) //losing practice ods code
+            .toAsid(toAsid)
             .toOdsCode(toOdsCode)
             .fromOdsCode(winningPracticeOdsCode)
             .mcciIN010000UK13creationTime(mcciIN010000UK13creationTimeToHl7Format)
