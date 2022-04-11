@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
-import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
@@ -63,12 +62,6 @@ public class SendContinueRequestHandlerTest {
                 .mcciIN010000UK13creationTime(MCCI_IN010000UK13_CREATIONTIME)
                 .build();
 
-        PatientMigrationRequest migrationRequest =
-                PatientMigrationRequest.builder()
-                        .loosingPracticeOdsCode(LOOSING_ODS_CODE)
-                        .winningPracticeOdsCode(WINNING_ODS_CODE)
-                        .build();
-
         when(mhsClientService.send(any())).thenThrow(WebClientResponseException.class);
 
         assertThrows(WebClientResponseException.class, () -> {
@@ -90,14 +83,7 @@ public class SendContinueRequestHandlerTest {
                 .mcciIN010000UK13creationTime(MCCI_IN010000UK13_CREATIONTIME)
                 .build();
 
-        PatientMigrationRequest migrationRequest =
-                PatientMigrationRequest.builder()
-                        .loosingPracticeOdsCode(LOOSING_ODS_CODE)
-                        .winningPracticeOdsCode(WINNING_ODS_CODE)
-                        .build();
-
         when(mhsClientService.send(any())).thenThrow(WebClientResponseException.class);
-
 
         try {
             sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
