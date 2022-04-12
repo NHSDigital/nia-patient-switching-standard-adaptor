@@ -11,8 +11,8 @@ public interface PatientAttachmentLogDao {
     void addAttachmentLog(
         @Bind() String mid,
         @Bind() String filename,
-        @Bind() Boolean uploaded,
         @Bind() Integer patient_migration_req_id,
+        @Bind() Boolean uploaded,
         @Bind() Integer order_num
         );
 

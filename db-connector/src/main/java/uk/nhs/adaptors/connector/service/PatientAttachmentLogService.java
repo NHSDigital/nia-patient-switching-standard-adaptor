@@ -17,15 +17,15 @@ public class PatientAttachmentLogService {
     public void addAttachmentLog(
         String mid,
         String filename,
-        Boolean uploaded,
         Integer patient_migration_req_id,
+        Boolean uploaded,
         Integer order_num
     ) {
         patientAttachmentLogDao.addAttachmentLog(
             mid,
             filename,
-            uploaded,
             patient_migration_req_id,
+            uploaded,
             order_num
         );
         LOGGER.debug("Created migration log mid=[{}] for patient migration request id=[{}]", mid, patient_migration_req_id);
@@ -64,7 +64,7 @@ public class PatientAttachmentLogService {
         patientAttachmentLogDao.deleteAttachmentLog(
             file_name
         );
-        LOGGER.debug("Updated migration log filename=[{}]", file_name);
+        LOGGER.debug("Deleted flag set on migration log filename=[{}] ", file_name);
 
     }
 }

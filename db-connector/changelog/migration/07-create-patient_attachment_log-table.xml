@@ -12,13 +12,13 @@
     <changeSet id="4" author="rknightley">
         <createTable tableName="patient_attachment_log">
             <column name="mid" type="varchar(255)">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints primaryKey="true" primaryKeyName="PK_patient_attachment_log" nullable="false"/>
             </column>
             <column name="parent_mid" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
             <column name="filename" type="varchar(255)">
-                <constraints nullable="false"/>
+                <constraints primaryKey="true" primaryKeyName="PK_patient_attachment_log" nullable="false"/>
             </column>
             <column name="content_type" type="varchar(255)">
                 <constraints nullable="true"/>
