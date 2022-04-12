@@ -117,8 +117,58 @@ the file should look like the following:
     [core]
             autocrlf = input
 ```
-
 note: if the project has already been clone, it should be deleted and cloned again
+
+4. install WSL2 and Ubuntu Terminal (You can follow a tutorial or follow these steps)
+   1. open powershell as an admin 
+   2. run to check the version
+      ```
+      wsl -l -v
+      ```
+   3. then Run (depending on versions. need to check which versions are in version 1 and se to version 2)
+      ```
+      wsl --set-default-version 2
+      ```
+   3. then Run (depending on versions. need to check which versions are in version 1 and se to version 2)
+       ```
+         wsl -set-version ubuntu 2
+       ```
+   5. then Run
+         ```
+         wsl --instal -d ubuntu
+         ```
+   
+5. once installed WSL2 and Ubuntu Terminal need to configure JAVA_HOME:
+   run in order (in the ubuntu terminal)
+   ```
+   1. sudo apt install default-jdk
+   2. sudo apt update
+   ```
+   ```
+   3. nano ~/.bashrc
+   ```
+    The command above will open a file. Add the following at the end of the script
+
+      ```
+      JAVA_HOME=$(dirname $( readlink -f $(which java) ))
+      JAVA_HOME=$(realpath "$JAVA_HOME"/../)
+      export JAVA_HOME
+      ```
+      ```
+   5. sudo update-alternatives --config java
+   6. sudo apt update
+   ```
+6. to install unzip run in the Ubuntu Terminal
+   ```
+   1. sudo apt-get install unzip
+   ```
+7. to install postgresql in the Ubuntu Terminal
+   ```
+   2. sudo apt install postgresql postgresql-contrib
+   ```
+8. WSL needs to be enabled in docker
+   1. open docker desktop/settings/resources/WSL INTEGRATION
+   2. tick the box where it says "Ubuntu" or the name of your ubuntu terminal
 
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).
