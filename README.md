@@ -98,6 +98,27 @@ To clean all containers run
  ./clear-docker.sh
 ```
 
+
+### When Using Windows Machine
+Before cloning the project, navigate to:
+1. Go to `user` directory (e.g: C:\Users\UserName)
+2. Open the file `.gitconfig`
+3. add the following line to the end of the script:
+```
+    [core]
+            autocrlf = input
+```
+the file should look like the following:
+
+```
+    [user]
+            name = user name
+            email = useremail@gmail.com
+    [core]
+            autocrlf = input
+```
+
+
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).
 Any new work added to this repository must conform to the conditions of these licenses.

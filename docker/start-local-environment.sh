@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+
+#these two lines of code, makes the docker work with intellij
+docker-compose down --rmi=local --remove-orphans
+docker-compose rm
+#
+
 set -x -e
 
 source vars.sh
@@ -11,6 +17,15 @@ docker-compose up -d ps_db mhs-adaptor-mock activemq;
 
 cd ../db-connector
 ./gradlew update
+
+##### comment out if there is no uk_sct2cl_32.10.0_20220216000001Z.zip file
+cd ../snomed-database-loader
+./load_release-postgresql.sh "$SNOMED_CT_TERMINOLOGY_FILE"
+
+cd ../db-connector
+./gradlew update
+#####
+
 cd ../docker
 
 docker-compose build gpc_facade gp2gp_translator;
