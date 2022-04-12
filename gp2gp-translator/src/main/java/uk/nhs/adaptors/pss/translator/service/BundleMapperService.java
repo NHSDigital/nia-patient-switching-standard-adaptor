@@ -24,12 +24,13 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
-import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DiagnosticReportMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
@@ -76,64 +77,70 @@ public class BundleMapperService {
     private final SpecimenMapper specimenMapper;
     private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
-    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage, String loosingPracticeOdsCode) {
-        Bundle bundle = generator.generateBundle();
-        final RCMRMT030101UK04EhrExtract ehrExtract = getEhrExtract(xmlMessage);
-        final RCMRMT030101UK04EhrFolder ehrFolder = getEhrFolder(xmlMessage);
+    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage, String loosingPracticeOdsCode) throws BundleMappingException {
 
-        var agents = mapAgentDirectories(ehrFolder);
-        var patient = mapPatient(getEhrExtract(xmlMessage), getPatientOrganization(agents));
-        addEntry(bundle, patient);
+        try {
 
-        Organization authorOrg = organizationMapper.mapAuthorOrganization(loosingPracticeOdsCode);
-        addEntry(bundle, authorOrg);
+            Bundle bundle = generator.generateBundle();
+            final RCMRMT030101UK04EhrExtract ehrExtract = getEhrExtract(xmlMessage);
+            final RCMRMT030101UK04EhrFolder ehrFolder = getEhrFolder(xmlMessage);
 
-        addEntries(bundle, agents);
+            var agents = mapAgentDirectories(ehrFolder);
+            var patient = mapPatient(getEhrExtract(xmlMessage), getPatientOrganization(agents));
+            addEntry(bundle, patient);
 
-        var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, loosingPracticeOdsCode);
-        var encounters = handleMappedEncounterResources(mappedEncounterEhrCompositions, bundle);
+            Organization authorOrg = organizationMapper.mapAuthorOrganization(loosingPracticeOdsCode);
+            addEntry(bundle, authorOrg);
 
-        var locations = mapLocations(ehrFolder, loosingPracticeOdsCode);
-        addEntries(bundle, locations);
+            addEntries(bundle, agents);
 
-        var procedureRequests = procedureRequestMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
-        addEntries(bundle, procedureRequests);
+            var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, loosingPracticeOdsCode);
+            var encounters = handleMappedEncounterResources(mappedEncounterEhrCompositions, bundle);
 
-        var referralRequests = referralRequestMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
-        addEntries(bundle, referralRequests);
+            var locations = mapLocations(ehrFolder, loosingPracticeOdsCode);
+            addEntries(bundle, locations);
 
-        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
-        addEntries(bundle, medicationResources);
+            var procedureRequests = procedureRequestMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
+            addEntries(bundle, procedureRequests);
 
-        var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
-        addEntries(bundle, bloodPressures);
+            var referralRequests = referralRequestMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
+            addEntries(bundle, referralRequests);
 
-        var observations = observationMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
-        addEntries(bundle, observations);
+            var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
+            addEntries(bundle, medicationResources);
 
-        var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
-        addEntries(bundle, immunizations);
+            var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
+            addEntries(bundle, bloodPressures);
 
-        var conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
-        addEntries(bundle, conditions);
+            var observations = observationMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
+            addEntries(bundle, observations);
 
-        var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
-        addEntries(bundle, observationComments);
+            var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
+            addEntries(bundle, immunizations);
 
-        var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg);
-        addEntries(bundle, documentReferences);
+            var conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
+            addEntries(bundle, conditions);
 
-        var templates = templateMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
-        addEntries(bundle, templates);
+            var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
+            addEntries(bundle, observationComments);
 
-        mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, loosingPracticeOdsCode);
+            var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg);
+            addEntries(bundle, documentReferences);
 
-        conditionMapper.addReferences(bundle, conditions, ehrExtract);
-        unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
+            var templates = templateMapper.mapResources(ehrExtract, patient, encounters, loosingPracticeOdsCode);
+            addEntries(bundle, templates);
 
-        LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
+            mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, loosingPracticeOdsCode);
 
-        return bundle;
+            conditionMapper.addReferences(bundle, conditions, ehrExtract);
+            unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
+
+            LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
+
+            return bundle;
+        } catch (Exception e) {
+            throw new BundleMappingException(e.getMessage());
+        }
     }
 
     private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,

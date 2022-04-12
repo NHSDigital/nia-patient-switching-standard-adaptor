@@ -18,32 +18,36 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSL
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+
 import javax.xml.bind.JAXBException;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.SneakyThrows;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.ArgumentCaptor;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
-import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
@@ -51,10 +55,6 @@ import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
-
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 
 @ExtendWith(MockitoExtension.class)
 public class EhrExtractMessageHandlerTest {
@@ -110,9 +110,9 @@ public class EhrExtractMessageHandlerTest {
     private EhrExtractMessageHandler ehrExtractMessageHandler;
 
     @Test
-    public void When_HandleMessagewithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
+    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
 
-        throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException {
+        throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException, BundleMappingException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -157,9 +157,14 @@ public class EhrExtractMessageHandlerTest {
         return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 
+    @SneakyThrows
+    private String readInboundMessageEbXmlFromFile() {
+        return readResourceAsString("/xml/inbound_message_ebxml.xml");
+    }
+
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
-        throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException {
+        throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException, BundleMappingException {
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
@@ -170,7 +175,7 @@ public class EhrExtractMessageHandlerTest {
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentHandlerServiceStoreAttachments()
 
-        throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException {
+        throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException, BundleMappingException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -182,7 +187,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallSendContinueRequest()
-            throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException {
+        throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException, BundleMappingException {
         final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
 
         Bundle bundle = new Bundle();
@@ -192,49 +197,59 @@ public class EhrExtractMessageHandlerTest {
         XPathService xPathService2 = new XPathService();
 
         PatientMigrationRequest migrationRequest =
-                PatientMigrationRequest.builder()
-                        .loosingPracticeOdsCode(LOOSING_ODE_CODE)
-                        .winningPracticeOdsCode(WINNING_ODE_CODE)
-                        .build();
+            PatientMigrationRequest.builder()
+                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                .winningPracticeOdsCode(WINNING_ODE_CODE)
+                .build();
 
         MigrationStatusLog migrationStatusLog =
-                MigrationStatusLog.builder()
-                        .date(OffsetDateTime.ofInstant(
-                                Instant.now(),
-                                ZoneId.systemDefault()))
-                        .build();
+            MigrationStatusLog.builder()
+                .date(OffsetDateTime.ofInstant(
+                    Instant.now(),
+                    ZoneId.systemDefault()))
+                .build();
 
         inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
 
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class),  eq(LOOSING_ODE_CODE))).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOOSING_ODE_CODE))).thenReturn(bundle);
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
 
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML()))
-                .thenReturn(xPathService2.parseDocumentFromXml(inboundMessage.getEbXML()));
+            .thenReturn(xPathService2.parseDocumentFromXml(inboundMessage.getEbXML()));
         Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
 
         when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference"))
-                .thenReturn(xPathService2.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH));
+            .thenReturn(xPathService2.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH));
 
         EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
         ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(ehrExtractMessageHandlerSpy).sendContinueRequest(
-                any(RCMRIN030000UK06Message.class),
-                any(String.class),
-                any(String.class),
-                any(String.class),
-                any(Instant.class)
+            any(RCMRIN030000UK06Message.class),
+            any(String.class),
+            any(String.class),
+            any(String.class),
+            any(Instant.class)
         );
+    }
+
+    @SneakyThrows
+    private String readLargeInboundMessagePayloadFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/payload.xml");
+    }
+
+    @SneakyThrows
+    private String readLargeInboundMessageEbXmlFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/ebxml.xml");
     }
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
-        throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException {
+        throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException, BundleMappingException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -247,18 +262,17 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessage_WithStoreAttachmentsThrows_Expect_InlineAttachmentProcessingException() throws JAXBException,
-        InlineAttachmentProcessingException {
+        InlineAttachmentProcessingException, BundleMappingException {
         InboundMessage inboundMessage = new InboundMessage();
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
 
         PatientMigrationRequest migrationRequest =
-                PatientMigrationRequest.builder()
-                        .loosingPracticeOdsCode(LOOSING_ODE_CODE)
-                        .winningPracticeOdsCode(WINNING_ODE_CODE)
-                        .build();
-
+            PatientMigrationRequest.builder()
+                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                .winningPracticeOdsCode(WINNING_ODE_CODE)
+                .build();
 
         when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOOSING_ODE_CODE))).thenReturn(bundle);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
@@ -268,6 +282,25 @@ public class EhrExtractMessageHandlerTest {
 
         assertThrows(InlineAttachmentProcessingException.class, () -> ehrExtractMessageHandler.handleMessage(inboundMessage,
             CONVERSATION_ID));
+    }
+
+    @Test
+    public void When_HandleMessage_WithMapToBundleThrows_Expect_BundleMappingException() throws BundleMappingException {
+        InboundMessage inboundMessage = new InboundMessage();
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+
+        PatientMigrationRequest migrationRequest =
+            PatientMigrationRequest.builder()
+                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                .winningPracticeOdsCode(WINNING_ODE_CODE)
+                .build();
+
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+
+        doThrow(new BundleMappingException("Test Exception"))
+            .when(bundleMapperService).mapToBundle(any(), any());
+
+        assertThrows(BundleMappingException.class, () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
     }
 
     @Test
@@ -428,21 +461,5 @@ public class EhrExtractMessageHandlerTest {
         verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any());
 
         assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
-    }
-
-
-    @SneakyThrows
-    private String readInboundMessageEbXmlFromFile() {
-        return readResourceAsString("/xml/inbound_message_ebxml.xml");
-    }
-
-    @SneakyThrows
-    private String readLargeInboundMessagePayloadFromFile() {
-        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/payload.xml");
-    }
-
-    @SneakyThrows
-    private String readLargeInboundMessageEbXmlFromFile() {
-        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/ebxml.xml");
     }
 }

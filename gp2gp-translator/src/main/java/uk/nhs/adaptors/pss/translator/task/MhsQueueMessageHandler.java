@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -56,20 +57,23 @@ public class MhsQueueMessageHandler {
             LOGGER.error("Unable to read the content of the inbound MHS message", e);
             return false;
         } catch (JsonProcessingException e) {
-            LOGGER.error("Content of the inbound MHS message is not valid JSON", e);
+            LOGGER.error("Unable to write FHIR bundle as valid JSON", e);
             return false;
         } catch (InlineAttachmentProcessingException e) {
             LOGGER.error("Unable to process inline attachments", e);
             return false;
+        } catch (BundleMappingException e) {
+            LOGGER.error("Unable to map EHR Extract to FHIR bundle", e);
+            return false;
         }
-    }
-
-    private void applyConversationId(String conversationId) {
-        mdcService.applyConversationId(conversationId);
     }
 
     private InboundMessage readMessage(Message message) throws JMSException, JsonProcessingException {
         var body = jmsReader.readMessage(message);
         return objectMapper.readValue(body, InboundMessage.class);
+    }
+
+    private void applyConversationId(String conversationId) {
+        mdcService.applyConversationId(conversationId);
     }
 }

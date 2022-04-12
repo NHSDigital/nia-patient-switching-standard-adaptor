@@ -28,6 +28,7 @@ import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
@@ -53,7 +54,7 @@ public class EhrExtractMessageHandler {
     private final SendNACKMessageHandler sendNACKMessageHandler;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException,
-        SAXException, InlineAttachmentProcessingException {
+        SAXException, InlineAttachmentProcessingException, BundleMappingException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -92,7 +93,7 @@ public class EhrExtractMessageHandler {
                     );
                 }
             }
-        } catch (JsonProcessingException | InlineAttachmentProcessingException ex) {
+        } catch (BundleMappingException | JsonProcessingException | InlineAttachmentProcessingException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
         } catch (SAXException e) {
