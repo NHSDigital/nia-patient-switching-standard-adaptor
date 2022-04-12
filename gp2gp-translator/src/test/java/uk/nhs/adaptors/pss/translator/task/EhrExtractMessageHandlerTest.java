@@ -39,6 +39,7 @@ import org.mockito.ArgumentCaptor;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
@@ -71,6 +72,9 @@ public class EhrExtractMessageHandlerTest {
 
     @Captor
     private ArgumentCaptor<NACKMessageData> ackMessageDataCaptor;
+
+    @Captor
+    private ArgumentCaptor<MigrationStatus> migrationStatusCaptor;
 
     @Mock
     private ObjectMapper objectMapper;
@@ -410,6 +414,21 @@ public class EhrExtractMessageHandlerTest {
         assertEquals("99", ackMessageDataCaptor.getValue().getNackCode());
     }
 
+    @Test
+    public void When_SendNackMessage_WithEHRExtractCannotBeProcessed_Expect_AddMigrationStatusLogCalledWithGeneralProcessingError()
+        throws JAXBException {
+        RCMRIN030000UK06Message payload = unmarshallString(
+            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+
+        ehrExtractMessageHandler.sendNackMessage(
+            NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED,
+            payload,
+            CONVERSATION_ID);
+
+        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any());
+
+        assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
+    }
 
 
     @SneakyThrows
