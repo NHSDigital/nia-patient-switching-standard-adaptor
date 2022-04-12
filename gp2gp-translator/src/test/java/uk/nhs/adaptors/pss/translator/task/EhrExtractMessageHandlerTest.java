@@ -40,6 +40,7 @@ import org.xml.sax.SAXException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.uhn.fhir.parser.DataFormatException;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
@@ -289,6 +290,7 @@ public class EhrExtractMessageHandlerTest {
         InboundMessage inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
 
+
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
                 .loosingPracticeOdsCode(LOOSING_ODE_CODE)
@@ -301,6 +303,28 @@ public class EhrExtractMessageHandlerTest {
             .when(bundleMapperService).mapToBundle(any(), any());
 
         assertThrows(BundleMappingException.class, () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
+    }
+
+    @Test
+    public void When_HandleMessage_WithEncodeToJsonThrows_Expect_DataFormatException() throws BundleMappingException {
+        InboundMessage inboundMessage = new InboundMessage();
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+
+        PatientMigrationRequest migrationRequest =
+            PatientMigrationRequest.builder()
+                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                .winningPracticeOdsCode(WINNING_ODE_CODE)
+                .build();
+
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOOSING_ODE_CODE))).thenReturn(bundle);
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+
+        doThrow(new DataFormatException()).when(fhirParser).encodeToJson(bundle);
+
+        assertThrows(DataFormatException.class, () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
     }
 
     @Test

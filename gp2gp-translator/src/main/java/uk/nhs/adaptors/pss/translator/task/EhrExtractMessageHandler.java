@@ -21,6 +21,7 @@ import org.xml.sax.SAXException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.uhn.fhir.parser.DataFormatException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
@@ -93,7 +94,7 @@ public class EhrExtractMessageHandler {
                     );
                 }
             }
-        } catch (BundleMappingException | JsonProcessingException | InlineAttachmentProcessingException ex) {
+        } catch (BundleMappingException | DataFormatException | JsonProcessingException | InlineAttachmentProcessingException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
         } catch (SAXException e) {

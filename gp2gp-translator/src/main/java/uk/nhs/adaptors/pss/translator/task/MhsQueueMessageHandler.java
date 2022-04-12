@@ -12,6 +12,7 @@ import org.xml.sax.SAXException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.uhn.fhir.parser.DataFormatException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
@@ -56,8 +57,8 @@ public class MhsQueueMessageHandler {
         } catch (JMSException | JAXBException | SAXException e) {
             LOGGER.error("Unable to read the content of the inbound MHS message", e);
             return false;
-        } catch (JsonProcessingException e) {
-            LOGGER.error("Unable to write FHIR bundle as valid JSON", e);
+        } catch (JsonProcessingException | DataFormatException e) {
+            LOGGER.error("Unable to parse messages for migration status log", e);
             return false;
         } catch (InlineAttachmentProcessingException e) {
             LOGGER.error("Unable to process inline attachments", e);
