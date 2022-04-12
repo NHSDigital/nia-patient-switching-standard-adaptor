@@ -118,6 +118,7 @@ the file should look like the following:
             autocrlf = input
 ```
 
+note: if the project has already been clone, it should be deleted and cloned again
 
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).
