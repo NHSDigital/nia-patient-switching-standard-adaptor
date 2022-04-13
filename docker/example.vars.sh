@@ -21,10 +21,8 @@ export MHS_AMQP_MAX_REDELIVERIES="3";
 export MHS_BASE_URL="http://$HOSTNAME:8080/";
 export PS_LOGGING_LEVEL="DEBUG";
 
-
 export PS_AMQP_USERNAME="admin";
 export PS_AMQP_PASSWORD="admin";
-
 
 export MHS_AMQP_USERNAME="admin";
 export MHS_AMQP_PASSWORD="admin";

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 #these two lines of code, makes the docker work with intellij
-docker-compose down --rmi=local --remove-orphans
-docker-compose rm
+#docker-compose down --rmi=local --remove-orphans
+#docker-compose rm
 #
 
 set -x -e

@@ -102,50 +102,69 @@ To clean all containers run
 ### When Using Windows Machine
 Before cloning the project, navigate to:
 1. Go to `user` directory (e.g: C:\Users\UserName)
-2. Open the file `.gitconfig`
+2. Open the file `.gitconfig` in a text editor
 3. add the following line to the end of the script:
-```
-    [core]
-            autocrlf = input
-```
-the file should look like the following:
+   ```
+       [core]
+               autocrlf = input
+   ```
+   the file should look like the following:
+   
+   ```
+       [user]
+               name = user name
+               email = useremail@gmail.com
+       [core]
+               autocrlf = input
+   ```
+   NOTE: These steps should be done before cloning the project. 
+         If the project has already been clone, it should be deleted and cloned again
 
-```
-    [user]
-            name = user name
-            email = useremail@gmail.com
-    [core]
-            autocrlf = input
-```
-note: if the project has already been clone, it should be deleted and cloned again
 
 4. install WSL2 and Ubuntu Terminal (You can follow a tutorial or follow these steps)
-   1. open powershell as an admin 
-   2. run to check the version
+   1. open powershell as a root user
+   2. run to install wls for the first time
+      ```
+      wsl --install
+      ```
+   3. run to check the version
       ```
       wsl -l -v
       ```
-   3. then Run (depending on versions. need to check which versions are in version 1 and se to version 2)
+   4. then Run (depending on versions. need to check which versions are in version 1 and se to version 2)
       ```
       wsl --set-default-version 2
       ```
-   3. then Run (depending on versions. need to check which versions are in version 1 and se to version 2)
+   5. then Run (depending on versions. need to check which versions are in version 1 and se to version 2)
        ```
          wsl -set-version ubuntu 2
        ```
-   5. then Run
+   6. then Run
          ```
          wsl --instal -d ubuntu
          ```
+   7. Download Ubuntu Terminal from microsoft store
    
-5. once installed WSL2 and Ubuntu Terminal need to configure JAVA_HOME:
+
+5. once installed WSL2 and Ubuntu Terminal are installed,
+   open Ubuntu Terminal and Run the following commands:
+      ```
+      wsl --instal -d ubuntu
+      sudo apt update
+      sudo apt upgrade
+      sudo apt install bpython
+      bpython
+      ```
+
+6. once installed WSL2 and Ubuntu Terminal need to configure JAVA_HOME:
    run in order (in the ubuntu terminal)
+
    ```
-   1. sudo apt install default-jdk
-   2. sudo apt update
+   sudo apt install default-jdk
+   sudo apt update
    ```
    ```
-   3. nano ~/.bashrc
+   6. nano ~/.bashrc
    ```
     The command above will open a file. Add the following at the end of the script
 
@@ -155,20 +174,22 @@ note: if the project has already been clone, it should be deleted and cloned aga
       export JAVA_HOME
       ```
       ```
-   5. sudo update-alternatives --config java
-   6. sudo apt update
+   7. sudo update-alternatives --config java
+   8. sudo apt update
    ```
-6. to install unzip run in the Ubuntu Terminal
+7. to install unzip run in the Ubuntu Terminal
    ```
-   1. sudo apt-get install unzip
+   sudo apt-get install unzip
    ```
-7. to install postgresql in the Ubuntu Terminal
+8. to install postgresql in the Ubuntu Terminal:
    ```
-   2. sudo apt install postgresql postgresql-contrib
+   sudo apt install postgresql postgresql-contrib
    ```
-8. WSL needs to be enabled in docker
-   1. open docker desktop/settings/resources/WSL INTEGRATION
-   2. tick the box where it says "Ubuntu" or the name of your ubuntu terminal
+
+9. WSL needs to be enabled in docker
+
+    1. open docker desktop/settings/resources/WSL INTEGRATION
+    2. tick the box where it says "Ubuntu" or the name of your ubuntu terminal
 
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).
