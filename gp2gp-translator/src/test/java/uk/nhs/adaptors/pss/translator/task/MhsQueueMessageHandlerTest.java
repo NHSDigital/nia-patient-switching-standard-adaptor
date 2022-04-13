@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -76,7 +77,7 @@ public class MhsQueueMessageHandlerTest {
 
     @Test
     public void handleEhrExtractMessageWithoutErrorsShouldReturnTrue() throws JsonProcessingException, JAXBException,
-        SAXException, InlineAttachmentProcessingException {
+        SAXException, InlineAttachmentProcessingException, BundleMappingException {
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
 
@@ -90,7 +91,7 @@ public class MhsQueueMessageHandlerTest {
 
     @Test
     public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse() throws JAXBException,
-        JsonProcessingException, SAXException, InlineAttachmentProcessingException {
+        JsonProcessingException, SAXException, InlineAttachmentProcessingException, BundleMappingException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);

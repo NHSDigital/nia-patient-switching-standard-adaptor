@@ -12,10 +12,12 @@ import org.xml.sax.SAXException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.uhn.fhir.parser.DataFormatException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -55,21 +57,24 @@ public class MhsQueueMessageHandler {
         } catch (JMSException | JAXBException | SAXException e) {
             LOGGER.error("Unable to read the content of the inbound MHS message", e);
             return false;
-        } catch (JsonProcessingException e) {
-            LOGGER.error("Content of the inbound MHS message is not valid JSON", e);
+        } catch (JsonProcessingException | DataFormatException e) {
+            LOGGER.error("Unable to parse messages for migration status log", e);
             return false;
         } catch (InlineAttachmentProcessingException e) {
             LOGGER.error("Unable to process inline attachments", e);
             return false;
+        } catch (BundleMappingException e) {
+            LOGGER.error("Unable to map EHR Extract to FHIR bundle", e);
+            return false;
         }
-    }
-
-    private void applyConversationId(String conversationId) {
-        mdcService.applyConversationId(conversationId);
     }
 
     private InboundMessage readMessage(Message message) throws JMSException, JsonProcessingException {
         var body = jmsReader.readMessage(message);
         return objectMapper.readValue(body, InboundMessage.class);
+    }
+
+    private void applyConversationId(String conversationId) {
+        mdcService.applyConversationId(conversationId);
     }
 }
