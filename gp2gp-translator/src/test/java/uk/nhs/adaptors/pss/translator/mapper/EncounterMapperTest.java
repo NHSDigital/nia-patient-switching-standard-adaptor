@@ -3,7 +3,9 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -17,7 +19,6 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Patient;
@@ -33,10 +34,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
+import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
 @ExtendWith(MockitoExtension.class)
 public class EncounterMapperTest {
@@ -47,18 +51,11 @@ public class EncounterMapperTest {
     private static final String CONSULTATION_KEY = "consultations";
     private static final String TOPIC_KEY = "topics";
     private static final String CATEGORY_KEY = "categories";
-    private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/";
     private static final String LOCATION_PREFIX = "Location/";
     private static final String LOCATION_SUFFIX = "-LOC";
     private static final String ENCOUNTER_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
-    private static final String PERFORMER_SYSTEM = "http://hl7.org/fhir/v3/ParticipationType";
-    private static final String PERFORMER_CODE = "PPRF";
-    private static final String PERFORMER_DISPLAY = "primary performer";
-    private static final String RECORDER_SYSTEM = "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1";
-    private static final String RECORDER_CODE = "REC";
-    private static final String RECORDER_DISPLAY = "recorder";
     private static final String PATIENT_ID = "0E6F45F0-8D7B-11EC-B1E5-0800200C9A66";
     private static final String CODING_DISPLAY = "Ischaemic heart disease";
     private static final String FULL_VALID_STRUCTURED_ENCOUNTER_XML = "full_valid_structured_encounter.xml";
@@ -73,25 +70,28 @@ public class EncounterMapperTest {
     private static final String EFFECTIVE_LOW_AND_HIGH_ENCOUNTER_PERIOD_XML = "effective_low_and_high_encounter_period.xml";
     private static final String EFFECTIVE_LOW_ENCOUNTER_PERIOD_XML = "effective_low_encounter_period.xml";
     private static final String EFFECTIVE_HIGH_ENCOUNTER_PERIOD_XML = "effective_high_encounter_period.xml";
-    private static final String EFFECTIVE_CENTER_NULL_FLAVOR_ENCOUNTER_PERIOD_XML = "effective_center_null_flavor_encounter_period.xml";
+    private static final String EFFECTIVE_CENTER_UNK_NULL_FLAVOR_ENCOUNTER_PERIOD_XML = "effective_center_null_flavor_encounter_period.xml";
     private static final String AVAILABILITY_TIME_ENCOUNTER_PERIOD_XML = "availability_time_encounter_period.xml";
     private static final String NO_ENCOUNTER_PERIOD_XML = "no_encounter_period.xml";
+    private static final String NULL_FLAVOR_EFFECTIVE_TIMES_XML = "null_flavor_effective_times.xml";
     private static final String ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML = "encounter_with_multiple_compound_statements.xml";
     private static final String FULL_VALID_STRUCTURED_ENCOUNTER_WITH_RESOURCES_XML = "full_valid_structured_encounter_with_resources.xml";
     private static final String FULL_VALID_FLAT_ENCOUNTER_WITH_RESOURCES_XML = "full_valid_flat_encounter_with_resources.xml";
     private static final int ONE_MAPPED_RESOURCE = 1;
     private static final int TWO_MAPPED_RESOURCES = 2;
-    private static final int NINETEEN_MAPPED_RESOURCES = 19;
     private static final String LINKSET_REFERENCE = "Condition/DCC26FC9-4D1C-11E3-A2DD-010000000161";
-
-    @Mock
-    private IdGeneratorService idGenerator;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
 
     @Mock
     private ConsultationListMapper consultationListMapper;
+
+    @Mock
+    private DatabaseImmunizationChecker immunizationChecker;
+
+    @Mock
+    private ResourceReferenceUtil resourceReferenceUtil;
 
     @InjectMocks
     private EncounterMapper encounterMapper;
@@ -145,8 +145,8 @@ public class EncounterMapperTest {
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
-        assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true, "2E86E940-9011-11EC-B1E5-0800200C9A66",
-            "3707E1F0-9011-11EC-B1E5-0800200C9A66", "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
+        assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true,
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -183,8 +183,7 @@ public class EncounterMapperTest {
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
-        assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true, "2E86E940-9011-11EC-B1E5-0800200C9A66",
-            "3707E1F0-9011-11EC-B1E5-0800200C9A66", "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
+        assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true, "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -224,8 +223,8 @@ public class EncounterMapperTest {
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
-        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true, "2E86E940-9011-11EC-B1E5-0800200C9A66",
-            "3707E1F0-9011-11EC-B1E5-0800200C9A66", "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
+        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true,
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -252,8 +251,7 @@ public class EncounterMapperTest {
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
-        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, "2E86E940-9011-11EC-B1E5-0800200C9A66",
-            null, null, null);
+        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, null, null);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -282,8 +280,8 @@ public class EncounterMapperTest {
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
-        assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true, "2E86E940-9011-11EC-B1E5-0800200C9A66",
-            "3707E1F0-9011-11EC-B1E5-0800200C9A66", "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
+        assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true,
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -298,13 +296,7 @@ public class EncounterMapperTest {
         assertThat(topic.getEntryFirstRep().getItem().getReference())
             .isEqualTo(ENCOUNTER_ID);
 
-        var entryReferences = category.getEntry().stream()
-            .map(ListResource.ListEntryComponent::getItem)
-            .map(Reference::getReference)
-            .toList();
-
-        assertThat(entryReferences.size()).isEqualTo(NINETEEN_MAPPED_RESOURCES);
-        assertEntry(entryReferences);
+        verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromCompoundStatement(any(), any());
     }
 
     @Test
@@ -324,8 +316,8 @@ public class EncounterMapperTest {
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
-        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true, "2E86E940-9011-11EC-B1E5-0800200C9A66",
-            "3707E1F0-9011-11EC-B1E5-0800200C9A66", "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
+        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true,
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -334,13 +326,7 @@ public class EncounterMapperTest {
         assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(consultation.getEntryFirstRep().getItem().getReference()).isEqualTo(ENCOUNTER_ID);
 
-        var entryReferences = topic.getEntry().stream()
-            .map(ListResource.ListEntryComponent::getItem)
-            .map(Reference::getReference)
-            .toList();
-
-        assertThat(entryReferences.size()).isEqualTo(NINETEEN_MAPPED_RESOURCES);
-        assertEntry(entryReferences);
+        verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromEhrComposition(any(), any());
     }
 
     @ParameterizedTest
@@ -358,8 +344,7 @@ public class EncounterMapperTest {
         assertThat(encounterList.size()).isOne();
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
-        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, "2E86E940-9011-11EC-B1E5-0800200C9A66",
-            null, startDate, endDate);
+        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, startDate, endDate);
     }
 
     private static Stream<Arguments> encounterPeriodTestFiles() {
@@ -368,9 +353,10 @@ public class EncounterMapperTest {
             Arguments.of(EFFECTIVE_LOW_AND_HIGH_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", "2015-01-13T15:20:00+00:00"),
             Arguments.of(EFFECTIVE_LOW_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
             Arguments.of(EFFECTIVE_HIGH_ENCOUNTER_PERIOD_XML, null, "2010-01-13T15:20:00+00:00"),
-            Arguments.of(EFFECTIVE_CENTER_NULL_FLAVOR_ENCOUNTER_PERIOD_XML, null, null),
+            Arguments.of(EFFECTIVE_CENTER_UNK_NULL_FLAVOR_ENCOUNTER_PERIOD_XML, null, null),
             Arguments.of(AVAILABILITY_TIME_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
-            Arguments.of(NO_ENCOUNTER_PERIOD_XML, "2012-06-15T14:20:00+00:00", null)
+            Arguments.of(NO_ENCOUNTER_PERIOD_XML, "2012-06-15T14:20:00+00:00", null),
+            Arguments.of(NULL_FLAVOR_EFFECTIVE_TIMES_XML, "2010-01-13T15:20:00+00:00", null)
         );
     }
 
@@ -396,9 +382,7 @@ public class EncounterMapperTest {
         );
     }
 
-    private void assertEncounter(Encounter encounter, String id, Boolean hasLocation, String authorId,
-        String participant2Id,
-        String startDate, String endDate) {
+    private void assertEncounter(Encounter encounter, String id, Boolean hasLocation, String startDate, String endDate) {
         assertThat(encounter.getId()).isEqualTo(id);
         assertThat(encounter.getMeta().getProfile().get(0).getValue()).isEqualTo(ENCOUNTER_META_PROFILE);
         assertThat(encounter.getIdentifierFirstRep().getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
@@ -407,7 +391,6 @@ public class EncounterMapperTest {
         assertThat(encounter.getSubject().getResource()).isEqualTo(patient);
         assertLocation(encounter, id, hasLocation);
         assertPeriod(encounter.getPeriod(), startDate, endDate);
-        assertParticipant(encounter.getParticipant(), authorId, participant2Id);
     }
 
     private void assertLocation(Encounter encounter, String id, boolean hasLocation) {
@@ -424,49 +407,19 @@ public class EncounterMapperTest {
         assertThat(period.getEndElement().getValueAsString()).isEqualTo(endDate);
     }
 
-    private void assertParticipant(List<EncounterParticipantComponent> participantList, String authorId, String participant2Id) {
-        if (participantList.size() > 0) {
-            participantList.forEach(participant -> {
-                var coding = participant.getTypeFirstRep().getCodingFirstRep();
-                if (coding.getCode().equals(PERFORMER_CODE)) {
-                    assertThat(coding.getDisplay().equals(PERFORMER_DISPLAY));
-                    assertThat(coding.getSystem().equals(PERFORMER_SYSTEM));
-                    assertThat(participant.getIndividual().getReference().equals(PRACTITIONER_REFERENCE_PREFIX + participant2Id));
-                } else if (coding.getCode().equals(RECORDER_CODE)) {
-                    assertThat(coding.getDisplay().equals(RECORDER_DISPLAY));
-                    assertThat(coding.getSystem().equals(RECORDER_SYSTEM));
-                    assertThat(participant.getIndividual().getReference().equals(PRACTITIONER_REFERENCE_PREFIX + authorId));
-                }
-            });
-        }
-    }
-
-    private void assertEntry(List<String> entryReferences) {
-        assertThat(entryReferences).contains("ProcedureRequest/procedure-request-id");
-        assertThat(entryReferences).contains("ReferralRequest/referral-request-id");
-        assertThat(entryReferences).contains("Condition/linkset-id");
-        assertThat(entryReferences).contains("Immunization/immunization-id");
-        assertThat(entryReferences).contains("DocumentReference/doc-ref-id");
-        assertThat(entryReferences).contains("MedicationStatement/authorise-id-MS");
-        assertThat(entryReferences).contains("MedicationRequest/authorise-id");
-        assertThat(entryReferences).contains("MedicationRequest/prescribe-id");
-        assertThat(entryReferences).contains("Observation/blood-pressure-compound-statement-id");
-        assertThat(entryReferences).contains("Observation/observation-comment-id");
-        assertThat(entryReferences).contains("AllergyIntolerance/allergy-observation-id");
-        assertThat(entryReferences).contains("Observation/uncategorised-observation-id");
-        assertThat(entryReferences).contains("DiagnosticReport/diagnostic-compound-id");
-        assertThat(entryReferences).contains("QuestionnaireResponse/questionnaire-response-id-QRSP");
-        assertThat(entryReferences).contains("Observation/questionnaire-response-id");
-        assertThat(entryReferences).contains("Observation/questionnaire-observation-statement-id");
-        assertThat(entryReferences).contains("Observation/questionnaire-narrative-statement-id");
-    }
-
     private void setUpCodeableConceptMock() {
         var codeableConcept = new CodeableConcept();
         var coding = new Coding();
         coding.setDisplay(CODING_DISPLAY);
         codeableConcept.addCoding(coding);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+        lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
+            @Override
+            public Boolean answer(InvocationOnMock invocation) throws Throwable {
+                String code = invocation.getArgument(0);
+                return code.equals("1664081000000114");
+            }
+        });
     }
 
     private ListResource getList() {

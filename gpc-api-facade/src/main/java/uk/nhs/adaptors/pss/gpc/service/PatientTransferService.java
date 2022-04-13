@@ -9,7 +9,6 @@ import static uk.nhs.adaptors.pss.gpc.util.fhir.ParametersUtils.getNhsNumberFrom
 
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -54,8 +53,10 @@ public class PatientTransferService {
         return null;
     }
 
-    public String getEmptyBundle() {
-        return fhirParser.encodeToJson(new Bundle());
+    public String getBundleResource() {
+        var conversationId = mdcService.getConversationId();
+        PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
+        return patientMigrationRequest.getBundleResource();
     }
 
     private TransferRequestMessage createTransferRequestMessage(String patientNhsNumber, Map<String, String> headers,

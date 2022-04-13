@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.mapper;
+package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class DiagnosticReportMapperTest {
@@ -35,7 +36,7 @@ public class DiagnosticReportMapperTest {
     private static final String NARRATIVE_STATEMENT_TEXT = "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT";
     private static final String COMPOUND_STATEMENT_CHILD_ID = "COMPOUND_STATEMENT_CHILD_ID";
     private static final String ENCOUNTER_ID = "EHR_COMPOSITION_ID_1";
-    private static final InstantType ISSUED_ELEMENT = parseToInstantType("20220308163805");
+    private static final InstantType ISSUED_ELEMENT = parseToInstantType("20100225154100");
     private static final Patient PATIENT = (Patient) new Patient().setId("PATIENT_TEST_ID");
 
     @SuppressWarnings("RegexpSingleline")
@@ -97,7 +98,7 @@ public class DiagnosticReportMapperTest {
     public void testMappingChildObservationComments() {
         RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_observations.xml");
         List<Observation> observationComments = createObservationCommentList();
-        diagnosticReportMapper.mapChildObservationComments(ehrExtract, observationComments);
+        diagnosticReportMapper.handleChildObservationComments(ehrExtract, observationComments);
         assertThat(observationComments.get(0).hasEffective()).isFalse();
         assertThat(observationComments.get(0).getComment()).isEqualTo(NARRATIVE_STATEMENT_TEXT);
     }

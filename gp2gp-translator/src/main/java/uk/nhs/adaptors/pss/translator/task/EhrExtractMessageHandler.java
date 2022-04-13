@@ -63,8 +63,9 @@ public class EhrExtractMessageHandler {
 
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
+
         try {
-            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLoosingPracticeOdsCode());
+            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
             attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
             migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
                 conversationId,

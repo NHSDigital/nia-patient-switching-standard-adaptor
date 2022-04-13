@@ -37,6 +37,7 @@
                                           displayName="NHS prescription"/>
                                     <statusCode code="ACTIVE"/>
                                     <effectiveTime>
+                                        <high value="20060427"/>
                                         <center nullFlavor="NI"/>
                                     </effectiveTime>
                                     <availabilityTime value="20100114"/>

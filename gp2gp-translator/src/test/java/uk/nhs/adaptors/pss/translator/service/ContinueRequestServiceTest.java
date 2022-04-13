@@ -20,7 +20,7 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 public class ContinueRequestServiceTest {
     private static final String NHS_NUMBER = "9446363101";
     private static final String CONVERSATION_ID = "6E242658-3D8E-11E3-A7DC-172BDA00FA67";
-    private static final String LOOSING_ODS_CODE = "B83002"; //to odds code
+    private static final String LOSING_ODS_CODE = "B83002"; //to odds code
     private static final String WINNING_ODS_CODE = "C81007"; //from odds code
     private static final String TO_ASID = "715373337545";
     private static final String FROM_ASID = "276827251543";
@@ -46,7 +46,7 @@ public class ContinueRequestServiceTest {
                 NHS_NUMBER,
                 FROM_ASID,
                 TO_ASID,
-                LOOSING_ODS_CODE,
+                LOSING_ODS_CODE,
                 WINNING_ODS_CODE,
                 MCCI_IN010000UK13_CREATIONTIME
         );

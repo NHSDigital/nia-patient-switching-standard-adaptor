@@ -1,0 +1,33 @@
+{
+    "resourceType": "Bundle",
+    "id": "428cd052-d2c5-44b2-9488-9f867387f1a3",
+    "meta": {
+        "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1"
+        ]
+    },
+    "type": "collection",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "id": "c826aaa3-0f32-4a9c-bc82-86a79c56c894",
+                "meta": {
+                    "versionId": "1521806400000",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.nhs.uk/Id/nhs-number",
+                        "value": "8549655278"
+                    }
+                ],
+                "managingOrganization": {
+                    "reference": "Organization/94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG"
+                }
+            }
+        }
+    ]
+}

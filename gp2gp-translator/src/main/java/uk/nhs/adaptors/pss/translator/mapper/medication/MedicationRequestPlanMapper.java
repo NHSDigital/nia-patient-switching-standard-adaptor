@@ -56,6 +56,7 @@ public class MedicationRequestPlanMapper {
 
     private static final String REPEATS_ISSUED_URL = "numberOfRepeatPrescriptionsIssued";
     private static final String REPEATS_ALLOWED_URL = "numberOfRepeatPrescriptionsAllowed";
+    private static final String REPEATS_EXPIRY_DATE_URL = "authorisationExpiryDate";
     private static final String STATUS_CHANGE_DATE_URL = "statusChangeDate";
     private static final String STATUS_REASON = "statusReason";
 
@@ -84,6 +85,7 @@ public class MedicationRequestPlanMapper {
             List<Extension> repeatInformationExtensions = new ArrayList<>();
             extractSupplyAuthoriseRepeatInformation(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
             extractRepeatInformationIssued(ehrExtract, supplyAuthorise, ehrSupplyAuthoriseId).ifPresent(repeatInformationExtensions::add);
+            extractAuthorisationExpiryDate(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
 
             buildCondensedExtensions(REPEAT_INFORMATION_URL, repeatInformationExtensions)
                 .ifPresent(medicationRequest::addExtension);
@@ -163,6 +165,16 @@ public class MedicationRequestPlanMapper {
 
             return Optional.of(
                 new Extension(REPEATS_ISSUED_URL, new UnsignedIntType(repeatCount)));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<Extension> extractAuthorisationExpiryDate(RCMRMT030101UK04Authorise supplyAuthorise) {
+        if (supplyAuthorise.hasEffectiveTime()) {
+            if (supplyAuthorise.getEffectiveTime().hasHigh()) {
+                return Optional.of(new Extension(
+                    REPEATS_EXPIRY_DATE_URL, DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue())));
+            }
         }
         return Optional.empty();
     }

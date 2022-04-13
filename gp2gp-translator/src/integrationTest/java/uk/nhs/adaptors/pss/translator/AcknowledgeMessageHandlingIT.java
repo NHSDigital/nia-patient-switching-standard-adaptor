@@ -39,7 +39,7 @@ public class AcknowledgeMessageHandlingIT {
     private static final String PAYLOAD_PART_PATH = "/xml/MCCI_IN010000UK13/payload_part.xml";
     private static final String TYPE_CODE_PLACEHOLDER = "{{typeCode}}";
     private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
-    private static final String LOOSING_ODS_CODE = "K547";
+    private static final String LOSING_ODS_CODE = "K547";
     private static final String WINNING_ODS_CODE = "ABC";
 
     @Autowired
@@ -60,7 +60,7 @@ public class AcknowledgeMessageHandlingIT {
     @BeforeEach
     public void setUp() {
         conversationId = generateConversationId();
-        patientMigrationRequestDao.addNewRequest(generatePatientNhsNumber(), conversationId, LOOSING_ODS_CODE, WINNING_ODS_CODE);
+        patientMigrationRequestDao.addNewRequest(generatePatientNhsNumber(), conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AA");
 
         // verify if correct status is set in the DB
-        await().until(() -> isEhrExtractTranslated(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AE");
 
         // verify if correct status is set in the DB
-        await().until(() -> isEhrExtractTranslated(EHR_EXTRACT_REQUEST_NEGATIVE_ACK));
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK));
     }
 
     private String generatePatientNhsNumber() {
@@ -101,9 +101,9 @@ public class AcknowledgeMessageHandlingIT {
         return inboundMessage;
     }
 
-    private boolean isEhrExtractTranslated(MigrationStatus expectedStatus) {
+    private boolean isCorrectStatusSet(MigrationStatus expectedStatus) {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        return expectedStatus.equals(migrationStatusLog.getMigrationStatus());
+        return migrationStatusLog != null && expectedStatus.equals(migrationStatusLog.getMigrationStatus());
     }
 
     @SneakyThrows

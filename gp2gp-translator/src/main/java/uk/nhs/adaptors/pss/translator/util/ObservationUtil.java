@@ -88,12 +88,12 @@ public class ObservationUtil {
                 if (referenceInterpretationRange.getValue() != null) {
                     if (referenceInterpretationRange.getValue().getLow() != null) {
                         referenceRangeComponent.setLow(getSimpleQuantityFromQuantity(quantity,
-                            Long.parseLong(referenceRange.getReferenceInterpretationRange().getValue().getLow().getValue())));
+                            referenceRange.getReferenceInterpretationRange().getValue().getLow().getValue()));
                     }
 
                     if (referenceInterpretationRange.getValue().getHigh() != null) {
                         referenceRangeComponent.setHigh(getSimpleQuantityFromQuantity(quantity,
-                            Long.parseLong(referenceRange.getReferenceInterpretationRange().getValue().getHigh().getValue())));
+                            referenceRange.getReferenceInterpretationRange().getValue().getHigh().getValue()));
                     }
                 }
             }
@@ -176,13 +176,22 @@ public class ObservationUtil {
         return referenceInterpretationRange != null && referenceInterpretationRange.getValue() != null;
     }
 
-    private static SimpleQuantity getSimpleQuantityFromQuantity(Quantity quantity, long newValue) {
-        return (SimpleQuantity) new SimpleQuantity()
-            .setValue(newValue)
+    private static SimpleQuantity getSimpleQuantityFromQuantity(Quantity quantity, String newValueString) {
+        var simpleQuantity = new SimpleQuantity();
+        buildValue(simpleQuantity, newValueString);
+        return (SimpleQuantity) simpleQuantity
             .setUnit(quantity.getUnit())
             .setCode(quantity.getCode())
             .setSystem(quantity.getSystem())
             .setComparator(quantity.getComparator());
+    }
+
+    private static void buildValue(SimpleQuantity simpleQuantity, String newValueString) {
+        if (newValueString.contains(".")) {
+            simpleQuantity.setValue(Double.parseDouble(newValueString));
+        } else {
+            simpleQuantity.setValue(Long.parseLong(newValueString));
+        }
     }
 
     private static boolean authorHasValidTimeValue(RCMRMT030101UK04Author author) {

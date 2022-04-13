@@ -63,7 +63,7 @@ public class EhrExtractMessageHandlerTest {
     private static final String CONVERSATION_ID = randomUUID().toString();
     private static final String INBOUND_MESSAGE_STRING = "{hi i'm inbound message}";
     private static final String BUNDLE_STRING = "{bundle}";
-    private static final String LOOSING_ODE_CODE = "G543";
+    private static final String LOSING_ODE_CODE = "G543";
     private static final String WINNING_ODE_CODE = "B943";
     private static final String TEST_TO_ODS = "M85019";
     private static final String TEST_MESSAGE_REF = "31FA3430-6E88-11EA-9384-E83935108FD5";
@@ -121,6 +121,8 @@ public class EhrExtractMessageHandlerTest {
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID);
+        verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
+            CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
     }
 
     @SneakyThrows
@@ -129,11 +131,12 @@ public class EhrExtractMessageHandlerTest {
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+
         inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
-                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                .losingPracticeOdsCode(LOSING_ODE_CODE)
                 .winningPracticeOdsCode(WINNING_ODE_CODE)
                 .build();
 
@@ -144,13 +147,17 @@ public class EhrExtractMessageHandlerTest {
                     ZoneId.systemDefault()))
                 .build();
 
-        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
-        when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
-        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOOSING_ODE_CODE))).thenReturn(bundle);
+        // imported from main on merge
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
         when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
+        // <-
+
+        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
+
     }
 
     @SneakyThrows
@@ -199,7 +206,7 @@ public class EhrExtractMessageHandlerTest {
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
-                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                .losingPracticeOdsCode(LOSING_ODE_CODE)
                 .winningPracticeOdsCode(WINNING_ODE_CODE)
                 .build();
 
@@ -213,7 +220,7 @@ public class EhrExtractMessageHandlerTest {
         inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
 
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOOSING_ODE_CODE))).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
@@ -271,11 +278,11 @@ public class EhrExtractMessageHandlerTest {
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
-                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                .losingPracticeOdsCode(LOSING_ODE_CODE)
                 .winningPracticeOdsCode(WINNING_ODE_CODE)
                 .build();
 
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOOSING_ODE_CODE))).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
 
         doThrow(new InlineAttachmentProcessingException("Test Exception"))
@@ -293,7 +300,7 @@ public class EhrExtractMessageHandlerTest {
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
-                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                .losingPracticeOdsCode(LOSING_ODE_CODE)
                 .winningPracticeOdsCode(WINNING_ODE_CODE)
                 .build();
 
@@ -315,11 +322,11 @@ public class EhrExtractMessageHandlerTest {
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
-                .loosingPracticeOdsCode(LOOSING_ODE_CODE)
+                .losingPracticeOdsCode(LOSING_ODE_CODE)
                 .winningPracticeOdsCode(WINNING_ODE_CODE)
                 .build();
 
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOOSING_ODE_CODE))).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
 
         doThrow(new DataFormatException()).when(fhirParser).encodeToJson(bundle);

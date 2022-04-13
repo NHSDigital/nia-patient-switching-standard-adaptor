@@ -1,10 +1,11 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 
 public class ResourceFilterUtil {
     private static final List<String> ALLERGY_CODES = List.of("SN53.00", "14L..00");
@@ -19,12 +20,6 @@ public class ResourceFilterUtil {
         return narrativeStatement.getReference()
             .stream()
             .anyMatch(reference -> reference.getReferredToExternalDocument() != null);
-    }
-
-    public static boolean isImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
-        // TODO: Implement filtering with snomed DB (NIAD-1947)
-        return observationStatement != null && observationStatement.hasCode()
-            && IMMUNIZATION_SNOMED_CODE.equals(observationStatement.getCode().getCodeSystem());
     }
 
     public static boolean isBloodPressure(RCMRMT030101UK04CompoundStatement compoundStatement) {
@@ -46,6 +41,18 @@ public class ResourceFilterUtil {
             && hasCode(compoundStatement)
             && compoundStatement.getClassCode().stream().anyMatch(CLUSTER_VALUE::equals)
             && PATHOLOGY_CODE.equals(compoundStatement.getCode().getCode());
+    }
+
+    public static boolean hasDiagnosticReportParent(RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
+            .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
+            .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
+            .filter(ResourceFilterUtil::isDiagnosticReport)
+            .flatMap(compoundStatement1 -> compoundStatement1.getComponent().stream())
+            .flatMap(CompoundStatementResourceExtractors::extractAllChildCompoundStatements)
+            .filter(Objects::nonNull)
+            .anyMatch(compoundStatement::equals);
     }
 
     public static boolean isSpecimen(RCMRMT030101UK04CompoundStatement compoundStatement) {

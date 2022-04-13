@@ -16,6 +16,12 @@ services:
       - PS_AMQP_PASSWORD
       - PS_AMQP_MAX_REDELIVERIES
       - PS_LOGGING_LEVEL
+      - SSL_ENABLED
+      - KEY_STORE
+      - KEY_STORE_PASSWORD
+      - KEY_PASSWORD
+      - TRUST_STORE
+      - TRUST_STORE_PASSWORD
     networks:
       - ps-network
 
@@ -71,6 +77,18 @@ services:
     build:
       context: ../
       dockerfile: ./docker/snomed-schema/Dockerfile
+    environment:
+      - PS_DB_OWNER_NAME
+      - POSTGRES_PASSWORD
+      - PS_DB_HOST
+      - PS_DB_PORT
+    networks:
+      - ps-network
+
+  snomed_immunization:
+    build:
+      context: ../
+      dockerfile: ./docker/snomed-immunization/Dockerfile
     environment:
       - PS_DB_OWNER_NAME
       - POSTGRES_PASSWORD

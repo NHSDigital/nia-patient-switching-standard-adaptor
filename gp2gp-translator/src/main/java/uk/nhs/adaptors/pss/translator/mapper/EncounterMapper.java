@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil.extractChildReferencesFromCompoundStatement;
-import static uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil.extractChildReferencesFromEhrComposition;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -45,6 +43,7 @@ import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -68,6 +67,7 @@ public class EncounterMapper {
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final ConsultationListMapper consultationListMapper;
+    private final ResourceReferenceUtil resourceReferenceUtil;
 
     public Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
         String practiseCode) {
@@ -108,7 +108,7 @@ public class EncounterMapper {
         var topic = consultationListMapper.mapToTopic(consultation, null);
 
         List<Reference> entryReferences = new ArrayList<>();
-        extractChildReferencesFromEhrComposition(ehrComposition, entryReferences);
+        resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, entryReferences);
         entryReferences.forEach(reference -> addEntry(topic, reference));
 
         consultation.addEntry(new ListEntryComponent(new Reference(topic)));
@@ -161,7 +161,7 @@ public class EncounterMapper {
             var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement);
 
             List<Reference> entryReferences = new ArrayList<>();
-            extractChildReferencesFromCompoundStatement(categoryCompoundStatement, entryReferences);
+            resourceReferenceUtil.extractChildReferencesFromCompoundStatement(categoryCompoundStatement, entryReferences);
             entryReferences.forEach(reference -> addEntry(category, reference));
 
             topic.addEntry(new ListEntryComponent(new Reference(category)));
@@ -255,7 +255,9 @@ public class EncounterMapper {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getLow().getValue()));
         } else if (!effectiveTime.hasLow() && effectiveTime.hasHigh()) {
             return period.setEndElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()));
-        } else if (CsNullFlavor.UNK.value().equals(effectiveTime.getNullFlavor().value())) {
+        } else if (effectiveTime.getCenter() != null
+            && effectiveTime.getCenter().hasNullFlavor()
+            && CsNullFlavor.UNK.value().equals(effectiveTime.getCenter().getNullFlavor().value())) {
             return null;
         } else if (availabilityTime.hasValue()) {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()));
