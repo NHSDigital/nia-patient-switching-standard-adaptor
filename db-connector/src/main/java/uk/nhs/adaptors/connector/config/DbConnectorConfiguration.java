@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
 import uk.nhs.adaptors.connector.dao.ImmunizationSnomedCTDao;
+import uk.nhs.adaptors.connector.dao.MessagePersistDurationDao;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.dao.SnomedCTDao;
@@ -77,5 +78,10 @@ public class DbConnectorConfiguration {
     @Bean
     public SnomedCTDao snomedCTDao(Jdbi jdbi) {
         return jdbi.onDemand(SnomedCTDao.class);
+    }
+
+    @Bean
+    public MessagePersistDurationDao messagePersistDurationDao(Jdbi jdbi) {
+        return jdbi.onDemand(MessagePersistDurationDao.class);
     }
 }

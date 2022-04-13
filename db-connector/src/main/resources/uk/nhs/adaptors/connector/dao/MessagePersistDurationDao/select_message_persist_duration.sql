@@ -1,0 +1,1 @@
+SELECT * FROM message_persist_duration WHERE id = :messageId FETCH FIRST ROW ONLY;
