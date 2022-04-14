@@ -14,11 +14,14 @@
             <column name="mid" type="varchar(255)">
                 <constraints primaryKey="true" primaryKeyName="PK_patient_attachment_log" nullable="false"/>
             </column>
+            <column name="filename" type="varchar(255)">
+                <constraints primaryKey="true" primaryKeyName="PK_patient_attachment_log" nullable="false"/>
+            </column>
             <column name="parent_mid" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
-            <column name="filename" type="varchar(255)">
-                <constraints primaryKey="true" primaryKeyName="PK_patient_attachment_log" nullable="false"/>
+            <column name="patient_migration_req_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_patient_migration_req_id" referencedTableName="patient_migration_request" referencedColumnNames="id"/>
             </column>
             <column name="content_type" type="varchar(255)">
                 <constraints nullable="true"/>
@@ -40,9 +43,6 @@
             </column>
             <column name="length_num" type="int">
                 <constraints nullable="true"/>
-            </column>
-            <column name="patient_migration_req_id" type="int">
-                <constraints nullable="false" foreignKeyName="fk_patient_migration_req_id" referencedTableName="patient_migration_request" referencedColumnNames="id"/>
             </column>
             <column name="order_num" type="int" defaultValue="0">
                 <constraints nullable="false" />
