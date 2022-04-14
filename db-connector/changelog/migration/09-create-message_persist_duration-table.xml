@@ -18,7 +18,7 @@
             <column name="message_type" type="varchar(255)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="message_type_unique_constraint"/>
             </column>
-            <column name="persist_duration" type="int">
+            <column name="persist_duration" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="calls_since_update" type="int">
