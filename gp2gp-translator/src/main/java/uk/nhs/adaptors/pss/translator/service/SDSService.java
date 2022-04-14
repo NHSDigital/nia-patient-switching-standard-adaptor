@@ -10,9 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class SDSService {
     @SuppressWarnings("checkstyle:MagicNumber")
-    public Duration getPersistDurationFor(String messageType, String odsCode) {
+    public Duration getPersistDurationFor(String messageType) {
         //TODO: query SDS
-        LOGGER.debug("Mocking SDS service for persist duration for odscode [{}] and  messageType [{}]", odsCode, messageType);
+        LOGGER.debug("Calling SDS service for persist messageType [{}]", messageType);
         return Duration.ofSeconds(2000);
     }
 }
