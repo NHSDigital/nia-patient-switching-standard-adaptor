@@ -17,4 +17,8 @@ public interface MessagePersistDurationDao {
     @SqlQuery("select_message_persist_duration")
     @UseClasspathSqlLocator
     MessagePersistDuration getMessagePersistDuration(@Bind("messageType") String messageType);
+
+    @SqlQuery("exists_message_persist_duration")
+    @UseClasspathSqlLocator
+    boolean messageTypeExists(@Bind("messageType") String messageType);
 }
