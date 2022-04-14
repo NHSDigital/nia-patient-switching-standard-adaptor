@@ -18,8 +18,8 @@ public class PatientAttachmentLogService {
     /**
      *
      * @param attachmentLogInput
-     *
-     * Requires a minimum of mid, filename and migration id
+     * @description
+     * Requires a minimum of mid, filename and patient request id
      *
      */
     public void addAttachmentLog(
@@ -47,7 +47,7 @@ public class PatientAttachmentLogService {
     /**
      *
      * @param mid
-     * @param conversation_id
+     * @param conversationId
      * @return PatientAttachmentLog
      *
      * @description
@@ -55,26 +55,28 @@ public class PatientAttachmentLogService {
      */
     public PatientAttachmentLog findAttachmentLog(
         String mid,
-        String conversation_id
+        String conversationId
     ) {
-        return patientAttachmentLogDao.findPatientAttachment(mid, conversation_id);
+        return patientAttachmentLogDao.findPatientAttachment(mid, conversationId);
 
     }
 
     /**
      *
      * @param attachmentLogInput
-     * @description
+     * @param conversation_id
      *
-     * Uses an mid and filename as a composite primary key to update fields
+     * @description
+     * Update an attachment log with using mid and conversation id
      */
     public void updateAttachmentLog(
-        PatientAttachmentLog attachmentLogInput
+        PatientAttachmentLog attachmentLogInput,
+        String conversation_id
     ) {
         var mid = attachmentLogInput.getMid();
         patientAttachmentLogDao.updateAttachmentLog(
             mid,
-            attachmentLogInput.getFilename(),
+            conversation_id,
             attachmentLogInput.getParent_mid(),
             attachmentLogInput.getContent_type(),
             attachmentLogInput.getCompressed(),
@@ -89,12 +91,14 @@ public class PatientAttachmentLogService {
     }
 
     public void deleteAttachmentLog(
-        String file_name
+        String mid,
+        String conversation_id
     ) {
         patientAttachmentLogDao.deleteAttachmentLog(
-            file_name
+            mid,
+            conversation_id
         );
-        LOGGER.debug("Deleted flag set on migration log filename=[{}] ", file_name);
+        LOGGER.debug("Deleted flag set on migration log mid=[{}] ", mid);
 
     }
 }

@@ -8,4 +8,4 @@ UPDATE patient_attachment_log SET
     uploaded = COALESCE(:uploaded, uploaded),
     length_num = COALESCE(:length_num, length_num),
     order_num = COALESCE(:order_num, order_num)
-WHERE mid = :mid AND filename = :filename;
+WHERE mid = :mid;

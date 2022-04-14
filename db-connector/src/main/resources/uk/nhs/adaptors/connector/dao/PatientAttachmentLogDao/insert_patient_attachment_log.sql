@@ -17,14 +17,14 @@ VALUES (
         :filename,
         :parent_mid,
         :patient_migration_req_id,
-        :content_type
+        :content_type,
         :compressed,
         :large_attachment,
         :base64,
         :skeleton,
-        COALESCE(:uploaded, DEFAULT),
+        COALESCE(:uploaded, false),
         COALESCE(:order_num, 0),
-        :length_num,
+        :length_num
         );
 
 

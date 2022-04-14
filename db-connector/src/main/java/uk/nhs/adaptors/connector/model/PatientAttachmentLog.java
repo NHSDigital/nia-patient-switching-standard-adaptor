@@ -12,7 +12,6 @@ public class PatientAttachmentLog {
     @NonNull
     private String mid;
     private String parent_mid;
-    @NonNull
     private String filename;
     private String content_type;
     private Boolean compressed;
@@ -21,7 +20,6 @@ public class PatientAttachmentLog {
     private Boolean skeleton;
     private Boolean uploaded;
     private Integer length_num;
-    @NonNull
     private Integer patient_migration_req_id;
     private Integer order_num;
 }

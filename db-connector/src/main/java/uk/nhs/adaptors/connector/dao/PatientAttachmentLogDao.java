@@ -29,7 +29,8 @@ public interface PatientAttachmentLogDao {
     @SqlUpdate("delete_patient_attachment_log")
     @UseClasspathSqlLocator
     void deleteAttachmentLog(
-        @Bind() String filename
+        @Bind() String mid,
+        @Bind() String conversation_id
     );
 
     @SqlQuery("select_patient_attachment_log")
@@ -40,7 +41,7 @@ public interface PatientAttachmentLogDao {
     @UseClasspathSqlLocator
     void updateAttachmentLog(
         @Bind() String mid,
-        @Bind() String filename,
+        @Bind() String conversation_id,
         @Bind() String parent_mid,
         @Bind() String content_type,
         @Bind() Boolean compressed,
