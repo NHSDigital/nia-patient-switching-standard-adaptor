@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
@@ -78,67 +79,73 @@ public class BundleMapperService {
     private final SpecimenMapper specimenMapper;
     private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
-    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage, String losingPracticeOdsCode) {
-        Bundle bundle = generator.generateBundle();
-        final RCMRMT030101UK04EhrExtract ehrExtract = getEhrExtract(xmlMessage);
-        final RCMRMT030101UK04EhrFolder ehrFolder = getEhrFolder(xmlMessage);
+    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage, String losingPracticeOdsCode) throws BundleMappingException {
 
-        var agents = mapAgentDirectories(ehrFolder);
-        var patient = mapPatient(getEhrExtract(xmlMessage), getPatientOrganization(agents));
-        addEntry(bundle, patient);
+        try {
 
-        Organization authorOrg = organizationMapper.mapAuthorOrganization(losingPracticeOdsCode);
-        addEntry(bundle, authorOrg);
+            Bundle bundle = generator.generateBundle();
+            final RCMRMT030101UK04EhrExtract ehrExtract = getEhrExtract(xmlMessage);
+            final RCMRMT030101UK04EhrFolder ehrFolder = getEhrFolder(xmlMessage);
 
-        addEntries(bundle, agents);
+            var agents = mapAgentDirectories(ehrFolder);
+            var patient = mapPatient(getEhrExtract(xmlMessage), getPatientOrganization(agents));
+            addEntry(bundle, patient);
 
-        var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, losingPracticeOdsCode);
-        var encounters = handleMappedEncounterResources(mappedEncounterEhrCompositions, bundle);
+            Organization authorOrg = organizationMapper.mapAuthorOrganization(losingPracticeOdsCode);
+            addEntry(bundle, authorOrg);
 
-        var locations = mapLocations(ehrFolder, losingPracticeOdsCode);
-        addEntries(bundle, locations);
+            addEntries(bundle, agents);
 
-        var procedureRequests = procedureRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-        addEntries(bundle, procedureRequests);
+            var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, losingPracticeOdsCode);
+            var encounters = handleMappedEncounterResources(mappedEncounterEhrCompositions, bundle);
 
-        var referralRequests = referralRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-        addEntries(bundle, referralRequests);
+            var locations = mapLocations(ehrFolder, losingPracticeOdsCode);
+            addEntries(bundle, locations);
 
-        var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-        addEntries(bundle, medicationResources);
+            var procedureRequests = procedureRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
+            addEntries(bundle, procedureRequests);
 
-        var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-        addEntries(bundle, bloodPressures);
+            var referralRequests = referralRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
+            addEntries(bundle, referralRequests);
 
-        var observations = observationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-        addEntries(bundle, observations);
+            var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
+            addEntries(bundle, medicationResources);
 
-        var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-        addEntries(bundle, immunizations);
+            var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
+            addEntries(bundle, bloodPressures);
 
-        var conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-        addEntries(bundle, conditions);
+            var observations = observationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
+            addEntries(bundle, observations);
 
-        var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-        addEntries(bundle, observationComments);
+            var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
+            addEntries(bundle, immunizations);
 
-        var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg);
-        addEntries(bundle, documentReferences);
+            var conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
+            addEntries(bundle, conditions);
 
-        var templates = templateMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-        addEntries(bundle, templates);
+            var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
+            addEntries(bundle, observationComments);
 
-        var allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-        addEntries(bundle, allergyIntolerances);
+            var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg);
+            addEntries(bundle, documentReferences);
 
-        mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, losingPracticeOdsCode);
+            var templates = templateMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
+            addEntries(bundle, templates);
 
-        conditionMapper.addReferences(bundle, conditions, ehrExtract);
-        unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
+            var allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
+            addEntries(bundle, allergyIntolerances);
 
-        LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
+            mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, losingPracticeOdsCode);
 
-        return bundle;
+            conditionMapper.addReferences(bundle, conditions, ehrExtract);
+            unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
+
+            LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
+
+            return bundle;
+        } catch (Exception e) {
+            throw new BundleMappingException(e.getMessage());
+        }
     }
 
     private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
@@ -178,12 +185,12 @@ public class BundleMapperService {
     }
 
     private List<Location> mapLocations(RCMRMT030101UK04EhrFolder ehrFolder, String losingPracticeOdsCode) {
+
         return ehrFolder.getComponent().stream()
             .map(RCMRMT030101UK04Component3::getEhrComposition)
             .filter(ehrComposition -> ehrComposition.getLocation() != null)
             .map(ehrComposition -> locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(),
-                losingPracticeOdsCode))
-            .toList();
+                losingPracticeOdsCode)).toList();
     }
 
     private Patient mapPatient(RCMRMT030101UK04EhrExtract ehrExtract, Organization organization) {
