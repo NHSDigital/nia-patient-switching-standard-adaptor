@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.connector.service;
 
+import java.time.Duration;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +14,11 @@ import uk.nhs.adaptors.connector.model.MessagePersistDuration;
 public class MessagePersistDurationService {
     private final MessagePersistDurationDao messagePersistDurationDao;
 
-    public void addMessagePersistDuration(String messageType, int persistDuration, int callsSinceUpdate) {
-        messagePersistDurationDao.saveMessagePersistDuration(messageType, persistDuration, callsSinceUpdate);
+    public void addMessagePersistDuration(String messageType, Duration persistDuration, int callsSinceUpdate) {
+        messagePersistDurationDao.saveMessagePersistDuration(messageType, persistDuration.toSeconds(), callsSinceUpdate);
     }
 
     public MessagePersistDuration getMessagePersistDuration(String messageType) {
-        int messageId = messagePersistDurationDao.getMessagePersistDurationId(messageType);
-        System.out.println(messageId);
-        return messagePersistDurationDao.getMessagePersistDuration(messageId);
+        return messagePersistDurationDao.getMessagePersistDuration(messageType);
     }
 }

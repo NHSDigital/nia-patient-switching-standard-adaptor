@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.task.scheduled;
 
+import java.time.Duration;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -24,7 +26,7 @@ public class EHRTimeoutHandler {
         LOGGER.info("running scheduled task");
 
         // save or update
-        messagePersistDurationService.addMessagePersistDuration("TestMessage", 2000, 0);
+        messagePersistDurationService.addMessagePersistDuration("TestMessage", Duration.ofSeconds(2000), 0);
 
         // get from database
         MessagePersistDuration returnedMPD = messagePersistDurationService.getMessagePersistDuration("TestMessage");

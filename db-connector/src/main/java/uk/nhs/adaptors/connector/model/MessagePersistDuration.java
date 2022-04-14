@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.connector.model;
 
+import java.time.Duration;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +12,6 @@ import lombok.Setter;
 public class MessagePersistDuration {
     private int id;
     private String messageType;
-    private int persistDuration;
+    private Duration persistDuration;
     private int callsSinceUpdate;
 }

@@ -11,14 +11,10 @@ public interface MessagePersistDurationDao {
 
     @SqlUpdate("save_message_persist_duration")
     @UseClasspathSqlLocator
-    void saveMessagePersistDuration(@Bind("messageType") String messageType, @Bind("persistDuration") int persistDuration,
+    void saveMessagePersistDuration(@Bind("messageType") String messageType, @Bind("persistDuration") long persistDuration,
         @Bind("callsSinceUpdate") int callsSinceUpdate);
 
     @SqlQuery("select_message_persist_duration")
     @UseClasspathSqlLocator
-    MessagePersistDuration getMessagePersistDuration(@Bind("messageId") int messageId);
-
-    @SqlQuery("select_message_persist_duration_id")
-    @UseClasspathSqlLocator
-    int getMessagePersistDurationId(@Bind("messageType") String messageType);
+    MessagePersistDuration getMessagePersistDuration(@Bind("messageType") String messageType);
 }
