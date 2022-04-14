@@ -2,6 +2,7 @@ package uk.nhs.adaptors.connector.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
@@ -17,7 +18,7 @@ public class MessagePersistDurationRowMapper implements RowMapper<MessagePersist
         return MessagePersistDuration.builder()
             .id(rs.getInt("id"))
             .messageType(rs.getString("message_type"))
-            .persistDuration(rs.getInt("persist_duration"))
+            .persistDuration(Duration.ofSeconds(rs.getInt("persist_duration")))
             .callsSinceUpdate(rs.getInt("calls_since_update"))
             .build();
     }
