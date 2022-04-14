@@ -18,7 +18,6 @@ import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 @Slf4j
 @Component
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-// TODO: This service is related to the large messaging epic and can be used during implementation of NIAD-2045
 public class SendContinueRequestHandler {
     private final MhsRequestBuilder requestBuilder;
     private final MhsClientService mhsClientService;
@@ -26,21 +25,28 @@ public class SendContinueRequestHandler {
     private final ContinueRequestService continueRequestService;
 
     @SneakyThrows
-    public boolean prepareAndSendRequest(ContinueRequestData data) {
-        String continueRequest = continueRequestService.buildContinueRequest(data.getFromAsid(), data.getToAsid());
+    public void prepareAndSendRequest(ContinueRequestData data) {
+        String continueRequest = continueRequestService.buildContinueRequest(
+                data.getConversationId(),
+                data.getNhsNumber(),
+                data.getFromAsid(),
+                data.getToAsid(),
+                data.getFromOdsCode(),
+                data.getToOdsCode(),
+                data.getMcciIN010000UK13creationTime()
+        );
         var outboundMessage = new OutboundMessage(continueRequest);
         var request = requestBuilder.buildSendContinueRequest(data.getConversationId(), data.getToOdsCode(), outboundMessage);
 
         try {
             mhsClientService.send(request);
-        } catch (WebClientResponseException wcre) {
-            LOGGER.error("Received an ERROR response from MHS: [{}]", wcre.getMessage());
-            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, data.getNhsNumber());
-            return false;
+        } catch (WebClientResponseException webClientResponseException) {
+            LOGGER.error("Received an ERROR response from MHS: [{}]", webClientResponseException.getMessage());
+            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getConversationId());
+            throw webClientResponseException;
         }
 
         LOGGER.info("Got response from MHS - 202 Accepted");
-        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getNhsNumber());
-        return true;
+        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, data.getConversationId());
     }
 }

@@ -32,3 +32,11 @@ amqp:
     username: ${MHS_AMQP_USERNAME:}
     password: ${MHS_AMQP_PASSWORD:}
     maxRedeliveries: ${MHS_AMQP_MAX_REDELIVERIES:3}
+
+storage:
+  type: ${STORAGE_TYPE:LocalMock}
+  region: ${STORAGE_REGION:}
+  containerName: ${STORAGE_CONTAINER_NAME:}
+  accountReference: ${STORAGE_REFERENCE:}
+  accountSecret: ${STORAGE_SECRET:}
+  retryLimit: ${STORAGE_RETRY_Limit:3}

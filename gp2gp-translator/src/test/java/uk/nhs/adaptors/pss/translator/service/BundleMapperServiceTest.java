@@ -33,6 +33,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
 import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
@@ -135,7 +136,7 @@ public class BundleMapperServiceTest {
     }
 
     @Test
-    public void testAllMappersHaveBeenUsed() {
+    public void testAllMappersHaveBeenUsed() throws BundleMappingException {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
         Bundle bundle = bundleMapperService.mapToBundle(xml, LOSING_ODS_CODE);
 

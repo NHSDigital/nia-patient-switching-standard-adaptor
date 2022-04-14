@@ -40,7 +40,8 @@ public class PatientTransferService {
 
         if (patientMigrationRequest == null) {
             var patientNhsNumber = getNhsNumberFromParameters(parameters).get().getValue();
-            patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, headers.get(TO_ODS));
+            patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, headers.get(TO_ODS), headers.get(FROM_ODS));
+
             int addedId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
             migrationStatusLogDao.addMigrationStatusLog(REQUEST_RECEIVED, dateUtils.getCurrentOffsetDateTime(), addedId);
 

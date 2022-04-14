@@ -53,6 +53,8 @@ public class EhrExtractHandlingIT {
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
     private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
     private static final String LOSING_ODS_CODE = "D5445";
+    private static final String WINNING_ODS_CODE = "ABC";
+
     private static final List<String> STATIC_IGNORED_JSON_PATHS = List.of(
         "id",
         "entry[0].resource.id",
@@ -101,7 +103,7 @@ public class EhrExtractHandlingIT {
     }
 
     private void startPatientMigrationJourney() {
-        patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, LOSING_ODS_CODE);
+        patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId);
     }
 
