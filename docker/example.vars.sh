@@ -27,5 +27,9 @@ export PS_AMQP_PASSWORD="admin";
 export MHS_AMQP_USERNAME="admin";
 export MHS_AMQP_PASSWORD="admin";
 
+export SSL_ENABLED=false
+export KEY_STORE=/certs/keystore.jks
+export TRUST_STORE=/certs/truststore.jks
+
 #change path for snomedFile fath
 #export SNOMED_CT_TERMINOLOGY_FILE="/mnt/c/Users/yourUserName/yourPath/uk_sct2cl_32.10.0_20220216000001Z.zip";
