@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import lombok.extern.slf4j.Slf4j;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.spi.JdbiPlugin;
@@ -19,6 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
+import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.dao.ImmunizationSnomedCTDao;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientAttachmentLogDao;
@@ -75,6 +75,7 @@ public class DbConnectorConfiguration {
         return jdbi.onDemand(PatientAttachmentLogDao.class);
     }
 
+    @Bean
     public ImmunizationSnomedCTDao immunizationSnomedCTDao(Jdbi jdbi) {
         return jdbi.onDemand(ImmunizationSnomedCTDao.class);
     }
