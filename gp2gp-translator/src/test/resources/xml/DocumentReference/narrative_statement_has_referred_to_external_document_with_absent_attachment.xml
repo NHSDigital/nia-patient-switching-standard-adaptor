@@ -31,7 +31,7 @@
                                         <originalText>Absent Attachment</originalText>
                                     </code>
                                     <text mediaType="text/plain">
-                                        <reference value="file://localhost/31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt" />
+                                        <reference value="file://localhost/AbsentAttachment31B75ED0-6E88-11EA-9384-E83935108FD5.txt" />
                                     </text>
                                 </referredToExternalDocument>
                             </reference>
