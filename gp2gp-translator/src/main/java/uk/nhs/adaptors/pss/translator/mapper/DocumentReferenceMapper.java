@@ -75,7 +75,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         documentReference.setCustodian(new Reference(organization));
         getAuthor(narrativeStatement, ehrComposition).ifPresent(documentReference::addAuthor);
 
-        if (narrativeStatement.hasAvailabilityTime() && !narrativeStatement.getAvailabilityTime().getValue().isEmpty()) {
+        if (narrativeStatement.hasAvailabilityTime() && narrativeStatement.getAvailabilityTime().hasValue()) {
             documentReference.setCreatedElement(DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
         }
 
@@ -114,7 +114,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     private InstantType getIndexed(RCMRMT030101UK04EhrExtract ehrExtract) {
         if (ehrExtract.hasAuthor()) {
-            if (ehrExtract.getAuthor().hasTime() && ehrExtract.getAuthor().getNullFlavor() == null) {
+            if (ehrExtract.getAuthor().hasTime() && ehrExtract.getAuthor().getTime().hasValue()) {
                 return DateFormatUtil.parseToInstantType(ehrExtract.getAuthor().getTime().getValue());
             }
 

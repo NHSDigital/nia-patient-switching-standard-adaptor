@@ -94,9 +94,9 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         if (availabilityTime != null && availabilityTime.hasValue()) {
             return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         } else {
-            if (ehrComposition.getAvailabilityTime() != null) {
+            if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
                 return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
-            } else if (ehrExtract.getAvailabilityTime() != null) {
+            } else if (ehrExtract.getAvailabilityTime() != null && ehrExtract.getAvailabilityTime().hasValue()) {
                 return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
             }
         }
