@@ -1,5 +1,18 @@
 package uk.nhs.adaptors.pss.translator.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
+import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
+import uk.nhs.adaptors.pss.translator.storage.StorageException;
+import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
+import uk.nhs.adaptors.pss.translator.task.EhrExtractMessageHandler;
+
+import javax.xml.bind.ValidationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.text.ParseException;
@@ -7,26 +20,13 @@ import java.util.Base64;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
-import javax.xml.bind.ValidationException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
-import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
-import uk.nhs.adaptors.pss.translator.storage.StorageException;
-import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AttachmentHandlerService {
 
     private final StorageManagerService storageManagerService;
+    private final EhrExtractMessageHandler handler;
 
     public void storeAttachments(List<InboundMessage.Attachment> attachments, String conversationId) throws ValidationException,
         InlineAttachmentProcessingException {

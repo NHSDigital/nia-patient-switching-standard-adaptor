@@ -1,14 +1,10 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
-
-import java.time.Instant;
-
-import javax.xml.bind.JAXBException;
-
+import ca.uhn.fhir.parser.DataFormatException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,13 +13,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import ca.uhn.fhir.parser.DataFormatException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
@@ -32,6 +21,7 @@ import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
@@ -39,6 +29,14 @@ import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+
+import javax.xml.bind.JAXBException;
+import java.time.Instant;
+
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @Slf4j
 @Component
@@ -53,6 +51,7 @@ public class EhrExtractMessageHandler {
     private final SendContinueRequestHandler sendContinueRequestHandler;
     private final AttachmentHandlerService attachmentHandlerService;
     private final SendNACKMessageHandler sendNACKMessageHandler;
+    private final SendACKMessageHandler sendACKMessageHandler;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException,
         SAXException, InlineAttachmentProcessingException, BundleMappingException {
@@ -95,6 +94,9 @@ public class EhrExtractMessageHandler {
                     );
                 }
             }
+
+            sendAckMessage(payload, conversationId);
+
         } catch (BundleMappingException | DataFormatException | JsonProcessingException | InlineAttachmentProcessingException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
@@ -160,6 +162,16 @@ public class EhrExtractMessageHandler {
         ));
     }
 
+    public boolean sendAckMessage(RCMRIN030000UK06Message payload, String conversationId) {
+
+        LOGGER.debug("Sending ACK message for message with Conversation ID: [{}]", conversationId);
+
+        return sendACKMessageHandler.prepareAndSendMessage(prepareAckMessageData(
+                payload,
+                conversationId
+        ));
+    }
+
     private ContinueRequestData prepareContinueRequestData(
         RCMRIN030000UK06Message payload,
         String conversationId,
@@ -200,6 +212,23 @@ public class EhrExtractMessageHandler {
             .toAsid(toAsid)
             .fromAsid(fromAsid)
             .build();
+    }
+
+    private ACKMessageData prepareAckMessageData(RCMRIN030000UK06Message payload,
+                                                 String conversationId) {
+
+        String toOdsCode = parseToOdsCode(payload);
+        String messageRef = parseMessageRef(payload);
+        String toAsid = parseToAsid(payload);
+        String fromAsid = parseFromAsid(payload);
+
+        return ACKMessageData.builder()
+                .conversationId(conversationId)
+                .toOdsCode(toOdsCode)
+                .messageRef(messageRef)
+                .toAsid(toAsid)
+                .fromAsid(fromAsid)
+                .build();
     }
 
     private String parseFromAsid(RCMRIN030000UK06Message payload) {
