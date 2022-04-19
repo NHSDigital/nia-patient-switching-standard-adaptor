@@ -14,4 +14,5 @@ public class MessagePersistDuration {
     private String messageType;
     private Duration persistDuration;
     private int callsSinceUpdate;
+    private int migrationRequestId;
 }
