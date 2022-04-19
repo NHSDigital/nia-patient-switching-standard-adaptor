@@ -26,6 +26,3 @@ VALUES (
         COALESCE(:order_num, 0),
         :length_num
         );
-
-
-
