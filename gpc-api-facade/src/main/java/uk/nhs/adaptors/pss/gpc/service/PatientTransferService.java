@@ -5,10 +5,10 @@ import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
+import static uk.nhs.adaptors.pss.gpc.util.fhir.ParametersUtils.getNhsNumberFromParameters;
 
 import java.util.Map;
 
-import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,6 @@ import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
-import uk.nhs.adaptors.pss.gpc.util.fhir.ParametersUtils;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -40,8 +39,9 @@ public class PatientTransferService {
         PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
 
         if (patientMigrationRequest == null) {
-            var patientNhsNumber = ParametersUtils.getNhsNumberFromParameters(parameters).get().getValue();
-            patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId);
+            var patientNhsNumber = getNhsNumberFromParameters(parameters).get().getValue();
+            patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, headers.get(TO_ODS), headers.get(FROM_ODS));
+
             int addedId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
             migrationStatusLogDao.addMigrationStatusLog(REQUEST_RECEIVED, dateUtils.getCurrentOffsetDateTime(), addedId);
 
@@ -53,8 +53,10 @@ public class PatientTransferService {
         return null;
     }
 
-    public String getEmptyBundle() {
-        return fhirParser.encodeToJson(new Bundle());
+    public String getBundleResource() {
+        var conversationId = mdcService.getConversationId();
+        PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
+        return patientMigrationRequest.getBundleResource();
     }
 
     private TransferRequestMessage createTransferRequestMessage(String patientNhsNumber, Map<String, String> headers,

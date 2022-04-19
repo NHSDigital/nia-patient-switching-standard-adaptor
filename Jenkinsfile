@@ -58,6 +58,9 @@ pipeline {
                                         source docker/vars.local.tests.sh
                                         docker-compose -f docker/docker-compose.yml up -d ps_db
                                         docker-compose -f docker/docker-compose.yml up db_migration
+                                        aws s3 cp s3://snomed-schema/uk_sct2cl_32.10.0_20220216000001Z.zip ./snomed-database-loader/uk_sct2cl_32.10.0_20220216000001Z.zip
+                                        docker-compose -f docker/docker-compose.yml up snomed_schema
+                                        docker-compose -f docker/docker-compose.yml up snomed_immunization
                                     '''
                                 }
                             }
@@ -167,6 +170,8 @@ pipeline {
        always {
             sh label: 'Remove exited containers', script: 'docker container prune --force'
             sh label: 'Remove images tagged with current BUILD_TAG', script: 'docker image rm -f $(docker images "*/*:*${BUILD_TAG}" -q) $(docker images "*/*/*:*${BUILD_TAG}" -q) || true'
+            sh label: 'Delete Snomed CT database zip', script: 'rm ./snomed-database-loader/uk_sct2cl_32.10.0_20220216000001Z.zip'
+            sh label: 'clean up dangling images', script: 'docker image prune -f'
         } // always
       } // post
 } //Pipeline
@@ -231,7 +236,7 @@ int terraformOutput(String tfStateBucket, String project, String environment, St
         psDbSecrets.put(it,rawSecret)
     }
     psDbSecretsExtracted.put("export PS_DB_OWNER_NAME",psDbSecrets.get('postgres-master-username'))
-    psDbSecretsExtracted.put("export PS_DB_OWNER_PASSWORD",psDbSecrets.get('postgres-master-password'))
+    psDbSecretsExtracted.put("export POSTGRES_PASSWORD",psDbSecrets.get('postgres-master-password'))
     psDbSecretsExtracted.put("export GP2GP_TRANSLATOR_USER_DB_PASSWORD",psDbSecrets.get('postgres_psdb_gp2gp_translator_user_password'))
     psDbSecretsExtracted.put("export GPC_FACADE_USER_DB_PASSWORD",psDbSecrets.get('postgres_psdb_gpc_facade_user_password'))
 

@@ -92,7 +92,7 @@ public class PatientTransferController {
         } else if (IN_PROGRESS_STATUSES.contains(request.getMigrationStatus())) {
             return new ResponseEntity<>(NO_CONTENT);
         } else if (MIGRATION_COMPLETED == request.getMigrationStatus()) {
-            return new ResponseEntity<>(patientTransferService.getEmptyBundle(), OK);
+            return new ResponseEntity<>(patientTransferService.getBundleResource(), OK);
         } else if (LRG_MESSAGE_ERRORS.contains(request.getMigrationStatus())
             || EHR_GENERAL_PROCESSING_ERROR == request.getMigrationStatus()) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

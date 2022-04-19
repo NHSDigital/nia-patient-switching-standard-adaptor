@@ -20,6 +20,8 @@ public class PatientMigrationRequestRowMapper implements RowMapper<PatientMigrat
             .bundleResource(rs.getString("bundle_resource"))
             .inboundMessage(rs.getString("inbound_message"))
             .conversationId(rs.getString("conversation_id"))
+            .losingPracticeOdsCode(rs.getString("losing_practice_ods_code"))
+            .winningPracticeOdsCode(rs.getString("winning_practice_ods_code"))
             .build();
     }
 }

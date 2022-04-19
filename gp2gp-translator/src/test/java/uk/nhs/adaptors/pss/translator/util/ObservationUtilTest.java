@@ -36,6 +36,8 @@ public class ObservationUtilTest {
     private static final BigDecimal REFERENCE_RANGE_LOW_VALUE_2 = new BigDecimal(20);
     private static final BigDecimal REFERENCE_RANGE_HIGH_VALUE_1 = new BigDecimal(12);
     private static final BigDecimal REFERENCE_RANGE_HIGH_VALUE_2 = new BigDecimal(22);
+    private static final Double REFERENCE_RANGE_LOW_VALUE_DECIMAL = 10.5;
+    private static final Double REFERENCE_RANGE_HIGH_VALUE_DECIMAL = 12.2;
 
     @SneakyThrows
     private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
@@ -292,5 +294,17 @@ public class ObservationUtilTest {
         assertThat(referenceRanges.get(1).getText()).isEqualTo("Test Range 2");
         assertThat(referenceRanges.get(1).getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_2);
         assertThat(referenceRanges.get(1).getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_2);
+    }
+
+    @Test
+    public void mapReferenceRangeWithDecimalValues() {
+        var ehrExtract = unmarshallEhrExtractElement("decimal_reference_range_observation_example.xml");
+        var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
+
+        var referenceRange = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
+
+        assertThat(referenceRange.get(0).getText()).isEqualTo("Test Range 1");
+        assertThat(referenceRange.get(0).getLow().getValue().doubleValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_DECIMAL);
+        assertThat(referenceRange.get(0).getHigh().getValue().doubleValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_DECIMAL);
     }
 }

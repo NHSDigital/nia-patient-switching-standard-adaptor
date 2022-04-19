@@ -12,11 +12,13 @@ import org.xml.sax.SAXException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.uhn.fhir.parser.DataFormatException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
-import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
+import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
@@ -35,7 +37,7 @@ public class MhsQueueMessageHandler {
     private final MDCService mdcService;
     private final EhrExtractMessageHandler ehrExtractMessageHandler;
     private final AcknowledgmentMessageHandler acknowledgmentMessageHandler;
-    private final PatientAttachmentLogService patientAttachmentLogService;
+
     public boolean handleMessage(Message message) {
         try {
             InboundMessage inboundMessage = readMessage(message);
@@ -44,12 +46,10 @@ public class MhsQueueMessageHandler {
             applyConversationId(conversationId);
             String interactionId = xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH);
 
-            if (EHR_EXTRACT_INTERACTION_ID.equals(interactionId)) {
-//            patientAttachmentLogService.addAttachmentLog("test", "test", false, 1, 0);
-//            patientAttachmentLogService.updateAttachmentLog("test", "test_filename", "test", true, true, true, true, true, 2, 1);
-              ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
-            } else if (ACKNOWLEDGEMENT_INTERACTION_ID.equals(interactionId)) {
+            if (ACKNOWLEDGEMENT_INTERACTION_ID.equals(interactionId)) {
                 acknowledgmentMessageHandler.handleMessage(inboundMessage, conversationId);
+            } else if (EHR_EXTRACT_INTERACTION_ID.equals(interactionId)) {
+                ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
             } else {
                 LOGGER.info("Handling message with [{}] interaction id not implemented", interactionId);
             }
@@ -57,18 +57,24 @@ public class MhsQueueMessageHandler {
         } catch (JMSException | JAXBException | SAXException e) {
             LOGGER.error("Unable to read the content of the inbound MHS message", e);
             return false;
-        } catch (JsonProcessingException e) {
-            LOGGER.error("Content of the inbound MHS message is not valid JSON", e);
+        } catch (JsonProcessingException | DataFormatException e) {
+            LOGGER.error("Unable to parse messages for migration status log", e);
+            return false;
+        } catch (InlineAttachmentProcessingException e) {
+            LOGGER.error("Unable to process inline attachments", e);
+            return false;
+        } catch (BundleMappingException e) {
+            LOGGER.error("Unable to map EHR Extract to FHIR bundle", e);
             return false;
         }
-    }
-
-    private void applyConversationId(String conversationId) {
-        mdcService.applyConversationId(conversationId);
     }
 
     private InboundMessage readMessage(Message message) throws JMSException, JsonProcessingException {
         var body = jmsReader.readMessage(message);
         return objectMapper.readValue(body, InboundMessage.class);
+    }
+
+    private void applyConversationId(String conversationId) {
+        mdcService.applyConversationId(conversationId);
     }
 }

@@ -133,12 +133,10 @@ public class MedicationMapperUtils {
     }
 
     public static Optional<DateTimeType> extractDispenseRequestPeriodStart(RCMRMT030101UK04Authorise supplyAuthorise) {
-        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasCenter()
-            && !supplyAuthorise.getEffectiveTime().getCenter().hasNullFlavor()) {
+        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasCenter()) {
             return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getCenter().getValue()));
         }
-        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasLow()
-            && !supplyAuthorise.getEffectiveTime().getLow().hasNullFlavor()) {
+        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasLow()) {
             return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getLow().getValue()));
         }
         if (supplyAuthorise.hasAvailabilityTime() && !supplyAuthorise.getAvailabilityTime().hasNullFlavor()) {
@@ -156,9 +154,11 @@ public class MedicationMapperUtils {
 
     public static Period buildDispenseRequestPeriodEnd(RCMRMT030101UK04Authorise supplyAuthorise,
         RCMRMT030101UK04MedicationStatement medicationStatement) {
-        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasHigh()) {
-            return new Period().setEndElement(
-                DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue()));
+        if (supplyAuthorise.hasEffectiveTime()) {
+            if (supplyAuthorise.getEffectiveTime().hasHigh()) {
+                return new Period().setEndElement(
+                    DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue()));
+            }
         }
         if (medicationStatement.hasEffectiveTime() && medicationStatement.getEffectiveTime().hasHigh()) {
             return new Period().setEndElement(

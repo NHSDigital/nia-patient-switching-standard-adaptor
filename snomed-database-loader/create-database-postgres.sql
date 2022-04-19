@@ -29,3 +29,12 @@ create table langrefset_s(
 );
 CREATE INDEX langrefset_referencedcomponentid_idx ON snomedct.langrefset_s
     USING btree (referencedcomponentid);
+
+CREATE TABLE immunization_codes(
+                              conceptid varchar(18) not null,
+                              description text not null,
+                              safetycode varchar(18) not null
+);
+
+GRANT USAGE ON SCHEMA snomedct TO application_user;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA snomedct TO application_user;
