@@ -15,14 +15,16 @@ import uk.nhs.adaptors.connector.model.MessagePersistDuration;
 public class MessagePersistDurationService {
     private final MessagePersistDurationDao messagePersistDurationDao;
 
-    public MessagePersistDuration addMessagePersistDuration(String messageType, Duration persistDuration, int callsSinceUpdate) {
-        messagePersistDurationDao.saveMessagePersistDuration(messageType, persistDuration.toSeconds(), callsSinceUpdate);
-        return messagePersistDurationDao.getMessagePersistDuration(messageType);
+    public MessagePersistDuration addMessagePersistDuration(String messageType, Duration persistDuration, int callsSinceUpdate,
+        int migrationRequestId) {
+        messagePersistDurationDao.saveMessagePersistDuration(messageType, persistDuration.toSeconds(), callsSinceUpdate,
+            migrationRequestId);
+        return messagePersistDurationDao.getMessagePersistDuration(migrationRequestId, messageType);
     }
 
-    public Optional<MessagePersistDuration> getMessagePersistDuration(String messageType) {
-        return messagePersistDurationDao.messageTypeExists(messageType)
-            ? Optional.of(messagePersistDurationDao.getMessagePersistDuration(messageType))
+    public Optional<MessagePersistDuration> getMessagePersistDuration(int migrationRequestId, String messageType) {
+        return messagePersistDurationDao.messageTypeExists(migrationRequestId, messageType)
+            ? Optional.of(messagePersistDurationDao.getMessagePersistDuration(migrationRequestId, messageType))
             : Optional.empty();
     }
 }
