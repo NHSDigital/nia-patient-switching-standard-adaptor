@@ -20,6 +20,7 @@ public class MessagePersistDurationRowMapper implements RowMapper<MessagePersist
             .messageType(rs.getString("message_type"))
             .persistDuration(Duration.ofSeconds(rs.getInt("persist_duration")))
             .callsSinceUpdate(rs.getInt("calls_since_update"))
+            .migrationRequestId(rs.getInt("migration_request_id"))
             .build();
     }
 }
