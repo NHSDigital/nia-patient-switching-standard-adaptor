@@ -17,29 +17,31 @@ public class PatientAttachmentLogService {
 
     /**
      *
-     * @param attachmentLogInput
+     * @param attachmentLog
      * @description
      * Requires a minimum of mid, filename and patient request id
      *
      */
     public void addAttachmentLog(
-        PatientAttachmentLog attachmentLogInput
+        PatientAttachmentLog attachmentLog
     ) {
+
+        var attachmentLogInput = attachmentLog;
         var mid = attachmentLogInput.getMid();
         var filename = attachmentLogInput.getFilename();
         patientAttachmentLogDao.addAttachmentLog(
             mid,
             filename,
-            attachmentLogInput.getParent_mid(),
-            attachmentLogInput.getPatient_migration_req_id(),
-            attachmentLogInput.getContent_type(),
+            attachmentLogInput.getParentMid(),
+            attachmentLogInput.getPatientMigrationReqId(),
+            attachmentLogInput.getContentType(),
             attachmentLogInput.getCompressed(),
-            attachmentLogInput.getLarge_attachment(),
+            attachmentLogInput.getLargeAttachment(),
             attachmentLogInput.getBase64(),
             attachmentLogInput.getSkeleton(),
             attachmentLogInput.getUploaded(),
-            attachmentLogInput.getOrder_num(),
-            attachmentLogInput.getLength_num()
+            attachmentLogInput.getOrderNum(),
+            attachmentLogInput.getLengthNum()
         );
         LOGGER.debug("Created migration log mid=[{}] for patient migration request id=[{}]", mid, filename);
     }
@@ -57,48 +59,48 @@ public class PatientAttachmentLogService {
         String mid,
         String conversationId
     ) {
-        return patientAttachmentLogDao.findPatientAttachment(mid, conversationId);
-
+        var attachmentLog = patientAttachmentLogDao.findPatientAttachment(mid, conversationId);
+        return attachmentLog;
     }
 
     /**
      *
-     * @param attachmentLogInput
-     * @param conversation_id
+     * @param attachmentLog
+     * @param conversationId
      *
      * @description
      * Update an attachment log with using mid and conversation id
      */
     public void updateAttachmentLog(
-        PatientAttachmentLog attachmentLogInput,
-        String conversation_id
+        PatientAttachmentLog attachmentLog,
+        String conversationId
     ) {
+        var attachmentLogInput = attachmentLog;
         var mid = attachmentLogInput.getMid();
         patientAttachmentLogDao.updateAttachmentLog(
             mid,
-            conversation_id,
-            attachmentLogInput.getParent_mid(),
-            attachmentLogInput.getContent_type(),
+            conversationId,
+            attachmentLogInput.getParentMid(),
+            attachmentLogInput.getContentType(),
             attachmentLogInput.getCompressed(),
-            attachmentLogInput.getLarge_attachment(),
+            attachmentLogInput.getLargeAttachment(),
             attachmentLogInput.getBase64(),
             attachmentLogInput.getSkeleton(),
             attachmentLogInput.getUploaded(),
-            attachmentLogInput.getLength_num(),
-            attachmentLogInput.getOrder_num()
+            attachmentLogInput.getLengthNum(),
+            attachmentLogInput.getOrderNum()
         );
         LOGGER.debug("Updated migration log mid=[{}]", mid);
     }
 
     public void deleteAttachmentLog(
         String mid,
-        String conversation_id
+        String conversationId
     ) {
         patientAttachmentLogDao.deleteAttachmentLog(
             mid,
-            conversation_id
+            conversationId
         );
         LOGGER.debug("Deleted flag set on migration log mid=[{}] ", mid);
-
     }
 }

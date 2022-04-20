@@ -8,18 +8,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class PatientAttachmentLog {
+public class PatientAttachmentLog implements Cloneable {
     @NonNull
     private String mid;
-    private String parent_mid;
+    private String parentMid;
+//    @NonNull
     private String filename;
-    private String content_type;
+    private String contentType;
     private Boolean compressed;
-    private Boolean large_attachment;
+    private Boolean largeAttachment;
     private Boolean base64;
     private Boolean skeleton;
     private Boolean uploaded;
-    private Integer length_num;
-    private Integer patient_migration_req_id;
-    private Integer order_num;
+    private Integer lengthNum;
+//    @NonNull
+    private Integer patientMigrationReqId;
+    private Integer orderNum;
 }

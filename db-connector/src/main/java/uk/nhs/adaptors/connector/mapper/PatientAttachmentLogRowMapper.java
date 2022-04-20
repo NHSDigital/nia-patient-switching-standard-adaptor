@@ -16,17 +16,17 @@ public class PatientAttachmentLogRowMapper implements RowMapper<PatientAttachmen
     public PatientAttachmentLog map(ResultSet rs, StatementContext ctx) throws SQLException {
         return PatientAttachmentLog.builder()
             .mid(rs.getString("mid"))
-            .parent_mid(rs.getString("parent_mid"))
+            .parentMid(rs.getString("parentMid"))
             .filename(rs.getString("filename"))
-            .content_type(rs.getString("content_type"))
-            .patient_migration_req_id(rs.getInt("patient_migration_req_id"))
+            .contentType(rs.getString("contentType"))
+            .patientMigrationReqId(rs.getInt("patientMigrationReqId"))
             .compressed(rs.getBoolean("compressed"))
-            .large_attachment(rs.getBoolean("large_attachment"))
+            .largeAttachment(rs.getBoolean("largeAttachment"))
             .base64(rs.getBoolean("base64"))
             .skeleton(rs.getBoolean("skeleton"))
             .uploaded(rs.getBoolean("uploaded"))
-            .length_num(rs.getInt("length_num"))
-            .order_num(rs.getInt("order_num"))
+            .lengthNum(rs.getInt("lengthNum"))
+            .orderNum(rs.getInt("orderNum"))
             .build();
     }
 }
