@@ -28,6 +28,7 @@ public class ObjectFactory {
     private final static QName _EhrExtract_QNAME = new QName("urn:hl7-org:v3", "EhrExtract");
     private final static QName _Message_QNAME = new QName("urn:hl7-org:v3", "Message");
     private final static QName _RCMRIN030000UK06_QNAME = new QName("urn:hl7-org:v3", "RCMR_IN030000UK06");
+    private final static QName _COPCIN000001UK01_QNAME = new QName("urn:hl7-org:v3", "COPCIN000001UK01");
     private final static QName _IVLINTLow_QNAME = new QName("urn:hl7-org:v3", "low");
     private final static QName _IVLINTHigh_QNAME = new QName("urn:hl7-org:v3", "high");
     private final static QName _IVLPQWidth_QNAME = new QName("urn:hl7-org:v3", "width");
@@ -1554,6 +1555,15 @@ public class ObjectFactory {
         return new RCMRIN030000UK06ControlActEvent();
     }
 
+
+    /**
+     * Create an instance of {@link RCMRIN030000UK06ControlActEvent }
+     *
+     */
+    public COPCIN000001UK01MCAIMT040101UK03ControlActEvent createCOPCIN000001UK01MCAIMT040101UK03ControlActEvent() {
+        return new COPCIN000001UK01MCAIMT040101UK03ControlActEvent();
+    }
+
     /**
      * Create an instance of {@link RCMRIN030000UK06Subject }
      * 
@@ -1812,6 +1822,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "RCMR_IN030000UK06")
     public JAXBElement<RCMRIN030000UK06Message> createRCMRIN030000UK06(RCMRIN030000UK06Message value) {
         return new JAXBElement<RCMRIN030000UK06Message>(_RCMRIN030000UK06_QNAME, RCMRIN030000UK06Message.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link COPCIN000001UK01MCCIMT010101UK12Message }{@code >}
+     *
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link COPCIN000001UK01MCCIMT010101UK12Message }{@code >}
+     */
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "COPCIN000001UK01")
+    public JAXBElement<COPCIN000001UK01MCCIMT010101UK12Message> createCOPCIN000001UK01(COPCIN000001UK01MCCIMT010101UK12Message value) {
+        return new JAXBElement<COPCIN000001UK01MCCIMT010101UK12Message>(_COPCIN000001UK01_QNAME, COPCIN000001UK01MCCIMT010101UK12Message.class, null, value);
     }
 
     /**

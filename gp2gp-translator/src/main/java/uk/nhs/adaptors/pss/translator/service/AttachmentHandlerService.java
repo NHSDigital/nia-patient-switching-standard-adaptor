@@ -26,7 +26,6 @@ import java.util.zip.GZIPInputStream;
 public class AttachmentHandlerService {
 
     private final StorageManagerService storageManagerService;
-    private final EhrExtractMessageHandler handler;
 
     public void storeAttachments(List<InboundMessage.Attachment> attachments, String conversationId) throws ValidationException,
         InlineAttachmentProcessingException {
