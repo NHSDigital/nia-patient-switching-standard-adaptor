@@ -52,8 +52,7 @@ public class MhsQueueMessageHandler {
                 ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
             } else if(CONTINUE_ATTACHMENT_INTERACTION_ID.equals(interactionId)){
                 continueMessageHandler.handleMessage(inboundMessage, conversationId);
-            }
-            else {
+            } else {
                 LOGGER.info("Handling message with [{}] interaction id not implemented", interactionId);
             }
             return true;
