@@ -40,6 +40,7 @@ public class AcknowledgeMessageHandlingIT {
     private static final String TYPE_CODE_PLACEHOLDER = "{{typeCode}}";
     private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
     private static final String LOSING_ODS_CODE = "K547";
+    private static final String WINNING_ODS_CODE = "ABC";
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -59,7 +60,7 @@ public class AcknowledgeMessageHandlingIT {
     @BeforeEach
     public void setUp() {
         conversationId = generateConversationId();
-        patientMigrationRequestDao.addNewRequest(generatePatientNhsNumber(), conversationId, LOSING_ODS_CODE);
+        patientMigrationRequestDao.addNewRequest(generatePatientNhsNumber(), conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
     }
 
     @Test

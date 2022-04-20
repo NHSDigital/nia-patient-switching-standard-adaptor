@@ -39,11 +39,13 @@ public class PatientTransferServiceTest {
     private static final String PATIENT_NHS_NUMBER = "123456789";
     private static final String CONVERSATION_ID = UUID.randomUUID().toString();
     private static final String LOSING_ODS_CODE = "D443";
+    private static final String WINNING_ODS_CODE = "ABC";
+
     private static final Map<String, String> HEADERS = Map.of(
         TO_ASID, "1234",
         FROM_ASID, "5678",
         TO_ODS, LOSING_ODS_CODE,
-        FROM_ODS, "ABC"
+        FROM_ODS, WINNING_ODS_CODE
     );
 
     @Mock
@@ -92,7 +94,7 @@ public class PatientTransferServiceTest {
 
         assertThat(patientMigrationRequest).isEqualTo(null);
         verify(pssQueuePublisher).sendToPssQueue(expectedPssQueueMessage);
-        verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, CONVERSATION_ID, LOSING_ODS_CODE);
+        verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, CONVERSATION_ID, LOSING_ODS_CODE, WINNING_ODS_CODE);
         verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId);
     }
 

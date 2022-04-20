@@ -69,8 +69,8 @@ public class ConsultationListMapper {
             var codeableConcept = codeableConceptList.get(0);
             if (codeableConcept.hasText()) {
                 return codeableConcept.getText();
-            } else if (codeableConcept.getCoding().get(0).hasDisplay()) {
-                return codeableConcept.getCoding().get(0).getDisplay();
+            } else if (codeableConcept.getCodingFirstRep().hasDisplay()) {
+                return codeableConcept.getCodingFirstRep().getDisplay();
             }
         }
 
@@ -142,7 +142,7 @@ public class ConsultationListMapper {
             if (codeableConcept.hasText()) {
                 return codeableConcept.getText();
             } else if (!compoundStatement.getCode().hasNullFlavor() && codeableConcept.getCodingFirstRep().hasDisplay()) {
-                return codeableConcept.getCoding().get(0).getDisplay();
+                return codeableConcept.getCodingFirstRep().getDisplay();
             }
         }
 

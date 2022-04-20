@@ -2434,21 +2434,29 @@
       "recipient": [ {
         "reference": "Practitioner/B8CA3710-4D1C-11E3-9E6B-010000001205"
       } ],
-      "reasonCode": [ {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "284094011"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "183885007",
-          "display": "Private referral to obstetrician"
-        } ],
-        "text": "Reason Code 1"
-      } ],
+      "reasonCode": [
+        {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "284094011"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "183885007",
+              "display": "Private referral to obstetrician"
+            }
+          ],
+          "text": "Reason Code 1"
+        }
+      ],
       "note": [ {
         "text": "Priority: Routine"
       }, {
