@@ -95,15 +95,15 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
     @XmlElement(required = true)
     protected II id;
     @XmlElement(required = true)
-    protected CreationTime creationTime;
+    protected TS creationTime;
     @XmlElement(required = true)
-    protected VersionCode versionCode;
+    protected CS versionCode;
     @XmlElement(required = true)
-    protected InteractionId interactionId;
+    protected II interactionId;
     @XmlElement(required = true)
-    protected ProcessingCode processingCode;
+    protected CS processingCode;
     @XmlElement(required = true)
-    protected ProcessingModeCode processingModeCode;
+    protected CS processingModeCode;
     @XmlElement(required = true)
     protected CS acceptAckCode;
     @XmlElement(required = true)
@@ -147,10 +147,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @return
      *     possible object is
-     *     {@link CreationTime }
+     *     {@link TS }
      *     
      */
-    public CreationTime getCreationTime() {
+    public TS getCreationTime() {
         return creationTime;
     }
 
@@ -159,10 +159,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @param value
      *     allowed object is
-     *     {@link CreationTime }
+     *     {@link TS }
      *     
      */
-    public void setCreationTime(CreationTime value) {
+    public void setCreationTime(TS value) {
         this.creationTime = value;
     }
 
@@ -171,10 +171,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @return
      *     possible object is
-     *     {@link VersionCode }
+     *     {@link CS }
      *     
      */
-    public VersionCode getVersionCode() {
+    public CS getVersionCode() {
         return versionCode;
     }
 
@@ -183,10 +183,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @param value
      *     allowed object is
-     *     {@link VersionCode }
+     *     {@link CS }
      *     
      */
-    public void setVersionCode(VersionCode value) {
+    public void setVersionCode(CS value) {
         this.versionCode = value;
     }
 
@@ -195,10 +195,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @return
      *     possible object is
-     *     {@link InteractionId }
+     *     {@link II }
      *     
      */
-    public InteractionId getInteractionId() {
+    public II getInteractionId() {
         return interactionId;
     }
 
@@ -207,10 +207,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @param value
      *     allowed object is
-     *     {@link InteractionId }
+     *     {@link II }
      *     
      */
-    public void setInteractionId(InteractionId value) {
+    public void setInteractionId(II value) {
         this.interactionId = value;
     }
 
@@ -219,10 +219,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @return
      *     possible object is
-     *     {@link ProcessingCode }
+     *     {@link CS }
      *     
      */
-    public ProcessingCode getProcessingCode() {
+    public CS getProcessingCode() {
         return processingCode;
     }
 
@@ -231,10 +231,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @param value
      *     allowed object is
-     *     {@link ProcessingCode }
+     *     {@link CS }
      *     
      */
-    public void setProcessingCode(ProcessingCode value) {
+    public void setProcessingCode(CS value) {
         this.processingCode = value;
     }
 
@@ -243,10 +243,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @return
      *     possible object is
-     *     {@link ProcessingModeCode }
+     *     {@link CS }
      *     
      */
-    public ProcessingModeCode getProcessingModeCode() {
+    public CS getProcessingModeCode() {
         return processingModeCode;
     }
 
@@ -255,10 +255,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @param value
      *     allowed object is
-     *     {@link ProcessingModeCode }
+     *     {@link CS }
      *     
      */
-    public void setProcessingModeCode(ProcessingModeCode value) {
+    public void setProcessingModeCode(CS value) {
         this.processingModeCode = value;
     }
 
@@ -417,139 +417,5 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
     }
 
 
-    /**
-     * &lt;p&gt;Java class for anonymous complex type.
-     * 
-     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-     * 
-     * &lt;pre&gt;
-     * &amp;lt;complexType&amp;gt;
-     *   &amp;lt;complexContent&amp;gt;
-     *     &amp;lt;restriction base="{urn:hl7-org:v3}TS"&amp;gt;
-     *       &amp;lt;attribute name="value" use="required" type="{urn:hl7-org:v3}ts" /&amp;gt;
-     *     &amp;lt;/restriction&amp;gt;
-     *   &amp;lt;/complexContent&amp;gt;
-     * &amp;lt;/complexType&amp;gt;
-     * &lt;/pre&gt;
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "")
-    public static class CreationTime
-        extends TS
-    {
-
-
-    }
-
-
-    /**
-     * &lt;p&gt;Java class for anonymous complex type.
-     * 
-     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-     * 
-     * &lt;pre&gt;
-     * &amp;lt;complexType&amp;gt;
-     *   &amp;lt;complexContent&amp;gt;
-     *     &amp;lt;restriction base="{urn:hl7-org:v3}II"&amp;gt;
-     *       &amp;lt;attribute name="root" use="required" type="{urn:hl7-org:v3}II.NPfIT.Message.oid" /&amp;gt;
-     *       &amp;lt;attribute name="extension" use="required" type="{urn:hl7-org:v3}II.NPfIT.Message.extension" /&amp;gt;
-     *     &amp;lt;/restriction&amp;gt;
-     *   &amp;lt;/complexContent&amp;gt;
-     * &amp;lt;/complexType&amp;gt;
-     * &lt;/pre&gt;
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "")
-    public static class InteractionId
-        extends II
-    {
-
-
-    }
-
-
-    /**
-     * &lt;p&gt;Java class for anonymous complex type.
-     * 
-     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-     * 
-     * &lt;pre&gt;
-     * &amp;lt;complexType&amp;gt;
-     *   &amp;lt;complexContent&amp;gt;
-     *     &amp;lt;restriction base="{urn:hl7-org:v3}CS"&amp;gt;
-     *       &amp;lt;attribute name="code" use="required" type="{urn:hl7-org:v3}ProcessingID_code" /&amp;gt;
-     *     &amp;lt;/restriction&amp;gt;
-     *   &amp;lt;/complexContent&amp;gt;
-     * &amp;lt;/complexType&amp;gt;
-     * &lt;/pre&gt;
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "")
-    public static class ProcessingCode
-        extends CS
-    {
-
-
-    }
-
-
-    /**
-     * &lt;p&gt;Java class for anonymous complex type.
-     * 
-     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-     * 
-     * &lt;pre&gt;
-     * &amp;lt;complexType&amp;gt;
-     *   &amp;lt;complexContent&amp;gt;
-     *     &amp;lt;restriction base="{urn:hl7-org:v3}CS"&amp;gt;
-     *       &amp;lt;attribute name="code" use="required" type="{urn:hl7-org:v3}ProcessingMode_code" /&amp;gt;
-     *     &amp;lt;/restriction&amp;gt;
-     *   &amp;lt;/complexContent&amp;gt;
-     * &amp;lt;/complexType&amp;gt;
-     * &lt;/pre&gt;
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "")
-    public static class ProcessingModeCode
-        extends CS
-    {
-
-
-    }
-
-
-    /**
-     * &lt;p&gt;Java class for anonymous complex type.
-     * 
-     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-     * 
-     * &lt;pre&gt;
-     * &amp;lt;complexType&amp;gt;
-     *   &amp;lt;complexContent&amp;gt;
-     *     &amp;lt;restriction base="{urn:hl7-org:v3}CS"&amp;gt;
-     *       &amp;lt;attribute name="code" use="required" type="{urn:hl7-org:v3}HL7StandardVersionCode_code" /&amp;gt;
-     *     &amp;lt;/restriction&amp;gt;
-     *   &amp;lt;/complexContent&amp;gt;
-     * &amp;lt;/complexType&amp;gt;
-     * &lt;/pre&gt;
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "")
-    public static class VersionCode
-        extends CS
-    {
-
-
-    }
 
 }

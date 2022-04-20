@@ -36,7 +36,7 @@ import java.util.List;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "COPC_IN000001UK01.ControlActEvent", propOrder = {
+@XmlType(name = "COPC_IN000001UK01.MCAI_MT040101UK03.ControlActEvent", propOrder = {
     "author",
     "author1",
     "reason",
@@ -44,8 +44,7 @@ import java.util.List;
 })
 public class COPCIN000001UK01MCAIMT040101UK03ControlActEvent {
 
-    @XmlElementRef(name = "author", namespace = "urn:hl7-org:v3", type = JAXBElement.class, required = false)
-    protected MCAIMT040101UK03Author author;
+    MCAIMT040101UK03Author author;
     @XmlElement(required = true)
     protected List<MCAIMT040101UK03Author2> author1;
     @XmlElement(nillable = true)
@@ -68,7 +67,7 @@ public class COPCIN000001UK01MCAIMT040101UK03ControlActEvent {
      *
      * @return
      *     possible object is
-     *     {@link MCAIMT040101UK03Author }
+     *     {@link JAXBElement }{@code <}{@link MCAIMT040101UK03Author }{@code >}
      *
      */
     public MCAIMT040101UK03Author getAuthor() {
@@ -80,7 +79,7 @@ public class COPCIN000001UK01MCAIMT040101UK03ControlActEvent {
      *
      * @param value
      *     allowed object is
-     *     {@link MCAIMT040101UK03Author }
+     *     {@link JAXBElement }{@code <}{@link MCAIMT040101UK03Author }{@code >}
      *
      */
     public void setAuthor(MCAIMT040101UK03Author value) {
