@@ -44,5 +44,10 @@ storage:
   accountSecret: ${STORAGE_SECRET:}
   retryLimit: ${STORAGE_RETRY_Limit:3}
 
+sds:
+#  TODO: change to correct base url
+  url: ${SDS_BASE_URL:https://int.api.service.nhs.uk/spine-directory/FHIR/R4/}
+  apiKey: ${SDS_API_KEY}
+
 
 

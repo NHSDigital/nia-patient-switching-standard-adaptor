@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.task.scheduled;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,10 +13,12 @@ import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.connector.model.MessagePersistDuration;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MessagePersistDurationService;
 import uk.nhs.adaptors.connector.service.PatientMigrationRequestService;
+import uk.nhs.adaptors.pss.translator.exception.SdsRetrievalException;
 import uk.nhs.adaptors.pss.translator.service.SDSService;
 
 @Slf4j
@@ -31,6 +34,7 @@ public class EHRTimeoutHandler {
     private final MessagePersistDurationService messagePersistDurationService;
     private final SDSService sdsService;
     private final PatientMigrationRequestService migrationRequestService;
+    private final MDCService mdcService;
 
     @Scheduled(cron = CRON_TIME)
     public void checkForTimeouts() {
@@ -44,14 +48,26 @@ public class EHRTimeoutHandler {
             migrationRequestService.getMigrationRequestByCurrentMigrationStatus(CONTINUE_REQUEST_ACCEPTED);
 
         // TODO: iterate through the migration requests:
-        //  - update the persist durations and get the number of COPC messages from the DB (if the migration contains large messages)
+        //  - update the persist durations (done) and get the number of COPC messages from the DB (if the migration contains large messages)
         //  - do the timeout calculation
         //  - send the NACK message if the migration has timed out
         //  - potentially clear unnecessary data from the db after a timeout?
 
+        largeMessageRequests.forEach(migrationRequest -> {
+
+            mdcService.applyConversationId(migrationRequest.getConversationId());
+
+            try {
+                Duration ehrPersistDuration = getPersistDurationFor(migrationRequest, EHR_EXTRACT_MESSAGE_NAME);
+                Duration copcPersistDuration = getPersistDurationFor(migrationRequest, COPC_MESSAGE_NAME);
+            } catch (SdsRetrievalException e) {
+                LOGGER.error("Error retrieving persist duration: [{}]", e.getMessage());
+            }
+            mdcService.applyConversationId("");
+        });
     }
 
-    private MessagePersistDuration getPersistDurationFor(PatientMigrationRequest migrationRequest, String messageType) {
+    private Duration getPersistDurationFor(PatientMigrationRequest migrationRequest, String messageType) {
 
         Optional<MessagePersistDuration> messageDurationOptional =
             messagePersistDurationService.getMessagePersistDuration(migrationRequest.getId(), messageType);
@@ -61,10 +77,11 @@ public class EHRTimeoutHandler {
 
             return messagePersistDurationService.addMessagePersistDuration(
                 messageType,
-                sdsService.getPersistDurationFor(messageType, migrationRequest.getLosingPracticeOdsCode()),
+                sdsService.getPersistDurationFor(messageType, migrationRequest.getLosingPracticeOdsCode(),
+                    migrationRequest.getConversationId()),
                 1,
                 migrationRequest.getId()
-            );
+            ).getPersistDuration();
         }
 
         return messageDurationOptional.map(mpd ->
@@ -73,7 +90,7 @@ public class EHRTimeoutHandler {
                 mpd.getPersistDuration(),
                 mpd.getCallsSinceUpdate() + 1,
                 migrationRequest.getId()
-            )
+            ).getPersistDuration()
         ).orElseThrow();
     }
 }
