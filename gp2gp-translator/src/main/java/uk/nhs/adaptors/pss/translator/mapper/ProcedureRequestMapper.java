@@ -91,12 +91,12 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
 
     private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UK04EhrExtract ehrExtract,
         RCMRMT030101UK04EhrComposition ehrComposition) {
-        if (availabilityTime != null) {
+        if (availabilityTime != null && availabilityTime.hasValue()) {
             return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         } else {
-            if (ehrComposition.getAvailabilityTime() != null) {
+            if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
                 return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
-            } else if (ehrExtract.getAvailabilityTime() != null) {
+            } else if (ehrExtract.getAvailabilityTime() != null && ehrExtract.getAvailabilityTime().hasValue()) {
                 return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
             }
         }
@@ -105,7 +105,7 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
     }
 
     private DateTimeType getOccurrenceDate(IVLTS effectiveTime) {
-        if (effectiveTime != null && effectiveTime.getCenter() != null) {
+        if (effectiveTime != null && effectiveTime.hasCenter() && effectiveTime.getCenter().hasValue()) {
             return DateFormatUtil.parseToDateTimeType(effectiveTime.getCenter().getValue());
         }
 

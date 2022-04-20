@@ -55,7 +55,7 @@ public class ObservationUtil {
     }
 
     public static CodeableConcept getInterpretation(CV interpretationCode) {
-        if (interpretationCode != null) {
+        if (interpretationCode != null && !interpretationCode.hasNullFlavor()) {
             var code = interpretationCode.getCode();
             String text = null;
             if (StringUtils.isNotEmpty(interpretationCode.getOriginalText())) {

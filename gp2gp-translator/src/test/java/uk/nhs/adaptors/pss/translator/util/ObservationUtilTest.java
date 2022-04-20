@@ -141,6 +141,16 @@ public class ObservationUtilTest {
     }
 
     @Test
+    public void mapInterpretationWithInterpretationCodeNullFlavor() {
+        var ehrExtract = unmarshallEhrExtractElement("interpretation_null_flavor_observation_example.xml");
+        var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
+
+        CodeableConcept interpretation = ObservationUtil.getInterpretation(observationStatement.getInterpretationCode());
+
+        assertThat(interpretation).isNull();
+    }
+
+    @Test
     public void mapInterpretationWithInterpretationCodeAbnormal() {
         var ehrExtract = unmarshallEhrExtractElement("interpretation_abnormal_observation_example.xml");
         var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
