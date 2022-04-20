@@ -36,13 +36,13 @@ import java.util.List;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "COPC_IN000001UK01.MCAI_MT040101UK03.ControlActEvent", propOrder = {
+@XmlType(name = "COPC_IN000001UK01.ControlActEvent", propOrder = {
     "author",
     "author1",
     "reason",
     "subject"
 })
-public class COPCIN000001UK01MCAIMT040101UK03ControlActEvent {
+public class COPCIN000001UK01ControlActEvent {
 
     MCAIMT040101UK03Author author;
     @XmlElement(required = true)
@@ -50,7 +50,7 @@ public class COPCIN000001UK01MCAIMT040101UK03ControlActEvent {
     @XmlElement(nillable = true)
     protected List<MCAIMT040101UK03Reason> reason;
     @XmlElement(required = true, nillable = true)
-    protected COPCIN000001UK01MCAIMT040101UK03Subject subject;
+    protected COPCIN000001UK01Subject subject;
     @XmlAttribute(name = "classCode", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String classCode;
@@ -149,10 +149,10 @@ public class COPCIN000001UK01MCAIMT040101UK03ControlActEvent {
      * 
      * @return
      *     possible object is
-     *     {@link COPCIN000001UK01MCAIMT040101UK03Subject }
+     *     {@link COPCIN000001UK01Subject }
      *     
      */
-    public COPCIN000001UK01MCAIMT040101UK03Subject getSubject() {
+    public COPCIN000001UK01Subject getSubject() {
         return subject;
     }
 
@@ -161,10 +161,10 @@ public class COPCIN000001UK01MCAIMT040101UK03ControlActEvent {
      * 
      * @param value
      *     allowed object is
-     *     {@link COPCIN000001UK01MCAIMT040101UK03Subject }
+     *     {@link COPCIN000001UK01Subject }
      *     
      */
-    public void setSubject(COPCIN000001UK01MCAIMT040101UK03Subject value) {
+    public void setSubject(COPCIN000001UK01Subject value) {
         this.subject = value;
     }
 

@@ -35,7 +35,7 @@ import java.util.List;
 @XmlType(name = "COPC_IN000001UK01.MCAI_MT040101UK03.Subject", propOrder = {
     "payloadInformation"
 })
-public class COPCIN000001UK01MCAIMT040101UK03Subject {
+public class COPCIN000001UK01Subject {
 
     @XmlElement(name = "PayloadInformation", required = true, nillable = true)
     protected COPCMT000001UK01PayloadInformation payloadInformation;

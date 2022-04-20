@@ -2,11 +2,10 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.v3.COPCIN000001UK01MCCIMT010101UK12Message;
+import org.hl7.v3.COPCIN000001UK01Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
-import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -27,14 +26,14 @@ public class AttachmentMessageHandler {
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException {
 
-        COPCIN000001UK01MCCIMT010101UK12Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01MCCIMT010101UK12Message.class);
+        COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
         //MigrationStatusLog migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
 
         sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
     }
 
-    public boolean sendAckMessage(COPCIN000001UK01MCCIMT010101UK12Message payload, String conversationId, String losingPracticeOdsCode) {
+    public boolean sendAckMessage(COPCIN000001UK01Message payload, String conversationId, String losingPracticeOdsCode) {
 
         LOGGER.debug("Sending ACK message for message with Conversation ID: [{}]", conversationId);
 
@@ -45,7 +44,7 @@ public class AttachmentMessageHandler {
         ));
     }
 
-    private ACKMessageData prepareAckMessageData(COPCIN000001UK01MCCIMT010101UK12Message payload,
+    private ACKMessageData prepareAckMessageData(COPCIN000001UK01Message payload,
                                                  String conversationId, String losingPracticeOdsCode) {
 
         String toOdsCode = losingPracticeOdsCode;
@@ -62,7 +61,7 @@ public class AttachmentMessageHandler {
                 .build();
     }
 
-    private String parseFromAsid(COPCIN000001UK01MCCIMT010101UK12Message payload) {
+    private String parseFromAsid(COPCIN000001UK01Message payload) {
         return payload.getCommunicationFunctionRcv()
                 .get(0)
                 .getDevice()
@@ -71,7 +70,7 @@ public class AttachmentMessageHandler {
                 .getExtension();
     }
 
-    private String parseToAsid(COPCIN000001UK01MCCIMT010101UK12Message payload) {
+    private String parseToAsid(COPCIN000001UK01Message payload) {
         return payload.getCommunicationFunctionSnd()
                 .getDevice()
                 .getId()
@@ -79,7 +78,7 @@ public class AttachmentMessageHandler {
                 .getExtension();
     }
 
-    private String parseMessageRef(COPCIN000001UK01MCCIMT010101UK12Message payload) {
+    private String parseMessageRef(COPCIN000001UK01Message payload) {
         return payload.getId().getRoot();
     }
 }

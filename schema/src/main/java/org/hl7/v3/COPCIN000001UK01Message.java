@@ -90,7 +90,7 @@ import java.util.List;
     "communicationFunctionSnd",
     "controlActEvent"
 })
-public class COPCIN000001UK01MCCIMT010101UK12Message {
+public class COPCIN000001UK01Message {
 
     @XmlElement(required = true)
     protected II id;
@@ -112,7 +112,7 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
     protected MCCIMT010101UK12CommunicationFunctionSnd communicationFunctionSnd;
 
     @XmlElement(name = "ControlActEvent", required = true, nillable = true)
-    protected COPCIN000001UK01MCAIMT040101UK03ControlActEvent controlActEvent;
+    protected COPCIN000001UK01ControlActEvent controlActEvent;
     @XmlAttribute(name = "nullFlavor")
     protected List<String> nullFlavor;
     @XmlAttribute(name = "updateMode")
@@ -344,10 +344,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @return
      *     possible object is
-     *     {@link COPCIN000001UK01MCAIMT040101UK03ControlActEvent }
+     *     {@link COPCIN000001UK01ControlActEvent }
      *     
      */
-    public COPCIN000001UK01MCAIMT040101UK03ControlActEvent getControlActEvent() {
+    public COPCIN000001UK01ControlActEvent getControlActEvent() {
         return controlActEvent;
     }
 
@@ -356,10 +356,10 @@ public class COPCIN000001UK01MCCIMT010101UK12Message {
      * 
      * @param value
      *     allowed object is
-     *     {@link COPCIN000001UK01MCAIMT040101UK03ControlActEvent }
+     *     {@link COPCIN000001UK01ControlActEvent }
      *     
      */
-    public void setControlActEvent(COPCIN000001UK01MCAIMT040101UK03ControlActEvent value) {
+    public void setControlActEvent(COPCIN000001UK01ControlActEvent value) {
         this.controlActEvent = value;
     }
 

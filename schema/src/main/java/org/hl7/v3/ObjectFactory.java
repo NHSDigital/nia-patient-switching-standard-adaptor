@@ -164,11 +164,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link COPCIN000001UK01MCCIMT010101UK12Message }
+     * Create an instance of {@link COPCIN000001UK01Message }
      *
      */
-    public COPCIN000001UK01MCCIMT010101UK12Message createCOPCIN000001UK01MCCIMT010101UK12Message() {
-        return new COPCIN000001UK01MCCIMT010101UK12Message();
+    public COPCIN000001UK01Message createCOPCIN000001UK01Message() {
+        return new COPCIN000001UK01Message();
     }
 
     /**
@@ -1565,27 +1565,27 @@ public class ObjectFactory {
 
 
     /**
-     * Create an instance of {@link COPCIN000001UK01MCAIMT040101UK03ControlActEvent }
+     * Create an instance of {@link COPCIN000001UK01ControlActEvent }
      *
      */
-    public COPCIN000001UK01MCAIMT040101UK03ControlActEvent createCOPCIN000001UK01MCAIMT040101UK03ControlActEvent() {
-        return new COPCIN000001UK01MCAIMT040101UK03ControlActEvent();
+    public COPCIN000001UK01ControlActEvent createCOPCIN000001UK01ControlActEvent() {
+        return new COPCIN000001UK01ControlActEvent();
     }
 
     /**
      * Create an instance of {@link RCMRIN030000UK06Subject }
      * 
      */
-    public COPCIN000001UK01MCAIMT040101UK03Subject createRCMRIN030000UK06Subject() {
-        return new COPCIN000001UK01MCAIMT040101UK03Subject();
+    public COPCIN000001UK01Subject createRCMRIN030000UK06Subject() {
+        return new COPCIN000001UK01Subject();
     }
 
     /**
-     * Create an instance of {@link COPCIN000001UK01MCAIMT040101UK03Subject }
+     * Create an instance of {@link COPCIN000001UK01Subject }
      *
      */
-    public COPCIN000001UK01MCAIMT040101UK03Subject createCOPCIN000001UK01MCAIMT040101UK03Subject() {
-        return new COPCIN000001UK01MCAIMT040101UK03Subject();
+    public COPCIN000001UK01Subject createCOPCIN000001UK01Subject() {
+        return new COPCIN000001UK01Subject();
     }
 
     /**
@@ -1841,16 +1841,16 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link COPCIN000001UK01MCCIMT010101UK12Message }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link COPCIN000001UK01Message }{@code >}
      *
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link COPCIN000001UK01MCCIMT010101UK12Message }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link COPCIN000001UK01Message }{@code >}
      */
     @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "COPC_IN000001UK01")
-    public JAXBElement<COPCIN000001UK01MCCIMT010101UK12Message> createCOPCIN000001UK01(COPCIN000001UK01MCCIMT010101UK12Message value) {
-        return new JAXBElement<COPCIN000001UK01MCCIMT010101UK12Message>(_COPCIN000001UK01_QNAME, COPCIN000001UK01MCCIMT010101UK12Message.class, null, value);
+    public JAXBElement<COPCIN000001UK01Message> createCOPCIN000001UK01(COPCIN000001UK01Message value) {
+        return new JAXBElement<COPCIN000001UK01Message>(_COPCIN000001UK01_QNAME, COPCIN000001UK01Message.class, null, value);
     }
 
     /**
