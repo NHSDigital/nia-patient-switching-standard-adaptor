@@ -1,6 +1,5 @@
-UPDATE patient_attachment_log
+UPDATE patient_attachment_log AS PAL
 SET
     deleted = true
-    FROM patient_attachment_log AS PAL
-INNER JOIN patient_migration_request PMR ON PMR.id = PAL.patient_migration_req_id
+FROM patient_migration_request AS PMR
 WHERE PMR.conversation_id = :conversationId AND PAL.mid = :mid
