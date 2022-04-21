@@ -1,0 +1,389 @@
+<xs:schema xmlns="urn:hl7-org:v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:hl7-org:v3" elementFormDefault="qualified">
+    <xs:include schemaLocation="../dt/datatypes.xsd"/>
+    <xs:simpleType name="AcknowledgementDetailType_code">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>4.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="cs">
+            <xs:enumeration value="ER"/>
+            <xs:enumeration value="WG"/>
+            <xs:enumeration value="IF"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="AcknowledgementDetailType_displayName">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>4.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="st">
+            <xs:enumeration value="Error"/>
+            <xs:enumeration value="Warning"/>
+            <xs:enumeration value="For Information"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="CS_AcknowledgementDetailType">
+        <xs:complexContent>
+            <xs:restriction base="CS">
+                <xs:attribute name="code" type="AcknowledgementDetailType_code" use="required"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="AcknowledgementType_code">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>4.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="cs">
+            <xs:enumeration value="AA"/>
+            <xs:enumeration value="AE"/>
+            <xs:enumeration value="AR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="AcknowledgementType_displayName">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>4.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="st">
+            <xs:enumeration value="Application Acknowledgement Accept"/>
+            <xs:enumeration value="Application Acknowledgement Error"/>
+            <xs:enumeration value="Application Acknowledgement Reject"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="CS_AcknowledgementType">
+        <xs:complexContent>
+            <xs:restriction base="CS">
+                <xs:attribute name="code" type="AcknowledgementType_code" use="required"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="HL7StandardVersionCode_code">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>29.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="cs">
+            <xs:enumeration value="V3NPfIT2.0"/>
+            <xs:enumeration value="V3NPfIT2.1"/>
+            <xs:enumeration value="V3NPfIT2.2"/>
+            <xs:enumeration value="V3NPfIT2.3"/>
+            <xs:enumeration value="V3NPfIT3.0"/>
+            <xs:enumeration value="V3NPfIT3.1"/>
+            <xs:enumeration value="V3NPfIT3.1.01"/>
+            <xs:enumeration value="V3NPfIT3.1.02"/>
+            <xs:enumeration value="V3NPfIT3.1.03"/>
+            <xs:enumeration value="V3NPfIT3.1.04"/>
+            <xs:enumeration value="V3NPfIT3.1.05"/>
+            <xs:enumeration value="V3NPfIT3.1.06"/>
+            <xs:enumeration value="V3NPfIT3.1.07"/>
+            <xs:enumeration value="V3NPfIT3.1.08"/>
+            <xs:enumeration value="V3NPfIT3.1.09"/>
+            <xs:enumeration value="V3NPfIT3.1.10"/>
+            <xs:enumeration value="V3NPfIT4.0.0"/>
+            <xs:enumeration value="V3NPfIT4.1"/>
+            <xs:enumeration value="V3NPfIT4.1.01"/>
+            <xs:enumeration value="V3NPfIT4.1.02"/>
+            <xs:enumeration value="V3NPfIT4.1.03"/>
+            <xs:enumeration value="V3NPfIT4.1.04"/>
+            <xs:enumeration value="V3NPfIT4.2.00"/>
+            <xs:enumeration value="V3NPfIT5.0"/>
+            <xs:enumeration value="V3NPfIT5.1"/>
+            <xs:enumeration value="V3NPfIT5.2"/>
+            <xs:enumeration value="V3NPfIT5.3"/>
+            <xs:enumeration value="V3NPfIT5.4.00"/>
+            <xs:enumeration value="3NPfIT5.5.00"/>
+            <xs:enumeration value="3NPfIT6.1.00"/>
+            <xs:enumeration value="3NPfIT6.1.01"/>
+            <xs:enumeration value="3NPfIT5.5.01"/>
+            <xs:enumeration value="3NPfIT6.1.02"/>
+            <xs:enumeration value="3NPfIT6.2.00"/>
+            <xs:enumeration value="3NPfIT6.2.01"/>
+            <xs:enumeration value="3NPfIT6.2.02"/>
+            <xs:enumeration value="3NPfIT6.3.00"/>
+            <xs:enumeration value="3NPfIT7.0.00"/>
+            <xs:enumeration value="3NPfIT7.1.00"/>
+            <xs:enumeration value="3NPfIT6.3.01"/>
+            <xs:enumeration value="3NPfIT7.2.00"/>
+            <xs:enumeration value="3NPfIT7.2.01"/>
+            <xs:enumeration value="3NPfIT7.2.02"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="HL7StandardVersionCode_displayName">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>29.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="st">
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+            <xs:enumeration value="Overall version description for UK use"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="CS_HL7StandardVersionCode">
+        <xs:complexContent>
+            <xs:restriction base="CS">
+                <xs:attribute name="code" type="HL7StandardVersionCode_code" use="required"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="MessageControl_code">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>1.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="cs">
+            <xs:enumeration value="01"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MessageControl_displayName">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>1.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="st">
+            <xs:enumeration value="Withdraw Message"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MessageControl_codeSystem">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>1.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="uid">
+            <xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.144"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="CV_MessageControl">
+        <xs:complexContent>
+            <xs:restriction base="CV">
+                <xs:sequence>
+                    <xs:element name="originalText" type="ED" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="code" type="MessageControl_code" use="optional"/>
+                <xs:attribute name="codeSystem" type="MessageControl_codeSystem" use="optional"/>
+                <xs:attribute name="displayName" type="st" use="optional"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="CS_MessageControl">
+        <xs:complexContent>
+            <xs:restriction base="CS">
+                <xs:attribute name="code" type="MessageControl_code" use="required"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="ProcessingID_code">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>2.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="cs">
+            <xs:enumeration value="D"/>
+            <xs:enumeration value="P"/>
+            <xs:enumeration value="T"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ProcessingID_displayName">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>2.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="st">
+            <xs:enumeration value="Debugging"/>
+            <xs:enumeration value="Production"/>
+            <xs:enumeration value="Training"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="CS_ProcessingID">
+        <xs:complexContent>
+            <xs:restriction base="CS">
+                <xs:attribute name="code" type="ProcessingID_code" use="required"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="ProcessingMode_code">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>2.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="cs">
+            <xs:enumeration value="A"/>
+            <xs:enumeration value="I"/>
+            <xs:enumeration value="R"/>
+            <xs:enumeration value="T"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ProcessingMode_displayName">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>2.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="st">
+            <xs:enumeration value="Archive mode"/>
+            <xs:enumeration value="Initial load"/>
+            <xs:enumeration value="Restore from Archive"/>
+            <xs:enumeration value="Current processing"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="CS_ProcessingMode">
+        <xs:complexContent>
+            <xs:restriction base="CS">
+                <xs:attribute name="code" type="ProcessingMode_code" use="required"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="QueryResponse_code">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>5.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="cs">
+            <xs:enumeration value="ID"/>
+            <xs:enumeration value="NF"/>
+            <xs:enumeration value="OK"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="QueryResponse_displayName">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>5.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="st">
+            <xs:enumeration value="Issue detected"/>
+            <xs:enumeration value="No data found"/>
+            <xs:enumeration value="Data found"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="CS_QueryResponse">
+        <xs:complexContent>
+            <xs:restriction base="CS">
+                <xs:attribute name="code" type="QueryResponse_code" use="required"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="WithdrawalReason_code">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>1.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="cs">
+            <xs:enumeration value="01"/>
+            <xs:enumeration value="02"/>
+            <xs:enumeration value="03"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="WithdrawalReason_displayName">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>1.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="st">
+            <xs:enumeration value="Sent in error"/>
+            <xs:enumeration value="Sent to wrong patient record"/>
+            <xs:enumeration value="Sent with incorrect information"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="WithdrawalReason_codeSystem">
+        <xs:annotation>
+            <xs:appinfo>
+                <status>active</status>
+                <version>1.0</version>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="uid">
+            <xs:enumeration value="2.16.840.1.113883.2.1.3.2.4.17.143"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="CV_WithdrawalReason">
+        <xs:complexContent>
+            <xs:restriction base="CV">
+                <xs:sequence>
+                    <xs:element name="originalText" type="ED" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="code" type="WithdrawalReason_code" use="optional"/>
+                <xs:attribute name="codeSystem" type="WithdrawalReason_codeSystem" use="optional"/>
+                <xs:attribute name="displayName" type="st" use="optional"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="CS_WithdrawalReason">
+        <xs:complexContent>
+            <xs:restriction base="CS">
+                <xs:attribute name="code" type="WithdrawalReason_code" use="required"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+</xs:schema>

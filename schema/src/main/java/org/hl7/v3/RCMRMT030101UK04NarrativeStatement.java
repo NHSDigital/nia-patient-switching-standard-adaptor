@@ -135,6 +135,10 @@ public class RCMRMT030101UK04NarrativeStatement {
         return text;
     }
 
+    public boolean hasText() {
+        return text != null;
+    }
+
     /**
      * Sets the value of the text property.
      * 

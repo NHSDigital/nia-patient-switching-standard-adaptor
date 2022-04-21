@@ -24,6 +24,7 @@ import uk.nhs.adaptors.connector.dao.MessagePersistDurationDao;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.dao.SnomedCTDao;
+import uk.nhs.adaptors.connector.dao.PatientAttachmentLogDao;
 
 @Slf4j
 @Configuration
@@ -83,5 +84,10 @@ public class DbConnectorConfiguration {
     @Bean
     public MessagePersistDurationDao messagePersistDurationDao(Jdbi jdbi) {
         return jdbi.onDemand(MessagePersistDurationDao.class);
+    }
+
+    @Bean
+    public PatientAttachmentLogDao attachmentLogDao(Jdbi jdbi) {
+        return jdbi.onDemand(PatientAttachmentLogDao.class);
     }
 }

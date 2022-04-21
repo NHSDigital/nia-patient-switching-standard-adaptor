@@ -12,6 +12,7 @@ import com.github.mustachejava.Mustache;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.util.DateUtils;
+import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.util.template.parameter.ApplicationAcknowledgmentParams;
 
@@ -20,6 +21,9 @@ import uk.nhs.adaptors.pss.translator.util.template.parameter.ApplicationAcknowl
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class ApplicationAcknowledgementMessageService {
     private static final Mustache NACK_MESSAGE_TEMPLATE =
+        loadTemplate("applicationAcknowledgementTemplate.mustache");
+
+    private static final Mustache ACK_MESSAGE_TEMPLATE =
         loadTemplate("applicationAcknowledgementTemplate.mustache");
 
     private final DateUtils dateUtils;
@@ -39,5 +43,20 @@ public class ApplicationAcknowledgementMessageService {
             .build();
 
         return fillTemplate(NACK_MESSAGE_TEMPLATE, params);
+    }
+
+    public String buildAckMessage(ACKMessageData messageData) throws IllegalArgumentException {
+
+        LOGGER.debug("Building ACK message for message = [{}]", messageData.getMessageRef());
+
+        ApplicationAcknowledgmentParams params = ApplicationAcknowledgmentParams.builder()
+            .messageId(idGeneratorService.generateUuid())
+            .creationTime(toHl7Format(dateUtils.getCurrentInstant()))
+            .toAsid(messageData.getToAsid())
+            .fromAsid(messageData.getFromAsid())
+            .messageRef(messageData.getMessageRef())
+            .build();
+
+        return fillTemplate(ACK_MESSAGE_TEMPLATE, params);
     }
 }

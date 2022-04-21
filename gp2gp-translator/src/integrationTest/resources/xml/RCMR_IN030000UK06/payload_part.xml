@@ -378,7 +378,7 @@
                                                                     <originalText>Absent Attachment</originalText>
                                                                 </code>
                                                                 <text mediaType="text/plain">
-                                                                    <reference value="file://localhost/31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt" />
+                                                                    <reference value="file://localhost/AbsentAttachment31B75ED0-6E88-11EA-9384-E83935108FD5.txt" />
                                                                 </text>
                                                             </referredToExternalDocument>
                                                         </reference>
@@ -13828,7 +13828,7 @@
                                                                 <id root="doc-ref-id"/>
                                                                 <code code="25821000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
                                                                       displayName="Original Text document">
-                                                                    <originalText>Record Attachment</originalText>
+                                                                    <originalText>Absent Attachment</originalText>
                                                                 </code>
                                                                 <text mediaType="text/plain">
                                                                     <reference

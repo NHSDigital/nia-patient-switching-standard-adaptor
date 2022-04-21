@@ -38,7 +38,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     // TODO: Add file Size using the uncompressed/unencoded size of the document (NIAD-2030)
 
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1";
-    private static final String ABSENT_ATTACHMENT = "Absent Attachment";
+    private static final String ABSENT_ATTACHMENT = "AbsentAttachment";
     private static final String PLACEHOLDER_VALUE = "GP2GP generated placeholder. Original document not available. See notes for details";
     private static final String INVALID_CONTENT_TYPE = "Content type was not a valid MIME type";
 
@@ -75,7 +75,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         documentReference.setCustodian(new Reference(organization));
         getAuthor(narrativeStatement, ehrComposition).ifPresent(documentReference::addAuthor);
 
-        if (narrativeStatement.hasAvailabilityTime() && !narrativeStatement.getAvailabilityTime().getValue().isEmpty()) {
+        if (narrativeStatement.hasAvailabilityTime() && narrativeStatement.getAvailabilityTime().hasValue()) {
             documentReference.setCreatedElement(DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
         }
 
@@ -114,7 +114,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     private InstantType getIndexed(RCMRMT030101UK04EhrExtract ehrExtract) {
         if (ehrExtract.hasAuthor()) {
-            if (ehrExtract.getAuthor().hasTime() && ehrExtract.getAuthor().getNullFlavor() == null) {
+            if (ehrExtract.getAuthor().hasTime() && ehrExtract.getAuthor().getTime().hasValue()) {
                 return DateFormatUtil.parseToInstantType(ehrExtract.getAuthor().getTime().getValue());
             }
 
@@ -134,23 +134,29 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     }
 
     private String buildDescription(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
-        var referenceToExternalDocumentText = narrativeStatement.getReference().get(0).getReferredToExternalDocument().getText();
-        if (isAbsentAttachment(narrativeStatement)) {
-            return PLACEHOLDER_VALUE;
-        }
-        if (referenceToExternalDocumentText != null) {
-            String fileName = referenceToExternalDocumentText.getReference().getValue();
-            if (fileName != null) {
-                return buildFileName(fileName);
-            }
+        String description = null;
+        if (narrativeStatement.hasText()) {
+            description = addLine(description, narrativeStatement.getText());
         }
 
-        return null;
+        if (isAbsentAttachment(narrativeStatement)) {
+            description = addLine(description, PLACEHOLDER_VALUE);
+        } else {
+            description = addLine(description,
+                buildFileName(narrativeStatement.getReference().get(0)
+                    .getReferredToExternalDocument().getText().getReference().getValue()));
+        }
+
+        return description;
+    }
+
+    public static String addLine(String text, String line) {
+        return text == null ? line : text.concat(StringUtils.LF).concat(line);
     }
 
     private boolean isAbsentAttachment(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
-        return narrativeStatement.getReference().get(0).getReferredToExternalDocument().getCode().getOriginalText()
-            .equals(ABSENT_ATTACHMENT);
+        return narrativeStatement.getReference().get(0)
+            .getReferredToExternalDocument().getText().getReference().getValue().contains(ABSENT_ATTACHMENT);
     }
 
     private void setContentAttachments(DocumentReference documentReference, RCMRMT030101UK04NarrativeStatement narrativeStatement) {

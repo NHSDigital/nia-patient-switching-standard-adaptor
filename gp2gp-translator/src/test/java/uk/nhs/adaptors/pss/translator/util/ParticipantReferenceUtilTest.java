@@ -57,6 +57,16 @@ public class ParticipantReferenceUtilTest {
     }
 
     @Test
+    public void mapResourceWithNullFlavorParticipants() {
+        var ehrComposition = unmarshallEhrCompositionElement("null_flavor_participants.xml");
+        var participants = getParticipants(ehrComposition);
+
+        Reference participantReference = ParticipantReferenceUtil.getParticipantReference(participants, ehrComposition);
+
+        assertThat(participantReference).isNull();
+    }
+
+    @Test
     public void mapResourceWithNoValidParticipant() {
         var ehrComposition = unmarshallEhrCompositionElement("no_valid_participant.xml");
         var participants = getParticipants(ehrComposition);
