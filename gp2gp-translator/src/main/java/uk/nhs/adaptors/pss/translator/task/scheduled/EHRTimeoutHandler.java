@@ -1,7 +1,7 @@
 package uk.nhs.adaptors.pss.translator.task.scheduled;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_TIMEOUT;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
@@ -67,15 +67,14 @@ public class EHRTimeoutHandler {
     public void checkForTimeouts() {
         LOGGER.info("running scheduled task");
 
-        // get migrations with status EHR_EXTRACT_RECEIVED or CONTINUE_REQUEST_ACCEPTED
+        // get migrations with status EHR_EXTRACT_TRANSLATED or CONTINUE_REQUEST_ACCEPTED
 
         List<PatientMigrationRequest> extractReceivedRequests =
-            migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_RECEIVED);
+            migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED);
         List<PatientMigrationRequest> largeMessageRequests =
             migrationRequestService.getMigrationRequestByCurrentMigrationStatus(CONTINUE_REQUEST_ACCEPTED);
 
         // TODO: iterate through the migration requests:
-        //  - update the persist durations (done) and get the number of COPC messages from the DB (if the migration contains large messages)
         //  - update the persist durations and get the number of COPC messages from the DB (if the migration contains large messages)
         //  - do the timeout calculation
         //  - send the NACK message if the migration has timed out
