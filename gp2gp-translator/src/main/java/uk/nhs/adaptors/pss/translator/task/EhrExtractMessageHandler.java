@@ -32,6 +32,7 @@ import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
@@ -53,6 +54,7 @@ public class EhrExtractMessageHandler {
     private final SendContinueRequestHandler sendContinueRequestHandler;
     private final AttachmentHandlerService attachmentHandlerService;
     private final SendNACKMessageHandler sendNACKMessageHandler;
+    private final SendACKMessageHandler sendACKMessageHandler;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException,
         SAXException, InlineAttachmentProcessingException, BundleMappingException {
@@ -95,6 +97,9 @@ public class EhrExtractMessageHandler {
                     );
                 }
             }
+
+            sendAckMessage(payload, conversationId);
+
         } catch (BundleMappingException | DataFormatException | JsonProcessingException | InlineAttachmentProcessingException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
@@ -160,6 +165,16 @@ public class EhrExtractMessageHandler {
         ));
     }
 
+    public boolean sendAckMessage(RCMRIN030000UK06Message payload, String conversationId) {
+
+        LOGGER.debug("Sending ACK message for message with Conversation ID: [{}]", conversationId);
+
+        return sendACKMessageHandler.prepareAndSendMessage(prepareAckMessageData(
+            payload,
+            conversationId
+        ));
+    }
+
     private ContinueRequestData prepareContinueRequestData(
         RCMRIN030000UK06Message payload,
         String conversationId,
@@ -180,6 +195,23 @@ public class EhrExtractMessageHandler {
             .toOdsCode(toOdsCode)
             .fromOdsCode(winningPracticeOdsCode)
             .mcciIN010000UK13creationTime(mcciIN010000UK13creationTimeToHl7Format)
+            .build();
+    }
+
+    private ACKMessageData prepareAckMessageData(RCMRIN030000UK06Message payload,
+        String conversationId) {
+
+        String toOdsCode = parseToOdsCode(payload);
+        String messageRef = parseMessageRef(payload);
+        String toAsid = parseToAsid(payload);
+        String fromAsid = parseFromAsid(payload);
+
+        return ACKMessageData.builder()
+            .conversationId(conversationId)
+            .toOdsCode(toOdsCode)
+            .messageRef(messageRef)
+            .toAsid(toAsid)
+            .fromAsid(fromAsid)
             .build();
     }
 
