@@ -36,7 +36,7 @@ public class MhsQueueMessageHandler {
     private final MDCService mdcService;
     private final EhrExtractMessageHandler ehrExtractMessageHandler;
     private final AcknowledgmentMessageHandler acknowledgmentMessageHandler;
-    private final AttachmentMessageHandler continueMessageHandler;
+    private final COPCMessageHandler continueMessageHandler;
 
     public boolean handleMessage(Message message) {
         try {

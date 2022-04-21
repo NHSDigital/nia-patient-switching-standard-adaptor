@@ -32,16 +32,11 @@ public class SendACKMessageHandler {
             outboundMessage);
 
         try {
-
-            String response = mhsClientService.send(request);
-
-            LOGGER.debug(response);
+            mhsClientService.send(request);
         } catch (WebClientResponseException e) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", e.getMessage());
             return false;
         }
-
-        LOGGER.info("Got response from MHS - 202 Accepted");
         return true;
     }
 }

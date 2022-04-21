@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 
@@ -18,17 +17,15 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallSt
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class AttachmentMessageHandler {
-    private final MigrationStatusLogService migrationStatusLogService;
-    private final PatientMigrationRequestDao migrationRequestDao;
+public class COPCMessageHandler {
 
+    private final PatientMigrationRequestDao migrationRequestDao;
     private final SendACKMessageHandler sendACKMessageHandler;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException {
 
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
-        //MigrationStatusLog migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
 
         sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
     }
