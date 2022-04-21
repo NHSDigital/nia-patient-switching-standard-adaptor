@@ -23,10 +23,8 @@ public class PatientAttachmentLogService {
      *
      */
     public void addAttachmentLog(
-        PatientAttachmentLog attachmentLog
+        PatientAttachmentLog attachmentLogInput
     ) {
-
-        var attachmentLogInput = attachmentLog;
         var mid = attachmentLogInput.getMid();
         var filename = attachmentLogInput.getFilename();
         patientAttachmentLogDao.addAttachmentLog(
@@ -59,23 +57,21 @@ public class PatientAttachmentLogService {
         String mid,
         String conversationId
     ) {
-        var attachmentLog = patientAttachmentLogDao.findPatientAttachment(mid, conversationId);
-        return attachmentLog;
+        return patientAttachmentLogDao.findPatientAttachment(mid, conversationId);
     }
 
     /**
      *
-     * @param attachmentLog
+     * @param attachmentLogInput
      * @param conversationId
      *
      * @description
      * Update an attachment log with using mid and conversation id
      */
     public void updateAttachmentLog(
-        PatientAttachmentLog attachmentLog,
+        PatientAttachmentLog attachmentLogInput,
         String conversationId
     ) {
-        var attachmentLogInput = attachmentLog;
         var mid = attachmentLogInput.getMid();
         patientAttachmentLogDao.updateAttachmentLog(
             mid,
