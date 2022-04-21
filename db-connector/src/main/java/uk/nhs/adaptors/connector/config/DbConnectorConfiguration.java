@@ -23,6 +23,7 @@ import uk.nhs.adaptors.connector.dao.ImmunizationSnomedCTDao;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.dao.SnomedCTDao;
+import uk.nhs.adaptors.connector.dao.PatientAttachmentLogDao;
 
 @Slf4j
 @Configuration
@@ -77,5 +78,10 @@ public class DbConnectorConfiguration {
     @Bean
     public SnomedCTDao snomedCTDao(Jdbi jdbi) {
         return jdbi.onDemand(SnomedCTDao.class);
+    }
+
+    @Bean
+    public PatientAttachmentLogDao attachmentLogDao(Jdbi jdbi) {
+        return jdbi.onDemand(PatientAttachmentLogDao.class);
     }
 }
