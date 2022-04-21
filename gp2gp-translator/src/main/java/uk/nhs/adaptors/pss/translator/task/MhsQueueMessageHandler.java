@@ -58,7 +58,7 @@ public class MhsQueueMessageHandler {
             LOGGER.error("Unable to read the content of the inbound MHS message", e);
             return false;
         } catch (JsonProcessingException | DataFormatException e) {
-            LOGGER.error("Unable to parse messages for migration status log", e);
+            LOGGER.error("Unable to parse messages", e);
             return false;
         } catch (InlineAttachmentProcessingException e) {
             LOGGER.error("Unable to process inline attachments", e);
