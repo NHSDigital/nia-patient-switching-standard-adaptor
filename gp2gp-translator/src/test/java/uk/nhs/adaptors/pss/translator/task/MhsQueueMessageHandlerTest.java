@@ -42,6 +42,7 @@ public class MhsQueueMessageHandlerTest {
     private static final String EHR_EXTRACT_INTERACTION_ID = "RCMR_IN030000UK06";
     private static final String ACKNOWLEDGEMENT_INTERACTION_ID = "MCCI_IN010000UK13";
     private static final String OTHER_INTERACTION_ID = "COPC_IN000001UK01";
+    private static final String UNKNOWN_INTERACTION_ID = "RANDOM_IN000001UK01";
     private static final String CONVERSATION_ID_PATH = "/Envelope/Header/MessageHeader/ConversationId";
     private static final String INTERACTION_ID_PATH = "/Envelope/Header/MessageHeader/Action";
     private static final String CONVERSATION_ID = randomUUID().toString();
@@ -136,7 +137,7 @@ public class MhsQueueMessageHandlerTest {
     @Test
     public void handleMessageWithUnsupportedInteractionIdShouldReturnTrue() {
         inboundMessage = new InboundMessage();
-        prepareMocks(OTHER_INTERACTION_ID);
+        prepareMocks(UNKNOWN_INTERACTION_ID);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 

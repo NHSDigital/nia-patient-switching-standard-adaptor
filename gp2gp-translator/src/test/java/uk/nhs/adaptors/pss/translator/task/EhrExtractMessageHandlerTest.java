@@ -33,6 +33,8 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.matchers.Any;
+import org.mockito.internal.matchers.Null;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -105,6 +107,9 @@ public class EhrExtractMessageHandlerTest {
     private SendContinueRequestHandler sendContinueRequestHandler;
 
     @Mock
+    private SendACKMessageHandler sendACKMessageHandler;
+
+    @Mock
     private SendNACKMessageHandler sendNACKMessageHandler;
 
     @InjectMocks
@@ -157,7 +162,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
-
+        when(sendACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
     }
 
     @SneakyThrows
