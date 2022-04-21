@@ -10,7 +10,6 @@ import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
 import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
-import uk.nhs.adaptors.pss.translator.task.EhrExtractMessageHandler;
 
 import javax.xml.bind.ValidationException;
 import java.io.ByteArrayInputStream;
