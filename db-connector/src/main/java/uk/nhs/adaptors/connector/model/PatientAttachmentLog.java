@@ -8,7 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class PatientAttachmentLog implements Cloneable {
+public class PatientAttachmentLog {
+    // Removed Clonable instance
+
     @NonNull
     private String mid;
     private String parentMid;
