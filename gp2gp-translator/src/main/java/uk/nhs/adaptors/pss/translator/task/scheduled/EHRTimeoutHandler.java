@@ -76,6 +76,7 @@ public class EHRTimeoutHandler {
 
         // TODO: iterate through the migration requests:
         //  - update the persist durations (done) and get the number of COPC messages from the DB (if the migration contains large messages)
+        //  - update the persist durations and get the number of COPC messages from the DB (if the migration contains large messages)
         //  - do the timeout calculation
         //  - send the NACK message if the migration has timed out
         //  - potentially clear unnecessary data from the db after a timeout?
@@ -142,6 +143,7 @@ public class EHRTimeoutHandler {
 
             return messagePersistDurationService.addMessagePersistDuration(
                 messageType,
+
                 sdsService.getPersistDurationFor(messageType, migrationRequest.getLosingPracticeOdsCode(),
                     migrationRequest.getConversationId()),
                 1,

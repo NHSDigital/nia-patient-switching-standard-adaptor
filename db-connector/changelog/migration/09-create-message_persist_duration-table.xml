@@ -1,0 +1,41 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="9" author="benhession">
+        <createTable tableName="message_persist_duration">
+            <column name="id" type="int" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="message_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="persist_duration" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="calls_since_update" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="migration_request_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint constraintName="fk_migrationrequest2messageduration"
+                                 baseTableName="message_persist_duration"
+                                 baseColumnNames="migration_request_id"
+                                 referencedTableName="patient_migration_request"
+                                 referencedColumnNames="id"/>
+
+        <addUniqueConstraint constraintName="message_type_must_be_unique_for_request"
+                             tableName="message_persist_duration"
+                             columnNames="message_type, migration_request_id"/>
+
+        <sql dbms="postgresql">
+            GRANT SELECT, INSERT, UPDATE, DELETE ON message_persist_duration TO application_user;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
