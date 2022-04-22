@@ -107,7 +107,7 @@ public class EHRTimeoutHandler {
             ZonedDateTime timeoutDateTime = messageTimestamp.plusSeconds(timeout);
 
             if (timeoutDateTime.isBefore(currentTime)) {
-                LOGGER.debug("EHR with large attachments timed out at [{}]", timeoutDateTime);
+                LOGGER.debug("Migration timed out at [{}]", timeoutDateTime);
                 sendNackMessage(message, conversationId);
             }
         } catch (SdsRetrievalException e) {
