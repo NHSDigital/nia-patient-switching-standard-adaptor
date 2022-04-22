@@ -66,7 +66,7 @@ public class EHRTimeoutHandler {
 
     @Scheduled(cron = "${timeout.cronTime}")
     public void checkForTimeouts() {
-        LOGGER.debug("running scheduled task to check for timeouts");
+        LOGGER.info("running scheduled task to check for timeouts");
 
         List<PatientMigrationRequest> extractReceivedRequests =
             migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED);
@@ -107,7 +107,7 @@ public class EHRTimeoutHandler {
             ZonedDateTime timeoutDateTime = messageTimestamp.plusSeconds(timeout);
 
             if (timeoutDateTime.isBefore(currentTime)) {
-                LOGGER.debug("Migration timed out at [{}]", timeoutDateTime);
+                LOGGER.info("Migration timed out at [{}]", timeoutDateTime);
                 sendNackMessage(message, conversationId);
             }
         } catch (SdsRetrievalException e) {
