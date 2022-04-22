@@ -54,4 +54,8 @@ public interface PatientAttachmentLogDao {
         @Bind() Integer lengthNum,
         @Bind() Integer orderNum
     );
+
+    @SqlQuery("count_attachments_for_migration_id")
+    @UseClasspathSqlLocator
+    long countNumberOfCOPCMessagesForMigrationId(@Bind("migrationId") int migrationId);
 }
