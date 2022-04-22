@@ -4,7 +4,7 @@ import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RCRIN030000UK06Util {
+public class OutboundMessageUtil {
     public String parseFromAsid(RCMRIN030000UK06Message payload) {
         return payload.getCommunicationFunctionRcv()
             .get(0)

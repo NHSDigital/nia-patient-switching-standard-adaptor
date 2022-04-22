@@ -31,6 +31,7 @@ import uk.nhs.adaptors.connector.model.MessagePersistDuration;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MessagePersistDurationService;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.connector.service.PatientMigrationRequestService;
 import uk.nhs.adaptors.pss.translator.config.TimeoutProperties;
 import uk.nhs.adaptors.pss.translator.exception.SdsRetrievalException;
@@ -39,14 +40,13 @@ import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.service.SDSService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
-import uk.nhs.adaptors.pss.translator.util.RCRIN030000UK06Util;
+import uk.nhs.adaptors.pss.translator.util.OutboundMessageUtil;
 
 @Slf4j
 @Component
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class EHRTimeoutHandler {
 
-    private static final String CRON_TIME = "*/10 * * * * SUN-SAT";
     private static final String EHR_EXTRACT_MESSAGE_NAME = "RCMR_IN030000UK06";
     private static final String COPC_MESSAGE_NAME = "COPC_IN000001UK01";
     private static final int FREQUENCY_OF_PERSIST_DURATION_UPDATE = 3;
@@ -60,51 +60,54 @@ public class EHRTimeoutHandler {
     private final XPathService xPathService;
     private final TimeoutProperties timeoutProperties;
     private final SendNACKMessageHandler sendNACKMessageHandler;
-    private final RCRIN030000UK06Util ehrUtil;
+    private final OutboundMessageUtil outboundMessageUtil;
     private final MigrationStatusLogService migrationStatusLogService;
+    private final PatientAttachmentLogService patientAttachmentLogService;
 
-    @Scheduled(cron = CRON_TIME)
+    @Scheduled(cron = "${timeout.cronTime}")
     public void checkForTimeouts() {
-        LOGGER.info("running scheduled task");
-
-        // get migrations with status EHR_EXTRACT_TRANSLATED or CONTINUE_REQUEST_ACCEPTED
+        LOGGER.debug("running scheduled task to check for timeouts");
 
         List<PatientMigrationRequest> extractReceivedRequests =
             migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED);
         List<PatientMigrationRequest> largeMessageRequests =
             migrationRequestService.getMigrationRequestByCurrentMigrationStatus(CONTINUE_REQUEST_ACCEPTED);
 
-        // TODO: iterate through the migration requests:
-        //  - update the persist durations and get the number of COPC messages from the DB (if the migration contains large messages)
-        //  - do the timeout calculation
-        //  - send the NACK message if the migration has timed out
-        //  - potentially clear unnecessary data from the db after a timeout?
+        extractReceivedRequests.forEach(this::handleMigrationTimeout);
 
-        extractReceivedRequests.forEach(migrationRequest -> {
-            String conversationId = migrationRequest.getConversationId();
-            mdcService.applyConversationId(conversationId);
-            handleExtractReceivedTimeout(migrationRequest, conversationId);
-            mdcService.applyConversationId("");
-        });
-
-        largeMessageRequests.forEach(migrationRequest -> {
-            String conversationId = migrationRequest.getConversationId();
-            mdcService.applyConversationId(conversationId);
-            handleLargeMessageTimeout(migrationRequest, conversationId);
-            mdcService.applyConversationId("");
-        });
+        largeMessageRequests.forEach(this::handleMigrationTimeout);
     }
 
-    private void handleExtractReceivedTimeout(PatientMigrationRequest migrationRequest, String conversationId) {
+    private void handleMigrationTimeout(PatientMigrationRequest migrationRequest) {
+
+        String conversationId = migrationRequest.getConversationId();
+        mdcService.applyConversationId(conversationId);
+
         try {
+            long timeout;
             Duration ehrPersistDuration = getPersistDurationFor(migrationRequest, EHR_EXTRACT_MESSAGE_NAME);
             InboundMessage message = readMessage(migrationRequest.getInboundMessage());
             ZonedDateTime messageTimestamp = parseMessageTimestamp(message.getEbXML());
             ZonedDateTime currentTime = ZonedDateTime.now(messageTimestamp.getZone());
+            long numberCOPCMessages = patientAttachmentLogService.countAttachmentsForMigrationRequest(migrationRequest.getId());
 
-            long timeout = timeoutProperties.getEhrExtractWeighting() * ehrPersistDuration.getSeconds();
+            if (numberCOPCMessages > 0) {
+                Duration copcPersistDuration = getPersistDurationFor(migrationRequest, COPC_MESSAGE_NAME);
 
-            if (messageTimestamp.plusSeconds(timeout).isBefore(currentTime)) {
+                timeout = (timeoutProperties.getEhrExtractWeighting() * ehrPersistDuration.getSeconds())
+                    * (timeoutProperties.getCopcWeighting() * numberCOPCMessages * copcPersistDuration.getSeconds());
+
+                LOGGER.debug("Large message timeout calculated as [{}] seconds", timeout);
+            } else {
+                timeout = timeoutProperties.getEhrExtractWeighting() * ehrPersistDuration.getSeconds();
+
+                LOGGER.debug("Non large message timeout calculated as [{}] seconds", timeout);
+            }
+
+            ZonedDateTime timeoutDateTime = messageTimestamp.plusSeconds(timeout);
+
+            if (timeoutDateTime.isBefore(currentTime)) {
+                LOGGER.debug("EHR with large attachments timed out at [{}]", timeoutDateTime);
                 sendNackMessage(message, conversationId);
             }
         } catch (SdsRetrievalException e) {
@@ -113,23 +116,8 @@ public class EHRTimeoutHandler {
             LOGGER.error("Error parsing inbound message from database");
             migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId);
         }
-    }
 
-    private void handleLargeMessageTimeout(PatientMigrationRequest migrationRequest, String conversationId) {
-        try {
-            Duration ehrPersistDuration = getPersistDurationFor(migrationRequest, EHR_EXTRACT_MESSAGE_NAME);
-            Duration copcPersistDuration = getPersistDurationFor(migrationRequest, COPC_MESSAGE_NAME);
-
-            InboundMessage message = readMessage(migrationRequest.getInboundMessage());
-
-            ZonedDateTime messageTimestamp = parseMessageTimestamp(message.getEbXML());
-
-        } catch (SdsRetrievalException e) {
-            LOGGER.error("Error retrieving persist duration: [{}]", e.getMessage());
-        } catch (JsonProcessingException | SAXException | DateTimeParseException e) {
-            LOGGER.error("Error parsing inbound message from database");
-            migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId);
-        }
+        mdcService.applyConversationId("");
     }
 
     private Duration getPersistDurationFor(PatientMigrationRequest migrationRequest, String messageType) {
@@ -176,10 +164,10 @@ public class EHRTimeoutHandler {
         NACKMessageData messageData = NACKMessageData
             .builder()
             .nackCode(LARGE_MESSAGE_TIMEOUT.getCode())
-            .fromAsid(ehrUtil.parseFromAsid(payload))
-            .toAsid(ehrUtil.parseToAsid(payload))
-            .toOdsCode(ehrUtil.parseToOdsCode(payload))
-            .messageRef(ehrUtil.parseMessageRef(payload))
+            .fromAsid(outboundMessageUtil.parseFromAsid(payload))
+            .toAsid(outboundMessageUtil.parseToAsid(payload))
+            .toOdsCode(outboundMessageUtil.parseToOdsCode(payload))
+            .messageRef(outboundMessageUtil.parseMessageRef(payload))
             .conversationId(conversationId)
             .build();
 

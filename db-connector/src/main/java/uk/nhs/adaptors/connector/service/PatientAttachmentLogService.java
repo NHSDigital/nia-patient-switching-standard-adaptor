@@ -17,7 +17,7 @@ public class PatientAttachmentLogService {
 
     /**
      *
-     * @param attachmentLog
+     * @param attachmentLogInput
      * @description
      * Requires a minimum of mid, filename and patient request id
      *
@@ -98,5 +98,9 @@ public class PatientAttachmentLogService {
             conversationId
         );
         LOGGER.debug("Deleted flag set on migration log mid=[{}] ", mid);
+    }
+
+    public long countAttachmentsForMigrationRequest(int migrationRequestId) {
+        return patientAttachmentLogDao.countNumberOfCOPCMessagesForMigrationId(migrationRequestId);
     }
 }
