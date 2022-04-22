@@ -3,6 +3,9 @@ package uk.nhs.adaptors.pss.translator.storage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.time.Instant;
+import java.util.Date;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -61,6 +64,18 @@ public class AWSStorageService implements StorageService {
 
     public void deleteFile(String filename) {
         s3Client.deleteObject(bucketName, filename);
+    }
+
+    public String getFileLocation(String filename) {
+        // https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html
+        // sharing file location from AWS is not straightforward as files are private by default
+        Date expiration = new Date();
+        long expTimeMillis = Instant.now().toEpochMilli();
+        expTimeMillis += 1000 * 60 * 60;
+        expiration.setTime(expTimeMillis);
+
+        URL url = s3Client.generatePresignedUrl(bucketName, filename, expiration);
+        return url.toString();
     }
 
     private S3ObjectInputStream downloadFileToStream(String filename) throws StorageException {
