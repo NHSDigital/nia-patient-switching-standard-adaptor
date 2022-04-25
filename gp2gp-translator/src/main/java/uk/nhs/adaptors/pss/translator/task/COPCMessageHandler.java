@@ -27,6 +27,19 @@ public class COPCMessageHandler {
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
 
+//        Receive message
+//        hit attachmentLog Table, get filename of attachment by mid
+//        check if has other mids in Manifest/Reference node
+//        if yes
+//        extract all that data to hit attachment_log table
+//        if no
+//        create file using filename from attachment_log, then upload
+//
+//        Hit attachment_log table and update uploaded to Y
+//
+//        Check length num == order num
+//        if true
+//        merge
         sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
     }
 
