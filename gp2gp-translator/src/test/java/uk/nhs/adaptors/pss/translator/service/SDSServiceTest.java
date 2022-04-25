@@ -39,7 +39,7 @@ public class SDSServiceTest {
     private SDSService sdsService;
 
     @Test
-    public void When_getPersistDurationForEHRExtract_withWebClientResponseException_Expect_ThrowsSdsRetrievalException() {
+    public void When_GetPersistDurationForEHRExtract_WithWebClientResponseException_Expect_ThrowsSdsRetrievalException() {
         when(sdsClientService.send(any())).thenThrow(new WebClientResponseException(
             HttpStatus.BAD_REQUEST.value(),
             "BAD REQUEST",
