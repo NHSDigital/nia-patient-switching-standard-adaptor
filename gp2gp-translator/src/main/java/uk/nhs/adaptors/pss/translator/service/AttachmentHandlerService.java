@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import software.amazon.ion.NullValueException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
@@ -73,5 +74,12 @@ public class AttachmentHandlerService {
                 }
             }
         }
+    }
+
+    public byte[] getAttachment(String filename) {
+        if(filename == null || filename.isEmpty()) {
+            throw new NullValueException();
+        }
+        return storageManagerService.downloadFile(filename);
     }
 }

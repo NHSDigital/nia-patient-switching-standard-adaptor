@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.connector.dao;
 
+import java.util.List;
+
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.locator.UseClasspathSqlLocator;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
@@ -37,6 +39,11 @@ public interface PatientAttachmentLogDao {
     @SqlQuery("select_patient_attachment_log")
     @UseClasspathSqlLocator
     PatientAttachmentLog findPatientAttachment(@Bind("mid") String mid, String conversationId);
+
+    @SqlQuery("select_patient_attachment_logs")
+    @UseClasspathSqlLocator
+    List<PatientAttachmentLog> findPatientAttachments(@Bind("conversationId") String conversationId);
+
 
     @SuppressWarnings("checkstyle:parameternumber")
     @SqlUpdate("update_patient_attachment_log")
