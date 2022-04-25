@@ -54,7 +54,26 @@ public class MhsQueueMessageHandler {
                 ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
             } else if (CONTINUE_ATTACHMENT_INTERACTION_ID.equals(interactionId)) {
                 continueMessageHandler.handleMessage(inboundMessage, conversationId);
-            } else {
+            } else
+                // else if (COPCMessage.equals(interactionId)) {
+                // copcMessageHandler.handleMessage(inboundMessage, conversationId);
+                /*
+
+                    Receive message
+                    hit attachmentLog Table, get filename of attachment by mid
+                    check if has other mids in Manifest/Reference node
+                    if yes
+                        extract all that data to hit attachment_log table
+                    if no
+                        create file using filename from attachment_log, then upload
+
+                    Hit attachment_log table and update uploaded to Y
+
+                    Check length num == order num
+                    if true
+                        merge
+
+                */{
                 LOGGER.info("Handling message with [{}] interaction id not implemented", interactionId);
             }
             return true;

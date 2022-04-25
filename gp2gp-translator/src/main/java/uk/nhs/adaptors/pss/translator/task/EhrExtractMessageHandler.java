@@ -88,6 +88,16 @@ public class EhrExtractMessageHandler {
                     .getExtension();
 
                 if (checkIfEHRExtractIsHasAttachments(inboundMessage)) {
+                    // Check for DomainData="X-GP2GP-Skeleton: Yes"
+
+                    // Check each reference node for mid, then insert each
+                    // mid =mid, filename=filename
+                    // patientMigration= get from conversationId on patient_migration_request
+                    // contentType=contentType
+                    // compress=compressed
+                    // largeAttachment=largeAttachment,base64=base64,skeleton=is this file a DomainData-skeleton
+                    // ordernum=order of what it comes in
+                    // lengthNum=how many mid attachments are there?
                     sendContinueRequest(
                         payload,
                         conversationId,
