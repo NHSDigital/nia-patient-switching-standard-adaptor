@@ -56,8 +56,7 @@ public class EhrExtractMessageHandler {
     private final SendNACKMessageHandler sendNACKMessageHandler;
     private final SendACKMessageHandler sendACKMessageHandler;
 
-    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException,
-        SAXException, InlineAttachmentProcessingException, BundleMappingException {
+    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException, SAXException, InlineAttachmentProcessingException, BundleMappingException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -65,16 +64,17 @@ public class EhrExtractMessageHandler {
 
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
-
         try {
-            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
-            attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
-            migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
-                conversationId,
-                fhirParser.encodeToJson(bundle),
-                objectMapper.writeValueAsString(inboundMessage),
-                EHR_EXTRACT_TRANSLATED
-            );
+            if(checkIfMessageHasASkeleton(inboundMessage)){
+                var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
+                attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
+                migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
+                        conversationId,
+                        fhirParser.encodeToJson(bundle),
+                        objectMapper.writeValueAsString(inboundMessage),
+                        EHR_EXTRACT_TRANSLATED
+                );
+            }
 
             ////sending continue message
             if (inboundMessage.getEbXML().contains("mid:")) {
@@ -106,9 +106,9 @@ public class EhrExtractMessageHandler {
                         migrationStatusLog.getDate().toInstant()
                     );
                 }
+            }else{
+                sendAckMessage(payload, conversationId);
             }
-
-            sendAckMessage(payload, conversationId);
 
         } catch (BundleMappingException | DataFormatException | JsonProcessingException | InlineAttachmentProcessingException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
@@ -119,6 +119,33 @@ public class EhrExtractMessageHandler {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw e;
         }
+    }
+
+    private boolean checkIfMessageHasASkeleton(InboundMessage inboundMessage) throws SAXException {
+
+        final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
+        final String EB_SKELETON_PROP = "X-GP2GP-Skeleton:Yes";
+
+        Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
+
+        NodeList referencesAttachment = xPathService.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH);
+
+        int sizeA = referencesAttachment.getLength();
+        for (int index = 0; index < referencesAttachment.getLength(); index++) {
+
+            Node referenceNode = referencesAttachment.item(index); //Reference
+
+            if (referenceNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                Element referenceElement = (Element) referenceNode; //description
+                String description = referenceElement.getTextContent();
+
+                if (description.replaceAll("\\s+","").contains(EB_SKELETON_PROP)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public boolean checkIfEHRExtractIsHasAttachments(InboundMessage inboundMessage) throws SAXException {
