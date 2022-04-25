@@ -8,12 +8,14 @@ import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Property;
 import org.hl7.fhir.dstu3.model.Resource;
+import org.hl7.fhir.exceptions.FHIRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.common.exception.FhirValidationException;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.pss.translator.exception.SdsRetrievalException;
 import uk.nhs.adaptors.pss.translator.sds.SdsRequestBuilder;
@@ -51,7 +53,14 @@ public class SDSService {
     }
 
     private Duration parsePersistDuration(String sdsResponse) throws SdsRetrievalException {
-        Bundle bundle = fhirParser.parseResource(sdsResponse, Bundle.class);
+
+        Bundle bundle;
+
+        try {
+            bundle = fhirParser.parseResource(sdsResponse, Bundle.class);
+        } catch (FhirValidationException e) {
+            throw new SdsRetrievalException(e.getMessage());
+        }
 
         List<Bundle.BundleEntryComponent> entries = bundle.getEntry();
 

@@ -35,6 +35,7 @@ public class SdsServiceIT {
     private static final String TEST_ODS_CODE = "P83007";
     private static final String TEST_INVALID_ODS_CODE = "Z12345";
     private static final String TEST_CONVERSATION_ID = "6d3d3674-7ce5-11ec-90d6-0242ac120003";
+    private static final String INVALID_CONVERSATION_ID = "invalid id";
     private static final int EHR_DURATION_HOURS = 4;
     private static final int EHR_DURATION_MINUTES = 10;
     private static final int COPC_DURATION_HOURS = 7;
@@ -45,6 +46,7 @@ public class SdsServiceIT {
     private static String sdsResponseCopcMessage;
     private static String sdsResponseInvalidMessageType;
     private static String sdsResponseInvalidOds;
+    private static String sdsResponseInvalidConversationId;
 
     @Autowired
     private SDSService sdsService;
@@ -58,6 +60,7 @@ public class SdsServiceIT {
         sdsResponseCopcMessage = readFileAsString("json/SDSResponseCopcMessage.json");
         sdsResponseInvalidMessageType = readFileAsString("json/SDSResponseInvalidMessageType.json");
         sdsResponseInvalidOds = readFileAsString("json/SDSResponseInvalidODS.json");
+        sdsResponseInvalidConversationId = readFileAsString("json/SDSResponseInvalidConversationId.json");
     }
 
     private static String readFileAsString(String path) throws IOException {
@@ -97,5 +100,14 @@ public class SdsServiceIT {
 
         assertThrows(SdsRetrievalException.class,
             () -> sdsService.getPersistDurationFor(TEST_INVALID_MESSAGE_TYPE, TEST_ODS_CODE, TEST_CONVERSATION_ID));
+    }
+
+    @Test
+    public void When_GetPersistDurationFor_WhenConversationIdInvalid_Expect_SdsRetrievalException() {
+        when(sdsClientService.send(any())).thenReturn(sdsResponseInvalidConversationId);
+
+        assertThrows(SdsRetrievalException.class,
+            () -> sdsService.getPersistDurationFor(TEST_INVALID_MESSAGE_TYPE, TEST_ODS_CODE, INVALID_CONVERSATION_ID));
+
     }
 }
