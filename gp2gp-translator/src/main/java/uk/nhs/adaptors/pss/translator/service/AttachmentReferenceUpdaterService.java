@@ -37,11 +37,7 @@ public class AttachmentReferenceUpdaterService {
                     InlineAttachment inlineAttachment = new InlineAttachment(attachment);
                     String filename = inlineAttachment.getOriginalFilename();
 
-                    // get file storage reference
-                    String fileLocation = storageManagerService.getFileLocation(filename);
-
-                    // find "local" reference
-                    // search payloadStr for filename &
+                    // find "local" reference by finding the following:
                     // "<reference value=\"file://localhost/${filename}\" />"
                     var patternStr = String.format("<reference value=.*%s.* \\/>", filename);
                     Pattern pattern = Pattern.compile(patternStr);
@@ -51,6 +47,7 @@ public class AttachmentReferenceUpdaterService {
 
                     if (matchFound) {
                         // update local ref with external reference
+                        String fileLocation = storageManagerService.getFileLocation(filename);
                         var replaceStr = String.format("<reference value=\"%s\" />", fileLocation);
                         resultPayload = matcher.replaceAll(replaceStr);
                     }
