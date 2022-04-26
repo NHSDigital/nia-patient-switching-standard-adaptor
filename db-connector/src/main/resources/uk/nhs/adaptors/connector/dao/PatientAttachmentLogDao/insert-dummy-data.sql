@@ -11,65 +11,74 @@ INSERT INTO patient_attachment_log(
     uploaded,
     order_num,
     length_num
-    )
-    VALUES (
-    'E39E79A2-FA96-48FF-9373-7BBCB9D036E7',
-    '7CCB6A77-360E-434E-8CF4-97C7C2B47D70_book.txt',
-    '6E242658-3D8E-11E3-A7DC-172BDA00FA67',
-    1,
-    'text/plain',
-    'No',
-    'Yes',
-    'Yes',
-    0
-    );
-    INSERT INTO patient_attachment_log(
-        mid,
-        filename,
-        parent_mid,
-        patient_migration_req_id,
-        content_type,
-        compressed,
-        large_attachment,
-        base64,
-        skeleton,
-        uploaded,
-        order_num,
-        length_num
-        )
-        VALUES (
-        '28B31-4245-4AFC-8DA2-8A40623A5101',
-        'E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment',
-        'E39E79A2-FA96-48FF-9373-7BBCB9D036E7',
-        1,
-        'text/plain',
-        'No',
-        'No',
-        'Yes',
-        0
-        );
-        INSERT INTO patient_attachment_log(
-                mid,
-                filename,
-                parent_mid,
-                patient_migration_req_id,
-                content_type,
-                compressed,
-                large_attachment,
-                base64,
-                skeleton,
-                uploaded,
-                order_num,
-                length_num
-                )
-                VALUES (
-                '24AED038-FF3E-466D-820A-AE1B334D68EE',
-                'E39E79A2-FA96-48FF-9373-7BBCB9D036E7_1.messageattachment',
-                'E39E79A2-FA96-48FF-9373-7BBCB9D036E7',
-                1,
-                'text/plain',
-                'No',
-                'No',
-                'Yes',
-                0
-                );
+)
+VALUES (
+           'E39E79A2-FA96-48FF-9373-7BBCB9D036E7',
+           '7CCB6A77-360E-434E-8CF4-97C7C2B47D70_book.txt',
+           '6E242658-3D8E-11E3-A7DC-172BDA00FA67',
+           1,
+           'text/plain',
+           false,
+           true,
+           true,
+           false,
+           false,
+           0,
+           null
+       );
+INSERT INTO patient_attachment_log(
+    mid,
+    filename,
+    parent_mid,
+    patient_migration_req_id,
+    content_type,
+    compressed,
+    large_attachment,
+    base64,
+    skeleton,
+    uploaded,
+    order_num,
+    length_num
+)
+VALUES (
+           '28B31-4245-4AFC-8DA2-8A40623A5101',
+           'E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment',
+           'E39E79A2-FA96-48FF-9373-7BBCB9D036E7',
+           1,
+           'text/plain',
+           false,
+           true,
+           true,
+           false,
+           true,
+           1,
+           389
+       );
+INSERT INTO patient_attachment_log(
+    mid,
+    filename,
+    parent_mid,
+    patient_migration_req_id,
+    content_type,
+    compressed,
+    large_attachment,
+    base64,
+    skeleton,
+    uploaded,
+    order_num,
+    length_num
+)
+VALUES (
+           '24AED038-FF3E-466D-820A-AE1B334D68EE',
+           'E39E79A2-FA96-48FF-9373-7BBCB9D036E7_1.messageattachment',
+           'E39E79A2-FA96-48FF-9373-7BBCB9D036E7',
+           1,
+           'text/plain',
+           false,
+           true,
+           true,
+           false,
+           true,
+           2,
+           364
+       );
