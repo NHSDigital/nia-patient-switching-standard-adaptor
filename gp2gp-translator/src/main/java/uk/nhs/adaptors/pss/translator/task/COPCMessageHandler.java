@@ -71,10 +71,23 @@ public class COPCMessageHandler {
         // We will not have that many log records for a single EHR, we may as well load them into memory in one go now.
         var conversationAttachmentLogs = patientAttachmentLogService.findAttachmentLogs(conversationId);
 
+
         var attachmentLogFragments = conversationAttachmentLogs.stream()
             .sorted(Comparator.comparingInt(PatientAttachmentLog::getOrderNum))
             .filter(log -> log.getParentMid().equals(currentAttachmentLog.getParentMid()))
             .toList();
+
+        //TODO an index could be the last part of an MID to return, in that scenario the file will never merge without he following
+        // Single fragment indicates parent index section
+        var parentLogMessageId = (attachmentLogFragments.size() == 1) ?
+            currentAttachmentLog.getMid() :
+            currentAttachmentLog.getParentMid();
+
+        attachmentLogFragments = conversationAttachmentLogs.stream()
+            .sorted(Comparator.comparingInt(PatientAttachmentLog::getOrderNum))
+            .filter(log -> log.getParentMid().equals(parentLogMessageId))
+            .toList();
+
 
         var allFragmentsHaveUploaded = attachmentLogFragments.stream()
             .allMatch(PatientAttachmentLog::getUploaded);
@@ -85,7 +98,7 @@ public class COPCMessageHandler {
             String payload = attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(attachmentLogFragments);
 
             var parentLogFile = conversationAttachmentLogs.stream()
-                .filter(log ->  log.getMid().equals(currentAttachmentLog.getParentMid()))
+                .filter(log ->  log.getMid().equals(parentLogMessageId))
                 .findAny()
                 .orElse(null);
 
