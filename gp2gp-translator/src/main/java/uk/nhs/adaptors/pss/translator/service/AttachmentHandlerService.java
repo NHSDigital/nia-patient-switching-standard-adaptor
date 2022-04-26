@@ -74,4 +74,28 @@ public class AttachmentHandlerService {
             }
         }
     }
+
+    public void storeEhrExtract(String fileName, String payload, String conversationId,String contentType) throws ValidationException {
+
+        if (conversationId == null || conversationId.isEmpty()) {
+            throw new ValidationException("ConversationId cannot be null or empty");
+        }
+
+        if (payload != null) {
+
+            try {
+
+                StorageDataUploadWrapper dataWrapper = new StorageDataUploadWrapper(
+                        contentType,
+                        conversationId,
+                        payload.getBytes()
+                );
+
+                storageManagerService.uploadFile(fileName, dataWrapper);
+            } catch (StorageException ex) {
+                // We don't want to stop uploading a list of failures but we should log them here
+                // this is for a later ticket to manage
+            }
+        }
+    }
 }
