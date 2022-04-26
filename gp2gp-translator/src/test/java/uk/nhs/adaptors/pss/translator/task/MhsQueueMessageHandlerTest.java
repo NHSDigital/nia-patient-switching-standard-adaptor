@@ -92,8 +92,9 @@ public class MhsQueueMessageHandlerTest {
     }
 
     @Test
-    public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse() throws JAXBException,
-            JsonProcessingException, SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+    public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse()
+            throws JAXBException, JsonProcessingException, SAXException,
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);

@@ -22,7 +22,8 @@ import java.util.regex.Pattern;
 public class AttachmentReferenceUpdaterService {
 
     private final StorageManagerService storageManagerService;
-    public String updateReferenceToAttachment(List<InboundMessage.Attachment> attachments, String conversationId, String payloadStr) throws ValidationException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+    public String updateReferenceToAttachment(List<InboundMessage.Attachment> attachments, String conversationId, String payloadStr)
+            throws ValidationException, AttachmentNotFoundException, InlineAttachmentProcessingException {
         if (conversationId == null || conversationId.isEmpty()) {
             throw new ValidationException("ConversationId cannot be null or empty");
         }
@@ -50,8 +51,7 @@ public class AttachmentReferenceUpdaterService {
                         String fileLocation = storageManagerService.getFileLocation(filename);
                         var replaceStr = String.format("<reference value=\"%s\" />", fileLocation);
                         resultPayload = matcher.replaceAll(replaceStr);
-                    }
-                    else {
+                    } else {
                         var message = String.format("Could not find file %s in payload", filename);
                         throw new AttachmentNotFoundException(message);
                     }

@@ -113,7 +113,8 @@ public class EhrExtractMessageHandler {
 
             sendAckMessage(payload, conversationId);
 
-        } catch (BundleMappingException | DataFormatException | JsonProcessingException | InlineAttachmentProcessingException | AttachmentNotFoundException ex) {
+        } catch (BundleMappingException | DataFormatException | JsonProcessingException
+                 | InlineAttachmentProcessingException | AttachmentNotFoundException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
         } catch (SAXException e) {

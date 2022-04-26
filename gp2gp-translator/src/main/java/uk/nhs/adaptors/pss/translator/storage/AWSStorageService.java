@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AWSStorageService implements StorageService {
 
+    private static final long SIXY_MINUTES = 1000 * 60 * 60;
     private final AmazonS3 s3Client;
     private String bucketName;
 
@@ -71,7 +72,7 @@ public class AWSStorageService implements StorageService {
         // sharing file location from AWS is not straightforward as files are private by default
         Date expiration = new Date();
         long expTimeMillis = Instant.now().toEpochMilli();
-        expTimeMillis += 1000 * 60 * 60;
+        expTimeMillis += SIXY_MINUTES;
         expiration.setTime(expTimeMillis);
 
         URL url = s3Client.generatePresignedUrl(bucketName, filename, expiration);

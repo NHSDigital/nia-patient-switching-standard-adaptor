@@ -121,8 +121,8 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
-
-            throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws JsonProcessingException, JAXBException, SAXException,
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -167,7 +167,10 @@ public class EhrExtractMessageHandlerTest {
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
         when(sendACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
-        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload())).thenReturn(inboundMessage.getPayload());
+        when(attachmentReferenceUpdaterService
+                .updateReferenceToAttachment(
+                        inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
+                )).thenReturn(inboundMessage.getPayload());
     }
 
     @SneakyThrows
@@ -182,7 +185,8 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
-            throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws JsonProcessingException, JAXBException, SAXException,
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
@@ -192,8 +196,8 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentHandlerServiceStoreAttachments()
-
-            throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws JsonProcessingException, JAXBException, SAXException,
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -205,20 +209,22 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentReferenceUpdaterServiceUpdateReferences()
-
-            throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws JsonProcessingException, JAXBException, SAXException,
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(attachmentReferenceUpdaterService).updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload());
+        verify(attachmentReferenceUpdaterService).updateReferenceToAttachment(
+                inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload());
     }
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallSendContinueRequest()
-            throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws JsonProcessingException, JAXBException, SAXException,
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
         final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
 
         Bundle bundle = new Bundle();
@@ -248,7 +254,10 @@ public class EhrExtractMessageHandlerTest {
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
-        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload())).thenReturn(inboundMessage.getPayload());
+        var payload = inboundMessage.getPayload();
+        when(attachmentReferenceUpdaterService
+                .updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, payload))
+                .thenReturn(payload);
 
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML()))
             .thenReturn(xPathService2.parseDocumentFromXml(inboundMessage.getEbXML()));
@@ -281,7 +290,8 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
-            throws JsonProcessingException, JAXBException, SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws JsonProcessingException, JAXBException, SAXException,
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -311,12 +321,13 @@ public class EhrExtractMessageHandlerTest {
         doThrow(new InlineAttachmentProcessingException("Test Exception"))
             .when(attachmentHandlerService).storeAttachments(any(), any());
 
-        assertThrows(InlineAttachmentProcessingException.class, () -> ehrExtractMessageHandler.handleMessage(inboundMessage,
-            CONVERSATION_ID));
+        assertThrows(InlineAttachmentProcessingException.class, () ->
+                        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
     }
 
     @Test
-    public void When_HandleMessage_WithMapToBundleThrows_Expect_BundleMappingException() throws BundleMappingException, AttachmentNotFoundException, ValidationException, InlineAttachmentProcessingException {
+    public void When_HandleMessage_WithMapToBundleThrows_Expect_BundleMappingException()
+            throws BundleMappingException, AttachmentNotFoundException, ValidationException, InlineAttachmentProcessingException {
         InboundMessage inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
 
@@ -328,7 +339,9 @@ public class EhrExtractMessageHandlerTest {
                 .build();
 
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload())).thenReturn(inboundMessage.getPayload());
+        when(attachmentReferenceUpdaterService
+                .updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()))
+                .thenReturn(inboundMessage.getPayload());
 
         doThrow(new BundleMappingException("Test Exception"))
             .when(bundleMapperService).mapToBundle(any(), any());
@@ -337,7 +350,8 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void When_HandleMessage_WithEncodeToJsonThrows_Expect_DataFormatException() throws BundleMappingException, AttachmentNotFoundException, ValidationException, InlineAttachmentProcessingException {
+    public void When_HandleMessage_WithEncodeToJsonThrows_Expect_DataFormatException()
+            throws BundleMappingException, AttachmentNotFoundException, ValidationException, InlineAttachmentProcessingException {
         InboundMessage inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
         Bundle bundle = new Bundle();
@@ -352,7 +366,9 @@ public class EhrExtractMessageHandlerTest {
 
         when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload())).thenReturn(inboundMessage.getPayload());
+        when(attachmentReferenceUpdaterService
+                .updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()))
+                .thenReturn(inboundMessage.getPayload());
 
         doThrow(new DataFormatException()).when(fhirParser).encodeToJson(bundle);
 
