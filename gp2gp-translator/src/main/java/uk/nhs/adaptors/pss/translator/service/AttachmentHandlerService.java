@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.Base64;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.ion.NullValueException;
+import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
@@ -81,5 +83,23 @@ public class AttachmentHandlerService {
             throw new NullValueException();
         }
         return storageManagerService.downloadFile(filename);
+    }
+
+    public void removeAttachment(String filename) {
+        if(filename == null || filename.isEmpty()) {
+            throw new NullValueException();
+        }
+        storageManagerService.deleteFile(filename);
+    }
+
+    public String buildSingleFileStringFromPatientAttachmentLogs(List<PatientAttachmentLog> attachmentLogs) {
+        String combinedFile = "";
+        for (PatientAttachmentLog log : attachmentLogs) {
+            var filename = log.getFilename();
+            var attachmentBytes = getAttachment(filename);
+            combinedFile += new String(attachmentBytes, StandardCharsets.UTF_8);
+        };
+
+        return combinedFile;
     }
 }
