@@ -5,18 +5,10 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSL
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
-import java.text.ParseException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBException;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,11 +34,23 @@ import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.model.*;
+import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
+import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
+import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.text.ParseException;
 
 @Slf4j
 @Component
@@ -60,11 +64,13 @@ public class EhrExtractMessageHandler {
     private final XPathService xPathService;
     private final SendContinueRequestHandler sendContinueRequestHandler;
     private final AttachmentHandlerService attachmentHandlerService;
+    private final AttachmentReferenceUpdaterService attachmentReferenceUpdaterService;
     private final SendNACKMessageHandler sendNACKMessageHandler;
     private final SendACKMessageHandler sendACKMessageHandler;
     private final PatientAttachmentLogService patientAttachmentLogService;
 
-    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException, SAXException, InlineAttachmentProcessingException, BundleMappingException, ParseException {
+    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException,
+        SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -77,6 +83,20 @@ public class EhrExtractMessageHandler {
             attachmentReferenceDescription.addAll(getEbxmlAttachmentsData(inboundMessage));
 
             //need to test if bellow
+            if(!checkIfMessageHasASkeleton(attachmentReferenceDescription)){
+                attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
+
+                var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
+
+                migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
+                        conversationId,
+                        fhirParser.encodeToJson(bundle),
+                        objectMapper.writeValueAsString(inboundMessage),
+                        EHR_EXTRACT_TRANSLATED
+                );
+            }
+            attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
+
             if(!checkIfMessageHasASkeleton(attachmentReferenceDescription)){
                 var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
                 attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
@@ -101,6 +121,18 @@ public class EhrExtractMessageHandler {
 
                 //change test
                 if (checkIfEhrExtractIsHasAttachments(attachmentReferenceDescription)) {
+
+                    //need to call Ellen to confirm
+                    var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
+                            inboundMessage.getAttachments(),
+                            conversationId,
+                            inboundMessage.getPayload()
+                    );
+                    inboundMessage.setPayload(newPayloadStr);
+                    payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+
+                    //need to call Ellen to confirm
+
                     //need to test if bellow
                     if(checkIfMessageHasASkeleton(attachmentReferenceDescription)){
 
@@ -153,7 +185,6 @@ public class EhrExtractMessageHandler {
                                         .build();
                                 patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
                             }
-
                         }
                     }
 
@@ -164,17 +195,18 @@ public class EhrExtractMessageHandler {
                         migrationRequest.getWinningPracticeOdsCode(),
                         migrationStatusLog.getDate().toInstant()
                     );
-                }else{
-                    sendAckMessage(payload, conversationId);
                 }
+            }else{
+                sendAckMessage(payload, conversationId);
             }
 
-        } catch (BundleMappingException | DataFormatException | JsonProcessingException | InlineAttachmentProcessingException ex) {
+        } catch (BundleMappingException | DataFormatException | JsonProcessingException
+                 | InlineAttachmentProcessingException | AttachmentNotFoundException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
         } catch (SAXException e) {
             LOGGER.error("failed to parse RCMR_IN030000UK06 ebxml: "
-                + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
+                    + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw e;
         } catch (ParseException ex) {
@@ -226,6 +258,8 @@ public class EhrExtractMessageHandler {
 
         return ebxmlAttachmentsIds;
     }
+
+
 
     public void sendContinueRequest(
         RCMRIN030000UK06Message payload,
