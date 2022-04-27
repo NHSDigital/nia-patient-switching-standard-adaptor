@@ -71,7 +71,7 @@ public class EhrExtractMessageHandler {
     private final PatientAttachmentLogService patientAttachmentLogService;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException,
-        SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
+            SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -80,27 +80,23 @@ public class EhrExtractMessageHandler {
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
         try {
+
             List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
             attachmentReferenceDescription.addAll(getEbxmlAttachmentsData(inboundMessage));
 
-            //need to test if bellow
-            if(!checkIfMessageHasASkeleton(attachmentReferenceDescription)){
-                attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
-
-                var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
-
-                migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
-                        conversationId,
-                        fhirParser.encodeToJson(bundle),
-                        objectMapper.writeValueAsString(inboundMessage),
-                        EHR_EXTRACT_TRANSLATED
-                );
-            }
             attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
 
-            if(!checkIfMessageHasASkeleton(attachmentReferenceDescription)){
+            if (!inboundMessage.getEbXML().contains("mid:")) {
+
+                var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
+                        inboundMessage.getAttachments(),
+                        conversationId,
+                        inboundMessage.getPayload()
+                );
+                inboundMessage.setPayload(newPayloadStr);
+                payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+
                 var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
-                attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
                 migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
                         conversationId,
                         fhirParser.encodeToJson(bundle),
@@ -108,7 +104,6 @@ public class EhrExtractMessageHandler {
                         EHR_EXTRACT_TRANSLATED
                 );
             }
-
             ////sending continue message
             if (inboundMessage.getEbXML().contains("mid:")) {
                 String patientNhsNumber = payload
@@ -122,31 +117,17 @@ public class EhrExtractMessageHandler {
 
                 //change test
                 if (checkIfEhrExtractIsHasAttachments(attachmentReferenceDescription)) {
-
-                    //need to call Ellen to confirm
-                    var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
-                            inboundMessage.getAttachments(),
+                    //save extract in storage
+                    String extractFileName = conversationId + "_" + parseMessageRef(payload) + "_payload";
+                    attachmentHandlerService.storeEhrExtract(
+                            extractFileName,
+                            inboundMessage.getPayload(),
                             conversationId,
-                            inboundMessage.getPayload()
+                            "application/xml; charset=UTF-8"
                     );
-                    inboundMessage.setPayload(newPayloadStr);
-                    payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
-
-                    //need to call Ellen to confirm
 
                     //need to test if bellow
                     if(checkIfMessageHasASkeleton(attachmentReferenceDescription)){
-
-                        String extractFileName = conversationId + "_" + parseMessageRef(payload) + "_payload";
-
-                        //save extract in storage
-                        attachmentHandlerService.storeEhrExtract(
-                                extractFileName,
-                                inboundMessage.getPayload(),
-                                conversationId,
-                                "application/xml; charset=UTF-8"
-                        );
-
                         //save 06 Messages extract skeleton
                         PatientAttachmentLog patientExtractAttachmentLog = PatientAttachmentLog.builder()
                                 .mid(parseMessageRef(payload))
