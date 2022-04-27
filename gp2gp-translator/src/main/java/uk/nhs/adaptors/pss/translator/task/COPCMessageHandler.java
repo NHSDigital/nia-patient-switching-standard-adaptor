@@ -1,46 +1,134 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.hl7.v3.COPCIN000001UK01Message;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
-import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
+
+import java.text.ParseException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBException;
 
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
+import org.hl7.v3.COPCIN000001UK01Message;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
+import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
+import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
+import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.NACKReason;
+import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
+import uk.nhs.adaptors.pss.translator.service.XPathService;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class COPCMessageHandler {
 
-    private final PatientMigrationRequestDao migrationRequestDao;
-    private final SendACKMessageHandler sendACKMessageHandler;
+    private static final String DESCRIPTION_PATH = "/Envelope/Body/Manifest/Reference[position()=2]/Description";
+    private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
+    private static final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
 
-    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException {
+    private final PatientMigrationRequestDao migrationRequestDao;
+    private final MigrationStatusLogService migrationStatusLogService;
+    private final AttachmentHandlerService attachmentHandlerService;
+    private final PatientAttachmentLogService patientAttachmentLogService;
+    private final XPathService xPathService;
+    private final SendACKMessageHandler sendACKMessageHandler;
+    private final SendNACKMessageHandler sendNACKMessageHandler;
+
+    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException,
+        InlineAttachmentProcessingException {
 
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
 
-//        Receive message
-//        hit attachmentLog Table, get filename of attachment by mid
-//        check if has other mids in Manifest/Reference node
-//        if yes
-//        extract all that data to hit attachment_log table
-//        if no
-//        create file using filename from attachment_log, then upload
-//
-//        Hit attachment_log table and update uploaded to Y
-//
-//        Check length num == order num
-//        if true
-//        merge
-        sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
+        try {
+            Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
+            String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
+            PatientAttachmentLog patientAttachmentLog = patientAttachmentLogService.findAttachmentLog(messageId, conversationId);
+
+            if (isManifestMessage(ebXmlDocument)) {
+                extractFragmentsAndUploadToPatientAttachmentLog(migrationRequest, ebXmlDocument, patientAttachmentLog);
+                // check if both children have been added to db, if they have then do merge of fragments here
+            } else {
+
+                attachmentHandlerService.storeEhrExtract(patientAttachmentLog.getFilename(), inboundMessage.getAttachments().get(0).getPayload(),conversationId, patientAttachmentLog.getContentType());
+                patientAttachmentLog.setUploaded(true);
+
+                patientAttachmentLogService.updateAttachmentLog(patientAttachmentLog, conversationId);
+            }
+
+            sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
+
+            // merge
+        } catch (ParseException | SAXException e) {
+            LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
+                + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
+            sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+        }
+    }
+
+    private boolean isManifestMessage(Document ebXmlDocument) {
+        return xPathService.getNodeValue(ebXmlDocument, DESCRIPTION_PATH).contains("Filename=");
+    }
+
+    private void extractFragmentsAndUploadToPatientAttachmentLog(PatientMigrationRequest migrationRequest, Document ebXmlDocument,
+        PatientAttachmentLog parentAttachmentLog) throws ParseException {
+        NodeList referencesAttachment = xPathService.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH);
+        if (referencesAttachment != null) {
+
+            for (int index = 0; index < referencesAttachment.getLength(); index++) {
+
+                Node referenceNode = referencesAttachment.item(index);
+                if (referenceNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element reference = (Element) referenceNode;
+                    if (reference.getAttribute("xlink:href").contains("mid:")) {
+
+                        String mid = reference.getAttribute("xlink:href").replace("mid:", "");
+                        String descriptionString = reference.getFirstChild().getNextSibling().getFirstChild().getNodeValue();
+
+                        int orderNum = index == 0 ? index : index - 1;
+                        PatientAttachmentLog log = buildPatientAttachmentLog(mid, descriptionString,
+                            parentAttachmentLog.getMid(), migrationRequest.getId(), parentAttachmentLog.getSkeleton(), orderNum);
+
+                        patientAttachmentLogService.addAttachmentLog(log);
+                    }
+                }
+            }
+        }
+    }
+
+    private PatientAttachmentLog buildPatientAttachmentLog(String mid, String description, String parentMid, Integer patientId,
+        boolean isSkeleton, Integer attachmentOrder) throws ParseException {
+
+        return PatientAttachmentLog.builder()
+            .mid(mid)
+            .filename(parseFilename(description))
+            .parentMid(parentMid)
+            .patientMigrationReqId(patientId)
+            .contentType(parseContentType(description))
+            .compressed(parseCompressed(description))
+            .largeAttachment(parseLargeAttachment(description))
+            .base64(parseBase64(description))
+            .skeleton(isSkeleton)
+            .lengthNum(null)
+            .orderNum(attachmentOrder)
+            .build();
     }
 
     public boolean sendAckMessage(COPCIN000001UK01Message payload, String conversationId, String losingPracticeOdsCode) {
@@ -54,17 +142,71 @@ public class COPCMessageHandler {
         ));
     }
 
+    private String parseFilename(String description) throws ParseException {
+        Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
+        Matcher matcher = pattern.matcher(description);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        throw new ParseException("Unable to parse originalFilename", 0);
+    }
+
+    private boolean parseBase64(String description) throws ParseException {
+        Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
+        Matcher matcher = pattern.matcher(description);
+
+        if (matcher.find()) {
+            return matcher.group(1).equals("Yes");
+        }
+
+        throw new ParseException("Unable to parse isBase64", 0);
+    }
+
+    private boolean parseLargeAttachment(String description) throws ParseException {
+        Pattern pattern = Pattern.compile("LargeAttachment=(Yes|No)");
+        Matcher matcher = pattern.matcher(description);
+
+        if (matcher.find()) {
+            return matcher.group(1).equals("Yes");
+        }
+
+        throw new ParseException("Unable to parse isLargeAttachment", 0);
+    }
+
+    private boolean parseCompressed(String description) throws ParseException {
+        Pattern pattern = Pattern.compile("Compressed=(Yes|No)");
+        Matcher matcher = pattern.matcher(description);
+
+        if (matcher.find()) {
+            return matcher.group(1).equals("Yes");
+        }
+
+        throw new ParseException("Unable to parse isCompressed", 0);
+    }
+
+    private String parseContentType(String description) throws ParseException {
+        Pattern pattern = Pattern.compile("ContentType=([A-Za-z\\d\\-/]*)");
+        Matcher matcher = pattern.matcher(description);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        throw new ParseException("Unable to parse ContentType", 0);
+    }
+
     private ACKMessageData prepareAckMessageData(COPCIN000001UK01Message payload,
         String conversationId, String losingPracticeOdsCode) {
 
-        String toOdsCode = losingPracticeOdsCode;
         String messageRef = parseMessageRef(payload);
         String toAsid = parseToAsid(payload);
         String fromAsid = parseFromAsid(payload);
 
         return ACKMessageData.builder()
             .conversationId(conversationId)
-            .toOdsCode(toOdsCode)
+            .toOdsCode(losingPracticeOdsCode)
             .messageRef(messageRef)
             .toAsid(toAsid)
             .fromAsid(fromAsid)
@@ -90,5 +232,50 @@ public class COPCMessageHandler {
 
     private String parseMessageRef(COPCIN000001UK01Message payload) {
         return payload.getId().getRoot();
+    }
+
+    public boolean sendNackMessage(NACKReason reason, COPCIN000001UK01Message payload, String conversationId) {
+
+        LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
+            payload.getId().getRoot());
+
+        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId);
+
+        return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
+            reason,
+            payload,
+            conversationId
+        ));
+    }
+
+    private NACKMessageData prepareNackMessageData(NACKReason reason, COPCIN000001UK01Message payload,
+        String conversationId) {
+
+        String toOdsCode = parseToOdsCode(payload);
+        String messageRef = parseMessageRef(payload);
+        String toAsid = parseToAsid(payload);
+        String fromAsid = parseFromAsid(payload);
+        String nackCode = reason.getCode();
+
+        return NACKMessageData.builder()
+            .conversationId(conversationId)
+            .nackCode(nackCode)
+            .toOdsCode(toOdsCode)
+            .messageRef(messageRef)
+            .toAsid(toAsid)
+            .fromAsid(fromAsid)
+            .build();
+    }
+
+    private String parseToOdsCode(COPCIN000001UK01Message payload) {
+
+        Element gp2gpElement = payload.getControlActEvent()
+            .getSubject()
+            .getPayloadInformation()
+            .getValue()
+            .getAny()
+            .get(0);
+
+        return gp2gpElement.getFirstChild().getNextSibling().getNextSibling().getFirstChild().getNodeValue();
     }
 }

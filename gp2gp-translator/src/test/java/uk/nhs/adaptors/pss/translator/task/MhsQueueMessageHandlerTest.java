@@ -11,6 +11,8 @@ import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
+import java.text.ParseException;
+
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.xml.bind.JAXBException;
@@ -79,7 +81,7 @@ public class MhsQueueMessageHandlerTest {
 
     @Test
     public void handleEhrExtractMessageWithoutErrorsShouldReturnTrue() throws JsonProcessingException, JAXBException,
-            SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
 
@@ -94,7 +96,7 @@ public class MhsQueueMessageHandlerTest {
     @Test
     public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse()
             throws JAXBException, JsonProcessingException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);

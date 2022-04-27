@@ -31,6 +31,7 @@ import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
+import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -70,7 +71,7 @@ public class EhrExtractMessageHandler {
     private final PatientAttachmentLogService patientAttachmentLogService;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException,
-        SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+        SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);

@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.connector.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,5 +100,19 @@ public class PatientAttachmentLogService {
             conversationId
         );
         LOGGER.debug("Deleted flag set on migration log mid=[{}] ", mid);
+    }
+
+    /**
+     *
+     * @param conversationId
+     * @return PatientAttachmentLogs
+     *
+     * @description
+     * Find all attachment logs associated with a conversation id
+     */
+    public List<PatientAttachmentLog> findAttachmentLogs(
+        String conversationId
+    ) {
+        return patientAttachmentLogDao.findPatientAttachments(conversationId);
     }
 }

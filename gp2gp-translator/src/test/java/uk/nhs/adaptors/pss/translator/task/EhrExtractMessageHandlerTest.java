@@ -18,6 +18,7 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSL
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -122,7 +123,7 @@ public class EhrExtractMessageHandlerTest {
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
             throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -186,7 +187,7 @@ public class EhrExtractMessageHandlerTest {
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
             throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
@@ -197,7 +198,7 @@ public class EhrExtractMessageHandlerTest {
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentHandlerServiceStoreAttachments()
             throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -210,7 +211,7 @@ public class EhrExtractMessageHandlerTest {
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentReferenceUpdaterServiceUpdateReferences()
             throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -224,7 +225,7 @@ public class EhrExtractMessageHandlerTest {
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallSendContinueRequest()
             throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
         final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
 
         Bundle bundle = new Bundle();
@@ -291,7 +292,7 @@ public class EhrExtractMessageHandlerTest {
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
             throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
