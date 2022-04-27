@@ -14,6 +14,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.common.exception.FhirValidationException;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.pss.translator.exception.SdsRetrievalException;
 import uk.nhs.adaptors.pss.translator.sds.SdsRequestBuilder;
@@ -51,7 +52,14 @@ public class SDSService {
     }
 
     private Duration parsePersistDuration(String sdsResponse) throws SdsRetrievalException {
-        Bundle bundle = fhirParser.parseResource(sdsResponse, Bundle.class);
+
+        Bundle bundle;
+
+        try {
+            bundle = fhirParser.parseResource(sdsResponse, Bundle.class);
+        } catch (FhirValidationException e) {
+            throw new SdsRetrievalException(e.getMessage());
+        }
 
         List<Bundle.BundleEntryComponent> entries = bundle.getEntry();
 
