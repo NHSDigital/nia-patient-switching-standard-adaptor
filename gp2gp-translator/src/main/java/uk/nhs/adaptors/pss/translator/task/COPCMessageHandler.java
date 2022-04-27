@@ -4,10 +4,13 @@ import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationException;
 
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +44,7 @@ public class COPCMessageHandler {
     private static final String DESCRIPTION_PATH = "/Envelope/Body/Manifest/Reference[position()=2]/Description";
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
     private static final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
+    private static final String FRAGMENT_CID_PATH = "/Envelope/Body/Manifest/Reference[position()=2]";
 
     private final PatientMigrationRequestDao migrationRequestDao;
     private final MigrationStatusLogService migrationStatusLogService;
@@ -57,24 +61,45 @@ public class COPCMessageHandler {
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
 
         try {
-            Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
+            Document ebXmlDocument = getEbXmlDocument(inboundMessage);
             String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
             PatientAttachmentLog patientAttachmentLog = patientAttachmentLogService.findAttachmentLog(messageId, conversationId);
 
-            if (isManifestMessage(ebXmlDocument)) {
-                extractFragmentsAndUploadToPatientAttachmentLog(migrationRequest, ebXmlDocument, patientAttachmentLog);
-                // check if both children have been added to db, if they have then do merge of fragments here
+            if (patientAttachmentLog != null) {
+
+                if (isManifestMessage(ebXmlDocument)) {
+                    int fragments = extractFragmentsAndUploadToPatientAttachmentLog(migrationRequest, ebXmlDocument, patientAttachmentLog
+                        , conversationId);
+                    // check if both children have been added to db, if they have then do merge of fragments here
+                    // patientAttachmentService.getFragments(patientAttachmentLog.Mid, conversationId)
+                    List<PatientAttachmentLog> fragmentLogs = patientAttachmentLogService.findAttachmentLogsByParentMid(conversationId,
+                        patientAttachmentLog.getMid());
+                    List<PatientAttachmentLog> uploadedFragments = fragmentLogs.stream()
+                        .filter(PatientAttachmentLog::getUploaded)
+                        .toList();
+
+                    if (fragments == uploadedFragments.size()) {
+                        mergeFragments(uploadedFragments);
+                    }
+                } else {
+
+                    storeEhrExtractAttachment(patientAttachmentLog, inboundMessage, conversationId);
+                    patientAttachmentLog.setUploaded(true);
+                    patientAttachmentLogService.updateAttachmentLog(patientAttachmentLog, conversationId);
+
+                    List<PatientAttachmentLog> attachments = patientAttachmentLogService.findAttachmentLogsByParentMid(conversationId,
+                            patientAttachmentLog.getParentMid()).stream()
+                        .filter(PatientAttachmentLog::getUploaded)
+                        .toList();
+
+                    if (attachments.size() > 1) {
+                        mergeFragments(attachments);
+                    }
+                }
             } else {
-
-                attachmentHandlerService.storeEhrExtract(patientAttachmentLog.getFilename(), inboundMessage.getAttachments().get(0).getPayload(),conversationId, patientAttachmentLog.getContentType());
-                patientAttachmentLog.setUploaded(true);
-
-                patientAttachmentLogService.updateAttachmentLog(patientAttachmentLog, conversationId);
+                insertAndUploadFragmentFile(inboundMessage, conversationId, payload, ebXmlDocument);
             }
-
             sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
-
-            // merge
         } catch (ParseException | SAXException e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
@@ -82,12 +107,78 @@ public class COPCMessageHandler {
         }
     }
 
+    private void mergeFragments(List<PatientAttachmentLog> uploadedFragments) {
+
+        //TODO - Merge Fragments here
+    }
+
+    private Document getEbXmlDocument(InboundMessage inboundMessage) throws SAXException {
+        return xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
+    }
+
+    private void insertAndUploadFragmentFile(InboundMessage inboundMessage, String conversationId, COPCIN000001UK01Message payload,
+        Document ebXmlDocument) throws ParseException, ValidationException {
+        String fragmentMid = getFragmentMidId(ebXmlDocument);
+        String fileName = getFileNameForFragment(inboundMessage, payload);
+
+        PatientAttachmentLog fragmentAttachmentLog
+            = buildFragmentAttachmentLog(fragmentMid, fileName, inboundMessage.getAttachments().get(0).getContentType());
+        storeEhrExtractAttachment(fragmentAttachmentLog, inboundMessage, conversationId);
+        fragmentAttachmentLog.setUploaded(true);
+
+        patientAttachmentLogService.addAttachmentLog(fragmentAttachmentLog);
+    }
+
+    private void storeEhrExtractAttachment(PatientAttachmentLog fragmentAttachmentLog, InboundMessage inboundMessage,
+        String conversationId) throws ValidationException {
+        attachmentHandlerService.storeEhrExtract(fragmentAttachmentLog.getFilename(),
+            inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
+    }
+
+    private String getFileNameForFragment(InboundMessage inboundMessage, COPCIN000001UK01Message payload) throws ParseException {
+        if (!inboundMessage.getAttachments().get(0).getDescription().isEmpty()) {
+            return parseFilename(inboundMessage.getAttachments().get(0).getDescription());
+        } else {
+            return retrieveFileNameFromPayload(payload);
+        }
+    }
+
+    private PatientAttachmentLog buildFragmentAttachmentLog(String fragmentMid, String fileName, String contentType) {
+        return PatientAttachmentLog.builder()
+            .mid(fragmentMid)
+            .filename(fileName)
+            .contentType(contentType)
+            .build();
+    }
+
+    private String retrieveFileNameFromPayload(COPCIN000001UK01Message doc) {
+        return doc.getControlActEvent()
+            .getSubject()
+            .getPayloadInformation()
+            .getPertinentInformation()
+            .get(0)
+            .getPertinentPayloadBody()
+            .getValue()
+            .getReference()
+            .getValue();
+    }
+
+    private String getFragmentMidId(Document ebXmlDocument) {
+        return xPathService.getNodes(ebXmlDocument, DESCRIPTION_PATH)
+            .item(0)
+            .getAttributes()
+            .getNamedItem("xlink:href")
+            .getNodeValue()
+            .replace("cid:", "");
+    }
+
     private boolean isManifestMessage(Document ebXmlDocument) {
         return xPathService.getNodeValue(ebXmlDocument, DESCRIPTION_PATH).contains("Filename=");
     }
 
-    private void extractFragmentsAndUploadToPatientAttachmentLog(PatientMigrationRequest migrationRequest, Document ebXmlDocument,
-        PatientAttachmentLog parentAttachmentLog) throws ParseException {
+    private int extractFragmentsAndUploadToPatientAttachmentLog(PatientMigrationRequest migrationRequest, Document ebXmlDocument,
+        PatientAttachmentLog parentAttachmentLog, String conversationId) throws ParseException {
+        int fragmentCount = 0;
         NodeList referencesAttachment = xPathService.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH);
         if (referencesAttachment != null) {
 
@@ -100,17 +191,34 @@ public class COPCMessageHandler {
                     if (reference.getAttribute("xlink:href").contains("mid:")) {
 
                         String mid = reference.getAttribute("xlink:href").replace("mid:", "");
+
+                        PatientAttachmentLog fragmentLog = patientAttachmentLogService.findAttachmentLog(mid, conversationId);
                         String descriptionString = reference.getFirstChild().getNextSibling().getFirstChild().getNodeValue();
-
                         int orderNum = index == 0 ? index : index - 1;
-                        PatientAttachmentLog log = buildPatientAttachmentLog(mid, descriptionString,
-                            parentAttachmentLog.getMid(), migrationRequest.getId(), parentAttachmentLog.getSkeleton(), orderNum);
+                        if (fragmentLog != null) {
+                            updateFragmentLog(fragmentLog, parentAttachmentLog, descriptionString, orderNum);
+                            patientAttachmentLogService.updateAttachmentLog(fragmentLog, conversationId);
+                        } else {
+                            PatientAttachmentLog newFragmentLog = buildPatientAttachmentLog(mid, descriptionString,
+                                parentAttachmentLog.getMid(), migrationRequest.getId(), parentAttachmentLog.getSkeleton(), orderNum);
 
-                        patientAttachmentLogService.addAttachmentLog(log);
+                            patientAttachmentLogService.addAttachmentLog(newFragmentLog);
+                        }
                     }
                 }
+                fragmentCount = index;
             }
         }
+        return fragmentCount;
+    }
+
+    private void updateFragmentLog(PatientAttachmentLog childLog, PatientAttachmentLog parentLog, String descriptionString, int orderNum) throws ParseException {
+        childLog.setParentMid(parentLog.getParentMid());
+        childLog.setCompressed(parseCompressed(descriptionString));
+        childLog.setLargeAttachment(parseLargeAttachment(descriptionString));
+        childLog.setSkeleton(parentLog.getSkeleton());
+        childLog.setBase64(parseBase64(descriptionString));
+        childLog.setOrderNum(orderNum);
     }
 
     private PatientAttachmentLog buildPatientAttachmentLog(String mid, String description, String parentMid, Integer patientId,
@@ -126,7 +234,6 @@ public class COPCMessageHandler {
             .largeAttachment(parseLargeAttachment(description))
             .base64(parseBase64(description))
             .skeleton(isSkeleton)
-            .lengthNum(null)
             .orderNum(attachmentOrder)
             .build();
     }
@@ -275,7 +382,6 @@ public class COPCMessageHandler {
             .getValue()
             .getAny()
             .get(0);
-
         return gp2gpElement.getFirstChild().getNextSibling().getNextSibling().getFirstChild().getNodeValue();
     }
 }

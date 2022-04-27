@@ -115,4 +115,18 @@ public class PatientAttachmentLogService {
     ) {
         return patientAttachmentLogDao.findPatientAttachments(conversationId);
     }
+    /**
+     *
+     * @param conversationId
+     * @param parentMid
+     * @return PatientAttachmentLogs
+     *
+     * @description
+     * Find all attachment logs associated with a conversation id and parent_mid
+     */
+    public List<PatientAttachmentLog> findAttachmentLogsByParentMid(
+        String conversationId, String parentMid) {
+        return patientAttachmentLogDao.findPatientAttachmentsByParentMid(conversationId, parentMid);
+    }
+
 }
