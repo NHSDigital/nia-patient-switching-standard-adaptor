@@ -22,6 +22,8 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
@@ -48,8 +50,10 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
+import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
@@ -117,6 +121,9 @@ public class EhrExtractMessageHandlerTest {
     @Mock
     private SendNACKMessageHandler sendNACKMessageHandler;
 
+    @Mock
+    private PatientAttachmentLogService patientAttachmentLogService;
+
     @InjectMocks
     private EhrExtractMessageHandler ehrExtractMessageHandler;
 
@@ -140,9 +147,10 @@ public class EhrExtractMessageHandlerTest {
         inboundMessage.setPayload("payload");
         Bundle bundle = new Bundle();
         bundle.setId("Test");
-        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
 
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
         inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
+        inboundMessage.setExternalAttachments(new ArrayList<>());
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
@@ -161,10 +169,7 @@ public class EhrExtractMessageHandlerTest {
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
         when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
-        // <-
 
-        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
-        when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
         when(sendACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
@@ -222,11 +227,11 @@ public class EhrExtractMessageHandlerTest {
                 inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload());
     }
 
+    //FAILS
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallSendContinueRequest()
             throws JsonProcessingException, JAXBException, SAXException,
                 InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
-        final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -249,23 +254,21 @@ public class EhrExtractMessageHandlerTest {
 
         inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
 
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
-        when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
-        when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
-        var payload = inboundMessage.getPayload();
-        when(attachmentReferenceUpdaterService
-                .updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, payload))
-                .thenReturn(payload);
 
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML()))
             .thenReturn(xPathService2.parseDocumentFromXml(inboundMessage.getEbXML()));
-        Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
-
-        when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference"))
-            .thenReturn(xPathService2.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH));
 
         EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
         ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID);
@@ -310,6 +313,7 @@ public class EhrExtractMessageHandlerTest {
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setExternalAttachments(new ArrayList<>());
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
@@ -331,6 +335,7 @@ public class EhrExtractMessageHandlerTest {
             throws BundleMappingException, AttachmentNotFoundException, ValidationException, InlineAttachmentProcessingException {
         InboundMessage inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setExternalAttachments(new ArrayList<>());
 
 
         PatientMigrationRequest migrationRequest =
@@ -358,6 +363,7 @@ public class EhrExtractMessageHandlerTest {
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setExternalAttachments(new ArrayList<>());
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()

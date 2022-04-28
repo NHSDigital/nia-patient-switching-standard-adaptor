@@ -12,10 +12,6 @@ import javax.xml.bind.JAXBException;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -47,7 +43,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -80,14 +76,10 @@ public class EhrExtractMessageHandler {
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
         try {
-
-            List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
-            attachmentReferenceDescription.addAll(getEbxmlAttachmentsData(inboundMessage));
-
+            boolean hasExternalAttachment = inboundMessage.getExternalAttachments().size() > 0;
             attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
 
-            if (!inboundMessage.getEbXML().contains("mid:")) {
-
+            if (!hasExternalAttachment) {
                 var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
                         inboundMessage.getAttachments(),
                         conversationId,
@@ -105,7 +97,7 @@ public class EhrExtractMessageHandler {
                 );
             }
             ////sending continue message
-            if (inboundMessage.getEbXML().contains("mid:")) {
+            if (hasExternalAttachment) {
                 String patientNhsNumber = payload
                     .getControlActEvent()
                     .getSubject()
@@ -115,69 +107,61 @@ public class EhrExtractMessageHandler {
                     .getId()
                     .getExtension();
 
-                //change test
-                if (checkIfEhrExtractIsHasAttachments(attachmentReferenceDescription)) {
-                    //save extract in storage
-                    String extractFileName = conversationId + "_" + parseMessageRef(payload) + "_payload";
-                    attachmentHandlerService.storeEhrExtract(
-                            extractFileName,
-                            inboundMessage.getPayload(),
-                            conversationId,
-                            "application/xml; charset=UTF-8"
-                    );
-
-                    //need to test if bellow
-                    if(checkIfMessageHasASkeleton(attachmentReferenceDescription)){
-                        //save 06 Messages extract skeleton
-                        PatientAttachmentLog patientExtractAttachmentLog = PatientAttachmentLog.builder()
-                                .mid(parseMessageRef(payload))
-                                .filename(extractFileName)
-                                .parentMid(null)
-                                .patientMigrationReqId(migrationRequest.getId())
-                                .contentType("application/xml; charset=UTF-8")
-                                .compressed(false)
-                                .largeAttachment(true) //need to ask
-                                .base64(false)
-                                .skeleton(true)
-                                .uploaded(true)
-                                .lengthNum(inboundMessage.getPayload().length())
-                                .orderNum(0)
-                                .build();
-
-                        patientAttachmentLogService.addAttachmentLog(patientExtractAttachmentLog);
-
-                        //save COPC_UK01 messages
-
-                        for (int index = 0; index < attachmentReferenceDescription.size(); index++) {
-
-                            if(attachmentReferenceDescription.get(index).getHref().contains("mid:")){
-                                PatientAttachmentLog patientAttachmentLog = PatientAttachmentLog.builder()
-                                        .mid(attachmentReferenceDescription.get(index).getHref().replace("mid:", ""))
-                                        .filename(parseFilename(attachmentReferenceDescription.get(index).getDescription()))
-                                        .parentMid(parseMessageRef(payload))
-                                        .patientMigrationReqId(migrationRequest.getId())
-                                        .contentType(parseContentType(attachmentReferenceDescription.get(index).getDescription()))
-                                        .compressed(parseIsCompressed(attachmentReferenceDescription.get(index).getDescription()))
-                                        .largeAttachment(parseIsLargeAttachment(attachmentReferenceDescription.get(index).getDescription())) //need to ask
-                                        .base64(parseIsOriginalBase64(attachmentReferenceDescription.get(index).getDescription()))
-                                        .skeleton(parseIsSkeleton(attachmentReferenceDescription.get(index).getDescription()))
-                                        .uploaded(false)
-                                        .lengthNum(parseFileLength(attachmentReferenceDescription.get(index).getDescription()))
-                                        .orderNum(index)
-                                        .build();
-                                patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
-                            }
-                        }
-                    }
-
-                    sendContinueRequest(
-                        payload,
+                //save extract in storage
+                String extractFileName = conversationId + "_" + parseMessageRef(payload) + "_payload";
+                attachmentHandlerService.storeEhrExtract(
+                        extractFileName,
+                        inboundMessage.getPayload(),
                         conversationId,
-                        patientNhsNumber,
-                        migrationRequest.getWinningPracticeOdsCode(),
-                        migrationStatusLog.getDate().toInstant()
-                    );
+                        "application/xml; charset=UTF-8"
+                );
+
+                //save 06 Messages extract skeleton
+                PatientAttachmentLog patientExtractAttachmentLog = PatientAttachmentLog.builder()
+                        .mid(parseMessageRef(payload))
+                        .filename(extractFileName)
+                        .parentMid(null)
+                        .patientMigrationReqId(migrationRequest.getId())
+                        .contentType("application/xml; charset=UTF-8")
+                        .compressed(false)
+                        .largeAttachment(true) //need to ask
+                        .base64(false)
+                        .skeleton(true)
+                        .uploaded(true)
+                        .lengthNum(inboundMessage.getPayload().length())
+                        .orderNum(0)
+                        .build();
+
+                patientAttachmentLogService.addAttachmentLog(patientExtractAttachmentLog);
+
+                //save COPC_UK01 messages
+                int index = 0;
+                for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
+                    PatientAttachmentLog patientAttachmentLog = PatientAttachmentLog.builder()
+                            .mid(externalAttachment.getMessageId())
+                            .filename(parseFilename(externalAttachment.getDescription()))
+                            .parentMid(parseMessageRef(payload))
+                            .patientMigrationReqId(migrationRequest.getId())
+                            .contentType(parseContentType(externalAttachment.getDescription()))
+                            .compressed(parseIsCompressed(externalAttachment.getDescription()))
+                            .largeAttachment(parseIsLargeAttachment(externalAttachment.getDescription())) //need to ask
+                            .base64(parseIsOriginalBase64(externalAttachment.getDescription()))
+                            .skeleton(parseIsSkeleton(externalAttachment.getDescription()))
+                            .uploaded(false)
+                            .lengthNum(parseFileLength(externalAttachment.getDescription()))
+                            .orderNum(index++)
+                            .build();
+                    patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
                 }
+
+
+                sendContinueRequest(
+                    payload,
+                    conversationId,
+                    patientNhsNumber,
+                    migrationRequest.getWinningPracticeOdsCode(),
+                    migrationStatusLog.getDate().toInstant()
+                );
             }else{
                 sendAckMessage(payload, conversationId);
             }
@@ -186,62 +170,19 @@ public class EhrExtractMessageHandler {
                  | InlineAttachmentProcessingException | AttachmentNotFoundException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
-        } catch (SAXException e) {
-            LOGGER.error("failed to parse RCMR_IN030000UK06 ebxml: "
-                    + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
-            sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
-            throw e;
         } catch (ParseException ex) {
             throw ex;
         }
     }
 
-    private boolean checkIfMessageHasASkeleton(List<EbxmlReference> ebxmlReferenceList) throws SAXException {
-        for (EbxmlReference description: ebxmlReferenceList) {
-            if (parseIsSkeleton(description.getDescription())){
+    private boolean checkIfMessageHasASkeleton(List<InboundMessage.ExternalAttachment> externalAttachmentList) throws SAXException {
+        for (InboundMessage.ExternalAttachment externalAttachment: externalAttachmentList) {
+            if (parseIsSkeleton(externalAttachment.getDescription())){
                 return true;
             }
         }
         return false;
     }
-
-    public boolean checkIfEhrExtractIsHasAttachments(List<EbxmlReference> ebxmlReferenceList) throws SAXException {
-        for (int index = 0; index < ebxmlReferenceList.size(); index++) {
-
-            String hrefAttribute2 = ebxmlReferenceList.get(index).getHref();
-
-            if (hrefAttribute2.startsWith("mid:")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private List<EbxmlReference> getEbxmlAttachmentsData(InboundMessage inboundMessage) throws SAXException {
-        List<EbxmlReference> ebxmlAttachmentsIds = new ArrayList<>();
-        final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
-        Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
-        NodeList referencesAttachment = xPathService.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH);
-
-        for (int index = 0; index < referencesAttachment.getLength(); index++) {
-
-            Node referenceNode = referencesAttachment.item(index); //Reference
-
-            if (referenceNode.getNodeType() == Node.ELEMENT_NODE) {
-
-                Element referenceElement = (Element) referenceNode; //description
-
-                String description = referenceElement.getTextContent();
-                String hrefAttribute = referenceElement.getAttribute("xlink:href");
-
-                ebxmlAttachmentsIds.add(new EbxmlReference(description, hrefAttribute));
-            }
-        }
-
-        return ebxmlAttachmentsIds;
-    }
-
-
 
     public void sendContinueRequest(
         RCMRIN030000UK06Message payload,
@@ -379,7 +320,6 @@ public class EhrExtractMessageHandler {
         if (matcher.find()) {
             return matcher.group(1);
         }
-
         throw new ParseException("Unable to parse originalFilename", 0);
     }
 
@@ -390,7 +330,6 @@ public class EhrExtractMessageHandler {
         if (matcher.find()) {
             return matcher.group(1);
         }
-
         throw new ParseException("Unable to parse ContentType", 0);
     }
 
@@ -401,7 +340,6 @@ public class EhrExtractMessageHandler {
         if (matcher.find()) {
             return matcher.group(1).equals("Yes");
         }
-
         throw new ParseException("Unable to parse isCompressed", 0);
     }
 
@@ -412,7 +350,6 @@ public class EhrExtractMessageHandler {
         if (matcher.find()) {
             return matcher.group(1).equals("Yes");
         }
-
         throw new ParseException("Unable to parse isLargeAttachment", 0);
     }
 
@@ -423,7 +360,6 @@ public class EhrExtractMessageHandler {
         if (matcher.find()) {
             return matcher.group(1).equals("Yes");
         }
-
         throw new ParseException("Unable to parse isOriginalBase64", 0);
     }
 
@@ -438,7 +374,6 @@ public class EhrExtractMessageHandler {
                 return 0;
             }
         }
-
         return 0;
     }
 
