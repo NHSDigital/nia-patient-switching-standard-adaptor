@@ -105,7 +105,7 @@ public class EHRTimeoutHandler {
             }
 
             ZonedDateTime timeoutDateTime = messageTimestamp.plusSeconds(timeout);
-            LOGGER.debug("Time out datetime calculated as [{}]", timeoutDateTime);
+            LOGGER.debug("Timeout datetime calculated as [{}]", timeoutDateTime);
 
             if (timeoutDateTime.isBefore(currentTime)) {
                 LOGGER.info("Migration timed out at [{}]", timeoutDateTime);
