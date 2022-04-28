@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
 
@@ -28,6 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -59,11 +61,21 @@ public class EHRTimeoutHandlerIT {
     private SendNACKMessageHandler nackMessageHandler;
 
     @Test
-    public void When_CheckForTimeouts_WhenEHRExtractHasTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
-        String persistDuration = "PT4H";
+    public void When_CheckForTimeouts_WhenEHRExtractTranslatedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+        checkDatabaseUpdated(EHR_EXTRACT_TRANSLATED);
+    }
+
+    @Test
+    public void When_CheckForTimeouts_WhenWhenContinueRequestAcceptedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+        checkDatabaseUpdated(CONTINUE_REQUEST_ACCEPTED);
+    }
+
+    private void checkDatabaseUpdated(MigrationStatus migrationStatus) throws IOException {
+
         String losingOdsCode = "P83007";
         String winningOdsCode = "A0378";
         String nhsNumber = "9446363101";
+        String persistDuration = "PT4H";
         String conversationId = UUID.randomUUID().toString();
         InboundMessage inboundMessage = createInboundMessage();
 
@@ -74,7 +86,7 @@ public class EHRTimeoutHandlerIT {
             conversationId,
             "{test bundle}",
             objectMapper.writeValueAsString(inboundMessage),
-            EHR_EXTRACT_TRANSLATED);
+            migrationStatus);
 
         ehrTimeoutHandler.checkForTimeouts();
 
