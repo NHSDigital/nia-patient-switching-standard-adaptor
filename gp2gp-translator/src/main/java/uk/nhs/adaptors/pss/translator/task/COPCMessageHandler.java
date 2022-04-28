@@ -57,7 +57,7 @@ public class COPCMessageHandler {
         // Step 5(cont): Check state of conversation_ids values and build bundle if complete
     }
 
-    private void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId) throws SAXException, AttachmentLogException, ValidationException, InlineAttachmentProcessingException {
+    public void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId) throws SAXException, AttachmentLogException, ValidationException, InlineAttachmentProcessingException {
 
         Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
