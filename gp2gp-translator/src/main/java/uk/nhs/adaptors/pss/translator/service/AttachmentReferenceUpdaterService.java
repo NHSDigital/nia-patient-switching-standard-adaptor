@@ -40,7 +40,7 @@ public class AttachmentReferenceUpdaterService {
 
                     // find "local" reference by finding the following:
                     // "<reference value=\"file://localhost/${filename}\" />"
-                    var patternStr = String.format("<reference value=.*%s.* \\/>", filename);
+                    var patternStr = String.format("<reference value=\"file://localhost/%s\" \\/>", filename);
                     Pattern pattern = Pattern.compile(patternStr);
                     Matcher matcher = pattern.matcher(resultPayload);
 
