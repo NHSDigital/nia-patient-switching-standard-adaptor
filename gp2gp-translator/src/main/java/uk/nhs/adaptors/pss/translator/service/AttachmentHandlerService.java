@@ -77,25 +77,32 @@ public class AttachmentHandlerService {
 
     public void storeEhrExtract(String fileName, String payload, String conversationId,String contentType) throws ValidationException {
 
+        if (fileName == null || fileName.isEmpty() ) {
+            throw new ValidationException("FileName cannot be null or empty");
+        }
+        if (payload == null || payload.isEmpty()) {
+            throw new ValidationException("Payload cannot be null or empty");
+        }
         if (conversationId == null || conversationId.isEmpty()) {
             throw new ValidationException("ConversationId cannot be null or empty");
         }
-
-        if (payload != null) {
-
-            try {
-
-                StorageDataUploadWrapper dataWrapper = new StorageDataUploadWrapper(
-                        contentType,
-                        conversationId,
-                        payload.getBytes()
-                );
-
-                storageManagerService.uploadFile(fileName, dataWrapper);
-            } catch (StorageException ex) {
-                // We don't want to stop uploading a list of failures but we should log them here
-                // this is for a later ticket to manage
-            }
+        if (contentType == null || contentType.isEmpty()) {
+            throw new ValidationException("ContentType cannot be null or empty");
         }
+
+        try {
+
+            StorageDataUploadWrapper dataWrapper = new StorageDataUploadWrapper(
+                    contentType,
+                    conversationId,
+                    payload.getBytes()
+            );
+
+            storageManagerService.uploadFile(fileName, dataWrapper);
+        } catch (StorageException ex) {
+            //TODO: We don't want to stop uploading a list of failures but we should log them here
+            // this is for a later ticket to manage
+        }
+
     }
 }

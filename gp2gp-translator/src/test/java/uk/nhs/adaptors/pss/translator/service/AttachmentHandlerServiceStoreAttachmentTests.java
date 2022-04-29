@@ -253,4 +253,94 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         assertArrayEquals(readFileAsBytes("InlineAttachments/large_messages.pdf"), dataByteArray);
     }
+
+    @Test
+    public void When_StoreEhrExtractParameterFileNameIsNullOrEmpty_Expect_ThrowsValidationException() {
+
+        Exception exceptionNull = assertThrows(
+                ValidationException.class,
+                ()->{attachmentHandlerService.storeEhrExtract(null, "payload", "conversationId", "contentType");
+                }
+        );
+        String actualNull = exceptionNull.getMessage();
+        String expectedNull = "FileName cannot be null or empty";
+        assertEquals(expectedNull, actualNull);
+
+        Exception exceptionEmpty = assertThrows(
+                ValidationException.class,
+                ()->{attachmentHandlerService.storeEhrExtract("", "payload", "conversationId", "contentType");
+                }
+        );
+        String actualEmpty = exceptionEmpty.getMessage();
+        String expectedEmpty = "FileName cannot be null or empty";
+        assertEquals(expectedEmpty, actualEmpty);
+    }
+
+    @Test
+    public void When_StoreEhrExtractParameterPayloadIsNullOrEmpty_Expect_ThrowsValidationException() {
+        Exception exceptionNull = assertThrows(
+                ValidationException.class,
+                ()->{attachmentHandlerService.storeEhrExtract("Filename", null, "conversationId", "contentType");
+                }
+        );
+        String actualNull = exceptionNull.getMessage();
+        String expectedNull = "Payload cannot be null or empty";
+        assertEquals(expectedNull, actualNull);
+
+        Exception exceptionEmpty = assertThrows(
+                ValidationException.class,
+                ()->{attachmentHandlerService.storeEhrExtract("Filename", "", "conversationId", "contentType");
+                }
+        );
+        String actualEmpty = exceptionEmpty.getMessage();
+        String expectedEmpty = "Payload cannot be null or empty";
+        assertEquals(expectedEmpty, actualEmpty);
+    }
+
+    @Test
+    public void When_StoreEhrExtractParameterConversationIdIsNullOrEmpty_Expect_ThrowsValidationException() {
+        Exception exceptionNull = assertThrows(
+                ValidationException.class,
+                ()->{attachmentHandlerService.storeEhrExtract("Filename", "payload", null, "contentType");
+                }
+        );
+        String actualNull = exceptionNull.getMessage();
+        String expectedNull = "ConversationId cannot be null or empty";
+        assertEquals(expectedNull, actualNull);
+
+        Exception exceptionEmpty = assertThrows(
+                ValidationException.class,
+                ()->{attachmentHandlerService.storeEhrExtract("Filename", "payload", "", "contentType");
+                }
+        );
+        String actualEmpty = exceptionEmpty.getMessage();
+        String expectedEmpty = "ConversationId cannot be null or empty";
+        assertEquals(expectedEmpty, actualEmpty);
+    }
+
+    @Test
+    public void When_StoreEhrExtractParameterContentTypeIsNullOrEmpty_Expect_ThrowsValidationException() {
+        Exception exceptionNull = assertThrows(
+                ValidationException.class,
+                ()-> attachmentHandlerService.storeEhrExtract("Filename", "payload", "conversationId", null)
+        );
+        String actualNull = exceptionNull.getMessage();
+        String expectedNull = "ContentType cannot be null or empty";
+        assertEquals(expectedNull, actualNull);
+
+        Exception exceptionEmpty = assertThrows(
+                ValidationException.class,
+                ()-> attachmentHandlerService.storeEhrExtract("Filename", "payload", "conversationId", "")
+
+        );
+        String actualEmpty = exceptionEmpty.getMessage();
+        String expectedEmpty = "ContentType cannot be null or empty";
+        assertEquals(expectedEmpty, actualEmpty);
+    }
+
+    @Test
+    public void When_StoreEhrExtractParametersAreCorrectAndNotErrors_Expect_ExecuteStorageManagerServiceUploadFile() throws ValidationException, InlineAttachmentProcessingException {
+        attachmentHandlerService.storeEhrExtract("fileName", "payload", "conversationId", "contentType");
+        verify(storageManagerService).uploadFile(any(), any());
+    }
 }

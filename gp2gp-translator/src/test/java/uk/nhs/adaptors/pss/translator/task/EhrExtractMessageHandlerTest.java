@@ -50,7 +50,6 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
-import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
@@ -227,9 +226,8 @@ public class EhrExtractMessageHandlerTest {
                 inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload());
     }
 
-    //FAILS
     @Test
-    public void When_HandleMessageWithValidDataIsCalled_Expect_CallSendContinueRequest()
+    public void When_HandleLargeMessageWithValidDataIsCalled_Expect_CallSendContinueRequest()
             throws JsonProcessingException, JAXBException, SAXException,
                 InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
@@ -266,9 +264,6 @@ public class EhrExtractMessageHandlerTest {
 
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
-
-        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML()))
-            .thenReturn(xPathService2.parseDocumentFromXml(inboundMessage.getEbXML()));
 
         EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
         ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID);
@@ -541,4 +536,111 @@ public class EhrExtractMessageHandlerTest {
 
         assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
     }
+
+    //NORMAL MESSAGES
+        //test: when small messages it should not send continue
+
+    //LARGE MESSAGES
+        //test: when large messages, it should not translate
+        //test: when large attachment it should store message payload
+        //test: when large message, it should run patientAttachmentLogService.addAttachmentLog N message times
+
+
+
+
+
+
+
+
+    @Test
+    public void When_ParseFilenameCalled_WithCorrectParameters_Expect_ReturnFileName() throws ParseException {
+        //test: when correct data, returns fileName
+        String description = "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" \n" +
+                "\tContentType=text/xml \n" +
+                "\tCompressed=Yes \n" +
+                "\tLargeAttachment=No \n" +
+                "\tOriginalBase64=Yes \n" +
+                "\tDomainData=\"X-GP2GP-Skeleton: Yes\"";
+
+        String expected = "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip";
+        String actual = ehrExtractMessageHandler.parseFilename(description);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void When_ParseFilenameCalled_DescriptionWithWrongFormat_Expect_ThrowParseException(){
+        String description = "Filename=68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip \n" +
+                "\tContentType=text/xml \n" +
+                "\tCompressed=Yes \n" +
+                "\tLargeAttachment=No \n" +
+                "\tOriginalBase64=Yes \n" +
+                "\tDomainData=\"X-GP2GP-Skeleton: Yes\"";
+
+        assertThrows(ParseException.class, ()->{
+            ehrExtractMessageHandler.parseFilename(description);
+        });
+
+        String description2 = "Filename= \n" +
+                "\tContentType=text/xml \n" +
+                "\tCompressed=Yes \n" +
+                "\tLargeAttachment=No \n" +
+                "\tOriginalBase64=Yes \n" +
+                "\tDomainData=\"X-GP2GP-Skeleton: Yes\"";
+
+        assertThrows(ParseException.class, ()->{
+            ehrExtractMessageHandler.parseFilename(description2);
+        });
+
+        String description3 = "Filenames=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" \n" +
+                "\tContentType=text/xml \n" +
+                "\tCompressed=Yes \n" +
+                "\tLargeAttachment=No \n" +
+                "\tOriginalBase64=Yes \n" +
+                "\tDomainData=\"X-GP2GP-Skeleton: Yes\"";
+
+        assertThrows(ParseException.class, ()->{
+            ehrExtractMessageHandler.parseFilename(description3);
+        });
+
+    }
+
+    //parseFilename
+
+    //parseContentType
+        //test: when correct data, returns ContentType
+        //test: when wrong data, throws ParseException
+
+    //parseIsCompressed
+        //test: when correct data, returns true
+        //test: when correct data, returns false
+        //test: when wrong data, throws ParseException
+
+    //parseIsLargeAttachment
+        //test: when correct data, returns true
+        //test: when correct data, returns false
+        //test: when wrong data, throws ParseException
+
+    //parseIsOriginalBase64
+        //test: when correct data, returns true
+        //test: when correct data, returns false
+        //test: when wrong data, throws ParseException
+
+    //parseFileLength
+        //test: when correct data, returns length
+        //test: when wrong or no dara, returns 0
+
+    //parseIsSkeleton
+        //test: when correct data, returns true
+        //test: when wrong data, returns false
+
+
+
+
+
+
+
+
+
+
 }

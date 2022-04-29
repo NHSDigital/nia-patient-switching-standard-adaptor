@@ -114,7 +114,7 @@ public class EhrExtractMessageHandler {
                         inboundMessage.getPayload(),
                         conversationId,
                         "application/xml; charset=UTF-8"
-                );
+                ); //TEST
 
                 //save 06 Messages extract skeleton
                 PatientAttachmentLog patientExtractAttachmentLog = PatientAttachmentLog.builder()
@@ -132,8 +132,9 @@ public class EhrExtractMessageHandler {
                         .orderNum(0)
                         .build();
 
-                patientAttachmentLogService.addAttachmentLog(patientExtractAttachmentLog);
+                patientAttachmentLogService.addAttachmentLog(patientExtractAttachmentLog); //TEST
 
+                //test/ if passed array of 4 items, verify patientAttachmentLogService.addAttachmentLog 5 times
                 //save COPC_UK01 messages
                 int index = 0;
                 for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
@@ -151,9 +152,8 @@ public class EhrExtractMessageHandler {
                             .lengthNum(parseFileLength(externalAttachment.getDescription()))
                             .orderNum(index++)
                             .build();
-                    patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
+                    patientAttachmentLogService.addAttachmentLog(patientAttachmentLog); //TEST
                 }
-
 
                 sendContinueRequest(
                     payload,
@@ -313,7 +313,7 @@ public class EhrExtractMessageHandler {
     }
 
 
-    private String parseFilename(String description) throws ParseException {
+    public String parseFilename(String description) throws ParseException {
         Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
         Matcher matcher = pattern.matcher(description);
 
@@ -323,7 +323,7 @@ public class EhrExtractMessageHandler {
         throw new ParseException("Unable to parse originalFilename", 0);
     }
 
-    private String parseContentType(String description) throws ParseException {
+    public String parseContentType(String description) throws ParseException {
         Pattern pattern = Pattern.compile("ContentType=([A-Za-z\\d\\-/]*)");
         Matcher matcher = pattern.matcher(description);
 
@@ -333,7 +333,7 @@ public class EhrExtractMessageHandler {
         throw new ParseException("Unable to parse ContentType", 0);
     }
 
-    private boolean parseIsCompressed(String description) throws ParseException {
+    public boolean parseIsCompressed(String description) throws ParseException {
         Pattern pattern = Pattern.compile("Compressed=(Yes|No)");
         Matcher matcher = pattern.matcher(description);
 
@@ -343,7 +343,7 @@ public class EhrExtractMessageHandler {
         throw new ParseException("Unable to parse isCompressed", 0);
     }
 
-    private boolean parseIsLargeAttachment(String description) throws ParseException {
+    public boolean parseIsLargeAttachment(String description) throws ParseException {
         Pattern pattern = Pattern.compile("LargeAttachment=(Yes|No)");
         Matcher matcher = pattern.matcher(description);
 
@@ -353,7 +353,7 @@ public class EhrExtractMessageHandler {
         throw new ParseException("Unable to parse isLargeAttachment", 0);
     }
 
-    private boolean parseIsOriginalBase64(String description) throws ParseException {
+    public boolean parseIsOriginalBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
         Matcher matcher = pattern.matcher(description);
 
@@ -363,7 +363,7 @@ public class EhrExtractMessageHandler {
         throw new ParseException("Unable to parse isOriginalBase64", 0);
     }
 
-    private int parseFileLength(String description) throws ParseException {
+    public int parseFileLength(String description) throws ParseException {
         Pattern pattern = Pattern.compile("Length=([\\d]*)");
         Matcher matcher = pattern.matcher(description);
 
@@ -377,11 +377,11 @@ public class EhrExtractMessageHandler {
         return 0;
     }
 
-    private boolean parseIsSkeleton(String description) {
+    public boolean parseIsSkeleton(String description) {
 
-        final String EB_SKELETON_PROP = "X-GP2GP-Skeleton:Yes";
+        final String EB_SKELETON_PROP = "X-GP2GP-Skeleton:Yes".toLowerCase();
 
-        if (description.replaceAll("\\s+","").contains(EB_SKELETON_PROP)) {
+        if (description.replaceAll("\\s+","").toLowerCase().contains(EB_SKELETON_PROP)) {
             return true;
         }
         return false;
@@ -394,5 +394,4 @@ public class EhrExtractMessageHandler {
         private String description;
         private String href;
     }
-
 }
