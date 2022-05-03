@@ -40,7 +40,7 @@ class COPCMessageHandlerTest {
     private static final String CONVERSATION_ID = randomUUID().toString();
     private static final String LOSING_ODE_CODE = "G543";
     private static final String WINNING_ODE_CODE = "B943";
-    private static final String messageId = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
+    private static final String MESSAGE_ID = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
 
     @Mock
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -71,7 +71,6 @@ class COPCMessageHandlerTest {
     @Mock
     private Document ebXmlDocument;
 
-
     @Test
     public void shouldCreateFragmentRecordWhenFragmentIsReceivedBeforeFragmentIndex() throws JAXBException,
         InlineAttachmentProcessingException {
@@ -100,7 +99,7 @@ class COPCMessageHandlerTest {
         InlineAttachmentProcessingException {
         // Arrange
 
-        when(patientAttachmentLogService.findAttachmentLog(messageId, CONVERSATION_ID)).thenReturn(null);
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID)).thenReturn(null);
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
         // ACT
@@ -116,7 +115,7 @@ class COPCMessageHandlerTest {
         var parentMid = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
         InboundMessage message = new InboundMessage();
-        when(patientAttachmentLogService.findAttachmentLog(messageId, CONVERSATION_ID))
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog(parentMid, null));
         when(patientAttachmentLogService.findAttachmentLog(childMid, CONVERSATION_ID))
             .thenReturn(buildPartialPatientAttachmentLog(childMid, "text/plain"));
@@ -139,7 +138,7 @@ class COPCMessageHandlerTest {
         InlineAttachmentProcessingException {
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
         InboundMessage message = new InboundMessage();
-        when(patientAttachmentLogService.findAttachmentLog(messageId, CONVERSATION_ID))
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", null));
         when(patientAttachmentLogService.findAttachmentLog(childMid, CONVERSATION_ID))
             .thenReturn(null);
@@ -163,8 +162,9 @@ class COPCMessageHandlerTest {
     @Test
     public void shouldUploadFragmentFileWhenAFragmentMessageIsReceived() throws JAXBException, InlineAttachmentProcessingException {
         InboundMessage message = new InboundMessage();
-        when(patientAttachmentLogService.findAttachmentLog(messageId, CONVERSATION_ID))
-            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB","CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
+                "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
         prepareExpectedFragmentMocks(message);
 
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
@@ -182,7 +182,7 @@ class COPCMessageHandlerTest {
     public void shouldUpdatePatientAttachmentLogAfterFileIsUploadedWhenAFragmentMessageIsReceived() throws JAXBException,
         InlineAttachmentProcessingException {
         InboundMessage message = new InboundMessage();
-        when(patientAttachmentLogService.findAttachmentLog(messageId, CONVERSATION_ID))
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
         prepareExpectedFragmentMocks(message);
 
@@ -220,9 +220,9 @@ class COPCMessageHandlerTest {
         message.setPayload(readXmlFile("inbound_message_payload_fragment_index.xml"));
         String ebxml = readXmlFile("inbound_message_ebxml_fragment_index.xml");
         message.setEbXML(ebxml);
-        message.setAttachments(Arrays.asList(new InboundMessage.Attachment("xml/text", "Yes", "Filename=E39E79A2-FA96-48FF-9373" +
-            "-7BBCB9D036E7_1.messageattachment ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes", "this is a " +
-            "payload")));
+        message.setAttachments(Arrays.asList(new InboundMessage.Attachment("xml/text", "Yes", "Filename=E39E79A2-FA96-48FF-9373"
+            + "-7BBCB9D036E7_1.messageattachment ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes", "this is a "
+            + "payload")));
         message.getAttachments().get(0).setPayload("This is a payload");
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
@@ -234,9 +234,8 @@ class COPCMessageHandlerTest {
         when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
 
         when(xPathService.parseDocumentFromXml(message.getEbXML())).thenReturn(ebXmlDocument);
-        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId")).thenReturn
-            ("CBBAE92D-C7E8" +
-                "-4A9C-8887-F5AEBA1F8CE1");
+        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
+            .thenReturn("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1");
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Body/Manifest/Reference[position()=2]/Description"))
             .thenReturn("not an index file");
     }
@@ -247,8 +246,8 @@ class COPCMessageHandlerTest {
         String ebxml = readXmlFile("inbound_message_ebxml_fragment_index.xml");
         message.setEbXML(ebxml);
         InboundMessage.ExternalAttachment extAttachment = new InboundMessage.ExternalAttachment("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",
-            "28B31-4245-4AFC-8DA2-8A40623A5101", "E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment", "Filename=E39E79A2-FA96-48FF" +
-            "-9373-7BBCB9D036E7_0.messageattachment ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes");
+            "28B31-4245-4AFC-8DA2-8A40623A5101", "E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment", "Filename=E39E79A2-FA96-48FF"
+            + "-9373-7BBCB9D036E7_0.messageattachment ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes");
 
         message.setExternalAttachments(Arrays.asList(extAttachment));
         PatientMigrationRequest migrationRequest =
@@ -261,8 +260,8 @@ class COPCMessageHandlerTest {
         when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
 
         when(xPathService.parseDocumentFromXml(message.getEbXML())).thenReturn(ebXmlDocument);
-        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId")).thenReturn
-            ("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1");
+        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
+            .thenReturn("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1");
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Body/Manifest/Reference[position()=2]/Description"))
             .thenReturn("Filename=blah");
     }
@@ -272,8 +271,8 @@ class COPCMessageHandlerTest {
         inboundMessage.setPayload(readXmlFile("inbound_message_payload_fragment_index.xml"));
 
         inboundMessage.setEbXML(readXmlFile("inbound_message_ebxml_fragment_index.xml"));
-        inboundMessage.setAttachments(Arrays.asList(new InboundMessage.Attachment("xml/text", "Yes", "Filename=E39E79A2-FA96-48FF-9373" +
-            "-7BBCB9D036E7_1.messageattachment ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes", "")));
+        inboundMessage.setAttachments(Arrays.asList(new InboundMessage.Attachment("xml/text", "Yes", "Filename=E39E79A2-FA96-48FF-9373"
+            + "-7BBCB9D036E7_1.messageattachment ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes", "")));
         inboundMessage.getAttachments().get(0).setPayload("This is a payload");
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
@@ -285,8 +284,8 @@ class COPCMessageHandlerTest {
         when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
 
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
-        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId")).thenReturn("CBBAE92D-C7E8" +
-            "-4A9C-8887-F5AEBA1F8CE1").thenReturn("047C22B4-613F-47D3-9A72-44A1758464FB");
+        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId")).thenReturn("CBBAE92D-C7E8"
+            + "-4A9C-8887-F5AEBA1F8CE1").thenReturn("047C22B4-613F-47D3-9A72-44A1758464FB");
     }
 
     @SneakyThrows
