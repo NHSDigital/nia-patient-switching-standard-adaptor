@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
+import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -28,6 +29,7 @@ import uk.nhs.adaptors.pss.translator.service.XPathService;
 public class MhsQueueMessageHandler {
     private static final String EHR_EXTRACT_INTERACTION_ID = "RCMR_IN030000UK06";
     private static final String ACKNOWLEDGEMENT_INTERACTION_ID = "MCCI_IN010000UK13";
+    private static final String CONTINUE_ATTACHMENT_INTERACTION_ID = "COPC_IN000001UK01";
     private static final String CONVERSATION_ID_PATH = "/Envelope/Header/MessageHeader/ConversationId";
     private static final String INTERACTION_ID_PATH = "/Envelope/Header/MessageHeader/Action";
 
@@ -37,6 +39,7 @@ public class MhsQueueMessageHandler {
     private final MDCService mdcService;
     private final EhrExtractMessageHandler ehrExtractMessageHandler;
     private final AcknowledgmentMessageHandler acknowledgmentMessageHandler;
+    private final COPCMessageHandler continueMessageHandler;
 
     public boolean handleMessage(Message message) {
         try {
@@ -50,6 +53,8 @@ public class MhsQueueMessageHandler {
                 acknowledgmentMessageHandler.handleMessage(inboundMessage, conversationId);
             } else if (EHR_EXTRACT_INTERACTION_ID.equals(interactionId)) {
                 ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
+            } else if (CONTINUE_ATTACHMENT_INTERACTION_ID.equals(interactionId)) {
+                continueMessageHandler.handleMessage(inboundMessage, conversationId);
             } else {
                 LOGGER.info("Handling message with [{}] interaction id not implemented", interactionId);
             }
@@ -62,6 +67,9 @@ public class MhsQueueMessageHandler {
             return false;
         } catch (InlineAttachmentProcessingException e) {
             LOGGER.error("Unable to process inline attachments", e);
+            return false;
+        } catch (AttachmentNotFoundException e) {
+            LOGGER.error("Unable to find attachment reference inbound message", e);
             return false;
         } catch (BundleMappingException e) {
             LOGGER.error("Unable to map EHR Extract to FHIR bundle", e);

@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
+import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -42,6 +43,7 @@ public class MhsQueueMessageHandlerTest {
     private static final String EHR_EXTRACT_INTERACTION_ID = "RCMR_IN030000UK06";
     private static final String ACKNOWLEDGEMENT_INTERACTION_ID = "MCCI_IN010000UK13";
     private static final String OTHER_INTERACTION_ID = "COPC_IN000001UK01";
+    private static final String UNKNOWN_INTERACTION_ID = "RANDOM_IN000001UK01";
     private static final String CONVERSATION_ID_PATH = "/Envelope/Header/MessageHeader/ConversationId";
     private static final String INTERACTION_ID_PATH = "/Envelope/Header/MessageHeader/Action";
     private static final String CONVERSATION_ID = randomUUID().toString();
@@ -77,7 +79,7 @@ public class MhsQueueMessageHandlerTest {
 
     @Test
     public void handleEhrExtractMessageWithoutErrorsShouldReturnTrue() throws JsonProcessingException, JAXBException,
-        SAXException, InlineAttachmentProcessingException, BundleMappingException {
+            SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
 
@@ -90,8 +92,9 @@ public class MhsQueueMessageHandlerTest {
     }
 
     @Test
-    public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse() throws JAXBException,
-        JsonProcessingException, SAXException, InlineAttachmentProcessingException, BundleMappingException {
+    public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse()
+            throws JAXBException, JsonProcessingException, SAXException,
+                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
@@ -136,7 +139,7 @@ public class MhsQueueMessageHandlerTest {
     @Test
     public void handleMessageWithUnsupportedInteractionIdShouldReturnTrue() {
         inboundMessage = new InboundMessage();
-        prepareMocks(OTHER_INTERACTION_ID);
+        prepareMocks(UNKNOWN_INTERACTION_ID);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 

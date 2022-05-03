@@ -22,6 +22,7 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
+import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -58,19 +59,20 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
         observation.setSubject(new Reference(patient));
         observation.setIssuedElement(createIssued(ehrExtract, ehrComposition));
         observation.setCode(createCodeableConcept());
-        observation.setEffective(
-            DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue())
-        );
-
         observation.addPerformer(createPerformer(ehrComposition, narrativeStatement));
-
         observation.addIdentifier(buildIdentifier(narrativeStatementId.getRoot(), practiseCode));
 
+        setObservationEffective(observation, narrativeStatement.getAvailabilityTime());
         setObservationComment(observation, narrativeStatement.getText());
 
-        // Context may not always be mapped
         addContextToObservation(observation, encounters, ehrComposition);
         return observation;
+    }
+
+    private void setObservationEffective(Observation observation, TS availabilityTime) {
+        if (availabilityTime.hasValue()) {
+            observation.setEffective(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()));
+        }
     }
 
     private void setObservationComment(Observation observation, String text) {

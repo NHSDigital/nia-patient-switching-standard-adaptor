@@ -28,6 +28,7 @@ public class ObjectFactory {
     private final static QName _EhrExtract_QNAME = new QName("urn:hl7-org:v3", "EhrExtract");
     private final static QName _Message_QNAME = new QName("urn:hl7-org:v3", "Message");
     private final static QName _RCMRIN030000UK06_QNAME = new QName("urn:hl7-org:v3", "RCMR_IN030000UK06");
+    private final static QName _COPCIN000001UK01_QNAME = new QName("urn:hl7-org:v3", "COPC_IN000001UK01");
     private final static QName _IVLINTLow_QNAME = new QName("urn:hl7-org:v3", "low");
     private final static QName _IVLINTHigh_QNAME = new QName("urn:hl7-org:v3", "high");
     private final static QName _IVLPQWidth_QNAME = new QName("urn:hl7-org:v3", "width");
@@ -160,6 +161,14 @@ public class ObjectFactory {
      */
     public RCMRIN030000UK06Message createRCMRIN030000UK06Message() {
         return new RCMRIN030000UK06Message();
+    }
+
+    /**
+     * Create an instance of {@link COPCIN000001UK01Message }
+     *
+     */
+    public COPCIN000001UK01Message createCOPCIN000001UK01Message() {
+        return new COPCIN000001UK01Message();
     }
 
     /**
@@ -1555,12 +1564,29 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRIN030000UK06Subject }
-     * 
+     * Create an instance of {@link COPCIN000001UK01ControlActEvent }
+     *
      */
-    public RCMRIN030000UK06Subject createRCMRIN030000UK06Subject() {
-        return new RCMRIN030000UK06Subject();
+    public COPCIN000001UK01ControlActEvent createCOPCIN000001UK01ControlActEvent() {
+        return new COPCIN000001UK01ControlActEvent();
     }
+
+    /**
+     * Create an instance of {@link RCMRIN030000UK06Subject }
+     *
+     */
+    public COPCIN000001UK01Subject createRCMRIN030000UK06Subject() {
+        return new COPCIN000001UK01Subject();
+    }
+
+    /**
+     * Create an instance of {@link COPCIN000001UK01Subject }
+     *
+     */
+    public COPCIN000001UK01Subject createCOPCIN000001UK01Subject() {
+        return new COPCIN000001UK01Subject();
+    }
+
 
     /**
      * Create an instance of {@link RTOQTYQTY.Numerator }
@@ -1812,6 +1838,19 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "RCMR_IN030000UK06")
     public JAXBElement<RCMRIN030000UK06Message> createRCMRIN030000UK06(RCMRIN030000UK06Message value) {
         return new JAXBElement<RCMRIN030000UK06Message>(_RCMRIN030000UK06_QNAME, RCMRIN030000UK06Message.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link COPCIN000001UK01Message }{@code >}
+     *
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link COPCIN000001UK01Message }{@code >}
+     */
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "COPC_IN000001UK01")
+    public JAXBElement<COPCIN000001UK01Message> createCOPCIN000001UK01(COPCIN000001UK01Message value) {
+        return new JAXBElement<COPCIN000001UK01Message>(_COPCIN000001UK01_QNAME, COPCIN000001UK01Message.class, null, value);
     }
 
     /**

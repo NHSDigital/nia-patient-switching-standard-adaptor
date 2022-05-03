@@ -56,6 +56,14 @@ public class StorageManagerService {
         }
     }
 
+    public String getFileLocation(String filename) {
+        try {
+            return storageService.getFileLocation(filename);
+        } catch (Exception e) {
+            throw new StorageException("Error occurred getting file location from Storage", e);
+        }
+    }
+
     private Boolean validateUploadedFile(String filename, byte[] fileAsString) throws StorageException {
         byte[] downloadedFile = storageService.downloadFile(filename);
         return Arrays.equals(fileAsString, downloadedFile);
