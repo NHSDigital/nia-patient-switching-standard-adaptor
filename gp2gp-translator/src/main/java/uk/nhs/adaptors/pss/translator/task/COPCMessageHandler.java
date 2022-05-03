@@ -2,8 +2,7 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -45,7 +44,8 @@ public class COPCMessageHandler {
 
 
 
-    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+    public void handleMessage(InboundMessage inboundMessage, String conversationId)
+        throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException {
 
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -57,7 +57,8 @@ public class COPCMessageHandler {
         // Step 5(cont): Check state of conversation_ids values and build bundle if complete
     }
 
-    public void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId) throws SAXException, AttachmentLogException, ValidationException, InlineAttachmentProcessingException {
+    public void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId)
+        throws SAXException, AttachmentLogException, ValidationException, InlineAttachmentProcessingException {
 
         Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
@@ -79,9 +80,9 @@ public class COPCMessageHandler {
 
         //TODO an index could be the last part of an MID to return, in that scenario the file will never merge without he following
         // Single fragment indicates parent index section
-        var parentLogMessageId = (attachmentLogFragments.size() == 1) ?
-            currentAttachmentLog.getMid() :
-            currentAttachmentLog.getParentMid();
+        var parentLogMessageId = (attachmentLogFragments.size() == 1)
+            ? currentAttachmentLog.getMid()
+            : currentAttachmentLog.getParentMid();
 
         attachmentLogFragments = conversationAttachmentLogs.stream()
             .sorted(Comparator.comparingInt(PatientAttachmentLog::getOrderNum))
@@ -93,7 +94,7 @@ public class COPCMessageHandler {
             .allMatch(PatientAttachmentLog::getUploaded);
 
         // Step 2: If all parts have been received, combined byte strings
-        if(allFragmentsHaveUploaded) {
+        if (allFragmentsHaveUploaded) {
 
             String payload = attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(attachmentLogFragments);
 
@@ -120,15 +121,15 @@ public class COPCMessageHandler {
         }
     }
 
-    public List<InboundMessage.Attachment> createNewLargeAttachmentInList(PatientAttachmentLog largeFileLog, String payload){
+    public List<InboundMessage.Attachment> createNewLargeAttachmentInList(PatientAttachmentLog largeFileLog, String payload) {
 
         var fileDescription =
-            "Filename=" + "\"" + largeFileLog.getFilename()  + "\" " +
-            "ContentType=" + largeFileLog.getContentType() + " " +
-            "Compressed=" + largeFileLog.getCompressed().toString() + " " +
-            "LargeAttachment=" + largeFileLog.getLargeAttachment().toString() + " " +
-            "OriginalBase64=" + largeFileLog.getBase64().toString() + " " +
-            "Length=" + largeFileLog.getLengthNum();
+            "Filename=" + "\"" + largeFileLog.getFilename()  + "\" "
+                + "ContentType=" + largeFileLog.getContentType() + " "
+                + "Compressed=" + largeFileLog.getCompressed().toString() + " "
+                + "LargeAttachment=" + largeFileLog.getLargeAttachment().toString() + " "
+                + "OriginalBase64=" + largeFileLog.getBase64().toString() + " "
+                + "Length=" + largeFileLog.getLengthNum();
 
         List<InboundMessage.Attachment> attachmentList = Arrays.asList(
             InboundMessage.Attachment.builder()

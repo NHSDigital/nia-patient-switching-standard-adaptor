@@ -79,14 +79,14 @@ public class AttachmentHandlerService {
     }
 
     public byte[] getAttachment(String filename) {
-        if(filename == null || filename.isEmpty()) {
+        if (filename == null || filename.isEmpty()) {
             throw new NullValueException();
         }
         return storageManagerService.downloadFile(filename);
     }
 
     public void removeAttachment(String filename) {
-        if(filename == null || filename.isEmpty()) {
+        if (filename == null || filename.isEmpty()) {
             throw new NullValueException();
         }
         storageManagerService.deleteFile(filename);
@@ -98,7 +98,7 @@ public class AttachmentHandlerService {
             var filename = log.getFilename();
             var attachmentBytes = getAttachment(filename);
             combinedFile += new String(attachmentBytes, StandardCharsets.UTF_8);
-        };
+        }
 
         return combinedFile;
     }
