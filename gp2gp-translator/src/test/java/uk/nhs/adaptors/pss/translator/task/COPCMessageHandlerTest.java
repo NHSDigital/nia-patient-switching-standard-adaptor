@@ -1,17 +1,14 @@
 package uk.nhs.adaptors.pss.translator.task;
 
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
-
-
+import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-
+import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
@@ -19,7 +16,9 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
-import org.w3c.dom.Document;
+import javax.xml.bind.ValidationException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,17 +26,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.xml.bind.ValidationException;
-
 @ExtendWith(MockitoExtension.class)
 public class COPCMessageHandlerTest {
 
     private static final String NHS_NUMBER = "123456";
     private static final String CONVERSATION_ID = randomUUID().toString();
-    private static final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
 
 
     @Mock
@@ -51,12 +44,6 @@ public class COPCMessageHandlerTest {
 
     @Mock
     private Document ebXmlDocument;
-
-    @Mock
-    private InboundMessage inboundMessage;
-
-    @Mock
-    private PatientAttachmentLog message;
 
     @InjectMocks
     private COPCMessageHandler copcMessageHandler;
@@ -72,51 +59,51 @@ public class COPCMessageHandlerTest {
             .thenReturn(PatientAttachmentLog.builder().filename("test_frag_1.txt").mid("2").parentMid("1").patientMigrationReqId(1).build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-            .thenReturn(new ArrayList<PatientAttachmentLog>(
-                Arrays.asList(
-                    PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
-                            .orderNum(0)
-                            .parentMid("0")
-                            .uploaded(false)
-                            .largeAttachment(true)
-                            .base64(true)
-                            .compressed(false)
-                            .contentType("textplain")
-                            .lengthNum(0)
-                            .skeleton(false)
-                            .patientMigrationReqId(1).build(),
-                    PatientAttachmentLog.builder().filename("test_frag_1.txt")
-                            .mid("2")
-                            .orderNum(0)
-                            .parentMid("1")
-                            .uploaded(true)
-                            .largeAttachment(true)
-                            .base64(true)
-                            .compressed(false)
-                            .contentType("1textplain")
-                            .lengthNum(0)
-                            .skeleton(false)
-                            .patientMigrationReqId(1).build(),
-                    PatientAttachmentLog.builder().filename("test_frag_2.txt")
-                            .mid("3")
-                            .orderNum(1)
-                            .parentMid("1")
-                            .uploaded(true)
-                            .patientMigrationReqId(1)
-                            .largeAttachment(true)
-                            .base64(true)
-                            .compressed(false)
-                            .contentType("textplain")
-                            .lengthNum(0)
-                            .skeleton(false).build()
-                )));
+            .thenReturn(new ArrayList<>(
+                    Arrays.asList(
+                            PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
+                                    .orderNum(0)
+                                    .parentMid("0")
+                                    .uploaded(false)
+                                    .largeAttachment(true)
+                                    .base64(true)
+                                    .compressed(false)
+                                    .contentType("text/plain")
+                                    .lengthNum(0)
+                                    .skeleton(false)
+                                    .patientMigrationReqId(1).build(),
+                            PatientAttachmentLog.builder().filename("test_frag_1.txt")
+                                    .mid("2")
+                                    .orderNum(0)
+                                    .parentMid("1")
+                                    .uploaded(true)
+                                    .largeAttachment(true)
+                                    .base64(true)
+                                    .compressed(false)
+                                    .contentType("text/plain")
+                                    .lengthNum(0)
+                                    .skeleton(false)
+                                    .patientMigrationReqId(1).build(),
+                            PatientAttachmentLog.builder().filename("test_frag_2.txt")
+                                    .mid("3")
+                                    .orderNum(1)
+                                    .parentMid("1")
+                                    .uploaded(true)
+                                    .patientMigrationReqId(1)
+                                    .largeAttachment(true)
+                                    .base64(true)
+                                    .compressed(false)
+                                    .contentType("text/plain")
+                                    .lengthNum(0)
+                                    .skeleton(false).build()
+                    )));
 
-        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any())).thenReturn("fgnujansdflsnglawnmflae");
+        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any())).thenReturn("test-string");
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
     }
 
     @Test
-    public void When_CurrentAttachmentLogIsNull_Expect_ThrowError() throws SAXException {
+    public void When_CurrentAttachmentLogIsNull_Expect_ThrowError() {
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
@@ -138,7 +125,7 @@ public class COPCMessageHandlerTest {
                 .thenReturn(PatientAttachmentLog.builder().filename("test_frag_1.txt").mid("2").parentMid("1").patientMigrationReqId(1).build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<PatientAttachmentLog>(
+                .thenReturn(new ArrayList<>(
                         Arrays.asList(
                                 PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
                                         .orderNum(0)
@@ -147,7 +134,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -159,7 +146,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("1textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -172,7 +159,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false).build()
                         )));
@@ -194,7 +181,7 @@ public class COPCMessageHandlerTest {
                 .thenReturn(PatientAttachmentLog.builder().filename("test_frag_1.txt").mid("2").parentMid("1").patientMigrationReqId(1).build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<PatientAttachmentLog>(
+                .thenReturn(new ArrayList<>(
                         Arrays.asList(
                                 PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
                                         .orderNum(0)
@@ -203,7 +190,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -215,7 +202,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -228,7 +215,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false).build()
                         )));
@@ -249,7 +236,7 @@ public class COPCMessageHandlerTest {
                 .thenReturn(PatientAttachmentLog.builder().filename("test_frag_1.txt").mid("2").parentMid("1").patientMigrationReqId(1).build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<PatientAttachmentLog>(
+                .thenReturn(new ArrayList<>(
                         Arrays.asList(
                                 PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
                                         .orderNum(0)
@@ -258,7 +245,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -270,7 +257,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -283,7 +270,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false).build()
                         )));
@@ -305,7 +292,7 @@ public class COPCMessageHandlerTest {
                 .thenReturn(PatientAttachmentLog.builder().filename("test_frag_1.txt").mid("2").parentMid("1").patientMigrationReqId(1).build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<PatientAttachmentLog>(
+                .thenReturn(new ArrayList<>(
                         Arrays.asList(
                                 PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
                                         .orderNum(0)
@@ -314,7 +301,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -326,7 +313,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -339,7 +326,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false).build()
                         )));
@@ -360,7 +347,7 @@ public class COPCMessageHandlerTest {
                 .thenReturn(PatientAttachmentLog.builder().filename("test_frag_1.txt").mid("2").parentMid("1").patientMigrationReqId(1).build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<PatientAttachmentLog>(
+                .thenReturn(new ArrayList<>(
                         Arrays.asList(
                                 PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
                                         .orderNum(0)
@@ -369,7 +356,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -381,7 +368,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -394,7 +381,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false).build()
                         )));
@@ -415,7 +402,7 @@ public class COPCMessageHandlerTest {
                 .thenReturn(PatientAttachmentLog.builder().filename("test_frag_1.txt").mid("2").parentMid("1").patientMigrationReqId(1).build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<PatientAttachmentLog>(
+                .thenReturn(new ArrayList<>(
                         Arrays.asList(
                                 PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
                                         .orderNum(0)
@@ -424,7 +411,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -436,7 +423,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -449,7 +436,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false).build()
                         )));
@@ -470,7 +457,7 @@ public class COPCMessageHandlerTest {
                 .thenReturn(PatientAttachmentLog.builder().filename("test_frag_1.txt").mid("2").parentMid("1").patientMigrationReqId(1).build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<PatientAttachmentLog>(
+                .thenReturn(new ArrayList<>(
                         Arrays.asList(
                                 PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
                                         .orderNum(0)
@@ -479,7 +466,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -491,7 +478,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -504,7 +491,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false).build()
                         )));
@@ -525,7 +512,7 @@ public class COPCMessageHandlerTest {
                 .thenReturn(PatientAttachmentLog.builder().filename("test_main.txt").mid("1").parentMid("0").patientMigrationReqId(1).build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<PatientAttachmentLog>(
+                .thenReturn(new ArrayList<>(
                         Arrays.asList(
                                 PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
                                         .orderNum(0)
@@ -534,7 +521,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -546,7 +533,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false)
                                         .patientMigrationReqId(1).build(),
@@ -559,7 +546,7 @@ public class COPCMessageHandlerTest {
                                         .largeAttachment(true)
                                         .base64(true)
                                         .compressed(false)
-                                        .contentType("textplain")
+                                        .contentType("text/plain")
                                         .lengthNum(0)
                                         .skeleton(false).build()
                         )));
