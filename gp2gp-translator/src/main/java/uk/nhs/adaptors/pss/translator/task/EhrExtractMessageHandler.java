@@ -77,7 +77,7 @@ public class EhrExtractMessageHandler {
 
         try {
             boolean hasExternalAttachment = inboundMessage.getExternalAttachments().size() > 0;
-            attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
+            attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);//ask if need to update database after storing
 
             if (!hasExternalAttachment) {
                 var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
@@ -116,43 +116,47 @@ public class EhrExtractMessageHandler {
                         "application/xml; charset=UTF-8"
                 ); //TEST
 
-                //save 06 Messages extract skeleton
-                PatientAttachmentLog patientExtractAttachmentLog = PatientAttachmentLog.builder()
-                        .mid(parseMessageRef(payload))
-                        .filename(extractFileName)
-                        .parentMid(null)
-                        .patientMigrationReqId(migrationRequest.getId())
-                        .contentType("application/xml; charset=UTF-8")
-                        .compressed(false)
-                        .largeAttachment(true) //need to ask
-                        .base64(false)
-                        .skeleton(true)
-                        .uploaded(true)
-                        .lengthNum(inboundMessage.getPayload().length())
-                        .orderNum(0)
-                        .build();
 
-                patientAttachmentLogService.addAttachmentLog(patientExtractAttachmentLog); //TEST
 
                 //test/ if passed array of 4 items, verify patientAttachmentLogService.addAttachmentLog 5 times
                 //save COPC_UK01 messages
                 int index = 0;
                 for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
-                    PatientAttachmentLog patientAttachmentLog = PatientAttachmentLog.builder()
-                            .mid(externalAttachment.getMessageId())
-                            .filename(parseFilename(externalAttachment.getDescription()))
-                            .parentMid(parseMessageRef(payload))
-                            .patientMigrationReqId(migrationRequest.getId())
-                            .contentType(parseContentType(externalAttachment.getDescription()))
-                            .compressed(parseIsCompressed(externalAttachment.getDescription()))
-                            .largeAttachment(parseIsLargeAttachment(externalAttachment.getDescription())) //need to ask
-                            .base64(parseIsOriginalBase64(externalAttachment.getDescription()))
-                            .skeleton(parseIsSkeleton(externalAttachment.getDescription()))
-                            .uploaded(false)
-                            .lengthNum(parseFileLength(externalAttachment.getDescription()))
-                            .orderNum(index++)
-                            .build();
-                    patientAttachmentLogService.addAttachmentLog(patientAttachmentLog); //TEST
+                    if(parseIsSkeleton(externalAttachment.getDescription())) {
+                        //save 06 Messages extract skeleton
+                        PatientAttachmentLog patientExtractAttachmentLog = PatientAttachmentLog.builder()
+                                .mid(parseMessageRef(payload))
+                                .filename(extractFileName)
+                                .parentMid(null)
+                                .patientMigrationReqId(migrationRequest.getId())
+                                .contentType("application/xml; charset=UTF-8")
+                                .compressed(false)
+                                .largeAttachment(true) //need to ask
+                                .base64(false)
+                                .skeleton(true)
+                                .uploaded(true)
+                                .lengthNum(0)
+                                .orderNum(0)
+                                .build();
+
+                        patientAttachmentLogService.addAttachmentLog(patientExtractAttachmentLog); //TEST
+                    }else{
+                        PatientAttachmentLog patientAttachmentLog = PatientAttachmentLog.builder()
+                                .mid(externalAttachment.getMessageId())
+                                .filename(parseFilename(externalAttachment.getDescription()))
+                                .parentMid(parseMessageRef(payload))
+                                .patientMigrationReqId(migrationRequest.getId())
+                                .contentType(parseContentType(externalAttachment.getDescription()))
+                                .compressed(parseIsCompressed(externalAttachment.getDescription()))
+                                .largeAttachment(parseIsLargeAttachment(externalAttachment.getDescription())) //need to ask
+                                .base64(parseIsOriginalBase64(externalAttachment.getDescription()))
+                                .skeleton(false)
+                                .uploaded(false)
+                                .lengthNum(parseFileLength(externalAttachment.getDescription()))
+                                .orderNum(0)
+                                .build();
+                        patientAttachmentLogService.addAttachmentLog(patientAttachmentLog); //TEST
+                    }
                 }
 
                 sendContinueRequest(
@@ -312,8 +316,7 @@ public class EhrExtractMessageHandler {
         return payload.getId().getRoot();
     }
 
-
-    public String parseFilename(String description) throws ParseException {
+    private String parseFilename(String description) throws ParseException {
         Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
         Matcher matcher = pattern.matcher(description);
 
@@ -323,7 +326,7 @@ public class EhrExtractMessageHandler {
         throw new ParseException("Unable to parse originalFilename", 0);
     }
 
-    public String parseContentType(String description) throws ParseException {
+    private String parseContentType(String description) throws ParseException {
         Pattern pattern = Pattern.compile("ContentType=([A-Za-z\\d\\-/]*)");
         Matcher matcher = pattern.matcher(description);
 
@@ -333,7 +336,7 @@ public class EhrExtractMessageHandler {
         throw new ParseException("Unable to parse ContentType", 0);
     }
 
-    public boolean parseIsCompressed(String description) throws ParseException {
+    private boolean parseIsCompressed(String description) throws ParseException {
         Pattern pattern = Pattern.compile("Compressed=(Yes|No)");
         Matcher matcher = pattern.matcher(description);
 
@@ -343,7 +346,7 @@ public class EhrExtractMessageHandler {
         throw new ParseException("Unable to parse isCompressed", 0);
     }
 
-    public boolean parseIsLargeAttachment(String description) throws ParseException {
+    private boolean parseIsLargeAttachment(String description) throws ParseException {
         Pattern pattern = Pattern.compile("LargeAttachment=(Yes|No)");
         Matcher matcher = pattern.matcher(description);
 
@@ -353,7 +356,7 @@ public class EhrExtractMessageHandler {
         throw new ParseException("Unable to parse isLargeAttachment", 0);
     }
 
-    public boolean parseIsOriginalBase64(String description) throws ParseException {
+    private boolean parseIsOriginalBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
         Matcher matcher = pattern.matcher(description);
 
@@ -363,7 +366,7 @@ public class EhrExtractMessageHandler {
         throw new ParseException("Unable to parse isOriginalBase64", 0);
     }
 
-    public int parseFileLength(String description) throws ParseException {
+    private int parseFileLength(String description) throws ParseException {
         Pattern pattern = Pattern.compile("Length=([\\d]*)");
         Matcher matcher = pattern.matcher(description);
 
@@ -377,7 +380,7 @@ public class EhrExtractMessageHandler {
         return 0;
     }
 
-    public boolean parseIsSkeleton(String description) {
+    private boolean parseIsSkeleton(String description) {
 
         final String EB_SKELETON_PROP = "X-GP2GP-Skeleton:Yes".toLowerCase();
 

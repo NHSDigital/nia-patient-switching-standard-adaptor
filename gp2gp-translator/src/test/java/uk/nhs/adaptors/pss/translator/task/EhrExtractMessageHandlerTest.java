@@ -11,6 +11,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
@@ -18,6 +19,7 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSL
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -540,107 +542,213 @@ public class EhrExtractMessageHandlerTest {
     //NORMAL MESSAGES
         //test: when small messages it should not send continue
 
+    @Test
+    public void When_HandleSingleMessageWithValidDataIsCalled_Expect_NotToCallSendContinueRequest()
+            throws JsonProcessingException, JAXBException, SAXException,
+            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
+
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+
+        InboundMessage inboundMessage = new InboundMessage();
+        XPathService xPathService2 = new XPathService();
+
+        PatientMigrationRequest migrationRequest =
+                PatientMigrationRequest.builder()
+                        .losingPracticeOdsCode(LOSING_ODE_CODE)
+                        .winningPracticeOdsCode(WINNING_ODE_CODE)
+                        .build();
+
+        MigrationStatusLog migrationStatusLog =
+                MigrationStatusLog.builder()
+                        .date(OffsetDateTime.ofInstant(
+                                Instant.now(),
+                                ZoneId.systemDefault()))
+                        .build();
+
+        inboundMessage.setPayload(readInboundSingleMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundSingleMessageEbXmlFromFile());
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
+        when(attachmentReferenceUpdaterService
+                .updateReferenceToAttachment(
+                        inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
+                )).thenReturn(inboundMessage.getPayload());
+
+        EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
+        ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(ehrExtractMessageHandlerSpy, times(0)).sendContinueRequest(
+                any(RCMRIN030000UK06Message.class),
+                any(String.class),
+                any(String.class),
+                any(String.class),
+                any(Instant.class)
+        );
+    }
+
+    private String readInboundSingleMessageEbXmlFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06/ebxmlSmallMessage.xml").replace("{{nhsNumber}}", NHS_NUMBER);
+    }
+
+    private String readInboundSingleMessagePayloadFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06/payloadSmallMessage.xml").replace("{{nhsNumber}}", NHS_NUMBER);
+    }
+
     //LARGE MESSAGES
         //test: when large messages, it should not translate
+
+    @Test
+    public void When_HandleLargeMessageWithValidDataIsCalled_Expect_ItShouldNotTranslate()
+            throws JAXBException, BundleMappingException, AttachmentNotFoundException,
+            ParseException, JsonProcessingException, SAXException, InlineAttachmentProcessingException {
+
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+
+        InboundMessage inboundMessage = new InboundMessage();
+
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        PatientMigrationRequest migrationRequest =
+                PatientMigrationRequest.builder()
+                        .losingPracticeOdsCode(LOSING_ODE_CODE)
+                        .winningPracticeOdsCode(WINNING_ODE_CODE)
+                        .build();
+
+        MigrationStatusLog migrationStatusLog =
+                MigrationStatusLog.builder()
+                        .date(OffsetDateTime.ofInstant(
+                                Instant.now(),
+                                ZoneId.systemDefault()))
+                        .build();
+
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(bundleMapperService, times(0)).mapToBundle(any(), any());
+    }
         //test: when large attachment it should store message payload
+
+    @Test
+    public void When_HandleLargeMessageWithValidDataIsCalled_Expect_StoreMessagePayload()
+            throws JsonProcessingException, JAXBException, SAXException,
+            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
+
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+
+        InboundMessage inboundMessage = new InboundMessage();
+        XPathService xPathService2 = new XPathService();
+
+        PatientMigrationRequest migrationRequest =
+                PatientMigrationRequest.builder()
+                        .losingPracticeOdsCode(LOSING_ODE_CODE)
+                        .winningPracticeOdsCode(WINNING_ODE_CODE)
+                        .build();
+
+        MigrationStatusLog migrationStatusLog =
+                MigrationStatusLog.builder()
+                        .date(OffsetDateTime.ofInstant(
+                                Instant.now(),
+                                ZoneId.systemDefault()))
+                        .build();
+
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(attachmentHandlerService, times(1)).storeEhrExtract(any(), any(), any(), any());
+    }
         //test: when large message, it should run patientAttachmentLogService.addAttachmentLog N message times
 
-
-
-
-
-
-
-
     @Test
-    public void When_ParseFilenameCalled_WithCorrectParameters_Expect_ReturnFileName() throws ParseException {
-        //test: when correct data, returns fileName
-        String description = "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" \n" +
-                "\tContentType=text/xml \n" +
-                "\tCompressed=Yes \n" +
-                "\tLargeAttachment=No \n" +
-                "\tOriginalBase64=Yes \n" +
-                "\tDomainData=\"X-GP2GP-Skeleton: Yes\"";
+    public void When_HandleLargeMessageWithValidDataIsCalled_Expect_AddAttachmentExactNumerOfTimesAsExternalAttachmentsList()
+            throws JsonProcessingException, JAXBException, SAXException,
+            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
-        String expected = "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip";
-        String actual = ehrExtractMessageHandler.parseFilename(description);
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
 
-        assertEquals(expected, actual);
+        InboundMessage inboundMessage = new InboundMessage();
+
+        PatientMigrationRequest migrationRequest =
+                PatientMigrationRequest.builder()
+                        .losingPracticeOdsCode(LOSING_ODE_CODE)
+                        .winningPracticeOdsCode(WINNING_ODE_CODE)
+                        .build();
+
+        MigrationStatusLog migrationStatusLog =
+                MigrationStatusLog.builder()
+                        .date(OffsetDateTime.ofInstant(
+                                Instant.now(),
+                                ZoneId.systemDefault()))
+                        .build();
+
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
+        );
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
+        );
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(patientAttachmentLogService, times(externalAttachmentsTestList.size())).addAttachmentLog(any());
     }
-
-    @Test
-    public void When_ParseFilenameCalled_DescriptionWithWrongFormat_Expect_ThrowParseException(){
-        String description = "Filename=68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip \n" +
-                "\tContentType=text/xml \n" +
-                "\tCompressed=Yes \n" +
-                "\tLargeAttachment=No \n" +
-                "\tOriginalBase64=Yes \n" +
-                "\tDomainData=\"X-GP2GP-Skeleton: Yes\"";
-
-        assertThrows(ParseException.class, ()->{
-            ehrExtractMessageHandler.parseFilename(description);
-        });
-
-        String description2 = "Filename= \n" +
-                "\tContentType=text/xml \n" +
-                "\tCompressed=Yes \n" +
-                "\tLargeAttachment=No \n" +
-                "\tOriginalBase64=Yes \n" +
-                "\tDomainData=\"X-GP2GP-Skeleton: Yes\"";
-
-        assertThrows(ParseException.class, ()->{
-            ehrExtractMessageHandler.parseFilename(description2);
-        });
-
-        String description3 = "Filenames=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" \n" +
-                "\tContentType=text/xml \n" +
-                "\tCompressed=Yes \n" +
-                "\tLargeAttachment=No \n" +
-                "\tOriginalBase64=Yes \n" +
-                "\tDomainData=\"X-GP2GP-Skeleton: Yes\"";
-
-        assertThrows(ParseException.class, ()->{
-            ehrExtractMessageHandler.parseFilename(description3);
-        });
-
-    }
-
-    //parseFilename
-
-    //parseContentType
-        //test: when correct data, returns ContentType
-        //test: when wrong data, throws ParseException
-
-    //parseIsCompressed
-        //test: when correct data, returns true
-        //test: when correct data, returns false
-        //test: when wrong data, throws ParseException
-
-    //parseIsLargeAttachment
-        //test: when correct data, returns true
-        //test: when correct data, returns false
-        //test: when wrong data, throws ParseException
-
-    //parseIsOriginalBase64
-        //test: when correct data, returns true
-        //test: when correct data, returns false
-        //test: when wrong data, throws ParseException
-
-    //parseFileLength
-        //test: when correct data, returns length
-        //test: when wrong or no dara, returns 0
-
-    //parseIsSkeleton
-        //test: when correct data, returns true
-        //test: when wrong data, returns false
-
-
-
-
-
-
-
-
-
-
 }
