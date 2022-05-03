@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.task;
 import static java.util.UUID.randomUUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -23,8 +22,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
@@ -200,7 +197,6 @@ class COPCMessageHandlerTest {
 
     private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid) {
         return PatientAttachmentLog.builder()
-            // "047C22B4-613F-47D3-9A72-44A1758464FB"
             .mid(mid)
             .filename("E39E79A2-FA96-48FF-9373-7BBCB9D036E7.txt")
             .parentMid(parentMid)

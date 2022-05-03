@@ -12,14 +12,11 @@ import java.util.regex.Pattern;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import lombok.RequiredArgsConstructor;
@@ -44,8 +41,6 @@ public class COPCMessageHandler {
 
     private static final String DESCRIPTION_PATH = "/Envelope/Body/Manifest/Reference[position()=2]/Description";
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
-    private static final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
-    public static final String XLINK_HREF = "xlink:href";
 
     private final PatientMigrationRequestDao migrationRequestDao;
     private final MigrationStatusLogService migrationStatusLogService;
@@ -192,7 +187,8 @@ public class COPCMessageHandler {
         }
         return orderNum + 1;
     }
-    private void updateFragmentLog(PatientAttachmentLog childLog, PatientAttachmentLog parentLog, String descriptionString, int orderNum) throws ParseException {
+    private void updateFragmentLog(PatientAttachmentLog childLog, PatientAttachmentLog parentLog, String descriptionString,
+        int orderNum) throws ParseException {
         childLog.setParentMid(parentLog.getMid());
         childLog.setCompressed(parseCompressed(descriptionString));
         childLog.setLargeAttachment(parseLargeAttachment(descriptionString));
