@@ -50,11 +50,7 @@ public class COPCMessageHandler {
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
         sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
-
-        // Manage the merging of a large file
         checkAndMergeFileParts(inboundMessage, conversationId);
-
-        // Step 5(cont): Check state of conversation_ids values and build bundle if complete
     }
 
     public void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId)
@@ -64,22 +60,16 @@ public class COPCMessageHandler {
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
         var currentAttachmentLog = patientAttachmentLogService.findAttachmentLog(inboundMessageId, conversationId);
 
-        // There should never be an instance where an attachment log does not exist at this point for a COPC message
         if (currentAttachmentLog == null) {
             throw new AttachmentLogException("Given COPC message is missing an attachment log");
         }
 
-        // We will not have that many log records for a single EHR, we may as well load them into memory in one go now.
         var conversationAttachmentLogs = patientAttachmentLogService.findAttachmentLogs(conversationId);
-
-
         var attachmentLogFragments = conversationAttachmentLogs.stream()
             .sorted(Comparator.comparingInt(PatientAttachmentLog::getOrderNum))
             .filter(log -> log.getParentMid().equals(currentAttachmentLog.getParentMid()))
             .toList();
 
-        //TODO an index could be the last part of an MID to return, in that scenario the file will never merge without he following
-        // Single fragment indicates parent index section
         var parentLogMessageId = (attachmentLogFragments.size() == 1)
             ? currentAttachmentLog.getMid()
             : currentAttachmentLog.getParentMid();
@@ -93,11 +83,9 @@ public class COPCMessageHandler {
         var allFragmentsHaveUploaded = attachmentLogFragments.stream()
             .allMatch(PatientAttachmentLog::getUploaded);
 
-        // Step 2: If all parts have been received, combined byte strings
         if (allFragmentsHaveUploaded) {
 
             String payload = attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(attachmentLogFragments);
-
             var parentLogFile = conversationAttachmentLogs.stream()
                 .filter(log ->  log.getMid().equals(parentLogMessageId))
                 .findAny()
@@ -106,14 +94,12 @@ public class COPCMessageHandler {
             var mergedLargeAttachment = createNewLargeAttachmentInList(parentLogFile, payload);
             attachmentHandlerService.storeAttachments(mergedLargeAttachment, conversationId);
 
-            // Mark large file parent log as uploaded
             var updatedLog = PatientAttachmentLog.builder()
                 .mid(parentLogFile.getMid())
                 .uploaded(true)
                 .build();
             patientAttachmentLogService.updateAttachmentLog(updatedLog, conversationId);
 
-            // Delete old large attachment parts
             attachmentLogFragments.forEach((PatientAttachmentLog log) -> {
                 attachmentHandlerService.removeAttachment(log.getFilename());
                 patientAttachmentLogService.deleteAttachmentLog(log.getMid(), conversationId);
