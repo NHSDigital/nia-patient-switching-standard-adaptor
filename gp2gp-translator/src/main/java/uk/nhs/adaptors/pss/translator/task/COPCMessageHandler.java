@@ -112,7 +112,7 @@ public class COPCMessageHandler {
     }
 
     private void insertAndUploadFragmentFile(InboundMessage inboundMessage, String conversationId, COPCIN000001UK01Message payload,
-        Document ebXmlDocument, int patientId) throws ParseException, ValidationException {
+        Document ebXmlDocument, int patientId) throws ValidationException {
         String fragmentMid = getFragmentMidId(ebXmlDocument);
         String fileName = getFileNameForFragment(inboundMessage, payload);
 
@@ -130,7 +130,7 @@ public class COPCMessageHandler {
             inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
     }
 
-    private String getFileNameForFragment(InboundMessage inboundMessage, COPCIN000001UK01Message payload) throws ParseException {
+    private String getFileNameForFragment(InboundMessage inboundMessage, COPCIN000001UK01Message payload) {
         if (!inboundMessage.getAttachments().get(0).getDescription().isEmpty()
             && inboundMessage.getAttachments().get(0).getDescription().contains("Filename")) {
             return parseFilename(inboundMessage.getAttachments().get(0).getDescription());
@@ -222,7 +222,7 @@ public class COPCMessageHandler {
             losingPracticeOdsCode
         ));
     }
-    private String parseFilename(String description) throws ParseException {
+    private String parseFilename(String description) {
 
         return Arrays.asList(description.split(" ")).stream()
             .filter(desc -> desc.contains("Filename"))
