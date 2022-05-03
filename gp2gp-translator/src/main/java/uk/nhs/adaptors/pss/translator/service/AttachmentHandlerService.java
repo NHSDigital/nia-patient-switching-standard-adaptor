@@ -1,25 +1,24 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.Base64;
-import java.util.List;
-import java.util.zip.GZIPInputStream;
-
-import javax.xml.bind.ValidationException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
 import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
+
+import javax.xml.bind.ValidationException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.util.Base64;
+import java.util.List;
+import java.util.zip.GZIPInputStream;
 
 @Slf4j
 @Service
@@ -75,9 +74,9 @@ public class AttachmentHandlerService {
         }
     }
 
-    public void storeEhrExtract(String fileName, String payload, String conversationId,String contentType) throws ValidationException {
+    public void storeEhrExtract(String fileName, String payload, String conversationId, String contentType) throws ValidationException {
 
-        if (fileName == null || fileName.isEmpty() ) {
+        if (fileName == null || fileName.isEmpty()) {
             throw new ValidationException("FileName cannot be null or empty");
         }
         if (payload == null || payload.isEmpty()) {
@@ -91,11 +90,10 @@ public class AttachmentHandlerService {
         }
 
         try {
-
             StorageDataUploadWrapper dataWrapper = new StorageDataUploadWrapper(
                     contentType,
                     conversationId,
-                    payload.getBytes()
+                    payload.getBytes(StandardCharsets.UTF_8)
             );
 
             storageManagerService.uploadFile(fileName, dataWrapper);
@@ -103,6 +101,5 @@ public class AttachmentHandlerService {
             //TODO: We don't want to stop uploading a list of failures but we should log them here
             // this is for a later ticket to manage
         }
-
     }
 }

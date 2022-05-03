@@ -1,53 +1,15 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static java.util.UUID.randomUUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
-
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
-
-import java.sql.Time;
-import java.text.ParseException;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
-
+import ca.uhn.fhir.parser.DataFormatException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import ca.uhn.fhir.parser.DataFormatException;
-import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
@@ -64,7 +26,24 @@ import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
-import uk.nhs.adaptors.pss.translator.service.XPathService;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationException;
+import java.text.ParseException;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.UUID.randomUUID;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.*;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @ExtendWith(MockitoExtension.class)
 public class EhrExtractMessageHandlerTest {
@@ -108,15 +87,6 @@ public class EhrExtractMessageHandlerTest {
     private BundleMapperService bundleMapperService;
 
     @Mock
-    private XPathService xPathService;
-
-    @Mock
-    private Document ebXmlDocument;
-
-    @Mock
-    private SendContinueRequestHandler sendContinueRequestHandler;
-
-    @Mock
     private SendACKMessageHandler sendACKMessageHandler;
 
     @Mock
@@ -125,12 +95,15 @@ public class EhrExtractMessageHandlerTest {
     @Mock
     private PatientAttachmentLogService patientAttachmentLogService;
 
+    @Mock
+    private SendContinueRequestHandler sendContinueRequestHandler;
+
     @InjectMocks
     private EhrExtractMessageHandler ehrExtractMessageHandler;
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
-            throws JsonProcessingException, JAXBException, SAXException,
+            throws JsonProcessingException, JAXBException,
                 InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         InboundMessage inboundMessage = new InboundMessage();
@@ -192,7 +165,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
-            throws JsonProcessingException, JAXBException, SAXException,
+            throws JsonProcessingException, JAXBException,
                 InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -203,7 +176,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentHandlerServiceStoreAttachments()
-            throws JsonProcessingException, JAXBException, SAXException,
+            throws JsonProcessingException, JAXBException,
                 InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         InboundMessage inboundMessage = new InboundMessage();
@@ -216,7 +189,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentReferenceUpdaterServiceUpdateReferences()
-            throws JsonProcessingException, JAXBException, SAXException,
+            throws JsonProcessingException, JAXBException,
                 InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         InboundMessage inboundMessage = new InboundMessage();
@@ -230,14 +203,13 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_CallSendContinueRequest()
-            throws JsonProcessingException, JAXBException, SAXException,
+            throws JsonProcessingException, JAXBException,
                 InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
 
         InboundMessage inboundMessage = new InboundMessage();
-        XPathService xPathService2 = new XPathService();
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
@@ -257,10 +229,12 @@ public class EhrExtractMessageHandlerTest {
         List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
         externalAttachmentsTestList.add(
                 new InboundMessage.ExternalAttachment(
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                        "66B41202-C358-4B4C-93C6-7A10803F9584",
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes DomainData=\"X-GP2GP-Skeleton: Yes\"")
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                    "66B41202-C358-4B4C-93C6-7A10803F9584",
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                            + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
         );
         inboundMessage.setExternalAttachments(externalAttachmentsTestList);
 
@@ -291,7 +265,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
-            throws JsonProcessingException, JAXBException, SAXException,
+            throws JsonProcessingException, JAXBException,
                 InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         InboundMessage inboundMessage = new InboundMessage();
@@ -539,19 +513,15 @@ public class EhrExtractMessageHandlerTest {
         assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
     }
 
-    //NORMAL MESSAGES
-        //test: when small messages it should not send continue
-
     @Test
     public void When_HandleSingleMessageWithValidDataIsCalled_Expect_NotToCallSendContinueRequest()
-            throws JsonProcessingException, JAXBException, SAXException,
+            throws JsonProcessingException, JAXBException,
             InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
 
         InboundMessage inboundMessage = new InboundMessage();
-        XPathService xPathService2 = new XPathService();
 
         PatientMigrationRequest migrationRequest =
                 PatientMigrationRequest.builder()
@@ -599,13 +569,10 @@ public class EhrExtractMessageHandlerTest {
         return readResourceAsString("/xml/RCMRIN030000UK06/payloadSmallMessage.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 
-    //LARGE MESSAGES
-        //test: when large messages, it should not translate
-
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_ItShouldNotTranslate()
             throws JAXBException, BundleMappingException, AttachmentNotFoundException,
-            ParseException, JsonProcessingException, SAXException, InlineAttachmentProcessingException {
+            ParseException, JsonProcessingException, InlineAttachmentProcessingException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -617,10 +584,12 @@ public class EhrExtractMessageHandlerTest {
         List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
         externalAttachmentsTestList.add(
                 new InboundMessage.ExternalAttachment(
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                        "66B41202-C358-4B4C-93C6-7A10803F9584",
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes DomainData=\"X-GP2GP-Skeleton: Yes\"")
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                    "66B41202-C358-4B4C-93C6-7A10803F9584",
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                            + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
         );
         inboundMessage.setExternalAttachments(externalAttachmentsTestList);
 
@@ -643,18 +612,16 @@ public class EhrExtractMessageHandlerTest {
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
         verify(bundleMapperService, times(0)).mapToBundle(any(), any());
     }
-        //test: when large attachment it should store message payload
 
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_StoreMessagePayload()
-            throws JsonProcessingException, JAXBException, SAXException,
+            throws JsonProcessingException, JAXBException,
             InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
 
         InboundMessage inboundMessage = new InboundMessage();
-        XPathService xPathService2 = new XPathService();
 
         PatientMigrationRequest migrationRequest =
                 PatientMigrationRequest.builder()
@@ -674,10 +641,12 @@ public class EhrExtractMessageHandlerTest {
         List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
         externalAttachmentsTestList.add(
                 new InboundMessage.ExternalAttachment(
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                        "66B41202-C358-4B4C-93C6-7A10803F9584",
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes DomainData=\"X-GP2GP-Skeleton: Yes\"")
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                    "66B41202-C358-4B4C-93C6-7A10803F9584",
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                            + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
         );
         inboundMessage.setExternalAttachments(externalAttachmentsTestList);
 
@@ -687,11 +656,10 @@ public class EhrExtractMessageHandlerTest {
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
         verify(attachmentHandlerService, times(1)).storeEhrExtract(any(), any(), any(), any());
     }
-        //test: when large message, it should run patientAttachmentLogService.addAttachmentLog N message times
 
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_AddAttachmentExactNumerOfTimesAsExternalAttachmentsList()
-            throws JsonProcessingException, JAXBException, SAXException,
+            throws JsonProcessingException, JAXBException,
             InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         Bundle bundle = new Bundle();
@@ -717,31 +685,37 @@ public class EhrExtractMessageHandlerTest {
         List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
         externalAttachmentsTestList.add(
                 new InboundMessage.ExternalAttachment(
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                        "66B41202-C358-4B4C-93C6-7A10803F9584",
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes DomainData=\"X-GP2GP-Skeleton: Yes\"")
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                    "66B41202-C358-4B4C-93C6-7A10803F9584",
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                            + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
         );
         externalAttachmentsTestList.add(
                 new InboundMessage.ExternalAttachment(
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                        "66B41202-C358-4B4C-93C6-7A10803F9584",
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes DomainData=\"X-GP2GP-Skeleton: Yes\"")
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                    "66B41202-C358-4B4C-93C6-7A10803F9584",
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                            + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
         );
         externalAttachmentsTestList.add(
                 new InboundMessage.ExternalAttachment(
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                        "66B41202-C358-4B4C-93C6-7A10803F9584",
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                    "66B41202-C358-4B4C-93C6-7A10803F9584",
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
         );
         externalAttachmentsTestList.add(
                 new InboundMessage.ExternalAttachment(
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                        "66B41202-C358-4B4C-93C6-7A10803F9584",
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                    "66B41202-C358-4B4C-93C6-7A10803F9584",
+                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
         );
         inboundMessage.setExternalAttachments(externalAttachmentsTestList);
 
