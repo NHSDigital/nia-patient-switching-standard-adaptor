@@ -55,9 +55,9 @@ public class COPCMessageHandlerTest {
 
     @InjectMocks
     private COPCMessageHandler copcMessageHandler;
-
+    
     @Test
-    public void whenHappyPathThrowNoErrors()
+    public void When_HappyPath_Expect_ThrowNoErrors()
         throws SAXException, ValidationException, AttachmentLogException, InlineAttachmentProcessingException {
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -129,7 +129,7 @@ public class COPCMessageHandlerTest {
     }
 
     @Test
-    public void whenCurrentAttachmentLogExistsExpectThrowNoError()
+    public void When_CurrentAttachmentLogExists_Expect_ThrowNoError()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -190,7 +190,7 @@ public class COPCMessageHandlerTest {
     }
 
     @Test
-    public void whenfragmentsAreMissingOrUploadedExpectNotDeleteFragments()
+    public void When_FragmentsAreMissingOrUploaded_Expect_NotDeleteFragments()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
@@ -251,7 +251,7 @@ public class COPCMessageHandlerTest {
     }
 
     @Test
-    public void whenCheckByteCompilationCreatesFileAsExpectedExpectRunWithNoErrors()
+    public void When_CheckByteCompilationCreatesFileAsExpected_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -314,7 +314,7 @@ public class COPCMessageHandlerTest {
     }
 
     @Test
-    public void whenEnsureStoreAttachmentsIsCalledExpectRunWithNoErrors()
+    public void When_EnsureStoreAttachmentsIsCalled_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -375,7 +375,7 @@ public class COPCMessageHandlerTest {
     }
 
     @Test
-    public void whenUpdateAttachmentLogDoesAsExpectedExpectRunWithNoErrors()
+    public void When_UpdateAttachmentLogDoesAsExpected_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -438,7 +438,7 @@ public class COPCMessageHandlerTest {
     }
 
     @Test
-    public void whenDeleteAttachmentCalledForEachAttachmentLogFragmentExpectRunWithNoErrors()
+    public void When_DeleteAttachmentCalledForEachAttachmentLogFragment_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -500,7 +500,7 @@ public class COPCMessageHandlerTest {
     }
 
     @Test
-    public void whenRemoveAttachmentCalledForEachAttachmentLogFragmentExpectRunWithNoErrors()
+    public void When_RemoveAttachmentCalledForEachAttachmentLogFragment_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -562,7 +562,7 @@ public class COPCMessageHandlerTest {
     }
 
     @Test
-    public void whenParentCOPCMessageIncomingAfterFragmentsExpectRunWithNoErrors()
+    public void When_ParentCOPCMessageIncomingAfterFragments_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
