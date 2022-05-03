@@ -43,6 +43,10 @@ public class LocalStorageService implements StorageService {
         }
     }
 
+    public String getFileLocation(String filename) {
+        return filename;
+    }
+
     private InputStream downloadFileToStream(String filename) throws StorageException {
         try {
             byte[] objectBytes = storage.get(filename);

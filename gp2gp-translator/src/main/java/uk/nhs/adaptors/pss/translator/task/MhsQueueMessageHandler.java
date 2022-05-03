@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
+import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -67,6 +68,9 @@ public class MhsQueueMessageHandler {
             return false;
         } catch (InlineAttachmentProcessingException | AttachmentLogException e) {
             LOGGER.error("Unable to process inline attachments", e);
+            return false;
+        } catch (AttachmentNotFoundException e) {
+            LOGGER.error("Unable to find attachment reference inbound message", e);
             return false;
         } catch (BundleMappingException e) {
             LOGGER.error("Unable to map EHR Extract to FHIR bundle", e);

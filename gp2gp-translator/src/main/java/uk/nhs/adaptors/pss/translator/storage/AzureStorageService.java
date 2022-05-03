@@ -53,6 +53,11 @@ public class AzureStorageService implements StorageService {
         blobClient.delete();
     }
 
+    public String getFileLocation(String filename) {
+        var blobClient = createBlobBlockClient(filename);
+        return blobClient.getBlobUrl();
+    }
+
     private StorageSharedKeyCredential createAzureCredentials(String accountName, String accountKey) {
         return new StorageSharedKeyCredential(accountName, accountKey);
     }
@@ -73,10 +78,14 @@ public class AzureStorageService implements StorageService {
         return blobServiceClient.getBlobContainerClient(containerName);
     }
 
+    private BlockBlobClient createBlobBlockClient(String filename) {
+        BlobContainerClient containerClient = createBlobContainerClient();
+        return containerClient.getBlobClient(filename).getBlockBlobClient();
+    }
+
     private void addFileStringToMainContainer(String filename, byte[] fileAsString) throws StorageException, IOException {
         try {
-            BlobContainerClient containerClient = createBlobContainerClient();
-            BlockBlobClient blobClient = containerClient.getBlobClient(filename).getBlockBlobClient();
+            BlockBlobClient blobClient = createBlobBlockClient(filename);
             InputStream dataStream = new ByteArrayInputStream(fileAsString);
             blobClient.upload(dataStream, fileAsString.length);
             dataStream.close();
@@ -87,8 +96,7 @@ public class AzureStorageService implements StorageService {
 
     private ByteArrayOutputStream downloadFileToStream(String filename) throws StorageException {
         try {
-            BlobContainerClient containerClient = createBlobContainerClient();
-            BlockBlobClient blobClient = containerClient.getBlobClient(filename).getBlockBlobClient();
+            BlockBlobClient blobClient = createBlobBlockClient(filename);
             int dataSize = (int) blobClient.getProperties().getBlobSize();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream(dataSize);
             blobClient.downloadStream(outputStream);
