@@ -55,8 +55,8 @@ public class EhrExtractMessageHandler {
     private final SendACKMessageHandler sendACKMessageHandler;
     private final PatientAttachmentLogService patientAttachmentLogService;
 
-    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException
-            , InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
+    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException,
+        InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -132,7 +132,8 @@ public class EhrExtractMessageHandler {
         }
     }
 
-    private PatientAttachmentLog buildPatientAttachmentLog(RCMRIN030000UK06Message payload, PatientMigrationRequest migrationRequest, InboundMessage.ExternalAttachment externalAttachment) throws ParseException {
+    private PatientAttachmentLog buildPatientAttachmentLog(RCMRIN030000UK06Message payload, PatientMigrationRequest migrationRequest,
+        InboundMessage.ExternalAttachment externalAttachment) throws ParseException {
         return PatientAttachmentLog.builder()
                 .mid(externalAttachment.getMessageId())
                 .filename(parseFilename(externalAttachment.getDescription()))
@@ -149,7 +150,8 @@ public class EhrExtractMessageHandler {
                 .build();
     }
 
-    private PatientAttachmentLog buildPatientAttachmentSkeletonLog(RCMRIN030000UK06Message payload, PatientMigrationRequest migrationRequest, String extractFileName) {
+    private PatientAttachmentLog buildPatientAttachmentSkeletonLog(RCMRIN030000UK06Message payload,
+        PatientMigrationRequest migrationRequest, String extractFileName) {
         return PatientAttachmentLog.builder()
                 .mid(parseMessageRef(payload))
                 .filename(extractFileName)
