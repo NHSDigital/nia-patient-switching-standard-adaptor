@@ -40,7 +40,6 @@ public class COPCMessageHandlerTest {
     private static final String NHS_NUMBER = "123456";
     private static final String CONVERSATION_ID = randomUUID().toString();
 
-
     @Mock
     private PatientAttachmentLogService patientAttachmentLogService;
 
@@ -110,8 +109,6 @@ public class COPCMessageHandlerTest {
                 .thenReturn(createPatientAttachmentList(false, true, 3));
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
-
-        verify(patientAttachmentLogService, times(1)).findAttachmentLogs(CONVERSATION_ID);
     }
 
     @Test
