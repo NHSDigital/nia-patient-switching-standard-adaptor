@@ -30,6 +30,7 @@ import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -96,7 +97,7 @@ class COPCMessageHandlerTest {
 
     @Test
     public void shouldUploadFileWhenFragmentIsReceivedBeforeFragmentIndex() throws JAXBException,
-        InlineAttachmentProcessingException {
+            InlineAttachmentProcessingException, SkeletonEhrProcessingException {
         // Arrange
 
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID)).thenReturn(null);
@@ -160,7 +161,7 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void shouldUploadFragmentFileWhenAFragmentMessageIsReceived() throws JAXBException, InlineAttachmentProcessingException {
+    public void shouldUploadFragmentFileWhenAFragmentMessageIsReceived() throws JAXBException, InlineAttachmentProcessingException, SkeletonEhrProcessingException {
         InboundMessage message = new InboundMessage();
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",

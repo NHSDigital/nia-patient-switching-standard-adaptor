@@ -23,6 +23,7 @@ import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
@@ -71,7 +72,7 @@ public class COPCMessageHandler {
                 }
             }
             sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
-        } catch (ParseException | SAXException e) {
+        } catch (ParseException | SkeletonEhrProcessingException | SAXException e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
@@ -83,7 +84,7 @@ public class COPCMessageHandler {
     }
 
     private void insertLogAndUploadFragmentFile(InboundMessage inboundMessage, String conversationId, COPCIN000001UK01Message payload,
-        Document ebXmlDocument, int patientId) throws ValidationException {
+        Document ebXmlDocument, int patientId) throws ValidationException, ParseException, SkeletonEhrProcessingException {
         String fragmentMid = getFragmentMidId(ebXmlDocument);
         String fileName = getFileNameForFragment(inboundMessage, payload);
 
@@ -96,12 +97,12 @@ public class COPCMessageHandler {
     }
 
     private void storeEhrExtractAttachment(PatientAttachmentLog fragmentAttachmentLog, InboundMessage inboundMessage,
-        String conversationId) throws ValidationException {
+        String conversationId) throws ValidationException, SkeletonEhrProcessingException {
         attachmentHandlerService.storeEhrExtract(fragmentAttachmentLog.getFilename(),
             inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
     }
 
-    private String getFileNameForFragment(InboundMessage inboundMessage, COPCIN000001UK01Message payload) {
+    private String getFileNameForFragment(InboundMessage inboundMessage, COPCIN000001UK01Message payload) throws ParseException {
         if (!inboundMessage.getAttachments().get(0).getDescription().isEmpty()
             && inboundMessage.getAttachments().get(0).getDescription().contains("Filename")) {
             return XmlParseUtil.parseFragmentFilename(inboundMessage.getAttachments().get(0).getDescription());

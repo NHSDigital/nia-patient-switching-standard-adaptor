@@ -18,6 +18,7 @@ import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
@@ -58,7 +59,7 @@ public class EhrExtractMessageHandler {
     private final PatientAttachmentLogService patientAttachmentLogService;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException,
-        InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException {
+            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -126,7 +127,7 @@ public class EhrExtractMessageHandler {
             }
 
         } catch (BundleMappingException | DataFormatException | JsonProcessingException
-                 | InlineAttachmentProcessingException | AttachmentNotFoundException | StorageException ex) {
+                 | InlineAttachmentProcessingException | AttachmentNotFoundException | SkeletonEhrProcessingException | StorageException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
         } catch (ParseException ex) {

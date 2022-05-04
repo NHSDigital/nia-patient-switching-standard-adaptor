@@ -30,6 +30,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
@@ -347,7 +348,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
     @Test
     public void When_StoreEhrExtractParametersAreCorrectAndNotErrors_Expect_ExecuteStorageManagerServiceUploadFile()
-            throws ValidationException {
+            throws ValidationException, SkeletonEhrProcessingException {
         attachmentHandlerService.storeEhrExtract("fileName", "payload", "conversationId", "contentType");
         verify(storageManagerService).uploadFile(any(), any());
     }
