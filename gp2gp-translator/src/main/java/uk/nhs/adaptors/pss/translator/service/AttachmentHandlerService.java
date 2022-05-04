@@ -12,6 +12,7 @@ import javax.xml.bind.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -79,27 +80,27 @@ public class AttachmentHandlerService {
     }
 
     public byte[] getAttachment(String filename) {
-        if (filename == null || filename.isEmpty()) {
+        if (!StringUtils.hasText(filename)) {
             throw new NullValueException();
         }
         return storageManagerService.downloadFile(filename);
     }
 
     public void removeAttachment(String filename) {
-        if (filename == null || filename.isEmpty()) {
+        if (!StringUtils.hasText(filename)) {
             throw new NullValueException();
         }
         storageManagerService.deleteFile(filename);
     }
 
     public String buildSingleFileStringFromPatientAttachmentLogs(List<PatientAttachmentLog> attachmentLogs) {
-        String combinedFile = "";
+        StringBuilder combinedFile = new StringBuilder("");
         for (PatientAttachmentLog log : attachmentLogs) {
             var filename = log.getFilename();
             var attachmentBytes = getAttachment(filename);
-            combinedFile += new String(attachmentBytes, StandardCharsets.UTF_8);
+            combinedFile.append(new String(attachmentBytes, StandardCharsets.UTF_8));
         }
 
-        return combinedFile;
+        return combinedFile.toString();
     }
 }

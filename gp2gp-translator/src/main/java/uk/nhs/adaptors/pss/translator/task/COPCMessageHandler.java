@@ -70,7 +70,7 @@ public class COPCMessageHandler {
             .filter(log -> log.getParentMid().equals(currentAttachmentLog.getParentMid()))
             .toList();
 
-        var parentLogMessageId = (attachmentLogFragments.size() == 1)
+        var parentLogMessageId = attachmentLogFragments.size() == 1
             ? currentAttachmentLog.getMid()
             : currentAttachmentLog.getParentMid();
 
