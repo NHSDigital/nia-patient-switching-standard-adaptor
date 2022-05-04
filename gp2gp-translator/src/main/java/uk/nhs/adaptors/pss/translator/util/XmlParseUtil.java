@@ -38,15 +38,7 @@ public class XmlParseUtil {
 
         throw new ParseException("Unable to parse isLargeAttachment", 0);
     }
-    private boolean parseIsCompressed(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("Compressed=(Yes|No)");
-        Matcher matcher = pattern.matcher(description);
 
-        if (matcher.find()) {
-            return matcher.group(1).equals("Yes");
-        }
-        throw new ParseException("Unable to parse isCompressed", 0);
-    }
     public static boolean parseCompressed(String description) throws ParseException {
         Pattern pattern = Pattern.compile("Compressed=(Yes|No)");
         Matcher matcher = pattern.matcher(description);
