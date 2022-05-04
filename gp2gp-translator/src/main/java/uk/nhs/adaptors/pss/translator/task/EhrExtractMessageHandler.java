@@ -26,6 +26,7 @@ import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
+import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 import javax.xml.bind.JAXBException;
@@ -124,7 +125,7 @@ public class EhrExtractMessageHandler {
             }
 
         } catch (BundleMappingException | DataFormatException | JsonProcessingException
-                 | InlineAttachmentProcessingException | AttachmentNotFoundException ex) {
+                 | InlineAttachmentProcessingException | AttachmentNotFoundException | StorageException ex) {
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
         } catch (ParseException ex) {

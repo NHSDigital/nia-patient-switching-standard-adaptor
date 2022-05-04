@@ -133,53 +133,6 @@ public class EhrExtractMessageHandlerTest {
             CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
     }
 
-    @SneakyThrows
-    private void prepareMocks(InboundMessage inboundMessage) {
-        inboundMessage.setPayload("payload");
-        Bundle bundle = new Bundle();
-        bundle.setId("Test");
-
-        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
-        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
-        inboundMessage.setExternalAttachments(new ArrayList<>());
-
-        PatientMigrationRequest migrationRequest =
-            PatientMigrationRequest.builder()
-                .losingPracticeOdsCode(LOSING_ODE_CODE)
-                .winningPracticeOdsCode(WINNING_ODE_CODE)
-                .build();
-
-        MigrationStatusLog migrationStatusLog =
-            MigrationStatusLog.builder()
-                .date(OffsetDateTime.ofInstant(
-                    Instant.now(),
-                    ZoneId.systemDefault()))
-                .build();
-
-        // imported from main on merge
-        when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
-        when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
-        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
-
-        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
-        when(sendACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
-        when(attachmentReferenceUpdaterService
-                .updateReferenceToAttachment(
-                        inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
-                )).thenReturn(inboundMessage.getPayload());
-    }
-
-    @SneakyThrows
-    private String readInboundMessagePayloadFromFile() {
-        return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
-    }
-
-    @SneakyThrows
-    private String readInboundMessageEbXmlFromFile() {
-        return readResourceAsString("/xml/inbound_message_ebxml.xml");
-    }
-
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
             throws JsonProcessingException, JAXBException,
@@ -227,36 +180,22 @@ public class EhrExtractMessageHandlerTest {
         bundle.setId("Test");
 
         InboundMessage inboundMessage = new InboundMessage();
-
-        PatientMigrationRequest migrationRequest =
-            PatientMigrationRequest.builder()
-                .losingPracticeOdsCode(LOSING_ODE_CODE)
-                .winningPracticeOdsCode(WINNING_ODE_CODE)
-                .build();
-
-        MigrationStatusLog migrationStatusLog =
-            MigrationStatusLog.builder()
-                .date(OffsetDateTime.ofInstant(
-                    Instant.now(),
-                    ZoneId.systemDefault()))
-                .build();
-
-        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
-        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
         List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
         externalAttachmentsTestList.add(
                 new InboundMessage.ExternalAttachment(
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                    "66B41202-C358-4B4C-93C6-7A10803F9584",
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
-                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
-                            + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
         );
+
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
         inboundMessage.setExternalAttachments(externalAttachmentsTestList);
 
-        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
+        prepareMigrationRequestAndMigrationStatusMocks();
 
         EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
         ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID);
@@ -270,15 +209,6 @@ public class EhrExtractMessageHandlerTest {
         );
     }
 
-    @SneakyThrows
-    private String readLargeInboundMessagePayloadFromFile() {
-        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/payload.xml");
-    }
-
-    @SneakyThrows
-    private String readLargeInboundMessageEbXmlFromFile() {
-        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/ebxml.xml");
-    }
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
@@ -539,28 +469,14 @@ public class EhrExtractMessageHandlerTest {
         bundle.setId("Test");
 
         InboundMessage inboundMessage = new InboundMessage();
-
-        PatientMigrationRequest migrationRequest =
-                PatientMigrationRequest.builder()
-                        .losingPracticeOdsCode(LOSING_ODE_CODE)
-                        .winningPracticeOdsCode(WINNING_ODE_CODE)
-                        .build();
-
-        MigrationStatusLog migrationStatusLog =
-                MigrationStatusLog.builder()
-                        .date(OffsetDateTime.ofInstant(
-                                Instant.now(),
-                                ZoneId.systemDefault()))
-                        .build();
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
 
         inboundMessage.setPayload(readInboundSingleMessagePayloadFromFile());
         inboundMessage.setEbXML(readInboundSingleMessageEbXmlFromFile());
-        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
-
         inboundMessage.setExternalAttachments(externalAttachmentsTestList);
 
-        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
+        prepareMigrationRequestAndMigrationStatusMocks();
+
         when(attachmentReferenceUpdaterService
                 .updateReferenceToAttachment(
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
@@ -578,14 +494,6 @@ public class EhrExtractMessageHandlerTest {
         );
     }
 
-    private String readInboundSingleMessageEbXmlFromFile() {
-        return readResourceAsString("/xml/RCMRIN030000UK06/ebxmlSmallMessage.xml").replace("{{nhsNumber}}", NHS_NUMBER);
-    }
-
-    private String readInboundSingleMessagePayloadFromFile() {
-        return readResourceAsString("/xml/RCMRIN030000UK06/payloadSmallMessage.xml").replace("{{nhsNumber}}", NHS_NUMBER);
-    }
-
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_ItShouldNotTranslate()
             throws JAXBException, BundleMappingException, AttachmentNotFoundException,
@@ -595,36 +503,21 @@ public class EhrExtractMessageHandlerTest {
         bundle.setId("Test");
 
         InboundMessage inboundMessage = new InboundMessage();
-
-        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
-        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
         List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
         externalAttachmentsTestList.add(
                 new InboundMessage.ExternalAttachment(
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                    "66B41202-C358-4B4C-93C6-7A10803F9584",
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
-                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
-                            + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
         );
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
         inboundMessage.setExternalAttachments(externalAttachmentsTestList);
 
-        PatientMigrationRequest migrationRequest =
-                PatientMigrationRequest.builder()
-                        .losingPracticeOdsCode(LOSING_ODE_CODE)
-                        .winningPracticeOdsCode(WINNING_ODE_CODE)
-                        .build();
-
-        MigrationStatusLog migrationStatusLog =
-                MigrationStatusLog.builder()
-                        .date(OffsetDateTime.ofInstant(
-                                Instant.now(),
-                                ZoneId.systemDefault()))
-                        .build();
-
-        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
+        prepareMigrationRequestAndMigrationStatusMocks();
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
         verify(bundleMapperService, times(0)).mapToBundle(any(), any());
@@ -639,36 +532,22 @@ public class EhrExtractMessageHandlerTest {
         bundle.setId("Test");
 
         InboundMessage inboundMessage = new InboundMessage();
-
-        PatientMigrationRequest migrationRequest =
-                PatientMigrationRequest.builder()
-                        .losingPracticeOdsCode(LOSING_ODE_CODE)
-                        .winningPracticeOdsCode(WINNING_ODE_CODE)
-                        .build();
-
-        MigrationStatusLog migrationStatusLog =
-                MigrationStatusLog.builder()
-                        .date(OffsetDateTime.ofInstant(
-                                Instant.now(),
-                                ZoneId.systemDefault()))
-                        .build();
-
-        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
-        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
         List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
         externalAttachmentsTestList.add(
                 new InboundMessage.ExternalAttachment(
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                    "66B41202-C358-4B4C-93C6-7A10803F9584",
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
-                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
-                            + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
         );
+
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
         inboundMessage.setExternalAttachments(externalAttachmentsTestList);
 
-        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
+        prepareMigrationRequestAndMigrationStatusMocks();
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
         verify(attachmentHandlerService, times(1)).storeEhrExtract(any(), any(), any(), any());
@@ -684,6 +563,78 @@ public class EhrExtractMessageHandlerTest {
 
         InboundMessage inboundMessage = new InboundMessage();
 
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
+        );
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
+        );
+
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        prepareMigrationRequestAndMigrationStatusMocks();
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(patientAttachmentLogService, times(externalAttachmentsTestList.size())).addAttachmentLog(any());
+    }
+
+    @SneakyThrows
+    private void prepareMocks(InboundMessage inboundMessage) {
+        inboundMessage.setPayload("payload");
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
+        inboundMessage.setExternalAttachments(new ArrayList<>());
+
+        prepareMigrationRequestAndMigrationStatusMocks();
+
+        // imported from main on merge
+        when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
+        when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
+        when(sendACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
+        when(attachmentReferenceUpdaterService
+                .updateReferenceToAttachment(
+                        inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
+                )).thenReturn(inboundMessage.getPayload());
+    }
+
+    @SneakyThrows
+    private void prepareMigrationRequestAndMigrationStatusMocks() {
+
         PatientMigrationRequest migrationRequest =
                 PatientMigrationRequest.builder()
                         .losingPracticeOdsCode(LOSING_ODE_CODE)
@@ -697,49 +648,35 @@ public class EhrExtractMessageHandlerTest {
                                 ZoneId.systemDefault()))
                         .build();
 
-        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
-        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
-        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
-        externalAttachmentsTestList.add(
-                new InboundMessage.ExternalAttachment(
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                    "66B41202-C358-4B4C-93C6-7A10803F9584",
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
-                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
-                            + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
-        );
-        externalAttachmentsTestList.add(
-                new InboundMessage.ExternalAttachment(
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                    "66B41202-C358-4B4C-93C6-7A10803F9584",
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
-                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
-                            + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
-        );
-        externalAttachmentsTestList.add(
-                new InboundMessage.ExternalAttachment(
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                    "66B41202-C358-4B4C-93C6-7A10803F9584",
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
-                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
-        );
-        externalAttachmentsTestList.add(
-                new InboundMessage.ExternalAttachment(
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                    "66B41202-C358-4B4C-93C6-7A10803F9584",
-                    "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                    "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
-                            + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
-        );
-        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
-
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
+    }
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-        verify(patientAttachmentLogService, times(externalAttachmentsTestList.size())).addAttachmentLog(any());
+    @SneakyThrows
+    private String readInboundMessagePayloadFromFile() {
+        return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
+    }
+
+    @SneakyThrows
+    private String readInboundMessageEbXmlFromFile() {
+        return readResourceAsString("/xml/inbound_message_ebxml.xml");
+    }
+
+    private String readInboundSingleMessageEbXmlFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06/ebxmlSmallMessage.xml").replace("{{nhsNumber}}", NHS_NUMBER);
+    }
+
+    private String readInboundSingleMessagePayloadFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06/payloadSmallMessage.xml").replace("{{nhsNumber}}", NHS_NUMBER);
+    }
+
+    @SneakyThrows
+    private String readLargeInboundMessagePayloadFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/payload.xml");
+    }
+
+    @SneakyThrows
+    private String readLargeInboundMessageEbXmlFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/ebxml.xml");
     }
 }

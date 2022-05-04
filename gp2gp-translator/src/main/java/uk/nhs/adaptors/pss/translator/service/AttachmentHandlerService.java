@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
@@ -30,7 +31,7 @@ public class AttachmentHandlerService {
     public void storeAttachments(List<InboundMessage.Attachment> attachments, String conversationId) throws ValidationException,
         InlineAttachmentProcessingException {
 
-        if (conversationId == null || conversationId.isEmpty()) {
+        if (!StringUtils.hasText(conversationId)) {
             throw new ValidationException("ConversationId cannot be null or empty");
         }
 
@@ -74,32 +75,26 @@ public class AttachmentHandlerService {
         }
     }
 
-    public void storeEhrExtract(String fileName, String payload, String conversationId, String contentType) throws ValidationException {
-
-        if (fileName == null || fileName.isEmpty()) {
+    public void storeEhrExtract(String fileName, String payload, String conversationId, String contentType) throws ValidationException, StorageException {
+        if (!StringUtils.hasText(fileName)) {
             throw new ValidationException("FileName cannot be null or empty");
         }
-        if (payload == null || payload.isEmpty()) {
+        if (!StringUtils.hasText(payload)) {
             throw new ValidationException("Payload cannot be null or empty");
         }
-        if (conversationId == null || conversationId.isEmpty()) {
+        if (!StringUtils.hasText(conversationId)) {
             throw new ValidationException("ConversationId cannot be null or empty");
         }
-        if (contentType == null || contentType.isEmpty()) {
+        if (!StringUtils.hasText(contentType)) {
             throw new ValidationException("ContentType cannot be null or empty");
         }
 
-        try {
-            StorageDataUploadWrapper dataWrapper = new StorageDataUploadWrapper(
-                    contentType,
-                    conversationId,
-                    payload.getBytes(StandardCharsets.UTF_8)
-            );
+        StorageDataUploadWrapper dataWrapper = new StorageDataUploadWrapper(
+                contentType,
+                conversationId,
+                payload.getBytes(StandardCharsets.UTF_8)
+        );
 
-            storageManagerService.uploadFile(fileName, dataWrapper);
-        } catch (StorageException ex) {
-            //TODO: We don't want to stop uploading a list of failures but we should log them here
-            // this is for a later ticket to manage
-        }
+        storageManagerService.uploadFile(fileName, dataWrapper);
     }
 }
