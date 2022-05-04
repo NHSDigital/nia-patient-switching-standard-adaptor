@@ -64,32 +64,12 @@ public class COPCMessageHandler {
             if (patientAttachmentLog != null) {
 
                 if (isManifestMessage(ebXmlDocument)) {
-                    var fragments = extractFragmentsAndAddRecordToPatientAttachmentLog(migrationRequest, patientAttachmentLog,
+                    extractFragmentsAndAddRecordToPatientAttachmentLog(migrationRequest, patientAttachmentLog,
                         conversationId, inboundMessage);
-
-                    List<PatientAttachmentLog> fragmentLogs = patientAttachmentLogService.findAttachmentLogsByParentMid(conversationId,
-                            patientAttachmentLog.getMid()).stream()
-                        .filter(PatientAttachmentLog::getUploaded)
-                        .toList();
-
-                    if (fragments == fragmentLogs.size()) {
-                        mergeFragments(fragmentLogs);
-                    }
                 } else {
                     storeEhrExtractAttachment(patientAttachmentLog, inboundMessage, conversationId);
                     patientAttachmentLog.setUploaded(true);
                     patientAttachmentLogService.updateAttachmentLog(patientAttachmentLog, conversationId);
-
-                    List<PatientAttachmentLog> totalFragmentsList =
-                        patientAttachmentLogService.findAttachmentLogsByParentMid(conversationId,
-                        patientAttachmentLog.getParentMid());
-                    List<PatientAttachmentLog> uploadedFragments = totalFragmentsList.stream()
-                        .filter(PatientAttachmentLog::getUploaded)
-                        .toList();
-
-                    if (totalFragmentsList.size() == uploadedFragments.size()) {
-                        mergeFragments(totalFragmentsList);
-                    }
                 }
             } else {
                 insertAndUploadFragmentFile(inboundMessage, conversationId, payload, ebXmlDocument, migrationRequest.getId());
@@ -100,11 +80,6 @@ public class COPCMessageHandler {
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
         }
-    }
-
-    private void mergeFragments(List<PatientAttachmentLog> uploadedFragments) {
-
-        //TODO - Merge Fragments here in another ticket
     }
 
     private Document getEbXmlDocument(InboundMessage inboundMessage) throws SAXException {
@@ -168,7 +143,7 @@ public class COPCMessageHandler {
         return xPathService.getNodeValue(ebXmlDocument, DESCRIPTION_PATH).contains("Filename=");
     }
 
-    private int extractFragmentsAndAddRecordToPatientAttachmentLog(PatientMigrationRequest migrationRequest,
+    private void extractFragmentsAndAddRecordToPatientAttachmentLog(PatientMigrationRequest migrationRequest,
         PatientAttachmentLog parentAttachmentLog, String conversationId, InboundMessage message) throws ParseException {
         int orderNum = 0;
         for (InboundMessage.ExternalAttachment externalAttachment : message.getExternalAttachments()) {
@@ -185,7 +160,6 @@ public class COPCMessageHandler {
             }
             orderNum++;
         }
-        return orderNum + 1;
     }
     private void updateFragmentLog(PatientAttachmentLog childLog, PatientAttachmentLog parentLog, String descriptionString,
         int orderNum) throws ParseException {
@@ -341,6 +315,12 @@ public class COPCMessageHandler {
             .getValue()
             .getAny()
             .get(0);
-        return gp2gpElement.getFirstChild().getNextSibling().getNextSibling().getFirstChild().getNodeValue();
+
+
+        return gp2gpElement.getFirstChild() // Version
+            .getNextSibling() // Receipients
+            .getNextSibling() // From
+            .getFirstChild() // From:Data
+            .getNodeValue();
     }
 }
