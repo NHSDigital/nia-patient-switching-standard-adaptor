@@ -188,7 +188,7 @@ public class COPCMessageHandler {
             .build();
     }
 
-    public boolean sendAckMessage(COPCIN000001UK01Message payload, String conversationId, String losingPracticeOdsCode) {
+    private boolean sendAckMessage(COPCIN000001UK01Message payload, String conversationId, String losingPracticeOdsCode) {
 
         LOGGER.debug("Sending ACK message for message with Conversation ID: [{}]", conversationId);
 
@@ -236,7 +236,7 @@ public class COPCMessageHandler {
         return payload.getId().getRoot();
     }
 
-    public boolean sendNackMessage(NACKReason reason, COPCIN000001UK01Message payload, String conversationId) {
+    private boolean sendNackMessage(NACKReason reason, COPCIN000001UK01Message payload, String conversationId) {
 
         LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
             payload.getId().getRoot());
