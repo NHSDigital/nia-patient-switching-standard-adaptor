@@ -6,20 +6,24 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.xml.sax.InputSource;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 
 import javax.xml.bind.ValidationException;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
@@ -32,6 +36,7 @@ public class AttachmentReferenceUpdaterServiceTests {
 
     private static final String XML_RESOURCES_BASE = "xml/RCMRIN030000UK06_LARGE_MSG/";
     private static final String PAYLOAD_XML = "payload.xml";
+    private static final String FLAT_PAYLOAD_XML = "payload_flat.xml";
     private static final String CONVERSATION_ID = "1";
     @Mock
     private StorageManagerService storageManagerService;
@@ -114,6 +119,26 @@ public class AttachmentReferenceUpdaterServiceTests {
         assertNotEquals(content, result);
         assertTrue(result.contains("https://location.com"));
         assertFalse(result.contains("file://localhost/277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt"));
+    }
+
+    @Test
+    public void When_AttachmentGiven_Expect_ValidXml()
+            throws AttachmentNotFoundException, ValidationException,
+                InlineAttachmentProcessingException, ParserConfigurationException {
+
+        var content = getFileContent(FLAT_PAYLOAD_XML);
+        when(storageManagerService.getFileLocation(any())).thenReturn("https://location.com");
+
+        var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(mockAttachment, CONVERSATION_ID, content);
+
+        assertNotEquals(content, result);
+        assertTrue(result.contains("https://location.com"));
+
+        // the following asserts that the result payload is acceptable XML - i.e. nothing funky happened with RegEx
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        var documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        var inputSource = new InputSource(new StringReader(result));
+        assertDoesNotThrow(() -> documentBuilder.parse(inputSource));
     }
 
     @Test
