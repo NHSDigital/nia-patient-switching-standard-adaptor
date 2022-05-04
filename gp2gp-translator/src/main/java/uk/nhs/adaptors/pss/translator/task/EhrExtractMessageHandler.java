@@ -28,6 +28,7 @@ import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.XmlParseUtil;
 
 import javax.xml.bind.JAXBException;
 import java.text.ParseException;
@@ -90,7 +91,7 @@ public class EhrExtractMessageHandler {
 
             //sending continue message
             if (hasExternalAttachment) {
-                String patientNhsNumber = parseNhsNumber(payload);
+                String patientNhsNumber = XmlParseUtil.parseNhsNumber(payload);
                 String extractFileName = String.format("%s_%s_payload", conversationId, parseMessageRef(payload));
 
                 attachmentHandlerService.storeEhrExtract(
@@ -102,7 +103,7 @@ public class EhrExtractMessageHandler {
 
                 for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
                     PatientAttachmentLog patientAttachmentLog;
-                    if (parseIsSkeleton(externalAttachment.getDescription())) {
+                    if (XmlParseUtil.parseIsSkeleton(externalAttachment.getDescription())) {
                         //save 06 Messages extract skeleton
                         patientAttachmentLog = buildPatientAttachmentSkeletonLog(payload, migrationRequest, extractFileName);
 
@@ -137,16 +138,16 @@ public class EhrExtractMessageHandler {
         InboundMessage.ExternalAttachment externalAttachment) throws ParseException {
         return PatientAttachmentLog.builder()
                 .mid(externalAttachment.getMessageId())
-                .filename(parseFilename(externalAttachment.getDescription()))
+                .filename(XmlParseUtil.parseFilename(externalAttachment.getDescription()))
                 .parentMid(parseMessageRef(payload))
                 .patientMigrationReqId(migrationRequest.getId())
-                .contentType(parseContentType(externalAttachment.getDescription()))
-                .compressed(parseIsCompressed(externalAttachment.getDescription()))
-                .largeAttachment(parseIsLargeAttachment(externalAttachment.getDescription()))
-                .base64(parseIsOriginalBase64(externalAttachment.getDescription()))
+                .contentType(XmlParseUtil.parseContentType(externalAttachment.getDescription()))
+                .compressed(XmlParseUtil.parseCompressed(externalAttachment.getDescription()))
+                .largeAttachment(XmlParseUtil.parseLargeAttachment(externalAttachment.getDescription()))
+                .base64(XmlParseUtil.parseBase64(externalAttachment.getDescription()))
                 .skeleton(false)
                 .uploaded(false)
-                .lengthNum(parseFileLength(externalAttachment.getDescription()))
+                .lengthNum(XmlParseUtil.parseFileLength(externalAttachment.getDescription()))
                 .orderNum(0)
                 .build();
     }
@@ -264,17 +265,6 @@ public class EhrExtractMessageHandler {
             .build();
     }
 
-    private String parseNhsNumber(RCMRIN030000UK06Message payload) {
-        return payload
-                .getControlActEvent()
-                .getSubject()
-                .getEhrExtract()
-                .getRecordTarget()
-                .getPatient()
-                .getId()
-                .getExtension();
-    }
-
     private String parseFromAsid(RCMRIN030000UK06Message payload) {
         return payload.getCommunicationFunctionRcv()
             .get(0)
@@ -305,74 +295,5 @@ public class EhrExtractMessageHandler {
 
     private String parseMessageRef(RCMRIN030000UK06Message payload) {
         return payload.getId().getRoot();
-    }
-
-    private String parseFilename(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
-        Matcher matcher = pattern.matcher(description);
-
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        throw new ParseException("Unable to parse originalFilename", 0);
-    }
-
-    private String parseContentType(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("ContentType=([A-Za-z\\d\\-/]*)");
-        Matcher matcher = pattern.matcher(description);
-
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        throw new ParseException("Unable to parse ContentType", 0);
-    }
-
-    private boolean parseIsCompressed(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("Compressed=(Yes|No)");
-        Matcher matcher = pattern.matcher(description);
-
-        if (matcher.find()) {
-            return matcher.group(1).equals("Yes");
-        }
-        throw new ParseException("Unable to parse isCompressed", 0);
-    }
-
-    private boolean parseIsLargeAttachment(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("LargeAttachment=(Yes|No)");
-        Matcher matcher = pattern.matcher(description);
-
-        if (matcher.find()) {
-            return matcher.group(1).equals("Yes");
-        }
-        throw new ParseException("Unable to parse isLargeAttachment", 0);
-    }
-
-    private boolean parseIsOriginalBase64(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
-        Matcher matcher = pattern.matcher(description);
-
-        if (matcher.find()) {
-            return matcher.group(1).equals("Yes");
-        }
-        throw new ParseException("Unable to parse isOriginalBase64", 0);
-    }
-
-    private int parseFileLength(String description) {
-        Pattern pattern = Pattern.compile("Length=([\\d]*)");
-        Matcher matcher = pattern.matcher(description);
-
-        if (matcher.find()) {
-            try {
-                return Integer.parseInt(matcher.group(1));
-            } catch (NumberFormatException e) {
-                return 0;
-            }
-        }
-        return 0;
-    }
-
-    private boolean parseIsSkeleton(String description) {
-        final String EB_SKELETON_PROP = "X-GP2GP-Skeleton:Yes".toLowerCase();
-        return description.replaceAll("\\s+", "").toLowerCase().contains(EB_SKELETON_PROP);
     }
 }
