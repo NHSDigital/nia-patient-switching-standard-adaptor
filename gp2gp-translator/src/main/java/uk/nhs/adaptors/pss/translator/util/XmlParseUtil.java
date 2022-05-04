@@ -10,11 +10,14 @@ import org.hl7.v3.RCMRIN030000UK06Message;
 public class XmlParseUtil {
 
     public static String parseFragmentFilename(String description) {
-
-        return Arrays.asList(description.split(" ")).stream()
-            .filter(desc -> desc.contains("Filename"))
-            .map(desc -> desc.replace("Filename=", ""))
-            .toList().get(0);
+        try {
+            return Arrays.stream(description.split(" "))
+                .filter(desc -> desc.contains("Filename"))
+                .map(desc -> desc.replace("Filename=", "").replace("\"", ""))
+                .toList().get(0);
+        } catch(IndexOutOfBoundsException e) {
+            return "";
+        }
     }
 
     public static boolean parseBase64(String description) throws ParseException {

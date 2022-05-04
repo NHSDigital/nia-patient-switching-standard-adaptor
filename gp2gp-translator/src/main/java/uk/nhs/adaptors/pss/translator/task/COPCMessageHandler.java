@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import lombok.RequiredArgsConstructor;
@@ -53,7 +54,7 @@ public class COPCMessageHandler {
 
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
-
+        
         try {
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
             String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
@@ -279,10 +280,16 @@ public class COPCMessageHandler {
             .getAny()
             .get(0);
 
-        return gp2gpElement.getFirstChild() // Version
-            .getNextSibling() // Receipients
-            .getNextSibling() // From
-            .getFirstChild() // From:Data
-            .getNodeValue();
+        return getFromPractiseValue(gp2gpElement);
+    }
+
+    private String getFromPractiseValue(Element gp2gpElement) {
+        for (int i = 0; i < gp2gpElement.getChildNodes().getLength(); i++) {
+            Node currNode = gp2gpElement.getChildNodes().item(i);
+            if (currNode.getLocalName().equals("From")) {
+                return currNode.getFirstChild().getNodeValue();
+            }
+        }
+        return null;
     }
 }
