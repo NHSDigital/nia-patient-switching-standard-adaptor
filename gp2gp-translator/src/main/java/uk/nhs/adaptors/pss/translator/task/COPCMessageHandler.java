@@ -30,6 +30,7 @@ import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
+import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtil;
 
@@ -42,12 +43,10 @@ public class COPCMessageHandler {
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
 
     private final PatientMigrationRequestDao migrationRequestDao;
-    private final MigrationStatusLogService migrationStatusLogService;
     private final AttachmentHandlerService attachmentHandlerService;
     private final PatientAttachmentLogService patientAttachmentLogService;
     private final XPathService xPathService;
-    private final SendACKMessageHandler sendACKMessageHandler;
-    private final SendNACKMessageHandler sendNACKMessageHandler;
+    private final NackAckPreparationService nackAckPreparationService;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException,
         InlineAttachmentProcessingException {
@@ -72,11 +71,11 @@ public class COPCMessageHandler {
                     patientAttachmentLogService.updateAttachmentLog(patientAttachmentLog, conversationId);
                 }
             }
-            sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
+            nackAckPreparationService.sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
         } catch (ParseException | SkeletonEhrProcessingException | SAXException e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
-            sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+            nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
         }
     }
 
@@ -188,108 +187,5 @@ public class COPCMessageHandler {
             .skeleton(isSkeleton)
             .orderNum(attachmentOrder)
             .build();
-    }
-
-    private boolean sendAckMessage(COPCIN000001UK01Message payload, String conversationId, String losingPracticeOdsCode) {
-
-        LOGGER.debug("Sending ACK message for message with Conversation ID: [{}]", conversationId);
-
-        return sendACKMessageHandler.prepareAndSendMessage(prepareAckMessageData(
-            payload,
-            conversationId,
-            losingPracticeOdsCode
-        ));
-    }
-
-    private ACKMessageData prepareAckMessageData(COPCIN000001UK01Message payload,
-        String conversationId, String losingPracticeOdsCode) {
-
-        String messageRef = parseMessageRef(payload);
-        String toAsid = parseToAsid(payload);
-        String fromAsid = parseFromAsid(payload);
-
-        return ACKMessageData.builder()
-            .conversationId(conversationId)
-            .toOdsCode(losingPracticeOdsCode)
-            .messageRef(messageRef)
-            .toAsid(toAsid)
-            .fromAsid(fromAsid)
-            .build();
-    }
-
-    private String parseFromAsid(COPCIN000001UK01Message payload) {
-        return payload.getCommunicationFunctionRcv()
-            .get(0)
-            .getDevice()
-            .getId()
-            .get(0)
-            .getExtension();
-    }
-
-    private String parseToAsid(COPCIN000001UK01Message payload) {
-        return payload.getCommunicationFunctionSnd()
-            .getDevice()
-            .getId()
-            .get(0)
-            .getExtension();
-    }
-
-    private String parseMessageRef(COPCIN000001UK01Message payload) {
-        return payload.getId().getRoot();
-    }
-
-    private boolean sendNackMessage(NACKReason reason, COPCIN000001UK01Message payload, String conversationId) {
-
-        LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
-            payload.getId().getRoot());
-
-        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId);
-
-        return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
-            reason,
-            payload,
-            conversationId
-        ));
-    }
-
-    private NACKMessageData prepareNackMessageData(NACKReason reason, COPCIN000001UK01Message payload,
-        String conversationId) {
-
-        String toOdsCode = parseToOdsCode(payload);
-        String messageRef = parseMessageRef(payload);
-        String toAsid = parseToAsid(payload);
-        String fromAsid = parseFromAsid(payload);
-        String nackCode = reason.getCode();
-
-        return NACKMessageData.builder()
-            .conversationId(conversationId)
-            .nackCode(nackCode)
-            .toOdsCode(toOdsCode)
-            .messageRef(messageRef)
-            .toAsid(toAsid)
-            .fromAsid(fromAsid)
-            .build();
-    }
-
-    private String parseToOdsCode(COPCIN000001UK01Message payload) {
-
-        Element gp2gpElement = payload.getControlActEvent()
-            .getSubject()
-            .getPayloadInformation()
-            .getValue()
-            .getAny()
-            .get(0);
-
-        return getFromPractiseValue(gp2gpElement);
-    }
-
-    private String getFromPractiseValue(Element gp2gpElement) {
-        for (int i = 0; i < gp2gpElement.getChildNodes().getLength(); i++) {
-            Node currNode = gp2gpElement.getChildNodes().item(i);
-            if (currNode.getLocalName().equals("From")) {
-                return currNode.getFirstChild().getNodeValue();
-            }
-        }
-        return null;
     }
 }
