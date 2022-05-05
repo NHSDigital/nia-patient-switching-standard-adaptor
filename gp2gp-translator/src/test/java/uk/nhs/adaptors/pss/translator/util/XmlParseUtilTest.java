@@ -1,21 +1,27 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.text.ParseException;
-
-import org.hl7.v3.RCMRIN030000UK06ControlActEvent;
-import org.junit.jupiter.api.Assertions;
-import org.hl7.v3.RCMRIN030000UK06Message;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-
-import java.text.ParseException;
-
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.text.ParseException;
+
+import org.hl7.v3.II;
+import org.hl7.v3.RCMRIN030000UK06ControlActEvent;
+import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UK06Subject;
+import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04Patient;
+import org.hl7.v3.RCMRMT030101UK04PatientSubject;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
 public class XmlParseUtilTest {
 
     private static final String DESCRIPTION =
@@ -23,26 +29,36 @@ public class XmlParseUtilTest {
             + "DomainData=\"X-GP2GP-Skeleton: Yes\" Compressed=No LargeAttachment=No OriginalBase64=Yes Length=4718592";
 
     @Mock
+    private RCMRIN030000UK06Message rcmrin030000UK06Message;
+    @Mock
     private RCMRIN030000UK06ControlActEvent rcmrin030000UK06ControlActEvent;
+    @Mock
+    private RCMRIN030000UK06Subject rcmrin030000UK06Subject;
+    @Mock
+    private RCMRMT030101UK04EhrExtract rcmrmt030101UK04EhrExtract;
+    @Mock
+    private RCMRMT030101UK04PatientSubject rcmrmt030101UK04PatientSubject;
+    @Mock
+    private RCMRMT030101UK04Patient rcmrmt030101UK04Patient;
+    @Mock
+    private II id;
 
     @Test
     public void shouldParsePatientNhsNumberValue() {
 
         //need to ask about this one
-        RCMRIN030000UK06Message rcmrin030000UK06Message = new RCMRIN030000UK06Message();
-
-        rcmrin030000UK06Message.setControlActEvent(any());
         when(rcmrin030000UK06Message.getControlActEvent()).thenReturn(rcmrin030000UK06ControlActEvent);
-        rcmrin030000UK06Message.getControlActEvent().setSubject(any());//remove
 
-        rcmrin030000UK06Message.getControlActEvent().getSubject().setEhrExtract(any());
+        when(rcmrin030000UK06Message.getControlActEvent().getSubject()).thenReturn(rcmrin030000UK06Subject);
 
-        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().setRecordTarget(any());
+        when(rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract()).thenReturn(rcmrmt030101UK04EhrExtract);
 
-        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().setPatient(any());
+        when(rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget()).thenReturn(rcmrmt030101UK04PatientSubject);
 
-        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().getPatient().setId(any());
-        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().getPatient().getId().setExtension(any());
+        when(rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().getPatient()).thenReturn(rcmrmt030101UK04Patient);
+
+        when(rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().getPatient().getId()).thenReturn(id);
+
 
         when(rcmrin030000UK06Message.getControlActEvent()
                 .getSubject()
