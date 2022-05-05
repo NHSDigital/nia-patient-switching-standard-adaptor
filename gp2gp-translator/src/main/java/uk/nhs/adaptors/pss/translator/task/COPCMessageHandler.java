@@ -106,7 +106,7 @@ public class COPCMessageHandler {
     private String getFileNameForFragment(InboundMessage inboundMessage, COPCIN000001UK01Message payload) throws ParseException {
         if (!inboundMessage.getAttachments().get(0).getDescription().isEmpty()
             && inboundMessage.getAttachments().get(0).getDescription().contains("Filename")) {
-            return XmlParseUtil.parseFragmentFilename(inboundMessage.getAttachments().get(0).getDescription());
+            return XmlParseUtil.parseFilename(inboundMessage.getAttachments().get(0).getDescription());
         } else {
             return retrieveFileNameFromPayload(payload);
         }
@@ -178,7 +178,7 @@ public class COPCMessageHandler {
 
         return PatientAttachmentLog.builder()
             .mid(mid)
-            .filename(XmlParseUtil.parseFragmentFilename(description))
+            .filename(XmlParseUtil.parseFilename(description))
             .parentMid(parentMid)
             .patientMigrationReqId(patientId)
             .contentType(XmlParseUtil.parseContentType(description))

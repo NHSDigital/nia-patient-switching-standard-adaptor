@@ -9,17 +9,6 @@ import org.hl7.v3.RCMRIN030000UK06Message;
 
 public class XmlParseUtil {
 
-    public static String parseFragmentFilename(String description) {
-        try {
-            return Arrays.stream(description.split(" "))
-                .filter(desc -> desc.contains("Filename"))
-                .map(desc -> desc.replace("Filename=", "").replace("\"", ""))
-                .toList().get(0);
-        } catch(IndexOutOfBoundsException e) {
-            return "";
-        }
-    }
-
     public static boolean parseBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
         Matcher matcher = pattern.matcher(description);

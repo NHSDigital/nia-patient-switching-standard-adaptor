@@ -17,24 +17,17 @@ import static org.mockito.Mockito.when;
 
 public class XmlParseUtilTest {
 
-    private static final String DESCRIPTION = "\"Filename=\"E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment\" ContentType=text/plain " +
-        "Compressed=No LargeAttachment=No OriginalBase64=Yes";
-
-    private final String description =  "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" \n" +
-            "\t\t\t\tContentType=text/xml \n" +
-            "\t\t\t\tCompressed=Yes \n" +
-            "\t\t\t\tLargeAttachment=No \n" +
-            "\t\t\t\tOriginalBase64=Yes \n" +
-            "\t\t\t\tLength=4718592 \n" +
-            "\t\t\t\tDomainData=\"X-GP2GP-Skeleton: Yes\"";
+    private static final String DESCRIPTION =
+        "\"Filename=\"E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment\" ContentType=text/plain "
+            + "DomainData=\"X-GP2GP-Skeleton: Yes\" Compressed=No LargeAttachment=No OriginalBase64=Yes Length=4718592";
 
 
     @Test
-    public void shouldParseFragmentFilenameAndReturnFilename() {
+    public void shouldParseFragmentFilenameAndReturnFilename() throws ParseException {
 
         String expected = "E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment";
         // Act
-        String actual = XmlParseUtil.parseFragmentFilename(DESCRIPTION);
+        String actual = XmlParseUtil.parseFilename(DESCRIPTION);
         // Assert
         assertThat(actual).isEqualTo(expected);
     }
@@ -44,9 +37,9 @@ public class XmlParseUtilTest {
         // Arrange
         String description = "Compressed=No LargeAttachment=No OriginalBase64=Yes";
         // Act
-        String actual = XmlParseUtil.parseFragmentFilename(description);
-        // Assert
-        assertThat(actual).isEmpty();
+        Assertions.assertThrows(ParseException.class, ()->{
+            XmlParseUtil.parseFilename(description);
+        });
     }
 
     @Test
@@ -159,8 +152,8 @@ public class XmlParseUtilTest {
 
     @Test
     public void shouldParseFilenameValue() throws ParseException {
-        String actual = XmlParseUtil.parseFilename(description);
-        String expected = "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip";
+        String actual = XmlParseUtil.parseFilename(DESCRIPTION);
+        String expected = "E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment";
 
         assertEquals(expected, actual);
     }
@@ -169,15 +162,15 @@ public class XmlParseUtilTest {
     public void shouldThrowParseExceptionWhenFilenameCantBeRead() throws ParseException {
 
         Exception exceptionCase1 = assertThrows(
-                ParseException.class, () -> XmlParseUtil.parseFilename(description.replace("Filename", ""))
+                ParseException.class, () -> XmlParseUtil.parseFilename(DESCRIPTION.replace("Filename", ""))
         );
 
         Exception exceptionCase2 = assertThrows(
-                ParseException.class, () -> XmlParseUtil.parseFilename(description.replace("\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\"", ""))
+                ParseException.class, () -> XmlParseUtil.parseFilename(DESCRIPTION.replace("\"E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment\"", ""))
         );
 
         Exception exceptionCase3 = assertThrows(
-                ParseException.class, () -> XmlParseUtil.parseFilename(description.replace("Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\"", ""))
+                ParseException.class, () -> XmlParseUtil.parseFilename(DESCRIPTION.replace("Filename=\"E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment\"", ""))
         );
 
         String expected = "Unable to parse originalFilename";
@@ -190,7 +183,7 @@ public class XmlParseUtilTest {
 
     @Test
     public void shouldParseFileLengthValue()  {
-        int actual = XmlParseUtil.parseFileLength(description);
+        int actual = XmlParseUtil.parseFileLength(DESCRIPTION);
         int expected = 4718592;
 
         assertEquals(expected, actual);
@@ -198,9 +191,9 @@ public class XmlParseUtilTest {
 
     @Test
     public void shouldThrowParseExceptionWhenFileLengthCantBeRead() {
-        int actual1 = XmlParseUtil.parseFileLength(description.replace("Length", ""));
-        int actual2 = XmlParseUtil.parseFileLength(description.replace("4718592", ""));
-        int actual3 = XmlParseUtil.parseFileLength(description.replace("Length=4718592", ""));
+        int actual1 = XmlParseUtil.parseFileLength(DESCRIPTION.replace("Length", ""));
+        int actual2 = XmlParseUtil.parseFileLength(DESCRIPTION.replace("4718592", ""));
+        int actual3 = XmlParseUtil.parseFileLength(DESCRIPTION.replace("Length=4718592", ""));
         int expected = 0;
 
         assertEquals(expected, actual1);
@@ -210,7 +203,7 @@ public class XmlParseUtilTest {
 
     @Test
     public void shouldParseSkeletonValue() {
-        boolean actual = XmlParseUtil.parseIsSkeleton(description);
+        boolean actual = XmlParseUtil.parseIsSkeleton(DESCRIPTION);
         boolean expected = true;
 
         assertEquals(expected, actual);
@@ -218,9 +211,9 @@ public class XmlParseUtilTest {
 
     @Test
     public void shouldReturnXWhenSkeletonCantBeRead() {
-        boolean actual1 = XmlParseUtil.parseIsSkeleton(description.replace("X-GP2GP-Skeleton: Yes", ""));
-        boolean actual2 = XmlParseUtil.parseIsSkeleton(description.replace("X-GP2GP-Skeleton", ""));
-        boolean actual3 = XmlParseUtil.parseIsSkeleton(description.replace("Yes", ""));
+        boolean actual1 = XmlParseUtil.parseIsSkeleton(DESCRIPTION.replace("X-GP2GP-Skeleton: Yes", ""));
+        boolean actual2 = XmlParseUtil.parseIsSkeleton(DESCRIPTION.replace("X-GP2GP-Skeleton", ""));
+        boolean actual3 = XmlParseUtil.parseIsSkeleton(DESCRIPTION.replace("Yes", ""));
 
         boolean expected = false;
 
