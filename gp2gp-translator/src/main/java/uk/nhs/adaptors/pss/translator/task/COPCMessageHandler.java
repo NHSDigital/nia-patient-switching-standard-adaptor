@@ -1,8 +1,9 @@
 package uk.nhs.adaptors.pss.translator.task;
 
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
-
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -15,19 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
-import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
@@ -37,13 +31,6 @@ import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtil;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
-import java.text.ParseException;
-
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @Slf4j
 @Component

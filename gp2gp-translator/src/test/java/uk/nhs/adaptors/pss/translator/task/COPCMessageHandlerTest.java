@@ -1,17 +1,14 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-
-import lombok.SneakyThrows;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-
 import static java.util.UUID.randomUUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -22,43 +19,33 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
-import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
-import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
-import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
+import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
+import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
-
-import javax.xml.bind.JAXBException;
-import java.util.Arrays;
-
-import static java.util.UUID.randomUUID;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 @ExtendWith(MockitoExtension.class)
 class COPCMessageHandlerTest {
@@ -101,10 +88,13 @@ class COPCMessageHandlerTest {
 
     @Test
     public void shouldCreateFragmentRecordWhenFragmentIsReceivedBeforeFragmentIndex() throws JAXBException,
-        InlineAttachmentProcessingException {
+        InlineAttachmentProcessingException, SAXException, AttachmentLogException {
 
         var messageId = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
-        when(patientAttachmentLogService.findAttachmentLog(messageId, CONVERSATION_ID)).thenReturn(null);
+        when(patientAttachmentLogService.findAttachmentLog(messageId, CONVERSATION_ID)).thenReturn(null)
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null));
+        when(patientAttachmentLogService.findAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", CONVERSATION_ID))
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
 
@@ -124,9 +114,11 @@ class COPCMessageHandlerTest {
 
     @Test
     public void shouldUploadFileWhenFragmentIsReceivedBeforeFragmentIndex() throws JAXBException,
-            InlineAttachmentProcessingException, SkeletonEhrProcessingException {
+        InlineAttachmentProcessingException, SkeletonEhrProcessingException, SAXException, AttachmentLogException {
 
-        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID)).thenReturn(null);
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID)).thenReturn(null).thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null));
+        when(patientAttachmentLogService.findAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", CONVERSATION_ID))
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
         // ACT
@@ -138,7 +130,7 @@ class COPCMessageHandlerTest {
 
     @Test
     public void shouldUpdateExistingFragmentRecordWhenItHasAlreadyBeenReceived() throws JAXBException,
-        InlineAttachmentProcessingException {
+        InlineAttachmentProcessingException, SAXException, AttachmentLogException {
         var parentMid = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
         InboundMessage message = new InboundMessage();
@@ -146,6 +138,8 @@ class COPCMessageHandlerTest {
             .thenReturn(buildPatientAttachmentLog(parentMid, null));
         when(patientAttachmentLogService.findAttachmentLog(childMid, CONVERSATION_ID))
             .thenReturn(buildPartialPatientAttachmentLog(childMid, "text/plain"));
+        when(patientAttachmentLogService.findAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", CONVERSATION_ID))
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
         prepareFragmentIndexMocks(message);
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
@@ -156,23 +150,22 @@ class COPCMessageHandlerTest {
         assertThat(actual.getLargeAttachment()).isFalse();
         assertThat(actual.getCompressed()).isFalse();
         assertEquals(0, actual.getOrderNum());
-        assertEquals(parentMid, actual.getParentMid());
+        assertEquals("047C22B4-613F-47D3-9A72-44A1758464FB", actual.getParentMid());
         assertEquals(CONVERSATION_ID, conversationIdCaptor.getValue());
     }
 
     @Test
     public void shouldCreateNewFragmentRecordWhenItDoesntExistInPatientAttachmentLogDb() throws JAXBException,
-        InlineAttachmentProcessingException {
+        InlineAttachmentProcessingException, SAXException, AttachmentLogException {
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
         InboundMessage message = new InboundMessage();
 
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
-            .thenReturn(
-                buildPatientAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", null)
-            );
+            .thenReturn(buildPatientAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", null));
         when(patientAttachmentLogService.findAttachmentLog(childMid, CONVERSATION_ID))
             .thenReturn(null);
-
+        when(patientAttachmentLogService.findAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", CONVERSATION_ID))
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
         prepareFragmentIndexMocks(message);
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
@@ -181,7 +174,7 @@ class COPCMessageHandlerTest {
 
         assertEquals(childMid, actual.getMid());
         assertEquals("E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment", actual.getFilename());
-        assertEquals("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", actual.getParentMid());
+        assertEquals("047C22B4-613F-47D3-9A72-44A1758464FB", actual.getParentMid());
         assertEquals(1, actual.getPatientMigrationReqId());
         assertEquals("text/plain", actual.getContentType());
         assertThat(actual.getCompressed()).isFalse();
@@ -192,12 +185,13 @@ class COPCMessageHandlerTest {
 
     @Test
     public void shouldUploadFragmentFileWhenAFragmentMessageIsReceived()
-            throws JAXBException, InlineAttachmentProcessingException, SkeletonEhrProcessingException {
+        throws JAXBException, InlineAttachmentProcessingException, SkeletonEhrProcessingException, SAXException, AttachmentLogException {
 
         InboundMessage message = new InboundMessage();
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
                 "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
+
         prepareExpectedFragmentMocks(message);
 
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
@@ -213,7 +207,7 @@ class COPCMessageHandlerTest {
 
     @Test
     public void shouldUpdatePatientAttachmentLogAfterFileIsUploadedWhenAFragmentMessageIsReceived() throws JAXBException,
-        InlineAttachmentProcessingException {
+        InlineAttachmentProcessingException, SAXException, AttachmentLogException {
         InboundMessage message = new InboundMessage();
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
@@ -624,7 +618,7 @@ class COPCMessageHandlerTest {
             .buildSingleFileStringFromPatientAttachmentLogs(any());
     }
 
-    private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid) {
+    private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid, int orderNum, boolean isUploaded) {
         return PatientAttachmentLog.builder()
             .mid(mid)
             .filename("E39E79A2-FA96-48FF-9373-7BBCB9D036E7.txt")
@@ -632,7 +626,12 @@ class COPCMessageHandlerTest {
             .patientMigrationReqId(1)
             .contentType("xml/text")
             .skeleton(false)
+            .orderNum(orderNum)
+            .uploaded(isUploaded)
             .build();
+    }
+    private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid) {
+        return buildPatientAttachmentLog(mid, parentMid, 0, false);
     }
 
     private PatientAttachmentLog buildPartialPatientAttachmentLog(String mid, String contentType) {
@@ -667,6 +666,9 @@ class COPCMessageHandlerTest {
             .thenReturn("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1");
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Body/Manifest/Reference[position()=2]/Description"))
             .thenReturn("not an index file");
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
+            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",0, true),buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
+            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",1, false)));
     }
 
     @SneakyThrows
@@ -693,6 +695,9 @@ class COPCMessageHandlerTest {
             .thenReturn("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1");
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Body/Manifest/Reference[position()=2]/Description"))
             .thenReturn("Filename=blah");
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
+            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",0, true),buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
+            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",1, false)));
     }
 
     @SneakyThrows
@@ -715,6 +720,9 @@ class COPCMessageHandlerTest {
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId")).thenReturn("CBBAE92D-C7E8"
             + "-4A9C-8887-F5AEBA1F8CE1").thenReturn("047C22B4-613F-47D3-9A72-44A1758464FB");
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
+            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",0, true),buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
+            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",1, false)));
     }
 
     @SneakyThrows

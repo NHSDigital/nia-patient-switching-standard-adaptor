@@ -121,19 +121,6 @@ public class PatientAttachmentLogService {
     /**
      *
      * @param conversationId
-     * @return PatientAttachmentLogs
-     *
-     * @description
-     * Find all attachment logs associated with a conversation id
-     */
-    public List<PatientAttachmentLog> findAttachmentLogs(
-        String conversationId
-    ) {
-        return patientAttachmentLogDao.findPatientAttachments(conversationId);
-    }
-    /**
-     *
-     * @param conversationId
      * @param parentMid
      * @return PatientAttachmentLogs
      *
