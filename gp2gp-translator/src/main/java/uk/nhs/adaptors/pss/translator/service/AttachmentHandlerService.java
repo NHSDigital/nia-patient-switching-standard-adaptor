@@ -75,7 +75,9 @@ public class AttachmentHandlerService {
         }
     }
 
-    public void storeEhrExtract(String fileName, String payload, String conversationId, String contentType) throws ValidationException, StorageException, SkeletonEhrProcessingException {
+    public void storeEhrExtract(String fileName, String payload, String conversationId, String contentType)
+            throws ValidationException, StorageException, SkeletonEhrProcessingException {
+
         if (!StringUtils.hasText(fileName)) {
             throw new ValidationException("FileName cannot be null or empty");
         }

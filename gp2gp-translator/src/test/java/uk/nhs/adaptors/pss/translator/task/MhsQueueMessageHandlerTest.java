@@ -81,8 +81,16 @@ public class MhsQueueMessageHandlerTest {
     private InboundMessage inboundMessage;
 
     @Test
-    public void handleEhrExtractMessageWithoutErrorsShouldReturnTrue() throws JsonProcessingException, JAXBException,
-            SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+    public void handleEhrExtractMessageWithoutErrorsShouldReturnTrue()
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
+
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
 
@@ -96,8 +104,14 @@ public class MhsQueueMessageHandlerTest {
 
     @Test
     public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse()
-            throws JAXBException, JsonProcessingException, SAXException,
-            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+            throws
+            JAXBException,
+            JsonProcessingException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);

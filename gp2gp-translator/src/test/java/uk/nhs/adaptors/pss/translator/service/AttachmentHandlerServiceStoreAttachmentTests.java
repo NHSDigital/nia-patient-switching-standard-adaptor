@@ -1,23 +1,5 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-
-import javax.xml.bind.ValidationException;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,12 +10,32 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
+import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
+
+import javax.xml.bind.ValidationException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.atLeast;
+
 
 @ExtendWith(MockitoExtension.class)
 public class AttachmentHandlerServiceStoreAttachmentTests {
@@ -140,9 +142,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     @Test
     public void When_ValidListOfAttachmentsAndConversationIdIsNull_Expect_ValidationException() {
 
-        Exception exception = assertThrows(ValidationException.class, () -> {
-            attachmentHandlerService.storeAttachments(mockAttachments, null);
-        });
+        Exception exception = assertThrows(ValidationException.class, () ->
+            attachmentHandlerService.storeAttachments(mockAttachments, null)
+        );
 
         String expectedMessage = "ConversationId cannot be null or empty";
         String actualMessage = exception.getMessage();
@@ -155,9 +157,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     @Test
     public void When_ValidListOfAttachmentsAndConversationIdIsEmpty_Expect_ValidationException() {
 
-        Exception exception = assertThrows(ValidationException.class, () -> {
-            attachmentHandlerService.storeAttachments(mockAttachments, "");
-        });
+        Exception exception = assertThrows(ValidationException.class, () ->
+            attachmentHandlerService.storeAttachments(mockAttachments, "")
+        );
 
         String expectedMessage = "ConversationId cannot be null or empty";
         String actualMessage = exception.getMessage();
@@ -170,9 +172,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     @Test
     public void When_DecompressionFails_Expect_InlineProcessingException() {
 
-        Exception exception = assertThrows(InlineAttachmentProcessingException.class, () -> {
-            attachmentHandlerService.storeAttachments(mockMislabeledUncompressedAttachments, CONVERSATION_ID);
-        });
+        Exception exception = assertThrows(InlineAttachmentProcessingException.class, () ->
+            attachmentHandlerService.storeAttachments(mockMislabeledUncompressedAttachments, CONVERSATION_ID)
+        );
 
         String expectedMessage = "Unable to decompress attachment:";
         String actualMessage = exception.getMessage();
@@ -183,9 +185,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     @Test
     public void When_AttachmentDescriptionNotParsedCorrectly_Expect_InlineProcessingException() {
 
-        Exception exception = assertThrows(InlineAttachmentProcessingException.class, () -> {
-            attachmentHandlerService.storeAttachments(mockMissingDescriptionElementsAttachments, CONVERSATION_ID);
-        });
+        Exception exception = assertThrows(InlineAttachmentProcessingException.class, () ->
+            attachmentHandlerService.storeAttachments(mockMissingDescriptionElementsAttachments, CONVERSATION_ID)
+        );
 
         String expectedMessage = "Unable to parse inline attachment description:";
         String actualMessage = exception.getMessage();
@@ -257,13 +259,44 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     }
 
     @Test
+    public void When_StoreAttachmentsFailsToUpload_Expect_ThrowInlineAttachmentProcessingException() {
+
+        doThrow(StorageException.class)
+                .when(storageManagerService)
+                .uploadFile(any(), any());
+
+
+        assertThrows(InlineAttachmentProcessingException.class, () ->
+            attachmentHandlerService.storeAttachments(mockAttachments, CONVERSATION_ID)
+        );
+    }
+
+    @Test
+    public void When_StoreEhrExtractParametersAreCorrectAndNotErrors_Expect_ExecuteStorageManagerServiceUploadFile()
+            throws ValidationException, SkeletonEhrProcessingException {
+        attachmentHandlerService.storeEhrExtract("fileName", "payload", "conversationId", "contentType");
+        verify(storageManagerService).uploadFile(any(), any());
+    }
+
+    @Test
+    public void When_StoreAttachmentsFailsToUpload_Expect_ThrowSkeletonEhrProcessingException() {
+        doThrow(StorageException.class)
+                .when(storageManagerService)
+                .uploadFile(any(), any());
+
+        assertThrows(SkeletonEhrProcessingException.class, () ->
+            attachmentHandlerService.storeEhrExtract("fileNAme", "Payload", "123456", "contentType")
+        );
+    }
+
+    @Test
     public void When_StoreEhrExtractParameterFileNameIsNullOrEmpty_Expect_ThrowsValidationException() {
 
         Exception exceptionNull = assertThrows(
                 ValidationException.class,
-                () -> {
-                    attachmentHandlerService.storeEhrExtract(null, "payload", "conversationId", "contentType");
-                }
+                () ->
+                    attachmentHandlerService.storeEhrExtract(null, "payload", "conversationId", "contentType")
+
         );
         String actualNull = exceptionNull.getMessage();
         String expectedNull = "FileName cannot be null or empty";
@@ -271,9 +304,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         Exception exceptionEmpty = assertThrows(
                 ValidationException.class,
-                () -> {
-                    attachmentHandlerService.storeEhrExtract("", "payload", "conversationId", "contentType");
-                }
+                () ->
+                    attachmentHandlerService.storeEhrExtract("", "payload", "conversationId", "contentType")
+
         );
         String actualEmpty = exceptionEmpty.getMessage();
         String expectedEmpty = "FileName cannot be null or empty";
@@ -284,9 +317,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     public void When_StoreEhrExtractParameterPayloadIsNullOrEmpty_Expect_ThrowsValidationException() {
         Exception exceptionNull = assertThrows(
                 ValidationException.class,
-                () -> {
-                    attachmentHandlerService.storeEhrExtract("Filename", null, "conversationId", "contentType");
-                }
+                () ->
+                    attachmentHandlerService.storeEhrExtract("Filename", null, "conversationId", "contentType")
+
         );
         String actualNull = exceptionNull.getMessage();
         String expectedNull = "Payload cannot be null or empty";
@@ -294,9 +327,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         Exception exceptionEmpty = assertThrows(
                 ValidationException.class,
-                () -> {
-                    attachmentHandlerService.storeEhrExtract("Filename", "", "conversationId", "contentType");
-                }
+                () ->
+                    attachmentHandlerService.storeEhrExtract("Filename", "", "conversationId", "contentType")
+
         );
         String actualEmpty = exceptionEmpty.getMessage();
         String expectedEmpty = "Payload cannot be null or empty";
@@ -307,9 +340,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     public void When_StoreEhrExtractParameterConversationIdIsNullOrEmpty_Expect_ThrowsValidationException() {
         Exception exceptionNull = assertThrows(
                 ValidationException.class,
-                () -> {
-                    attachmentHandlerService.storeEhrExtract("Filename", "payload", null, "contentType");
-                }
+                () ->
+                    attachmentHandlerService.storeEhrExtract("Filename", "payload", null, "contentType")
+
         );
         String actualNull = exceptionNull.getMessage();
         String expectedNull = "ConversationId cannot be null or empty";
@@ -317,9 +350,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         Exception exceptionEmpty = assertThrows(
                 ValidationException.class,
-                () -> {
-                    attachmentHandlerService.storeEhrExtract("Filename", "payload", "", "contentType");
-                }
+                () ->
+                    attachmentHandlerService.storeEhrExtract("Filename", "payload", "", "contentType")
+
         );
         String actualEmpty = exceptionEmpty.getMessage();
         String expectedEmpty = "ConversationId cannot be null or empty";
@@ -346,10 +379,5 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         assertEquals(expectedEmpty, actualEmpty);
     }
 
-    @Test
-    public void When_StoreEhrExtractParametersAreCorrectAndNotErrors_Expect_ExecuteStorageManagerServiceUploadFile()
-            throws ValidationException, SkeletonEhrProcessingException {
-        attachmentHandlerService.storeEhrExtract("fileName", "payload", "conversationId", "contentType");
-        verify(storageManagerService).uploadFile(any(), any());
-    }
+
 }

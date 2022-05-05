@@ -53,8 +53,15 @@ public class EhrExtractMessageHandler {
     private final PatientAttachmentLogService patientAttachmentLogService;
     private final NackAckPreparationService nackAckPreparationService;
 
-    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException,
-            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+    public void handleMessage(InboundMessage inboundMessage, String conversationId)
+            throws
+            JAXBException,
+            JsonProcessingException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -121,8 +128,14 @@ public class EhrExtractMessageHandler {
                 nackAckPreparationService.sendAckMessage(payload, conversationId);
             }
 
-        } catch (BundleMappingException | DataFormatException | JsonProcessingException
-                 | InlineAttachmentProcessingException | AttachmentNotFoundException | SkeletonEhrProcessingException | StorageException ex) {
+        } catch (BundleMappingException
+                    | DataFormatException
+                    | JsonProcessingException
+                    | InlineAttachmentProcessingException
+                    | AttachmentNotFoundException
+                    | SkeletonEhrProcessingException
+                    | StorageException ex
+        ) {
             nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
         } catch (ParseException ex) {

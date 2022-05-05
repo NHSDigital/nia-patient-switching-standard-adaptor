@@ -45,7 +45,7 @@ public class COPCMessageHandler {
 
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
-        
+
         try {
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
             String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
@@ -76,7 +76,7 @@ public class COPCMessageHandler {
     }
 
     private void insertLogAndUploadFragmentFile(InboundMessage inboundMessage, String conversationId, COPCIN000001UK01Message payload,
-        Document ebXmlDocument, int patientId) throws ValidationException, ParseException, SkeletonEhrProcessingException {
+        Document ebXmlDocument, int patientId) throws ValidationException, SkeletonEhrProcessingException {
         String fragmentMid = getFragmentMidId(ebXmlDocument);
         String fileName = getFileNameForFragment(inboundMessage, payload);
 
@@ -94,7 +94,7 @@ public class COPCMessageHandler {
             inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
     }
 
-    private String getFileNameForFragment(InboundMessage inboundMessage, COPCIN000001UK01Message payload) throws ParseException {
+    private String getFileNameForFragment(InboundMessage inboundMessage, COPCIN000001UK01Message payload) {
         if (!inboundMessage.getAttachments().get(0).getDescription().isEmpty()
             && inboundMessage.getAttachments().get(0).getDescription().contains("Filename")) {
             return XmlParseUtil.parseFragmentFilename(inboundMessage.getAttachments().get(0).getDescription());

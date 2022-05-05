@@ -41,7 +41,11 @@ import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
@@ -54,13 +58,6 @@ public class EhrExtractMessageHandlerTest {
     private static final String BUNDLE_STRING = "{bundle}";
     private static final String LOSING_ODE_CODE = "G543";
     private static final String WINNING_ODE_CODE = "B943";
-    private static final String TEST_TO_ODS = "M85019";
-    private static final String TEST_MESSAGE_REF = "31FA3430-6E88-11EA-9384-E83935108FD5";
-    private static final String TEST_TO_ASID = "200000000149";
-    private static final String TEST_FROM_ASID = "200000001161";
-    private static final String TEST_NACK_CODE = "30";
-
-
 
     @Mock
     private ObjectMapper objectMapper;
@@ -83,8 +80,6 @@ public class EhrExtractMessageHandlerTest {
     @Mock
     private BundleMapperService bundleMapperService;
 
-
-
     @Mock
     private PatientAttachmentLogService patientAttachmentLogService;
 
@@ -99,8 +94,14 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
-            throws JsonProcessingException, JAXBException,
-            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -114,8 +115,15 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
-            throws JsonProcessingException, JAXBException,
-            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
+
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
@@ -125,8 +133,14 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentHandlerServiceStoreAttachments()
-            throws JsonProcessingException, JAXBException,
-            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -138,8 +152,14 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentReferenceUpdaterServiceUpdateReferences()
-            throws JsonProcessingException, JAXBException,
-            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -152,8 +172,14 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_CallSendContinueRequest()
-            throws JsonProcessingException, JAXBException,
-            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -191,8 +217,14 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
-            throws JsonProcessingException, JAXBException,
-            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -281,8 +313,13 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleSingleMessageWithValidDataIsCalled_Expect_NotToCallSendContinueRequest()
-            throws JsonProcessingException, JAXBException,
-            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+            throws JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -344,8 +381,14 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_StoreMessagePayload()
-            throws JsonProcessingException, JAXBException,
-            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -374,8 +417,14 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_AddAttachmentExactNumerOfTimesAsExternalAttachmentsList()
-            throws JsonProcessingException, JAXBException,
-            InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException, ParseException, SkeletonEhrProcessingException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SkeletonEhrProcessingException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -468,7 +517,6 @@ public class EhrExtractMessageHandlerTest {
 
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
-        //when(nackAckPreparationService);//need to mock
     }
 
     @SneakyThrows

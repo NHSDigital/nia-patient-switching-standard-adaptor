@@ -1,19 +1,6 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static java.util.UUID.randomUUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-
-import java.util.Arrays;
-
-import javax.xml.bind.JAXBException;
-
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -22,8 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
-
-import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
@@ -35,6 +20,17 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
+
+import javax.xml.bind.JAXBException;
+import java.util.Arrays;
+
+import static java.util.UUID.randomUUID;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 @ExtendWith(MockitoExtension.class)
 class COPCMessageHandlerTest {
@@ -76,14 +72,14 @@ class COPCMessageHandlerTest {
     @Test
     public void shouldCreateFragmentRecordWhenFragmentIsReceivedBeforeFragmentIndex() throws JAXBException,
         InlineAttachmentProcessingException {
-        // Arrange
+
         var messageId = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
         when(patientAttachmentLogService.findAttachmentLog(messageId, CONVERSATION_ID)).thenReturn(null);
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
+
         // ACT
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
-
         // Assert
         verify(patientAttachmentLogService).addAttachmentLog(patientLogCaptor.capture());
 
@@ -99,7 +95,6 @@ class COPCMessageHandlerTest {
     @Test
     public void shouldUploadFileWhenFragmentIsReceivedBeforeFragmentIndex() throws JAXBException,
             InlineAttachmentProcessingException, SkeletonEhrProcessingException {
-        // Arrange
 
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID)).thenReturn(null);
         InboundMessage message = new InboundMessage();
@@ -140,10 +135,14 @@ class COPCMessageHandlerTest {
         InlineAttachmentProcessingException {
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
         InboundMessage message = new InboundMessage();
+
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
-            .thenReturn(buildPatientAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", null));
+            .thenReturn(
+                buildPatientAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", null)
+            );
         when(patientAttachmentLogService.findAttachmentLog(childMid, CONVERSATION_ID))
             .thenReturn(null);
+
         prepareFragmentIndexMocks(message);
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
@@ -162,7 +161,9 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void shouldUploadFragmentFileWhenAFragmentMessageIsReceived() throws JAXBException, InlineAttachmentProcessingException, SkeletonEhrProcessingException {
+    public void shouldUploadFragmentFileWhenAFragmentMessageIsReceived()
+            throws JAXBException, InlineAttachmentProcessingException, SkeletonEhrProcessingException {
+
         InboundMessage message = new InboundMessage();
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",

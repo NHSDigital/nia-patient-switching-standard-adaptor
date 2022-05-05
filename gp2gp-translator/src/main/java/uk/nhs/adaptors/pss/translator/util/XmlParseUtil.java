@@ -95,9 +95,6 @@ public class XmlParseUtil {
         return description.replaceAll("\\s+", "").toLowerCase().contains(EB_SKELETON_PROP);
     }
 
-
-    ////////////////////////COPCIN000001UK01
-
     public static String parseFromAsid(COPCIN000001UK01Message payload) {
         return payload.getCommunicationFunctionRcv()
                 .get(0)
@@ -143,8 +140,6 @@ public class XmlParseUtil {
         return null;
     }
 
-    //////////////RCMRIN030000UK06
-
     public static String parseFromAsid(RCMRIN030000UK06Message payload) {
         return payload.getCommunicationFunctionRcv()
                 .get(0)
@@ -177,14 +172,13 @@ public class XmlParseUtil {
         return payload.getId().getRoot();
     }
 
-
     public static String parseFragmentFilename(String description) {
         try {
             return Arrays.stream(description.split(" "))
                     .filter(desc -> desc.contains("Filename"))
                     .map(desc -> desc.replace("Filename=", "").replace("\"", ""))
                     .toList().get(0);
-        } catch(IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             return "";
         }
     }
