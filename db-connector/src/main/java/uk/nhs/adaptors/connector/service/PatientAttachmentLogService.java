@@ -19,7 +19,7 @@ public class PatientAttachmentLogService {
 
     /**
      *
-     * @param attachmentLog
+     * @param attachmentLogInput
      * @description
      * Requires a minimum of mid, filename and patient request id
      *
@@ -61,6 +61,22 @@ public class PatientAttachmentLogService {
     ) {
         return patientAttachmentLogDao.findPatientAttachment(mid, conversationId);
     }
+
+    /**
+     *
+     * @param conversationId
+     * @return PatientAttachmentLogs
+     *
+     * @description
+     * Find all attachment logs associated with a conversation id
+     */
+    public List<PatientAttachmentLog> findAttachmentLogs(
+        String conversationId
+    ) {
+        return patientAttachmentLogDao.findPatientAttachments(conversationId);
+    }
+
+
 
     /**
      *

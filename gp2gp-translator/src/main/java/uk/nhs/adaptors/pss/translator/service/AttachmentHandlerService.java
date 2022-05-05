@@ -1,19 +1,5 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
-import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
-import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
-import uk.nhs.adaptors.pss.translator.storage.StorageException;
-import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
-
-import javax.xml.bind.ValidationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -21,6 +7,24 @@ import java.text.ParseException;
 import java.util.Base64;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
+
+import javax.xml.bind.ValidationException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import software.amazon.ion.NullValueException;
+import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
+import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
+import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
+import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
+import uk.nhs.adaptors.pss.translator.storage.StorageException;
+import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 
 @Slf4j
 @Service
@@ -102,5 +106,30 @@ public class AttachmentHandlerService {
         } catch (StorageException ex) {
             throw new SkeletonEhrProcessingException("Unable to upload EhrExtract to storage: " + ex.getMessage());
         }
+    }
+
+    public byte[] getAttachment(String filename) {
+        if (!StringUtils.hasText(filename)) {
+            throw new NullValueException();
+        }
+        return storageManagerService.downloadFile(filename);
+    }
+
+    public void removeAttachment(String filename) {
+        if (!StringUtils.hasText(filename)) {
+            throw new NullValueException();
+        }
+        storageManagerService.deleteFile(filename);
+    }
+
+    public String buildSingleFileStringFromPatientAttachmentLogs(List<PatientAttachmentLog> attachmentLogs) {
+        StringBuilder combinedFile = new StringBuilder("");
+        for (PatientAttachmentLog log : attachmentLogs) {
+            var filename = log.getFilename();
+            var attachmentBytes = getAttachment(filename);
+            combinedFile.append(new String(attachmentBytes, StandardCharsets.UTF_8));
+        }
+
+        return combinedFile.toString();
     }
 }

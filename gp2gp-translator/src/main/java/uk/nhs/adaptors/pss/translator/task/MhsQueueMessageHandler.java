@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
+import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
@@ -68,7 +69,7 @@ public class MhsQueueMessageHandler {
         } catch (JsonProcessingException | DataFormatException e) {
             LOGGER.error("Unable to parse messages for migration status log", e);
             return false;
-        } catch (InlineAttachmentProcessingException e) {
+        } catch (InlineAttachmentProcessingException | AttachmentLogException e) {
             LOGGER.error("Unable to process inline attachments", e);
             return false;
         } catch (AttachmentNotFoundException e) {

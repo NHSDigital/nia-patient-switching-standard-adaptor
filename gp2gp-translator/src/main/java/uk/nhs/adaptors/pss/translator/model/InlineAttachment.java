@@ -37,11 +37,11 @@ public class InlineAttachment {
     }
 
     private boolean parseCompressed(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("Compressed=(Yes|No)");
+        Pattern pattern = Pattern.compile("Compressed=(Yes|No|true|false)");
         Matcher matcher = pattern.matcher(description);
 
         if (matcher.find()) {
-            return matcher.group(1).equals("Yes");
+            return (matcher.group(1).equals("Yes") || matcher.group(1).equals("true"));
         }
 
         throw new ParseException("Unable to parse isCompressed", 0);
