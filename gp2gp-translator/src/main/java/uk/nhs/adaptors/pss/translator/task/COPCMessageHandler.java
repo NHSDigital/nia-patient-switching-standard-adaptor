@@ -1,38 +1,30 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
-
-import java.text.ParseException;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
-import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
-import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtil;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationException;
+import java.text.ParseException;
+
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @Slf4j
 @Component
@@ -105,7 +97,7 @@ public class COPCMessageHandler {
     private String getFileNameForFragment(InboundMessage inboundMessage, COPCIN000001UK01Message payload) throws ParseException {
         if (!inboundMessage.getAttachments().get(0).getDescription().isEmpty()
             && inboundMessage.getAttachments().get(0).getDescription().contains("Filename")) {
-            return XmlParseUtil.parseFilename(inboundMessage.getAttachments().get(0).getDescription());
+            return XmlParseUtil.parseFragmentFilename(inboundMessage.getAttachments().get(0).getDescription());
         } else {
             return retrieveFileNameFromPayload(payload);
         }
@@ -177,7 +169,7 @@ public class COPCMessageHandler {
 
         return PatientAttachmentLog.builder()
             .mid(mid)
-            .filename(XmlParseUtil.parseFilename(description))
+            .filename(XmlParseUtil.parseFragmentFilename(description))
             .parentMid(parentMid)
             .patientMigrationReqId(patientId)
             .contentType(XmlParseUtil.parseContentType(description))

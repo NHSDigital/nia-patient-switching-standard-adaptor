@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.text.ParseException;
 
+import org.hl7.v3.RCMRIN030000UK06ControlActEvent;
 import org.junit.jupiter.api.Assertions;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,41 @@ public class XmlParseUtilTest {
         "\"Filename=\"E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment\" ContentType=text/plain "
             + "DomainData=\"X-GP2GP-Skeleton: Yes\" Compressed=No LargeAttachment=No OriginalBase64=Yes Length=4718592";
 
+    @Mock
+    private RCMRIN030000UK06ControlActEvent rcmrin030000UK06ControlActEvent;
+
+    @Test
+    public void shouldParsePatientNhsNumberValue() {
+
+        //need to ask about this one
+        RCMRIN030000UK06Message rcmrin030000UK06Message = new RCMRIN030000UK06Message();
+
+        rcmrin030000UK06Message.setControlActEvent(any());
+        when(rcmrin030000UK06Message.getControlActEvent()).thenReturn(rcmrin030000UK06ControlActEvent);
+        rcmrin030000UK06Message.getControlActEvent().setSubject(any());//remove
+
+        rcmrin030000UK06Message.getControlActEvent().getSubject().setEhrExtract(any());
+
+        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().setRecordTarget(any());
+
+        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().setPatient(any());
+
+        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().getPatient().setId(any());
+        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().getPatient().getId().setExtension(any());
+
+        when(rcmrin030000UK06Message.getControlActEvent()
+                .getSubject()
+                .getEhrExtract()
+                .getRecordTarget()
+                .getPatient()
+                .getId()
+                .getExtension()).thenReturn("123456");
+
+        String actual = XmlParseUtil.parseNhsNumber(rcmrin030000UK06Message);
+        String expected = "123456";
+
+        assertEquals(expected, actual);
+    }
 
     @Test
     public void shouldParseFragmentFilenameAndReturnFilename() throws ParseException {
@@ -117,38 +153,6 @@ public class XmlParseUtilTest {
         });
     }
 
-    @Test
-    public void shouldParsePatientNhsNumberValue() {
-
-        //need to ask about this one
-        RCMRIN030000UK06Message rcmrin030000UK06Message = new RCMRIN030000UK06Message();
-
-        rcmrin030000UK06Message.setControlActEvent(any());
-        rcmrin030000UK06Message.getControlActEvent().setSubject(any());
-        rcmrin030000UK06Message.getControlActEvent().getSubject().setEhrExtract(any());
-        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().setRecordTarget(any());
-        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().setPatient(any());
-        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().getPatient().setId(any());
-        rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract().getRecordTarget().getPatient().getId().setExtension(any());
-
-        when(rcmrin030000UK06Message.getControlActEvent()
-                .getSubject()
-                .getEhrExtract()
-                .getRecordTarget()
-                .getPatient()
-                .getId()
-                .getExtension()).thenReturn("123456");
-
-        String actual = XmlParseUtil.parseNhsNumber(rcmrin030000UK06Message);
-        String expected = "123456";
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldReturnXWhenPatientNhsNumberCantBeRead() {
-
-    }
 
     @Test
     public void shouldParseFilenameValue() throws ParseException {

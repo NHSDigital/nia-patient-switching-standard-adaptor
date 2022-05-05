@@ -33,6 +33,7 @@ import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingExcept
 import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
+import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,10 +54,7 @@ class COPCMessageHandlerTest {
     private PatientAttachmentLogService patientAttachmentLogService;
     @Mock
     private XPathService xPathService;
-    @Mock
-    private SendACKMessageHandler sendACKMessageHandler;
-    @Mock
-    private SendNACKMessageHandler sendNACKMessageHandler;
+
     @InjectMocks
     private COPCMessageHandler copcMessageHandler;
     @Captor
@@ -71,6 +69,9 @@ class COPCMessageHandlerTest {
     private ArgumentCaptor<String> contentTypeCaptor;
     @Mock
     private Document ebXmlDocument;
+
+    @Mock
+    private NackAckPreparationService nackAckPreparationServiceMock;
 
     @Test
     public void shouldCreateFragmentRecordWhenFragmentIsReceivedBeforeFragmentIndex() throws JAXBException,
