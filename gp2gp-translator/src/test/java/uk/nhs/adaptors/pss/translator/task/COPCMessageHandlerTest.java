@@ -39,7 +39,7 @@ public class COPCMessageHandlerTest {
 
     private static final String NHS_NUMBER = "123456";
     private static final String CONVERSATION_ID = randomUUID().toString();
-
+    private static final Integer DATA_AMOUNT = 3;
     @Mock
     private PatientAttachmentLogService patientAttachmentLogService;
 
@@ -54,7 +54,7 @@ public class COPCMessageHandlerTest {
 
     @InjectMocks
     private COPCMessageHandler copcMessageHandler;
-    
+
     @Test
     public void When_HappyPath_Expect_ThrowNoErrors()
         throws SAXException, ValidationException, AttachmentLogException, InlineAttachmentProcessingException {
@@ -71,7 +71,7 @@ public class COPCMessageHandlerTest {
                 .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-            .thenReturn(createPatientAttachmentList(false, true, 3));
+            .thenReturn(createPatientAttachmentList(false, true, DATA_AMOUNT));
 
         when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any()))
             .thenReturn("test-string");
@@ -106,7 +106,7 @@ public class COPCMessageHandlerTest {
                         .patientMigrationReqId(1)
                         .build());
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(createPatientAttachmentList(false, true, 3));
+                .thenReturn(createPatientAttachmentList(false, true, DATA_AMOUNT));
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
     }
@@ -141,11 +141,11 @@ public class COPCMessageHandlerTest {
             .skeleton(false)
             .patientMigrationReqId(1).build();
 
-        var validAttachmentLogList = createPatientAttachmentList(false, true, 3);
-            validAttachmentLogList.add(invalidFragment);
+        var validAttachmentLogList = createPatientAttachmentList(false, true, DATA_AMOUNT);
+        validAttachmentLogList.add(invalidFragment);
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(validAttachmentLogList);
+            .thenReturn(validAttachmentLogList);
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
 
@@ -169,7 +169,7 @@ public class COPCMessageHandlerTest {
                         .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(createPatientAttachmentList(false, true, 3));
+                .thenReturn(createPatientAttachmentList(false, true, DATA_AMOUNT));
 
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
@@ -443,7 +443,7 @@ public class COPCMessageHandlerTest {
                     .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(createPatientAttachmentList(true, true, 3));
+                .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
 
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
@@ -461,7 +461,8 @@ public class COPCMessageHandlerTest {
         return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/ebxml.xml");
     }
 
-    private ArrayList<PatientAttachmentLog> createPatientAttachmentList(Boolean isParentUploaded, Boolean isFragmentUploaded, Integer amount) {
+    private ArrayList<PatientAttachmentLog> createPatientAttachmentList(Boolean isParentUploaded,
+        Boolean isFragmentUploaded, Integer amount) {
         var patientAttachmentLogs = new ArrayList<PatientAttachmentLog>(amount);
         patientAttachmentLogs.add(
             PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
@@ -476,9 +477,11 @@ public class COPCMessageHandlerTest {
                 .skeleton(false)
                 .patientMigrationReqId(1).build()
         );
-        for(var i = 1; i <= amount; i++) {
+        for (var i = 1; i <= amount; i++) {
             patientAttachmentLogs.add(
-                PatientAttachmentLog.builder().filename("text_frag_" + i + ".txt").mid(Integer.toString(i+1))
+                PatientAttachmentLog.builder()
+                    .filename("text_frag_" + i + ".txt")
+                    .mid(Integer.toString(i + 1))
                     .orderNum(0)
                     .parentMid("1")
                     .uploaded(!!isFragmentUploaded)
