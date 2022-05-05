@@ -27,6 +27,7 @@ import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingExcept
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
+import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
 @Slf4j
@@ -38,10 +39,11 @@ public class COPCMessageHandler {
     private final SendACKMessageHandler sendACKMessageHandler;
     private final PatientAttachmentLogService patientAttachmentLogService;
     private final AttachmentHandlerService attachmentHandlerService;
+    private final InboundMessageMergingService inboundMessageMergingService;
+
     private final XPathService xPathService;
 
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
-
 
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId)
@@ -53,6 +55,10 @@ public class COPCMessageHandler {
         checkAndMergeFileParts(inboundMessage, conversationId);
 
         // NIAD-2029 merge and uncompress large EHR message
+        if (inboundMessageMergingService.canMergeCompleteBundle(conversationId)) {
+            inboundMessageMergingService.mergeAndBundleMessage(conversationId);
+        }
+
     }
 
     // todo: move this to inbound message merging etc when risk of conflicts is lower

@@ -3,79 +3,113 @@ package uk.nhs.adaptors.pss.translator.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.v3.COPCIN000001UK01Message;
+import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
+import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
+import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
+import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
+import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 
 import javax.xml.bind.JAXBException;
-import java.util.Comparator;
+import javax.xml.bind.ValidationException;
 
+import java.util.Comparator;
+import java.util.List;
+
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
+
+import com.amazonaws.util.StringUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class InboundMessageMergingService {
+
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
+
     private final PatientAttachmentLogService patientAttachmentLogService;
+    private final AttachmentHandlerService attachmentHandlerService;
+    private final AttachmentReferenceUpdaterService attachmentReferenceUpdaterService;
+    private final MigrationStatusLogService migrationStatusLogService;
+
+    private final ObjectMapper objectMapper;
     private final XPathService xPathService;
+    private final FhirParser fhirParser;
     private final BundleMapperService bundleMapperService;
     private final PatientMigrationRequestDao migrationRequestDao;
 
-    public void mergeAndBundleMessage(InboundMessage inboundMessage, String conversationId) throws AttachmentLogException, SAXException, JAXBException {
+    public boolean canMergeCompleteBundle(String conversationId) throws ValidationException {
 
-        Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
-        var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
-        var currentAttachmentLog = patientAttachmentLogService.findAttachmentLog(inboundMessageId, conversationId);
+        var undeletedLogs = getUndeletedLogsForConversation(conversationId);
+        return !undeletedLogs.stream().anyMatch(log -> log.getUploaded().equals(false));
+    }
 
-        if (currentAttachmentLog == null) {
-            throw new AttachmentLogException("Given COPC message is missing an attachment log");
+    public void mergeAndBundleMessage(String conversationId) throws AttachmentLogException, SAXException, JAXBException, JsonProcessingException, AttachmentNotFoundException, InlineAttachmentProcessingException, BundleMappingException {
+
+        try {
+            var attachmentLogs = getUndeletedLogsForConversation(conversationId);
+            var attachmentsContainSkeletonMessage = attachmentLogs.stream().anyMatch(log -> log.getSkeleton().equals(true));
+
+            PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
+            var inboundMessage = objectMapper.readValue(migrationRequest.getInboundMessage(), InboundMessage.class);
+
+            if (attachmentsContainSkeletonMessage) {
+                // merge skeleton message into original payload
+                // TODO
+            }
+
+            // process attachments
+            var messageAttachments = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(attachmentLogs, null);
+            var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
+                messageAttachments,
+                conversationId,
+                inboundMessage.getPayload()
+            );
+
+            // process bundle
+            inboundMessage.setPayload(newPayloadStr);
+            var payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
+            migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
+                conversationId,
+                fhirParser.encodeToJson(bundle),
+                objectMapper.writeValueAsString(inboundMessage),
+                EHR_EXTRACT_TRANSLATED
+            );
+
+            // move to new service
+            //sendAckMessage(payload, conversationId);
+        } catch(Exception ex) {
+            // send a NACK
+//            sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+
+        }
+
+    }
+
+    private List<PatientAttachmentLog> getUndeletedLogsForConversation(String conversationId) throws ValidationException {
+        if (conversationId.isEmpty()) {
+            throw new ValidationException("Conversation Id has not been given");
         }
 
         var conversationAttachmentLogs = patientAttachmentLogService.findAttachmentLogs(conversationId);
-        var attachmentLogFragments = conversationAttachmentLogs.stream()
-                .sorted(Comparator.comparingInt(PatientAttachmentLog::getOrderNum))
-                .filter(log -> log.getParentMid().equals(currentAttachmentLog.getParentMid()))
-                .toList();
-
-        var parentLogMessageId = attachmentLogFragments.size() == 1
-                ? currentAttachmentLog.getMid()
-                : currentAttachmentLog.getParentMid();
-
-        // is this correct pull?
-        // if yes, copied from rio's code, need refactor to reuse
-        attachmentLogFragments = conversationAttachmentLogs.stream()
-                .sorted(Comparator.comparingInt(PatientAttachmentLog::getOrderNum))
-                .filter(log -> log.getParentMid().equals(parentLogMessageId))
-                .toList();
-
-
-        var allFragmentsHaveUploaded = attachmentLogFragments.stream()
-                .allMatch(PatientAttachmentLog::getUploaded);
-
-        if (!allFragmentsHaveUploaded) {
-            return;
-        }
-        
-        if (currentAttachmentLog.getSkeleton()) {
-            // merge ehr extracts and put into Narrative statement
-
-            // update inbound message
-
-        }
-
-        // update attachment links
-
-        // map to bundle
-        COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
-        // PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
-        // var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
+        return conversationAttachmentLogs.stream()
+            .filter(log -> log.getDeleted().equals(false))
+            .toList();
     }
 }

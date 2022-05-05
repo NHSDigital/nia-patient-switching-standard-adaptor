@@ -68,7 +68,6 @@ public class EhrExtractMessageHandler {
 
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
-
         try {
             attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
 
