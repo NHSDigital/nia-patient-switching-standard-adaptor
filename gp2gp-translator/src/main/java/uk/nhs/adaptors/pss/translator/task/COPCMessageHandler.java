@@ -51,8 +51,11 @@ public class COPCMessageHandler {
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
         sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
         checkAndMergeFileParts(inboundMessage, conversationId);
+
+        // NIAD-2029 merge and uncompress large EHR message
     }
 
+    // todo: move this to inbound message merging etc when risk of conflicts is lower
     public void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId)
         throws SAXException, AttachmentLogException, ValidationException, InlineAttachmentProcessingException {
 
