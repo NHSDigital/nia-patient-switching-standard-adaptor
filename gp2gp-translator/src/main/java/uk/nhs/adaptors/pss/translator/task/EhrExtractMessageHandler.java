@@ -70,7 +70,9 @@ public class EhrExtractMessageHandler {
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
         try {
-            boolean hasExternalAttachment = !inboundMessage.getExternalAttachments().isEmpty();
+            boolean hasExternalAttachment = !(inboundMessage.getExternalAttachments() != null
+                && inboundMessage.getExternalAttachments().isEmpty());
+
             attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
 
             if (!hasExternalAttachment) {

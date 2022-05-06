@@ -44,7 +44,7 @@ public class NackAckPreparationService {
         ));
     }
 
-    public ACKMessageData prepareAckMessageData(RCMRIN030000UK06Message payload,
+    private ACKMessageData prepareAckMessageData(RCMRIN030000UK06Message payload,
                                                 String conversationId) {
 
         String toOdsCode = XmlParseUtil.parseToOdsCode(payload);
@@ -61,7 +61,7 @@ public class NackAckPreparationService {
                 .build();
     }
 
-    public ACKMessageData prepareAckMessageData(COPCIN000001UK01Message payload,
+    private ACKMessageData prepareAckMessageData(COPCIN000001UK01Message payload,
                                                 String conversationId, String losingPracticeOdsCode) {
 
         String messageRef = XmlParseUtil.parseMessageRef(payload);

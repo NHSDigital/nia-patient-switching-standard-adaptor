@@ -46,7 +46,9 @@ public interface PatientAttachmentLogDao {
 
     @SqlQuery("select_patient_attachment_logs_by_parent_mid")
     @UseClasspathSqlLocator
-    List<PatientAttachmentLog> findPatientAttachmentsByParentMid(@Bind("conversationId") String conversationId, @Bind("parent_mid") String parentMid);
+    List<PatientAttachmentLog> findPatientAttachmentsByParentMid(
+        @Bind("conversationId") String conversationId,
+        @Bind("parent_mid") String parentMid);
 
     @SuppressWarnings("checkstyle:parameternumber")
     @SqlUpdate("update_patient_attachment_log")

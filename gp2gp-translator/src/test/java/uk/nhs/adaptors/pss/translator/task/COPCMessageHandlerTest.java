@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -28,7 +27,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -116,9 +114,13 @@ class COPCMessageHandlerTest {
     public void shouldUploadFileWhenFragmentIsReceivedBeforeFragmentIndex() throws JAXBException,
         InlineAttachmentProcessingException, SkeletonEhrProcessingException, SAXException, AttachmentLogException {
 
-        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID)).thenReturn(null).thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null));
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
+            .thenReturn(null)
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null));
+
         when(patientAttachmentLogService.findAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
+
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
         // ACT
@@ -666,9 +668,10 @@ class COPCMessageHandlerTest {
             .thenReturn("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1");
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Body/Manifest/Reference[position()=2]/Description"))
             .thenReturn("not an index file");
-        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
-            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",0, true),buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
-            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",1, false)));
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
+            .thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
+            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 0, true), buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
+                    "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 1, false)));
     }
 
     @SneakyThrows
@@ -695,9 +698,10 @@ class COPCMessageHandlerTest {
             .thenReturn("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1");
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Body/Manifest/Reference[position()=2]/Description"))
             .thenReturn("Filename=blah");
-        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
-            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",0, true),buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
-            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",1, false)));
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
+            .thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
+            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 0, true), buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
+            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 1, false)));
     }
 
     @SneakyThrows
@@ -720,9 +724,10 @@ class COPCMessageHandlerTest {
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId")).thenReturn("CBBAE92D-C7E8"
             + "-4A9C-8887-F5AEBA1F8CE1").thenReturn("047C22B4-613F-47D3-9A72-44A1758464FB");
-        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
-            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",0, true),buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
-            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",1, false)));
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
+            .thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
+            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 0, true), buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
+            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 1, false)));
     }
 
     @SneakyThrows

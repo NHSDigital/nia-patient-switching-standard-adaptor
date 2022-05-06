@@ -41,15 +41,11 @@ public class AttachmentHandlerService {
         }
 
         if (attachments != null) {
-
             for (InboundMessage.Attachment attachment : attachments) {
-
                 try {
-
                     InlineAttachment inlineAttachment = new InlineAttachment(attachment);
 
                     byte[] decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
-
                     byte[] payload;
 
                     if (inlineAttachment.isCompressed()) {
@@ -66,8 +62,9 @@ public class AttachmentHandlerService {
                     );
 
                     String filename = inlineAttachment.getOriginalFilename();
-
                     storageManagerService.uploadFile(filename, dataWrapper);
+
+
                 } catch (StorageException ex) {
                     throw new InlineAttachmentProcessingException("Unable to upload inline attachment to storage: " + ex.getMessage());
                 } catch (IOException ex) {

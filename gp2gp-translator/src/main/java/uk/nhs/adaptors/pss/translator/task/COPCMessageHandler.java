@@ -70,6 +70,7 @@ public class COPCMessageHandler {
                     patientAttachmentLogService.updateAttachmentLog(patientAttachmentLog, conversationId);
                 }
             }
+
             nackAckPreparationService.sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
             checkAndMergeFileParts(inboundMessage, conversationId);
         } catch (ParseException | SkeletonEhrProcessingException | SAXException e) {
