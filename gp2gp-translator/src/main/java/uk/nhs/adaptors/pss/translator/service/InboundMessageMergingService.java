@@ -56,7 +56,7 @@ public class InboundMessageMergingService {
     public boolean canMergeCompleteBundle(String conversationId) throws ValidationException {
 
         var undeletedLogs = getUndeletedLogsForConversation(conversationId);
-        return !undeletedLogs.stream().anyMatch(log -> log.getUploaded().equals(false));
+        return undeletedLogs.stream().allMatch(log -> log.getUploaded().equals(true));
     }
 
     public void mergeAndBundleMessage(String conversationId) throws AttachmentLogException, SAXException, JAXBException, JsonProcessingException, AttachmentNotFoundException, InlineAttachmentProcessingException, BundleMappingException {
@@ -70,7 +70,14 @@ public class InboundMessageMergingService {
 
             if (attachmentsContainSkeletonMessage) {
                 // merge skeleton message into original payload
-                // TODO
+                var skeletonLogs = attachmentLogs.stream().filter(log -> log.getSkeleton().equals(true)).toList();
+                var skeletonFileName = skeletonLogs.stream().findFirst().get().getFilename();
+                var skeletonSingleStr = attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(skeletonLogs);
+
+                // replace narrative statement that matches eb:id with skeletonSingleStr
+                // find narrative statement
+                var ebXml = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
+                var nodes = xPathService.getNodes(ebXml, "?");
             }
 
             // process attachments

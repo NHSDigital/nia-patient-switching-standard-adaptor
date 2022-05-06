@@ -10,6 +10,7 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,8 @@ import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
+import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
@@ -47,7 +50,7 @@ public class COPCMessageHandler {
 
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId)
-        throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
