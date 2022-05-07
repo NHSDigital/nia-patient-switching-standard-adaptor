@@ -50,7 +50,8 @@ public class COPCMessageHandler {
 
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId)
-            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
+                AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);

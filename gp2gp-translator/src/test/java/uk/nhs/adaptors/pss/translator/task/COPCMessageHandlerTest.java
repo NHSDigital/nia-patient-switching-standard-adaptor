@@ -15,8 +15,10 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,12 +28,17 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
+import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
+import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
+import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,6 +47,10 @@ public class COPCMessageHandlerTest {
     private static final String NHS_NUMBER = "123456";
     private static final String CONVERSATION_ID = randomUUID().toString();
     private static final Integer DATA_AMOUNT = 3;
+    private static final String LOSING_ODE_CODE = "G543";
+    private static final String WINNING_ODE_CODE = "B943";
+    @Mock
+    private PatientMigrationRequestDao migrationRequestDao;
     @Mock
     private PatientAttachmentLogService patientAttachmentLogService;
 
@@ -52,8 +63,84 @@ public class COPCMessageHandlerTest {
     @Mock
     private Document ebXmlDocument;
 
+    @Mock
+    private SendACKMessageHandler sendACKMessageHandler;
+    @Mock
+    private InboundMessageMergingService inboundMessageMergingService;
+
     @InjectMocks
     private COPCMessageHandler copcMessageHandler;
+
+    @Test
+    public void When_CanMergeCompleteBundle_Expect_MergeAndBundle()
+            throws AttachmentNotFoundException, JAXBException, BundleMappingException, JsonProcessingException,
+                InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+
+        var inboundMessage = new InboundMessage();
+        inboundMessage.setPayload(readCopcInboundMessageFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
+
+        PatientMigrationRequest migrationRequest =
+                PatientMigrationRequest.builder()
+                        .losingPracticeOdsCode(LOSING_ODE_CODE)
+                        .winningPracticeOdsCode(WINNING_ODE_CODE)
+                        .build();
+
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+
+        when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
+                .thenReturn(PatientAttachmentLog.builder()
+                        .filename("test_main.txt")
+                        .mid("1")
+                        .parentMid("0")
+                        .patientMigrationReqId(1)
+                        .build());
+
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
+                .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
+
+        when(inboundMessageMergingService.canMergeCompleteBundle(CONVERSATION_ID)).thenReturn(true);
+
+        copcMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(inboundMessageMergingService, times(1)).mergeAndBundleMessage(CONVERSATION_ID);
+    }
+
+    @Test
+    public void When_CanMergeCompleteBundle_ReturnsFalse_Expect_MergeAndBundleNotCalled()
+            throws AttachmentNotFoundException, JAXBException, BundleMappingException, JsonProcessingException,
+                InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+
+        var inboundMessage = new InboundMessage();
+        inboundMessage.setPayload(readCopcInboundMessageFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
+
+        PatientMigrationRequest migrationRequest =
+                PatientMigrationRequest.builder()
+                        .losingPracticeOdsCode(LOSING_ODE_CODE)
+                        .winningPracticeOdsCode(WINNING_ODE_CODE)
+                        .build();
+
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+
+        when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
+                .thenReturn(PatientAttachmentLog.builder()
+                        .filename("test_main.txt")
+                        .mid("1")
+                        .parentMid("0")
+                        .patientMigrationReqId(1)
+                        .build());
+
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
+                .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
+
+        when(inboundMessageMergingService.canMergeCompleteBundle(CONVERSATION_ID)).thenReturn(false);
+
+
+        copcMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(inboundMessageMergingService, never()).mergeAndBundleMessage(CONVERSATION_ID);
+    }
 
     @Test
     public void When_HappyPath_Expect_ThrowNoErrors()
@@ -449,6 +536,11 @@ public class COPCMessageHandlerTest {
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
         verify(attachmentHandlerService, times(1))
             .buildSingleFileStringFromPatientAttachmentLogs(any());
+    }
+
+    @SneakyThrows
+    private String readCopcInboundMessageFromFile() {
+        return readResourceAsString("/xml/COPC_IN000001UK01_CONTINUE/payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 
     @SneakyThrows

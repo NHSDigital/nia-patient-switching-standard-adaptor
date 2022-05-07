@@ -1,10 +1,8 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,36 +11,25 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
-import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
-import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.StringReader;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.List;
 
 import static java.util.UUID.randomUUID;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,8 +43,6 @@ public class InboundMessageMergingServiceTests {
     private PatientAttachmentLogService patientAttachmentLogService;
     @Mock
     private PatientMigrationRequestDao migrationRequestDao;
-    @Mock
-    private MigrationStatusLogService migrationStatusLogService;
     @Mock
     private ObjectMapper objectMapper;
     @Mock
@@ -85,31 +70,27 @@ public class InboundMessageMergingServiceTests {
 
         PatientMigrationRequest migrationRequest =
                 PatientMigrationRequest.builder()
+                        .inboundMessage(INBOUND_MESSAGE_STRING)
                         .build();
 
-        MigrationStatusLog migrationStatusLog =
-                MigrationStatusLog.builder()
-                        .date(OffsetDateTime.ofInstant(
-                                Instant.now(),
-                                ZoneId.systemDefault()))
-                        .build();
+        when(objectMapper.readValue(INBOUND_MESSAGE_STRING, InboundMessage.class)).thenReturn(inboundMessage);
 
-        when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
-
-        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
-        when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
         when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), any())).thenReturn(bundle);
-        when(attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(any(), any())).thenReturn(new ArrayList<InboundMessage.Attachment>());
+        when(attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(any(), any())).thenReturn(inboundMessage.getAttachments());
         when(attachmentReferenceUpdaterService
                 .updateReferenceToAttachment(
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
                 )).thenReturn(inboundMessage.getPayload());
     }
 
+    private void prepareSkeletonMocks(InboundMessage inboundMessage) throws SAXException {
+        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
+    }
+
     @Test
-    public void when_NotAllUploadsComplete_CanMergeCompleteBundle_Expect_ReturnFalse() throws BundleMappingException, AttachmentLogException, SAXException, JAXBException, AttachmentNotFoundException, JsonProcessingException, InlineAttachmentProcessingException {
+    public void When_NotAllUploadsComplete_CanMergeCompleteBundle_Expect_ReturnFalse() throws JAXBException {
         var attachmentLogs = createPatientAttachmentList(false, false);
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachmentLogs);
 
@@ -119,7 +100,7 @@ public class InboundMessageMergingServiceTests {
     }
 
     @Test
-    public void when_AllUploadsComplete_CanMergeCompleteBundle_Expect_ReturnTrue() throws BundleMappingException, AttachmentLogException, SAXException, JAXBException, AttachmentNotFoundException, JsonProcessingException, InlineAttachmentProcessingException {
+    public void When_AllUploadsComplete_CanMergeCompleteBundle_Expect_ReturnTrue() throws JAXBException {
         var attachmentLogs = createPatientAttachmentList(true, true);
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachmentLogs);
 
@@ -129,13 +110,15 @@ public class InboundMessageMergingServiceTests {
     }
 
     @Test
-    public void when_SkeletonMessage_Expect_FileMerge() throws AttachmentLogException, SAXException, ParserConfigurationException, BundleMappingException, JAXBException, AttachmentNotFoundException, JsonProcessingException, InlineAttachmentProcessingException {
+    public void When_SkeletonMessage_Expect_InboundMessageMerge() throws SAXException, BundleMappingException {
         var attachments = createPatientAttachmentList(true, true);
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
         inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
+        prepareMocks(inboundMessage);
+        prepareSkeletonMocks(inboundMessage);
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
 
@@ -152,7 +135,8 @@ public class InboundMessageMergingServiceTests {
     }
 
     @Test
-    public void when_AttachmentsPresent_Expect_AttachmentReferenceUpdated() throws AttachmentNotFoundException, JAXBException, InlineAttachmentProcessingException, BundleMappingException, JsonProcessingException, AttachmentLogException, SAXException {
+    public void When_AttachmentsPresent_Expect_AttachmentReferenceUpdated()
+            throws AttachmentNotFoundException, JAXBException, InlineAttachmentProcessingException {
         var inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
@@ -162,15 +146,15 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
-        verify(attachmentReferenceUpdaterService).updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload());
+        verify(attachmentReferenceUpdaterService)
+                .updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload());
     }
 
     @Test
-    public void when_HappyPath_Expect_ThrowNoErrors() throws AttachmentNotFoundException, JAXBException, BundleMappingException, JsonProcessingException, AttachmentLogException, SAXException, InlineAttachmentProcessingException {
+    public void When_HappyPath_Expect_ThrowNoErrors() {
         var inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
-        // no need for skeleton here
         var attachments = createPatientAttachmentList(true, true);
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
 

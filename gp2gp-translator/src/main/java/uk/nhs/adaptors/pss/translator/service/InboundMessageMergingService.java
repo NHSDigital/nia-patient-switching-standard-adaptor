@@ -2,37 +2,23 @@ package uk.nhs.adaptors.pss.translator.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
-import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
-import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
-import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
-import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
-
-import java.util.Comparator;
 import java.util.List;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
-import com.amazonaws.util.StringUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
@@ -59,7 +45,7 @@ public class InboundMessageMergingService {
         return undeletedLogs.stream().allMatch(log -> log.getUploaded().equals(true));
     }
 
-    public void mergeAndBundleMessage(String conversationId) throws AttachmentLogException, SAXException, JAXBException, JsonProcessingException, AttachmentNotFoundException, InlineAttachmentProcessingException, BundleMappingException {
+    public void mergeAndBundleMessage(String conversationId) {
 
         try {
             var attachmentLogs = getUndeletedLogsForConversation(conversationId);
@@ -101,10 +87,9 @@ public class InboundMessageMergingService {
 
             // move to new service
             //sendAckMessage(payload, conversationId);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             // send a NACK
 //            sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
-
         }
 
     }

@@ -116,7 +116,7 @@ public class AttachmentHandlerService {
         }
 
 
-        for (var  i =0; i < attachmentLogs.size(); i++) {
+        for (var  i = 0; i < attachmentLogs.size(); i++) {
             var log = attachmentLogs.get(i);
 
             var fileDescription =
