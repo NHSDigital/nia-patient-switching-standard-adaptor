@@ -49,20 +49,17 @@ public class COPCMessageHandlerTest {
     private static final Integer DATA_AMOUNT = 3;
     private static final String LOSING_ODE_CODE = "G543";
     private static final String WINNING_ODE_CODE = "B943";
+
     @Mock
     private PatientMigrationRequestDao migrationRequestDao;
     @Mock
     private PatientAttachmentLogService patientAttachmentLogService;
-
     @Mock
     private AttachmentHandlerService attachmentHandlerService;
-
     @Mock
     private XPathService xPathService;
-
     @Mock
     private Document ebXmlDocument;
-
     @Mock
     private SendACKMessageHandler sendACKMessageHandler;
     @Mock

@@ -43,7 +43,6 @@ public class COPCMessageHandler {
     private final PatientAttachmentLogService patientAttachmentLogService;
     private final AttachmentHandlerService attachmentHandlerService;
     private final InboundMessageMergingService inboundMessageMergingService;
-
     private final XPathService xPathService;
 
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
@@ -65,7 +64,6 @@ public class COPCMessageHandler {
 
     }
 
-    // todo: move this to inbound message merging etc when risk of conflicts is lower
     public void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId)
         throws SAXException, AttachmentLogException, ValidationException, InlineAttachmentProcessingException {
 
