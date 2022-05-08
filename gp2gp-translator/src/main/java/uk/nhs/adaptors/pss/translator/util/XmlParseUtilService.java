@@ -1,16 +1,34 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
-public class XmlParseUtil {
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
+import uk.nhs.adaptors.pss.translator.service.XPathService;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+public class XmlParseUtilService {
+
+    private final XPathService xPathService;
 
     public static boolean parseBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
@@ -181,5 +199,29 @@ public class XmlParseUtil {
         } catch (IndexOutOfBoundsException e) {
             return "";
         }
+    }
+
+    public List<EbxmlReference> getEbxmlAttachmentsData(InboundMessage inboundMessage) throws SAXException {
+        List<EbxmlReference> ebxmlAttachmentsIds = new ArrayList<>();
+        final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
+        Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
+        NodeList referencesAttachment = xPathService.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH);
+
+        for (int index = 0; index < referencesAttachment.getLength(); index++) {
+
+            Node referenceNode = referencesAttachment.item(index); //Reference
+
+            if (referenceNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                Element referenceElement = (Element) referenceNode; //description
+
+                String description = referenceElement.getTextContent();
+                String hrefAttribute = referenceElement.getAttribute("xlink:href");
+
+                ebxmlAttachmentsIds.add(new EbxmlReference(description, hrefAttribute));
+            }
+        }
+
+        return ebxmlAttachmentsIds;
     }
 }

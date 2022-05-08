@@ -12,7 +12,7 @@ import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
-import uk.nhs.adaptors.pss.translator.util.XmlParseUtil;
+import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 @Slf4j
 @Service
@@ -47,10 +47,10 @@ public class NackAckPreparationService {
     private ACKMessageData prepareAckMessageData(RCMRIN030000UK06Message payload,
                                                 String conversationId) {
 
-        String toOdsCode = XmlParseUtil.parseToOdsCode(payload);
-        String messageRef = XmlParseUtil.parseMessageRef(payload);
-        String toAsid = XmlParseUtil.parseToAsid(payload);
-        String fromAsid = XmlParseUtil.parseFromAsid(payload);
+        String toOdsCode = XmlParseUtilService.parseToOdsCode(payload);
+        String messageRef = XmlParseUtilService.parseMessageRef(payload);
+        String toAsid = XmlParseUtilService.parseToAsid(payload);
+        String fromAsid = XmlParseUtilService.parseFromAsid(payload);
 
         return ACKMessageData.builder()
                 .conversationId(conversationId)
@@ -64,9 +64,9 @@ public class NackAckPreparationService {
     private ACKMessageData prepareAckMessageData(COPCIN000001UK01Message payload,
                                                 String conversationId, String losingPracticeOdsCode) {
 
-        String messageRef = XmlParseUtil.parseMessageRef(payload);
-        String toAsid = XmlParseUtil.parseToAsid(payload);
-        String fromAsid = XmlParseUtil.parseFromAsid(payload);
+        String messageRef = XmlParseUtilService.parseMessageRef(payload);
+        String toAsid = XmlParseUtilService.parseToAsid(payload);
+        String fromAsid = XmlParseUtilService.parseFromAsid(payload);
 
         return ACKMessageData.builder()
                 .conversationId(conversationId)
@@ -81,10 +81,10 @@ public class NackAckPreparationService {
     public NACKMessageData prepareNackMessageData(NACKReason reason, RCMRIN030000UK06Message payload,
                                                   String conversationId) {
 
-        String toOdsCode = XmlParseUtil.parseToOdsCode(payload);
-        String messageRef = XmlParseUtil.parseMessageRef(payload);
-        String toAsid = XmlParseUtil.parseToAsid(payload);
-        String fromAsid = XmlParseUtil.parseFromAsid(payload);
+        String toOdsCode = XmlParseUtilService.parseToOdsCode(payload);
+        String messageRef = XmlParseUtilService.parseMessageRef(payload);
+        String toAsid = XmlParseUtilService.parseToAsid(payload);
+        String fromAsid = XmlParseUtilService.parseFromAsid(payload);
         String nackCode = reason.getCode();
 
         return NACKMessageData.builder()
@@ -100,10 +100,10 @@ public class NackAckPreparationService {
     public NACKMessageData prepareNackMessageData(NACKReason reason, COPCIN000001UK01Message payload,
                                                    String conversationId) {
 
-        String toOdsCode = XmlParseUtil.parseToOdsCode(payload);
-        String messageRef = XmlParseUtil.parseMessageRef(payload);
-        String toAsid = XmlParseUtil.parseToAsid(payload);
-        String fromAsid = XmlParseUtil.parseFromAsid(payload);
+        String toOdsCode = XmlParseUtilService.parseToOdsCode(payload);
+        String messageRef = XmlParseUtilService.parseMessageRef(payload);
+        String toAsid = XmlParseUtilService.parseToAsid(payload);
+        String fromAsid = XmlParseUtilService.parseFromAsid(payload);
         String nackCode = reason.getCode();
 
         return NACKMessageData.builder()

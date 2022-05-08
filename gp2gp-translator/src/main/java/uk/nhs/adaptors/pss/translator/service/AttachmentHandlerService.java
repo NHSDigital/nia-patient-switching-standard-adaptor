@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import software.amazon.ion.NullValueException;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
 import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
@@ -76,8 +75,8 @@ public class AttachmentHandlerService {
         }
     }
 
-    public void storeEhrExtract(String fileName, String payload, String conversationId, String contentType)
-            throws ValidationException, StorageException, SkeletonEhrProcessingException {
+    public void storeAttachementWithoutProcessing(String fileName, String payload, String conversationId, String contentType)
+        throws ValidationException, InlineAttachmentProcessingException {
 
         if (!StringUtils.hasText(fileName)) {
             throw new ValidationException("FileName cannot be null or empty");
@@ -101,7 +100,8 @@ public class AttachmentHandlerService {
         try {
             storageManagerService.uploadFile(fileName, dataWrapper);
         } catch (StorageException ex) {
-            throw new SkeletonEhrProcessingException("Unable to upload EhrExtract to storage: " + ex.getMessage());
+            throw new InlineAttachmentProcessingException("Unable to upload inline attachment to storage without processing: "
+                + ex.getMessage());
         }
     }
 

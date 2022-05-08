@@ -21,7 +21,6 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
@@ -81,10 +80,11 @@ public class MhsQueueMessageHandler {
         } catch (ParseException e) {
             LOGGER.error("Unable to parse Ebxml References", e);
             return false;
-        } catch (SkeletonEhrProcessingException e) {
-            LOGGER.error("Unable to process EhrExtract", e);
-            return false;
         }
+//        catch (SkeletonEhrProcessingException e) {
+//            LOGGER.error("Unable to process EhrExtract", e);
+//            return false;
+//        }
     }
 
     private InboundMessage readMessage(Message message) throws JMSException, JsonProcessingException {

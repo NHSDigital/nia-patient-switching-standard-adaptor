@@ -12,6 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
@@ -21,12 +24,12 @@ import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
+import uk.nhs.adaptors.pss.translator.service.XPathService;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
@@ -86,6 +89,12 @@ public class EhrExtractMessageHandlerTest {
     @Mock
     private SendContinueRequestHandler sendContinueRequestHandler;
 
+    @Mock
+    private XPathService xPathService;
+
+    @Mock
+    private Document ebXmlDocument;
+
     @InjectMocks
     private EhrExtractMessageHandler ehrExtractMessageHandler;
 
@@ -101,7 +110,7 @@ public class EhrExtractMessageHandlerTest {
             BundleMappingException,
             AttachmentNotFoundException,
             ParseException,
-            SkeletonEhrProcessingException {
+            SAXException  {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -122,7 +131,7 @@ public class EhrExtractMessageHandlerTest {
             BundleMappingException,
             AttachmentNotFoundException,
             ParseException,
-            SkeletonEhrProcessingException {
+            SAXException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -140,7 +149,7 @@ public class EhrExtractMessageHandlerTest {
             BundleMappingException,
             AttachmentNotFoundException,
             ParseException,
-            SkeletonEhrProcessingException {
+            SAXException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -159,7 +168,7 @@ public class EhrExtractMessageHandlerTest {
             BundleMappingException,
             AttachmentNotFoundException,
             ParseException,
-            SkeletonEhrProcessingException {
+            SAXException  {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -179,7 +188,7 @@ public class EhrExtractMessageHandlerTest {
             BundleMappingException,
             AttachmentNotFoundException,
             ParseException,
-            SkeletonEhrProcessingException {
+            SAXException  {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -224,7 +233,7 @@ public class EhrExtractMessageHandlerTest {
             BundleMappingException,
             AttachmentNotFoundException,
             ParseException,
-            SkeletonEhrProcessingException {
+            SAXException  {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -242,7 +251,7 @@ public class EhrExtractMessageHandlerTest {
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
-        inboundMessage.setExternalAttachments(new ArrayList<>());
+        inboundMessage.setAttachments(new ArrayList<>());
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
@@ -319,7 +328,7 @@ public class EhrExtractMessageHandlerTest {
             BundleMappingException,
             AttachmentNotFoundException,
             ParseException,
-            SkeletonEhrProcessingException {
+            SAXException  {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -353,7 +362,7 @@ public class EhrExtractMessageHandlerTest {
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_ItShouldNotTranslate()
             throws JAXBException, BundleMappingException, AttachmentNotFoundException,
-            ParseException, JsonProcessingException, InlineAttachmentProcessingException, SkeletonEhrProcessingException {
+            ParseException, JsonProcessingException, InlineAttachmentProcessingException, SAXException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -361,13 +370,13 @@ public class EhrExtractMessageHandlerTest {
         InboundMessage inboundMessage = new InboundMessage();
         List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
         externalAttachmentsTestList.add(
-                new InboundMessage.ExternalAttachment(
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                        "66B41202-C358-4B4C-93C6-7A10803F9584",
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
-                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
-                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+            new InboundMessage.ExternalAttachment(
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                "66B41202-C358-4B4C-93C6-7A10803F9584",
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                    + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                    + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
         );
         inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
@@ -379,41 +388,42 @@ public class EhrExtractMessageHandlerTest {
         verify(bundleMapperService, times(0)).mapToBundle(any(), any());
     }
 
-    @Test
-    public void When_HandleLargeMessageWithValidDataIsCalled_Expect_StoreMessagePayload()
-            throws
-            JsonProcessingException,
-            JAXBException,
-            InlineAttachmentProcessingException,
-            BundleMappingException,
-            AttachmentNotFoundException,
-            ParseException,
-            SkeletonEhrProcessingException {
-
-        Bundle bundle = new Bundle();
-        bundle.setId("Test");
-
-        InboundMessage inboundMessage = new InboundMessage();
-        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
-        externalAttachmentsTestList.add(
-                new InboundMessage.ExternalAttachment(
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
-                        "66B41202-C358-4B4C-93C6-7A10803F9584",
-                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
-                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
-                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
-                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
-        );
-
-        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
-        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
-        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
-
-        prepareMigrationRequestAndMigrationStatusMocks();
-
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-        verify(attachmentHandlerService, times(1)).storeEhrExtract(any(), any(), any(), any());
-    }
+//    We are no longer storing the payload as an attachment in the case of a Skelton message.
+//    @Test
+//    public void When_HandleLargeMessageWithValidDataIsCalled_Expect_StoreMessagePayload()
+//            throws
+//            JsonProcessingException,
+//            JAXBException,
+//            InlineAttachmentProcessingException,
+//            BundleMappingException,
+//            AttachmentNotFoundException,
+//            ParseException,
+//            SAXException  {
+//
+//        Bundle bundle = new Bundle();
+//        bundle.setId("Test");
+//
+//        InboundMessage inboundMessage = new InboundMessage();
+//        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+//        externalAttachmentsTestList.add(
+//                new InboundMessage.ExternalAttachment(
+//                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+//                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+//                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+//                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+//                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+//                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+//        );
+//
+//        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+//        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+//        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+//
+//        prepareMigrationRequestAndMigrationStatusMocks();
+//
+//        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+//        verify(attachmentHandlerService, times(1)).storeAttachementWithoutProcessing(any(), any(), any(), any());
+//    }
 
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_AddAttachmentExactNumerOfTimesAsExternalAttachmentsList()
@@ -424,7 +434,7 @@ public class EhrExtractMessageHandlerTest {
             BundleMappingException,
             AttachmentNotFoundException,
             ParseException,
-            SkeletonEhrProcessingException {
+            SAXException  {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -485,6 +495,7 @@ public class EhrExtractMessageHandlerTest {
 
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
         inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
+        inboundMessage.setAttachments(new ArrayList<>());
         inboundMessage.setExternalAttachments(new ArrayList<>());
 
         prepareMigrationRequestAndMigrationStatusMocks();
@@ -497,6 +508,10 @@ public class EhrExtractMessageHandlerTest {
                 .updateReferenceToAttachment(
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
                 )).thenReturn(inboundMessage.getPayload());
+
+        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
+            .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
     }
 
     @SneakyThrows
