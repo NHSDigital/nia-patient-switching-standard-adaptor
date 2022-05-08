@@ -1,36 +1,13 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static java.util.UUID.randomUUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
-
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
-
+import ca.uhn.fhir.parser.DataFormatException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -38,27 +15,43 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import ca.uhn.fhir.parser.DataFormatException;
-import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
-import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
-import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
+import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationException;
+import java.text.ParseException;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.UUID.randomUUID;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 
 @ExtendWith(MockitoExtension.class)
 public class EhrExtractMessageHandlerTest {
@@ -68,17 +61,6 @@ public class EhrExtractMessageHandlerTest {
     private static final String BUNDLE_STRING = "{bundle}";
     private static final String LOSING_ODE_CODE = "G543";
     private static final String WINNING_ODE_CODE = "B943";
-    private static final String TEST_TO_ODS = "M85019";
-    private static final String TEST_MESSAGE_REF = "31FA3430-6E88-11EA-9384-E83935108FD5";
-    private static final String TEST_TO_ASID = "200000000149";
-    private static final String TEST_FROM_ASID = "200000001161";
-    private static final String TEST_NACK_CODE = "30";
-
-    @Captor
-    private ArgumentCaptor<NACKMessageData> ackMessageDataCaptor;
-
-    @Captor
-    private ArgumentCaptor<MigrationStatus> migrationStatusCaptor;
 
     @Mock
     private ObjectMapper objectMapper;
@@ -102,27 +84,33 @@ public class EhrExtractMessageHandlerTest {
     private BundleMapperService bundleMapperService;
 
     @Mock
-    private XPathService xPathService;
-
-    @Mock
-    private Document ebXmlDocument;
+    private PatientAttachmentLogService patientAttachmentLogService;
 
     @Mock
     private SendContinueRequestHandler sendContinueRequestHandler;
 
     @Mock
-    private SendACKMessageHandler sendACKMessageHandler;
+    private XPathService xPathService;
 
     @Mock
-    private SendNACKMessageHandler sendNACKMessageHandler;
+    private Document ebXmlDocument;
 
     @InjectMocks
     private EhrExtractMessageHandler ehrExtractMessageHandler;
 
+    @Mock
+    private NackAckPreparationService nackAckPreparationServiceMock;
+
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
-            throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException  {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -134,59 +122,17 @@ public class EhrExtractMessageHandlerTest {
             CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED);
     }
 
-    @SneakyThrows
-    private void prepareMocks(InboundMessage inboundMessage) {
-        inboundMessage.setPayload("payload");
-        Bundle bundle = new Bundle();
-        bundle.setId("Test");
-        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
-
-        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
-
-        PatientMigrationRequest migrationRequest =
-            PatientMigrationRequest.builder()
-                .losingPracticeOdsCode(LOSING_ODE_CODE)
-                .winningPracticeOdsCode(WINNING_ODE_CODE)
-                .build();
-
-        MigrationStatusLog migrationStatusLog =
-            MigrationStatusLog.builder()
-                .date(OffsetDateTime.ofInstant(
-                    Instant.now(),
-                    ZoneId.systemDefault()))
-                .build();
-
-        // imported from main on merge
-        when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
-        when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
-        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
-        // <-
-
-        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
-        when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
-        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
-        when(sendACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
-        when(attachmentReferenceUpdaterService
-                .updateReferenceToAttachment(
-                        inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
-                )).thenReturn(inboundMessage.getPayload());
-    }
-
-    @SneakyThrows
-    private String readInboundMessagePayloadFromFile() {
-        return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
-    }
-
-    @SneakyThrows
-    private String readInboundMessageEbXmlFromFile() {
-        return readResourceAsString("/xml/inbound_message_ebxml.xml");
-    }
-
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsBundleMapperServiceMapToBundle()
-            throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException {
+
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
@@ -196,8 +142,14 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentHandlerServiceStoreAttachments()
-            throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -209,8 +161,14 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsAttachmentReferenceUpdaterServiceUpdateReferences()
-            throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException  {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -222,49 +180,36 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void When_HandleMessageWithValidDataIsCalled_Expect_CallSendContinueRequest()
-            throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
-        final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
+    public void When_HandleLargeMessageWithValidDataIsCalled_Expect_CallSendContinueRequest()
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException  {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
 
         InboundMessage inboundMessage = new InboundMessage();
-        XPathService xPathService2 = new XPathService();
-
-        PatientMigrationRequest migrationRequest =
-            PatientMigrationRequest.builder()
-                .losingPracticeOdsCode(LOSING_ODE_CODE)
-                .winningPracticeOdsCode(WINNING_ODE_CODE)
-                .build();
-
-        MigrationStatusLog migrationStatusLog =
-            MigrationStatusLog.builder()
-                .date(OffsetDateTime.ofInstant(
-                    Instant.now(),
-                    ZoneId.systemDefault()))
-                .build();
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
 
         inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
 
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
-        when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
-        when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
-        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
-        var payload = inboundMessage.getPayload();
-        when(attachmentReferenceUpdaterService
-                .updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, payload))
-                .thenReturn(payload);
-
-        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML()))
-            .thenReturn(xPathService2.parseDocumentFromXml(inboundMessage.getEbXML()));
-        Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
-
-        when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference"))
-            .thenReturn(xPathService2.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH));
+        prepareMigrationRequestAndMigrationStatusMocks();
 
         EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
         ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID);
@@ -278,20 +223,17 @@ public class EhrExtractMessageHandlerTest {
         );
     }
 
-    @SneakyThrows
-    private String readLargeInboundMessagePayloadFromFile() {
-        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/payload.xml");
-    }
-
-    @SneakyThrows
-    private String readLargeInboundMessageEbXmlFromFile() {
-        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/ebxml.xml");
-    }
 
     @Test
     public void When_HandleMessageWithValidDataIsCalled_Expect_CallsStatusLogServiceUpdatePatientMigrationRequestAndAddMigrationStatusLog()
-            throws JsonProcessingException, JAXBException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException  {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -309,6 +251,7 @@ public class EhrExtractMessageHandlerTest {
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setAttachments(new ArrayList<>());
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
@@ -330,6 +273,7 @@ public class EhrExtractMessageHandlerTest {
             throws BundleMappingException, AttachmentNotFoundException, ValidationException, InlineAttachmentProcessingException {
         InboundMessage inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setExternalAttachments(new ArrayList<>());
 
 
         PatientMigrationRequest migrationRequest =
@@ -357,6 +301,7 @@ public class EhrExtractMessageHandlerTest {
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setExternalAttachments(new ArrayList<>());
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()
@@ -376,162 +321,244 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void When_SendNackMessage_WithNoErrors_Expect_ShouldUpdateLog() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+    public void When_HandleSingleMessageWithValidDataIsCalled_Expect_NotToCallSendContinueRequest()
+            throws JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException  {
 
-        when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(true);
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
 
-        assertTrue(ehrExtractMessageHandler.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID);
+        InboundMessage inboundMessage = new InboundMessage();
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+
+        inboundMessage.setPayload(readInboundSingleMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundSingleMessageEbXmlFromFile());
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        prepareMigrationRequestAndMigrationStatusMocks();
+
+        when(attachmentReferenceUpdaterService
+                .updateReferenceToAttachment(
+                        inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
+                )).thenReturn(inboundMessage.getPayload());
+
+        EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
+        ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(ehrExtractMessageHandlerSpy, times(0)).sendContinueRequest(
+                any(RCMRIN030000UK06Message.class),
+                any(String.class),
+                any(String.class),
+                any(String.class),
+                any(Instant.class)
+        );
     }
 
     @Test
-    public void When_SendNackMessage_WithErrors_Expect_ShouldUpdateLog() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+    public void When_HandleLargeMessageWithValidDataIsCalled_Expect_ItShouldNotTranslate()
+            throws JAXBException, BundleMappingException, AttachmentNotFoundException,
+            ParseException, JsonProcessingException, InlineAttachmentProcessingException, SAXException {
 
-        when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(false);
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
 
-        assertFalse(ehrExtractMessageHandler.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID);
+        InboundMessage inboundMessage = new InboundMessage();
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+            new InboundMessage.ExternalAttachment(
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                "66B41202-C358-4B4C-93C6-7A10803F9584",
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                    + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                    + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        prepareMigrationRequestAndMigrationStatusMocks();
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(bundleMapperService, times(0)).mapToBundle(any(), any());
     }
 
+//    We are no longer storing the payload as an attachment in the case of a Skelton message.
+//    @Test
+//    public void When_HandleLargeMessageWithValidDataIsCalled_Expect_StoreMessagePayload()
+//            throws
+//            JsonProcessingException,
+//            JAXBException,
+//            InlineAttachmentProcessingException,
+//            BundleMappingException,
+//            AttachmentNotFoundException,
+//            ParseException,
+//            SAXException  {
+//
+//        Bundle bundle = new Bundle();
+//        bundle.setId("Test");
+//
+//        InboundMessage inboundMessage = new InboundMessage();
+//        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+//        externalAttachmentsTestList.add(
+//                new InboundMessage.ExternalAttachment(
+//                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+//                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+//                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+//                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+//                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+//                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+//        );
+//
+//        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+//        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+//        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+//
+//        prepareMigrationRequestAndMigrationStatusMocks();
+//
+//        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+//        verify(attachmentHandlerService, times(1)).storeAttachementWithoutProcessing(any(), any(), any(), any());
+//    }
+
     @Test
-    public void When_SendNackMessage_WithValidParameters_Expect_ShouldParseMessageDataCorrectly() throws JAXBException {
+    public void When_HandleLargeMessageWithValidDataIsCalled_Expect_AddAttachmentExactNumerOfTimesAsExternalAttachmentsList()
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException  {
 
-        NACKMessageData expectedMessageData = NACKMessageData.builder()
-            .nackCode(TEST_NACK_CODE)
-            .toOdsCode(TEST_TO_ODS)
-            .toAsid(TEST_TO_ASID)
-            .fromAsid(TEST_FROM_ASID)
-            .conversationId(CONVERSATION_ID)
-            .messageRef(TEST_MESSAGE_REF)
-            .build();
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
 
-        RCMRIN030000UK06Message payload = unmarshallString(
-            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        InboundMessage inboundMessage = new InboundMessage();
 
-        ehrExtractMessageHandler.sendNackMessage(
-            NACKReason.LARGE_MESSAGE_GENERAL_FAILURE,
-            payload,
-            CONVERSATION_ID);
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                                + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
+        );
+        externalAttachmentsTestList.add(
+                new InboundMessage.ExternalAttachment(
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                        "66B41202-C358-4B4C-93C6-7A10803F9584",
+                        "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                        "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                                + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes")
+        );
 
-        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals(expectedMessageData, ackMessageDataCaptor.getValue());
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        prepareMigrationRequestAndMigrationStatusMocks();
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(patientAttachmentLogService, times(externalAttachmentsTestList.size())).addAttachmentLog(any());
     }
 
-    @Test
-    public void When_SendNackMessage_WithReAssemblyFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+    @SneakyThrows
+    private void prepareMocks(InboundMessage inboundMessage) {
+        inboundMessage.setPayload("payload");
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
 
-        ehrExtractMessageHandler.sendNackMessage(
-            NACKReason.LARGE_MESSAGE_REASSEMBLY_FAILURE,
-            payload,
-            CONVERSATION_ID);
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
+        inboundMessage.setAttachments(new ArrayList<>());
+        inboundMessage.setExternalAttachments(new ArrayList<>());
 
-        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("29", ackMessageDataCaptor.getValue().getNackCode());
+        prepareMigrationRequestAndMigrationStatusMocks();
+
+        // imported from main on merge
+        when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
+        when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
+        when(attachmentReferenceUpdaterService
+                .updateReferenceToAttachment(
+                        inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
+                )).thenReturn(inboundMessage.getPayload());
+
+        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
+            .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
     }
 
-    @Test
-    public void When_SendNackMessage_WithAttachmentsNotReceived_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+    @SneakyThrows
+    private void prepareMigrationRequestAndMigrationStatusMocks() {
 
-        ehrExtractMessageHandler.sendNackMessage(
-            NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED,
-            payload,
-            CONVERSATION_ID);
+        PatientMigrationRequest migrationRequest =
+                PatientMigrationRequest.builder()
+                        .losingPracticeOdsCode(LOSING_ODE_CODE)
+                        .winningPracticeOdsCode(WINNING_ODE_CODE)
+                        .build();
 
-        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("31", ackMessageDataCaptor.getValue().getNackCode());
+        MigrationStatusLog migrationStatusLog =
+                MigrationStatusLog.builder()
+                        .date(OffsetDateTime.ofInstant(
+                                Instant.now(),
+                                ZoneId.systemDefault()))
+                        .build();
+
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+        when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(migrationStatusLog);
     }
 
-    @Test
-    public void When_SendNackMessage_WithGeneralFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
-
-        ehrExtractMessageHandler.sendNackMessage(
-            NACKReason.LARGE_MESSAGE_GENERAL_FAILURE,
-            payload,
-            CONVERSATION_ID);
-
-        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("30", ackMessageDataCaptor.getValue().getNackCode());
+    @SneakyThrows
+    private String readInboundMessagePayloadFromFile() {
+        return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 
-    @Test
-    public void When_SendNackMessage_WithTimeoutFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
-
-        ehrExtractMessageHandler.sendNackMessage(
-            NACKReason.LARGE_MESSAGE_TIMEOUT,
-            payload,
-            CONVERSATION_ID);
-
-        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("25", ackMessageDataCaptor.getValue().getNackCode());
+    @SneakyThrows
+    private String readInboundMessageEbXmlFromFile() {
+        return readResourceAsString("/xml/inbound_message_ebxml.xml");
     }
 
-    @Test
-    public void When_SendNackMessage_WithClinicalSysIntegrationFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
-
-        ehrExtractMessageHandler.sendNackMessage(
-            NACKReason.CLINICAL_SYSTEM_INTEGRATION_FAILURE,
-            payload,
-            CONVERSATION_ID);
-
-        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("11", ackMessageDataCaptor.getValue().getNackCode());
+    private String readInboundSingleMessageEbXmlFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06/ebxmlSmallMessage.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 
-    @Test
-    public void When_SendNackMessage_WithEHRExtractCannotBeProcessed_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
-
-        ehrExtractMessageHandler.sendNackMessage(
-            NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED,
-            payload,
-            CONVERSATION_ID);
-
-        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("21", ackMessageDataCaptor.getValue().getNackCode());
+    private String readInboundSingleMessagePayloadFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06/payloadSmallMessage.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 
-    @Test
-    public void When_SendNackMessage_WithUnexpectedCondition_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
-
-        ehrExtractMessageHandler.sendNackMessage(
-            NACKReason.UNEXPECTED_CONDITION,
-            payload,
-            CONVERSATION_ID);
-
-        verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("99", ackMessageDataCaptor.getValue().getNackCode());
+    @SneakyThrows
+    private String readLargeInboundMessagePayloadFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/payload.xml");
     }
 
-    @Test
-    public void When_SendNackMessage_WithEHRExtractCannotBeProcessed_Expect_AddMigrationStatusLogCalledWithGeneralProcessingError()
-        throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-            readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
-
-        ehrExtractMessageHandler.sendNackMessage(
-            NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED,
-            payload,
-            CONVERSATION_ID);
-
-        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any());
-
-        assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
+    @SneakyThrows
+    private String readLargeInboundMessageEbXmlFromFile() {
+        return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/ebxml.xml");
     }
 }

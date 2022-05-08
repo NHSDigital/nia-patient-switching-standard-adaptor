@@ -1,20 +1,18 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
-
-import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.toHl7Format;
-
-import java.time.Instant;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.common.util.DateUtils;
+
+import java.time.Instant;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.toHl7Format;
 
 @ExtendWith(MockitoExtension.class)
 public class EhrExtractRequestServiceTest {

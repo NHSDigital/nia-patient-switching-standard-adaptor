@@ -1,47 +1,45 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
-
-import java.time.Instant;
-
-import javax.xml.bind.JAXBException;
-
+import ca.uhn.fhir.parser.DataFormatException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import ca.uhn.fhir.parser.DataFormatException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
+import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
-import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
-import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
+import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
+import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
+
+import javax.xml.bind.JAXBException;
+import java.text.ParseException;
+import java.time.Instant;
+
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @Slf4j
 @Component
@@ -52,15 +50,24 @@ public class EhrExtractMessageHandler {
     private final FhirParser fhirParser;
     private final BundleMapperService bundleMapperService;
     private final ObjectMapper objectMapper;
-    private final XPathService xPathService;
     private final SendContinueRequestHandler sendContinueRequestHandler;
     private final AttachmentHandlerService attachmentHandlerService;
     private final AttachmentReferenceUpdaterService attachmentReferenceUpdaterService;
-    private final SendNACKMessageHandler sendNACKMessageHandler;
-    private final SendACKMessageHandler sendACKMessageHandler;
+    private final PatientAttachmentLogService patientAttachmentLogService;
+    private final XPathService xPathService;
+    private final NackAckPreparationService nackAckPreparationService;
 
-    public void handleMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException, JsonProcessingException,
-        SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+    private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
+
+    public void handleMessage(InboundMessage inboundMessage, String conversationId)
+        throws
+        JAXBException,
+        JsonProcessingException,
+        InlineAttachmentProcessingException,
+        BundleMappingException,
+        AttachmentNotFoundException,
+        ParseException,
+        SAXException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -68,88 +75,150 @@ public class EhrExtractMessageHandler {
 
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
-
         try {
-            attachmentHandlerService.storeAttachments(inboundMessage.getAttachments(), conversationId);
 
-            var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
-                    inboundMessage.getAttachments(),
-                    conversationId,
-                    inboundMessage.getPayload()
-            );
-            inboundMessage.setPayload(newPayloadStr);
-            payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+            Document ebXmlDocument = getEbXmlDocument(inboundMessage);
+            String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
 
-            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
+            boolean hasExternalAttachment = !(inboundMessage.getExternalAttachments() == null
+                || inboundMessage.getExternalAttachments().isEmpty());
 
-            migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
-                conversationId,
-                fhirParser.encodeToJson(bundle),
-                objectMapper.writeValueAsString(inboundMessage),
-                EHR_EXTRACT_TRANSLATED
-            );
+            // Manage attachments against the EHR message
+            var attachments = inboundMessage.getAttachments();
+            if (attachments != null) {
+                attachmentHandlerService.storeAttachments(attachments, conversationId);
 
-            ////sending continue message
-            if (inboundMessage.getEbXML().contains("mid:")) {
-                String patientNhsNumber = payload
-                    .getControlActEvent()
-                    .getSubject()
-                    .getEhrExtract()
-                    .getRecordTarget()
-                    .getPatient()
-                    .getId()
-                    .getExtension();
-
-                if (checkIfEHRExtractIsHasAttachments(inboundMessage)) {
-                    sendContinueRequest(
-                        payload,
-                        conversationId,
-                        patientNhsNumber,
-                        migrationRequest.getWinningPracticeOdsCode(),
-                        migrationStatusLog.getDate().toInstant()
-                    );
+                for (var i = 0; i < attachments.size(); i++) {
+                    var attachment = attachments.get(i);
+                    PatientAttachmentLog newAttachmentLog =
+                        buildPatientAttachmentLogFromAttachment(messageId, payload, migrationRequest, attachment);
+                    patientAttachmentLogService.addAttachmentLog(newAttachmentLog);
                 }
             }
 
-            sendAckMessage(payload, conversationId);
+            if (!hasExternalAttachment) {
+                var fileUpdatedPayload = attachmentReferenceUpdaterService.updateReferenceToAttachment(
+                        inboundMessage.getAttachments(),
+                        conversationId,
+                        inboundMessage.getPayload()
+                );
 
-        } catch (BundleMappingException | DataFormatException | JsonProcessingException
-                 | InlineAttachmentProcessingException | AttachmentNotFoundException ex) {
-            sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+                inboundMessage.setPayload(fileUpdatedPayload);
+                payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+
+                var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
+                migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
+                        conversationId,
+                        fhirParser.encodeToJson(bundle),
+                        objectMapper.writeValueAsString(inboundMessage),
+                        EHR_EXTRACT_TRANSLATED
+                );
+
+                nackAckPreparationService.sendAckMessage(payload, conversationId);
+            }
+
+            //sending continue message
+            if (hasExternalAttachment) {
+                String patientNhsNumber = XmlParseUtilService.parseNhsNumber(payload);
+                String extractFileName = String.format("%s_%s_payload", conversationId, XmlParseUtilService.parseMessageRef(payload));
+
+                for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
+                    PatientAttachmentLog patientAttachmentLog;
+                    if (XmlParseUtilService.parseIsSkeleton(externalAttachment.getDescription())) {
+                        //save 06 Messages extract skeleton
+                        patientAttachmentLog = buildPatientAttachmentSkeletonLog(payload, migrationRequest, extractFileName);
+
+                    } else {
+                        //save COPC_UK01 messages
+                        patientAttachmentLog =
+                            buildPatientAttachmentLogFromExternalAttachment(payload, migrationRequest, externalAttachment);
+                    }
+                    patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
+                }
+
+                sendContinueRequest(
+                    payload,
+                    conversationId,
+                    patientNhsNumber,
+                    migrationRequest.getWinningPracticeOdsCode(),
+                    migrationStatusLog.getDate().toInstant()
+                );
+            }
+
+        } catch (BundleMappingException
+                    | DataFormatException
+                    | JsonProcessingException
+                    | InlineAttachmentProcessingException
+                    | AttachmentNotFoundException
+                    | SAXException
+                    | StorageException ex
+        ) {
+            nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
-        } catch (SAXException e) {
-            LOGGER.error("failed to parse RCMR_IN030000UK06 ebxml: "
-                    + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
-            sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
-            throw e;
+        } catch (ParseException ex) {
+            throw ex;
         }
     }
 
-    public boolean checkIfEHRExtractIsHasAttachments(InboundMessage inboundMessage) throws SAXException {
-        final String REFERENCES_ATTACHMENTS_PATH = "/Envelope/Body/Manifest/Reference";
-        Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
+    // Parent MID should be null against an EHR message so that they are not detected in the merge process
+    private PatientAttachmentLog buildPatientAttachmentLogFromAttachment(
+        String messageId,
+        RCMRIN030000UK06Message payload,
+        PatientMigrationRequest migrationRequest,
+        InboundMessage.Attachment attachment) throws ParseException {
 
-        if (ebXmlDocument == null) {
-            return false;
-        }
-        NodeList referencesAttachment = xPathService.getNodes(ebXmlDocument, REFERENCES_ATTACHMENTS_PATH);
+        return PatientAttachmentLog.builder()
+            .mid(messageId)
+            .filename(XmlParseUtilService.parseFilename(attachment.getDescription()))
+            .parentMid(null)
+            .patientMigrationReqId(migrationRequest.getId())
+            .contentType(XmlParseUtilService.parseContentType(attachment.getDescription()))
+            .compressed(XmlParseUtilService.parseCompressed(attachment.getDescription()))
+            .largeAttachment(XmlParseUtilService.parseLargeAttachment(attachment.getDescription()))
+            .base64(XmlParseUtilService.parseBase64(attachment.getDescription()))
+            .skeleton(false)
+            .uploaded(true)
+            .lengthNum(XmlParseUtilService.parseFileLength(attachment.getDescription()))
+            .orderNum(0)
+            .build();
+    }
 
-        if (referencesAttachment != null) {
-            for (int index = 0; index < referencesAttachment.getLength(); index++) {
+    private PatientAttachmentLog buildPatientAttachmentLogFromExternalAttachment(
+        RCMRIN030000UK06Message payload,
+        PatientMigrationRequest migrationRequest,
+        InboundMessage.ExternalAttachment externalAttachment) throws ParseException {
+        return PatientAttachmentLog.builder()
+                .mid(externalAttachment.getMessageId())
+                .filename(XmlParseUtilService.parseFilename(externalAttachment.getDescription()))
+                .parentMid(null)
+                .patientMigrationReqId(migrationRequest.getId())
+                .contentType(XmlParseUtilService.parseContentType(externalAttachment.getDescription()))
+                .compressed(XmlParseUtilService.parseCompressed(externalAttachment.getDescription()))
+                .largeAttachment(XmlParseUtilService.parseLargeAttachment(externalAttachment.getDescription()))
+                .base64(XmlParseUtilService.parseBase64(externalAttachment.getDescription()))
+                .skeleton(false)
+                .uploaded(false)
+                .lengthNum(XmlParseUtilService.parseFileLength(externalAttachment.getDescription()))
+                .orderNum(0)
+                .build();
+    }
 
-                Node referenceNode = referencesAttachment.item(index);
-                if (referenceNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element reference = (Element) referenceNode;
-
-                    String hrefAttribute2 = reference.getAttribute("xlink:href");
-
-                    if (hrefAttribute2.startsWith("mid:")) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+    private PatientAttachmentLog buildPatientAttachmentSkeletonLog(RCMRIN030000UK06Message payload,
+        PatientMigrationRequest migrationRequest, String extractFileName) {
+        return PatientAttachmentLog.builder()
+                .mid(XmlParseUtilService.parseMessageRef(payload))
+                .filename(extractFileName)
+                .parentMid(null)
+                .patientMigrationReqId(migrationRequest.getId())
+                .contentType("application/xml; charset=UTF-8")
+                .compressed(false)
+                .largeAttachment(true)
+                .base64(false)
+                .skeleton(true)
+                .uploaded(true)
+                .lengthNum(0)
+                .orderNum(0)
+                .build();
     }
 
     public void sendContinueRequest(
@@ -159,34 +228,9 @@ public class EhrExtractMessageHandler {
         String winningPracticeOdsCode,
         Instant mcciIN010000UK13creationTime
     ) {
-
         sendContinueRequestHandler.prepareAndSendRequest(
             prepareContinueRequestData(payload, conversationId, patientNhsNumber, winningPracticeOdsCode, mcciIN010000UK13creationTime)
         );
-    }
-
-    public boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conversationId) {
-
-        LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
-            payload.getId().getRoot());
-
-        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId);
-
-        return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
-            reason,
-            payload,
-            conversationId
-        ));
-    }
-
-    public boolean sendAckMessage(RCMRIN030000UK06Message payload, String conversationId) {
-
-        LOGGER.debug("Sending ACK message for message with Conversation ID: [{}]", conversationId);
-
-        return sendACKMessageHandler.prepareAndSendMessage(prepareAckMessageData(
-            payload,
-            conversationId
-        ));
     }
 
     private ContinueRequestData prepareContinueRequestData(
@@ -196,9 +240,9 @@ public class EhrExtractMessageHandler {
         String winningPracticeOdsCode,
         Instant mcciIN010000UK13creationTime
     ) {
-        var fromAsid = parseFromAsid(payload);
-        var toAsid = parseToAsid(payload);
-        var toOdsCode = parseToOdsCode(payload);
+        var fromAsid = XmlParseUtilService.parseFromAsid(payload);
+        var toAsid = XmlParseUtilService.parseToAsid(payload);
+        var toOdsCode = XmlParseUtilService.parseToOdsCode(payload);
         var mcciIN010000UK13creationTimeToHl7Format = DateFormatUtil.toHl7Format(mcciIN010000UK13creationTime);
 
         return ContinueRequestData.builder()
@@ -212,71 +256,7 @@ public class EhrExtractMessageHandler {
             .build();
     }
 
-    private ACKMessageData prepareAckMessageData(RCMRIN030000UK06Message payload,
-        String conversationId) {
-
-        String toOdsCode = parseToOdsCode(payload);
-        String messageRef = parseMessageRef(payload);
-        String toAsid = parseToAsid(payload);
-        String fromAsid = parseFromAsid(payload);
-
-        return ACKMessageData.builder()
-            .conversationId(conversationId)
-            .toOdsCode(toOdsCode)
-            .messageRef(messageRef)
-            .toAsid(toAsid)
-            .fromAsid(fromAsid)
-            .build();
-    }
-
-    private NACKMessageData prepareNackMessageData(NACKReason reason, RCMRIN030000UK06Message payload,
-        String conversationId) {
-
-        String toOdsCode = parseToOdsCode(payload);
-        String messageRef = parseMessageRef(payload);
-        String toAsid = parseToAsid(payload);
-        String fromAsid = parseFromAsid(payload);
-        String nackCode = reason.getCode();
-
-        return NACKMessageData.builder()
-            .conversationId(conversationId)
-            .nackCode(nackCode)
-            .toOdsCode(toOdsCode)
-            .messageRef(messageRef)
-            .toAsid(toAsid)
-            .fromAsid(fromAsid)
-            .build();
-    }
-
-    private String parseFromAsid(RCMRIN030000UK06Message payload) {
-        return payload.getCommunicationFunctionRcv()
-            .get(0)
-            .getDevice()
-            .getId()
-            .get(0)
-            .getExtension();
-    }
-
-    private String parseToAsid(RCMRIN030000UK06Message payload) {
-        return payload.getCommunicationFunctionSnd()
-            .getDevice()
-            .getId()
-            .get(0)
-            .getExtension();
-    }
-
-    private String parseToOdsCode(RCMRIN030000UK06Message payload) {
-        return payload.getControlActEvent()
-            .getSubject()
-            .getEhrExtract()
-            .getAuthor()
-            .getAgentOrgSDS()
-            .getAgentOrganizationSDS()
-            .getId()
-            .getExtension();
-    }
-
-    private String parseMessageRef(RCMRIN030000UK06Message payload) {
-        return payload.getId().getRoot();
+    private Document getEbXmlDocument(InboundMessage inboundMessage) throws SAXException {
+        return xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
     }
 }
