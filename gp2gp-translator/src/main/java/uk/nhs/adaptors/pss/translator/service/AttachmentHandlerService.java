@@ -36,20 +36,16 @@ public class AttachmentHandlerService {
     public void storeAttachments(List<InboundMessage.Attachment> attachments, String conversationId) throws ValidationException,
         InlineAttachmentProcessingException {
 
-        if (conversationId == null || conversationId.isEmpty()) {
+        if (!StringUtils.hasText(conversationId)) {
             throw new ValidationException("ConversationId cannot be null or empty");
         }
 
         if (attachments != null) {
-
             for (InboundMessage.Attachment attachment : attachments) {
-
                 try {
-
                     InlineAttachment inlineAttachment = new InlineAttachment(attachment);
 
                     byte[] decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
-
                     byte[] payload;
 
                     if (inlineAttachment.isCompressed()) {
@@ -66,17 +62,47 @@ public class AttachmentHandlerService {
                     );
 
                     String filename = inlineAttachment.getOriginalFilename();
-
                     storageManagerService.uploadFile(filename, dataWrapper);
+
+
                 } catch (StorageException ex) {
-                    // We don't want to stop uploading a list of failures but we should log them here
-                    // this is for a later ticket to manage
+                    throw new InlineAttachmentProcessingException("Unable to upload inline attachment to storage: " + ex.getMessage());
                 } catch (IOException ex) {
                     throw new InlineAttachmentProcessingException("Unable to decompress attachment: " + ex.getMessage());
                 } catch (ParseException ex) {
                     throw new InlineAttachmentProcessingException("Unable to parse inline attachment description: " + ex.getMessage());
                 }
             }
+        }
+    }
+
+    public void storeAttachementWithoutProcessing(String fileName, String payload, String conversationId, String contentType)
+        throws ValidationException, InlineAttachmentProcessingException {
+
+        if (!StringUtils.hasText(fileName)) {
+            throw new ValidationException("FileName cannot be null or empty");
+        }
+        if (!StringUtils.hasText(payload)) {
+            throw new ValidationException("Payload cannot be null or empty");
+        }
+        if (!StringUtils.hasText(conversationId)) {
+            throw new ValidationException("ConversationId cannot be null or empty");
+        }
+        if (!StringUtils.hasText(contentType)) {
+            throw new ValidationException("ContentType cannot be null or empty");
+        }
+
+        StorageDataUploadWrapper dataWrapper = new StorageDataUploadWrapper(
+                contentType,
+                conversationId,
+                payload.getBytes(StandardCharsets.UTF_8)
+        );
+
+        try {
+            storageManagerService.uploadFile(fileName, dataWrapper);
+        } catch (StorageException ex) {
+            throw new InlineAttachmentProcessingException("Unable to upload inline attachment to storage without processing: "
+                + ex.getMessage());
         }
     }
 

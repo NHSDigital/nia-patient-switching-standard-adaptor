@@ -36,6 +36,8 @@ import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingExcept
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
+import java.text.ParseException;
+
 @ExtendWith(MockitoExtension.class)
 public class MhsQueueMessageHandlerTest {
     private static final String NHS_NUMBER = "123456";
@@ -78,8 +80,16 @@ public class MhsQueueMessageHandlerTest {
     private InboundMessage inboundMessage;
 
     @Test
-    public void handleEhrExtractMessageWithoutErrorsShouldReturnTrue() throws JsonProcessingException, JAXBException,
-            SAXException, InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+    public void handleEhrExtractMessageWithoutErrorsShouldReturnTrue()
+            throws
+            JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException {
+
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
 
@@ -93,8 +103,14 @@ public class MhsQueueMessageHandlerTest {
 
     @Test
     public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse()
-            throws JAXBException, JsonProcessingException, SAXException,
-                InlineAttachmentProcessingException, BundleMappingException, AttachmentNotFoundException {
+            throws
+            JAXBException,
+            JsonProcessingException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);

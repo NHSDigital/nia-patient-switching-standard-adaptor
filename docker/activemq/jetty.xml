@@ -79,11 +79,7 @@
                     <property name="contextPath" value="/admin" />
                     <property name="resourceBase" value="${activemq.home}/webapps/admin" />
                     <property name="logUrlOnStart" value="true" />
-                </bean>
-                <bean class="org.eclipse.jetty.webapp.WebAppContext">
-                    <property name="contextPath" value="/api" />
-                    <property name="resourceBase" value="${activemq.home}/webapps/api" />
-                    <property name="logUrlOnStart" value="true" />
+                    <property name="maxFormContentSize" value="-1" />
                 </bean>
                 <bean class="org.eclipse.jetty.server.handler.ResourceHandler">
                     <property name="directoriesListed" value="false" />

@@ -24,6 +24,8 @@ import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingExcept
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
+import java.text.ParseException;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -75,7 +77,14 @@ public class MhsQueueMessageHandler {
         } catch (BundleMappingException e) {
             LOGGER.error("Unable to map EHR Extract to FHIR bundle", e);
             return false;
+        } catch (ParseException e) {
+            LOGGER.error("Unable to parse Ebxml References", e);
+            return false;
         }
+//        catch (SkeletonEhrProcessingException e) {
+//            LOGGER.error("Unable to process EhrExtract", e);
+//            return false;
+//        }
     }
 
     private InboundMessage readMessage(Message message) throws JMSException, JsonProcessingException {
