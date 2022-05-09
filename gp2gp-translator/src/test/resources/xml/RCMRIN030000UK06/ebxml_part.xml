@@ -1,0 +1,34 @@
+<SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" xmlns:eb="http://www.oasis-open.org/committees/ebxml-msg/schema/msg-header-2_0.xsd" xmlns:hl7ebxml="urn:hl7-org:transport/ebxml/DSTUv1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3c.org/2001/XML-Schema-Instance">
+    <SOAP:Header>
+        <eb:MessageHeader SOAP:mustUnderstand="1" eb:version="2.0">
+            <eb:From>
+                <eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">YGM24-820388</eb:PartyId>
+            </eb:From>
+            <eb:To>
+                <eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">B86041-822103</eb:PartyId>
+            </eb:To>
+            <eb:CPAId>e06af803674408a9d8e8</eb:CPAId>
+            <eb:ConversationId>{{conversationId}}</eb:ConversationId>
+            <eb:Service>urn:nhs:names:services:gp2gp</eb:Service>
+            <eb:Action>RCMR_IN030000UK06</eb:Action>
+            <eb:MessageData>
+                <eb:MessageId>31FA3430-6E88-11EA-9384-E83935108FD5</eb:MessageId>
+                <eb:Timestamp>2020-03-25T11:03:02Z</eb:Timestamp>
+                <eb:TimeToLive>2020-03-25T15:13:02Z</eb:TimeToLive>
+            </eb:MessageData>
+            <eb:DuplicateElimination>always</eb:DuplicateElimination>
+        </eb:MessageHeader>
+        <eb:AckRequested SOAP:mustUnderstand="1" eb:version="2.0" eb:signed="false" SOAP:actor="urn:oasis:names:tc:ebxml-msg:actor:nextMSH" />
+    </SOAP:Header>
+    <SOAP:Body>
+        <eb:Manifest SOAP:mustUnderstand="1" eb:version="2.0">
+            <eb:Reference xlink:href="cid:payload@tpp-uk.com/SystmOne/GP2GP1.1A">
+                <eb:Schema eb:location="http://www.nhsia.nhs.uk/schemas/HL7-Message.xsd" eb:version="2.0" />
+                <hl7ebxml:Payload style="HL7" encoding="XML" version="3.0" />
+            </eb:Reference>
+            <eb:Reference xlink:href="cid:attachment1.0@test.com" eb:id="_31B75ED0-6E88-11EA-9384-E83935108FD5">
+                <eb:Description xml:lang="en-gb">31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt.txt</eb:Description>
+            </eb:Reference>
+        </eb:Manifest>
+    </SOAP:Body>
+</SOAP:Envelope>

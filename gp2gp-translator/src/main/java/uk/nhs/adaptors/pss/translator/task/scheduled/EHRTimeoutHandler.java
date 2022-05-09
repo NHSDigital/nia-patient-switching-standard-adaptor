@@ -78,7 +78,7 @@ public class EHRTimeoutHandler {
         largeMessageRequests.forEach(this::handleMigrationTimeout);
     }
 
-    private void handleMigrationTimeout(PatientMigrationRequest migrationRequest) {
+    public void handleMigrationTimeout(PatientMigrationRequest migrationRequest) {
 
         String conversationId = migrationRequest.getConversationId();
         mdcService.applyConversationId(conversationId);
