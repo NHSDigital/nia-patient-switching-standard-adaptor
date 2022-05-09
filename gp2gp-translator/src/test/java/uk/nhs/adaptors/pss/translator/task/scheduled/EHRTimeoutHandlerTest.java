@@ -119,7 +119,7 @@ public class EHRTimeoutHandlerTest {
         when(messagePersistDurationService.getMessagePersistDuration(anyInt(), anyString())).thenReturn((Optional<MessagePersistDuration>) Optional.of(MessagePersistDuration.builder().persistDuration(Duration.ofSeconds(2)).id(123).messageType("A").build()));
 
         //when
-        //when(patientMigrationRequestMock.getInboundMessage()).thenReturn("");
+        when(patientMigrationRequestMock.getInboundMessage()).thenReturn(createInboundMessage());
 
         when(mdcService.getConversationId()).thenReturn("123");
 
