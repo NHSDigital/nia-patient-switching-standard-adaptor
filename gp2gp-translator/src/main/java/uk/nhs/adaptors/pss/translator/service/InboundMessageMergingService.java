@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Element;
+
+import okio.Utf8;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
@@ -14,6 +17,10 @@ import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 
 import javax.xml.bind.ValidationException;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
@@ -58,12 +65,26 @@ public class InboundMessageMergingService {
                 // merge skeleton message into original payload
                 var skeletonLogs = attachmentLogs.stream().filter(log -> log.getSkeleton().equals(true)).toList();
                 var skeletonFileName = skeletonLogs.stream().findFirst().get().getFilename();
-                var skeletonSingleStr = attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(skeletonLogs);
+                var skeletonFileAsString = new String(attachmentHandlerService.getAttachment(skeletonFileName), StandardCharsets.UTF_8);
 
-                // replace narrative statement that matches eb:id with skeletonSingleStr
-                // find narrative statement
-                var ebXml = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
-                var nodes = xPathService.getNodes(ebXml, "?");
+                // get ebxml references to find document id from skeleton message
+//                List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
+//                attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(message));
+
+                var payloadXml = xPathService.parseDocumentFromXml(inboundMessage.getPayload());
+                var valueNodes = xPathService.getNodes(payloadXml, "//*/@*[.='68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1']/parent::*/parent::*");
+
+                var payloadNodeToReplace = valueNodes.item(0);
+                var payloadNodeToReplaceParent = payloadNodeToReplace.getParentNode();
+
+                var skeletonExtractDocument = xPathService.parseDocumentFromXml("<nodesa>value</nodesa>");
+                var skeletonExtractNodes = skeletonExtractDocument.getElementsByTagName("*");
+                var primarySkeletonNode = skeletonExtractNodes.item(0);
+
+                // using xPathServices breaks the xml document pointer, reset it
+                payloadXml = payloadNodeToReplaceParent.getOwnerDocument();
+                var importedToPayloadNode = payloadXml.importNode(primarySkeletonNode, true);
+                payloadNodeToReplaceParent.replaceChild(importedToPayloadNode, payloadNodeToReplace);
             }
 
             // process attachments
