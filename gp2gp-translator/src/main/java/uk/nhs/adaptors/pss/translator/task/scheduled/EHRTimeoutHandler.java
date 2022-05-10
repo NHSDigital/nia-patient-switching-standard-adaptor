@@ -85,7 +85,7 @@ public class EHRTimeoutHandler {
                 Duration copcPersistDuration = persistDurationService.getPersistDurationFor(migrationRequest, COPC_MESSAGE_NAME);
 
                 timeout = (timeoutProperties.getEhrExtractWeighting() * ehrPersistDuration.getSeconds())
-                    * (timeoutProperties.getCopcWeighting() * numberCOPCMessages * copcPersistDuration.getSeconds());
+                    + (timeoutProperties.getCopcWeighting() * numberCOPCMessages * copcPersistDuration.getSeconds());
 
                 LOGGER.debug("Large message timeout calculated as [{}] seconds", timeout);
             } else {
