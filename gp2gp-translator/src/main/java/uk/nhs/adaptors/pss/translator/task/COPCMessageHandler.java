@@ -80,12 +80,12 @@ public class COPCMessageHandler {
 
             nackAckPreparationService.sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
             checkAndMergeFileParts(inboundMessage, conversationId);
-          
+
             // NIAD-2029 merge and uncompress large EHR message
             if (inboundMessageMergingService.canMergeCompleteBundle(conversationId)) {
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
             }
-          
+
         } catch (ParseException | InlineAttachmentProcessingException | SAXException e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
@@ -199,7 +199,10 @@ public class COPCMessageHandler {
             attachmentHandlerService.storeAttachementWithoutProcessing(fragmentAttachmentLog.getFilename(),
                 inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
         } else {
-            var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(Arrays.asList(fragmentAttachmentLog), Arrays.asList(inboundMessage.getAttachments().get(0).getPayload()));
+            var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
+                    Arrays.asList(fragmentAttachmentLog),
+                    Arrays.asList(inboundMessage.getAttachments().get(0).getPayload())
+            );
             attachmentHandlerService.storeAttachments(attachment, conversationId);
         }
     }

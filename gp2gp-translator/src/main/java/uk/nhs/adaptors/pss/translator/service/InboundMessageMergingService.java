@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Element;
 
-import okio.Utf8;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
@@ -19,9 +17,7 @@ import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 import javax.xml.bind.ValidationException;
-import javax.xml.parsers.DocumentBuilderFactory;
 
-import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,7 +70,8 @@ public class InboundMessageMergingService {
                 // get ebxml references to find document id from skeleton message
                 List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
                 attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage));
-                var ebxmlSkeletonReference = attachmentReferenceDescription.stream().filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid())).findFirst();
+                var ebxmlSkeletonReference = attachmentReferenceDescription.stream()
+                        .filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid())).findFirst();
                 var skeletonDocumentId = ebxmlSkeletonReference.get().getDocumentId();
 
                 var payloadXml = xPathService.parseDocumentFromXml(inboundMessage.getPayload());

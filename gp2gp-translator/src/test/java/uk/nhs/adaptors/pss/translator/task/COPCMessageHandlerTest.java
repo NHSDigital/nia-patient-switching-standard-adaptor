@@ -61,8 +61,6 @@ class COPCMessageHandlerTest {
     private static final String MESSAGE_ID = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
     private static final String NHS_NUMBER = "123456";
     private static final Integer DATA_AMOUNT = 3;
-    private static final String LOSING_ODE_CODE = "G543";
-    private static final String WINNING_ODE_CODE = "B943";
 
     @Mock
     private PatientMigrationRequestDao migrationRequestDao;
@@ -83,8 +81,6 @@ class COPCMessageHandlerTest {
     @Mock
     private InboundMessageMergingService inboundMessageMergingService;
     @Mock
-    private PatientAttachmentLogService patientAttachmentLogService;
-    @Mock
     private XmlParseUtilService xmlParseUtilService;
 
     @InjectMocks
@@ -99,15 +95,14 @@ class COPCMessageHandlerTest {
     private ArgumentCaptor<String> conversationIdCaptor;
     @Captor
     private ArgumentCaptor<String> contentTypeCaptor;
-    @Mock
-    private Document ebXmlDocument;
 
     @Mock
     private NackAckPreparationService nackAckPreparationServiceMock;
 
     @Test
-    public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_PartialLogToBeCreated() throws JAXBException,
-        InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+    public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_PartialLogToBeCreated()
+            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
+                AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         // ARRANGE
         var messageId = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
@@ -135,8 +130,9 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_ShouldUploadFile() throws JAXBException,
-        InlineAttachmentProcessingException, SkeletonEhrProcessingException, SAXException, AttachmentLogException {
+    public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_ShouldUploadFile()
+            throws JAXBException, InlineAttachmentProcessingException, SkeletonEhrProcessingException, SAXException,
+                AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(null)
@@ -147,6 +143,7 @@ class COPCMessageHandlerTest {
 
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
+
         // ACT
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
@@ -155,8 +152,9 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_MIDFragmentRecordHasAnAttachmentLog_Expect_AttachmentLogToBeUpdated() throws JAXBException,
-        InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+    public void When_MIDFragmentRecordHasAnAttachmentLog_Expect_AttachmentLogToBeUpdated()
+            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
+                AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         var parentMid = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
@@ -170,8 +168,8 @@ class COPCMessageHandlerTest {
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
         prepareFragmentIndexMocks(message);
 
-        EbxmlReference reference = new EbxmlReference("First instance is always a payload", "mid:xxxx-xxxx-xxxx-xxxx");
-        EbxmlReference reference2 = new EbxmlReference("desc", "mid:28B31-4245-4AFC-8DA2-8A40623A5101");
+        EbxmlReference reference = new EbxmlReference("First instance is always a payload", "mid:xxxx-xxxx-xxxx-xxxx", "docId");
+        EbxmlReference reference2 = new EbxmlReference("desc", "mid:28B31-4245-4AFC-8DA2-8A40623A5101", "docId");
         List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
         attachmentReferenceDescription.add(reference);
         attachmentReferenceDescription.add(reference2);
@@ -194,8 +192,8 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_MIDFragmentRecordDoesNotHaveAnAttachmentLog_Expect_AttachmentLogToBeCreated() throws JAXBException,
-        InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+    public void When_MIDFragmentRecordDoesNotHaveAnAttachmentLog_Expect_AttachmentLogToBeCreated()
+            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
         InboundMessage message = new InboundMessage();
@@ -208,8 +206,8 @@ class COPCMessageHandlerTest {
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
         prepareFragmentIndexMocks(message);
 
-        EbxmlReference reference = new EbxmlReference("First instance is always a payload", "mid:xxxx-xxxx-xxxx-xxxx");
-        EbxmlReference reference2 = new EbxmlReference("desc", "mid:28B31-4245-4AFC-8DA2-8A40623A5101");
+        EbxmlReference reference = new EbxmlReference("First instance is always a payload", "mid:xxxx-xxxx-xxxx-xxxx", "docId");
+        EbxmlReference reference2 = new EbxmlReference("desc", "mid:28B31-4245-4AFC-8DA2-8A40623A5101", "docId");
         List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
         attachmentReferenceDescription.add(reference);
         attachmentReferenceDescription.add(reference2);
@@ -234,7 +232,7 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_FragmentIndexIsRecievedWithCIDAndMIDParts_Expect_CIDMessageToBeProcessed() throws JAXBException,
-        InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+            InlineAttachmentProcessingException, SAXException, AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
         var childCid = "435B1171-31F6-4EF2-AD7F-C7E64EEFF357";
@@ -250,9 +248,9 @@ class COPCMessageHandlerTest {
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
         prepareFragmentIndexWithCidMocks(message);
 
-        EbxmlReference reference = new EbxmlReference("First instance is always a payload", "mid:xxxx-xxxx-xxxx-xxxx");
-        EbxmlReference reference1 = new EbxmlReference("desc", "cid:435B1171-31F6-4EF2-AD7F-C7E64EEFF357");
-        EbxmlReference reference2 = new EbxmlReference("desc", "mid:28B31-4245-4AFC-8DA2-8A40623A5101");
+        EbxmlReference reference = new EbxmlReference("First instance is always a payload", "mid:xxxx-xxxx-xxxx-xxxx", "docId");
+        EbxmlReference reference1 = new EbxmlReference("desc", "cid:435B1171-31F6-4EF2-AD7F-C7E64EEFF357", "doc1Id");
+        EbxmlReference reference2 = new EbxmlReference("desc", "mid:28B31-4245-4AFC-8DA2-8A40623A5101", "doc2Id");
         List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
         attachmentReferenceDescription.add(reference);
         attachmentReferenceDescription.add(reference1);
@@ -274,7 +272,8 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_CIDFragmentPartIsReceivedInOrder_Expect_ShouldUploadFile()
-        throws JAXBException, InlineAttachmentProcessingException, SkeletonEhrProcessingException, SAXException, AttachmentLogException {
+            throws JAXBException, InlineAttachmentProcessingException, SkeletonEhrProcessingException, SAXException,
+                AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         InboundMessage message = new InboundMessage();
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
@@ -295,8 +294,9 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_CIDMessageFileIsProcessed_Expect_AttachmentLogUploadedColumnIsSetToTrue() throws JAXBException,
-        InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+    public void When_CIDMessageFileIsProcessed_Expect_AttachmentLogUploadedColumnIsSetToTrue()
+            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
+                AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
         InboundMessage message = new InboundMessage();
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1"));
@@ -385,6 +385,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_HappyPath_Expect_ThrowNoErrors()
         throws SAXException, ValidationException, AttachmentLogException, InlineAttachmentProcessingException {
+
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
@@ -482,6 +483,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_CheckByteCompilationCreatesFileAsExpected_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
+
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
@@ -508,6 +510,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_EnsureStoreAttachmentsIsCalled_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
+
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
@@ -569,6 +572,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_UpdateAttachmentLogDoesAsExpected_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
+
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
@@ -632,6 +636,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_DeleteAttachmentCalledForEachAttachmentLogFragment_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
+
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
@@ -694,6 +699,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_RemoveAttachmentCalledForEachAttachmentLogFragment_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
+
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
@@ -756,6 +762,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_ParentCOPCMessageIncomingAfterFragments_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
+
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());

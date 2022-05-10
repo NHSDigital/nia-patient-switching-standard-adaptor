@@ -148,7 +148,7 @@ public class AttachmentHandlerService {
                     + "OriginalBase64=" + log.getBase64().toString() + " "
                     + "Length=" + log.getLengthNum();
 
-            if (log.getSkeleton()){
+            if (log.getSkeleton()) {
                 fileDescription += " DomainData=\\\"X-GP2GP-Skeleton:Yes\\\"";
             }
 

@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
@@ -20,9 +22,13 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
+import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 import javax.xml.bind.JAXBException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -38,6 +44,8 @@ public class InboundMessageMergingServiceTests {
     private static final String CONVERSATION_ID = randomUUID().toString();
     private static final String NHS_NUMBER = "1111";
     private static final String INBOUND_MESSAGE_STRING = "{hi i'm inbound message}";
+    private static final String FILENAME = "test_main.txt";
+    private static byte[] FILE_AS_BYTES;
 
     @Mock
     private PatientAttachmentLogService patientAttachmentLogService;
@@ -55,6 +63,8 @@ public class InboundMessageMergingServiceTests {
     private AttachmentHandlerService attachmentHandlerService;
     @Mock
     private AttachmentReferenceUpdaterService attachmentReferenceUpdaterService;
+    @Mock
+    private XmlParseUtilService xmlParseUtilService;
 
     @InjectMocks
     private InboundMessageMergingService inboundMessageMergingService;
@@ -85,8 +95,18 @@ public class InboundMessageMergingServiceTests {
     }
 
     private void prepareSkeletonMocks(InboundMessage inboundMessage) throws SAXException {
-        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
-        when(xPathService.getNodes(ebXmlDocument, "/Envelope/Body/Manifest/Reference")).thenReturn(null);
+        FILE_AS_BYTES = readInboundMessageFromFile().getBytes(StandardCharsets.UTF_8);
+
+        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(FILE_AS_BYTES);
+
+        var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
+        var ebXmlAttachments = Arrays.asList(reference);
+
+        when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
+        when(xPathService.parseDocumentFromXml(inboundMessage.getPayload())).thenReturn(null);
+
+        // var nodeList = new NodeList();
+        // when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
     }
 
     @Test
@@ -164,7 +184,7 @@ public class InboundMessageMergingServiceTests {
     private ArrayList<PatientAttachmentLog> createPatientAttachmentList(Boolean isParentUploaded, Boolean isSkeleton) {
         var patientAttachmentLogs = new ArrayList<PatientAttachmentLog>();
         patientAttachmentLogs.add(
-                PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
+                PatientAttachmentLog.builder().filename(FILENAME).mid("1")
                         .orderNum(0)
                         .parentMid("0")
                         .uploaded(isParentUploaded)
