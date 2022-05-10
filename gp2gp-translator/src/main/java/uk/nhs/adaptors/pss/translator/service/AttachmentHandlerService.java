@@ -137,11 +137,6 @@ public class AttachmentHandlerService {
 
         List<InboundMessage.Attachment> attachmentsResponse = new ArrayList<InboundMessage.Attachment>();
 
-        if (payloads == null) {
-            payloads = new ArrayList<String>();
-        }
-
-
         for (var  i = 0; i < attachmentLogs.size(); i++) {
             var log = attachmentLogs.get(i);
 
@@ -153,8 +148,12 @@ public class AttachmentHandlerService {
                     + "OriginalBase64=" + log.getBase64().toString() + " "
                     + "Length=" + log.getLengthNum();
 
+            if (log.getSkeleton()){
+                fileDescription += " DomainData=\\\"X-GP2GP-Skeleton:Yes\\\"";
+            }
+
             var payload = "";
-            if (payloads.get(i) == null) {
+            if (payloads == null || payloads.get(i) == null) {
                 payload = getAttachment(log.getFilename()).toString();
             } else {
                 payload = payloads.get(i);

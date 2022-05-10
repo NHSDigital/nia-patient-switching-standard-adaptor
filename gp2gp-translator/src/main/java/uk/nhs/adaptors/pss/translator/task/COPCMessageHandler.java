@@ -194,8 +194,14 @@ public class COPCMessageHandler {
 
     private void storeCOPCAttachment(PatientAttachmentLog fragmentAttachmentLog, InboundMessage inboundMessage,
         String conversationId) throws ValidationException, InlineAttachmentProcessingException {
-        attachmentHandlerService.storeAttachementWithoutProcessing(fragmentAttachmentLog.getFilename(),
-            inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
+
+        if (fragmentAttachmentLog.getLargeAttachment()) {
+            attachmentHandlerService.storeAttachementWithoutProcessing(fragmentAttachmentLog.getFilename(),
+                inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
+        } else {
+            var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(Arrays.asList(fragmentAttachmentLog), Arrays.asList(inboundMessage.getAttachments().get(0).getPayload()));
+            attachmentHandlerService.storeAttachments(attachment, conversationId);
+        }
     }
 
     private String getFileNameForFragment(InboundMessage inboundMessage, COPCIN000001UK01Message payload) {
@@ -260,7 +266,6 @@ public class COPCMessageHandler {
                 // upload the file
                 attachmentHandlerService.storeAttachments(message.getAttachments(), conversationId);
                 fileUpload = true;
-
             } else {
                 var localMessageId = payloadReference.getHref().substring(payloadReference.getHref().indexOf("mid:") + "mid:".length());
                 messageId = localMessageId;

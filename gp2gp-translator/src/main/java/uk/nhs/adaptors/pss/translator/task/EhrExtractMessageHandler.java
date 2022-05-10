@@ -76,7 +76,6 @@ public class EhrExtractMessageHandler {
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
 
         try {
-
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
             String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
 
@@ -124,17 +123,24 @@ public class EhrExtractMessageHandler {
 
                 for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
                     PatientAttachmentLog patientAttachmentLog;
-                    if (XmlParseUtilService.parseIsSkeleton(externalAttachment.getDescription())) {
-                        //save 06 Messages extract skeleton
-                        patientAttachmentLog = buildPatientAttachmentSkeletonLog(payload, migrationRequest, extractFileName);
-
-                    } else {
+//                    if (XmlParseUtilService.parseIsSkeleton(externalAttachment.getDescription())) {
+//                        //save 06 Messages extract skeleton
+//                        patientAttachmentLog = buildPatientAttachmentSkeletonLog(payload, migrationRequest, extractFileName);
+//
+//                    } else {
                         //save COPC_UK01 messages
                         patientAttachmentLog =
-                            buildPatientAttachmentLogFromExternalAttachment(payload, migrationRequest, externalAttachment);
-                    }
+                            buildPatientAttachmentLogFromExternalAttachment(payload, migrationRequest, externalAttachment, true);
+//                    }
                     patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
                 }
+
+                migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
+                    conversationId,
+                    null,
+                    objectMapper.writeValueAsString(inboundMessage),
+                    EHR_EXTRACT_TRANSLATED
+                );
 
                 sendContinueRequest(
                     payload,
@@ -186,7 +192,8 @@ public class EhrExtractMessageHandler {
     private PatientAttachmentLog buildPatientAttachmentLogFromExternalAttachment(
         RCMRIN030000UK06Message payload,
         PatientMigrationRequest migrationRequest,
-        InboundMessage.ExternalAttachment externalAttachment) throws ParseException {
+        InboundMessage.ExternalAttachment externalAttachment,
+        boolean isSkeleton) throws ParseException {
         return PatientAttachmentLog.builder()
                 .mid(externalAttachment.getMessageId())
                 .filename(XmlParseUtilService.parseFilename(externalAttachment.getDescription()))
@@ -196,30 +203,30 @@ public class EhrExtractMessageHandler {
                 .compressed(XmlParseUtilService.parseCompressed(externalAttachment.getDescription()))
                 .largeAttachment(XmlParseUtilService.parseLargeAttachment(externalAttachment.getDescription()))
                 .base64(XmlParseUtilService.parseBase64(externalAttachment.getDescription()))
-                .skeleton(false)
+                .skeleton(isSkeleton)
                 .uploaded(false)
                 .lengthNum(XmlParseUtilService.parseFileLength(externalAttachment.getDescription()))
                 .orderNum(0)
                 .build();
     }
 
-    private PatientAttachmentLog buildPatientAttachmentSkeletonLog(RCMRIN030000UK06Message payload,
-        PatientMigrationRequest migrationRequest, String extractFileName) {
-        return PatientAttachmentLog.builder()
-                .mid(XmlParseUtilService.parseMessageRef(payload))
-                .filename(extractFileName)
-                .parentMid(null)
-                .patientMigrationReqId(migrationRequest.getId())
-                .contentType("application/xml; charset=UTF-8")
-                .compressed(false)
-                .largeAttachment(true)
-                .base64(false)
-                .skeleton(true)
-                .uploaded(true)
-                .lengthNum(0)
-                .orderNum(0)
-                .build();
-    }
+//    private PatientAttachmentLog buildPatientAttachmentSkeletonLog(RCMRIN030000UK06Message payload,
+//        PatientMigrationRequest migrationRequest, String extractFileName) {
+//        return PatientAttachmentLog.builder()
+//                .mid(XmlParseUtilService.parseMessageRef(payload))
+//                .filename(extractFileName)
+//                .parentMid(null)
+//                .patientMigrationReqId(migrationRequest.getId())
+//                .contentType("application/xml; charset=UTF-8")
+//                .compressed(false)
+//                .largeAttachment(true)
+//                .base64(false)
+//                .skeleton(false)
+//                .uploaded(true)
+//                .lengthNum(0)
+//                .orderNum(0)
+//                .build();
+//    }
 
     public void sendContinueRequest(
         RCMRIN030000UK06Message payload,

@@ -15,12 +15,16 @@ import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
+import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 import javax.xml.bind.ValidationException;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
@@ -39,6 +43,7 @@ public class InboundMessageMergingService {
     private final AttachmentHandlerService attachmentHandlerService;
     private final AttachmentReferenceUpdaterService attachmentReferenceUpdaterService;
     private final MigrationStatusLogService migrationStatusLogService;
+    private final XmlParseUtilService xmlParseUtilService;
 
     private final ObjectMapper objectMapper;
     private final XPathService xPathService;
@@ -53,7 +58,6 @@ public class InboundMessageMergingService {
     }
 
     public void mergeAndBundleMessage(String conversationId) {
-
         try {
             var attachmentLogs = getUndeletedLogsForConversation(conversationId);
             var attachmentsContainSkeletonMessage = attachmentLogs.stream().anyMatch(log -> log.getSkeleton().equals(true));
@@ -68,16 +72,18 @@ public class InboundMessageMergingService {
                 var skeletonFileAsString = new String(attachmentHandlerService.getAttachment(skeletonFileName), StandardCharsets.UTF_8);
 
                 // get ebxml references to find document id from skeleton message
-//                List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
-//                attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(message));
+                List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
+                attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage));
+                var ebxmlSkeletonReference = attachmentReferenceDescription.stream().filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid())).findFirst();
+                var skeletonDocumentId = ebxmlSkeletonReference.get().getDocumentId();
 
                 var payloadXml = xPathService.parseDocumentFromXml(inboundMessage.getPayload());
-                var valueNodes = xPathService.getNodes(payloadXml, "//*/@*[.='68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1']/parent::*/parent::*");
+                var valueNodes = xPathService.getNodes(payloadXml, "//*/@*[.='" + skeletonDocumentId + "']/parent::*/parent::*");
 
                 var payloadNodeToReplace = valueNodes.item(0);
                 var payloadNodeToReplaceParent = payloadNodeToReplace.getParentNode();
 
-                var skeletonExtractDocument = xPathService.parseDocumentFromXml("<nodesa>value</nodesa>");
+                var skeletonExtractDocument = xPathService.parseDocumentFromXml(skeletonFileAsString);
                 var skeletonExtractNodes = skeletonExtractDocument.getElementsByTagName("*");
                 var primarySkeletonNode = skeletonExtractNodes.item(0);
 
@@ -85,10 +91,11 @@ public class InboundMessageMergingService {
                 payloadXml = payloadNodeToReplaceParent.getOwnerDocument();
                 var importedToPayloadNode = payloadXml.importNode(primarySkeletonNode, true);
                 payloadNodeToReplaceParent.replaceChild(importedToPayloadNode, payloadNodeToReplace);
+                inboundMessage.setPayload(xmlParseUtilService.getStringFromDocument(payloadXml));
             }
 
             // process attachments
-            var messageAttachments = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(attachmentLogs, null);
+            var messageAttachments = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(attachmentLogs, Arrays.asList(""));
             var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
                 messageAttachments,
                 conversationId,
@@ -122,7 +129,7 @@ public class InboundMessageMergingService {
 
         var conversationAttachmentLogs = patientAttachmentLogService.findAttachmentLogs(conversationId);
         return conversationAttachmentLogs.stream()
-            .filter(log -> log.getDeleted().equals(false))
+            .filter(log -> log.getDeleted() == null || log.getDeleted().equals(false))
             .toList();
     }
 }
