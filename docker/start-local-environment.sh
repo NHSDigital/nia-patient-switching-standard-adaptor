@@ -17,7 +17,6 @@ docker-compose up -d ps_db mhs-adaptor-mock activemq;
 
 cd ../db-connector
 ./gradlew update
-cd ../docker
 
 ##### comment out if there is no uk_sct2cl_32.10.0_20220216000001Z.zip file
 #cd ../snomed-database-loader
@@ -26,6 +25,8 @@ cd ../docker
 #cd ../db-connector
 #./gradlew update
 #####
+
+cd ../docker
 
 docker-compose build gpc_facade gp2gp_translator;
 docker-compose up gpc_facade gp2gp_translator;
