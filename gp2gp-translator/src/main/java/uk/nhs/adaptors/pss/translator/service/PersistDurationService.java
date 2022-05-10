@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.connector.model.MessagePersistDuration;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MessagePersistDurationService;
+import uk.nhs.adaptors.pss.translator.exception.SdsRetrievalException;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -20,7 +21,7 @@ public class PersistDurationService {
     private MessagePersistDurationService messagePersistDurationService;
     private SDSService sdsService;
 
-    public Duration getPersistDurationFor(PatientMigrationRequest migrationRequest, String messageType) {
+    public Duration getPersistDurationFor(PatientMigrationRequest migrationRequest, String messageType) throws SdsRetrievalException {
 
         Optional<MessagePersistDuration> messageDurationOptional =
             messagePersistDurationService.getMessagePersistDuration(migrationRequest.getId(), messageType);
