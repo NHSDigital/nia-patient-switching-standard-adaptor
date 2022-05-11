@@ -193,16 +193,13 @@ public class COPCMessageHandler {
     }
 
     private void storeCOPCAttachment(PatientAttachmentLog fragmentAttachmentLog, InboundMessage inboundMessage,
-        String conversationId) throws ValidationException, InlineAttachmentProcessingException {
+                                     String conversationId) throws ValidationException, InlineAttachmentProcessingException {
 
         if (fragmentAttachmentLog.getLargeAttachment()) {
             attachmentHandlerService.storeAttachementWithoutProcessing(fragmentAttachmentLog.getFilename(),
-                inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
+                    inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
         } else {
-            var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
-                    Arrays.asList(fragmentAttachmentLog),
-                    Arrays.asList(inboundMessage.getAttachments().get(0).getPayload())
-            );
+            var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(Arrays.asList(fragmentAttachmentLog), Arrays.asList(inboundMessage.getAttachments().get(0).getPayload()));
             attachmentHandlerService.storeAttachments(attachment, conversationId);
         }
     }
@@ -288,29 +285,29 @@ public class COPCMessageHandler {
             PatientAttachmentLog fragmentLog = patientAttachmentLogService.findAttachmentLog(messageId, conversationId);
 
             if (fragmentLog != null) {
-                updateFragmentLog(fragmentLog, parentAttachmentLog, descriptionString, index - 1);
+                updateFragmentLog(fragmentLog, parentAttachmentLog, descriptionString, index - 1, parentAttachmentLog.getLargeAttachment());
                 patientAttachmentLogService.updateAttachmentLog(fragmentLog, conversationId);
             } else {
                 PatientAttachmentLog newFragmentLog = buildPatientAttachmentLog(messageId, descriptionString,
                     parentAttachmentLog.getMid(), migrationRequest.getId(),
-                    parentAttachmentLog.getSkeleton(), index - 1, fileUpload);
+                    parentAttachmentLog.getSkeleton(), index - 1, fileUpload, parentAttachmentLog.getLargeAttachment());
                 patientAttachmentLogService.addAttachmentLog(newFragmentLog);
             }
         }
     }
 
     private void updateFragmentLog(PatientAttachmentLog childLog, PatientAttachmentLog parentLog, String descriptionString,
-        int orderNum) throws ParseException {
+                                   int orderNum, Boolean isLargeAttachment) throws ParseException {
         childLog.setParentMid(parentLog.getMid());
         childLog.setCompressed(xmlParseUtilService.parseCompressed(descriptionString));
-        childLog.setLargeAttachment(xmlParseUtilService.parseLargeAttachment(descriptionString));
+        childLog.setLargeAttachment(isLargeAttachment);
         childLog.setSkeleton(parentLog.getSkeleton());
         childLog.setBase64(xmlParseUtilService.parseBase64(descriptionString));
         childLog.setOrderNum(orderNum);
     }
 
     private PatientAttachmentLog buildPatientAttachmentLog(String mid, String description, String parentMid, Integer patientId,
-        boolean isSkeleton, Integer attachmentOrder, boolean uploaded) throws ParseException {
+                                                           boolean isSkeleton, Integer attachmentOrder, boolean uploaded, Boolean isLargeAttachment) throws ParseException {
 
         return PatientAttachmentLog.builder()
             .mid(mid)
@@ -319,12 +316,11 @@ public class COPCMessageHandler {
             .patientMigrationReqId(patientId)
             .contentType(xmlParseUtilService.parseContentType(description))
             .compressed(xmlParseUtilService.parseCompressed(description))
-            .largeAttachment(xmlParseUtilService.parseLargeAttachment(description))
+            .largeAttachment(isLargeAttachment)
             .base64(xmlParseUtilService.parseBase64(description))
             .skeleton(isSkeleton)
             .uploaded(uploaded)
             .orderNum(attachmentOrder)
             .build();
     }
-
 }

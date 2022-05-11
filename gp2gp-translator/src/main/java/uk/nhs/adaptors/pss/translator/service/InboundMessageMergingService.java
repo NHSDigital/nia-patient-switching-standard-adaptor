@@ -70,8 +70,7 @@ public class InboundMessageMergingService {
                 // get ebxml references to find document id from skeleton message
                 List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
                 attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage));
-                var ebxmlSkeletonReference = attachmentReferenceDescription.stream()
-                        .filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid())).findFirst();
+                var ebxmlSkeletonReference = attachmentReferenceDescription.stream().filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid())).findFirst();
                 var skeletonDocumentId = ebxmlSkeletonReference.get().getDocumentId();
 
                 var payloadXml = xPathService.parseDocumentFromXml(inboundMessage.getPayload());
@@ -82,7 +81,7 @@ public class InboundMessageMergingService {
 
                 var skeletonExtractDocument = xPathService.parseDocumentFromXml(skeletonFileAsString);
                 var skeletonExtractNodes = skeletonExtractDocument.getElementsByTagName("*");
-                var primarySkeletonNode = skeletonExtractNodes.item(0);
+                var primarySkeletonNode = skeletonExtractNodes.item(1);
 
                 // using xPathServices breaks the xml document pointer, reset it
                 payloadXml = payloadNodeToReplaceParent.getOwnerDocument();
@@ -92,22 +91,26 @@ public class InboundMessageMergingService {
             }
 
             // process attachments
-            var messageAttachments = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(attachmentLogs, Arrays.asList(""));
+            var bypassPayloadLoadingArray = new String[attachmentLogs.size()];
+            Arrays.fill(bypassPayloadLoadingArray, "");
+            var messageAttachments = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(attachmentLogs, Arrays.asList(bypassPayloadLoadingArray));
             var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
-                messageAttachments,
-                conversationId,
-                inboundMessage.getPayload()
+                    messageAttachments,
+                    conversationId,
+                    inboundMessage.getPayload()
             );
 
             // process bundle
             inboundMessage.setPayload(newPayloadStr);
             var payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+
+
             var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
             migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
-                conversationId,
-                fhirParser.encodeToJson(bundle),
-                objectMapper.writeValueAsString(inboundMessage),
-                EHR_EXTRACT_TRANSLATED
+                    conversationId,
+                    fhirParser.encodeToJson(bundle),
+                    objectMapper.writeValueAsString(inboundMessage),
+                    EHR_EXTRACT_TRANSLATED
             );
 
             // move to new service
@@ -115,18 +118,20 @@ public class InboundMessageMergingService {
         } catch (Exception ex) {
             // send a NACK
 //            sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+            var i = 0;
         }
 
     }
 
     private List<PatientAttachmentLog> getUndeletedLogsForConversation(String conversationId) throws ValidationException {
+
         if (conversationId.isEmpty()) {
             throw new ValidationException("Conversation Id has not been given");
         }
 
         var conversationAttachmentLogs = patientAttachmentLogService.findAttachmentLogs(conversationId);
         return conversationAttachmentLogs.stream()
-            .filter(log -> log.getDeleted() == null || log.getDeleted().equals(false))
+            .filter(log -> log.getDeleted().equals(false))
             .toList();
     }
 }

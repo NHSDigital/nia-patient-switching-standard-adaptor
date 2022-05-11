@@ -90,7 +90,7 @@ public class EhrExtractMessageHandler {
                 for (var i = 0; i < attachments.size(); i++) {
                     var attachment = attachments.get(i);
                     PatientAttachmentLog newAttachmentLog =
-                        buildPatientAttachmentLogFromAttachment(messageId, payload, migrationRequest, attachment);
+                        buildPatientAttachmentLogFromAttachment(messageId, migrationRequest, attachment);
                     patientAttachmentLogService.addAttachmentLog(newAttachmentLog);
                 }
             }
@@ -123,15 +123,10 @@ public class EhrExtractMessageHandler {
 
                 for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
                     PatientAttachmentLog patientAttachmentLog;
-//                    if (XmlParseUtilService.parseIsSkeleton(externalAttachment.getDescription())) {
-//                        //save 06 Messages extract skeleton
-//                        patientAttachmentLog = buildPatientAttachmentSkeletonLog(payload, migrationRequest, extractFileName);
-//
-//                    } else {
-                        //save COPC_UK01 messages
-                        patientAttachmentLog =
-                            buildPatientAttachmentLogFromExternalAttachment(payload, migrationRequest, externalAttachment, true);
-//                    }
+
+                    //save COPC_UK01 messages
+                    patientAttachmentLog = buildPatientAttachmentLogFromExternalAttachment(migrationRequest, externalAttachment);
+
                     patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
                 }
 
@@ -169,7 +164,6 @@ public class EhrExtractMessageHandler {
     // Parent MID should be null against an EHR message so that they are not detected in the merge process
     private PatientAttachmentLog buildPatientAttachmentLogFromAttachment(
         String messageId,
-        RCMRIN030000UK06Message payload,
         PatientMigrationRequest migrationRequest,
         InboundMessage.Attachment attachment) throws ParseException {
 
@@ -190,10 +184,8 @@ public class EhrExtractMessageHandler {
     }
 
     private PatientAttachmentLog buildPatientAttachmentLogFromExternalAttachment(
-        RCMRIN030000UK06Message payload,
         PatientMigrationRequest migrationRequest,
-        InboundMessage.ExternalAttachment externalAttachment,
-        boolean isSkeleton) throws ParseException {
+        InboundMessage.ExternalAttachment externalAttachment) throws ParseException {
         return PatientAttachmentLog.builder()
                 .mid(externalAttachment.getMessageId())
                 .filename(XmlParseUtilService.parseFilename(externalAttachment.getDescription()))
@@ -203,7 +195,7 @@ public class EhrExtractMessageHandler {
                 .compressed(XmlParseUtilService.parseCompressed(externalAttachment.getDescription()))
                 .largeAttachment(XmlParseUtilService.parseLargeAttachment(externalAttachment.getDescription()))
                 .base64(XmlParseUtilService.parseBase64(externalAttachment.getDescription()))
-                .skeleton(isSkeleton)
+                .skeleton(XmlParseUtilService.parseIsSkeleton(externalAttachment.getDescription()))
                 .uploaded(false)
                 .lengthNum(XmlParseUtilService.parseFileLength(externalAttachment.getDescription()))
                 .orderNum(0)
