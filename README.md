@@ -66,6 +66,13 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [snomed
    - KEY_PASSWORD: server private key password
    - TRUST_STORE: path to the truststore
    - TRUST_STORE_PASSWORD: truststore password
+   
+   The following variables are used determine if a migration has timed out:
+   - SDS_BASE_URL: url of the SDS FHIR API (default is the Production environment)
+   - SDS_API_KEY: authentication for the SDS FHIR API
+   - TIMEOUT_EHR_EXTRACT_WEIGHTING: weighting factor to account transmission delays and volume throughput times of the RCMR_IN030000UK06 message (default is 1).  
+   - TIMEOUT_COPC_WEIGHTING: weighting factor to account transmission delays and volume throughput times of the COPC_IN000001UK01 message (default is 1).
+   - TIMEOUT_CRON_TIME: cron schedule for the timeout check (default is every six hours)
 
    If you plan to use external queues (like ActiveMQ on AWS), you also need to set credentials for those queues:
    - PS_AMQP_USERNAME
