@@ -31,5 +31,8 @@ export SSL_ENABLED=false
 export KEY_STORE=/certs/keystore.jks
 export TRUST_STORE=/certs/truststore.jks
 
+export SDS_API_key=""
+export SDS_BASE_URL="https://int.api.service.nhs.uk/spine-directory/FHIR/R4/"
+
 #change path for snomedFile fath
 #export SNOMED_CT_TERMINOLOGY_FILE="/mnt/c/Users/yourUserName/yourPath/uk_sct2cl_32.10.0_20220216000001Z.zip";
