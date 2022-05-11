@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
+import javax.xml.transform.TransformerException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.hl7.v3.COPCIN000001UK01Message;
@@ -83,10 +84,11 @@ public class COPCMessageHandler {
 
             // NIAD-2029 merge and uncompress large EHR message
             if (inboundMessageMergingService.canMergeCompleteBundle(conversationId)) {
-                inboundMessageMergingService.mergeAndBundleMessage(conversationId);
-            }
 
-        } catch (ParseException | InlineAttachmentProcessingException | SAXException e) {
+                inboundMessageMergingService.mergeAndBundleMessage(conversationId);
+
+            }
+        } catch (ParseException | InlineAttachmentProcessingException | ValidationException | SAXException e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);

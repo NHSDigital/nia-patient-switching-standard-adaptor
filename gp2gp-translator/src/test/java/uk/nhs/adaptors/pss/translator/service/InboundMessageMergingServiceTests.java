@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -26,6 +27,7 @@ import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,6 +111,25 @@ public class InboundMessageMergingServiceTests {
         // when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ///test the  canMergeCompleteBundle
+
     @Test
     public void When_NotAllUploadsComplete_CanMergeCompleteBundle_Expect_ReturnFalse() throws JAXBException {
         var attachmentLogs = createPatientAttachmentList(false, false);
@@ -129,6 +150,34 @@ public class InboundMessageMergingServiceTests {
         assertTrue(result);
     }
 
+
+    //When_CanMergeCompleteBundleHasNullOrEmptyParams_Expect_ThrowIllegalStateException
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //mergeAndBundleMessage
+
+    //happy path when no errors
+    //modify Name
+
+    //SekeletonWith2Parts  scenario 1
+
+
     @Test
     public void When_SkeletonMessage_Expect_InboundMessageMerge() throws SAXException, BundleMappingException {
         var attachments = createPatientAttachmentList(true, true);
@@ -142,7 +191,7 @@ public class InboundMessageMergingServiceTests {
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
 
-        inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
+        //inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
         // verify( file "got" once )
         // verify bundle inbound message contains file txt instead of narrative statement
@@ -153,6 +202,54 @@ public class InboundMessageMergingServiceTests {
         // var result = payload. ????
         // assert(result.contains(textFromExtract))
     }
+
+
+
+
+
+
+
+    //IF
+
+        //When_AttachmentsContainSkeletonMessage_Expect_toSetPayloadOfInboundMessage TEST
+        //true
+
+        //false
+
+        //When_AttachmentsDoesNotContainSkeletonMessage_Expect_NotToGetUndeletedFragmentsFromDb TEST
+
+
+
+        //When_AttachmentsContainSkeletonMessage_Expect_toSetPayloadOfInboundMessage TEST
+
+    //CATCH
+    //Test NAcks Send
+
+
+        //AttachmentNotFoundException |
+        //BundleMappingException |
+        //JsonProcessingException |
+        //JAXBException |
+        //TransformerException |
+        //InlineAttachmentProcessingException |
+        //SAXException ex
+
+
+        ////ValidationException |  JsonMappingException |
+
+
+
+
+    //When_MergeAndBundleMessageHasNullOrEmptyParams_Expect_ThrowIllegalStateException
+
+
+
+
+
+
+
+    //loads of crap
+    //example tests to help
 
     @Test
     public void When_AttachmentsPresent_Expect_AttachmentReferenceUpdated()
@@ -171,7 +268,7 @@ public class InboundMessageMergingServiceTests {
     }
 
     @Test
-    public void When_HappyPath_Expect_ThrowNoErrors() {
+    public void When_HappyPath_Expect_ThrowNoErrors() throws JAXBException, JsonProcessingException {
         var inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
@@ -180,6 +277,34 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private ArrayList<PatientAttachmentLog> createPatientAttachmentList(Boolean isParentUploaded, Boolean isSkeleton) {
         var patientAttachmentLogs = new ArrayList<PatientAttachmentLog>();
