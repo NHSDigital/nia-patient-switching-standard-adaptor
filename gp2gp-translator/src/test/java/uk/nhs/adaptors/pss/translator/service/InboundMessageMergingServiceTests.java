@@ -58,19 +58,14 @@ public class InboundMessageMergingServiceTests {
 
     @Mock
     NodeList nodeList;
-
     @Mock
     Node node;
-
-
     @Mock
     private PatientAttachmentLogService patientAttachmentLogService;
     @Mock
     private PatientMigrationRequestDao migrationRequestDao;
-
     @Mock
     private PatientMigrationRequest migrationRequest;
-
     @Mock
     private ObjectMapper objectMapper;
     @Mock
@@ -83,10 +78,8 @@ public class InboundMessageMergingServiceTests {
     InboundMessage inboundMessageMock;
     @Mock
     private Document document;
-
     @Mock
     NackAckPreparationService nackAckPreparationService;
-
     @Mock
     private AttachmentHandlerService attachmentHandlerService;
     @Mock
@@ -101,7 +94,6 @@ public class InboundMessageMergingServiceTests {
     private StorageManagerService storageManagerService;
     @Mock
     private XmlUnmarshallUtil xmlUnmarshallUtil;
-
     @InjectMocks
     private InboundMessageMergingService inboundMessageMergingService;
 
@@ -137,22 +129,16 @@ public class InboundMessageMergingServiceTests {
         Bundle bundle = new Bundle();
         bundle.setId("Test");
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
-
         inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
+        var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
+        var patientMigrationRequest = PatientMigrationRequest
+                .builder()
+                .inboundMessage(inboundMessageAsString)
+                .build();
 
-        //var inboundMessage = objectMapper.readValue(migrationRequest.getInboundMessage(), InboundMessage.class);
-
-
-        //when(inboundMessageMock.getPayload()).thenReturn(any());
-
-        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(PatientMigrationRequest.builder().build());
-
-
-        when(migrationRequest.getInboundMessage()).thenReturn(any());
-
-        /*lenient().*/when(objectMapper.readValue(anyString(), InboundMessage.class)).thenReturn(inboundMessage);
-
+        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
+        when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
 
         FILE_AS_BYTES = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
 
@@ -161,81 +147,32 @@ public class InboundMessageMergingServiceTests {
         var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
         var ebXmlAttachments = Arrays.asList(reference);
 
-//        RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(),getPayload RCMRIN030000UK06Message.class);
-
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
-
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
-
-        when(xPathService.getNodes(any(), any()))
-                .thenReturn(nodeList);
-
-
-
+        when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
         when(nodeList.item(0)).thenReturn(node);
-
         when(nodeList.item(1)).thenReturn(node);
 
         when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
         when(xmlParseUtilService.getStringFromDocument(any())).thenReturn(inboundMessage.getPayload());
-        //xmlParseUtilService.getStringFromDocument(
-
 
         when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
         when(node.getParentNode()).thenReturn(node);
 
         when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn("");
-
-        //doNothing().when(nackAckPreparationService).sendNackMessage((NACKReason) any(), (RCMRIN030000UK06Message) any(), any());
-
-        when(inboundMessageMock.getPayload()).thenReturn(inboundMessage.getPayload());
-
-
-
-
-        //doNothing().when(inboundMessageMock).setPayload(any());
-
-
-        //when(any()).thenReturn(node);
-
-
-
-//        when(xPathService.parseDocumentFromXml(inboundMessage.getPayload())).thenReturn(null);
-
-//         var nodeList = new ArrayList<Node>();
-//         when(xPathService.getNodes(any(), any())).thenReturn((NodeList) nodeList);
     }
 
-
-    //happy path when no errors
-    //not Skelleton
     @Test
     public void When_HappyPath_Expect_ThrowNoErrors() throws JAXBException, JsonProcessingException, SAXException, TransformerException, AttachmentNotFoundException, InlineAttachmentProcessingException {
         var inboundMessage = new InboundMessage();
-
-
-
-
         prepareSkeletonMocks(inboundMessage);
 
         var attachments = createPatientAttachmentList(true, true);
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
-//      when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(new byte[10]);
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
-
-        // should include skeleton message - rest of skeleton related stuff needs to be mocked
     }
-
-
-
-
-
-
-
-
-
 
     @Test
     public void When_NotAllUploadsComplete_CanMergeCompleteBundle_Expect_ReturnFalse() throws JAXBException {
@@ -301,17 +238,6 @@ public class InboundMessageMergingServiceTests {
         prepareSkeletonMocks(inboundMessage);
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
-
-        //inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
-
-        // verify( file "got" once )
-        // verify bundle inbound message contains file txt instead of narrative statement
-        ArgumentCaptor<RCMRIN030000UK06Message> argument = ArgumentCaptor.forClass(RCMRIN030000UK06Message.class);
-        verify(bundleMapperService).mapToBundle(argument.capture(), any());
-        var payload = argument.getValue();
-        // todo: pull what we need out of payload and check it has contents of relevant extract in
-        // var result = payload. ????
-        // assert(result.contains(textFromExtract))
 
         //true/false
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(CONVERSATION_ID, any(), any(), any());
