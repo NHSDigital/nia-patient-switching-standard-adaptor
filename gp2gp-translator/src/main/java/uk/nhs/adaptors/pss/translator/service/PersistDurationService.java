@@ -1,16 +1,15 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import java.time.Duration;
-import java.util.Optional;
-
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.connector.model.MessagePersistDuration;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MessagePersistDurationService;
 import uk.nhs.adaptors.pss.translator.exception.SdsRetrievalException;
+
+import java.time.Duration;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -31,7 +30,6 @@ public class PersistDurationService {
 
             return messagePersistDurationService.addMessagePersistDuration(
                 messageType,
-
                 sdsService.getPersistDurationFor(messageType, migrationRequest.getLosingPracticeOdsCode(),
                     migrationRequest.getConversationId()),
                 1,
@@ -40,7 +38,7 @@ public class PersistDurationService {
         }
 
         return messageDurationOptional.map(mpd ->
-            messagePersistDurationService.addMessagePersistDuration(
+                messagePersistDurationService.addMessagePersistDuration(
                 mpd.getMessageType(),
                 mpd.getPersistDuration(),
                 mpd.getCallsSinceUpdate() + 1,
