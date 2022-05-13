@@ -26,8 +26,10 @@ import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
+import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
+import uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
@@ -78,6 +80,14 @@ public class InboundMessageMergingServiceTests {
     @Mock
     private Document ebXmlDocument;
     @Mock
+    InboundMessage inboundMessageMock;
+    @Mock
+    private Document document;
+
+    @Mock
+    NackAckPreparationService nackAckPreparationService;
+
+    @Mock
     private AttachmentHandlerService attachmentHandlerService;
     @Mock
     private AttachmentReferenceUpdaterService attachmentReferenceUpdaterService;
@@ -89,6 +99,9 @@ public class InboundMessageMergingServiceTests {
     private FhirParser fhirParser;
     @Mock
     private StorageManagerService storageManagerService;
+    @Mock
+    private XmlUnmarshallUtil xmlUnmarshallUtil;
+
     @InjectMocks
     private InboundMessageMergingService inboundMessageMergingService;
 
@@ -118,7 +131,7 @@ public class InboundMessageMergingServiceTests {
                 )).thenReturn(inboundMessage.getPayload());
     }
 
-    private void prepareSkeletonMocks(InboundMessage inboundMessage) throws SAXException, JAXBException, JsonProcessingException {
+    private void prepareSkeletonMocks(InboundMessage inboundMessage) throws SAXException, JAXBException, JsonProcessingException, TransformerException, AttachmentNotFoundException, InlineAttachmentProcessingException {
 
         inboundMessage.setPayload("payload");
         Bundle bundle = new Bundle();
@@ -130,12 +143,15 @@ public class InboundMessageMergingServiceTests {
 
         //var inboundMessage = objectMapper.readValue(migrationRequest.getInboundMessage(), InboundMessage.class);
 
+
+        //when(inboundMessageMock.getPayload()).thenReturn(any());
+
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(PatientMigrationRequest.builder().build());
 
 
         when(migrationRequest.getInboundMessage()).thenReturn(any());
 
-        when(objectMapper.readValue((String) any(), InboundMessage.class)).thenReturn(inboundMessage);
+        /*lenient().*/when(objectMapper.readValue(anyString(), InboundMessage.class)).thenReturn(inboundMessage);
 
 
         FILE_AS_BYTES = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
@@ -151,395 +167,6 @@ public class InboundMessageMergingServiceTests {
 
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
 
-
-
-        Node nodeChild = new Node() {
-            @Override
-            public String getNodeName() {
-                return null;
-            }
-
-            @Override
-            public String getNodeValue() throws DOMException {
-                return null;
-            }
-
-            @Override
-            public void setNodeValue(String nodeValue) throws DOMException {
-
-            }
-
-            @Override
-            public short getNodeType() {
-                return 0;
-            }
-
-            @Override
-            public Node getParentNode() {
-                return null;
-            }
-
-            @Override
-            public NodeList getChildNodes() {
-                return null;
-            }
-
-            @Override
-            public Node getFirstChild() {
-                return null;
-            }
-
-            @Override
-            public Node getLastChild() {
-                return null;
-            }
-
-            @Override
-            public Node getPreviousSibling() {
-                return null;
-            }
-
-            @Override
-            public Node getNextSibling() {
-                return null;
-            }
-
-            @Override
-            public NamedNodeMap getAttributes() {
-                return null;
-            }
-
-            @Override
-            public Document getOwnerDocument() {
-                return null;
-            }
-
-            @Override
-            public Node insertBefore(Node newChild, Node refChild) throws DOMException {
-                return null;
-            }
-
-            @Override
-            public Node replaceChild(Node newChild, Node oldChild) throws DOMException {
-                return null;
-            }
-
-            @Override
-            public Node removeChild(Node oldChild) throws DOMException {
-                return null;
-            }
-
-            @Override
-            public Node appendChild(Node newChild) throws DOMException {
-                return null;
-            }
-
-            @Override
-            public boolean hasChildNodes() {
-                return false;
-            }
-
-            @Override
-            public Node cloneNode(boolean deep) {
-                return null;
-            }
-
-            @Override
-            public void normalize() {
-
-            }
-
-            @Override
-            public boolean isSupported(String feature, String version) {
-                return false;
-            }
-
-            @Override
-            public String getNamespaceURI() {
-                return null;
-            }
-
-            @Override
-            public String getPrefix() {
-                return null;
-            }
-
-            @Override
-            public void setPrefix(String prefix) throws DOMException {
-
-            }
-
-            @Override
-            public String getLocalName() {
-                return null;
-            }
-
-            @Override
-            public boolean hasAttributes() {
-                return false;
-            }
-
-            @Override
-            public String getBaseURI() {
-                return null;
-            }
-
-            @Override
-            public short compareDocumentPosition(Node other) throws DOMException {
-                return 0;
-            }
-
-            @Override
-            public String getTextContent() throws DOMException {
-                return null;
-            }
-
-            @Override
-            public void setTextContent(String textContent) throws DOMException {
-
-            }
-
-            @Override
-            public boolean isSameNode(Node other) {
-                return false;
-            }
-
-            @Override
-            public String lookupPrefix(String namespaceURI) {
-                return null;
-            }
-
-            @Override
-            public boolean isDefaultNamespace(String namespaceURI) {
-                return false;
-            }
-
-            @Override
-            public String lookupNamespaceURI(String prefix) {
-                return null;
-            }
-
-            @Override
-            public boolean isEqualNode(Node arg) {
-                return false;
-            }
-
-            @Override
-            public Object getFeature(String feature, String version) {
-                return null;
-            }
-
-            @Override
-            public Object setUserData(String key, Object data, UserDataHandler handler) {
-                return null;
-            }
-
-            @Override
-            public Object getUserData(String key) {
-                return null;
-            }
-        };
-
-        Node node = new Node() {
-            @Override
-            public String getNodeName() {
-                return null;
-            }
-
-            @Override
-            public String getNodeValue() throws DOMException {
-                return null;
-            }
-
-            @Override
-            public void setNodeValue(String nodeValue) throws DOMException {
-
-            }
-
-            @Override
-            public short getNodeType() {
-                return 0;
-            }
-
-            @Override
-            public Node getParentNode() {
-                return nodeChild;
-            }
-
-            @Override
-            public NodeList getChildNodes() {
-                return null;
-            }
-
-            @Override
-            public Node getFirstChild() {
-                return null;
-            }
-
-            @Override
-            public Node getLastChild() {
-                return null;
-            }
-
-            @Override
-            public Node getPreviousSibling() {
-                return null;
-            }
-
-            @Override
-            public Node getNextSibling() {
-                return null;
-            }
-
-            @Override
-            public NamedNodeMap getAttributes() {
-                return null;
-            }
-
-            @Override
-            public Document getOwnerDocument() {
-                return null;
-            }
-
-            @Override
-            public Node insertBefore(Node newChild, Node refChild) throws DOMException {
-                return null;
-            }
-
-            @Override
-            public Node replaceChild(Node newChild, Node oldChild) throws DOMException {
-                return null;
-            }
-
-            @Override
-            public Node removeChild(Node oldChild) throws DOMException {
-                return null;
-            }
-
-            @Override
-            public Node appendChild(Node newChild) throws DOMException {
-                return null;
-            }
-
-            @Override
-            public boolean hasChildNodes() {
-                return false;
-            }
-
-            @Override
-            public Node cloneNode(boolean deep) {
-                return null;
-            }
-
-            @Override
-            public void normalize() {
-
-            }
-
-            @Override
-            public boolean isSupported(String feature, String version) {
-                return false;
-            }
-
-            @Override
-            public String getNamespaceURI() {
-                return null;
-            }
-
-            @Override
-            public String getPrefix() {
-                return null;
-            }
-
-            @Override
-            public void setPrefix(String prefix) throws DOMException {
-
-            }
-
-            @Override
-            public String getLocalName() {
-                return null;
-            }
-
-            @Override
-            public boolean hasAttributes() {
-                return false;
-            }
-
-            @Override
-            public String getBaseURI() {
-                return null;
-            }
-
-            @Override
-            public short compareDocumentPosition(Node other) throws DOMException {
-                return 0;
-            }
-
-            @Override
-            public String getTextContent() throws DOMException {
-                return null;
-            }
-
-            @Override
-            public void setTextContent(String textContent) throws DOMException {
-
-            }
-
-            @Override
-            public boolean isSameNode(Node other) {
-                return false;
-            }
-
-            @Override
-            public String lookupPrefix(String namespaceURI) {
-                return null;
-            }
-
-            @Override
-            public boolean isDefaultNamespace(String namespaceURI) {
-                return false;
-            }
-
-            @Override
-            public String lookupNamespaceURI(String prefix) {
-                return null;
-            }
-
-            @Override
-            public boolean isEqualNode(Node arg) {
-                return false;
-            }
-
-            @Override
-            public Object getFeature(String feature, String version) {
-                return null;
-            }
-
-            @Override
-            public Object setUserData(String key, Object data, UserDataHandler handler) {
-                return null;
-            }
-
-            @Override
-            public Object getUserData(String key) {
-                return null;
-            }
-        };
-
-/*        when(xPathService.getNodes(any(), any()))
-                .thenReturn(new NodeList() {
-                    @Override
-                    public Node item(int index) {
-                        return nodeChild;
-                    }
-
-                    @Override
-                    public int getLength() {
-                        return 0;
-                    }
-                });*/
-
         when(xPathService.getNodes(any(), any()))
                 .thenReturn(nodeList);
 
@@ -550,8 +177,25 @@ public class InboundMessageMergingServiceTests {
         when(nodeList.item(1)).thenReturn(node);
 
         when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
+        when(xmlParseUtilService.getStringFromDocument(any())).thenReturn(inboundMessage.getPayload());
+        //xmlParseUtilService.getStringFromDocument(
 
-        //when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
+
+        when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
+        when(node.getParentNode()).thenReturn(node);
+
+        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn("");
+
+        //doNothing().when(nackAckPreparationService).sendNackMessage((NACKReason) any(), (RCMRIN030000UK06Message) any(), any());
+
+        when(inboundMessageMock.getPayload()).thenReturn(inboundMessage.getPayload());
+
+
+
+
+        //doNothing().when(inboundMessageMock).setPayload(any());
+
+
         //when(any()).thenReturn(node);
 
 
@@ -561,6 +205,37 @@ public class InboundMessageMergingServiceTests {
 //         var nodeList = new ArrayList<Node>();
 //         when(xPathService.getNodes(any(), any())).thenReturn((NodeList) nodeList);
     }
+
+
+    //happy path when no errors
+    //not Skelleton
+    @Test
+    public void When_HappyPath_Expect_ThrowNoErrors() throws JAXBException, JsonProcessingException, SAXException, TransformerException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+        var inboundMessage = new InboundMessage();
+
+
+
+
+        prepareSkeletonMocks(inboundMessage);
+
+        var attachments = createPatientAttachmentList(true, true);
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
+//      when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(new byte[10]);
+
+        inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
+
+
+        // should include skeleton message - rest of skeleton related stuff needs to be mocked
+    }
+
+
+
+
+
+
+
+
+
 
     @Test
     public void When_NotAllUploadsComplete_CanMergeCompleteBundle_Expect_ReturnFalse() throws JAXBException {
@@ -615,7 +290,7 @@ public class InboundMessageMergingServiceTests {
     }
 
     @Test
-    public void When_SkeletonMessage_Expect_InboundMessageMerge() throws SAXException, BundleMappingException, JAXBException, JsonProcessingException {
+    public void When_SkeletonMessage_Expect_InboundMessageMerge() throws SAXException, BundleMappingException, JAXBException, JsonProcessingException, TransformerException, AttachmentNotFoundException, InlineAttachmentProcessingException {
         var attachments = createPatientAttachmentList(true, true);
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
@@ -676,21 +351,7 @@ public class InboundMessageMergingServiceTests {
                 .updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload());
     }
 
-    //happy path when no errors
-    //not Skelleton
-    @Test
-    public void When_HappyPath_Expect_ThrowNoErrors() throws JAXBException, JsonProcessingException, SAXException {
-        var inboundMessage = new InboundMessage();
-        prepareSkeletonMocks(inboundMessage);
 
-        var attachments = createPatientAttachmentList(true, true);
-        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
-//      when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(new byte[10]);
-
-        inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
-
-        // should include skeleton message - rest of skeleton related stuff needs to be mocked
-    }
 
     //test happy path with IF and without IF (with extract and without extract)
 
