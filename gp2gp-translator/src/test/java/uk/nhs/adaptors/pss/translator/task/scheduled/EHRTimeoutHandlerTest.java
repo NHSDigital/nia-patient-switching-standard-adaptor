@@ -66,7 +66,7 @@ public class EHRTimeoutHandlerTest {
     private static final String EBXML_STRING = "test ebXML";
     private static final String EBXML_STRING_TWO = "test ebXML 2";
     @Mock
-    private static PersistDurationService persistDurationService;
+    private PersistDurationService persistDurationService;
     @Mock
     private PatientMigrationRequestService migrationRequestService;
     @Mock
@@ -144,7 +144,7 @@ public class EHRTimeoutHandlerTest {
     @Test
     public void When_CheckForTimeouts_WithAttachments_Expect_SendNACKMessageHandlerIsCalled() {
         String conversationId = UUID.randomUUID().toString();
-        callCheckForTimeoutsWithOneRequest(CONTINUE_REQUEST_ACCEPTED, TEN_DAYS_AGO,1, conversationId);
+        callCheckForTimeoutsWithOneRequest(CONTINUE_REQUEST_ACCEPTED, TEN_DAYS_AGO, 1, conversationId);
         verify(sendNACKMessageHandler, times(1)).prepareAndSendMessage(any());
     }
 
@@ -226,16 +226,17 @@ public class EHRTimeoutHandlerTest {
         verify(migrationStatusLogService, times(1)).addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId);
     }
 
-    private void callCheckForTimeoutsWithOneRequest(MigrationStatus migrationStatus, ZonedDateTime requestTimestamp, long numberOfAttachments,
-        String conversationId) {
+    private void callCheckForTimeoutsWithOneRequest(MigrationStatus migrationStatus, ZonedDateTime requestTimestamp,
+        long numberOfAttachments, String conversationId) {
 
-        try (MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class)) {
+        try {
 
             // Arrange
 
             setupMocks();
 
             // mock static method
+            MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
             mockedXmlUnmarshall.when(
                 () -> XmlUnmarshallUtil.unmarshallString(any(), eq(RCMRIN030000UK06Message.class))
             ).thenReturn(mockedPayload);
@@ -259,6 +260,7 @@ public class EHRTimeoutHandlerTest {
 
             ehrTimeoutHandler.checkForTimeouts();
 
+            mockedXmlUnmarshall.close();
         } catch (JsonProcessingException | SAXException e) {
             throw new RuntimeException(e);
         }
@@ -266,13 +268,14 @@ public class EHRTimeoutHandlerTest {
 
     private void callCheckForTimeoutWithTwoRequests(ZonedDateTime firstRequestTimestamp, ZonedDateTime secondRequestTimestamp) {
 
-        try (MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class)) {
+        try {
 
             // Arrange
 
             setupMocks();
 
             // mock static method
+            MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
             mockedXmlUnmarshall.when(
                 () -> XmlUnmarshallUtil.unmarshallString(any(), eq(RCMRIN030000UK06Message.class))
             ).thenReturn(mockedPayload);
@@ -302,6 +305,8 @@ public class EHRTimeoutHandlerTest {
             // Act
 
             ehrTimeoutHandler.checkForTimeouts();
+
+            mockedXmlUnmarshall.close();
 
         } catch (JsonProcessingException | SAXException e) {
             throw new RuntimeException(e);
