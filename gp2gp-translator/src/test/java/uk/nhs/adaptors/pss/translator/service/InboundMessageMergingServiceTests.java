@@ -12,9 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.StringUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
@@ -55,10 +53,22 @@ public class InboundMessageMergingServiceTests {
     private static final String FILENAME = "test_main.txt";
     private static byte[] FILE_AS_BYTES;
 
+
+    @Mock
+    NodeList nodeList;
+
+    @Mock
+    Node node;
+
+
     @Mock
     private PatientAttachmentLogService patientAttachmentLogService;
     @Mock
     private PatientMigrationRequestDao migrationRequestDao;
+
+    @Mock
+    private PatientMigrationRequest migrationRequest;
+
     @Mock
     private ObjectMapper objectMapper;
     @Mock
@@ -88,7 +98,7 @@ public class InboundMessageMergingServiceTests {
         inboundMessage.setPayload("payload");
         Bundle bundle = new Bundle();
         bundle.setId("Test");
-        inboundMessage.setPayload(readInboundMessageFromFile());
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
 
         inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
@@ -109,7 +119,26 @@ public class InboundMessageMergingServiceTests {
     }
 
     private void prepareSkeletonMocks(InboundMessage inboundMessage) throws SAXException, JAXBException, JsonProcessingException {
-        FILE_AS_BYTES = readInboundMessageFromFile().getBytes(StandardCharsets.UTF_8);
+
+        inboundMessage.setPayload("payload");
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
+
+
+        //var inboundMessage = objectMapper.readValue(migrationRequest.getInboundMessage(), InboundMessage.class);
+
+        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(PatientMigrationRequest.builder().build());
+
+
+        when(migrationRequest.getInboundMessage()).thenReturn(any());
+
+        when(objectMapper.readValue((String) any(), InboundMessage.class)).thenReturn(inboundMessage);
+
+
+        FILE_AS_BYTES = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
 
         when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(FILE_AS_BYTES);
 
@@ -119,7 +148,413 @@ public class InboundMessageMergingServiceTests {
 //        RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(),getPayload RCMRIN030000UK06Message.class);
 
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
-        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(any());
+
+        when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
+
+
+
+        Node nodeChild = new Node() {
+            @Override
+            public String getNodeName() {
+                return null;
+            }
+
+            @Override
+            public String getNodeValue() throws DOMException {
+                return null;
+            }
+
+            @Override
+            public void setNodeValue(String nodeValue) throws DOMException {
+
+            }
+
+            @Override
+            public short getNodeType() {
+                return 0;
+            }
+
+            @Override
+            public Node getParentNode() {
+                return null;
+            }
+
+            @Override
+            public NodeList getChildNodes() {
+                return null;
+            }
+
+            @Override
+            public Node getFirstChild() {
+                return null;
+            }
+
+            @Override
+            public Node getLastChild() {
+                return null;
+            }
+
+            @Override
+            public Node getPreviousSibling() {
+                return null;
+            }
+
+            @Override
+            public Node getNextSibling() {
+                return null;
+            }
+
+            @Override
+            public NamedNodeMap getAttributes() {
+                return null;
+            }
+
+            @Override
+            public Document getOwnerDocument() {
+                return null;
+            }
+
+            @Override
+            public Node insertBefore(Node newChild, Node refChild) throws DOMException {
+                return null;
+            }
+
+            @Override
+            public Node replaceChild(Node newChild, Node oldChild) throws DOMException {
+                return null;
+            }
+
+            @Override
+            public Node removeChild(Node oldChild) throws DOMException {
+                return null;
+            }
+
+            @Override
+            public Node appendChild(Node newChild) throws DOMException {
+                return null;
+            }
+
+            @Override
+            public boolean hasChildNodes() {
+                return false;
+            }
+
+            @Override
+            public Node cloneNode(boolean deep) {
+                return null;
+            }
+
+            @Override
+            public void normalize() {
+
+            }
+
+            @Override
+            public boolean isSupported(String feature, String version) {
+                return false;
+            }
+
+            @Override
+            public String getNamespaceURI() {
+                return null;
+            }
+
+            @Override
+            public String getPrefix() {
+                return null;
+            }
+
+            @Override
+            public void setPrefix(String prefix) throws DOMException {
+
+            }
+
+            @Override
+            public String getLocalName() {
+                return null;
+            }
+
+            @Override
+            public boolean hasAttributes() {
+                return false;
+            }
+
+            @Override
+            public String getBaseURI() {
+                return null;
+            }
+
+            @Override
+            public short compareDocumentPosition(Node other) throws DOMException {
+                return 0;
+            }
+
+            @Override
+            public String getTextContent() throws DOMException {
+                return null;
+            }
+
+            @Override
+            public void setTextContent(String textContent) throws DOMException {
+
+            }
+
+            @Override
+            public boolean isSameNode(Node other) {
+                return false;
+            }
+
+            @Override
+            public String lookupPrefix(String namespaceURI) {
+                return null;
+            }
+
+            @Override
+            public boolean isDefaultNamespace(String namespaceURI) {
+                return false;
+            }
+
+            @Override
+            public String lookupNamespaceURI(String prefix) {
+                return null;
+            }
+
+            @Override
+            public boolean isEqualNode(Node arg) {
+                return false;
+            }
+
+            @Override
+            public Object getFeature(String feature, String version) {
+                return null;
+            }
+
+            @Override
+            public Object setUserData(String key, Object data, UserDataHandler handler) {
+                return null;
+            }
+
+            @Override
+            public Object getUserData(String key) {
+                return null;
+            }
+        };
+
+        Node node = new Node() {
+            @Override
+            public String getNodeName() {
+                return null;
+            }
+
+            @Override
+            public String getNodeValue() throws DOMException {
+                return null;
+            }
+
+            @Override
+            public void setNodeValue(String nodeValue) throws DOMException {
+
+            }
+
+            @Override
+            public short getNodeType() {
+                return 0;
+            }
+
+            @Override
+            public Node getParentNode() {
+                return nodeChild;
+            }
+
+            @Override
+            public NodeList getChildNodes() {
+                return null;
+            }
+
+            @Override
+            public Node getFirstChild() {
+                return null;
+            }
+
+            @Override
+            public Node getLastChild() {
+                return null;
+            }
+
+            @Override
+            public Node getPreviousSibling() {
+                return null;
+            }
+
+            @Override
+            public Node getNextSibling() {
+                return null;
+            }
+
+            @Override
+            public NamedNodeMap getAttributes() {
+                return null;
+            }
+
+            @Override
+            public Document getOwnerDocument() {
+                return null;
+            }
+
+            @Override
+            public Node insertBefore(Node newChild, Node refChild) throws DOMException {
+                return null;
+            }
+
+            @Override
+            public Node replaceChild(Node newChild, Node oldChild) throws DOMException {
+                return null;
+            }
+
+            @Override
+            public Node removeChild(Node oldChild) throws DOMException {
+                return null;
+            }
+
+            @Override
+            public Node appendChild(Node newChild) throws DOMException {
+                return null;
+            }
+
+            @Override
+            public boolean hasChildNodes() {
+                return false;
+            }
+
+            @Override
+            public Node cloneNode(boolean deep) {
+                return null;
+            }
+
+            @Override
+            public void normalize() {
+
+            }
+
+            @Override
+            public boolean isSupported(String feature, String version) {
+                return false;
+            }
+
+            @Override
+            public String getNamespaceURI() {
+                return null;
+            }
+
+            @Override
+            public String getPrefix() {
+                return null;
+            }
+
+            @Override
+            public void setPrefix(String prefix) throws DOMException {
+
+            }
+
+            @Override
+            public String getLocalName() {
+                return null;
+            }
+
+            @Override
+            public boolean hasAttributes() {
+                return false;
+            }
+
+            @Override
+            public String getBaseURI() {
+                return null;
+            }
+
+            @Override
+            public short compareDocumentPosition(Node other) throws DOMException {
+                return 0;
+            }
+
+            @Override
+            public String getTextContent() throws DOMException {
+                return null;
+            }
+
+            @Override
+            public void setTextContent(String textContent) throws DOMException {
+
+            }
+
+            @Override
+            public boolean isSameNode(Node other) {
+                return false;
+            }
+
+            @Override
+            public String lookupPrefix(String namespaceURI) {
+                return null;
+            }
+
+            @Override
+            public boolean isDefaultNamespace(String namespaceURI) {
+                return false;
+            }
+
+            @Override
+            public String lookupNamespaceURI(String prefix) {
+                return null;
+            }
+
+            @Override
+            public boolean isEqualNode(Node arg) {
+                return false;
+            }
+
+            @Override
+            public Object getFeature(String feature, String version) {
+                return null;
+            }
+
+            @Override
+            public Object setUserData(String key, Object data, UserDataHandler handler) {
+                return null;
+            }
+
+            @Override
+            public Object getUserData(String key) {
+                return null;
+            }
+        };
+
+/*        when(xPathService.getNodes(any(), any()))
+                .thenReturn(new NodeList() {
+                    @Override
+                    public Node item(int index) {
+                        return nodeChild;
+                    }
+
+                    @Override
+                    public int getLength() {
+                        return 0;
+                    }
+                });*/
+
+        when(xPathService.getNodes(any(), any()))
+                .thenReturn(nodeList);
+
+
+
+        when(nodeList.item(0)).thenReturn(node);
+
+        when(nodeList.item(1)).thenReturn(node);
+
+        when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
+
+        //when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
+        //when(any()).thenReturn(node);
+
+
 
 //        when(xPathService.parseDocumentFromXml(inboundMessage.getPayload())).thenReturn(null);
 
@@ -183,7 +618,7 @@ public class InboundMessageMergingServiceTests {
     public void When_SkeletonMessage_Expect_InboundMessageMerge() throws SAXException, BundleMappingException, JAXBException, JsonProcessingException {
         var attachments = createPatientAttachmentList(true, true);
         var inboundMessage = new InboundMessage();
-        inboundMessage.setPayload(readInboundMessageFromFile());
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
         inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
@@ -242,6 +677,7 @@ public class InboundMessageMergingServiceTests {
     }
 
     //happy path when no errors
+    //not Skelleton
     @Test
     public void When_HappyPath_Expect_ThrowNoErrors() throws JAXBException, JsonProcessingException, SAXException {
         var inboundMessage = new InboundMessage();
@@ -249,7 +685,7 @@ public class InboundMessageMergingServiceTests {
 
         var attachments = createPatientAttachmentList(true, true);
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
-//        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(new byte[10]);
+//      when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(new byte[10]);
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
@@ -278,7 +714,7 @@ public class InboundMessageMergingServiceTests {
     }
 
     @SneakyThrows
-    private String readInboundMessageFromFile() {
+    private String readInboundMessagePayloadFromFile() {
         return readResourceAsString("/xml/inbound_message_payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 
