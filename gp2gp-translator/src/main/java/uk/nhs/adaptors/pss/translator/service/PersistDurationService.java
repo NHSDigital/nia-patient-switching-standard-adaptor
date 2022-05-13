@@ -31,7 +31,6 @@ public class PersistDurationService {
 
             return messagePersistDurationService.addMessagePersistDuration(
                 messageType,
-
                 sdsService.getPersistDurationFor(messageType, migrationRequest.getLosingPracticeOdsCode(),
                     migrationRequest.getConversationId()),
                 1,
