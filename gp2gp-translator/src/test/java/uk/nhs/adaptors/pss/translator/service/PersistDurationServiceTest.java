@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.connector.model.MessagePersistDuration;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MessagePersistDurationService;
+import uk.nhs.adaptors.pss.translator.config.TimeoutProperties;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -25,7 +26,7 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 public class PersistDurationServiceTest {
 
-    private static final int FREQUENCY_OF_PERSIST_DURATION_UPDATE = 3;
+    private static final int SDS_POLL_FREQUENCY = 3;
     private static final int OVER_RANGE_CALL_AMOUNT = 4;
 
     @Mock
@@ -39,6 +40,9 @@ public class PersistDurationServiceTest {
 
     @Mock
     private PatientMigrationRequest migrationRequest;
+
+    @Mock
+    private TimeoutProperties timeoutProperties;
 
     @InjectMocks
     private PersistDurationService persistDurationService;
@@ -62,6 +66,7 @@ public class PersistDurationServiceTest {
 
         val messagePersistDuration = Optional.of(mockDuration);
         when(mockDuration.getPersistDuration()).thenReturn(Duration.ofSeconds(1));
+        when(timeoutProperties.getSdsPollFrequency()).thenReturn(SDS_POLL_FREQUENCY);
         when(mockDuration.getCallsSinceUpdate()).thenReturn(OVER_RANGE_CALL_AMOUNT);
 
         when(messagePersistDurationService.getMessagePersistDuration(anyInt(), anyString()))
@@ -80,7 +85,8 @@ public class PersistDurationServiceTest {
 
         val messagePersistDuration = Optional.of(mockDuration);
         when(mockDuration.getPersistDuration()).thenReturn(Duration.ofSeconds(1));
-        when(mockDuration.getCallsSinceUpdate()).thenReturn(FREQUENCY_OF_PERSIST_DURATION_UPDATE);
+        when(timeoutProperties.getSdsPollFrequency()).thenReturn(SDS_POLL_FREQUENCY);
+        when(mockDuration.getCallsSinceUpdate()).thenReturn(SDS_POLL_FREQUENCY);
 
         when(messagePersistDurationService.getMessagePersistDuration(anyInt(), anyString()))
             .thenReturn(messagePersistDuration);
@@ -98,6 +104,7 @@ public class PersistDurationServiceTest {
 
         val messagePersistDuration = Optional.of(mockDuration);
         when(mockDuration.getPersistDuration()).thenReturn(Duration.ofSeconds(1));
+        when(timeoutProperties.getSdsPollFrequency()).thenReturn(SDS_POLL_FREQUENCY);
         when(mockDuration.getCallsSinceUpdate()).thenReturn(1);
         when(mockDuration.getMessageType()).thenReturn("PT1S");
 

@@ -73,6 +73,7 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [snomed
    - TIMEOUT_EHR_EXTRACT_WEIGHTING: weighting factor to account transmission delays and volume throughput times of the RCMR_IN030000UK06 message (default is 1).  
    - TIMEOUT_COPC_WEIGHTING: weighting factor to account transmission delays and volume throughput times of the COPC_IN000001UK01 message (default is 1).
    - TIMEOUT_CRON_TIME: cron schedule for the timeout check (default is every six hours)
+   - TIMEOUT_SDS_POLL_FREQUENCY: The frequency SDS is polled for message persist durations (default is every 3 cron jobs).
 
    If you plan to use external queues (like ActiveMQ on AWS), you also need to set credentials for those queues:
    - PS_AMQP_USERNAME

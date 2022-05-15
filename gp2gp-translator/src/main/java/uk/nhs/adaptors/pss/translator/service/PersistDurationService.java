@@ -7,17 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.model.MessagePersistDuration;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MessagePersistDurationService;
+import uk.nhs.adaptors.pss.translator.config.TimeoutProperties;
 import uk.nhs.adaptors.pss.translator.exception.SdsRetrievalException;
 
 @Service
+@Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersistDurationService {
 
-    private static final int FREQUENCY_OF_PERSIST_DURATION_UPDATE = 3;
-
+    private TimeoutProperties timeoutProperties;
     private MessagePersistDurationService messagePersistDurationService;
     private SDSService sdsService;
 
@@ -27,7 +29,7 @@ public class PersistDurationService {
             messagePersistDurationService.getMessagePersistDuration(migrationRequest.getId(), messageType);
 
         if (messageDurationOptional.isEmpty()
-            || messageDurationOptional.get().getCallsSinceUpdate() >= FREQUENCY_OF_PERSIST_DURATION_UPDATE) {
+            || messageDurationOptional.get().getCallsSinceUpdate() >= timeoutProperties.getSdsPollFrequency()) {
 
             return messagePersistDurationService.addMessagePersistDuration(
                 messageType,
