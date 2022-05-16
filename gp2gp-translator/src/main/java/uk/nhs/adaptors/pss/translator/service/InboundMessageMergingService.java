@@ -93,7 +93,7 @@ public class InboundMessageMergingService {
 
                 // get ebxml references to find document id from skeleton message
                 List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
-                attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage));
+                attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage));//SAXException
                 var ebxmlSkeletonReference = attachmentReferenceDescription.stream().filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid())).findFirst();
                 var skeletonDocumentId = ebxmlSkeletonReference.get().getDocumentId();
 
@@ -112,7 +112,7 @@ public class InboundMessageMergingService {
                 payloadXml = payloadNodeToReplaceParent.getOwnerDocument();
                 var importedToPayloadNode = payloadXml.importNode(primarySkeletonNode, true);
                 payloadNodeToReplaceParent.replaceChild(importedToPayloadNode, payloadNodeToReplace);
-                inboundMessage.setPayload(xmlParseUtilService.getStringFromDocument(payloadXml));
+                inboundMessage.setPayload(xmlParseUtilService.getStringFromDocument(payloadXml));//transformerException
 
             }
 
@@ -120,7 +120,7 @@ public class InboundMessageMergingService {
             var bypassPayloadLoadingArray = new String[attachmentLogs.size()];
             Arrays.fill(bypassPayloadLoadingArray, "");
             var messageAttachments = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(attachmentLogs, Arrays.asList(bypassPayloadLoadingArray));
-            var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
+            var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment( //validationException, AttachmentNotFoundException, InlineAttachmentProcessingException
                     messageAttachments,
                     conversationId,
                     inboundMessage.getPayload()
@@ -128,10 +128,10 @@ public class InboundMessageMergingService {
 
             // process bundle
             inboundMessage.setPayload(newPayloadStr);
-            payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class); //fine
+            payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class); //JaxBException
 
 
-            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
+            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());//bundleMappingException
             migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
                     conversationId,
                     fhirParser.encodeToJson(bundle),
@@ -139,17 +139,14 @@ public class InboundMessageMergingService {
                     EHR_EXTRACT_TRANSLATED
             );
 
-            // move to new service
-            //sendAckMessage(payload, conversationId);
         } catch ( InlineAttachmentProcessingException | SAXException | TransformerException
                  | BundleMappingException | JAXBException | AttachmentNotFoundException | JsonProcessingException e ) {
 
-           /* LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
-                    + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);*/
+            LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
+                    + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
 
             nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
         }
-
     }
 
     private List<PatientAttachmentLog> getUndeletedLogsForConversation(String conversationId) throws ValidationException {
