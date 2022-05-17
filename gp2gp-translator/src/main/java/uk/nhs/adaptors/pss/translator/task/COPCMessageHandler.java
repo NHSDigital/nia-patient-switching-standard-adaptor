@@ -197,7 +197,7 @@ public class COPCMessageHandler {
     private void storeCOPCAttachment(PatientAttachmentLog fragmentAttachmentLog, InboundMessage inboundMessage,
                                      String conversationId) throws ValidationException, InlineAttachmentProcessingException {
 
-        if (fragmentAttachmentLog.getLargeAttachment()) {
+        if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
             attachmentHandlerService.storeAttachementWithoutProcessing(fragmentAttachmentLog.getFilename(),
                     inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
         } else {
