@@ -3,13 +3,12 @@ package uk.nhs.adaptors.pss.translator.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.assertj.core.api.BDDAssumptions;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.*;
@@ -42,6 +41,7 @@ import java.util.List;
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
@@ -51,10 +51,8 @@ public class InboundMessageMergingServiceTests {
 
     private static final String CONVERSATION_ID = randomUUID().toString();
     private static final String NHS_NUMBER = "1111";
-    private static final String INBOUND_MESSAGE_STRING = "{hi i'm inbound message}";
     private static final String FILENAME = "test_main.txt";
     private static byte[] FILE_AS_BYTES;
-
 
     @Mock
     NodeList nodeList;
@@ -94,14 +92,12 @@ public class InboundMessageMergingServiceTests {
     private StorageManagerService storageManagerService;
     @Mock
     private XmlUnmarshallUtil xmlUnmarshallUtil;
+
     @InjectMocks
     private InboundMessageMergingService inboundMessageMergingService;
 
     @SneakyThrows
     private void prepareMocks(InboundMessage inboundMessage,ArrayList<PatientAttachmentLog> attachments) {
-        Bundle bundle = new Bundle();
-        bundle.setId("Test");
-
         var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
         var patientMigrationRequest = PatientMigrationRequest
                 .builder()
@@ -109,17 +105,16 @@ public class InboundMessageMergingServiceTests {
                 .build();
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
-
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
         when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn(inboundMessage.getPayload());
 
-        if(attachments.get(0).getSkeleton()) {
+        if (attachments.get(0).getSkeleton()) {
             prepareSkeletonMocks(inboundMessage);
         }
     }
 
-    private void prepareSkeletonMocks(InboundMessage inboundMessage) throws SAXException, JAXBException, JsonProcessingException, TransformerException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+    private void prepareSkeletonMocks(InboundMessage inboundMessage) throws SAXException, TransformerException {
 
         var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
         var ebXmlAttachments = Arrays.asList(reference);
@@ -129,26 +124,23 @@ public class InboundMessageMergingServiceTests {
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
-
         when(nodeList.item(0)).thenReturn(node);
         when(nodeList.item(1)).thenReturn(node);
         when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
         when(xmlParseUtilService.getStringFromDocument(any())).thenReturn(inboundMessage.getPayload());
-
         when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
         when(node.getParentNode()).thenReturn(node);
 
     }
 
     @Test
-    public void When_HappyPathWithSkeleton_Expect_ThrowNoErrors() throws JAXBException, JsonProcessingException, SAXException, TransformerException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+    public void When_HappyPathWithSkeleton_Expect_ThrowNoErrors() throws JAXBException, JsonProcessingException, TransformerException {
         var inboundMessage = new InboundMessage();
+        var attachments = createPatientAttachmentList(true, true);
 
         inboundMessage.setPayload("payload");
-        inboundMessage.setPayload(readInboundMessagePayloadFromFile()); //change
-        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile()); //change
-
-        var attachments = createPatientAttachmentList(true, true);
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
         prepareMocks(inboundMessage, attachments);
 
@@ -160,14 +152,13 @@ public class InboundMessageMergingServiceTests {
     }
 
     @Test
-    public void When_HappyPathNoSkeleton_Expect_NotToGetAttachmentFromService() throws JAXBException, JsonProcessingException, SAXException, TransformerException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+    public void When_HappyPathNoSkeleton_Expect_NotToGetAttachmentFromService() throws JAXBException, JsonProcessingException {
         var inboundMessage = new InboundMessage();
+        var attachments = createPatientAttachmentList(true, false);
 
         inboundMessage.setPayload("payload");
-        inboundMessage.setPayload(readInboundMessagePayloadFromFile()); //change
-        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile()); //change
-
-        var attachments = createPatientAttachmentList(true, false);
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
         prepareMocks(inboundMessage, attachments);
 
@@ -180,25 +171,14 @@ public class InboundMessageMergingServiceTests {
         verify(migrationStatusLogService, times(1)).updatePatientMigrationRequestAndAddMigrationStatusLog(any(), any(), any(), any());
     }
 
-
-
-
-
-
-
-
     @Test
-    public void When_mergeAndBundleMessageThrowsSAXException_Expect_SendNack() throws JAXBException, JsonProcessingException, SAXException, TransformerException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+    public void When_CodeInsideMergeAndBundleMessageThrowsSAXException_Expect_SendNack() throws JAXBException, JsonProcessingException, SAXException {
         var inboundMessage = new InboundMessage();
-
-        inboundMessage.setPayload("payload");
-        inboundMessage.setPayload(readInboundMessagePayloadFromFile()); //change
-        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile()); //change
-
         var attachments = createPatientAttachmentList(true, true);
 
-        Bundle bundle = new Bundle();
-        bundle.setId("Test");
+        inboundMessage.setPayload("payload");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
         var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
         var patientMigrationRequest = PatientMigrationRequest
@@ -206,17 +186,12 @@ public class InboundMessageMergingServiceTests {
                 .inboundMessage(inboundMessageAsString)
                 .build();
 
-        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
-
-        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
-        when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
-
-        var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
-        var ebXmlAttachments = Arrays.asList(reference);
         FILE_AS_BYTES = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
 
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
+        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
+        when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
         when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(FILE_AS_BYTES);
-
 
         doThrow(SAXException.class).when(xmlParseUtilService).getEbxmlAttachmentsData(any());
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
@@ -225,37 +200,141 @@ public class InboundMessageMergingServiceTests {
 
 
 
-
-
-
     @Test
-    public void When_mergeAndBundleMessageThrowsTransformerException_Expect_SendNack() throws JAXBException, JsonProcessingException, SAXException, TransformerException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+    public void When_CodeInsideMergeAndBundleMessageThrowsValidationException_Expect_SendNack() throws JAXBException, JsonProcessingException, SAXException, AttachmentNotFoundException, InlineAttachmentProcessingException {
         var inboundMessage = new InboundMessage();
 
         inboundMessage.setPayload("payload");
-        inboundMessage.setPayload(readInboundMessagePayloadFromFile()); //change
-        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile()); //change
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
         var attachments = createPatientAttachmentList(true, true);
-
-        Bundle bundle = new Bundle();
-        bundle.setId("Test");
-
         var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
         var patientMigrationRequest = PatientMigrationRequest
                 .builder()
                 .inboundMessage(inboundMessageAsString)
                 .build();
 
-        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
+        var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
+        var ebXmlAttachments = Arrays.asList(reference);
+        FILE_AS_BYTES = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
 
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
+        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(FILE_AS_BYTES);
+        when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
+        when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
+        when(nodeList.item(0)).thenReturn(node);
+        when(nodeList.item(1)).thenReturn(node);
+        when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
+        when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
+        when(node.getParentNode()).thenReturn(node);
+
+        doThrow(ValidationException.class).when(attachmentReferenceUpdaterService).updateReferenceToAttachment(any(), any(), any());
+
+        inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
+        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+    }
+
+    @Test
+    public void When_CodeInsideMergeAndBundleMessageThrowsInlineAttachmentProcessingException_Expect_SendNack() throws JAXBException, JsonProcessingException, SAXException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+        var inboundMessage = new InboundMessage();
+
+        inboundMessage.setPayload("payload");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
+
+        var attachments = createPatientAttachmentList(true, true);
+        var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
+        var patientMigrationRequest = PatientMigrationRequest
+                .builder()
+                .inboundMessage(inboundMessageAsString)
+                .build();
+        var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
+        var ebXmlAttachments = Arrays.asList(reference);
+        FILE_AS_BYTES = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
+
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
+        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
+        when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
+        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(FILE_AS_BYTES);
+        when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
+        when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
+        when(nodeList.item(0)).thenReturn(node);
+        when(nodeList.item(1)).thenReturn(node);
+        when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
+        when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
+        when(node.getParentNode()).thenReturn(node);
+
+        doThrow(InlineAttachmentProcessingException.class).when(attachmentReferenceUpdaterService).updateReferenceToAttachment(any(), any(), any());
+
+        inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
+        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+    }
+
+    @Test
+    public void When_CodeInsideMergeAndBundleMessageThrowsAttachmentNotFoundException_Expect_SendNack() throws JAXBException, JsonProcessingException, SAXException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+        var inboundMessage = new InboundMessage();
+
+        inboundMessage.setPayload("payload");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
+
+        var attachments = createPatientAttachmentList(true, true);
+        var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
+        var patientMigrationRequest = PatientMigrationRequest
+                .builder()
+                .inboundMessage(inboundMessageAsString)
+                .build();
 
         var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
         var ebXmlAttachments = Arrays.asList(reference);
         FILE_AS_BYTES = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
 
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
+        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
+        when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
+        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(FILE_AS_BYTES);
+        when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
+        when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
+        when(nodeList.item(0)).thenReturn(node);
+        when(nodeList.item(1)).thenReturn(node);
+        when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
+        when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
+        when(node.getParentNode()).thenReturn(node);
+
+        doThrow(AttachmentNotFoundException.class).when(attachmentReferenceUpdaterService).updateReferenceToAttachment(any(), any(), any());
+
+        inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
+        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+    }
+
+    @Test
+    public void When_CodeInsideMergeAndBundleMessageThrowsTransformerException_Expect_SendNack() throws JAXBException, JsonProcessingException, SAXException, TransformerException {
+        var inboundMessage = new InboundMessage();
+
+        inboundMessage.setPayload("payload");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
+
+        var attachments = createPatientAttachmentList(true, true);
+        var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
+        var patientMigrationRequest = PatientMigrationRequest
+                .builder()
+                .inboundMessage(inboundMessageAsString)
+                .build();
+
+        var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
+        var ebXmlAttachments = Arrays.asList(reference);
+        FILE_AS_BYTES = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
+
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
+        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
+        when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
         when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(FILE_AS_BYTES);
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
@@ -273,39 +352,119 @@ public class InboundMessageMergingServiceTests {
     }
 
 
+    @Test
+    public void When_CodeInsideMergeAndBundleMessageThrowsJAXBException_Expect_SendNack() throws JAXBException, JsonProcessingException, SAXException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+        var inboundMessage = new InboundMessage();
+
+        inboundMessage.setPayload("payload");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
+
+        var attachments = createPatientAttachmentList(true, true);
+        var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
+        var patientMigrationRequest = PatientMigrationRequest
+                .builder()
+                .inboundMessage(inboundMessageAsString)
+                .build();
+        var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
+        var ebXmlAttachments = Arrays.asList(reference);
+        FILE_AS_BYTES = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
+
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
+        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
+        when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
+        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn("");
+        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(FILE_AS_BYTES);
+        when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
+        when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
+        when(nodeList.item(0)).thenReturn(node);
+        when(nodeList.item(1)).thenReturn(node);
+        when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
+        when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
+        when(node.getParentNode()).thenReturn(node);
+
+        inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
+        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+    }
 
 
 
+    @Test
+    public void When_CodeInsideMergeAndBundleMessageThrowsBundleMappingException_Expect_SendNack() throws JAXBException, JsonProcessingException, SAXException, AttachmentNotFoundException, InlineAttachmentProcessingException, BundleMappingException {
+        var inboundMessage = new InboundMessage();
 
+        inboundMessage.setPayload("payload");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
+        var attachments = createPatientAttachmentList(true, true);
+        var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
+        var patientMigrationRequest = PatientMigrationRequest
+                .builder()
+                .inboundMessage(inboundMessageAsString)
+                .build();
+        var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
+        var ebXmlAttachments = Arrays.asList(reference);
+        FILE_AS_BYTES = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
 
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
+        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
+        when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
+        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn(inboundMessage.getPayload());
+        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(FILE_AS_BYTES);
+        when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
+        when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
+        when(nodeList.item(0)).thenReturn(node);
+        when(nodeList.item(1)).thenReturn(node);
+        when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
+        when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
+        when(node.getParentNode()).thenReturn(node);
 
-    //CATCH (NEEDS TO BE IN COPC)
-    //Test NAcks Send
-    //         doThrow(new DataFormatException()).when(fhirParser).encodeToJson(bundle);
+        doThrow(BundleMappingException.class).when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any());
 
+        inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
+        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+    }
 
-    //AttachmentNotFoundException |
-    //BundleMappingException |
-    //JsonProcessingException |
-    //JAXBException |
-    //TransformerException |
-    //InlineAttachmentProcessingException |
-    //SAXException ex
+    @Test
+    public void When_CodeInsideMergeAndBundleMessageThrowsJsonProcessingException_Expect_SendNack() throws JAXBException, JsonProcessingException, SAXException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+        var inboundMessage = new InboundMessage();
 
+        inboundMessage.setPayload("payload");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
-    ////ValidationException |  JsonMappingException |
+        var attachments = createPatientAttachmentList(true, true);
+        var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
+        var patientMigrationRequest = PatientMigrationRequest
+                .builder()
+                .inboundMessage(inboundMessageAsString)
+                .build();
+        var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
+        var ebXmlAttachments = Arrays.asList(reference);
+        FILE_AS_BYTES = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
 
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
+        when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
+        when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
+        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn(inboundMessage.getPayload());
+        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(FILE_AS_BYTES);
+        when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
+        when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
+        when(nodeList.item(0)).thenReturn(node);
+        when(nodeList.item(1)).thenReturn(node);
+        when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
+        when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
+        when(node.getParentNode()).thenReturn(node);
 
+        doThrow(JsonProcessingException.class).when(objectMapper).writeValueAsString(any(InboundMessage.class));
 
-
-
-
-
-
-
-
-
+        inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
+        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+    }
 
     @Test
     public void When_NotAllUploadsComplete_CanMergeCompleteBundle_Expect_ReturnFalse() throws JAXBException {
@@ -321,6 +480,7 @@ public class InboundMessageMergingServiceTests {
     @Test
     public void When_AllUploadsComplete_CanMergeCompleteBundle_Expect_ReturnTrue() throws JAXBException {
         var attachmentLogs = createPatientAttachmentList(true, true);
+
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachmentLogs);
 
         var result = inboundMessageMergingService.canMergeCompleteBundle(CONVERSATION_ID);
@@ -333,7 +493,6 @@ public class InboundMessageMergingServiceTests {
 
         var conversationId = "";
         assertThrows(ValidationException.class, () -> inboundMessageMergingService.canMergeCompleteBundle(conversationId));
-
     }
 
     @Test
@@ -341,33 +500,17 @@ public class InboundMessageMergingServiceTests {
 
         var conversationId = "";
         assertThrows(ValidationException.class, () -> inboundMessageMergingService.mergeAndBundleMessage(conversationId));
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Test
     public void When_AttachmentsPresent_Expect_AttachmentReferenceUpdated()
             throws AttachmentNotFoundException, JAXBException, InlineAttachmentProcessingException, JsonProcessingException {
         var inboundMessage = new InboundMessage();
+        var attachments = createPatientAttachmentList(true, false);
 
         inboundMessage.setPayload("payload");
-        inboundMessage.setPayload(readInboundMessagePayloadFromFile()); //change
-        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile()); //change
-
-        var attachments = createPatientAttachmentList(true, false);
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
         prepareMocks(inboundMessage, attachments);
 
@@ -380,7 +523,6 @@ public class InboundMessageMergingServiceTests {
         verify(nackAckPreparationService, never()).sendNackMessage((NACKReason) any(), (RCMRIN030000UK06Message) any(), any());
     }
 
-    //test happy path with IF and without IF (with extract and without extract)
 
     private ArrayList<PatientAttachmentLog> createPatientAttachmentList(Boolean isParentUploaded, Boolean isSkeleton) {
         var patientAttachmentLogs = new ArrayList<PatientAttachmentLog>();
@@ -413,5 +555,4 @@ public class InboundMessageMergingServiceTests {
     private String readInboundMessageEbXmlFromFile() {
         return readResourceAsString("/xml/RCMRIN030000UK06_LARGE_MSG/ebxml.xml");
     }
-
 }

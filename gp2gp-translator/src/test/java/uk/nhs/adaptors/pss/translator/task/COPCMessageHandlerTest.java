@@ -8,11 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import static org.mockito.Mockito.*;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 import java.util.ArrayList;
@@ -83,6 +80,7 @@ class COPCMessageHandlerTest {
     @Mock
     private XmlParseUtilService xmlParseUtilService;
 
+
     @InjectMocks
     private COPCMessageHandler copcMessageHandler;
     @Captor
@@ -99,10 +97,15 @@ class COPCMessageHandlerTest {
     @Mock
     private NackAckPreparationService nackAckPreparationServiceMock;
 
+/*    @Mock
+    private PatientAttachmentLog fragmentAttachmentLog;*/
+
     @Test
     public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_PartialLogToBeCreated()
             throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
                 AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+
+        //fragmentAttachmentLog = buildPatientAttachmentLog("28B31-4245-4AFC-8DA2-8A40623A5101", "", 0, true);
 
         // ARRANGE
         var messageId = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
@@ -232,7 +235,8 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_FragmentIndexIsRecievedWithCIDAndMIDParts_Expect_CIDMessageToBeProcessed() throws JAXBException,
-            InlineAttachmentProcessingException, SAXException, AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+            InlineAttachmentProcessingException, SAXException,
+            AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
         var childCid = "435B1171-31F6-4EF2-AD7F-C7E64EEFF357";
@@ -323,6 +327,7 @@ class COPCMessageHandlerTest {
 
         PatientMigrationRequest migrationRequest =
                 PatientMigrationRequest.builder()
+                        .id(1) //change
                         .losingPracticeOdsCode(LOSING_ODE_CODE)
                         .winningPracticeOdsCode(WINNING_ODE_CODE)
                         .build();
@@ -358,6 +363,7 @@ class COPCMessageHandlerTest {
 
         PatientMigrationRequest migrationRequest =
                 PatientMigrationRequest.builder()
+                        .id(1)
                         .losingPracticeOdsCode(LOSING_ODE_CODE)
                         .winningPracticeOdsCode(WINNING_ODE_CODE)
                         .build();
@@ -577,6 +583,7 @@ class COPCMessageHandlerTest {
         inboundMessage.setPayload(readInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
+
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
                 .thenReturn(
@@ -826,6 +833,7 @@ class COPCMessageHandlerTest {
                 .winningPracticeOdsCode(WINNING_ODE_CODE)
                 .build();
 
+
         when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
 
         when(xPathService.parseDocumentFromXml(message.getEbXML())).thenReturn(ebXmlDocument);
@@ -923,14 +931,21 @@ class COPCMessageHandlerTest {
                 .winningPracticeOdsCode(WINNING_ODE_CODE)
                 .build();
 
-        when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+        //when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest); //change
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId")).thenReturn("CBBAE92D-C7E8"
             + "-4A9C-8887-F5AEBA1F8CE1").thenReturn("047C22B4-613F-47D3-9A72-44A1758464FB");
+
+        var attachmentLog1 = buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
+                "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 0, true);
+
+        var attachmentLog2 = buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
+                "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 1, false);
+
+        var attachmentArray = Arrays.asList(attachmentLog1, attachmentLog2);
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-            .thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
-            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 0, true), buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
-            "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 1, false)));
+            .thenReturn(attachmentArray);
     }
 
     @SneakyThrows

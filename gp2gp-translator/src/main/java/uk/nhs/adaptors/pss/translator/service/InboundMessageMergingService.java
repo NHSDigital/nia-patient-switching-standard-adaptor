@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.v3.RCMRIN030000UK06Message;
@@ -28,7 +27,6 @@ import javax.xml.bind.ValidationException;
 import javax.xml.transform.TransformerException;
 
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,25 +42,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class InboundMessageMergingService {
 
-    private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
-
     private final PatientAttachmentLogService patientAttachmentLogService;
     private final AttachmentHandlerService attachmentHandlerService;
     private final AttachmentReferenceUpdaterService attachmentReferenceUpdaterService;
     private final MigrationStatusLogService migrationStatusLogService;
     private final XmlParseUtilService xmlParseUtilService;
-
     private final ObjectMapper objectMapper;
     private final XPathService xPathService;
     private final FhirParser fhirParser;
     private final BundleMapperService bundleMapperService;
     private final PatientMigrationRequestDao migrationRequestDao;
     private final NackAckPreparationService nackAckPreparationService;
+    private static final String CONVERSATION_ID_HAS_NOT_BEEN_GIVEN = "Conversation Id has not been given";
 
     public boolean canMergeCompleteBundle(String conversationId) throws ValidationException {
 
-        if(!StringUtils.hasText(conversationId)){
-            throw new ValidationException("Conversation Id has not been given");
+        if (!StringUtils.hasText(conversationId)) {
+            throw new ValidationException(CONVERSATION_ID_HAS_NOT_BEEN_GIVEN);
         }
 
         var undeletedLogs = getUndeletedLogsForConversation(conversationId);
@@ -71,8 +67,8 @@ public class InboundMessageMergingService {
 
     public void mergeAndBundleMessage(String conversationId) throws JAXBException, JsonProcessingException {
 
-        if(!StringUtils.hasText(conversationId)){
-            throw new ValidationException("Conversation Id has not been given");
+        if (!StringUtils.hasText(conversationId)) {
+            throw new ValidationException(CONVERSATION_ID_HAS_NOT_BEEN_GIVEN);
         }
 
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -80,7 +76,6 @@ public class InboundMessageMergingService {
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
 
         try {
-
 
             var attachmentLogs = getUndeletedLogsForConversation(conversationId);
             var attachmentsContainSkeletonMessage = attachmentLogs.stream().anyMatch(log -> log.getSkeleton().equals(true));
@@ -93,8 +88,12 @@ public class InboundMessageMergingService {
 
                 // get ebxml references to find document id from skeleton message
                 List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
-                attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage));//SAXException
-                var ebxmlSkeletonReference = attachmentReferenceDescription.stream().filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid())).findFirst();
+                attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage));
+                var ebxmlSkeletonReference = attachmentReferenceDescription
+                        .stream()
+                        .filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid()))
+                        .findFirst();
+
                 var skeletonDocumentId = ebxmlSkeletonReference.get().getDocumentId();
 
                 var payloadXml = xPathService.parseDocumentFromXml(inboundMessage.getPayload());
@@ -112,15 +111,17 @@ public class InboundMessageMergingService {
                 payloadXml = payloadNodeToReplaceParent.getOwnerDocument();
                 var importedToPayloadNode = payloadXml.importNode(primarySkeletonNode, true);
                 payloadNodeToReplaceParent.replaceChild(importedToPayloadNode, payloadNodeToReplace);
-                inboundMessage.setPayload(xmlParseUtilService.getStringFromDocument(payloadXml));//transformerException
-
+                inboundMessage.setPayload(xmlParseUtilService.getStringFromDocument(payloadXml));
             }
 
             // process attachments
             var bypassPayloadLoadingArray = new String[attachmentLogs.size()];
             Arrays.fill(bypassPayloadLoadingArray, "");
-            var messageAttachments = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(attachmentLogs, Arrays.asList(bypassPayloadLoadingArray));
-            var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment( //validationException, AttachmentNotFoundException, InlineAttachmentProcessingException
+            var messageAttachments = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
+                    attachmentLogs,
+                    Arrays.asList(bypassPayloadLoadingArray)
+            );
+            var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
                     messageAttachments,
                     conversationId,
                     inboundMessage.getPayload()
@@ -128,10 +129,10 @@ public class InboundMessageMergingService {
 
             // process bundle
             inboundMessage.setPayload(newPayloadStr);
-            payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class); //JaxBException
+            payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
 
 
-            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());//bundleMappingException
+            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
             migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
                     conversationId,
                     fhirParser.encodeToJson(bundle),
@@ -139,20 +140,18 @@ public class InboundMessageMergingService {
                     EHR_EXTRACT_TRANSLATED
             );
 
-        } catch ( InlineAttachmentProcessingException | SAXException | TransformerException
-                 | BundleMappingException | JAXBException | AttachmentNotFoundException | JsonProcessingException e ) {
+        } catch (InlineAttachmentProcessingException | SAXException | TransformerException
+                 | BundleMappingException | JAXBException | AttachmentNotFoundException | JsonProcessingException e) {
 
-            LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
-                    + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
-
+            LOGGER.error("failed to merge Large Message Parts", e);
             nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
         }
     }
 
     private List<PatientAttachmentLog> getUndeletedLogsForConversation(String conversationId) throws ValidationException {
 
-        if(!StringUtils.hasText(conversationId)){
-            throw new ValidationException("Conversation Id has not been given");
+        if (!StringUtils.hasText(conversationId)) {
+            throw new ValidationException(CONVERSATION_ID_HAS_NOT_BEEN_GIVEN);
         }
 
         var conversationAttachmentLogs = patientAttachmentLogService.findAttachmentLogs(conversationId);
