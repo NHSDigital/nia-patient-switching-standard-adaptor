@@ -8,6 +8,10 @@ plugins {
     id 'com.github.spotbugs' version '4.7.9'
 }
 
+bootJar {
+    mainClass = 'uk.nhs.adaptors.pss.translator.Gp2gpTranslatorApplication'
+}
+
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'checkstyle'
