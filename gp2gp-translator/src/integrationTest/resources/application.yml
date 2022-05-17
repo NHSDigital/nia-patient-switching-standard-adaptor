@@ -40,3 +40,12 @@ storage:
   accountReference: ${STORAGE_REFERENCE:}
   accountSecret: ${STORAGE_SECRET:}
   retryLimit: ${STORAGE_RETRY_Limit:3}
+
+sds:
+  url: ${SDS_BASE_URL:https://api.service.nhs.uk/spine-directory/FHIR/R4}
+  apiKey: ${SDS_API_KEY}
+
+timeout:
+  ehrExtractWeighting: ${TIMEOUT_EHR_EXTRACT_WEIGHTING:1}
+  copcWeighting: ${TIMEOUT_COPC_WEIGHTING:1}
+  cronTime: ${TIMEOUT_CRON_TIME:* * */6 * * *}

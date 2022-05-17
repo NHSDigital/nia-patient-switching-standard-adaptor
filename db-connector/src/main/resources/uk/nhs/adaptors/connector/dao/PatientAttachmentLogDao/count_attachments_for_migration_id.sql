@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM patient_attachment_log WHERE patient_migration_req_id = :migrationId
