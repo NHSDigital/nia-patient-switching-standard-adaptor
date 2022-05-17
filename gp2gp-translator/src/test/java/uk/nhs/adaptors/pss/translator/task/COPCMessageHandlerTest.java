@@ -20,13 +20,20 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import org.junit.Before;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.internal.util.MockUtil;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationContext;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -49,6 +56,7 @@ import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
+@SuppressWarnings("InstantiationOfUtilityClass")
 @ExtendWith(MockitoExtension.class)
 class COPCMessageHandlerTest {
 
@@ -64,14 +72,12 @@ class COPCMessageHandlerTest {
     @Mock
     private PatientAttachmentLogService patientAttachmentLogService;
     @Mock
-    private PatientMigrationRequestDao patientMigrationRequestDao;
-    @Mock
     private MigrationStatusLogService migrationStatusLogService;
     @Mock
     private AttachmentHandlerService attachmentHandlerService;
     @Mock
     private XPathService xPathService;
-    @Mock
+
     private Document ebXmlDocument;
     @Mock
     private SendACKMessageHandler sendACKMessageHandler;
@@ -96,7 +102,6 @@ class COPCMessageHandlerTest {
 
     @Mock
     private NackAckPreparationService nackAckPreparationServiceMock;
-
 
     @Test
     public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_PartialLogToBeCreated()
@@ -231,47 +236,47 @@ class COPCMessageHandlerTest {
         assertEquals(0, actual.getOrderNum());
     }
 
-//    @Test
-//    public void When_FragmentIndexIsRecievedWithCIDAndMIDParts_Expect_CIDMessageToBeProcessed() throws JAXBException,
-//            InlineAttachmentProcessingException, SAXException,
-//            AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
-//
-//        var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
-//        var childCid = "435B1171-31F6-4EF2-AD7F-C7E64EEFF357";
-//        InboundMessage message = new InboundMessage();
-//        prepareFragmentIndexWithCidMocks(message);
-//
-//        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
-//            .thenReturn(buildPatientAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", null, true));
-//        when(patientAttachmentLogService.findAttachmentLog(childMid, CONVERSATION_ID))
-//            .thenReturn(null);
-//        when(patientAttachmentLogService.findAttachmentLog(childCid, CONVERSATION_ID))
-//            .thenReturn(null);
-//        when(patientAttachmentLogService.findAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", CONVERSATION_ID))
-//            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
-//
-//
-//        EbxmlReference reference = new EbxmlReference("First instance is always a payload", "mid:xxxx-xxxx-xxxx-xxxx", "docId");
-//        EbxmlReference reference1 = new EbxmlReference("desc", "cid:435B1171-31F6-4EF2-AD7F-C7E64EEFF357", "doc1Id");
-//        EbxmlReference reference2 = new EbxmlReference("desc", "mid:28B31-4245-4AFC-8DA2-8A40623A5101", "doc2Id");
-//        List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
-//        attachmentReferenceDescription.add(reference);
-//        attachmentReferenceDescription.add(reference1);
-//        attachmentReferenceDescription.add(reference2);
-//        when(xmlParseUtilService.getEbxmlAttachmentsData(any()))
-//            .thenReturn(attachmentReferenceDescription);
-//
-//        copcMessageHandler.handleMessage(message, CONVERSATION_ID);
-//
-//        verify(attachmentHandlerService).storeAttachments(message.getAttachments(), CONVERSATION_ID);
-//        verify(patientAttachmentLogService, times(2)).addAttachmentLog(patientLogCaptor.capture());
-//
-//        PatientAttachmentLog actualCidAttachmentLog = patientLogCaptor.getAllValues().get(0);
-//        PatientAttachmentLog actualMidAttachmentLog = patientLogCaptor.getAllValues().get(1);
-//
-//        assertEquals(childCid, actualCidAttachmentLog.getMid());
-//        assertEquals(childMid, actualMidAttachmentLog.getMid());
-//    }
+    @Test
+    public void When_FragmentIndexIsRecievedWithCIDAndMIDParts_Expect_CIDMessageToBeProcessed() throws JAXBException,
+            InlineAttachmentProcessingException, SAXException,
+            AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+
+        var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
+        var childCid = "435B1171-31F6-4EF2-AD7F-C7E64EEFF357";
+        InboundMessage message = new InboundMessage();
+        prepareFragmentIndexWithCidMocks(message);
+
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
+            .thenReturn(buildPatientAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", null, true));
+        when(patientAttachmentLogService.findAttachmentLog(childMid, CONVERSATION_ID))
+            .thenReturn(null);
+        when(patientAttachmentLogService.findAttachmentLog(childCid, CONVERSATION_ID))
+            .thenReturn(null);
+        when(patientAttachmentLogService.findAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", CONVERSATION_ID))
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
+
+
+        EbxmlReference reference = new EbxmlReference("First instance is always a payload", "mid:xxxx-xxxx-xxxx-xxxx", "docId");
+        EbxmlReference reference1 = new EbxmlReference("desc", "cid:435B1171-31F6-4EF2-AD7F-C7E64EEFF357", "doc1Id");
+        EbxmlReference reference2 = new EbxmlReference("desc", "mid:28B31-4245-4AFC-8DA2-8A40623A5101", "doc2Id");
+        List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
+        attachmentReferenceDescription.add(reference);
+        attachmentReferenceDescription.add(reference1);
+        attachmentReferenceDescription.add(reference2);
+        when(xmlParseUtilService.getEbxmlAttachmentsData(any()))
+            .thenReturn(attachmentReferenceDescription);
+
+        copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+
+        verify(attachmentHandlerService).storeAttachments(message.getAttachments(), CONVERSATION_ID);
+        verify(patientAttachmentLogService, times(2)).addAttachmentLog(patientLogCaptor.capture());
+
+        PatientAttachmentLog actualCidAttachmentLog = patientLogCaptor.getAllValues().get(0);
+        PatientAttachmentLog actualMidAttachmentLog = patientLogCaptor.getAllValues().get(1);
+
+        assertEquals(childCid, actualCidAttachmentLog.getMid());
+        assertEquals(childMid, actualMidAttachmentLog.getMid());
+    }
 
     @Test
     public void When_CIDFragmentPartIsReceivedInOrder_Expect_ShouldUploadFile()
@@ -296,24 +301,24 @@ class COPCMessageHandlerTest {
         assertEquals("xml/text", contentTypeCaptor.getValue());
     }
 
-//    @Test
-//    public void When_CIDMessageFileIsProcessed_Expect_AttachmentLogUploadedColumnIsSetToTrue()
-//            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
-//                AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
-//        InboundMessage message = new InboundMessage();
-//        prepareExpectedFragmentMocks(message);
-//
-//        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
-//            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
-//
-//        copcMessageHandler.handleMessage(message, CONVERSATION_ID);
-//
-//        verify(patientAttachmentLogService).updateAttachmentLog(patientLogCaptor.capture(), conversationIdCaptor.capture());
-//
-//        PatientAttachmentLog actual = patientLogCaptor.getAllValues().get(0);
-//        assertThat(actual.getUploaded()).isTrue();
-//        assertEquals(CONVERSATION_ID, conversationIdCaptor.getValue());
-//    }
+    @Test
+    public void When_CIDMessageFileIsProcessed_Expect_AttachmentLogUploadedColumnIsSetToTrue()
+            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
+                AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+        InboundMessage message = new InboundMessage();
+        prepareExpectedFragmentMocks(message);
+
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
+
+        copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+
+        verify(patientAttachmentLogService).updateAttachmentLog(patientLogCaptor.capture(), conversationIdCaptor.capture());
+
+        PatientAttachmentLog actual = patientLogCaptor.getAllValues().get(0);
+        assertThat(actual.getUploaded()).isTrue();
+        assertEquals(CONVERSATION_ID, conversationIdCaptor.getValue());
+    }
 
     @Test
     public void When_CanMergeCompleteBundle_Expect_MergeAndBundle()
@@ -324,6 +329,7 @@ class COPCMessageHandlerTest {
         inboundMessage.setPayload(readCopcInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
+
         prepareMocks();
 
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
@@ -359,7 +365,9 @@ class COPCMessageHandlerTest {
         inboundMessage.setPayload(readCopcInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
+
         prepareMocks();
+
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
             .thenReturn(inboundMessageId);
@@ -817,7 +825,6 @@ class COPCMessageHandlerTest {
     private void prepareExpectedFragmentMocks(InboundMessage message) {
 
         prepareMocks();
-
         message.setPayload(readXmlFile("inbound_message_payload_fragment_index.xml"));
         String ebxml = readXmlFile("inbound_message_ebxml_fragment_index.xml");
         message.setEbXML(ebxml);
@@ -841,7 +848,6 @@ class COPCMessageHandlerTest {
     private void prepareFragmentIndexWithCidMocks(InboundMessage message) {
 
         prepareMocks();
-
         message.setPayload(readXmlFile("inbound_message_payload_fragment_index.xml"));
         String ebxml = readXmlFile("inbound_message_ebxml_fragment_index.xml");
         message.setEbXML(ebxml);
@@ -856,14 +862,6 @@ class COPCMessageHandlerTest {
         message.setAttachments(Arrays.asList(attachment));
         message.setExternalAttachments(Arrays.asList(extAttachment));
 
-        PatientMigrationRequest migrationRequest =
-            PatientMigrationRequest.builder()
-                .id(1)
-                .losingPracticeOdsCode(LOSING_ODE_CODE)
-                .winningPracticeOdsCode(WINNING_ODE_CODE)
-                .build();
-
-//        when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(xPathService.parseDocumentFromXml(message.getEbXML())).thenReturn(ebXmlDocument);
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
             .thenReturn("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1");
@@ -936,7 +934,6 @@ class COPCMessageHandlerTest {
                 .build();
 
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-
     }
 
     @SneakyThrows
