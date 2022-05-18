@@ -132,4 +132,8 @@ public class PatientAttachmentLogService {
         return patientAttachmentLogDao.findPatientAttachmentsByParentMid(conversationId, parentMid);
     }
 
+
+    public long countAttachmentsForMigrationRequest(int migrationRequestId) {
+        return patientAttachmentLogDao.countNumberOfCOPCMessagesForMigrationId(migrationRequestId);
+    }
 }

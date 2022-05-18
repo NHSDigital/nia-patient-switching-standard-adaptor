@@ -1,6 +1,9 @@
 package uk.nhs.adaptors.connector.dao;
 
+import java.util.List;
+
 import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.customizer.BindList;
 import org.jdbi.v3.sqlobject.locator.UseClasspathSqlLocator;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
@@ -26,4 +29,8 @@ public interface PatientMigrationRequestDao {
     @UseClasspathSqlLocator
     void saveBundleAndInboundMessageData(@Bind("conversationId") String conversationId, @Bind("bundle") String bundle,
         @Bind("inboundMessage") String inboundMessage);
+
+    @SqlQuery("select_patient_migration_request_by_id_in")
+    @UseClasspathSqlLocator
+    List<PatientMigrationRequest> getMigrationRequestByIdIn(@BindList("migrationRequestIds") List<Integer> migrationRequestIds);
 }
