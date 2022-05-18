@@ -104,7 +104,7 @@ public class AttachmentReferenceUpdaterServiceTests {
 
         attachmentReferenceUpdaterService.updateReferenceToAttachment(mockAttachment, CONVERSATION_ID, content);
 
-        verify(storageManagerService, times(1)).getFileLocation(any());
+        verify(storageManagerService, times(1)).getFileLocation(any(),any());
     }
 
     @Test
@@ -112,7 +112,7 @@ public class AttachmentReferenceUpdaterServiceTests {
             throws AttachmentNotFoundException, ValidationException, InlineAttachmentProcessingException {
 
         var content = getFileContent(PAYLOAD_XML);
-        when(storageManagerService.getFileLocation(any())).thenReturn("https://location.com");
+        when(storageManagerService.getFileLocation(any(),any())).thenReturn("https://location.com");
 
         var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(mockAttachment, CONVERSATION_ID, content);
 
@@ -127,7 +127,7 @@ public class AttachmentReferenceUpdaterServiceTests {
                 InlineAttachmentProcessingException, ParserConfigurationException {
 
         var content = getFileContent(FLAT_PAYLOAD_XML);
-        when(storageManagerService.getFileLocation(any())).thenReturn("https://location.com");
+        when(storageManagerService.getFileLocation(any(), any())).thenReturn("https://location.com");
 
         var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(mockAttachment, CONVERSATION_ID, content);
 
@@ -146,11 +146,11 @@ public class AttachmentReferenceUpdaterServiceTests {
             throws AttachmentNotFoundException, ValidationException, InlineAttachmentProcessingException {
 
         var content = getFileContent(PAYLOAD_XML);
-        when(storageManagerService.getFileLocation(any())).thenReturn("https://location.com");
+        when(storageManagerService.getFileLocation(any(), any())).thenReturn("https://location.com");
 
         var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(mockThreeAttachments, CONVERSATION_ID, content);
 
-        verify(storageManagerService, times(mockThreeAttachments.size())).getFileLocation(any());
+        verify(storageManagerService, times(mockThreeAttachments.size())).getFileLocation(any(), any());
         assertTrue(result.contains("https://location.com"));
         assertFalse(result.contains("file://localhost/277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt"));
         assertFalse(result.contains("file://localhost/7CCB6A77-360E-434E-8CF4-97C7C2B47D70_book.txt"));

@@ -48,7 +48,7 @@ public class AttachmentReferenceUpdaterService {
 
                     if (matchFound) {
                         // update local ref with external reference
-                        String fileLocation = storageManagerService.getFileLocation(filename);
+                        String fileLocation = storageManagerService.getFileLocation(filename, conversationId);
                         var replaceStr = String.format("<reference value=\"%s\" />", fileLocation);
                         resultPayload = matcher.replaceAll(replaceStr);
                     } else {

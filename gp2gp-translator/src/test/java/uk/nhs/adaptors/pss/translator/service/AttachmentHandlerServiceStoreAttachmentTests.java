@@ -135,7 +135,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         InlineAttachmentProcessingException {
 
         attachmentHandlerService.storeAttachments(mockAttachments, CONVERSATION_ID);
-        verify(storageManagerService, times(2)).uploadFile(any(), any());
+        verify(storageManagerService, times(2)).uploadFile(any(), any(), any());
     }
 
     @Test
@@ -199,7 +199,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         InlineAttachmentProcessingException {
 
         attachmentHandlerService.storeAttachments(mockAttachments, CONVERSATION_ID);
-        verify(storageManagerService, atLeast(1)).uploadFile(any(), any());
+        verify(storageManagerService, atLeast(1)).uploadFile(any(), any(), any());
     }
 
     @Test
@@ -208,7 +208,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         attachmentHandlerService.storeAttachments(mockCompressedAttachments, CONVERSATION_ID);
 
-        verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture());
+        verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture(), any());
 
         List<String> dataStringList = dataWrapperCaptor.getAllValues().stream().map(dw -> new String(dw.getData(), UTF_8)).toList();
 
@@ -221,7 +221,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         attachmentHandlerService.storeAttachments(mockAttachments, CONVERSATION_ID);
 
-        verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture());
+        verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture(), any());
 
         List<String> dataStringList = dataWrapperCaptor.getAllValues().stream().map(dw -> new String(dw.getData(), UTF_8)).toList();
 
@@ -235,7 +235,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         attachmentHandlerService.storeAttachments(mockAttachments, CONVERSATION_ID);
 
-        verify(storageManagerService, atLeast(1)).uploadFile(filenameCaptor.capture(), any());
+        verify(storageManagerService, atLeast(1)).uploadFile(filenameCaptor.capture(), any(), any());
 
         List<String> captorValues = filenameCaptor.getAllValues();
 
@@ -248,7 +248,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         InlineAttachmentProcessingException {
         attachmentHandlerService.storeAttachments(mockCompressedAttachments, CONVERSATION_ID);
 
-        verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture());
+        verify(storageManagerService, atLeast(1)).uploadFile(any(), dataWrapperCaptor.capture(), any());
 
         List<StorageDataUploadWrapper> dataStringList = dataWrapperCaptor.getAllValues();
 
@@ -262,7 +262,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         doThrow(StorageException.class)
                 .when(storageManagerService)
-                .uploadFile(any(), any());
+                .uploadFile(any(), any(), any());
 
 
         assertThrows(InlineAttachmentProcessingException.class, () ->
@@ -274,14 +274,14 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     public void When_StoreEhrExtractParametersAreCorrectAndNotErrors_Expect_ExecuteStorageManagerServiceUploadFile()
             throws ValidationException, InlineAttachmentProcessingException {
         attachmentHandlerService.storeAttachementWithoutProcessing("fileName", "payload", "conversationId", "contentType");
-        verify(storageManagerService).uploadFile(any(), any());
+        verify(storageManagerService).uploadFile(any(), any(), any());
     }
 
     @Test
     public void When_StoreAttachmentsFailsToUpload_Expect_ThrowInlineAttachmentProcessingException() {
         doThrow(StorageException.class)
                 .when(storageManagerService)
-                .uploadFile(any(), any());
+                .uploadFile(any(), any(), any());
 
         assertThrows(InlineAttachmentProcessingException.class, () ->
             attachmentHandlerService.storeAttachementWithoutProcessing("fileNAme", "Payload", "123456", "contentType")
