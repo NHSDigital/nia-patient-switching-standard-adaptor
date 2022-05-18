@@ -8,8 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 import java.util.ArrayList;
@@ -21,19 +23,13 @@ import javax.xml.bind.ValidationException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import org.junit.Before;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.internal.util.MockUtil;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationContext;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -147,7 +143,7 @@ class COPCMessageHandlerTest {
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
 
         when(patientAttachmentLogService.findAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", CONVERSATION_ID))
-            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",true));
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
 
         // ACT
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
@@ -198,7 +194,8 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_MIDFragmentRecordDoesNotHaveAnAttachmentLog_Expect_AttachmentLogToBeCreated()
-            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
+            AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
         InboundMessage message = new InboundMessage();
@@ -795,7 +792,8 @@ class COPCMessageHandlerTest {
             .buildSingleFileStringFromPatientAttachmentLogs(any());
     }
 
-    private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid, int orderNum, boolean isUploaded, boolean isLargeAttachment) {
+    private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid, int orderNum,
+                                                           boolean isUploaded, boolean isLargeAttachment) {
         return PatientAttachmentLog.builder()
             .mid(mid)
             .filename("E39E79A2-FA96-48FF-9373-7BBCB9D036E7.txt")
@@ -924,7 +922,7 @@ class COPCMessageHandlerTest {
             .thenReturn(attachmentArray);
     }
 
-    private void prepareMocks(){
+    private void prepareMocks() {
 
         PatientMigrationRequest migrationRequest =
             PatientMigrationRequest.builder()

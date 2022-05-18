@@ -63,7 +63,7 @@ public class COPCMessageHandler {
         try {
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
             String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
-            PatientAttachmentLog patientAttachmentLog = patientAttachmentLogService.findAttachmentLog(messageId, conversationId);// , isLargeAttachment
+            PatientAttachmentLog patientAttachmentLog = patientAttachmentLogService.findAttachmentLog(messageId, conversationId);
 
             // If there is no PatientAttachmentLog for this message then we have receieved a message out of order
             if (patientAttachmentLog == null) {

@@ -119,7 +119,6 @@ public class EhrExtractMessageHandler {
             //sending continue message
             if (hasExternalAttachment) {
                 String patientNhsNumber = XmlParseUtilService.parseNhsNumber(payload);
-                String extractFileName = String.format("%s_%s_payload", conversationId, XmlParseUtilService.parseMessageRef(payload));
 
                 for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
                     PatientAttachmentLog patientAttachmentLog;
@@ -201,24 +200,6 @@ public class EhrExtractMessageHandler {
                 .orderNum(0)
                 .build();
     }
-
-//    private PatientAttachmentLog buildPatientAttachmentSkeletonLog(RCMRIN030000UK06Message payload,
-//        PatientMigrationRequest migrationRequest, String extractFileName) {
-//        return PatientAttachmentLog.builder()
-//                .mid(XmlParseUtilService.parseMessageRef(payload))
-//                .filename(extractFileName)
-//                .parentMid(null)
-//                .patientMigrationReqId(migrationRequest.getId())
-//                .contentType("application/xml; charset=UTF-8")
-//                .compressed(false)
-//                .largeAttachment(true)
-//                .base64(false)
-//                .skeleton(false)
-//                .uploaded(true)
-//                .lengthNum(0)
-//                .orderNum(0)
-//                .build();
-//    }
 
     public void sendContinueRequest(
         RCMRIN030000UK06Message payload,
