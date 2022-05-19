@@ -81,7 +81,7 @@ public class COPCMessageHandler {
             nackAckPreparationService.sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
             checkAndMergeFileParts(inboundMessage, conversationId);
 
-            // NIAD-2029 merge and uncompress large EHR message
+            // merge and uncompress large EHR message
             if (inboundMessageMergingService.canMergeCompleteBundle(conversationId)) {
 
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
@@ -202,8 +202,8 @@ public class COPCMessageHandler {
                     inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
         } else {
             var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
-                    Arrays.asList(fragmentAttachmentLog),
-                    Arrays.asList(inboundMessage.getAttachments().get(0).getPayload())
+                    List.of(fragmentAttachmentLog),
+                    List.of(inboundMessage.getAttachments().get(0).getPayload())
             );
             attachmentHandlerService.storeAttachments(attachment, conversationId);
         }
@@ -225,7 +225,6 @@ public class COPCMessageHandler {
             .filename(fileName)
             .contentType(contentType)
             .patientMigrationReqId(patientId)
-            //.largeAttachment(largeAttachment)//change
             .build();
     }
 

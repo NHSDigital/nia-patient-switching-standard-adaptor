@@ -148,7 +148,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
-        verify(nackAckPreparationService, never()).sendNackMessage((NACKReason) any(), (RCMRIN030000UK06Message) any(), any());
+        verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
         verify(xmlParseUtilService, times(1)).getStringFromDocument(any());
         verify(migrationStatusLogService, times(1)).updatePatientMigrationRequestAndAddMigrationStatusLog(any(), any(), any(), any());
     }
@@ -168,7 +168,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
-        verify(nackAckPreparationService, never()).sendNackMessage((NACKReason) any(), (RCMRIN030000UK06Message) any(), any());
+        verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
         verify(attachmentHandlerService, never()).getAttachment(any());
         verify(migrationStatusLogService, times(1)).updatePatientMigrationRequestAndAddMigrationStatusLog(any(), any(), any(), any());
     }
@@ -537,7 +537,7 @@ public class InboundMessageMergingServiceTests {
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
         verify(attachmentReferenceUpdaterService).updateReferenceToAttachment(any(), any(), any());
-        verify(nackAckPreparationService, never()).sendNackMessage((NACKReason) any(), (RCMRIN030000UK06Message) any(), any());
+        verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
     }
 
 

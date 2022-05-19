@@ -163,8 +163,8 @@ public class AttachmentHandlerService {
                 InboundMessage.Attachment.builder()
                     .payload(payload)
                         .isBase64(log
-                        .getBase64()
-                        .toString())
+                                .getBase64()
+                                .toString())
                     .contentType(log.getContentType())
                     .description(fileDescription)
                     .build()

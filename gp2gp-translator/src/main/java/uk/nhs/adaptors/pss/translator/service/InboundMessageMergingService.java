@@ -65,6 +65,45 @@ public class InboundMessageMergingService {
         return undeletedLogs.stream().allMatch(log -> log.getUploaded().equals(true));
     }
 
+    public void attachmentContainsSkeleton (List<PatientAttachmentLog> attachmentLogs, InboundMessage inboundMessage) throws SAXException, TransformerException {
+        // merge skeleton message into original payload
+        var skeletonLogs = attachmentLogs.stream().filter(log -> log.getSkeleton().equals(true)).toList();
+        var skeletonFileName = skeletonLogs.stream().findFirst().get().getFilename();
+        var skeletonFileAsString = new String(attachmentHandlerService.getAttachment(skeletonFileName), StandardCharsets.UTF_8);
+
+        // get ebxml references to find document id from skeleton message
+        List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
+        attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage));
+        var ebxmlSkeletonReference = attachmentReferenceDescription
+                .stream()
+                .filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid()))
+                .findFirst();
+
+        if(ebxmlSkeletonReference == null) {
+            return;
+        }
+
+        var skeletonDocumentId = ebxmlSkeletonReference.get().getDocumentId();
+
+        var payloadXml = xPathService.parseDocumentFromXml(inboundMessage.getPayload());
+
+        var valueNodes = xPathService.getNodes(payloadXml, "//*/@*[.='" + skeletonDocumentId + "']/parent::*/parent::*");
+
+        var payloadNodeToReplace = valueNodes.item(0);
+        var payloadNodeToReplaceParent = payloadNodeToReplace.getParentNode();
+
+        var skeletonExtractDocument = xPathService.parseDocumentFromXml(skeletonFileAsString);
+        var skeletonExtractNodes = skeletonExtractDocument.getElementsByTagName("*");
+        var primarySkeletonNode = skeletonExtractNodes.item(1);
+
+        // using xPathServices breaks the xml document pointer, reset it
+        payloadXml = payloadNodeToReplaceParent.getOwnerDocument();
+        var importedToPayloadNode = payloadXml.importNode(primarySkeletonNode, true);
+        payloadNodeToReplaceParent.replaceChild(importedToPayloadNode, payloadNodeToReplace);
+        inboundMessage.setPayload(xmlParseUtilService.getStringFromDocument(payloadXml));
+
+    }
+
     public void mergeAndBundleMessage(String conversationId) throws JAXBException, JsonProcessingException {
 
         if (!StringUtils.hasText(conversationId)) {
@@ -81,37 +120,8 @@ public class InboundMessageMergingService {
             var attachmentsContainSkeletonMessage = attachmentLogs.stream().anyMatch(log -> log.getSkeleton().equals(true));
 
             if (attachmentsContainSkeletonMessage) {
-                // merge skeleton message into original payload
-                var skeletonLogs = attachmentLogs.stream().filter(log -> log.getSkeleton().equals(true)).toList();
-                var skeletonFileName = skeletonLogs.stream().findFirst().get().getFilename();
-                var skeletonFileAsString = new String(attachmentHandlerService.getAttachment(skeletonFileName), StandardCharsets.UTF_8);
 
-                // get ebxml references to find document id from skeleton message
-                List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
-                attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage));
-                var ebxmlSkeletonReference = attachmentReferenceDescription
-                        .stream()
-                        .filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid()))
-                        .findFirst();
-
-                var skeletonDocumentId = ebxmlSkeletonReference.get().getDocumentId();
-
-                var payloadXml = xPathService.parseDocumentFromXml(inboundMessage.getPayload());
-
-                var valueNodes = xPathService.getNodes(payloadXml, "//*/@*[.='" + skeletonDocumentId + "']/parent::*/parent::*");
-
-                var payloadNodeToReplace = valueNodes.item(0);
-                var payloadNodeToReplaceParent = payloadNodeToReplace.getParentNode();
-
-                var skeletonExtractDocument = xPathService.parseDocumentFromXml(skeletonFileAsString);
-                var skeletonExtractNodes = skeletonExtractDocument.getElementsByTagName("*");
-                var primarySkeletonNode = skeletonExtractNodes.item(1);
-
-                // using xPathServices breaks the xml document pointer, reset it
-                payloadXml = payloadNodeToReplaceParent.getOwnerDocument();
-                var importedToPayloadNode = payloadXml.importNode(primarySkeletonNode, true);
-                payloadNodeToReplaceParent.replaceChild(importedToPayloadNode, payloadNodeToReplace);
-                inboundMessage.setPayload(xmlParseUtilService.getStringFromDocument(payloadXml));
+                attachmentContainsSkeleton(attachmentLogs, inboundMessage);
             }
 
             // process attachments
