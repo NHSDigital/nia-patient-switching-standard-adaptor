@@ -65,7 +65,8 @@ public class InboundMessageMergingService {
         return undeletedLogs.stream().allMatch(log -> log.getUploaded().equals(true));
     }
 
-    public void attachmentContainsSkeleton (List<PatientAttachmentLog> attachmentLogs, InboundMessage inboundMessage) throws SAXException, TransformerException {
+    private void findAndReplaceSkeleton(List<PatientAttachmentLog> attachmentLogs, InboundMessage inboundMessage)
+            throws SAXException, TransformerException {
         // merge skeleton message into original payload
         var skeletonLogs = attachmentLogs.stream().filter(log -> log.getSkeleton().equals(true)).toList();
         var skeletonFileName = skeletonLogs.stream().findFirst().get().getFilename();
@@ -79,7 +80,7 @@ public class InboundMessageMergingService {
                 .filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid()))
                 .findFirst();
 
-        if(ebxmlSkeletonReference == null) {
+        if (ebxmlSkeletonReference == null) {
             return;
         }
 
@@ -121,7 +122,7 @@ public class InboundMessageMergingService {
 
             if (attachmentsContainSkeletonMessage) {
 
-                attachmentContainsSkeleton(attachmentLogs, inboundMessage);
+                findAndReplaceSkeleton(attachmentLogs, inboundMessage);
             }
 
             // process attachments
