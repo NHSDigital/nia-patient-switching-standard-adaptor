@@ -104,7 +104,7 @@ public class AttachmentReferenceUpdaterServiceTests {
 
         attachmentReferenceUpdaterService.updateReferenceToAttachment(mockAttachment, CONVERSATION_ID, content);
 
-        verify(storageManagerService, times(1)).getFileLocation(any(),any());
+        verify(storageManagerService, times(1)).getFileLocation(any(), any());
     }
 
     @Test
@@ -112,7 +112,7 @@ public class AttachmentReferenceUpdaterServiceTests {
             throws AttachmentNotFoundException, ValidationException, InlineAttachmentProcessingException {
 
         var content = getFileContent(PAYLOAD_XML);
-        when(storageManagerService.getFileLocation(any(),any())).thenReturn("https://location.com");
+        when(storageManagerService.getFileLocation(any(), any())).thenReturn("https://location.com");
 
         var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(mockAttachment, CONVERSATION_ID, content);
 

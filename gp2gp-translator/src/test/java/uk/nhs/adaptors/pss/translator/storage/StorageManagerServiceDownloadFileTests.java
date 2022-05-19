@@ -18,7 +18,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class StorageManagerServiceDownloadFileTests {
     private static final String TEST_ID = "SOME_ID";
-    private final String CONVERSATION_ID = "6E242658-3D8E-11E3-A7DC-172BDA00FA84";
+    private static final String CONVERSATION_ID = "6E242658-3D8E-11E3-A7DC-172BDA00FA84";
+
     @Mock
     private StorageService storageService;
     @InjectMocks
@@ -46,7 +47,7 @@ public class StorageManagerServiceDownloadFileTests {
         String filename = TEST_ID.concat("/").concat(TEST_ID).concat("_gpc_structured.json");
         String processedFilename = CONVERSATION_ID + "_" + filename;
 
-        storageManagerService.downloadFile(filename,CONVERSATION_ID);
+        storageManagerService.downloadFile(filename, CONVERSATION_ID);
 
         verify(storageService).downloadFile(processedFilename);
     }
@@ -59,7 +60,7 @@ public class StorageManagerServiceDownloadFileTests {
         byte[] expectedResponse = "File byte response example".getBytes(UTF_8);
         when(storageService.downloadFile(processedFilename)).thenReturn(expectedResponse);
 
-        byte[] result = storageManagerService.downloadFile(filename,CONVERSATION_ID);
+        byte[] result = storageManagerService.downloadFile(filename, CONVERSATION_ID);
 
         assertTrue(java.util.Arrays.equals(result, expectedResponse));
     }

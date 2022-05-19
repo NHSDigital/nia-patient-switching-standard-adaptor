@@ -118,7 +118,9 @@ public class COPCMessageHandler {
 
         if (allFragmentsHaveUploaded) {
 
-            String payload = attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(attachmentLogFragments, conversationId);
+            String payload = attachmentHandlerService
+                .buildSingleFileStringFromPatientAttachmentLogs(attachmentLogFragments, conversationId);
+
             var parentLogFile = conversationAttachmentLogs.stream()
                 .filter(log ->  log.getMid().equals(parentLogMessageId))
                 .findAny()

@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class StorageManagerServiceDeleteFileTests {
     private String testId = "SomeID";
-    private final String CONVERSATION_ID = "6E242658-3D8E-11E3-A7DC-172BDA00FA84";
+    private static final String CONVERSATION_ID = "6E242658-3D8E-11E3-A7DC-172BDA00FA84";
 
     @Mock
     private StorageService storageService;
@@ -45,7 +45,7 @@ public class StorageManagerServiceDeleteFileTests {
 
         String filename = testId.concat("/").concat(testId).concat("_gpc_structured.json");
 
-        storageManagerService.deleteFile(filename,CONVERSATION_ID);
+        storageManagerService.deleteFile(filename, CONVERSATION_ID);
 
         verify(storageService).deleteFile(CONVERSATION_ID + "_" + filename);
     }
