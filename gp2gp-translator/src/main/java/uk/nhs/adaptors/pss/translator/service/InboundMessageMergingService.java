@@ -65,12 +65,13 @@ public class InboundMessageMergingService {
         return undeletedLogs.stream().allMatch(log -> log.getUploaded().equals(true));
     }
 
-    private void findAndReplaceSkeleton(List<PatientAttachmentLog> attachmentLogs, InboundMessage inboundMessage)
+    private void findAndReplaceSkeleton(List<PatientAttachmentLog> attachmentLogs, InboundMessage inboundMessage, String conversationId)
             throws SAXException, TransformerException {
         // merge skeleton message into original payload
         var skeletonLogs = attachmentLogs.stream().filter(log -> log.getSkeleton().equals(true)).toList();
         var skeletonFileName = skeletonLogs.stream().findFirst().get().getFilename();
-        var skeletonFileAsString = new String(attachmentHandlerService.getAttachment(skeletonFileName), StandardCharsets.UTF_8);
+        var skeletonFileAsString = new String(attachmentHandlerService.getAttachment(
+            skeletonFileName, conversationId), StandardCharsets.UTF_8);
 
         // get ebxml references to find document id from skeleton message
         List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
@@ -121,8 +122,7 @@ public class InboundMessageMergingService {
             var attachmentsContainSkeletonMessage = attachmentLogs.stream().anyMatch(log -> log.getSkeleton().equals(true));
 
             if (attachmentsContainSkeletonMessage) {
-
-                findAndReplaceSkeleton(attachmentLogs, inboundMessage);
+                findAndReplaceSkeleton(attachmentLogs, inboundMessage, conversationId);
             }
 
             // process attachments
@@ -130,7 +130,8 @@ public class InboundMessageMergingService {
             Arrays.fill(bypassPayloadLoadingArray, "");
             var messageAttachments = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
                     attachmentLogs,
-                    Arrays.asList(bypassPayloadLoadingArray)
+                    Arrays.asList(bypassPayloadLoadingArray),
+                    conversationId
             );
             var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
                     messageAttachments,

@@ -133,7 +133,8 @@ public class AttachmentHandlerService {
 
     public List<InboundMessage.Attachment> buildInboundAttachmentsFromAttachmentLogs(
         List<PatientAttachmentLog> attachmentLogs,
-        List<String> payloads) {
+        List<String> payloads,
+        String conversationId) {
 
         List<InboundMessage.Attachment> attachmentsResponse = new ArrayList<InboundMessage.Attachment>();
 
@@ -154,7 +155,7 @@ public class AttachmentHandlerService {
 
             var payload = "";
             if (payloads == null || payloads.get(i) == null) {
-                payload = getAttachment(log.getFilename()).toString();
+                payload = getAttachment(log.getFilename(), conversationId).toString();
             } else {
                 payload = payloads.get(i);
             }

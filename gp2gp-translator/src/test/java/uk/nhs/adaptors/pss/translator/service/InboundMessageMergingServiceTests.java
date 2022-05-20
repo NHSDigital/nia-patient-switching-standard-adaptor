@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -122,7 +123,7 @@ public class InboundMessageMergingServiceTests {
         var ebXmlAttachments = Arrays.asList(reference);
         var fileAsBytes = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
 
-        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(fileAsBytes);
+        when(attachmentHandlerService.getAttachment(FILENAME, CONVERSATION_ID)).thenReturn(fileAsBytes);
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
@@ -169,7 +170,7 @@ public class InboundMessageMergingServiceTests {
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
         verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
-        verify(attachmentHandlerService, never()).getAttachment(any());
+        verify(attachmentHandlerService, never()).getAttachment(any(), any());
         verify(migrationStatusLogService, times(1)).updatePatientMigrationRequestAndAddMigrationStatusLog(any(), any(), any(), any());
     }
 
@@ -195,7 +196,7 @@ public class InboundMessageMergingServiceTests {
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
-        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(fileAsBytes);
+        when(attachmentHandlerService.getAttachment(FILENAME, CONVERSATION_ID)).thenReturn(fileAsBytes);
 
         doThrow(SAXException.class).when(xmlParseUtilService).getEbxmlAttachmentsData(any());
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
@@ -226,7 +227,7 @@ public class InboundMessageMergingServiceTests {
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
-        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(fileAsBytes);
+        when(attachmentHandlerService.getAttachment(FILENAME, CONVERSATION_ID)).thenReturn(fileAsBytes);
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
@@ -264,7 +265,7 @@ public class InboundMessageMergingServiceTests {
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
-        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(fileAsBytes);
+        when(attachmentHandlerService.getAttachment(FILENAME, CONVERSATION_ID)).thenReturn(fileAsBytes);
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
@@ -306,7 +307,7 @@ public class InboundMessageMergingServiceTests {
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
-        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(fileAsBytes);
+        when(attachmentHandlerService.getAttachment(FILENAME, CONVERSATION_ID)).thenReturn(fileAsBytes);
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
@@ -346,7 +347,7 @@ public class InboundMessageMergingServiceTests {
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
-        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(fileAsBytes);
+        when(attachmentHandlerService.getAttachment(FILENAME, CONVERSATION_ID)).thenReturn(fileAsBytes);
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
@@ -387,7 +388,7 @@ public class InboundMessageMergingServiceTests {
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
         when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn("");
-        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(fileAsBytes);
+        when(attachmentHandlerService.getAttachment(FILENAME, CONVERSATION_ID)).thenReturn(fileAsBytes);
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
@@ -427,7 +428,7 @@ public class InboundMessageMergingServiceTests {
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
         when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn(inboundMessage.getPayload());
-        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(fileAsBytes);
+        when(attachmentHandlerService.getAttachment(FILENAME, CONVERSATION_ID)).thenReturn(fileAsBytes);
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
@@ -467,7 +468,7 @@ public class InboundMessageMergingServiceTests {
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
         when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn(inboundMessage.getPayload());
-        when(attachmentHandlerService.getAttachment(FILENAME)).thenReturn(fileAsBytes);
+        when(attachmentHandlerService.getAttachment(FILENAME, CONVERSATION_ID)).thenReturn(fileAsBytes);
         when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);

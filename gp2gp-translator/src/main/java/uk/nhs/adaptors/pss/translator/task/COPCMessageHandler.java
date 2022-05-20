@@ -205,7 +205,8 @@ public class COPCMessageHandler {
         } else {
             var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
                     List.of(fragmentAttachmentLog),
-                    List.of(inboundMessage.getAttachments().get(0).getPayload())
+                    List.of(inboundMessage.getAttachments().get(0).getPayload()),
+                    conversationId
             );
             attachmentHandlerService.storeAttachments(attachment, conversationId);
         }
