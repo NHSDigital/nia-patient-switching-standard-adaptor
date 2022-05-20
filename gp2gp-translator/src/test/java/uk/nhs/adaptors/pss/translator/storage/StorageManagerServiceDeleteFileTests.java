@@ -17,6 +17,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class StorageManagerServiceDeleteFileTests {
     private String testId = "SomeID";
+    private static final String CONVERSATION_ID = "6E242658-3D8E-11E3-A7DC-172BDA00FA84";
 
     @Mock
     private StorageService storageService;
@@ -34,7 +35,7 @@ public class StorageManagerServiceDeleteFileTests {
 
         String filename = testId.concat("/").concat(testId).concat("_gpc_structured.json");
 
-        storageManagerService.deleteFile(filename);
+        storageManagerService.deleteFile(filename, CONVERSATION_ID);
 
         // No assertion required to check if function completes successfully
     }
@@ -44,9 +45,9 @@ public class StorageManagerServiceDeleteFileTests {
 
         String filename = testId.concat("/").concat(testId).concat("_gpc_structured.json");
 
-        storageManagerService.deleteFile(filename);
+        storageManagerService.deleteFile(filename, CONVERSATION_ID);
 
-        verify(storageService).deleteFile(filename);
+        verify(storageService).deleteFile(CONVERSATION_ID + "_" + filename);
     }
 
     @Test
@@ -54,10 +55,10 @@ public class StorageManagerServiceDeleteFileTests {
 
         String filename = testId.concat("/").concat(testId).concat("_gpc_structured.json");
         willThrow(new StorageException("Error occurred deleting from Storage", null))
-                .given(storageService).deleteFile(filename);
+                .given(storageService).deleteFile(CONVERSATION_ID + "_" + filename);
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            storageManagerService.deleteFile(filename);
+            storageManagerService.deleteFile(filename, CONVERSATION_ID);
         });
 
         String expectedMessage = "Error occurred deleting from Storage";

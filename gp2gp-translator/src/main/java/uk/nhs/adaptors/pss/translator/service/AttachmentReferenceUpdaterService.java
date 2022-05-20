@@ -49,17 +49,15 @@ public class AttachmentReferenceUpdaterService {
                         Pattern pattern = Pattern.compile(patternStr);
                         Matcher matcher = pattern.matcher(resultPayload);
 
-                        var matchFound = matcher.find();
-
-                        if (matchFound) {
-                            // update local ref with external reference
-                            String fileLocation = storageManagerService.getFileLocation(filename);
-                            var replaceStr = String.format("<reference value=\"%s\" />", fileLocation);
-                            resultPayload = matcher.replaceAll(replaceStr);
-                        } else {
-                            var message = String.format("Could not find file %s in payload", filename);
-                            throw new AttachmentNotFoundException(message);
-                        }
+                      if (matchFound) {
+                          // update local ref with external reference
+                          String fileLocation = storageManagerService.getFileLocation(filename, conversationId);
+                          var replaceStr = String.format("<reference value=\"%s\" />", xmlEscape(fileLocation));
+                          resultPayload = matcher.replaceAll(replaceStr);
+                      } else {
+                          var message = String.format("Could not find file %s in payload", filename);
+                          throw new AttachmentNotFoundException(message);
+                      }
                     }
                 } catch (ParseException ex) {
                     throw new InlineAttachmentProcessingException("Unable to parse inline attachment description: " + ex.getMessage());
