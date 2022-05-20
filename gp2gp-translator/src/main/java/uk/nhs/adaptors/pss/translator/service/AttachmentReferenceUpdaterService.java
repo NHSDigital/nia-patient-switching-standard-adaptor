@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
@@ -49,7 +50,8 @@ public class AttachmentReferenceUpdaterService {
                     if (matchFound) {
                         // update local ref with external reference
                         String fileLocation = storageManagerService.getFileLocation(filename, conversationId);
-                        var replaceStr = String.format("<reference value=\"%s\" />", fileLocation);
+                        var replaceStr = String.format("<reference value=\"%s\" />", xmlEscape(fileLocation));
+                      
                         resultPayload = matcher.replaceAll(replaceStr);
                     } else {
                         var message = String.format("Could not find file %s in payload", filename);
@@ -64,5 +66,9 @@ public class AttachmentReferenceUpdaterService {
         }
 
         return resultPayload;
+    }
+
+    private String xmlEscape(String str) {
+        return StringEscapeUtils.escapeXml10(str);
     }
 }
