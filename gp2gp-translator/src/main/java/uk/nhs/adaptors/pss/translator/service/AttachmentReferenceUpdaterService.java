@@ -10,6 +10,7 @@ import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingExcept
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
+import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 import javax.xml.bind.ValidationException;
 import java.text.ParseException;
@@ -23,6 +24,8 @@ import java.util.regex.Pattern;
 public class AttachmentReferenceUpdaterService {
 
     private final StorageManagerService storageManagerService;
+    private XmlParseUtilService xmlParseUtilService;
+
     public String updateReferenceToAttachment(List<InboundMessage.Attachment> attachments, String conversationId, String payloadStr)
             throws ValidationException, AttachmentNotFoundException, InlineAttachmentProcessingException {
         if (conversationId == null || conversationId.isEmpty()) {
@@ -36,25 +39,26 @@ public class AttachmentReferenceUpdaterService {
             for (InboundMessage.Attachment attachment : attachments) {
 
                 try {
-                    InlineAttachment inlineAttachment = new InlineAttachment(attachment);
-                    String filename = inlineAttachment.getOriginalFilename();
+                    if (!xmlParseUtilService.parseIsSkeleton(attachment.getDescription())) {
+                        InlineAttachment inlineAttachment = new InlineAttachment(attachment);
+                        String filename = inlineAttachment.getOriginalFilename();
 
-                    // find "local" reference by finding the following:
-                    // "<reference value=\"file://localhost/${filename}\" />"
-                    var patternStr = String.format("<reference value=\"file://localhost/%s\" \\/>", filename);
-                    Pattern pattern = Pattern.compile(patternStr);
-                    Matcher matcher = pattern.matcher(resultPayload);
+                        // find "local" reference by finding the following:
+                        // "<reference value=\"file://localhost/${filename}\" />"
+                        var patternStr = String.format("<reference value=\"file://localhost/%s\" \\/>", filename);
+                        Pattern pattern = Pattern.compile(patternStr);
+                        Matcher matcher = pattern.matcher(resultPayload);
 
-                    var matchFound = matcher.find();
-
-                    if (matchFound) {
-                        // update local ref with external reference
-                        String fileLocation = storageManagerService.getFileLocation(filename, conversationId);
-                        var replaceStr = String.format("<reference value=\"%s\" />", xmlEscape(fileLocation));
-                        resultPayload = matcher.replaceAll(replaceStr);
-                    } else {
-                        var message = String.format("Could not find file %s in payload", filename);
-                        throw new AttachmentNotFoundException(message);
+                        var matchFound = matcher.find();
+                        if (matchFound) {
+                            // update local ref with external reference
+                            String fileLocation = storageManagerService.getFileLocation(filename, conversationId);
+                            var replaceStr = String.format("<reference value=\"%s\" />", xmlEscape(fileLocation));
+                            resultPayload = matcher.replaceAll(replaceStr);
+                        } else {
+                            var message = String.format("Could not find file %s in payload", filename);
+                            throw new AttachmentNotFoundException(message);
+                        }
                     }
                 } catch (ParseException ex) {
                     throw new InlineAttachmentProcessingException("Unable to parse inline attachment description: " + ex.getMessage());

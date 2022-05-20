@@ -1,11 +1,18 @@
 package uk.nhs.adaptors.pss.translator.util;
 
+import java.io.StringWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;
@@ -217,11 +224,22 @@ public class XmlParseUtilService {
 
                 String description = referenceElement.getTextContent();
                 String hrefAttribute = referenceElement.getAttribute("xlink:href");
+                String documentId = referenceElement.getAttribute("eb:id");
 
-                ebxmlAttachmentsIds.add(new EbxmlReference(description, hrefAttribute));
+                ebxmlAttachmentsIds.add(new EbxmlReference(description, hrefAttribute, documentId));
             }
         }
 
         return ebxmlAttachmentsIds;
+    }
+
+    public String getStringFromDocument(Document doc) throws TransformerException {
+        DOMSource domSource = new DOMSource(doc);
+        StringWriter writer = new StringWriter();
+        StreamResult result = new StreamResult(writer);
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        transformer.transform(domSource, result);
+        return writer.toString();
     }
 }

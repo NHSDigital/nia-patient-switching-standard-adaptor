@@ -137,7 +137,9 @@ public class EhrExtractMessageHandlerTest {
         prepareMocks(inboundMessage);
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-        verify(bundleMapperService).mapToBundle(any(), any()); // mapped item is private to the class, so we cannot test an exact object
+
+        // mapped item is private to the class, so we cannot test an exact object
+        verify(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any());
     }
 
     @Test
@@ -288,7 +290,7 @@ public class EhrExtractMessageHandlerTest {
                 .thenReturn(inboundMessage.getPayload());
 
         doThrow(new BundleMappingException("Test Exception"))
-            .when(bundleMapperService).mapToBundle(any(), any());
+            .when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any());
 
         assertThrows(BundleMappingException.class, () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
     }

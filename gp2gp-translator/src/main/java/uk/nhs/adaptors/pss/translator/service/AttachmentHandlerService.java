@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
@@ -128,5 +129,49 @@ public class AttachmentHandlerService {
         }
 
         return combinedFile.toString();
+    }
+
+    public List<InboundMessage.Attachment> buildInboundAttachmentsFromAttachmentLogs(
+        List<PatientAttachmentLog> attachmentLogs,
+        List<String> payloads,
+        String conversationId) {
+
+        List<InboundMessage.Attachment> attachmentsResponse = new ArrayList<InboundMessage.Attachment>();
+
+        for (var  i = 0; i < attachmentLogs.size(); i++) {
+            var log = attachmentLogs.get(i);
+
+            var fileDescription =
+                "Filename=" + "\"" + log.getFilename()  + "\" "
+                    + "ContentType=" + log.getContentType() + " "
+                    + "Compressed=" + log.getCompressed().toString() + " "
+                    + "LargeAttachment=" + log.getLargeAttachment().toString() + " "
+                    + "OriginalBase64=" + log.getBase64().toString() + " "
+                    + "Length=" + log.getLengthNum();
+
+            if (log.getSkeleton()) {
+                fileDescription += " DomainData=\\\"X-GP2GP-Skeleton:Yes\\\"";
+            }
+
+            var payload = "";
+            if (payloads == null || payloads.get(i) == null) {
+                payload = getAttachment(log.getFilename(), conversationId).toString();
+            } else {
+                payload = payloads.get(i);
+            }
+
+            attachmentsResponse.add(
+                InboundMessage.Attachment.builder()
+                    .payload(payload)
+                        .isBase64(log
+                                .getBase64()
+                                .toString())
+                    .contentType(log.getContentType())
+                    .description(fileDescription)
+                    .build()
+            );
+        }
+
+        return attachmentsResponse;
     }
 }
