@@ -118,7 +118,9 @@ public class COPCMessageHandler {
 
         if (allFragmentsHaveUploaded) {
 
-            String payload = attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(attachmentLogFragments);
+            String payload = attachmentHandlerService
+                .buildSingleFileStringFromPatientAttachmentLogs(attachmentLogFragments, conversationId);
+
             var parentLogFile = conversationAttachmentLogs.stream()
                 .filter(log ->  log.getMid().equals(parentLogMessageId))
                 .findAny()
@@ -134,7 +136,7 @@ public class COPCMessageHandler {
             patientAttachmentLogService.updateAttachmentLog(updatedLog, conversationId);
 
             attachmentLogFragments.forEach((PatientAttachmentLog log) -> {
-                attachmentHandlerService.removeAttachment(log.getFilename());
+                attachmentHandlerService.removeAttachment(log.getFilename(), conversationId);
                 patientAttachmentLogService.deleteAttachmentLog(log.getMid(), conversationId);
             });
         }

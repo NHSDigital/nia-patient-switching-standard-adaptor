@@ -313,7 +313,7 @@ class COPCMessageHandlerTest {
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
             .thenReturn(createPatientAttachmentList(false, true, DATA_AMOUNT));
 
-        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any()))
+        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any(), any()))
             .thenReturn("test-string");
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
     }
@@ -389,7 +389,7 @@ class COPCMessageHandlerTest {
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
 
-        verify(attachmentHandlerService, never()).buildSingleFileStringFromPatientAttachmentLogs(any());
+        verify(attachmentHandlerService, never()).buildSingleFileStringFromPatientAttachmentLogs(any(), any());
     }
 
     @Test
@@ -414,7 +414,7 @@ class COPCMessageHandlerTest {
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
         verify(attachmentHandlerService, times(1))
-            .buildSingleFileStringFromPatientAttachmentLogs(any());
+            .buildSingleFileStringFromPatientAttachmentLogs(any(), any());
 
     }
 
@@ -663,7 +663,7 @@ class COPCMessageHandlerTest {
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
         verify(attachmentHandlerService, times(2))
-            .removeAttachment(any());
+            .removeAttachment(any(), any());
     }
 
     @Test
@@ -688,7 +688,7 @@ class COPCMessageHandlerTest {
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
         verify(attachmentHandlerService, times(1))
-            .buildSingleFileStringFromPatientAttachmentLogs(any());
+            .buildSingleFileStringFromPatientAttachmentLogs(any(), any());
     }
 
     private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid, int orderNum, boolean isUploaded) {

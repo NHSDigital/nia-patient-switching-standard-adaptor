@@ -61,7 +61,7 @@ public class AttachmentHandlerService {
                     );
 
                     String filename = inlineAttachment.getOriginalFilename();
-                    storageManagerService.uploadFile(filename, dataWrapper);
+                    storageManagerService.uploadFile(filename, dataWrapper, conversationId);
 
 
                 } catch (StorageException ex) {
@@ -98,32 +98,32 @@ public class AttachmentHandlerService {
         );
 
         try {
-            storageManagerService.uploadFile(fileName, dataWrapper);
+            storageManagerService.uploadFile(fileName, dataWrapper, conversationId);
         } catch (StorageException ex) {
             throw new InlineAttachmentProcessingException("Unable to upload inline attachment to storage without processing: "
                 + ex.getMessage());
         }
     }
 
-    public byte[] getAttachment(String filename) {
+    public byte[] getAttachment(String filename, String conversationId) {
         if (!StringUtils.hasText(filename)) {
             throw new NullValueException();
         }
-        return storageManagerService.downloadFile(filename);
+        return storageManagerService.downloadFile(filename, conversationId);
     }
 
-    public void removeAttachment(String filename) {
+    public void removeAttachment(String filename, String conversationId) {
         if (!StringUtils.hasText(filename)) {
             throw new NullValueException();
         }
-        storageManagerService.deleteFile(filename);
+        storageManagerService.deleteFile(filename, conversationId);
     }
 
-    public String buildSingleFileStringFromPatientAttachmentLogs(List<PatientAttachmentLog> attachmentLogs) {
+    public String buildSingleFileStringFromPatientAttachmentLogs(List<PatientAttachmentLog> attachmentLogs, String conversationId) {
         StringBuilder combinedFile = new StringBuilder("");
         for (PatientAttachmentLog log : attachmentLogs) {
             var filename = log.getFilename();
-            var attachmentBytes = getAttachment(filename);
+            var attachmentBytes = getAttachment(filename, conversationId);
             combinedFile.append(new String(attachmentBytes, StandardCharsets.UTF_8));
         }
 
