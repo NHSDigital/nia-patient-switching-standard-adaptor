@@ -135,6 +135,8 @@ public class EhrExtractHandlingIT {
     }
 
     private void verifyBundle(String path) throws JSONException {
+        var specialChars = "\\\\n|\\\\t|\\\\b|\\\\r";//these are programming language special characters, not to be confused with line endings
+
         var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
 
@@ -147,7 +149,10 @@ public class EhrExtractHandlingIT {
             .flatMap(List::stream)
             .collect(Collectors.toList());
 
-        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle, combinedList);
+        assertBundleContent(
+                patientMigrationRequest.getBundleResource().replaceAll(specialChars, ""),
+                expectedBundle.replaceAll(specialChars, ""), combinedList
+        );
     }
 
     private void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
