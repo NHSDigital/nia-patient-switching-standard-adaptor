@@ -118,9 +118,10 @@ public class LargeMessagingIT {
 //    }
 
 
+
     // Test case 3: UK06 with 1 mid attachment
     @Test
-    public void handleUk06WithOneMidAttachment() {
+    public void handleUk06WithOneMidAttachment() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
 
         await().until(this::hasContinueMessageBeenRecieved);
@@ -129,37 +130,86 @@ public class LargeMessagingIT {
 
         await().until(this::isEhrExtractTranslated);
 
+        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
     }
 
     // Test case 4: UK06 with fragment mid attachments
 
     @Test
-    public void handleUk06WithFragmentedMids() {
+    public void handleUk06WithFragmentedMids() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/uk06.json");
+
+        await().until(this::hasContinueMessageBeenRecieved);
+
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/copc_index.json");
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/copc0.json");
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/copc1.json");
+
+        await().until(this::isEhrExtractTranslated);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario4.json");
     }
 
     // Test case 5: UK06 with skeleton
     @Test
-    public void handleUk06WithSkeleton() {
+    public void handleUk06WithSkeleton() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_5/uk06.json");
+
+        await().until(this::hasContinueMessageBeenRecieved);
+
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/copc.json");
+
+        await().until(this::isEhrExtractTranslated);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario5.json");
     }
 
     // Test case 6: UK06 with mid attachment with cid mid combo
     @Test
-    public void handleUk06WithMidAttachmentsWithCidAndMidCombo() {
+    public void handleUk06WithMidAttachmentsWithCidAndMidCombo() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/uk06.json");
+
+        await().until(this::hasContinueMessageBeenRecieved);
+
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/copc_index.json");
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/copc0.json");
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/copc1.json");
+
+        await().until(this::isEhrExtractTranslated);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario6.json");
     }
 
     // Test case 7: UK06 with skeleton with fragments
     @Test
-    public void handleUk06WithSkeletonFragments() {
+    public void handleUk06WithSkeletonFragments() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/uk06.json");
+
+        await().until(this::hasContinueMessageBeenRecieved);
+
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/copc_index.json");
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/copc0.json");
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/copc1.json");
+
+        await().until(this::isEhrExtractTranslated);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario7.json");
     }
 
     // Test case 8: UK06 with with fragmented mid/cid combo
     @Test
-    public void handleUk06WithFragmentedMidCidCombo() {
+    public void handleUk06WithFragmentedMidCidCombo() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_8/uk06.json");
+
+        await().until(this::hasContinueMessageBeenRecieved);
+
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_8/copc_index.json");
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_8/copc0.json");
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_8/copc1.json");
+
+        await().until(this::isEhrExtractTranslated);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario8.json");
     }
 
     // Test case 9: UK06 with 1 mid attachment
