@@ -99,25 +99,23 @@ public class LargeMessagingIT {
     }
 
     // Test case 1: UK06 with cid attachment
-//    @Test
-//    public void handleUk06WithCidAttachment() throws JSONException {
-//        sendInboundMessageToQueue("/json/LargeMessage/Scenario_1/uk06.json");
-//
-//        await().until(this::isEhrExtractTranslated);
-//
-//        verifyBundle("/json/LargeMessage/expectedBundleScenario1.json");
-//    }
-//
-//    // Test case 2: UK06 with compressed cid attachment
-//    public void handleUk06WithCompressedCidAttachmement() throws JSONException {
-//        sendInboundMessageToQueue("/json/LargeMessage/Scenario_2/uk06.json");
-//
-//        await().until(this::isEhrExtractTranslated);
-//
-//        verifyBundle("/json/LargeMessage/expectedBundleScenario2.json");
-//    }
+    @Test
+    public void handleUk06WithCidAttachment() throws JSONException {
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_1/uk06.json");
 
+        await().until(this::isEhrExtractTranslated);
 
+        verifyBundle("/json/LargeMessage/expectedBundleScenario1.json");
+    }
+
+    // Test case 2: UK06 with compressed cid attachment
+    public void handleUk06WithCompressedCidAttachmement() throws JSONException {
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_2/uk06.json");
+
+        await().until(this::isEhrExtractTranslated);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario2.json");
+    }
 
     // Test case 3: UK06 with 1 mid attachment
     @Test
@@ -134,7 +132,6 @@ public class LargeMessagingIT {
     }
 
     // Test case 4: UK06 with fragment mid attachments
-
     @Test
     public void handleUk06WithFragmentedMids() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/uk06.json");
@@ -157,7 +154,7 @@ public class LargeMessagingIT {
 
         await().until(this::hasContinueMessageBeenRecieved);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/copc.json");
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_5/copc.json");
 
         await().until(this::isEhrExtractTranslated);
 
@@ -213,30 +210,26 @@ public class LargeMessagingIT {
     }
 
     // Test case 9: UK06 with 1 mid attachment
-//    @Test
-//    public void handleUk06WithFragmentedMids() {
-//
-//    }
+    @Test
+    public void handleUk06WithFragmentedMidsAndCidsAttachments() throws JSONException {
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/uk06.json");
+
+        await().until(this::hasContinueMessageBeenRecieved);
+
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/copc_index.json");
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/copc0.json");
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/copc1.json");
+
+        await().until(this::isEhrExtractTranslated);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario9.json");
+    }
 
     private void sendInboundMessageToQueue(String json) {
         var jsonMessage = readResourceAsString(json)
             .replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber)
             .replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
         mhsJmsTemplate.send(session -> session.createTextMessage(jsonMessage));
-    }
-    private InboundMessage createInboundMessage(String ebxmlPath, String payloadPath, InboundMessage.Attachment attachment, InboundMessage.ExternalAttachment externalAttachment) {
-        var inboundMessage = new InboundMessage();
-        var payload = readResourceAsString(payloadPath).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
-        var ebXml = readResourceAsString(ebxmlPath).replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
-        inboundMessage.setPayload(payload);
-        inboundMessage.setEbXML(ebXml);
-        if(attachment != null) {
-            inboundMessage.setAttachments(Arrays.asList(attachment));
-        }
-        if (externalAttachment != null) {
-            inboundMessage.setExternalAttachments(Arrays.asList(externalAttachment));
-        }
-        return inboundMessage;
     }
 
     private void verifyBundle(String path) throws JSONException {
