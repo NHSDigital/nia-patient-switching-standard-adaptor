@@ -25,6 +25,16 @@
     </Match>
 
     <Match>
+        <Class name="uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService"/>
+        <Bug pattern="DMI_INVOKING_TOSTRING_ON_ARRAY"/>
+    </Match>
+
+    <Match>
+        <Class name="uk.nhs.adaptors.pss.translator.task.COPCMessageHandlerTest"/>
+        <Bug pattern="UWF_UNWRITTEN_FIELD"/>
+    </Match>
+  
+    <Match>
         <Class name="uk.nhs.adaptors.connector.service.PatientMigrationRequestService"/>
         <Bug pattern="EI_EXPOSE_REP2"/>
     </Match>
