@@ -61,7 +61,11 @@ public class LargeMessagingIT {
         "entry[0].resource.identifier[0].value",
         "entry[1].resource.id",
         "entry[*].resource.subject.reference",
-        "entry[*].resource.patient.reference"
+        "entry[*].resource.patient.reference",
+        "entry[*].resource.performer[0].reference",
+        "entry[*].resource.content[0].attachment.title",
+        "entry[*].resource.content[0].attachment.url",
+        "entry[*].resource.description"
     );
     private static final String LOSING_ODS_CODE = "D5445";
     private static final String WINNING_ODS_CODE = "ABC";
@@ -109,6 +113,7 @@ public class LargeMessagingIT {
     }
 
     // Test case 2: UK06 with compressed cid attachment
+    @Test
     public void handleUk06WithCompressedCidAttachmement() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_2/uk06.json");
 
