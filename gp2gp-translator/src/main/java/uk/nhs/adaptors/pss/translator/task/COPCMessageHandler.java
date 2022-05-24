@@ -69,7 +69,7 @@ public class COPCMessageHandler {
             if (patientAttachmentLog == null) {
                 addLogForEarlyFragmentAndStore(inboundMessage, conversationId, payload, ebXmlDocument, migrationRequest.getId());
             } else {
-                if (isManifestMessage(ebXmlDocument)) {
+                if (isManifestMessage(inboundMessage.getAttachments(), inboundMessage.getExternalAttachments())) {
                     extractFragmentsAndLog(migrationRequest, patientAttachmentLog, conversationId, inboundMessage);
                 } else {
                     storeCOPCAttachment(patientAttachmentLog, inboundMessage, conversationId);
@@ -92,6 +92,12 @@ public class COPCMessageHandler {
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
         }
+    }
+
+    private boolean isManifestMessage(List<InboundMessage.Attachment> attachments, List<InboundMessage.ExternalAttachment> externalAttachments) {
+        int attachmentsCount = attachments != null ? attachments.size() : 0;
+        int externalAttachmentsCount = externalAttachments != null ? externalAttachments.size() : 0;
+        return (attachmentsCount + externalAttachmentsCount) > 1;
     }
 
     public void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId)
@@ -247,9 +253,9 @@ public class COPCMessageHandler {
         return xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
     }
 
-    private boolean isManifestMessage(Document ebXmlDocument) {
-        return xPathService.getNodeValue(ebXmlDocument, DESCRIPTION_PATH).contains("Filename=");
-    }
+//    private boolean isManifestMessage(Document ebXmlDocument) {
+//        return xPathService.getNodeValue(ebXmlDocument, DESCRIPTION_PATH).contains("Filename=");
+//    }
 
     private void extractFragmentsAndLog(PatientMigrationRequest migrationRequest,
         PatientAttachmentLog parentAttachmentLog, String conversationId, InboundMessage message) throws ParseException, SAXException,

@@ -59,7 +59,7 @@ public class LargeMessagingIT {
         "id",
         "entry[0].resource.id",
         "entry[0].resource.identifier[0].value",
-        "entry[1].resource.id",
+        "entry[*].resource.id",
         "entry[*].resource.subject.reference",
         "entry[*].resource.patient.reference",
         "entry[*].resource.performer[0].reference",
@@ -190,6 +190,7 @@ public class LargeMessagingIT {
         await().until(this::hasContinueMessageBeenRecieved);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/copc_index.json");
+        await().until(() -> isAttachmentInserted("66B41202-C358-4B4C-93C6-7A10803F9584"));
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/copc0.json");
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/copc1.json");
 
@@ -216,7 +217,7 @@ public class LargeMessagingIT {
 
     // Test case 9: UK06 with 1 mid attachment
     @Test
-    public void handleUk06WithFragmentedMidsAndCidsAttachments() throws JSONException {
+    public void handleUk06WithOneMidAttachmentCheck() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/uk06.json");
 
         await().until(this::hasContinueMessageBeenRecieved);
