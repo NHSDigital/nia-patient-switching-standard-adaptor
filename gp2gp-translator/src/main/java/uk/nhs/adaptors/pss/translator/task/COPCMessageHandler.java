@@ -83,9 +83,7 @@ public class COPCMessageHandler {
 
             // merge and uncompress large EHR message
             if (inboundMessageMergingService.canMergeCompleteBundle(conversationId)) {
-
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
-
             }
         } catch (ParseException | InlineAttachmentProcessingException | ValidationException | SAXException e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
@@ -278,7 +276,12 @@ public class COPCMessageHandler {
                 descriptionString = message.getAttachments().get(0).getDescription();
 
                 // upload the file
-                attachmentHandlerService.storeAttachments(message.getAttachments(), conversationId);
+                attachmentHandlerService.storeAttachementWithoutProcessing(
+                    xmlParseUtilService.parseFragmentFilename(descriptionString),
+                    message.getAttachments().get(0).getPayload(),
+                    conversationId,
+                    message.getAttachments().get(0).getContentType()
+                );
                 fileUpload = true;
             } else {
                 var localMessageId = payloadReference.getHref().substring(payloadReference.getHref().indexOf("mid:") + "mid:".length());
