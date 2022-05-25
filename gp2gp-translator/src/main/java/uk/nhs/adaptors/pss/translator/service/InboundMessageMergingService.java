@@ -1,14 +1,28 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationException;
+import javax.xml.transform.TransformerException;
+
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.springframework.util.StringUtils;
 import org.xml.sax.SAXException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
@@ -21,21 +35,6 @@ import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingExcept
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
-import javax.xml.transform.TransformerException;
-
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
 @Service
