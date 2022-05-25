@@ -69,19 +69,18 @@ public class InboundMessageMergingService {
             throws SAXException, TransformerException {
         // merge skeleton message into original payload
         var skeletonLogs = attachmentLogs.stream().filter(log -> log.getSkeleton().equals(true)).toList();
-        var skeletonFileName = skeletonLogs.stream().findFirst().get().getFilename();
+        var skeletonFileName = skeletonLogs.stream().findFirst().map(PatientAttachmentLog::getFilename).orElseThrow();
         var skeletonFileAsString = new String(attachmentHandlerService.getAttachment(
             skeletonFileName, conversationId), StandardCharsets.UTF_8);
 
         // get ebxml references to find document id from skeleton message
-        List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
-        attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage));
+        List<EbxmlReference> attachmentReferenceDescription = xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage);
         var ebxmlSkeletonReference = attachmentReferenceDescription
                 .stream()
                 .filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid()))
                 .findFirst();
 
-        if (ebxmlSkeletonReference == null) {
+        if (ebxmlSkeletonReference.isEmpty()) {
             return;
         }
 
@@ -96,7 +95,7 @@ public class InboundMessageMergingService {
 
         var skeletonExtractDocument = xPathService.parseDocumentFromXml(skeletonFileAsString);
         var skeletonExtractNodes = skeletonExtractDocument.getElementsByTagName("*");
-        var primarySkeletonNode = skeletonExtractNodes.item(1);
+        var primarySkeletonNode = skeletonExtractNodes.item(0);
 
         // using xPathServices breaks the xml document pointer, reset it
         payloadXml = payloadNodeToReplaceParent.getOwnerDocument();
