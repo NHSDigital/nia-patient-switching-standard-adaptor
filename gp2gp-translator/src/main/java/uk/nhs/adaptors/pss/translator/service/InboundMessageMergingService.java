@@ -7,6 +7,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallSt
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
@@ -64,19 +65,18 @@ public class InboundMessageMergingService {
         return undeletedLogs.stream().allMatch(log -> log.getUploaded().equals(true));
     }
 
-    private void findAndReplaceSkeleton(List<PatientAttachmentLog> attachmentLogs, InboundMessage inboundMessage, String conversationId)
+    private void findAndReplaceSkeleton(PatientAttachmentLog skeletonLog, InboundMessage inboundMessage, String conversationId)
             throws SAXException, TransformerException {
         // merge skeleton message into original payload
-        var skeletonLogs = attachmentLogs.stream().filter(log -> log.getSkeleton().equals(true)).toList();
-        var skeletonFileName = skeletonLogs.stream().findFirst().map(PatientAttachmentLog::getFilename).orElseThrow();
+
         var skeletonFileAsString = new String(attachmentHandlerService.getAttachment(
-            skeletonFileName, conversationId), StandardCharsets.UTF_8);
+            skeletonLog.getFilename(), conversationId), StandardCharsets.UTF_8);
 
         // get ebxml references to find document id from skeleton message
         List<EbxmlReference> attachmentReferenceDescription = xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage);
         var ebxmlSkeletonReference = attachmentReferenceDescription
                 .stream()
-                .filter(reference -> reference.getHref().contains(skeletonLogs.get(0).getMid()))
+                .filter(reference -> reference.getHref().contains(skeletonLog.getMid()))
                 .findFirst();
 
         if (ebxmlSkeletonReference.isEmpty()) {
@@ -117,10 +117,12 @@ public class InboundMessageMergingService {
         try {
 
             var attachmentLogs = getUndeletedLogsForConversation(conversationId);
-            var attachmentsContainSkeletonMessage = attachmentLogs.stream().anyMatch(log -> log.getSkeleton().equals(true));
 
-            if (attachmentsContainSkeletonMessage) {
-                findAndReplaceSkeleton(attachmentLogs, inboundMessage, conversationId);
+            Optional<PatientAttachmentLog> skeletonLog = attachmentLogs.stream()
+                .filter(PatientAttachmentLog::getSkeleton).findFirst();
+
+            if (skeletonLog.isPresent()) {
+                findAndReplaceSkeleton(skeletonLog.get(), inboundMessage, conversationId);
             }
 
             // process attachments
