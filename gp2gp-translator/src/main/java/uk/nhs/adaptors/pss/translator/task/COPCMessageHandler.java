@@ -92,7 +92,8 @@ public class COPCMessageHandler {
         }
     }
 
-    private boolean isManifestMessage(List<InboundMessage.Attachment> attachments, List<InboundMessage.ExternalAttachment> externalAttachments) {
+    private boolean isManifestMessage(List<InboundMessage.Attachment> attachments, 
+        List<InboundMessage.ExternalAttachment> externalAttachments) {
         int attachmentsCount = attachments != null ? attachments.size() : 0;
         int externalAttachmentsCount = externalAttachments != null ? externalAttachments.size() : 0;
         return (attachmentsCount + externalAttachmentsCount) > 1;
