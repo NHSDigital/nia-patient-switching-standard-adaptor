@@ -124,7 +124,7 @@ public class LargeMessagingIT {
     public void handleUk06WithOneMidAttachment() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
 
-        await().until(this::hasContinueMessageBeenRecieved);
+        await().until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
@@ -138,7 +138,7 @@ public class LargeMessagingIT {
     public void handleUk06WithFragmentedMids() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/uk06.json");
 
-        await().until(this::hasContinueMessageBeenRecieved);
+        await().until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/copc_index.json");
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/copc0.json");
@@ -154,7 +154,7 @@ public class LargeMessagingIT {
     public void handleUk06WithSkeleton() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_5/uk06.json");
 
-        await().until(this::hasContinueMessageBeenRecieved);
+        await().until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_5/copc.json");
 
@@ -168,7 +168,7 @@ public class LargeMessagingIT {
     public void handleUk06WithMidAttachmentsWithCidAndMidCombo() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/uk06.json");
 
-        await().until(this::hasContinueMessageBeenRecieved);
+        await().until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/copc_index.json");
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/copc0.json");
@@ -184,7 +184,7 @@ public class LargeMessagingIT {
     public void handleUk06WithSkeletonFragments() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/uk06.json");
 
-        await().until(this::hasContinueMessageBeenRecieved);
+        await().until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/copc_index.json");
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/copc0.json");
@@ -200,7 +200,7 @@ public class LargeMessagingIT {
     public void handleUk06WithFragmentedMidCidCombo() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_8/uk06.json");
 
-        await().until(this::hasContinueMessageBeenRecieved);
+        await().until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_8/copc_index.json");
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_8/copc0.json");
@@ -216,7 +216,7 @@ public class LargeMessagingIT {
     public void handleUk06WithOneMidAttachmentCheck() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/uk06.json");
 
-        await().until(this::hasContinueMessageBeenRecieved);
+        await().until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/copc_index.json");
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/copc0.json");
@@ -260,11 +260,7 @@ public class LargeMessagingIT {
             new CustomComparator(JSONCompareMode.STRICT, customizations));
     }
 
-    private boolean isAttachmentInserted(String id) {
-        var attachmentLog = patientAttachmentLogService.findAttachmentLog(id, conversationId);
-        return attachmentLog != null;
-    }
-    private boolean hasContinueMessageBeenRecieved() {
+    private boolean hasContinueMessageBeenReceived() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
         return CONTINUE_REQUEST_ACCEPTED.equals(migrationStatusLog.getMigrationStatus());
     }
@@ -292,9 +288,5 @@ public class LargeMessagingIT {
 
     private String generateConversationId() {
         return UUID.randomUUID().toString();
-    }
-    @SneakyThrows
-    private String parseMessageToString(InboundMessage inboundMessage) {
-        return objectMapper.writeValueAsString(inboundMessage);
     }
 }
