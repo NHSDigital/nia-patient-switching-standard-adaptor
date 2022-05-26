@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.provider.Arguments;
 import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -43,60 +44,27 @@ import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})
 @DirtiesContext
 @AutoConfigureMockMvc
-public class LargeMessagingIT {
-    private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
-    private static final boolean OVERWRITE_EXPECTED_JSON = false;
+public class LargeMessagingIT extends BaseEhrHandler {
 
-    private static final List<String> STATIC_IGNORED_JSON_PATHS = List.of(
-        "id",
-        "entry[0].resource.id",
-        "entry[0].resource.identifier[0].value",
-        "entry[*].resource.id",
-        "entry[*].resource.subject.reference",
-        "entry[*].resource.patient.reference",
-        "entry[*].resource.performer[0].reference",
-        "entry[*].resource.content[0].attachment.title",
-        "entry[*].resource.content[0].attachment.url",
-        "entry[*].resource.description"
-    );
-    private static final String LOSING_ODS_CODE = "D5445";
-    private static final String WINNING_ODS_CODE = "ABC";
-    private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
-    private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
-
-    @Autowired
-    private PatientMigrationRequestDao patientMigrationRequestDao;
-
-    @Autowired
-    private MigrationStatusLogService migrationStatusLogService;
-
-    @Autowired
-    private PatientAttachmentLogService patientAttachmentLogService;
-
-    @Qualifier("jmsTemplateMhsQueue")
-    @Autowired
-    private JmsTemplate mhsJmsTemplate;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private FhirParser fhirParserService;
-
-    private String patientNhsNumber;
-    private String conversationId;
-
-
-    @BeforeEach
-    public void setUp() {
-        patientNhsNumber = generatePatientNhsNumber();
-        conversationId = generateConversationId();
-        startPatientMigrationJourney();
+    static {
+        STATIC_IGNORED_JSON_PATHS = List.of(
+            "id",
+            "entry[0].resource.id",
+            "entry[0].resource.identifier[0].value",
+            "entry[*].resource.id",
+            "entry[*].resource.subject.reference",
+            "entry[*].resource.patient.reference",
+            "entry[*].resource.performer[0].reference",
+            "entry[*].resource.content[0].attachment.title",
+            "entry[*].resource.content[0].attachment.url",
+            "entry[*].resource.description"
+        );
     }
 
     // Test case 1: UK06 with cid attachment
@@ -233,60 +201,9 @@ public class LargeMessagingIT {
             .replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
         mhsJmsTemplate.send(session -> session.createTextMessage(jsonMessage));
     }
-
-    private void verifyBundle(String path) throws JSONException {
-        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
-        var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
-
-        if (OVERWRITE_EXPECTED_JSON) {
-            overwriteExpectJson(patientMigrationRequest.getBundleResource());
-        }
-
-        var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
-        var combinedList = Stream.of(generateJsonPathIgnores(bundle), STATIC_IGNORED_JSON_PATHS)
-            .flatMap(List::stream)
-            .collect(Collectors.toList());
-
-        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle, combinedList);
-    }
-
-    private void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
-        // when comparing json objects, this will ignore various json paths that contain random values like ids or timestamps
-        var customizations = ignoredPaths.stream()
-            .map(jsonPath -> new Customization(jsonPath, (o1, o2) -> true))
-            .toArray(Customization[]::new);
-
-        JSONAssert.assertEquals(expected, actual,
-            new CustomComparator(JSONCompareMode.STRICT, customizations));
-    }
-
+    
     private boolean hasContinueMessageBeenReceived() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
         return CONTINUE_REQUEST_ACCEPTED.equals(migrationStatusLog.getMigrationStatus());
-    }
-    private boolean isEhrExtractTranslated() {
-        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        return EHR_EXTRACT_TRANSLATED.equals(migrationStatusLog.getMigrationStatus());
-    }
-
-    private void startPatientMigrationJourney() {
-        patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
-        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId);
-    }
-
-    @SneakyThrows
-    private void overwriteExpectJson(String newExpected) {
-        try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/json/expectedBundle.json", StandardCharsets.UTF_8)) {
-            printWriter.print(newExpected);
-        }
-        fail("Re-run the tests with OVERWRITE_EXPECTED_JSON=false");
-    }
-
-    private String generatePatientNhsNumber() {
-        return RandomStringUtils.randomNumeric(NHS_NUMBER_MIN_MAX_LENGTH, NHS_NUMBER_MIN_MAX_LENGTH);
-    }
-
-    private String generateConversationId() {
-        return UUID.randomUUID().toString();
     }
 }

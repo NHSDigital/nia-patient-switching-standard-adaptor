@@ -41,54 +41,28 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})
 @DirtiesContext
 @AutoConfigureMockMvc
-public class EhrExtractHandlingIT {
-    private static final boolean OVERWRITE_EXPECTED_JSON = false;
-    private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
+public class EhrExtractHandlingIT extends BaseEhrHandler {
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
-    private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
-    private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
-    private static final String LOSING_ODS_CODE = "D5445";
-    private static final String WINNING_ODS_CODE = "ABC";
 
-    private static final List<String> STATIC_IGNORED_JSON_PATHS = List.of(
-        "id",
-        "entry[0].resource.id",
-        "entry[0].resource.identifier[0].value",
-        "entry[1].resource.id",
-        "entry[*].resource.subject.reference",
-        "entry[*].resource.patient.reference"
-    );
-
-    @Autowired
-    private PatientMigrationRequestDao patientMigrationRequestDao;
-
-    @Autowired
-    private MigrationStatusLogService migrationStatusLogService;
-
-    @Qualifier("jmsTemplateMhsQueue")
-    @Autowired
-    private JmsTemplate mhsJmsTemplate;
+    static {
+        STATIC_IGNORED_JSON_PATHS = List.of(
+            "id",
+            "entry[0].resource.id",
+            "entry[0].resource.identifier[0].value",
+            "entry[1].resource.id",
+            "entry[*].resource.subject.reference",
+            "entry[*].resource.patient.reference"
+        );
+    }
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private FhirParser fhirParserService;
-
-    private String patientNhsNumber;
-    private String conversationId;
-
-    @BeforeEach
-    public void setUp() {
-        patientNhsNumber = generatePatientNhsNumber();
-        conversationId = generateConversationId();
-        startPatientMigrationJourney();
-    }
 
     @Test
     public void handleEhrExtractFromQueue() throws JSONException {
@@ -100,19 +74,6 @@ public class EhrExtractHandlingIT {
 
         // verify generated bundle resource
         verifyBundle("/json/expectedBundle.json");
-    }
-
-    private void startPatientMigrationJourney() {
-        patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
-        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId);
-    }
-
-    private String generatePatientNhsNumber() {
-        return RandomStringUtils.randomNumeric(NHS_NUMBER_MIN_MAX_LENGTH, NHS_NUMBER_MIN_MAX_LENGTH);
-    }
-
-    private String generateConversationId() {
-        return UUID.randomUUID().toString();
     }
 
     private void sendInboundMessageToQueue(String payloadPartPath) {
@@ -127,45 +88,6 @@ public class EhrExtractHandlingIT {
         inboundMessage.setPayload(payload);
         inboundMessage.setEbXML(ebXml);
         return inboundMessage;
-    }
-
-    private boolean isEhrExtractTranslated() {
-        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        return EHR_EXTRACT_TRANSLATED.equals(migrationStatusLog.getMigrationStatus());
-    }
-
-    private void verifyBundle(String path) throws JSONException {
-        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
-        var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
-
-        if (OVERWRITE_EXPECTED_JSON) {
-            overwriteExpectJson(patientMigrationRequest.getBundleResource());
-        }
-
-        var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
-        var combinedList = Stream.of(generateJsonPathIgnores(bundle), STATIC_IGNORED_JSON_PATHS)
-            .flatMap(List::stream)
-            .collect(Collectors.toList());
-
-        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle, combinedList);
-    }
-
-    private void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
-        // when comparing json objects, this will ignore various json paths that contain random values like ids or timestamps
-        var customizations = ignoredPaths.stream()
-            .map(jsonPath -> new Customization(jsonPath, (o1, o2) -> true))
-            .toArray(Customization[]::new);
-
-        JSONAssert.assertEquals(expected, actual,
-            new CustomComparator(JSONCompareMode.STRICT, customizations));
-    }
-
-    @SneakyThrows
-    private void overwriteExpectJson(String newExpected) {
-        try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/json/expectedBundle.json", StandardCharsets.UTF_8)) {
-            printWriter.print(newExpected);
-        }
-        fail("Re-run the tests with OVERWRITE_EXPECTED_JSON=false");
     }
 
     @SneakyThrows
