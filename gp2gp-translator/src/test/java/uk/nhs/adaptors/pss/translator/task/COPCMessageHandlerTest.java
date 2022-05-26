@@ -1,28 +1,7 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static java.util.UUID.randomUUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.never;
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -32,17 +11,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-
-import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
-import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
-import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
+import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
@@ -51,6 +28,27 @@ import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.UUID.randomUUID;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 @SuppressWarnings("InstantiationOfUtilityClass")
 @ExtendWith(MockitoExtension.class)
@@ -62,6 +60,8 @@ class COPCMessageHandlerTest {
     private static final String MESSAGE_ID = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
     private static final String NHS_NUMBER = "123456";
     private static final Integer DATA_AMOUNT = 3;
+
+    private static final Integer ATTACH_LENGTH = 3;
 
     @Mock
     private PatientMigrationRequestDao migrationRequestDao;
@@ -397,18 +397,21 @@ class COPCMessageHandlerTest {
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
-        when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-            .thenReturn(PatientAttachmentLog.builder()
+        PatientAttachmentLog paLog = PatientAttachmentLog.builder()
                 .filename("test_frag_1.txt")
                 .mid("2").parentMid("1")
                 .patientMigrationReqId(1)
-                .build());
+                .base64(true)
+                .lengthNum(ATTACH_LENGTH)
+                .largeAttachment(true)
+                .build();
+
+        when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
+            .thenReturn(paLog);
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
             .thenReturn(createPatientAttachmentList(false, true, DATA_AMOUNT));
 
-        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any()))
-            .thenReturn("test-string");
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
     }
 
@@ -484,6 +487,53 @@ class COPCMessageHandlerTest {
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
 
         verify(attachmentHandlerService, never()).buildSingleFileStringFromPatientAttachmentLogs(any());
+    }
+
+    @Test
+    public void When_Base64_Lengths_Mismatch_Expect_NotDeleteFragments()
+            throws ValidationException, SAXException, AttachmentLogException, InlineAttachmentProcessingException {
+
+        var inboundMessage = new InboundMessage();
+        inboundMessage.setPayload(readInboundMessageFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
+
+        when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
+                .thenReturn(PatientAttachmentLog.builder()
+                        .filename("test_frag_1.txt")
+                        .mid("2").parentMid("2")
+                        .base64(true)
+                        .lengthNum(ATTACH_LENGTH)
+                        .patientMigrationReqId(1)
+                        .build());
+
+        var invalidFragment = PatientAttachmentLog.builder()
+                .filename("test_frag_3.txt")
+                .mid("3")
+                .orderNum(0)
+                .parentMid("1")
+                .uploaded(false)
+                .largeAttachment(true)
+                .base64(true)
+                .compressed(false)
+                .contentType("text/plain")
+                .lengthNum(ATTACH_LENGTH)
+                .skeleton(false)
+                .patientMigrationReqId(1).build();
+
+        var validAttachmentLogList = createPatientAttachmentList(false, true, DATA_AMOUNT);
+        validAttachmentLogList.add(invalidFragment);
+
+        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any())).thenReturn("RESPONSE");
+
+        try {
+            copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
+            fail("Expected AttachementLogException, but no exception was thrown.");
+        } catch (AttachmentLogException alex) {
+            //ignore
+        }
+
+        verify(attachmentHandlerService, never()).storeAttachments(any(), any());
     }
 
     @Test

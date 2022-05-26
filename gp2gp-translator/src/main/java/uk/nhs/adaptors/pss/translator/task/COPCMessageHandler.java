@@ -1,26 +1,13 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
@@ -37,6 +24,17 @@ import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -44,6 +42,8 @@ public class COPCMessageHandler {
 
     private static final String DESCRIPTION_PATH = "/Envelope/Body/Manifest/Reference[position()=2]/Description";
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
+
+    private static final Integer ZERO_ATTACHMENT_LENGTH = 0;
 
     private final PatientMigrationRequestDao migrationRequestDao;
     private final NackAckPreparationService nackAckPreparationService;
@@ -100,14 +100,15 @@ public class COPCMessageHandler {
         Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
         var currentAttachmentLog = patientAttachmentLogService.findAttachmentLog(inboundMessageId, conversationId);
+        var canCheckAttachmentLength = false;
 
-        if (currentAttachmentLog == null) {
-            throw new AttachmentLogException("Given COPC message is missing an attachment log");
+        if (currentAttachmentLog != null) {
+            canCheckAttachmentLength = true;
         }
 
         // if a message has arrived early, it will not have a parent ID so we can cancel early.
-        if (currentAttachmentLog.getParentMid() == null) {
-            return;
+        if (currentAttachmentLog == null || currentAttachmentLog.getParentMid() == null) {
+            throw new AttachmentLogException("Given COPC message is missing an attachment log");
         }
 
         var conversationAttachmentLogs = patientAttachmentLogService.findAttachmentLogs(conversationId);
@@ -132,17 +133,30 @@ public class COPCMessageHandler {
 
             String payload = attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(attachmentLogFragments);
             var parentLogFile = conversationAttachmentLogs.stream()
-                .filter(log ->  log.getMid().equals(parentLogMessageId))
-                .findAny()
-                .orElse(null);
+                    .filter(log -> log.getMid().equals(parentLogMessageId))
+                    .findAny()
+                    .orElse(null);
+
+
+            if (canCheckAttachmentLength) {
+                var calcLength = attachmentLogFragments.stream().filter(PatientAttachmentLog::getBase64)
+                        .mapToInt((caLog) -> caLog.getLengthNum())
+                        .sum();
+
+                if (payload != null && payload.length() > 0 && payload.length() != calcLength) {
+                    throw new AttachmentLogException("Illegal file length detected"); // custom exception here
+                }
+            }
 
             var mergedLargeAttachment = createNewLargeAttachmentInList(parentLogFile, payload);
+
+
             attachmentHandlerService.storeAttachments(mergedLargeAttachment, conversationId);
 
             var updatedLog = PatientAttachmentLog.builder()
-                .mid(parentLogFile.getMid())
-                .uploaded(true)
-                .build();
+                    .mid(parentLogFile.getMid())
+                    .uploaded(true)
+                    .build();
             patientAttachmentLogService.updateAttachmentLog(updatedLog, conversationId);
 
             attachmentLogFragments.forEach((PatientAttachmentLog log) -> {
