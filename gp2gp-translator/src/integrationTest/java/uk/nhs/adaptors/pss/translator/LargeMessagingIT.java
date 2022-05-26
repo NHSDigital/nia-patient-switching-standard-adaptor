@@ -12,7 +12,6 @@ import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonP
 
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -164,9 +163,7 @@ public class LargeMessagingIT {
         verifyBundle("/json/LargeMessage/expectedBundleScenario5.json");
     }
 
-    // Test case 6: UK06 with mid attachment with cid mid combo - java.lang.IllegalArgumentException: Input byte array has incorrect ending byte at 3448921 - Attachment Handler Service - line 48
-    // Think its merging all 3 even though theres only 2 that need to be merged
-    // Doesnt bundle because it gets all 3 but the first attachment is an index so it doesnt get set to "uploaded" so when it does the check only 2 of 3 are true and doesnt pass into bundle method
+    // Test case 6: UK06 with mid attachment with cid mid combo
     @Test
     public void handleUk06WithMidAttachmentsWithCidAndMidCombo() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/uk06.json");
@@ -183,8 +180,6 @@ public class LargeMessagingIT {
     }
 
     // Test case 7: UK06 with skeleton with fragments
-    // fails in MhqQueueHandler parse ebxml doc, The markup in the document following the root element must be well-formed.
-    // Both copc0/1 work just index file that fails
     @Test
     public void handleUk06WithSkeletonFragments() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/uk06.json");
