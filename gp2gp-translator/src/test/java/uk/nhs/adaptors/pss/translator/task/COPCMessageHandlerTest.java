@@ -263,8 +263,9 @@ class COPCMessageHandlerTest {
             .thenReturn(attachmentReferenceDescription);
 
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
-        
-        verify(attachmentHandlerService).storeAttachementWithoutProcessing("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1_0.messageattachment","ABC Not Required", CONVERSATION_ID,"text/plain");
+        verify(attachmentHandlerService)
+            .storeAttachementWithoutProcessing("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1_0.messageattachment",
+                "ABC Not Required", CONVERSATION_ID, "text/plain");
         verify(patientAttachmentLogService, times(2)).addAttachmentLog(patientLogCaptor.capture());
 
         PatientAttachmentLog actualCidAttachmentLog = patientLogCaptor.getAllValues().get(0);

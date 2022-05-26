@@ -33,7 +33,7 @@ import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 
 public abstract class BaseEhrHandler {
     private static final boolean OVERWRITE_EXPECTED_JSON = false;
-    protected static List<String> STATIC_IGNORED_JSON_PATHS;
+    protected static List<String> staticIgnoredJsonPaths;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String LOSING_ODS_CODE = "D5445";
     private static final String WINNING_ODS_CODE = "ABC";
@@ -82,7 +82,7 @@ public abstract class BaseEhrHandler {
         }
 
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
-        var combinedList = Stream.of(generateJsonPathIgnores(bundle), STATIC_IGNORED_JSON_PATHS)
+        var combinedList = Stream.of(generateJsonPathIgnores(bundle), staticIgnoredJsonPaths)
             .flatMap(List::stream)
             .collect(Collectors.toList());
 
