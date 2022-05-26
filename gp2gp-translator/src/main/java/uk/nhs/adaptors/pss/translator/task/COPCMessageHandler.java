@@ -251,10 +251,6 @@ public class COPCMessageHandler {
         return xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
     }
 
-//    private boolean isManifestMessage(Document ebXmlDocument) {
-//        return xPathService.getNodeValue(ebXmlDocument, DESCRIPTION_PATH).contains("Filename=");
-//    }
-
     private void extractFragmentsAndLog(PatientMigrationRequest migrationRequest,
         PatientAttachmentLog parentAttachmentLog, String conversationId, InboundMessage message) throws ParseException, SAXException,
         ValidationException, InlineAttachmentProcessingException {
