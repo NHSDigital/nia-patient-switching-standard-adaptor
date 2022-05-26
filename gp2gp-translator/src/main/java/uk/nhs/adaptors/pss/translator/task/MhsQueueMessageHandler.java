@@ -81,10 +81,6 @@ public class MhsQueueMessageHandler {
             LOGGER.error("Unable to parse Ebxml References", e);
             return false;
         }
-//        catch (SkeletonEhrProcessingException e) {
-//            LOGGER.error("Unable to process EhrExtract", e);
-//            return false;
-//        }
     }
 
     private InboundMessage readMessage(Message message) throws JMSException, JsonProcessingException {
