@@ -51,7 +51,7 @@ sds:
 timeout:
   ehrExtractWeighting: ${TIMEOUT_EHR_EXTRACT_WEIGHTING:1}
   copcWeighting: ${TIMEOUT_COPC_WEIGHTING:1}
-  cronTime: ${TIMEOUT_CRON_TIME:* * */6 * * *}
+  cronTime: ${TIMEOUT_CRON_TIME:0 0 */6 * * *}
   sdsPollFrequency: ${TIMEOUT_SDS_POLL_FREQUENCY:3}
 
 

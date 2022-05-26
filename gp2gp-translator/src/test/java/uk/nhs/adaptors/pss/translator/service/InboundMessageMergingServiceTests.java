@@ -128,7 +128,6 @@ public class InboundMessageMergingServiceTests {
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
         when(nodeList.item(0)).thenReturn(node);
-        when(nodeList.item(1)).thenReturn(node);
         when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
         when(xmlParseUtilService.getStringFromDocument(any())).thenReturn(inboundMessage.getPayload());
         when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
@@ -232,7 +231,6 @@ public class InboundMessageMergingServiceTests {
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
         when(nodeList.item(0)).thenReturn(node);
-        when(nodeList.item(1)).thenReturn(node);
         when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
         when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
         when(node.getParentNode()).thenReturn(node);
@@ -270,7 +268,6 @@ public class InboundMessageMergingServiceTests {
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
         when(nodeList.item(0)).thenReturn(node);
-        when(nodeList.item(1)).thenReturn(node);
         when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
         when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
         when(node.getParentNode()).thenReturn(node);
@@ -312,7 +309,6 @@ public class InboundMessageMergingServiceTests {
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
         when(nodeList.item(0)).thenReturn(node);
-        when(nodeList.item(1)).thenReturn(node);
         when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
         when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
         when(node.getParentNode()).thenReturn(node);
@@ -352,7 +348,6 @@ public class InboundMessageMergingServiceTests {
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
         when(nodeList.item(0)).thenReturn(node);
-        when(nodeList.item(1)).thenReturn(node);
         when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
         when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
         when(node.getParentNode()).thenReturn(node);
@@ -393,7 +388,6 @@ public class InboundMessageMergingServiceTests {
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
         when(nodeList.item(0)).thenReturn(node);
-        when(nodeList.item(1)).thenReturn(node);
         when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
         when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
         when(node.getParentNode()).thenReturn(node);
@@ -433,7 +427,6 @@ public class InboundMessageMergingServiceTests {
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
         when(nodeList.item(0)).thenReturn(node);
-        when(nodeList.item(1)).thenReturn(node);
         when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
         when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
         when(node.getParentNode()).thenReturn(node);
@@ -473,7 +466,6 @@ public class InboundMessageMergingServiceTests {
         when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
         when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
         when(nodeList.item(0)).thenReturn(node);
-        when(nodeList.item(1)).thenReturn(node);
         when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
         when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
         when(node.getParentNode()).thenReturn(node);

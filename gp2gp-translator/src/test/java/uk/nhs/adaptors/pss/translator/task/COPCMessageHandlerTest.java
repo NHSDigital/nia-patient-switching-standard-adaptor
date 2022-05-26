@@ -43,7 +43,6 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-import uk.nhs.adaptors.pss.translator.exception.SkeletonEhrProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
@@ -133,7 +132,7 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_ShouldUploadFile()
-            throws JAXBException, InlineAttachmentProcessingException, SkeletonEhrProcessingException, SAXException,
+            throws JAXBException, InlineAttachmentProcessingException, SAXException,
                 AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         InboundMessage message = new InboundMessage();
@@ -277,7 +276,7 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_CIDFragmentPartIsReceivedInOrder_Expect_ShouldUploadFile()
-            throws JAXBException, InlineAttachmentProcessingException, SkeletonEhrProcessingException, SAXException,
+            throws JAXBException, InlineAttachmentProcessingException, SAXException,
                 AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         InboundMessage message = new InboundMessage();
