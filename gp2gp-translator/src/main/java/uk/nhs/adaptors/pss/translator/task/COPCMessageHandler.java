@@ -96,7 +96,7 @@ public class COPCMessageHandler {
         List<InboundMessage.ExternalAttachment> externalAttachments) {
         int attachmentsCount = attachments != null ? attachments.size() : 0;
         int externalAttachmentsCount = externalAttachments != null ? externalAttachments.size() : 0;
-        return (attachmentsCount + externalAttachmentsCount) > 1;
+        return attachmentsCount + externalAttachmentsCount > 1;
     }
 
     public void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId)
