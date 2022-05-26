@@ -264,8 +264,8 @@ class COPCMessageHandlerTest {
             .thenReturn(attachmentReferenceDescription);
 
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
-
-        verify(attachmentHandlerService).storeAttachments(message.getAttachments(), CONVERSATION_ID);
+        
+        verify(attachmentHandlerService).storeAttachementWithoutProcessing("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1_0.messageattachment","ABC Not Required", CONVERSATION_ID,"text/plain");
         verify(patientAttachmentLogService, times(2)).addAttachmentLog(patientLogCaptor.capture());
 
         PatientAttachmentLog actualCidAttachmentLog = patientLogCaptor.getAllValues().get(0);
@@ -834,8 +834,6 @@ class COPCMessageHandlerTest {
         when(xPathService.parseDocumentFromXml(message.getEbXML())).thenReturn(ebXmlDocument);
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
             .thenReturn("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1");
-        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Body/Manifest/Reference[position()=2]/Description"))
-            .thenReturn("not an index file");
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
             .thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
             "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 0, true, true), buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
@@ -863,8 +861,6 @@ class COPCMessageHandlerTest {
         when(xPathService.parseDocumentFromXml(message.getEbXML())).thenReturn(ebXmlDocument);
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
             .thenReturn("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1");
-        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Body/Manifest/Reference[position()=2]/Description"))
-            .thenReturn("Filename=blah");
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
             .thenReturn(Arrays.asList(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
                 "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 0, true, true), buildPatientAttachmentLog("057C22B4-613F-47D3-9A72-44A1758464FB",
