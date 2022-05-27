@@ -10,4 +10,5 @@ import lombok.Setter;
 public class EbxmlReference {
     private String description;
     private String href;
+    private String documentId;
 }

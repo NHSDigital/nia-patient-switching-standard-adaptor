@@ -2,10 +2,10 @@
 set -x -e
 
 
-#these two lines of code, makes the docker work with intellij (Windows modification)
-#docker-compose down --rmi=local --remove-orphans
-#docker-compose rm
-#
+# #these two lines of code, makes the docker work with intellij (Windows modification)
+# docker-compose down --rmi=local --remove-orphans
+# docker-compose rm
+
 
 source vars.sh
 

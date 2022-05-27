@@ -25,4 +25,5 @@ public class PatientAttachmentLog {
 //  @NonNull patientMigrationReqId required to create
     private Integer patientMigrationReqId;
     private Integer orderNum;
+    private Boolean deleted;
 }
