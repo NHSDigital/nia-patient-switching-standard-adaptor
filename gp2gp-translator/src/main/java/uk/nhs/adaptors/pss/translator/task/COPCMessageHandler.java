@@ -105,15 +105,32 @@ public class COPCMessageHandler {
             throw new AttachmentLogException("Given COPC message is missing an attachment log");
         }
 
-        // if a message has arrived early, it will not have a parent ID so we can cancel early.
-        if (currentAttachmentLog.getParentMid() == null) {
-            return;
-        }
+
 
         var conversationAttachmentLogs = patientAttachmentLogService.findAttachmentLogs(conversationId);
+        // if a message has arrived early, it will not have a parent ID so we can cancel early.
+        // However, an index created by the ehr message will also have no parent id
+        // Logic below manages that case to make sure index COPC messages trigger the merge check
+        var indexMidReference = currentAttachmentLog.getMid();
+        if (currentAttachmentLog.getParentMid() == null) {
+            // it could also be an index file folowing design changes, check to see if it has any child attachments before returning
+            var childFragments = conversationAttachmentLogs.stream()
+                .filter(log -> !(log.getParentMid() == null) && log.getParentMid().equals(indexMidReference))
+                .toList();
+
+            // if there are no child records then we can return
+            if (childFragments.isEmpty()) {
+                return;
+            } else {
+                // otherwise lets select the first child fragment to run the process as normal
+                currentAttachmentLog = childFragments.get(0);
+            }
+        }
+
+        PatientAttachmentLog finalCurrentAttachmentLog = currentAttachmentLog;
         var attachmentLogFragments = conversationAttachmentLogs.stream()
             .sorted(Comparator.comparingInt(PatientAttachmentLog::getOrderNum))
-            .filter(log -> !(log.getParentMid() == null) && log.getParentMid().equals(currentAttachmentLog.getParentMid()))
+            .filter(log -> !(log.getParentMid() == null) && log.getParentMid().equals(finalCurrentAttachmentLog.getParentMid()))
             .toList();
 
         var parentLogMessageId = attachmentLogFragments.size() == 1
