@@ -24,8 +24,8 @@ import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 @AutoConfigureMockMvc
 public class LargeMessagingIT extends BaseEhrHandler {
 
-    static {
-        staticIgnoredJsonPaths = List.of(
+    private LargeMessagingIT (){
+        setIgnoredJsonPaths(List.of(
             "id",
             "entry[0].resource.id",
             "entry[0].resource.identifier[0].value",
@@ -36,7 +36,7 @@ public class LargeMessagingIT extends BaseEhrHandler {
             "entry[*].resource.content[0].attachment.title",
             "entry[*].resource.content[0].attachment.url",
             "entry[*].resource.description"
-        );
+        ));
     }
 
     // Test case 1: UK06 with cid attachment
@@ -169,12 +169,12 @@ public class LargeMessagingIT extends BaseEhrHandler {
 
     private void sendInboundMessageToQueue(String json) {
         var jsonMessage = readResourceAsString(json)
-            .replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber)
-            .replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
-        mhsJmsTemplate.send(session -> session.createTextMessage(jsonMessage));
+            .replace(NHS_NUMBER_PLACEHOLDER, getPatientNhsNumber())
+            .replace(CONVERSATION_ID_PLACEHOLDER, getConversationId());
+        getMhsJmsTemplate().send(session -> session.createTextMessage(jsonMessage));
     }
     private boolean hasContinueMessageBeenReceived() {
-        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
+        var migrationStatusLog = getMigrationStatusLogService().getLatestMigrationStatusLog(getConversationId());
         return CONTINUE_REQUEST_ACCEPTED.equals(migrationStatusLog.getMigrationStatus());
     }
 }

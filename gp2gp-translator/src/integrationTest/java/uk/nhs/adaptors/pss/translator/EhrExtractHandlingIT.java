@@ -28,15 +28,15 @@ import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 @AutoConfigureMockMvc
 public class EhrExtractHandlingIT extends BaseEhrHandler {
 
-    static {
-        staticIgnoredJsonPaths = List.of(
+    private EhrExtractHandlingIT() {
+        setIgnoredJsonPaths(List.of(
             "id",
             "entry[0].resource.id",
             "entry[0].resource.identifier[0].value",
             "entry[1].resource.id",
             "entry[*].resource.subject.reference",
             "entry[*].resource.patient.reference"
-        );
+        ));
     }
 
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
@@ -57,13 +57,13 @@ public class EhrExtractHandlingIT extends BaseEhrHandler {
 
     private void sendInboundMessageToQueue(String payloadPartPath) {
         var inboundMessage = createInboundMessage(payloadPartPath);
-        mhsJmsTemplate.send(session -> session.createTextMessage(parseMessageToString(inboundMessage)));
+        getMhsJmsTemplate().send(session -> session.createTextMessage(parseMessageToString(inboundMessage)));
     }
 
     private InboundMessage createInboundMessage(String payloadPartPath) {
         var inboundMessage = new InboundMessage();
-        var payload = readResourceAsString(payloadPartPath).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
-        var ebXml = readResourceAsString(EBXML_PART_PATH).replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
+        var payload = readResourceAsString(payloadPartPath).replace(NHS_NUMBER_PLACEHOLDER, getPatientNhsNumber());
+        var ebXml = readResourceAsString(EBXML_PART_PATH).replace(CONVERSATION_ID_PLACEHOLDER, getConversationId());
         inboundMessage.setPayload(payload);
         inboundMessage.setEbXML(ebXml);
         return inboundMessage;

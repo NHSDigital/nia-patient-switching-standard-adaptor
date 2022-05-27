@@ -26,35 +26,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.core.JmsTemplate;
 
+import lombok.Getter;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 
+@Getter
 public abstract class BaseEhrHandler {
     private static final boolean OVERWRITE_EXPECTED_JSON = false;
-    protected static List<String> staticIgnoredJsonPaths;
+
+    private List<String> ignoredJsonPaths;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String LOSING_ODS_CODE = "D5445";
     private static final String WINNING_ODS_CODE = "ABC";
 
     protected static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
     protected static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
-    protected String patientNhsNumber;
-    protected String conversationId;
+
+    private String patientNhsNumber;
+    private String conversationId;
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
 
     @Autowired
-    protected MigrationStatusLogService migrationStatusLogService;
+    private MigrationStatusLogService migrationStatusLogService;
 
     @Autowired
     private FhirParser fhirParserService;
 
     @Qualifier("jmsTemplateMhsQueue")
     @Autowired
-    protected JmsTemplate mhsJmsTemplate;
+    private JmsTemplate mhsJmsTemplate;
 
     @BeforeEach
     public void setUp() {
@@ -82,7 +86,7 @@ public abstract class BaseEhrHandler {
         }
 
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
-        var combinedList = Stream.of(generateJsonPathIgnores(bundle), staticIgnoredJsonPaths)
+        var combinedList = Stream.of(generateJsonPathIgnores(bundle), ignoredJsonPaths)
             .flatMap(List::stream)
             .collect(Collectors.toList());
 
@@ -109,6 +113,10 @@ public abstract class BaseEhrHandler {
 
     private String generatePatientNhsNumber() {
         return RandomStringUtils.randomNumeric(NHS_NUMBER_MIN_MAX_LENGTH, NHS_NUMBER_MIN_MAX_LENGTH);
+    }
+
+    protected void setIgnoredJsonPaths(List<String> ignoredJsonPaths) {
+        this.ignoredJsonPaths = ignoredJsonPaths;
     }
 
     private String generateConversationId() {

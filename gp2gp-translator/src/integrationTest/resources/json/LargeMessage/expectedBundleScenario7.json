@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "5c9564c2-485c-4c8c-a96e-50122c7e0355",
+  "id": "50acc8bd-fd3e-4086-a545-b66674d835ac",
   "meta": {
     "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
   },
@@ -8,14 +8,14 @@
   "entry": [ {
     "resource": {
       "resourceType": "Patient",
-      "id": "c02106c9-70b1-4195-af62-3823d2f8da42",
+      "id": "b21dce33-796a-4894-9155-b06ac62f48e9",
       "meta": {
         "versionId": "1521806400000",
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
       },
       "identifier": [ {
         "system": "https://fhir.nhs.uk/Id/nhs-number",
-        "value": "5241775781"
+        "value": "2653520924"
       } ],
       "managingOrganization": {
         "reference": "Organization/9C3AB881-FCDE-48EC-8028-37B20E0AE893"
@@ -24,7 +24,7 @@
   }, {
     "resource": {
       "resourceType": "Organization",
-      "id": "a8c75dd3-1b55-47d7-9188-951d3b2e261e",
+      "id": "dcf59e33-4b4b-4eda-8664-326629548e69",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
       },
@@ -239,7 +239,7 @@
         } ]
       } ],
       "subject": {
-        "reference": "Patient/c02106c9-70b1-4195-af62-3823d2f8da42"
+        "reference": "Patient/b21dce33-796a-4894-9155-b06ac62f48e9"
       },
       "participant": [ {
         "type": [ {
@@ -276,7 +276,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/c02106c9-70b1-4195-af62-3823d2f8da42"
+        "reference": "Patient/b21dce33-796a-4894-9155-b06ac62f48e9"
       },
       "encounter": {
         "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
@@ -312,7 +312,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/c02106c9-70b1-4195-af62-3823d2f8da42"
+        "reference": "Patient/b21dce33-796a-4894-9155-b06ac62f48e9"
       },
       "encounter": {
         "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
@@ -349,7 +349,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/c02106c9-70b1-4195-af62-3823d2f8da42"
+        "reference": "Patient/b21dce33-796a-4894-9155-b06ac62f48e9"
       },
       "encounter": {
         "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
@@ -374,6 +374,10 @@
         "item": {
           "reference": "Observation/7D88CB4A-7989-42E0-901D-816DAA869D08"
         }
+      }, {
+        "item": {
+          "reference": "Observation/15FF7FA4-DBD9-4C37-A479-7A86A890B7A8"
+        }
       } ]
     }
   }, {
@@ -396,7 +400,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/c02106c9-70b1-4195-af62-3823d2f8da42"
+        "reference": "Patient/b21dce33-796a-4894-9155-b06ac62f48e9"
       },
       "context": {
         "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
@@ -404,7 +408,7 @@
       "effectiveDateTime": "2013-10-25T15:53:28+00:00",
       "issued": "2013-10-25T15:53:28.000+00:00",
       "performer": [ {
-        "reference": "Practitioner/e6063862-ddda-4ce7-ae55-4d55bf263ca9"
+        "reference": "Practitioner/6d756c3c-d9a7-4cf8-8690-e2fa11043274"
       } ],
       "comment": "application/binary"
     }
@@ -428,7 +432,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/c02106c9-70b1-4195-af62-3823d2f8da42"
+        "reference": "Patient/b21dce33-796a-4894-9155-b06ac62f48e9"
       },
       "context": {
         "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
@@ -436,9 +440,41 @@
       "effectiveDateTime": "2013-10-25T15:53:28+00:00",
       "issued": "2013-10-25T15:53:28.000+00:00",
       "performer": [ {
-        "reference": "Practitioner/e6063862-ddda-4ce7-ae55-4d55bf263ca9"
+        "reference": "Practitioner/6d756c3c-d9a7-4cf8-8690-e2fa11043274"
       } ],
       "comment": "text/plain"
+    }
+  }, {
+    "resource": {
+      "resourceType": "Observation",
+      "id": "15FF7FA4-DBD9-4C37-A479-7A86A890B7A8",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+      },
+      "identifier": [ {
+        "system": "https://PSSAdaptor/D5445",
+        "value": "15FF7FA4-DBD9-4C37-A479-7A86A890B7A8"
+      } ],
+      "status": "final",
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "37331000000100",
+          "display": "Comment note"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/b21dce33-796a-4894-9155-b06ac62f48e9"
+      },
+      "context": {
+        "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
+      },
+      "effectiveDateTime": "2018-06-12",
+      "issued": "2013-10-25T15:53:28.000+00:00",
+      "performer": [ {
+        "reference": "Practitioner/6d756c3c-d9a7-4cf8-8690-e2fa11043274"
+      } ],
+      "comment": "Drinking status on eventdate: Current drinker"
     }
   }, {
     "resource": {
@@ -461,12 +497,12 @@
         "text": "Other Attachment"
       },
       "subject": {
-        "reference": "Patient/c02106c9-70b1-4195-af62-3823d2f8da42"
+        "reference": "Patient/b21dce33-796a-4894-9155-b06ac62f48e9"
       },
       "created": "2013-10-25T15:53:28+00:00",
       "indexed": "2013-10-25T15:53:28.000+00:00",
       "custodian": {
-        "reference": "Organization/a8c75dd3-1b55-47d7-9188-951d3b2e261e"
+        "reference": "Organization/dcf59e33-4b4b-4eda-8664-326629548e69"
       },
       "description": "text/plain\nFilename: 277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt",
       "content": [ {
@@ -485,7 +521,7 @@
   }, {
     "resource": {
       "resourceType": "Practitioner",
-      "id": "e6063862-ddda-4ce7-ae55-4d55bf263ca9",
+      "id": "6d756c3c-d9a7-4cf8-8690-e2fa11043274",
       "name": [ {
         "text": "Unknown User"
       } ]
