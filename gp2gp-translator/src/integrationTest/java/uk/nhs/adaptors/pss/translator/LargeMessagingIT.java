@@ -7,10 +7,14 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -39,7 +43,6 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         ));
     }
 
-    // Test case 1: UK06 with cid attachment
     @Test
     public void handleUk06WithCidAttachment() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_1/uk06.json");
@@ -49,7 +52,6 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         verifyBundle("/json/LargeMessage/expectedBundleScenario1.json");
     }
 
-    // Test case 2: UK06 with compressed cid attachment
     @Test
     public void handleUk06WithCompressedCidAttachmement() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_2/uk06.json");
@@ -59,7 +61,6 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         verifyBundle("/json/LargeMessage/expectedBundleScenario2.json");
     }
 
-    // Test case 3: UK06 with 1 mid attachment
     @Test
     public void handleUk06WithOneMidAttachment() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
@@ -73,23 +74,6 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
     }
 
-    // Test case 4: UK06 with fragment mid attachments
-    @Test
-    public void handleUk06WithFragmentedMids() throws JSONException {
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/uk06.json");
-
-        await().until(this::hasContinueMessageBeenReceived);
-
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/copc_index.json");
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/copc0.json");
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_4/copc1.json");
-
-        await().until(this::isEhrExtractTranslated);
-
-        verifyBundle("/json/LargeMessage/expectedBundleScenario4.json");
-    }
-
-    // Test case 5: UK06 with skeleton
     @Test
     public void handleUk06WithSkeleton() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_5/uk06.json");
@@ -103,68 +87,30 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         verifyBundle("/json/LargeMessage/expectedBundleScenario5.json");
     }
 
-    // Test case 6: UK06 with mid attachment with cid mid combo
-    @Test
-    public void handleUk06WithMidAttachmentsWithCidAndMidCombo() throws JSONException {
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/uk06.json");
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("ehrAndCopcMessageResourceFiles")
+    public void uk06WithCopcMessages(String testName, String scenarioDirectory, String expectedBundleName) throws JSONException {
+        sendInboundMessageToQueue(scenarioDirectory + "uk06.json");
 
         await().until(this::hasContinueMessageBeenReceived);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/copc_index.json");
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/copc0.json");
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_6/copc1.json");
+        sendInboundMessageToQueue(scenarioDirectory + "copc_index.json");
+        sendInboundMessageToQueue(scenarioDirectory + "copc0.json");
+        sendInboundMessageToQueue(scenarioDirectory + "copc1.json");
 
         await().until(this::isEhrExtractTranslated);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario6.json");
+        verifyBundle(expectedBundleName);
     }
 
-    // Test case 7: UK06 with skeleton with fragments
-    @Test
-    public void handleUk06WithSkeletonFragments() throws JSONException {
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/uk06.json");
-
-        await().until(this::hasContinueMessageBeenReceived);
-
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/copc_index.json");
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/copc0.json");
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_7/copc1.json");
-
-        await().until(this::isEhrExtractTranslated);
-
-        verifyBundle("/json/LargeMessage/expectedBundleScenario7.json");
-    }
-
-    // Test case 8: UK06 with with fragmented mid/cid combo
-    @Test
-    public void handleUk06WithFragmentedMidCidCombo() throws JSONException {
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_8/uk06.json");
-
-        await().until(this::hasContinueMessageBeenReceived);
-
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_8/copc_index.json");
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_8/copc0.json");
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_8/copc1.json");
-
-        await().until(this::isEhrExtractTranslated);
-
-        verifyBundle("/json/LargeMessage/expectedBundleScenario8.json");
-    }
-
-    // Test case 9: UK06 with 1 mid attachment
-    @Test
-    public void handleUk06WithOneMidAttachmentCheck() throws JSONException {
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/uk06.json");
-
-        await().until(this::hasContinueMessageBeenReceived);
-
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/copc_index.json");
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/copc0.json");
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_9/copc1.json");
-
-        await().until(this::isEhrExtractTranslated);
-
-        verifyBundle("/json/LargeMessage/expectedBundleScenario9.json");
+    private static Stream<Arguments> ehrAndCopcMessageResourceFiles() {
+        return Stream.of(
+            Arguments.of("handleUk06WithFragmentedMids","/json/LargeMessage/Scenario_4/", "/json/LargeMessage/expectedBundleScenario4.json"),
+            Arguments.of("handleUk06WithMidAttachmentsWithCidAndMidCombo","/json/LargeMessage/Scenario_6/", "/json/LargeMessage/expectedBundleScenario6.json"),
+            Arguments.of("handleUk06WithSkeletonFragments","/json/LargeMessage/Scenario_7/", "/json/LargeMessage/expectedBundleScenario7.json"),
+            Arguments.of("handleUk06WithFragmentedMidCidCombo","/json/LargeMessage/Scenario_8/", "/json/LargeMessage/expectedBundleScenario8.json"),
+            Arguments.of("handleUk06WithOneMidAttachmentCheck","/json/LargeMessage/Scenario_9/", "/json/LargeMessage/expectedBundleScenario9.json")
+        );
     }
 
     private void sendInboundMessageToQueue(String json) {
