@@ -1,28 +1,45 @@
 package uk.nhs.adaptors.pss.translator;
 
+import static org.assertj.core.api.Assertions.fail;
 import static org.awaitility.Awaitility.await;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.hl7.fhir.dstu3.model.Bundle;
 import org.json.JSONException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.skyscreamer.jsonassert.Customization;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.skyscreamer.jsonassert.comparator.CustomComparator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.common.util.fhir.FhirParser;
+import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})
@@ -58,9 +75,21 @@ public class EhrExtractHandlingIT {
     @Autowired
     private JmsTemplate mhsJmsTemplate;
 
-    private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private FhirParser fhirParserService;
+
+    private String patientNhsNumber;
+    private String conversationId;
+
+    @BeforeEach
+    public void setUp() {
+        patientNhsNumber = generatePatientNhsNumber();
+        conversationId = generateConversationId();
+        startPatientMigrationJourney();
+    }
 
     @Test
     public void handleEhrExtractFromQueue() throws JSONException {
@@ -74,20 +103,32 @@ public class EhrExtractHandlingIT {
         verifyBundle("/json/expectedBundle.json");
     }
 
+    private void startPatientMigrationJourney() {
+        patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
+        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId);
+    }
+
+    private String generatePatientNhsNumber() {
+        return RandomStringUtils.randomNumeric(NHS_NUMBER_MIN_MAX_LENGTH, NHS_NUMBER_MIN_MAX_LENGTH);
+    }
+
+    private String generateConversationId() {
+        return UUID.randomUUID().toString();
+    }
+
     private void sendInboundMessageToQueue(String payloadPartPath) {
         var inboundMessage = createInboundMessage(payloadPartPath);
-        getMhsJmsTemplate().send(session -> session.createTextMessage(parseMessageToString(inboundMessage)));
+        mhsJmsTemplate.send(session -> session.createTextMessage(parseMessageToString(inboundMessage)));
     }
 
     private InboundMessage createInboundMessage(String payloadPartPath) {
         var inboundMessage = new InboundMessage();
-        var payload = readResourceAsString(payloadPartPath).replace(NHS_NUMBER_PLACEHOLDER, getPatientNhsNumber());
-        var ebXml = readResourceAsString(EBXML_PART_PATH).replace(CONVERSATION_ID_PLACEHOLDER, getConversationId());
+        var payload = readResourceAsString(payloadPartPath).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
+        var ebXml = readResourceAsString(EBXML_PART_PATH).replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
         inboundMessage.setPayload(payload);
         inboundMessage.setEbXML(ebXml);
         return inboundMessage;
     }
-
 
     private boolean isEhrExtractTranslated() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
@@ -108,9 +149,9 @@ public class EhrExtractHandlingIT {
             .toList();
 
         assertBundleContent(
-                patientMigrationRequest.getBundleResource().replaceAll(SPECIAL_CHARS, ""),
-                expectedBundle.replaceAll(SPECIAL_CHARS, ""),
-                combinedList
+            patientMigrationRequest.getBundleResource().replaceAll(SPECIAL_CHARS, ""),
+            expectedBundle.replaceAll(SPECIAL_CHARS, ""),
+            combinedList
         );
     }
 
