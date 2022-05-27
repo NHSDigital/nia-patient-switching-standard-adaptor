@@ -37,7 +37,7 @@ pipeline {
                                 script {
                                     sh '''
                                         docker network create ps-network || true
-                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml up common_modules
+                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml build common_modules
                                         docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml up --exit-code-from common_modules common_modules
                                     '''
                                 }
