@@ -13,7 +13,6 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -54,6 +53,8 @@ public class EhrExtractHandlingIT {
     private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
     private static final String LOSING_ODS_CODE = "D5445";
     private static final String WINNING_ODS_CODE = "ABC";
+    //these are programming language special characters, not to be confused with line endings
+    private static final String SPECIAL_CHARS = "\\\\n|\\\\t|\\\\b|\\\\r";
 
     private static final List<String> STATIC_IGNORED_JSON_PATHS = List.of(
         "id",
@@ -145,9 +146,13 @@ public class EhrExtractHandlingIT {
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
         var combinedList = Stream.of(generateJsonPathIgnores(bundle), STATIC_IGNORED_JSON_PATHS)
             .flatMap(List::stream)
-            .collect(Collectors.toList());
+            .toList();
 
-        assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle, combinedList);
+        assertBundleContent(
+                patientMigrationRequest.getBundleResource().replaceAll(SPECIAL_CHARS, ""),
+                expectedBundle.replaceAll(SPECIAL_CHARS, ""),
+                combinedList
+        );
     }
 
     private void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
