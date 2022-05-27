@@ -26,7 +26,7 @@ import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 @ExtendWith({SpringExtension.class})
 @DirtiesContext
 @AutoConfigureMockMvc
-public class EhrExtractHandlingIT extends BaseEhrHandler {
+public final class EhrExtractHandlingIT extends BaseEhrHandler {
 
     private EhrExtractHandlingIT() {
         setIgnoredJsonPaths(List.of(

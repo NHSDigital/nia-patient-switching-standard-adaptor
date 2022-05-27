@@ -22,9 +22,9 @@ import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 @ExtendWith({SpringExtension.class})
 @DirtiesContext
 @AutoConfigureMockMvc
-public class LargeMessagingIT extends BaseEhrHandler {
+public final class LargeMessagingIT extends BaseEhrHandler {
 
-    private LargeMessagingIT (){
+    private LargeMessagingIT() {
         setIgnoredJsonPaths(List.of(
             "id",
             "entry[0].resource.id",
