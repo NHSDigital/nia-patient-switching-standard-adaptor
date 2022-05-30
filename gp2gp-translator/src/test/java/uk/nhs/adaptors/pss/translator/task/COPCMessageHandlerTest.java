@@ -135,7 +135,7 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_ShouldUploadFile()
+    public void When_CIDFragmentPartIsReceivedUploadFile()
             throws JAXBException, InlineAttachmentProcessingException, SAXException,
                 AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
@@ -183,7 +183,7 @@ class COPCMessageHandlerTest {
         // ACT
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
-        // ASSERT
+        //? ASSERT
         verify(patientAttachmentLogService).updateAttachmentLog(patientLogCaptor.capture(), conversationIdCaptor.capture());
 
         PatientAttachmentLog actual = patientLogCaptor.getValue();
@@ -561,11 +561,37 @@ class COPCMessageHandlerTest {
                 .thenReturn(createPatientAttachmentList(false, true, DATA_AMOUNT));
 
 
-        copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
         verify(attachmentHandlerService, times(1))
             .buildSingleFileStringFromPatientAttachmentLogs(any(), any());
 
-    }
+
+        }
 
     @Test
     public void When_EnsureStoreAttachmentsIsCalled_Expect_RunWithNoErrors()
