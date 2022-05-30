@@ -135,10 +135,10 @@ public class COPCMessageHandler {
             }
         }
 
-        PatientAttachmentLog finalCurrentAttachmentLog = currentAttachmentLog;
+        final PatientAttachmentLog finalCurrentAttachmentLog = currentAttachmentLog;
         var attachmentLogFragments = conversationAttachmentLogs.stream()
             .sorted(Comparator.comparingInt(PatientAttachmentLog::getOrderNum))
-            .filter(log -> !(log.getParentMid() == null) && log.getParentMid().equals(currentAttachmentLog.getParentMid()))
+            .filter(log -> !(log.getParentMid() == null) && log.getParentMid().equals(finalCurrentAttachmentLog.getParentMid()))
             .toList();
 
         var parentLogMessageId = attachmentLogFragments.size() == 1
