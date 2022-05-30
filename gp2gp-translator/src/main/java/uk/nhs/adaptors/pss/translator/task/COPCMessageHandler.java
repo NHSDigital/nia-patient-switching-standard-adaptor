@@ -1,13 +1,26 @@
 package uk.nhs.adaptors.pss.translator.task;
 
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationException;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
@@ -23,17 +36,6 @@ import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @Slf4j
 @Component
@@ -111,7 +113,29 @@ public class COPCMessageHandler {
             throw new AttachmentLogException("Given COPC message is missing an attachment log");
         }
 
+
+
         var conversationAttachmentLogs = patientAttachmentLogService.findAttachmentLogs(conversationId);
+        // if a message has arrived early, it will not have a parent ID so we can cancel early.
+        // However, an index created by the ehr message will also have no parent id
+        // Logic below manages that case to make sure index COPC messages trigger the merge check
+        var indexMidReference = currentAttachmentLog.getMid();
+        if (currentAttachmentLog.getParentMid() == null) {
+            // it could also be an index file folowing design changes, check to see if it has any child attachments before returning
+            var childFragments = conversationAttachmentLogs.stream()
+                .filter(log -> !(log.getParentMid() == null) && log.getParentMid().equals(indexMidReference))
+                .toList();
+
+            // if there are no child records then we can return
+            if (childFragments.isEmpty()) {
+                return;
+            } else {
+                // otherwise lets select the first child fragment to run the process as normal
+                currentAttachmentLog = childFragments.get(0);
+            }
+        }
+
+        PatientAttachmentLog finalCurrentAttachmentLog = currentAttachmentLog;
         var attachmentLogFragments = conversationAttachmentLogs.stream()
             .sorted(Comparator.comparingInt(PatientAttachmentLog::getOrderNum))
             .filter(log -> !(log.getParentMid() == null) && log.getParentMid().equals(currentAttachmentLog.getParentMid()))
@@ -152,8 +176,6 @@ public class COPCMessageHandler {
             }
 
             var mergedLargeAttachment = createNewLargeAttachmentInList(parentLogFile, payload);
-
-
             attachmentHandlerService.storeAttachments(mergedLargeAttachment, conversationId);
 
             var updatedLog = PatientAttachmentLog.builder()
