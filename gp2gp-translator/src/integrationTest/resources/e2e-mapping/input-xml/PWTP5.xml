@@ -1,0 +1,1564 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<RCMR_IN030000UK06 xmlns="urn:hl7-org:v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <id root="84466AC8-CB48-41D1-AE5E-DCB4762CF779" />
+    <creationTime value="20131028112649" />
+    <versionCode code="V3NPfIT3.1.10" />
+    <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="RCMR_IN030000UK06" />
+    <processingCode code="P" />
+    <processingModeCode code="T" />
+    <acceptAckCode code="NE" />
+    <communicationFunctionRcv typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id root="1.2.826.0.1285.0.2.0.107" extension="789" />
+        </device>
+    </communicationFunctionRcv>
+    <communicationFunctionSnd typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id root="1.2.826.0.1285.0.2.0.107" extension="123" />
+        </device>
+    </communicationFunctionSnd>
+    <ControlActEvent classCode="CACT" moodCode="EVN">
+        <author1 typeCode="AUT">
+            <AgentSystemSDS classCode="AGNT">
+                <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
+                    <id root="1.2.826.0.1285.0.2.0.107" extension="123" />
+                </agentSystemSDS>
+            </AgentSystemSDS>
+        </author1>
+        <subject typeCode="SUBJ" contextConductionInd="false">
+            <EhrExtract classCode="EXTRACT" moodCode="EVN">
+                <id root="973846A0-7BCF-45D0-9958-120577C91CF0" />
+                <statusCode code="COMPLETE" />
+                <availabilityTime value="20131028112649" />
+                <recordTarget typeCode="RCT">
+                    <patient classCode="PAT">
+                        <id root="2.16.840.1.113883.2.1.3.2.4.9" extension="Test Harness" />
+                    </patient>
+                </recordTarget>
+                <author typeCode="AUT">
+                    <time value="20131028112649" />
+                    <signatureCode code="S" />
+                    <signatureText>X</signatureText>
+                    <AgentOrgSDS classCode="AGNT">
+                        <agentOrganizationSDS classCode="ORG" determinerCode="INSTANCE">
+                            <id root="1.2.826.0.1285.0.1.10" extension="A12345" />
+                        </agentOrganizationSDS>
+                    </AgentOrgSDS>
+                </author>
+                <destination typeCode="DST">
+                    <AgentOrgSDS classCode="AGNT">
+                        <agentOrganizationSDS classCode="ORG" determinerCode="INSTANCE">
+                            <id root="1.2.826.0.1285.0.1.10" extension="121314" />
+                        </agentOrganizationSDS>
+                    </AgentOrgSDS>
+                </destination>
+                <component typeCode="COMP">
+                    <ehrFolder classCode="FOLDER" moodCode="EVN">
+                        <id root="50E971AB-DD3A-4561-A4BA-2178664AF85A" />
+                        <statusCode code="COMPLETE" />
+                        <effectiveTime>
+                            <low value="20100118" />
+                            <high value="20131028112654" />
+                        </effectiveTime>
+                        <availabilityTime value="20131028112649" />
+                        <author typeCode="AUT">
+                            <time value="20131028112649" />
+                            <signatureCode code="S" />
+                            <signatureText>X</signatureText>
+                            <AgentOrgSDS classCode="AGNT">
+                                <agentOrganizationSDS classCode="ORG" determinerCode="INSTANCE">
+                                    <id root="1.2.826.0.1285.0.1.10" extension="A12345" />
+                                </agentOrganizationSDS>
+                            </AgentOrgSDS>
+                        </author>
+                        <responsibleParty typeCode="RESP">
+                            <agentDirectory classCode="AGNT">
+                                <part typeCode="PART">
+                                    <Agent classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                        <id root="2.16.840.1.113883.2.1.4.2" extension="7889233" />
+                                        <code code="309394004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="General Practitioner Principal">
+                                            <originalText>Principal</originalText>
+                                        </code>
+                                        <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                            <name>
+                                                <prefix>Dr</prefix>
+                                                <given>David</given>
+                                                <family>McAvenue</family>
+                                            </name>
+                                        </agentPerson>
+                                    </Agent>
+                                </part>
+                            </agentDirectory>
+                        </responsibleParty>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="BBC4C04A-004F-4D2D-81F1-74D66679FADF" />
+                                <code code="25651000000106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Home Visit Note">
+                                    <originalText>Home visit note</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201001180938" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100118093317" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>EMIS LV Test Practice 1</name>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <EhrEmpty classCode="OBS" moodCode="EVN">
+                                        <id root="56448C42-566A-467B-961A-B629A9A09633" />
+                                    </EhrEmpty>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="4C04E966-8CDD-4BED-92CE-220ED82F9ABE" />
+                                <code code="25651000000106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Home Visit Note">
+                                    <originalText>Home visit note</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201001180939" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100118093331" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>EMIS LV Test Practice 1</name>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <CompoundStatement classCode="TOPIC" moodCode="EVN">
+                                        <id root="8A4F28D3-D94C-45B0-936B-3C03BAF28DED" />
+                                        <code code="Z....00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="UnspecifiedCondtions" />
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201001180939" />
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="04AC56C2-B139-48A5-86E2-B4097A84B9F9" />
+                                                <code code="394841004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Comment" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201001180939" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="091D7A17-82D7-4AB1-A6BF-E5BCCE374603" />
+                                                        <text>Quick Note Clinical Purpose: Assessment
+                                                            This is a single line quick note.</text>
+                                                        <statusCode code="COMPLETE" />
+                                                        <availabilityTime value="201001180939" />
+                                                    </NarrativeStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                    </CompoundStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="B60F6338-CC2A-4DF6-870D-AB2A51DA4AA4" />
+                                <code code="25671000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Surgery Consultation Note">
+                                    <originalText>GP Surgery</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201001180941" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100118093654" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>EMIS LV Test Practice 1</name>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <CompoundStatement classCode="TOPIC" moodCode="EVN">
+                                        <id root="2F3CD893-C60E-4464-9E3C-30AC20AA7120" />
+                                        <code code="Z....00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="UnspecifiedCondtions" />
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201001180941" />
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="1E68E35B-E3F3-46D1-86F5-AE64240677E9" />
+                                                <code code="394841004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Comment" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201001180941" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="9468AB16-698C-45D1-ADAF-1B260F600DA6" />
+                                                        <text>This is a single line quick note with no clinical purpose selected in consulation</text>
+                                                        <statusCode code="COMPLETE" />
+                                                        <availabilityTime value="201001180941" />
+                                                    </NarrativeStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                    </CompoundStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="F55AB99F-E327-420E-8D0B-4348C61778FF" />
+                                <code code="25671000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Surgery Consultation Note">
+                                    <originalText>GP Surgery</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201001180942" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100118094524" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>EMIS LV Test Practice 1</name>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <CompoundStatement classCode="TOPIC" moodCode="EVN">
+                                        <id root="FD1124AA-ADE6-4000-875A-F9DF6BD20B0A" />
+                                        <code code="Z....00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="UnspecifiedCondtions" />
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201001180942" />
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="80D41BCC-B19F-4E1C-8D0F-8EB951B04B91" />
+                                                <code code="394841004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Comment" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201001180942" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="4C2A650E-BD79-4A38-AEFA-6D5E92BA6E74" />
+                                                        <text>Quick Note Clinical Purpose: Assessment
+                                                            This line end with a LB/CR followed by a blank line with a LB/CR
+
+                                                            This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is the END of the long paragraph.
+
+                                                            ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ENDofLONGline...
+
+
+
+
+                                                            There are 4 blank lines (with LB/CR above this one)
+
+                                                            This is the last line of this note.</text>
+                                                        <statusCode code="COMPLETE" />
+                                                        <availabilityTime value="201001180942" />
+                                                    </NarrativeStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                    </CompoundStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="A1C8AD7F-99E6-4EED-B102-362D3961D2AF" />
+                                <code code="25671000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Surgery Consultation Note">
+                                    <originalText>GP Surgery</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201001180942" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100118110228" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>EMIS LV Test Practice 1</name>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <CompoundStatement classCode="TOPIC" moodCode="EVN">
+                                        <id root="2C880488-3DC6-4E41-ACB6-8A015F0558BB" />
+                                        <code code="Z....00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="UnspecifiedCondtions" />
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201001180942" />
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="D560E803-60BD-4FD9-AAA9-469C7352D86A" />
+                                                <code code="394841004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Comment" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201001180942" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="B5047285-2CF6-47FE-BDBC-45BB40542264" />
+                                                        <text>Quick Note Clinical Purpose: Assessment
+                                                            ANSI Characters:
+
+                                                            Regular: a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0
+
+                                                            Miscellaneous: " ( ) [ ] { } ~ : ; , . ? ¿ ! ¡ @ # £ $ ¢ ¤ ° ¯ ¶ © ® ™ ¦ † ‡ &amp; * _ ' \ « ‹ › » §
+
+                                                            Mathematical: ± + - × ÷ ¼ ½ ¾ ² ³ ¬ %&lt;&gt; / | µ
+
+                                                            Other Languages: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë</text>
+                                                        <statusCode code="COMPLETE" />
+                                                        <availabilityTime value="201001180942" />
+                                                    </NarrativeStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                    </CompoundStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="389A5279-93AD-4AAA-9FE7-95883FCE91B6" />
+                                <code code="25671000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Surgery Consultation Note">
+                                    <originalText>GP Surgery</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201001180942" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100118110658" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>EMIS LV Test Practice 1</name>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <CompoundStatement classCode="TOPIC" moodCode="EVN">
+                                        <id root="97DA063D-104D-401C-B314-BBBB91C11F51" />
+                                        <code code="Z....00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="UnspecifiedCondtions" />
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201001180942" />
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="B1E76408-9F71-4931-A165-BEEF56E59FA5" />
+                                                <code code="394841004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Comment" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201001180942" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="F048A43D-290E-4AE5-A001-CFED841CEF82" />
+                                                        <text>Quick Note Clinical Purpose: Assessment
+                                                            This is a fairly standard quick note with some random words is one paragraph. The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.</text>
+                                                        <statusCode code="COMPLETE" />
+                                                        <availabilityTime value="201001180942" />
+                                                    </NarrativeStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                    </CompoundStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="D09EBBDF-1FD3-4546-986C-6203A09D3C6D" />
+                                <code code="25671000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Surgery Consultation Note">
+                                    <originalText>GP Surgery</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201001180942" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100118112720" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>EMIS LV Test Practice 1</name>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <CompoundStatement classCode="TOPIC" moodCode="EVN">
+                                        <id root="715068BE-1BDE-4994-9333-EAB5CF477009" />
+                                        <code code="Z....00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="UnspecifiedCondtions" />
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201001180942" />
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="117A8CC9-85D4-4DB3-9142-A4FD7CC4D3E9" />
+                                                <code code="394841004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Other category">
+                                                    <originalText>Problem title</originalText>
+                                                </code>
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201001180942" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="1CC3D9D7-099A-4F34-BBBF-254967C0330E" />
+                                                        <text>Quick Note Clinical Purpose: Assessment
+                                                            This is a note in a problem heading</text>
+                                                        <statusCode code="COMPLETE" />
+                                                        <availabilityTime value="201001180942" />
+                                                    </NarrativeStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="88ACBAB9-9B3A-4017-962A-3799E117494E" />
+                                                <code code="15621000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="History" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201001180942" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="F52A559F-F4D4-466F-8938-14B7F20E666E" />
+                                                        <text>Quick Note Clinical Purpose: Assessment
+                                                            This is a note in a History heading</text>
+                                                        <statusCode code="COMPLETE" />
+                                                        <availabilityTime value="201001180942" />
+                                                    </NarrativeStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="0C2D06E6-3AB9-4A8D-B6F0-E9622A01E763" />
+                                                <code code="394831002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Examination" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201001180942" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="88469331-7C7B-4735-8375-6E418CDF547F" />
+                                                        <text>Quick Note Clinical Purpose: Assessment
+                                                            This is a note in an Examination heading</text>
+                                                        <statusCode code="COMPLETE" />
+                                                        <availabilityTime value="201001180942" />
+                                                    </NarrativeStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="EBDAB0A9-1B08-49B9-960C-7744E7491525" />
+                                                <code code="1502831000006106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Family History" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201001180942" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="B2AA19DA-A459-4DBA-AF21-056C8D76E0AB" />
+                                                        <text>Quick Note Clinical Purpose: Assessment
+                                                            This is a note in a Family History heading</text>
+                                                        <statusCode code="COMPLETE" />
+                                                        <availabilityTime value="201001180942" />
+                                                    </NarrativeStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="6C8110BF-50A9-40F7-9BEA-5BA618571ED8" />
+                                                <code code="160476009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Social" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201001180942" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="8FDCA4D4-1F0A-4F0E-B97B-B1267891E459" />
+                                                        <text>Quick Note Clinical Purpose: Assessment
+                                                            This is a note in a Social heading</text>
+                                                        <statusCode code="COMPLETE" />
+                                                        <availabilityTime value="201001180942" />
+                                                    </NarrativeStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="DF971488-26A2-4F75-B940-5BE3529CDAE1" />
+                                                <code code="394841004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Comment" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201001180942" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="A81C5B12-29A4-492B-9FC2-6143EF9307D0" />
+                                                        <text>Quick Note Clinical Purpose: Assessment
+                                                            This is a note in a Comment heading</text>
+                                                        <statusCode code="COMPLETE" />
+                                                        <availabilityTime value="201001180942" />
+                                                    </NarrativeStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                    </CompoundStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="6CE8318F-2230-47CE-86CC-5210130A00F5" />
+                                <code code="25671000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Surgery Consultation Note">
+                                    <originalText>GP Surgery</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201006300559" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100630054804" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>EMIS LV Test Practice 1</name>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <CompoundStatement classCode="TOPIC" moodCode="EVN">
+                                        <id root="F3A2EA63-4BB2-4506-A34E-1A887CC5BA37" />
+                                        <code code="Z....00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="UnspecifiedCondtions" />
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201006300559" />
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="9238F76E-50B9-4B08-8B13-87FBAE006B7E" />
+                                                <code code="15621000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="History" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201006300559" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="A02FD80F-0457-4711-9E7F-5ED73BF0AB62" />
+                                                        <code code="F45..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Glaucoma">
+                                                            <translation code="23986001" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Glaucoma" />
+                                                        </code>
+                                                        <statusCode code="COMPLETE" />
+                                                        <effectiveTime>
+                                                            <center nullFlavor="NI" />
+                                                        </effectiveTime>
+                                                        <availabilityTime value="201006300559" />
+                                                        <pertinentInformation typeCode="PERT">
+                                                            <sequenceNumber value="+1" />
+                                                            <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                                <text>Standard character Notes a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0</text>
+                                                            </pertinentAnnotation>
+                                                        </pertinentInformation>
+                                                    </ObservationStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="6DA43973-3B15-4762-9AE4-C4312D67F926" />
+                                                <code code="394831002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Examination" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201006300559" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                                        <id root="FA2B9D2E-B5FE-4960-9B44-870EC47C340A" />
+                                                        <code code="246..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="O/E - blood pressure reading">
+                                                            <translation code="163020007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="O/E - blood pressure reading" />
+                                                        </code>
+                                                        <statusCode code="COMPLETE" />
+                                                        <effectiveTime>
+                                                            <center nullFlavor="NI" />
+                                                        </effectiveTime>
+                                                        <availabilityTime value="201006300559" />
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="5A160A1B-A0BA-4270-8613-AE7FFDA28A08" />
+                                                                <code code="2469.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="O/E - Systolic BP reading">
+                                                                    <originalText>Systolic blood pressure</originalText>
+                                                                    <translation code="163030003" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="O/E - Systolic BP reading" />
+                                                                </code>
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201006300559" />
+                                                                <value xsi:type="PQ" value="120" unit="1">
+                                                                    <translation value="120">
+                                                                        <originalText>mmHg</originalText>
+                                                                    </translation>
+                                                                </value>
+                                                            </ObservationStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="AAD4D91A-CCFA-47A9-BED5-39C6392E0134" />
+                                                                <code code="246A.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="O/E - Diastolic BP reading">
+                                                                    <originalText>Diastolic blood pressure</originalText>
+                                                                    <translation code="163031004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="O/E - Diastolic BP reading" />
+                                                                </code>
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201006300559" />
+                                                                <value xsi:type="PQ" value="80" unit="1">
+                                                                    <translation value="80">
+                                                                        <originalText>mmHg</originalText>
+                                                                    </translation>
+                                                                </value>
+                                                            </ObservationStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="04675E0F-0F4C-472D-830D-5AE415240FAA" />
+                                                                <text>Misc character notes attached to BP " ( ) [ ] { } ~ : ; , . ? ¿ ! ¡ @ # £ $ ¢ ¤ ° ¯ ¶ © ® ™ ¦ † ‡ &amp; * _ ' \ « ‹ › » §</text>
+                                                                <statusCode code="COMPLETE" />
+                                                                <availabilityTime value="201006300559" />
+                                                            </NarrativeStatement>
+                                                        </component>
+                                                    </CompoundStatement>
+                                                </component>
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="F1AA242F-0146-4079-A1E2-AFFA6B5FCB5C" />
+                                                        <code code="PKyz500" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Happy puppet syndrome">
+                                                            <translation code="76880004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Happy puppet syndrome" />
+                                                        </code>
+                                                        <statusCode code="COMPLETE" />
+                                                        <effectiveTime>
+                                                            <center nullFlavor="NI" />
+                                                        </effectiveTime>
+                                                        <availabilityTime value="201006300559" />
+                                                        <pertinentInformation typeCode="PERT">
+                                                            <sequenceNumber value="+1" />
+                                                            <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                                <text>Mathematical Symbol notes attached to Happy Puppet ± + - × ÷ ¼ ½ ¾ ² ³ ¬ %&lt;&gt; / | µ</text>
+                                                            </pertinentAnnotation>
+                                                        </pertinentInformation>
+                                                    </ObservationStatement>
+                                                </component>
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                        <id root="F6A631D4-8FA0-48D5-B061-152DF8B70F23" />
+                                                        <code code="14L..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: drug allergy" />
+                                                        <statusCode code="COMPLETE" />
+                                                        <effectiveTime>
+                                                            <center nullFlavor="NI" />
+                                                        </effectiveTime>
+                                                        <availabilityTime value="201006300559" />
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="1E1EEC52-5D1E-40DE-8790-23DE3D0B1491" />
+                                                                <code code="ALLERGY-EMISDRUGNAME-18782NEMIS" codeSystem="2.16.840.1.113883.2.1.6.3" displayName="Adverse reaction to Paracetamol And Dihydrocodeine" />
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201006300559" />
+                                                                <value xsi:type="CD" code="ALLERGY-EMISDRUGNAME-18782NEMIS" codeSystem="2.16.840.1.113883.2.1.6.3" displayName="Adverse reaction to Paracetamol And Dihydrocodeine" />
+                                                                <pertinentInformation typeCode="PERT">
+                                                                    <sequenceNumber value="+1" />
+                                                                    <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                                        <text>Other Language text attached to adverse reaction: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë</text>
+                                                                    </pertinentAnnotation>
+                                                                </pertinentInformation>
+                                                            </ObservationStatement>
+                                                        </component>
+                                                    </CompoundStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="DD985E2E-E849-49C8-A70C-D655D989FB3D" />
+                                                <code code="394841004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Comment" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201006300559" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="C93659E1-1107-441C-BE25-C5EF4B7831D1" />
+                                                        <code code="65M1.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Measles/mumps/rubella vaccn.">
+                                                            <translation code="38598009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Measles/mumps/rubella vaccn." />
+                                                        </code>
+                                                        <statusCode code="COMPLETE" />
+                                                        <effectiveTime>
+                                                            <center nullFlavor="NI" />
+                                                        </effectiveTime>
+                                                        <availabilityTime value="201006300559" />
+                                                        <pertinentInformation typeCode="PERT">
+                                                            <sequenceNumber value="+1" />
+                                                            <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                                <text>[Manufacturer: Pete], [Expiry Date: 21-Jun-2011], [Batch Number: 123456], GMS: GMS, Injection site: Left arm, This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is the END of the long paragraph.</text>
+                                                            </pertinentAnnotation>
+                                                        </pertinentInformation>
+                                                    </ObservationStatement>
+                                                </component>
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                        <id root="92E305A0-0CF1-4AA3-A3C3-93F468B19DE2" />
+                                                        <code code="9N43.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Patient too late">
+                                                            <translation code="185328004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Patient too late" />
+                                                        </code>
+                                                        <statusCode code="COMPLETE" />
+                                                        <effectiveTime>
+                                                            <center nullFlavor="NI" />
+                                                        </effectiveTime>
+                                                        <availabilityTime value="201006300559" />
+                                                        <pertinentInformation typeCode="PERT">
+                                                            <sequenceNumber value="+1" />
+                                                            <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                                <text>ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ENDofLONGline</text>
+                                                            </pertinentAnnotation>
+                                                        </pertinentInformation>
+                                                    </ObservationStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                    </CompoundStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="CF355E94-C4BB-44A8-A346-785A993F37F0" />
+                                <code code="25671000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Surgery Consultation Note">
+                                    <originalText>GP Surgery</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201102111346" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20110211135136" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>EMIS LV Test Practice 1</name>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <CompoundStatement classCode="TOPIC" moodCode="EVN">
+                                        <id root="2037E0BE-EFC7-41E6-8DA5-D9591CC24341" />
+                                        <code code="Z....00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="UnspecifiedCondtions" />
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201102111346" />
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="5952C3C9-6DDC-4E69-8F19-5B5C1E796A60" />
+                                                <code code="394830001" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Additional" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201102111346" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                                                        <id root="B43CC274-A773-402D-931D-D66A1806F55A" />
+                                                        <code nullFlavor="UNK">
+                                                            <originalText>Banana</originalText>
+                                                        </code>
+                                                        <statusCode code="COMPLETE" />
+                                                        <effectiveTime>
+                                                            <center nullFlavor="NI" />
+                                                        </effectiveTime>
+                                                        <availabilityTime value="201102111346" />
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="88E47CC1-E7D2-46DE-AFE4-57AD390671A1" />
+                                                                <code code="PKyz500" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Happy puppet syndrome">
+                                                                    <translation code="76880004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Happy puppet syndrome" />
+                                                                </code>
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201102111346" />
+                                                                <pertinentInformation typeCode="PERT">
+                                                                    <sequenceNumber value="+1" />
+                                                                    <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                                        <text>These notes are from a tempate (GP2GP template 1)</text>
+                                                                    </pertinentAnnotation>
+                                                                </pertinentInformation>
+                                                            </ObservationStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="CF8EF304-61D2-463D-9DBB-E01CB4B6B762" />
+                                                                <text>Stuff - This is the puppet</text>
+                                                                <statusCode code="COMPLETE" />
+                                                                <availabilityTime value="201102111346" />
+                                                            </NarrativeStatement>
+                                                        </component>
+                                                    </CompoundStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                    </CompoundStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="55315F2E-55D0-4737-B2BC-4E816F04770E" />
+                                <code code="25671000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Surgery Consultation Note">
+                                    <originalText>GP Surgery</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201102111353" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20110211140243" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>EMIS LV Test Practice 1</name>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <CompoundStatement classCode="TOPIC" moodCode="EVN">
+                                        <id root="6C2A0EF6-2661-48E0-83D1-B8C68BF06BE9" />
+                                        <code code="Z....00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="UnspecifiedCondtions" />
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201102111353" />
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                                <id root="1629F995-1F93-4572-BD6F-940DD35BB952" />
+                                                <code code="394830001" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Additional" />
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="201102111353" />
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                                                        <id root="87C817BA-ADFF-49FC-A4ED-8D455E821008" />
+                                                        <code code="PKyz500" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Happy puppet syndrome">
+                                                            <translation code="76880004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Happy puppet syndrome" />
+                                                        </code>
+                                                        <statusCode code="COMPLETE" />
+                                                        <effectiveTime>
+                                                            <center nullFlavor="NI" />
+                                                        </effectiveTime>
+                                                        <availabilityTime value="201102111353" />
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="D67FB1C5-F0B0-4E14-9390-8A180D10818F" />
+                                                                <code code="1683.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Tired all the time">
+                                                                    <translation code="267032009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Tired all the time" />
+                                                                </code>
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201102111353" />
+                                                                <pertinentInformation typeCode="PERT">
+                                                                    <sequenceNumber value="+1" />
+                                                                    <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                                        <text>TAT notes</text>
+                                                                    </pertinentAnnotation>
+                                                                </pertinentInformation>
+                                                            </ObservationStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="D2940DDA-A7CF-4B0D-ABEB-9A7B92E5B3BA" />
+                                                                <text>Comments - Aaaargh</text>
+                                                                <statusCode code="COMPLETE" />
+                                                                <availabilityTime value="201102111353" />
+                                                            </NarrativeStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="AF0942B7-C504-4D82-911B-49062BA7D16C" />
+                                                                <code code="7K20y00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Total prosthetic replacement of hip joint using cement OS">
+                                                                    <translation code="265157000" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Total prosthetic replacement of hip joint using cement OS" />
+                                                                </code>
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201102111353" />
+                                                                <pertinentInformation typeCode="PERT">
+                                                                    <sequenceNumber value="+1" />
+                                                                    <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                                        <text>Laterality: Right, notes on hip jint OS</text>
+                                                                    </pertinentAnnotation>
+                                                                </pertinentInformation>
+                                                            </ObservationStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="6F96229B-E217-40D2-9621-DC5CD96C6A6B" />
+                                                                <code code="7K20.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Total prosthetic replacement of hip joint using cement">
+                                                                    <translation code="265157000" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Total prosthetic replacement of hip joint using cement" />
+                                                                </code>
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201102111353" />
+                                                                <pertinentInformation typeCode="PERT">
+                                                                    <sequenceNumber value="+1" />
+                                                                    <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                                        <text>Laterality: Left, notes on hip joint</text>
+                                                                    </pertinentAnnotation>
+                                                                </pertinentInformation>
+                                                            </ObservationStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="4CF8FAF9-09E4-4415-BA5B-F2D74A82623C" />
+                                                                <code code="7K30.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Total prosthetic replacement of knee joint using cement">
+                                                                    <translation code="265170009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Total prosthetic replacement of knee joint using cement" />
+                                                                </code>
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201102111353" />
+                                                                <pertinentInformation typeCode="PERT">
+                                                                    <sequenceNumber value="+1" />
+                                                                    <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                                        <text>notes on knee joint</text>
+                                                                    </pertinentAnnotation>
+                                                                </pertinentInformation>
+                                                            </ObservationStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="9EBFF609-4026-422E-A6B4-4F527EFD8125" />
+                                                                <code code="3....00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Diagnostic procedures">
+                                                                    <translation code="103693007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Diagnostic procedures" />
+                                                                </code>
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201102111353" />
+                                                            </ObservationStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="DBA34160-8D01-4C5D-8343-82C70D76C99D" />
+                                                                <text>Option A</text>
+                                                                <statusCode code="COMPLETE" />
+                                                                <availabilityTime value="20101204" />
+                                                            </NarrativeStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="591CB3F3-B8EF-4734-9B6B-431E45B72E68" />
+                                                                <code code="136Q.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Very heavy drinker">
+                                                                    <translation code="228279004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Very heavy drinker" />
+                                                                </code>
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201102111353" />
+                                                            </ObservationStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="8B99C1E9-818F-44E6-8FCA-F0EF1C3CABEB" />
+                                                                <text>Some freetext - some random freetext notes blah blah</text>
+                                                                <statusCode code="COMPLETE" />
+                                                                <availabilityTime value="201102111353" />
+                                                            </NarrativeStatement>
+                                                        </component>
+                                                    </CompoundStatement>
+                                                </component>
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                                        <id root="343D4E34-2B31-4F06-AAC0-07102CC82917" />
+                                                        <code code="246..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="O/E - blood pressure reading">
+                                                            <translation code="163020007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="O/E - blood pressure reading" />
+                                                        </code>
+                                                        <statusCode code="COMPLETE" />
+                                                        <effectiveTime>
+                                                            <center nullFlavor="NI" />
+                                                        </effectiveTime>
+                                                        <availabilityTime value="201102111353" />
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="4317FE34-7390-4A17-A1E7-AC89FF8780FF" />
+                                                                <code code="2469.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="O/E - Systolic BP reading">
+                                                                    <originalText>Systolic blood pressure</originalText>
+                                                                    <translation code="163030003" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="O/E - Systolic BP reading" />
+                                                                </code>
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201102111353" />
+                                                                <value xsi:type="PQ" value="120" unit="1">
+                                                                    <translation value="120">
+                                                                        <originalText>mmHg</originalText>
+                                                                    </translation>
+                                                                </value>
+                                                            </ObservationStatement>
+                                                        </component>
+                                                        <component typeCode="COMP" contextConductionInd="true">
+                                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                                <id root="DE4F2C79-5607-48BD-B607-E21B7C1F64A6" />
+                                                                <code code="246A.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="O/E - Diastolic BP reading">
+                                                                    <originalText>Diastolic blood pressure</originalText>
+                                                                    <translation code="163031004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="O/E - Diastolic BP reading" />
+                                                                </code>
+                                                                <statusCode code="COMPLETE" />
+                                                                <effectiveTime>
+                                                                    <center nullFlavor="NI" />
+                                                                </effectiveTime>
+                                                                <availabilityTime value="201102111353" />
+                                                                <value xsi:type="PQ" value="90" unit="1">
+                                                                    <translation value="90">
+                                                                        <originalText>mmHg</originalText>
+                                                                    </translation>
+                                                                </value>
+                                                            </ObservationStatement>
+                                                        </component>
+                                                    </CompoundStatement>
+                                                </component>
+                                            </CompoundStatement>
+                                        </component>
+                                    </CompoundStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="94105522-7CDF-42C3-B2A2-3FC17363F44E" />
+                                <code code="196401000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Non-consultation data">
+                                    <originalText>Summary Event Entry</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201001180929" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100118092911" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                        <id root="93563A9D-BD9D-45A5-AA63-25F738C7D3BA" />
+                                        <code code="EMISNQWI3" codeSystem="2.16.840.1.113883.2.1.6.3" displayName="Witchcraft" />
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201001180929" />
+                                    </ObservationStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="15F59249-D3BF-4A1A-B35B-9479BB5E8AF3" />
+                                <code code="196401000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Non-consultation data">
+                                    <originalText>Summary Event Entry</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201001180929" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100118092911" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                        <id root="F637F44F-DD07-484C-A70E-A0AC2C6ABBBD" />
+                                        <code code="1334.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Divorced">
+                                            <translation code="20295000" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Divorced" />
+                                        </code>
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201001180929" />
+                                    </ObservationStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="29FC2DEE-CE40-4A5B-A5A4-04FB9E910E78" />
+                                <code code="196401000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Non-consultation data">
+                                    <originalText>Summary Event Entry</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="201001181116" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100118111038" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                        <id root="7F08C1A3-3A13-49F7-8E22-B819BCA440FB" />
+                                        <code code="93C0.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Consent given for upload to local shared electronic record">
+                                            <translation code="417528008" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Consent given for upload to local shared electronic record" />
+                                        </code>
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="201001181116" />
+                                    </ObservationStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="C631160A-5F74-480D-BAC6-51A80B3182F8" />
+                                <code code="196401000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Non-consultation data">
+                                    <originalText>Summary Event Entry</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="20100630" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100630054826" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                        <id root="E304600C-D553-4CBC-B5D8-480F144C4F20" />
+                                        <code code="A661000" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Nairobi sheep disease">
+                                            <qualifier inverted="false">
+                                                <name code="255217005" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="First" />
+                                            </qualifier>
+                                            <translation code="24069003" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Nairobi sheep disease" />
+                                        </code>
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="20100630" />
+                                        <pertinentInformation typeCode="PERT">
+                                            <sequenceNumber value="+1" />
+                                            <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                <text>Regular Characters: a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0</text>
+                                            </pertinentAnnotation>
+                                        </pertinentInformation>
+                                    </ObservationStatement>
+                                </component>
+                                <component typeCode="COMP">
+                                    <LinkSet classCode="OBS" moodCode="EVN">
+                                        <id root="2CBF23A7-1EEA-4902-940D-E30F87D8436F" />
+                                        <code code="394774009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Active problem">
+                                            <originalText>Active Problem, Significant</originalText>
+                                            <qualifier inverted="false">
+                                                <name code="386134007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Significant" />
+                                            </qualifier>
+                                        </code>
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <low value="20100630" />
+                                        </effectiveTime>
+                                        <availabilityTime value="20100630054826" />
+                                        <conditionNamed typeCode="NAME" inversionInd="true">
+                                            <namedStatementRef classCode="OBS" moodCode="EVN">
+                                                <id root="E304600C-D553-4CBC-B5D8-480F144C4F20" />
+                                            </namedStatementRef>
+                                        </conditionNamed>
+                                    </LinkSet>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="3D600A20-CCF4-42CA-9FA9-563DA60A3EC8" />
+                                <code code="196401000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Non-consultation data">
+                                    <originalText>Summary Event Entry</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="20100630" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100630055144" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                        <id root="3D80ACE7-663A-480E-9CC4-187ABD8A813D" />
+                                        <code code="T508000" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Forced landing on takeoff - occupant of spacecraft injured">
+                                            <qualifier inverted="false">
+                                                <name code="255217005" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="First" />
+                                            </qualifier>
+                                            <translation code="215964002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Forced landing on takeoff - occupant of spacecraft injured" />
+                                        </code>
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="20100630" />
+                                        <pertinentInformation typeCode="PERT">
+                                            <sequenceNumber value="+1" />
+                                            <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                <text>Miscellaneous Characters: " ( ) [ ] { } ~ : ; , . ? ¿ ! ¡ @ # £ $ ¢ ¤ ° ¯ ¶ © ® ™ ¦ † ‡ &amp; * _ ' \ « ‹ › » §</text>
+                                            </pertinentAnnotation>
+                                        </pertinentInformation>
+                                    </ObservationStatement>
+                                </component>
+                                <component typeCode="COMP">
+                                    <LinkSet classCode="OBS" moodCode="EVN">
+                                        <id root="BC16A65E-3578-454D-8675-8129A7DDB818" />
+                                        <code code="394774009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Active problem">
+                                            <originalText>Active Problem, Significant</originalText>
+                                            <qualifier inverted="false">
+                                                <name code="386134007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Significant" />
+                                            </qualifier>
+                                        </code>
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <low value="20100630" />
+                                        </effectiveTime>
+                                        <availabilityTime value="20100630055144" />
+                                        <conditionNamed typeCode="NAME" inversionInd="true">
+                                            <namedStatementRef classCode="OBS" moodCode="EVN">
+                                                <id root="3D80ACE7-663A-480E-9CC4-187ABD8A813D" />
+                                            </namedStatementRef>
+                                        </conditionNamed>
+                                    </LinkSet>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="66BE9FBA-C9D5-4344-8783-229A46C28FEC" />
+                                <code code="196401000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Non-consultation data">
+                                    <originalText>Summary Event Entry</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="20100630" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100630055155" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                        <id root="3E054E61-D811-4B52-B262-71638B6295F5" />
+                                        <code code="8D6E.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Cystostomy bag fitting">
+                                            <translation code="309848007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Cystostomy bag fitting" />
+                                        </code>
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="20100630" />
+                                        <pertinentInformation typeCode="PERT">
+                                            <sequenceNumber value="+1" />
+                                            <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                <text>Mathematical character notes: ± + - × ÷ ¼ ½ ¾ ² ³ ¬ %&lt;&gt; / | µ</text>
+                                            </pertinentAnnotation>
+                                        </pertinentInformation>
+                                    </ObservationStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="A83EE44B-7958-4D71-BFAA-6C8ACA783EC2" />
+                                <code code="196401000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Non-consultation data">
+                                    <originalText>Summary Allergy</originalText>
+                                </code>
+                                <statusCode code="COMPLETE" />
+                                <effectiveTime>
+                                    <center nullFlavor="NI" />
+                                </effectiveTime>
+                                <availabilityTime value="20100630" />
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20100630055203" />
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </author>
+                                <Participant2 typeCode="RESP" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="1E473786-E7FA-785E-C911-A8D38FB56F20" />
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                                        <id root="A645FADF-9DCE-4E60-916C-1615A88379D9" />
+                                        <code code="14L..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: drug allergy" />
+                                        <statusCode code="COMPLETE" />
+                                        <effectiveTime>
+                                            <center nullFlavor="NI" />
+                                        </effectiveTime>
+                                        <availabilityTime value="20100630" />
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                <id root="86F043E0-5787-42E0-8ADD-635CF2E76B79" />
+                                                <code code="14L1.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: penicillin allergy">
+                                                    <translation code="161591004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="H/O: penicillin allergy" />
+                                                </code>
+                                                <statusCode code="COMPLETE" />
+                                                <effectiveTime>
+                                                    <center nullFlavor="NI" />
+                                                </effectiveTime>
+                                                <availabilityTime value="20100630" />
+                                                <value xsi:type="CD" code="ALLERGY-READ2-14L1" codeSystem="2.16.840.1.113883.2.1.6.3" displayName="H/O: penicillin allergy" />
+                                                <pertinentInformation typeCode="PERT">
+                                                    <sequenceNumber value="+1" />
+                                                    <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                        <text>Other Languages Characters: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë</text>
+                                                    </pertinentAnnotation>
+                                                </pertinentInformation>
+                                            </ObservationStatement>
+                                        </component>
+                                    </CompoundStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                    </ehrFolder>
+                </component>
+                <inFulfillmentOf typeCode="FLFS">
+                    <priorEhrRequest classCode="EXTRACT" moodCode="RQO">
+                        <id root="0D0DAA56-FE8C-45F4-8C91-ED1EA714EA3E" />
+                    </priorEhrRequest>
+                </inFulfillmentOf>
+                <limitation typeCode="LIMIT" inversionInd="true">
+                    <limitingEhrExtractSpecification classCode="OBS" moodCode="DEF">
+                        <id root="2C284DB3-1173-4C3E-8220-7B81E9428721" />
+                        <code code="715751000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Entire record available to originator" />
+                    </limitingEhrExtractSpecification>
+                </limitation>
+            </EhrExtract>
+        </subject>
+    </ControlActEvent>
+</RCMR_IN030000UK06>
