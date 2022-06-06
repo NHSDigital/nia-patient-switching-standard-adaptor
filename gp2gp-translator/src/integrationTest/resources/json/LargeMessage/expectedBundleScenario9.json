@@ -1,0 +1,530 @@
+{
+  "resourceType": "Bundle",
+  "id": "ccd990a8-9f17-4b13-b521-c05732e64c4f",
+  "meta": {
+    "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
+  },
+  "type": "collection",
+  "entry": [ {
+    "resource": {
+      "resourceType": "Patient",
+      "id": "2b289e58-6e69-4215-9019-dfe627831552",
+      "meta": {
+        "versionId": "1521806400000",
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
+      },
+      "identifier": [ {
+        "system": "https://fhir.nhs.uk/Id/nhs-number",
+        "value": "2329723692"
+      } ],
+      "managingOrganization": {
+        "reference": "Organization/9C3AB881-FCDE-48EC-8028-37B20E0AE893"
+      }
+    }
+  }, {
+    "resource": {
+      "resourceType": "Organization",
+      "id": "a6da77fd-459d-4ec3-a0a4-a9bf173470b8",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
+      },
+      "identifier": [ {
+        "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+        "value": "D5445"
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "Organization",
+      "id": "9C3AB881-FCDE-48EC-8028-37B20E0AE893",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
+      },
+      "identifier": [ {
+        "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+        "value": "B83002"
+      } ],
+      "type": [ {
+        "text": "General practice (organisation)"
+      } ],
+      "name": "Ilkley and  Wharfedale Medical Practice",
+      "telecom": [ {
+        "system": "phone",
+        "value": "01234567890",
+        "use": "work",
+        "rank": 1
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "14CA7344-7460-4C96-BABC-AA0A2C8E96D6 ",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
+      },
+      "name": [ {
+        "use": "official",
+        "family": "Anderson",
+        "given": [ "Emma" ],
+        "prefix": [ "Dr" ]
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "Organization",
+      "id": "14CA7344-7460-4C96-BABC-AA0A2C8E96D6 -ORG",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
+      },
+      "identifier": [ {
+        "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+        "value": "B83002"
+      } ],
+      "name": "Ilkley and Wharfedale Medical Practice",
+      "telecom": [ {
+        "system": "phone",
+        "value": "01234567890",
+        "use": "work",
+        "rank": 1
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "PractitionerRole",
+      "id": "14CA7344-7460-4C96-BABC-AA0A2C8E96D6 -PR",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1" ]
+      },
+      "practitioner": {
+        "reference": "Practitioner/14CA7344-7460-4C96-BABC-AA0A2C8E96D6 "
+      },
+      "organization": {
+        "reference": "Organization/14CA7344-7460-4C96-BABC-AA0A2C8E96D6 -ORG"
+      },
+      "code": [ {
+        "text": "Partner"
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "791185CE-FF04-4D50-83EC-AA02A8BABB02",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
+      },
+      "name": [ {
+        "use": "official",
+        "family": "Thompson",
+        "given": [ "John" ],
+        "prefix": [ "Mr" ]
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "Organization",
+      "id": "791185CE-FF04-4D50-83EC-AA02A8BABB02-ORG",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
+      },
+      "identifier": [ {
+        "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+        "value": "B83002"
+      } ],
+      "name": "Ilkley and Wharfedale Medical Practice",
+      "telecom": [ {
+        "system": "phone",
+        "value": "01234567890",
+        "use": "work",
+        "rank": 1
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "PractitionerRole",
+      "id": "791185CE-FF04-4D50-83EC-AA02A8BABB02-PR",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1" ]
+      },
+      "practitioner": {
+        "reference": "Practitioner/791185CE-FF04-4D50-83EC-AA02A8BABB02"
+      },
+      "organization": {
+        "reference": "Organization/791185CE-FF04-4D50-83EC-AA02A8BABB02-ORG"
+      },
+      "code": [ {
+        "text": "Administrator"
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "88B177A7-2C70-4911-82F4-D1B9D8E504F8",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
+      },
+      "name": [ {
+        "use": "official",
+        "family": "Richards",
+        "given": [ "Joan" ],
+        "prefix": [ "Ms" ]
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "D1575DF5-E445-4521-AF6E-14C2D1E61265",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
+      },
+      "name": [ {
+        "use": "official",
+        "family": "Abbot",
+        "given": [ "Jon" ],
+        "prefix": [ "Dr" ]
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "Organization",
+      "id": "D1575DF5-E445-4521-AF6E-14C2D1E61265-ORG",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
+      },
+      "identifier": [ {
+        "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+        "value": "B83002"
+      } ],
+      "name": "Ilkley and Wharfedale Medical Practice",
+      "telecom": [ {
+        "system": "phone",
+        "value": "01234567890",
+        "use": "work",
+        "rank": 1
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "PractitionerRole",
+      "id": "D1575DF5-E445-4521-AF6E-14C2D1E61265-PR",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1" ]
+      },
+      "practitioner": {
+        "reference": "Practitioner/D1575DF5-E445-4521-AF6E-14C2D1E61265"
+      },
+      "organization": {
+        "reference": "Organization/D1575DF5-E445-4521-AF6E-14C2D1E61265-ORG"
+      },
+      "code": [ {
+        "text": "Partner"
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "Encounter",
+      "id": "26EE99BB-00FF-4596-9D8B-1D349C1D70A1",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1" ]
+      },
+      "identifier": [ {
+        "system": "https://PSSAdaptor/D5445",
+        "value": "26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
+      } ],
+      "status": "finished",
+      "type": [ {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "25741000000100",
+          "display": "Third Party Consultation"
+        } ]
+      } ],
+      "subject": {
+        "reference": "Patient/2b289e58-6e69-4215-9019-dfe627831552"
+      },
+      "participant": [ {
+        "type": [ {
+          "coding": [ {
+            "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+            "code": "REC",
+            "display": "recorder"
+          } ]
+        } ],
+        "individual": {
+          "reference": "Practitioner/D1575DF5-E445-4521-AF6E-14C2D1E61265"
+        }
+      } ],
+      "period": {
+        "start": "2005-03-14T15:52:00+00:00",
+        "end": "2013-10-25T15:53:28+00:00"
+      }
+    }
+  }, {
+    "resource": {
+      "resourceType": "List",
+      "id": "26EE99BB-00FF-4596-9D8B-1D349C1D70A1-CONS",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+      },
+      "status": "current",
+      "mode": "snapshot",
+      "title": "Third Party Consultation",
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "325851000000107",
+          "display": "Consultation"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/2b289e58-6e69-4215-9019-dfe627831552"
+      },
+      "encounter": {
+        "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
+      },
+      "date": "2005-03-14T15:52:00+00:00",
+      "orderedBy": {
+        "coding": [ {
+          "system": "http://hl7.org/fhir/list-order",
+          "code": "system",
+          "display": "Sorted by System"
+        } ]
+      },
+      "entry": [ {
+        "item": {
+          "reference": "List/DCFDB486-F40A-4266-8B6E-88F9E38FC61A"
+        }
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "List",
+      "id": "DCFDB486-F40A-4266-8B6E-88F9E38FC61A",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+      },
+      "status": "current",
+      "mode": "snapshot",
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "25851000000105",
+          "display": "Topic (EHR)"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/2b289e58-6e69-4215-9019-dfe627831552"
+      },
+      "encounter": {
+        "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
+      },
+      "date": "2013-10-25T15:53:28+00:00",
+      "orderedBy": {
+        "coding": [ {
+          "system": "http://hl7.org/fhir/list-order",
+          "code": "system",
+          "display": "Sorted by System"
+        } ]
+      },
+      "entry": [ {
+        "item": {
+          "reference": "List/8FA84DDE-70DC-462F-8A7F-3C532F9B7D47"
+        }
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "List",
+      "id": "8FA84DDE-70DC-462F-8A7F-3C532F9B7D47",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
+      },
+      "status": "current",
+      "mode": "snapshot",
+      "title": "Administration",
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "24781000000107",
+          "display": "Category (EHR)"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/2b289e58-6e69-4215-9019-dfe627831552"
+      },
+      "encounter": {
+        "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
+      },
+      "date": "2013-10-25T15:53:28+00:00",
+      "orderedBy": {
+        "coding": [ {
+          "system": "http://hl7.org/fhir/list-order",
+          "code": "system",
+          "display": "Sorted by System"
+        } ]
+      },
+      "entry": [ {
+        "item": {
+          "reference": "Observation/FDD5D332-0468-414A-84E5-AFDAD5B37BCE"
+        }
+      }, {
+        "item": {
+          "reference": "Observation/5703D932-5A3F-42FD-BA9E-4C7CDDFF0656"
+        }
+      }, {
+        "item": {
+          "reference": "DocumentReference/_7CCB6A77-360E-434E-8CF4-97C7C2B47D70"
+        }
+      }, {
+        "item": {
+          "reference": "Observation/2531F667-AA89-4540-A50B-56298B13FC4C"
+        }
+      } ]
+    }
+  }, {
+    "resource": {
+      "resourceType": "Observation",
+      "id": "FDD5D332-0468-414A-84E5-AFDAD5B37BCE",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+      },
+      "identifier": [ {
+        "system": "https://PSSAdaptor/D5445",
+        "value": "FDD5D332-0468-414A-84E5-AFDAD5B37BCE"
+      } ],
+      "status": "final",
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "37331000000100",
+          "display": "Comment note"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/2b289e58-6e69-4215-9019-dfe627831552"
+      },
+      "context": {
+        "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
+      },
+      "effectiveDateTime": "2013-10-25T15:53:28+00:00",
+      "issued": "2013-10-25T15:53:28.000+00:00",
+      "performer": [ {
+        "reference": "Practitioner/72080315-9226-4a25-99b0-d84821de1158"
+      } ],
+      "comment": "application/binary"
+    }
+  }, {
+    "resource": {
+      "resourceType": "Observation",
+      "id": "5703D932-5A3F-42FD-BA9E-4C7CDDFF0656",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+      },
+      "identifier": [ {
+        "system": "https://PSSAdaptor/D5445",
+        "value": "5703D932-5A3F-42FD-BA9E-4C7CDDFF0656"
+      } ],
+      "status": "final",
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "37331000000100",
+          "display": "Comment note"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/2b289e58-6e69-4215-9019-dfe627831552"
+      },
+      "context": {
+        "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
+      },
+      "effectiveDateTime": "2013-10-25T15:53:28+00:00",
+      "issued": "2013-10-25T15:53:28.000+00:00",
+      "performer": [ {
+        "reference": "Practitioner/72080315-9226-4a25-99b0-d84821de1158"
+      } ],
+      "comment": "text/plain"
+    }
+  }, {
+    "resource": {
+      "resourceType": "Observation",
+      "id": "2531F667-AA89-4540-A50B-56298B13FC4C",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
+      },
+      "identifier": [ {
+        "system": "https://PSSAdaptor/D5445",
+        "value": "2531F667-AA89-4540-A50B-56298B13FC4C"
+      } ],
+      "status": "final",
+      "code": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "37331000000100",
+          "display": "Comment note"
+        } ]
+      },
+      "subject": {
+        "reference": "Patient/2b289e58-6e69-4215-9019-dfe627831552"
+      },
+      "context": {
+        "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
+      },
+      "effectiveDateTime": "2013-10-25T15:53:28+00:00",
+      "issued": "2013-10-25T15:53:28.000+00:00",
+      "performer": [ {
+        "reference": "Practitioner/72080315-9226-4a25-99b0-d84821de1158"
+      } ],
+      "comment": "video/mpeg"
+    }
+  }, {
+    "resource": {
+      "resourceType": "DocumentReference",
+      "id": "_7CCB6A77-360E-434E-8CF4-97C7C2B47D70",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1" ]
+      },
+      "identifier": [ {
+        "system": "https://PSSAdaptor/D5445",
+        "value": "_7CCB6A77-360E-434E-8CF4-97C7C2B47D70"
+      } ],
+      "status": "current",
+      "type": {
+        "coding": [ {
+          "system": "http://snomed.info/sct",
+          "code": "37251000000104",
+          "display": "Other digital signal"
+        } ],
+        "text": "Other Attachment"
+      },
+      "subject": {
+        "reference": "Patient/2b289e58-6e69-4215-9019-dfe627831552"
+      },
+      "created": "2013-10-25T15:53:28+00:00",
+      "indexed": "2013-10-25T15:53:28.000+00:00",
+      "custodian": {
+        "reference": "Organization/a6da77fd-459d-4ec3-a0a4-a9bf173470b8"
+      },
+      "description": "text/plain\n1e448cdc-c03f-428b-be48-61117d70b963_7CCB6A77-360E-434E-8CF4-97C7C2B47D70_book.txt",
+      "content": [ {
+        "attachment": {
+          "contentType": "text/plain",
+          "url": "1e448cdc-c03f-428b-be48-61117d70b963_7CCB6A77-360E-434E-8CF4-97C7C2B47D70_book.txt",
+          "title": "1e448cdc-c03f-428b-be48-61117d70b963_7CCB6A77-360E-434E-8CF4-97C7C2B47D70_book.txt"
+        }
+      } ],
+      "context": {
+        "encounter": {
+          "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
+        }
+      }
+    }
+  }, {
+    "resource": {
+      "resourceType": "Practitioner",
+      "id": "72080315-9226-4a25-99b0-d84821de1158",
+      "name": [ {
+        "text": "Unknown User"
+      } ]
+    }
+  } ]
+}

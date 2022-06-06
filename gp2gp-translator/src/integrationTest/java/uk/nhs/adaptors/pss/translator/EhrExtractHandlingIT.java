@@ -149,9 +149,9 @@ public class EhrExtractHandlingIT {
             .toList();
 
         assertBundleContent(
-                patientMigrationRequest.getBundleResource().replaceAll(SPECIAL_CHARS, ""),
-                expectedBundle.replaceAll(SPECIAL_CHARS, ""),
-                combinedList
+            patientMigrationRequest.getBundleResource().replaceAll(SPECIAL_CHARS, ""),
+            expectedBundle.replaceAll(SPECIAL_CHARS, ""),
+            combinedList
         );
     }
 

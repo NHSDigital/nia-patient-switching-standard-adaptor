@@ -69,7 +69,7 @@ public class COPCMessageHandler {
             if (patientAttachmentLog == null) {
                 addLogForEarlyFragmentAndStore(inboundMessage, conversationId, payload, ebXmlDocument, migrationRequest.getId());
             } else {
-                if (isManifestMessage(ebXmlDocument)) {
+                if (isManifestMessage(inboundMessage.getAttachments(), inboundMessage.getExternalAttachments())) {
                     extractFragmentsAndLog(migrationRequest, patientAttachmentLog, conversationId, inboundMessage);
                 } else {
                     storeCOPCAttachment(patientAttachmentLog, inboundMessage, conversationId);
@@ -83,9 +83,7 @@ public class COPCMessageHandler {
 
             // merge and uncompress large EHR message
             if (inboundMessageMergingService.canMergeCompleteBundle(conversationId)) {
-
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
-
             }
         } catch (ParseException | InlineAttachmentProcessingException | ValidationException | SAXException e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
@@ -229,6 +227,14 @@ public class COPCMessageHandler {
         }
     }
 
+    private boolean isManifestMessage(List<InboundMessage.Attachment> attachments,
+        List<InboundMessage.ExternalAttachment> externalAttachments) {
+        int attachmentsCount = attachments != null ? attachments.size() : 0;
+        int externalAttachmentsCount = externalAttachments != null
+            ? externalAttachments.size() : 0;
+        return attachmentsCount + externalAttachmentsCount > 1;
+    }
+
     private String getFileNameForFragment(InboundMessage inboundMessage, COPCIN000001UK01Message payload) {
         // confirm filename in payload on future examples
         if (!inboundMessage.getAttachments().get(0).getDescription().isEmpty()
@@ -264,10 +270,6 @@ public class COPCMessageHandler {
         return xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
     }
 
-    private boolean isManifestMessage(Document ebXmlDocument) {
-        return xPathService.getNodeValue(ebXmlDocument, DESCRIPTION_PATH).contains("Filename=");
-    }
-
     private void extractFragmentsAndLog(PatientMigrationRequest migrationRequest,
         PatientAttachmentLog parentAttachmentLog, String conversationId, InboundMessage message) throws ParseException, SAXException,
         ValidationException, InlineAttachmentProcessingException {
@@ -289,7 +291,12 @@ public class COPCMessageHandler {
                 descriptionString = message.getAttachments().get(0).getDescription();
 
                 // upload the file
-                attachmentHandlerService.storeAttachments(message.getAttachments(), conversationId);
+                attachmentHandlerService.storeAttachementWithoutProcessing(
+                    xmlParseUtilService.parseFragmentFilename(descriptionString),
+                    message.getAttachments().get(0).getPayload(),
+                    conversationId,
+                    message.getAttachments().get(0).getContentType()
+                );
                 fileUpload = true;
             } else {
                 var localMessageId = payloadReference.getHref().substring(payloadReference.getHref().indexOf("mid:") + "mid:".length());
