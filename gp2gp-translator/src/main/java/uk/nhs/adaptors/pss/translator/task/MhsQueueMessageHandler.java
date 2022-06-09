@@ -16,7 +16,7 @@ import ca.uhn.fhir.parser.DataFormatException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
-import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
+import uk.nhs.adaptors.amqp.JmsReader;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
