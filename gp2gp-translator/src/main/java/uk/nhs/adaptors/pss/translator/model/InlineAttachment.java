@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import lombok.Getter;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 @Getter
 public class InlineAttachment {
@@ -15,6 +16,7 @@ public class InlineAttachment {
     private final boolean isBase64;
     private final String description;
     private final String payload;
+    private final Integer length;
 
     public InlineAttachment(InboundMessage.Attachment attachment) throws ParseException {
         this.originalFilename = parseFilename(attachment.getDescription());
@@ -23,6 +25,7 @@ public class InlineAttachment {
         this.isBase64 = Boolean.parseBoolean(attachment.getIsBase64());
         this.description = attachment.getDescription();
         this.payload = attachment.getPayload();
+        this.length = XmlParseUtilService.parseFileLength(attachment.getDescription());
     }
 
     private String parseFilename(String description) throws ParseException {
