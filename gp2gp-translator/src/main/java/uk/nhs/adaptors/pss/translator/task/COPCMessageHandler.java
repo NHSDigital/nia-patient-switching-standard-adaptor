@@ -166,7 +166,7 @@ public class COPCMessageHandler {
                 var calcLength = attachmentLogFragments.stream().filter(PatientAttachmentLog::getBase64)
                         .mapToInt((frag -> frag.getLengthNum())).sum();
 
-                if (payload != null){
+                if (payload != null) {
                     if (payload.length() > ZERO_ATTACHMENT_LENGTH  && payload.length() != calcLength) {
                         throw new AttachmentLogException("Illegal file length detected");
                     }
