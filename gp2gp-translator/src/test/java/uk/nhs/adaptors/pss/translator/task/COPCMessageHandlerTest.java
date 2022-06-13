@@ -102,6 +102,11 @@ class COPCMessageHandlerTest {
     @Mock
     private NackAckPreparationService nackAckPreparationServiceMock;
 
+    private static final int EXPECTED_LOG_LENGTH = 3;
+
+    private static final int EXPECTED_LONGER_LOG_LENGTH = 5;
+
+
     @Test
     public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_PartialLogToBeCreated()
         throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
@@ -135,7 +140,7 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_CIDFragmentPartIsReceivedUploadFile()
+    public void When_CIDFragmentPartIsReceivedUploadFile_Expect_StoreAttachmentOnly()
             throws JAXBException, InlineAttachmentProcessingException, SAXException,
                 AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
@@ -587,12 +592,10 @@ class COPCMessageHandlerTest {
 
 
 
-            copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
+        copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
         verify(attachmentHandlerService, times(1))
             .buildSingleFileStringFromPatientAttachmentLogs(any(), any());
-
-
-        }
+    }
 
     @Test
     public void When_EnsureStoreAttachmentsIsCalled_Expect_RunWithNoErrors()
@@ -1036,36 +1039,40 @@ class COPCMessageHandlerTest {
         Boolean isFragmentUploaded, Integer amount) {
         var patientAttachmentLogs = new ArrayList<PatientAttachmentLog>(amount);
         patientAttachmentLogs.add(
-            PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
-                .orderNum(0)
-                .parentMid("0")
-                .uploaded(!!isParentUploaded)
-                .largeAttachment(true)
-                .base64(true)
-                .compressed(false)
-                .contentType("text/plain")
-                .lengthNum(0)
-                .skeleton(false)
-                .patientMigrationReqId(1).build()
-        );
-        for (var i = 1; i <= amount; i++) {
-            int logLength = ((i-1)%2 == 0) ? 3 : 5;
-            patientAttachmentLogs.add(
-                PatientAttachmentLog.builder()
-                    .filename("text_frag_" + i + ".txt")
-                    .mid(Integer.toString(i + 1))
+            PatientAttachmentLog.builder()
+                    .filename("test_main.txt")
+                    .mid("1")
                     .orderNum(0)
-                    .parentMid("1")
-                    .uploaded(!!isFragmentUploaded)
+                    .parentMid("0")
+                    .uploaded(!!isParentUploaded)
                     .largeAttachment(true)
                     .base64(true)
                     .compressed(false)
                     .contentType("text/plain")
-                    .lengthNum(logLength)
+                    .lengthNum(0)
                     .skeleton(false)
-                    .patientMigrationReqId(1).build()
-            );
+                    .patientMigrationReqId(1)
+                    .build());
+
+        for (var i = 1; i <= amount; i++) {
+            int logLength = ((i - 1) % 2 == 0) ? EXPECTED_LOG_LENGTH : EXPECTED_LONGER_LOG_LENGTH;
+            patientAttachmentLogs.add(
+                    PatientAttachmentLog.builder()
+                            .filename("text_frag_" + i + ".txt")
+                            .mid(Integer.toString(i + 1))
+                            .orderNum(0)
+                            .parentMid("1")
+                            .uploaded(!!isFragmentUploaded)
+                            .largeAttachment(true)
+                            .base64(true)
+                            .compressed(false)
+                            .contentType("text/plain")
+                            .lengthNum(logLength)
+                            .skeleton(false)
+                            .patientMigrationReqId(1)
+                            .build());
         }
+
         return patientAttachmentLogs;
     }
 }

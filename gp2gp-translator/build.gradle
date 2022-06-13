@@ -19,6 +19,10 @@ application {
     mainClass = 'uk.nhs.adaptors.pss.translator.Gp2gpTranslatorApplication'
 }
 
+springBoot {
+    mainClassName = 'uk.nhs.adaptors.pss.translator.Gp2gpTranslatorApplication'
+}
+
 repositories {
     mavenCentral()
 }

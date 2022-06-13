@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator.amqp;
+package uk.nhs.adaptors.amqp;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
