@@ -408,7 +408,8 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     }
 
     @Test
-    public void When_AttachmentCorrectPayloadLengthIsGiven_Expect_DoesNotThrow() throws ValidationException, InlineAttachmentProcessingException {
+    public void When_AttachmentCorrectPayloadLengthIsGiven_Expect_DoesNotThrow() throws ValidationException,
+        InlineAttachmentProcessingException {
 
         var attachment = List.of(InboundMessage.Attachment.builder()
             .contentType("txt")
