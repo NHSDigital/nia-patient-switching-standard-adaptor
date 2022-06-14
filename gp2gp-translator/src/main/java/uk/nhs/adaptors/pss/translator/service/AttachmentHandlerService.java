@@ -45,6 +45,13 @@ public class AttachmentHandlerService {
                 try {
                     InlineAttachment inlineAttachment = new InlineAttachment(attachment);
 
+                    if (inlineAttachment != null) {
+                        if (inlineAttachment.getLength() > 0
+                            && inlineAttachment.getLength() != inlineAttachment.getPayload().length()) {
+                            throw new InlineAttachmentProcessingException("Incorrect payload length received");
+                        }
+                    }
+
                     byte[] decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
                     byte[] payload;
 
@@ -64,7 +71,6 @@ public class AttachmentHandlerService {
                     String filename = inlineAttachment.getOriginalFilename();
                     storageManagerService.uploadFile(filename, dataWrapper, conversationId);
 
-
                 } catch (StorageException ex) {
                     throw new InlineAttachmentProcessingException("Unable to upload inline attachment to storage: " + ex.getMessage());
                 } catch (IOException ex) {
@@ -76,7 +82,8 @@ public class AttachmentHandlerService {
         }
     }
 
-    public void storeAttachementWithoutProcessing(String fileName, String payload, String conversationId, String contentType)
+    public void storeAttachmentWithoutProcessing(String fileName, String payload, String conversationId,
+        String contentType, Integer expectedLength)
         throws ValidationException, InlineAttachmentProcessingException {
 
         if (!StringUtils.hasText(fileName)) {
@@ -90,6 +97,12 @@ public class AttachmentHandlerService {
         }
         if (!StringUtils.hasText(contentType)) {
             throw new ValidationException("ContentType cannot be null or empty");
+        }
+
+        if (expectedLength != null) {
+            if (expectedLength > 0 && expectedLength != payload.length()) {
+                throw new InlineAttachmentProcessingException("Incorrect payload length received");
+            }
         }
 
         StorageDataUploadWrapper dataWrapper = new StorageDataUploadWrapper(
