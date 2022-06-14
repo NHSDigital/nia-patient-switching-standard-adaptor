@@ -28,6 +28,7 @@ import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
+import uk.nhs.adaptors.pss.translator.exception.ExternalAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
@@ -85,7 +86,8 @@ public class COPCMessageHandler {
             if (inboundMessageMergingService.canMergeCompleteBundle(conversationId)) {
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
             }
-        } catch (ParseException | InlineAttachmentProcessingException | ValidationException | SAXException e) {
+        } catch (ParseException | InlineAttachmentProcessingException | ValidationException
+            | SAXException | ExternalAttachmentProcessingException e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
@@ -93,7 +95,8 @@ public class COPCMessageHandler {
     }
 
     public void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId)
-        throws SAXException, AttachmentLogException, ValidationException, InlineAttachmentProcessingException {
+        throws SAXException, AttachmentLogException, ValidationException,
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
@@ -102,8 +105,6 @@ public class COPCMessageHandler {
         if (currentAttachmentLog == null) {
             throw new AttachmentLogException("Given COPC message is missing an attachment log");
         }
-
-
 
         var conversationAttachmentLogs = patientAttachmentLogService.findAttachmentLogs(conversationId);
         // if a message has arrived early, it will not have a parent ID so we can cancel early.
@@ -152,6 +153,14 @@ public class COPCMessageHandler {
                 .filter(log ->  log.getMid().equals(parentLogMessageId))
                 .findAny()
                 .orElse(null);
+
+            // if we have been given a file length, validate it
+            var canCheckAttachmentLength = parentLogFile.getLengthNum() > 0;
+            if (canCheckAttachmentLength) {
+                if (payload.length() != parentLogFile.getLengthNum()) {
+                    throw new ExternalAttachmentProcessingException("Illegal file length detected");
+                }
+            }
 
             var mergedLargeAttachment = createNewLargeAttachmentInList(parentLogFile, payload);
             attachmentHandlerService.storeAttachments(mergedLargeAttachment, conversationId);
@@ -215,8 +224,9 @@ public class COPCMessageHandler {
                                      String conversationId) throws ValidationException, InlineAttachmentProcessingException {
 
         if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
-            attachmentHandlerService.storeAttachementWithoutProcessing(fragmentAttachmentLog.getFilename(),
-                    inboundMessage.getAttachments().get(0).getPayload(), conversationId, fragmentAttachmentLog.getContentType());
+            attachmentHandlerService.storeAttachmentWithoutProcessing(fragmentAttachmentLog.getFilename(),
+                    inboundMessage.getAttachments().get(0).getPayload(), conversationId,
+                    fragmentAttachmentLog.getContentType(), fragmentAttachmentLog.getLengthNum());
         } else {
             var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
                     List.of(fragmentAttachmentLog),
@@ -291,11 +301,12 @@ public class COPCMessageHandler {
                 descriptionString = message.getAttachments().get(0).getDescription();
 
                 // upload the file
-                attachmentHandlerService.storeAttachementWithoutProcessing(
+                attachmentHandlerService.storeAttachmentWithoutProcessing(
                     xmlParseUtilService.parseFragmentFilename(descriptionString),
                     message.getAttachments().get(0).getPayload(),
                     conversationId,
-                    message.getAttachments().get(0).getContentType()
+                    message.getAttachments().get(0).getContentType(),
+                    xmlParseUtilService.parseFileLength(descriptionString)
                 );
                 fileUpload = true;
             } else {
