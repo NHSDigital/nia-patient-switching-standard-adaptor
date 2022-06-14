@@ -165,10 +165,15 @@ function recursive(entry){
                 }
             }else {
 				if('reference' === properties[i]){
-					console.log("entering reference.value recursion = " +  entry[properties[i]] );
+
 					let indexOfSlash = entry[properties[i]].indexOf('/') + 1;
-					let newString = entry[properties[i]].substring( 0, indexOfSlash);
-					entry[properties[i]] = newString;
+
+
+					let newString = entry[properties[i]].substring( 0, indexOfSlash -1 );
+
+					if(newString.toLowerCase() !== "observation" && newString.toLowerCase() !== "encounter"){
+						entry[properties[i]] = newString;
+					}
 				}
             }
         }
