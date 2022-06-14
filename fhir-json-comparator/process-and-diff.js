@@ -14,6 +14,9 @@ function processFilesToBeCompared(inputFolder, outputFolder) {
 	for (var i = 0; i < files.length; i++) {
 		console.log("processing file = " + files[i]);
 		let file = JSON.parse(fs.readFileSync(inputFolder + '/' + files[i], 'utf8'));
+
+
+
 		let processedFile = removeFieldsFromObject(file);
 
 		fs.writeFile(outputFolder + '/' + files[i], JSON.stringify(processedFile), 
@@ -73,9 +76,17 @@ function removeFieldsFromObject(jsonObject) {
 		jsonObject.entry[0].resource.identifier[0].value = "";
 	}
 
+	console.log('*******************************************************************');
+	console.log('*******************************************************************');
+
 	for (let i = 0; i < jsonObject.entry.length; i++) 
 	{
-		if('resource' in jsonObject.entry[i]){
+
+
+		jsonObject.entry[i] = recursive(jsonObject.entry[i]);
+
+
+/*		if('resource' in jsonObject.entry[i]){
 			jsonObject.entry[i].resource.id = "";
 				
 			if('medicationReference' in jsonObject.entry[i].resource){											
@@ -118,7 +129,54 @@ function removeFieldsFromObject(jsonObject) {
 					}
 				}
 			}
-		}
+		}*/
 	}
 	return jsonObject;
 }
+
+
+
+
+function recursive(entry){
+
+
+    var properties = Object.keys(entry);
+	console.log("properties = " + properties);
+
+    for(let i = 0; i < properties.length; i++){
+
+		console.log("entry[properties[i]] = " + entry[properties[i]]);
+
+    		console.log(" Array.isArray(entry) === false //// " +  Array.isArray(entry) === false);
+
+        if( typeof entry[properties[i]] === 'object' && Array.isArray(entry) === false){
+    		console.log("entering object recursion");
+            entry[properties[i]] = recursive(entry[properties[i]]);
+        }
+        else{
+            if(Array.isArray(entry)){
+                
+                for(let y = 0; y < entry.length; y++){
+
+        	        if( typeof entry[properties[i]] === 'object'){
+    					console.log("entering object recursion");
+			            entry[properties[i]] = recursive(entry[properties[i]]);
+			        }
+                }
+            }else {
+				if('reference' === properties[i]){
+					console.log("entering reference.value recursion = " +  entry[properties[i]] );
+					let indexOfSlash = entry[properties[i]].indexOf('/') + 1;
+					let newString = entry[properties[i]].substring( 0, indexOfSlash);
+					entry[properties[i]] = newString;
+				}
+            }
+        }
+    }
+
+    console.log(entry);
+    return entry;
+}
+
+
+
