@@ -72,14 +72,7 @@ function compareFilesInFolder(outputFolder, difFolder) {
 				let emisEntries = entriesByResource.emisEntries[resourceTypeIndex];
 				let psEntries = entriesByResource.psEntries[resourceTypeIndex];
 
-				if(resourceType === "Encounter" 
-					|| resourceType === "Organization" 
-					|| resourceType === "ProcedureRequest" 
-					|| resourceType === "Location" 
-					|| resourceType === "Observation"
-					){
-					sortResourcesByMatchingId(emisEntries, psEntries);
-				}
+				sortResourcesByMatchingId(emisEntries, psEntries);				
 				
 				if(resourceType === "List"){
 					sortResourcesByTitleAndReference(emisEntries, psEntries);
