@@ -68,8 +68,29 @@ function compareFilesInFolder(outputFolder, difFolder) {
 			for (var resourceTypeIndex = 0; resourceTypeIndex < entriesByResource.resourceTypes.length; resourceTypeIndex++) {
 				
 				let resourceType = entriesByResource.resourceTypes[resourceTypeIndex];
-				var emisEntriesAsString = JSON.stringify({ entry : entriesByResource.emisEntries[resourceTypeIndex]} )
-				var psEntriesAsString = JSON.stringify({ entry: entriesByResource.psEntries[resourceTypeIndex]} )
+
+				let emisEntries = entriesByResource.emisEntries[resourceTypeIndex];
+				let psEntries = entriesByResource.psEntries[resourceTypeIndex];
+
+				if(resourceType === "Encounter" 
+					|| resourceType === "Organization" 
+					|| resourceType === "ProcedureRequest" 
+					|| resourceType === "Location" 
+					|| resourceType === "Observation"
+					){
+					sortResourcesByMatchingId(emisEntries, psEntries);
+				}
+				
+				if(resourceType === "List"){
+					sortResourcesByTitleAndReference(emisEntries, psEntries);
+				}
+
+				var emisEntriesAsString = JSON.stringify({ entry : emisEntries} )
+				var psEntriesAsString = JSON.stringify({ entry: psEntries} )
+
+
+
+
 
 				fs.writeFile(entriesSaveLocation + "/emis-" + resourceType + "-entries.json", emisEntriesAsString, 
 				err => {
@@ -83,7 +104,7 @@ function compareFilesInFolder(outputFolder, difFolder) {
 		  			console.log(reportOutput + 'file created successfully');
 				});
 				
-				let diff = jsonDiff.diffString({ entry : entriesByResource.emisEntries[resourceTypeIndex]}, { entry: entriesByResource.psEntries[resourceTypeIndex]}, {full:true, color:true}).replaceAll(/(\[31m|\[32m|39m|)+/g, "");
+				let diff = jsonDiff.diffString({ entry : emisEntries}, { entry: psEntries}, {full:true, color:true}).replaceAll(/(\[31m|\[32m|39m|)+/g, "");
 				
 				fs.writeFile(entriesSaveLocation + "/diff-" + resourceType + "-report.txt", diff, 
 				err => {
@@ -151,6 +172,46 @@ function resourceTypeCount(actualPSAdapterOutput, emisOutput) {
 	}
 }
 
+function sortResourcesByMatchingId(jsonEMIS, jsonPs){
+	let matchIndex = 0;
+
+	for (var y = 0; y < jsonEMIS.length; y++) {
+		for (var x = 0; x < jsonPs.length; x++) {
+			if(jsonEMIS[y].resource.id === jsonPs[x].resource.id){
+				let oldPositionPs = jsonPs[x] ;
+				let newPositionPs = jsonPs[matchIndex];
+				jsonPs[x] = newPositionPs;
+				jsonPs[matchIndex] = oldPositionPs; 
+
+				let oldPositionEmis = jsonEMIS[y] ;
+				let newPositionEmis = jsonEMIS[matchIndex];
+				jsonEMIS[y] = newPositionEmis;
+				jsonEMIS[matchIndex] = oldPositionEmis; 
+				matchIndex++;
+			}
+		}
+	}
+}
 
 
+function sortResourcesByTitleAndReference(jsonEMIS, jsonPs){
+	let matchIndex = 0;
 
+	for (var y = 0; y < jsonEMIS.length; y++) {
+
+		for (var x = 0; x < jsonPs.length; x++) {
+			if(jsonEMIS[y].resource.title === jsonPs[x].resource.title && jsonEMIS[y].resource.encounter.reference === jsonPs[x].resource.encounter.reference){
+				let oldPositionPs = jsonPs[x] ;
+				let newPositionPs = jsonPs[matchIndex];
+				jsonPs[x] = newPositionPs;
+				jsonPs[matchIndex] = oldPositionPs; 
+
+				let oldPositionEmis = jsonEMIS[y] ;
+				let newPositionEmis = jsonEMIS[matchIndex];
+				jsonEMIS[y] = newPositionEmis;
+				jsonEMIS[matchIndex] = oldPositionEmis; 
+				matchIndex++;
+			}
+		}
+	}
+}

@@ -1,5 +1,7 @@
 # Scripts to compare JSON fhir objects
 
+NOTE: before staring, scripts and json-diff may not work in IDE command line. It has to be OS command line.
+
 in the fhir-json-comparator there are 2 scripts that compare fhir JSON files.
 create-entry-reports.js and process-and-diff.js
 
