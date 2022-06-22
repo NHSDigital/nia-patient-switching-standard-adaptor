@@ -85,6 +85,7 @@ public class COPCMessageHandler {
             // merge and uncompress large EHR message
             if (inboundMessageMergingService.canMergeCompleteBundle(conversationId)) {
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
+
             }
         } catch (ParseException | InlineAttachmentProcessingException | ValidationException
             | SAXException | ExternalAttachmentProcessingException e) {
@@ -210,7 +211,6 @@ public class COPCMessageHandler {
         Document ebXmlDocument, int patientId) throws ValidationException, InlineAttachmentProcessingException {
         String fragmentMid = getFragmentMidId(ebXmlDocument);
         String fileName = getFileNameForFragment(inboundMessage, payload);
-
 
         PatientAttachmentLog fragmentAttachmentLog
             = buildFragmentAttachmentLog(fragmentMid, fileName, inboundMessage.getAttachments().get(0).getContentType(), patientId);

@@ -43,17 +43,21 @@ public class AttachmentReferenceUpdaterService {
                         InlineAttachment inlineAttachment = new InlineAttachment(attachment);
                         String filename = inlineAttachment.getOriginalFilename();
 
+                        // manage space as a special character in xml
+                        filename = filename.replace(" ", "%20");
+
                         // find "local" reference by finding the following:
                         // "<reference value=\"file://localhost/${filename}\" />"
-                        var patternStr = String.format("<reference value=\"file://localhost/%s\" \\/>", filename);
+                        var patternStr = String.format("<reference value=\"file://localhost/%s\"", filename);
                         Pattern pattern = Pattern.compile(patternStr);
                         Matcher matcher = pattern.matcher(resultPayload);
 
                         var matchFound = matcher.find();
+                        filename = filename.replace("%20", " ");
                         if (matchFound) {
                             // update local ref with external reference
                             String fileLocation = storageManagerService.getFileLocation(filename, conversationId);
-                            var replaceStr = String.format("<reference value=\"%s\" />", xmlEscape(fileLocation));
+                            var replaceStr = String.format("<reference value=\"%s\"", xmlEscape(fileLocation));
                             resultPayload = matcher.replaceAll(replaceStr);
                         } else {
                             var message = String.format("Could not find file %s in payload", filename);
@@ -73,5 +77,9 @@ public class AttachmentReferenceUpdaterService {
 
     private String xmlEscape(String str) {
         return StringEscapeUtils.escapeXml10(str);
+    }
+
+    private String xmlUnescape(String str) {
+        return StringEscapeUtils.unescapeXml(str);
     }
 }

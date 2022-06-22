@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.task;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -79,6 +80,9 @@ public class MhsQueueMessageHandler {
             return false;
         } catch (ParseException e) {
             LOGGER.error("Unable to parse Ebxml References", e);
+            return false;
+        } catch (TransformerException e) {
+            LOGGER.error("Unable to process skeleton section of message", e);
             return false;
         }
     }
