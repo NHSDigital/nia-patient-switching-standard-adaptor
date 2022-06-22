@@ -22,12 +22,16 @@ import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SkeletonProcessingService {
 
+    private static final int XML_CONCAT_CONSTANT_LENGTH = 100;
+
     private final AttachmentHandlerService attachmentHandlerService;
     private final XmlParseUtilService xmlParseUtilService;
     private final XPathService xPathService;
 
-    public InboundMessage updateInboundMessageWithSkeleton(PatientAttachmentLog skeletonLog, InboundMessage inboundMessage, String conversationId)
-            throws SAXException, TransformerException {
+
+    public InboundMessage updateInboundMessageWithSkeleton(PatientAttachmentLog skeletonLog,
+        InboundMessage inboundMessage, String conversationId)
+        throws SAXException, TransformerException {
 
         // merge skeleton message into original payload
         var skeletonAttachment = attachmentHandlerService.getAttachment(
@@ -35,10 +39,10 @@ public class SkeletonProcessingService {
         var skeletonFileAsString = new String(skeletonAttachment, StandardCharsets.UTF_8);
 
         try {
-
             // if the skeleton starts with the RCMR tag, then we are replacing the whole message.
-            // this behaviour is not apart of the specification but we have found this format in some messages
-            var replaceEntirePayload = skeletonFileAsString.substring(0, 100).contains("<RCMR_IN030000UK06");
+            // this behaviour is not a part of the specification but we have found this format in some messages
+            var replaceEntirePayload = skeletonFileAsString
+                .substring(0, XML_CONCAT_CONSTANT_LENGTH).contains("<RCMR_IN030000UK06");
             var skeletonExtractDocument = xPathService.parseDocumentFromXml(skeletonFileAsString);
 
             if (replaceEntirePayload) {
@@ -49,10 +53,11 @@ public class SkeletonProcessingService {
                 inboundMessage = insertSkeletonIntoInboundMessagePayload(skeletonLog,
                     inboundMessage, skeletonExtractDocument);
             }
-
             return inboundMessage;
-        }
-        catch (Exception ex) {
+
+        } catch (RuntimeException runException) {
+            throw runException;
+        } catch (Exception ex) {
             throw new TransformerException("Skeleton message could not be processed into the original inbound message");
         }
     }

@@ -114,27 +114,6 @@ public class InboundMessageMergingServiceTests {
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
         when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn(inboundMessage.getPayload());
 
-        if (attachments.get(0).getSkeleton()) {
-            prepareSkeletonMocks(inboundMessage);
-        }
-    }
-
-    private void prepareSkeletonMocks(InboundMessage inboundMessage) throws SAXException, TransformerException {
-
-        var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
-        var ebXmlAttachments = Arrays.asList(reference);
-        var fileAsBytes = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
-
-//        when(attachmentHandlerService.getAttachment(FILENAME, CONVERSATION_ID)).thenReturn(fileAsBytes);
-//        when(xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage)).thenReturn(ebXmlAttachments);
-//        when(xPathService.parseDocumentFromXml(any())).thenReturn(ebXmlDocument);
-//        when(xPathService.getNodes(any(), any())).thenReturn(nodeList);
-//        when(nodeList.item(0)).thenReturn(node);
-//        when(ebXmlDocument.getElementsByTagName("*")).thenReturn(nodeList);
-//        when(xmlParseUtilService.getStringFromDocument(any())).thenReturn(inboundMessage.getPayload());
-//        when(node.getOwnerDocument()).thenReturn(ebXmlDocument);
-//        when(node.getParentNode()).thenReturn(node);
-
     }
 
     @Test
@@ -173,7 +152,7 @@ public class InboundMessageMergingServiceTests {
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
         verify(skeletonProcessingService, times(1)).updateInboundMessageWithSkeleton(any(), any(), any());
- }
+    }
 
     @Test
     public void When_HappyPathNoSkeleton_Expect_NotToGetAttachmentFromService() throws JAXBException, JsonProcessingException,
@@ -310,8 +289,10 @@ public class InboundMessageMergingServiceTests {
     }
 
     @Test
-    public void When_UpdateInboundMessageWithSkeletonThrowsTransformerException_Expect_SendNack() throws JAXBException, JsonProcessingException,
+    public void When_UpdateInboundMessageWithSkeletonThrowsTransformerException_Expect_SendNack()
+        throws JAXBException, JsonProcessingException,
         SAXException, TransformerException, AttachmentNotFoundException, InlineAttachmentProcessingException {
+
         var inboundMessage = new InboundMessage();
 
         inboundMessage.setPayload("payload");

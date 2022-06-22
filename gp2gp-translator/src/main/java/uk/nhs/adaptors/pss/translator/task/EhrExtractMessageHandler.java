@@ -96,7 +96,7 @@ public class EhrExtractMessageHandler {
 
             if (!hasExternalAttachment) {
                 // If there are no external attachments, process the entire message now
-                processAndCompleteEHRMessage(inboundMessage,conversationId,skeletonCIDAttachmentLog,migrationRequest);
+                processAndCompleteEHRMessage(inboundMessage, conversationId, skeletonCIDAttachmentLog, migrationRequest);
             } else {
                 //process MID messages and send continue message if external messages exist
                 processExternalAttachmentsAndSendContinueMessage(inboundMessage,
@@ -134,7 +134,7 @@ public class EhrExtractMessageHandler {
                     buildPatientAttachmentLogFromAttachment(messageId, migrationRequest, attachment);
 
                 // in the instance that we have a CID skeleton message, set our flag to process
-                if (newAttachmentLog.getSkeleton() == true) {
+                if (newAttachmentLog.getSkeleton()) {
                     skeletonCIDAttachmentLog = newAttachmentLog;
                 }
                 patientAttachmentLogService.addAttachmentLog(newAttachmentLog);

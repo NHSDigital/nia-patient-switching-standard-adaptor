@@ -3,12 +3,9 @@ package uk.nhs.adaptors.pss.translator.service;
 import static java.util.UUID.randomUUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
@@ -16,15 +13,10 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -91,23 +83,11 @@ public class SkeletonProcessingServiceTests {
 
     @SneakyThrows
     private void prepareNonRCMRMocks(InboundMessage inboundMessage) {
-        var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
-        var patientMigrationRequest = PatientMigrationRequest
-                .builder()
-                .inboundMessage(inboundMessageAsString)
-                .build();
-
         prepareSkeletonNonRCMRMocks(inboundMessage);
     }
 
     @SneakyThrows
     private void prepareRCMRMocks(InboundMessage inboundMessage) {
-        var inboundMessageAsString = objectMapper.writeValueAsString(inboundMessage);
-        var patientMigrationRequest = PatientMigrationRequest
-            .builder()
-            .inboundMessage(inboundMessageAsString)
-            .build();
-
         prepareSkeletonRCMRMocks(inboundMessage);
     }
 
@@ -129,16 +109,15 @@ public class SkeletonProcessingServiceTests {
 
     private void prepareSkeletonRCMRMocks(InboundMessage inboundMessage) throws SAXException, TransformerException {
 
-        var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
-        var ebXmlAttachments = Arrays.asList(reference);
         var fileAsBytes = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
         when(xmlParseUtilService.getStringFromDocument(any())).thenReturn(inboundMessage.getPayload());
         when(attachmentHandlerService.getAttachment(any(), any())).thenReturn(fileAsBytes);
     }
 
     @Test
-    public void When_UpdateInboundMessageAttachmentHandlerServiceThrowsNullException_Expect_ThrowsNullValueException() throws JAXBException, JsonProcessingException, TransformerException,
-        SAXException {
+    public void When_UpdateInboundMessageAttachmentHandlerServiceThrowsNullException_Expect_ThrowsNullValueException()
+        throws JAXBException, JsonProcessingException, TransformerException, SAXException {
+
         var inboundMessage = new InboundMessage();
         var attachmentLog = createSkeletonPatientAttachmentLog();
 
@@ -148,7 +127,8 @@ public class SkeletonProcessingServiceTests {
         doThrow(NullValueException.class).when(attachmentHandlerService).getAttachment(any(), any());
 
         assertThrows(NullValueException.class, () ->
-            skeletonProcessingService.updateInboundMessageWithSkeleton(attachmentLog, inboundMessage, migrationRequest.getConversationId()));
+            skeletonProcessingService.updateInboundMessageWithSkeleton(attachmentLog,
+                inboundMessage, migrationRequest.getConversationId()));
     }
 
     @Test
@@ -166,8 +146,8 @@ public class SkeletonProcessingServiceTests {
     }
 
     @Test
-    public void When_HappyPathWithSkeletonAsRCMRMessage_Expect_InboundMessagePayloadIsNewRCMRMessage() throws JAXBException, JsonProcessingException, TransformerException,
-        SAXException {
+    public void When_HappyPathWithSkeletonAsRCMRMessage_Expect_InboundMessagePayloadIsNewRCMRMessage()
+        throws JAXBException, JsonProcessingException, TransformerException, SAXException {
         var inboundMessage = new InboundMessage();
         var attachmentLog = createSkeletonPatientAttachmentLog();
 
@@ -179,12 +159,12 @@ public class SkeletonProcessingServiceTests {
         var newInboundMessage =
             skeletonProcessingService.updateInboundMessageWithSkeleton(attachmentLog, inboundMessage, CONVERSATION_ID);
 
-        assertEquals(newInboundMessage.getPayload(), readInboundMessagePayloadFromFile() );
+        assertEquals(newInboundMessage.getPayload(), readInboundMessagePayloadFromFile());
     }
 
     @Test
-    public void When_HappyPathWithSkeletonAsSectionMessage_Expect_ThrowNoErrors() throws JAXBException, JsonProcessingException, TransformerException,
-        SAXException {
+    public void When_HappyPathWithSkeletonAsSectionMessage_Expect_ThrowNoErrors()
+        throws JAXBException, JsonProcessingException, TransformerException, SAXException {
         var inboundMessage = new InboundMessage();
         var attachmentLog = createSkeletonPatientAttachmentLog();
 
@@ -210,8 +190,8 @@ public class SkeletonProcessingServiceTests {
     }
 
     @Test
-    public void When_SkeletonAsSectionMessageAndEBXMLSkeletonReferenceIsEmpty_Expect_ThrowTransformException() throws JAXBException, JsonProcessingException, TransformerException,
-        SAXException {
+    public void When_SkeletonAsSectionMessageAndEBXMLSkeletonReferenceIsEmpty_Expect_NullValueException()
+        throws JAXBException, JsonProcessingException, TransformerException, SAXException {
         var inboundMessage = new InboundMessage();
         var attachmentLog = createSkeletonPatientAttachmentLog();
 
@@ -230,8 +210,9 @@ public class SkeletonProcessingServiceTests {
             emptyAttachmentsData
         );
 
-        assertThrows(TransformerException.class, () ->
-            skeletonProcessingService.updateInboundMessageWithSkeleton(attachmentLog, inboundMessage, migrationRequest.getConversationId()));
+        assertThrows(NullValueException.class, () ->
+            skeletonProcessingService.updateInboundMessageWithSkeleton(attachmentLog,
+                inboundMessage, migrationRequest.getConversationId()));
     }
 
     private PatientAttachmentLog createSkeletonPatientAttachmentLog() {

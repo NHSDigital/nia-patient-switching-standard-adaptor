@@ -382,8 +382,8 @@ public class EhrExtractMessageHandlerTest {
 
         InboundMessage inboundMessage = new InboundMessage();
         var attachment = new InboundMessage.Attachment("text/xml",
-            "true", "ContentType=text/xml isCompressed=No isLargeAttachment=No " +
-            "OriginalBase64=Yes Filename=\"test.txt\" DomainData=\"X-GP2GP-Skeleton: Yes\" ","abcdefghi");
+            "true", "ContentType=text/xml isCompressed=No isLargeAttachment=No "
+            + "OriginalBase64=Yes Filename=\"test.txt\" DomainData=\"X-GP2GP-Skeleton: Yes\" ", "abcdefghi");
 
         var attachmentList = new ArrayList<InboundMessage.Attachment>();
         attachmentList.add(attachment);
