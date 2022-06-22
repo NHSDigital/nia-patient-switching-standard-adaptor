@@ -11,6 +11,7 @@ import org.xml.sax.SAXException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import software.amazon.ion.NullValueException;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
@@ -29,8 +30,9 @@ public class SkeletonProcessingService {
             throws SAXException, TransformerException {
 
         // merge skeleton message into original payload
-        var skeletonFileAsString = new String(attachmentHandlerService.getAttachment(
-            skeletonLog.getFilename(), conversationId), StandardCharsets.UTF_8);
+        var skeletonAttachment = attachmentHandlerService.getAttachment(
+            skeletonLog.getFilename(), conversationId);
+        var skeletonFileAsString = new String(skeletonAttachment, StandardCharsets.UTF_8);
 
         try {
 
@@ -66,7 +68,7 @@ public class SkeletonProcessingService {
             .findFirst();
 
         if (ebxmlSkeletonReference.isEmpty()) {
-            return inboundMessage;
+            throw new NullValueException();
         }
 
         var skeletonDocumentId = ebxmlSkeletonReference.get().getDocumentId();
