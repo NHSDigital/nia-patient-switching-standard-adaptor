@@ -6,7 +6,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
 import java.io.PrintWriter;
@@ -97,7 +97,7 @@ public class EhrExtractHandlingIT {
         sendInboundMessageToQueue("/xml/RCMR_IN030000UK06/payload_part.xml");
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         // verify generated bundle resource
         verifyBundle("/json/expectedBundle.json");
@@ -130,9 +130,9 @@ public class EhrExtractHandlingIT {
         return inboundMessage;
     }
 
-    private boolean isEhrExtractTranslated() {
+    private boolean isEhrMigrationCompleted() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        return EHR_EXTRACT_TRANSLATED.equals(migrationStatusLog.getMigrationStatus());
+        return MIGRATION_COMPLETED.equals(migrationStatusLog.getMigrationStatus());
     }
 
     private void verifyBundle(String path) throws JSONException {

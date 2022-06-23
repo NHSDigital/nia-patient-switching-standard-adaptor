@@ -36,6 +36,7 @@ import static org.awaitility.Awaitility.await;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
@@ -207,7 +208,7 @@ public class E2EMappingIT {
 
     private boolean isEhrExtractTranslated() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        return EHR_EXTRACT_TRANSLATED.equals(migrationStatusLog.getMigrationStatus());
+        return MIGRATION_COMPLETED.equals(migrationStatusLog.getMigrationStatus());
     }
 
     private void verifyBundle(String path) throws JSONException {

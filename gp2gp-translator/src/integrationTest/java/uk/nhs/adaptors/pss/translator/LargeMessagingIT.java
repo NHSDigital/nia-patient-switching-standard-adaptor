@@ -47,7 +47,7 @@ public final class LargeMessagingIT extends BaseEhrHandler {
     public void handleUk06WithCidAttachment() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_1/uk06.json");
 
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         verifyBundle("/json/LargeMessage/expectedBundleScenario1.json");
     }
@@ -56,7 +56,7 @@ public final class LargeMessagingIT extends BaseEhrHandler {
     public void handleUk06WithCompressedCidAttachmement() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_2/uk06.json");
 
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         verifyBundle("/json/LargeMessage/expectedBundleScenario2.json");
     }
@@ -69,7 +69,7 @@ public final class LargeMessagingIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
     }
@@ -82,7 +82,7 @@ public final class LargeMessagingIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_5/copc.json");
 
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         verifyBundle("/json/LargeMessage/expectedBundleScenario5.json");
     }
@@ -98,7 +98,7 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         sendInboundMessageToQueue(scenarioDirectory + "copc0.json");
         sendInboundMessageToQueue(scenarioDirectory + "copc1.json");
 
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         verifyBundle(expectedBundleName);
     }
