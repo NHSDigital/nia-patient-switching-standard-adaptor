@@ -75,7 +75,7 @@ public final class LargeMessagingIT extends BaseEhrHandler {
     }
 
     @Test
-    public void handleUk06WithSkeleton() throws JSONException {
+    public void handleUk06WithSkeletonAsMid() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_5/uk06.json");
 
         await().until(this::hasContinueMessageBeenReceived);
@@ -85,6 +85,27 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         await().until(this::isEhrMigrationCompleted);
 
         verifyBundle("/json/LargeMessage/expectedBundleScenario5.json");
+    }
+
+    @Test
+    public void handleUk06WithSkeletonAsEntireRCMRInEHR() throws JSONException {
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_10/uk06.json");
+        await().until(this::isEhrMigrationCompleted);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario10.json");
+    }
+
+    @Test
+    public void handleUk06WithSkeletonAsEntireRCMRInCOPC() throws JSONException {
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_11/uk06.json");
+
+        await().until(this::hasContinueMessageBeenReceived);
+
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_11/copc.json");
+
+        await().until(this::isEhrMigrationCompleted);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario11.json");
     }
 
     @ParameterizedTest(name = "{0}")
