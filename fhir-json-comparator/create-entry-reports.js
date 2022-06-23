@@ -186,14 +186,87 @@ function sortResourcesByMatchingId(jsonEMIS, jsonPs){
 	}
 }
 
-
 function sortResourcesByTitleAndReference(jsonEMIS, jsonPs){
-	let matchIndex = 0;
 
+	
+
+	let matchIndex = 0;
 	for (var y = 0; y < jsonEMIS.length; y++) {
 
 		for (var x = 0; x < jsonPs.length; x++) {
-			if(jsonEMIS[y].resource.title === jsonPs[x].resource.title && jsonEMIS[y].resource.encounter.reference === jsonPs[x].resource.encounter.reference){
+			if(jsonEMIS[y].resource.title === jsonPs[x].resource.title && 
+				jsonEMIS[y].resource.encounter.reference === jsonPs[x].resource.encounter.reference
+				){
+
+				let oldPositionPs = jsonPs[x] ;
+				let newPositionPs = jsonPs[matchIndex];
+				jsonPs[x] = newPositionPs;
+				jsonPs[matchIndex] = oldPositionPs; 
+
+				let oldPositionEmis = jsonEMIS[y] ;
+				let newPositionEmis = jsonEMIS[matchIndex];
+				jsonEMIS[y] = newPositionEmis;
+				jsonEMIS[matchIndex] = oldPositionEmis; 
+				matchIndex++;
+			}
+		}
+	}
+
+	sortResourcesByReferenceAndCode(jsonEMIS, jsonPs, matchIndex);
+}
+
+
+function sortResourcesByReferenceAndCode(jsonEMIS, jsonPs, matchIndex){
+
+	if (matchIndex === undefined) {
+		matchIndex = 0;
+	}
+
+				console.log("ADONAI" + jsonEMIS.length + "   "+ jsonPs.length);
+
+				console.log("ADONAI" + jsonEMIS.length + "   "+ jsonPs.length)
+
+
+	for (var y = matchIndex; y < jsonEMIS.length; y++) {
+
+		for (var x = matchIndex; x < jsonPs.length; x++) {
+			if(jsonEMIS[y].resource.code.coding[0].code === jsonPs[x].resource.code.coding[0].code && 
+				jsonEMIS[y].resource.encounter.reference === jsonPs[x].resource.encounter.reference
+				){
+				console.log("ADONAI")
+				let oldPositionPs = jsonPs[x] ;
+				let newPositionPs = jsonPs[matchIndex];
+				jsonPs[x] = newPositionPs;
+				jsonPs[matchIndex] = oldPositionPs; 
+
+				let oldPositionEmis = jsonEMIS[y] ;
+				let newPositionEmis = jsonEMIS[matchIndex];
+				jsonEMIS[y] = newPositionEmis;
+				jsonEMIS[matchIndex] = oldPositionEmis; 
+				matchIndex++;
+			}
+		}
+	}
+	sortResourcesByReference(jsonEMIS, jsonPs, matchIndex);
+}
+
+
+
+function sortResourcesByReference(jsonEMIS, jsonPs, matchIndex){
+
+	if (matchIndex === undefined) {
+		matchIndex = 0;
+	}
+
+
+
+	for (var y = matchIndex; y < jsonEMIS.length; y++) {
+
+		for (var x = matchIndex; x < jsonPs.length; x++) {
+			if( ( 'encounter' in  jsonEMIS[y].resource) && ('encounter' in  jsonPs[x].resource) &&
+				jsonEMIS[y].resource.encounter.reference === jsonPs[x].resource.encounter.reference
+				){
+				console.log("ADONAI")
 				let oldPositionPs = jsonPs[x] ;
 				let newPositionPs = jsonPs[matchIndex];
 				jsonPs[x] = newPositionPs;
