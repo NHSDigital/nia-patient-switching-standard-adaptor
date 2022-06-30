@@ -1816,7 +1816,7 @@
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         }
       },
-      "reasonCode": [ {
+      "code": {
         "coding": [ {
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -1832,7 +1832,7 @@
           "code": "282654014",
           "display": "Review of medication"
         } ]
-      } ]
+      }
     }
   }, {
     "resource": {
@@ -1860,7 +1860,7 @@
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         }
       },
-      "reasonCode": [ {
+      "code": {
         "coding": [ {
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -1876,7 +1876,7 @@
           "code": "282654014",
           "display": "Review of medication"
         } ]
-      } ]
+      }
     }
   }, {
     "resource": {

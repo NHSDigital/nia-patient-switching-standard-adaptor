@@ -1886,7 +1886,7 @@
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         }
       },
-      "reasonCode": [ {
+      "code": {
         "coding": [ {
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -1899,7 +1899,7 @@
           "code": "195967001",
           "display": "Asthma"
         } ]
-      } ]
+      }
     }
   }, {
     "resource": {
@@ -1927,13 +1927,13 @@
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         }
       },
-      "reasonCode": [ {
+      "code": {
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "247221000000101",
           "display": "In-house podiatry follow-up appointment"
         } ]
-      } ],
+      },
       "note": [ {
         "text": "This is some text 30"
       } ]
