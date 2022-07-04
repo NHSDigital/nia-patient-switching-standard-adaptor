@@ -166,7 +166,7 @@ public class E2EMappingIT {
         sendInboundMessageToQueue("/e2e-mapping/input-xml/" + inputFileName + ".xml");
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         // verify generated bundle resource
         verifyBundle("/e2e-mapping/output-json/" + inputFileName + "-output.json");
@@ -209,7 +209,7 @@ public class E2EMappingIT {
         return objectMapper.writeValueAsString(inboundMessage);
     }
 
-    private boolean isEhrExtractTranslated() {
+    private boolean isEhrMigrationCompleted() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
         return MIGRATION_COMPLETED.equals(migrationStatusLog.getMigrationStatus());
     }
