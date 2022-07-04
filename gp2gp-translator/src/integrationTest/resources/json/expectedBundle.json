@@ -2197,7 +2197,7 @@
           "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
         }
       },
-      "reasonCode": [ {
+      "code": {
         "coding": [ {
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2214,7 +2214,7 @@
           "display": "Review of medication"
         } ],
         "text": "Medication review"
-      } ]
+      }
     }
   }, {
     "resource": {
@@ -2242,7 +2242,7 @@
           "reference": "Practitioner/8D1610C2-5E48-4ED5-882B-5A4A172AFA35"
         }
       },
-      "reasonCode": [ {
+      "code": {
         "coding": [ {
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2255,7 +2255,7 @@
           "code": "414545008",
           "display": "Ischaemic heart disease"
         } ]
-      } ],
+      },
       "note": [ {
         "text": "Added from a problem within a consultation"
       } ]
@@ -2286,7 +2286,7 @@
           "reference": "Practitioner/8D1610C2-5E48-4ED5-882B-5A4A172AFA35"
         }
       },
-      "reasonCode": [ {
+      "code": {
         "coding": [ {
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2299,7 +2299,7 @@
           "code": "414545008",
           "display": "Ischaemic heart disease"
         } ]
-      } ],
+      },
       "note": [ {
         "text": "Added from a problem within a consultation"
       } ]
