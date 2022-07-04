@@ -85,6 +85,7 @@ public class COPCMessageHandler {
             // merge and uncompress large EHR message
             if (inboundMessageMergingService.canMergeCompleteBundle(conversationId)) {
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
+
             }
         } catch (ParseException | InlineAttachmentProcessingException | ValidationException
             | SAXException | ExternalAttachmentProcessingException e) {
@@ -114,7 +115,7 @@ public class COPCMessageHandler {
         if (currentAttachmentLog.getParentMid() == null) {
             // it could also be an index file folowing design changes, check to see if it has any child attachments before returning
             var childFragments = conversationAttachmentLogs.stream()
-                .filter(log -> !(log.getParentMid() == null) && log.getParentMid().equals(indexMidReference))
+                .filter(log -> (log.getParentMid() != null) && log.getParentMid().equals(indexMidReference))
                 .toList();
 
             // if there are no child records then we can return
@@ -129,7 +130,7 @@ public class COPCMessageHandler {
         PatientAttachmentLog finalCurrentAttachmentLog = currentAttachmentLog;
         var attachmentLogFragments = conversationAttachmentLogs.stream()
             .sorted(Comparator.comparingInt(PatientAttachmentLog::getOrderNum))
-            .filter(log -> !(log.getParentMid() == null) && log.getParentMid().equals(finalCurrentAttachmentLog.getParentMid()))
+            .filter(log -> (log.getParentMid() != null) && log.getParentMid().equals(finalCurrentAttachmentLog.getParentMid()))
             .toList();
 
         var parentLogMessageId = attachmentLogFragments.size() == 1
@@ -138,7 +139,7 @@ public class COPCMessageHandler {
 
         attachmentLogFragments = conversationAttachmentLogs.stream()
             .sorted(Comparator.comparingInt(PatientAttachmentLog::getOrderNum))
-            .filter(log -> !(log.getParentMid() == null) && log.getParentMid().equals(parentLogMessageId))
+            .filter(log -> (log.getParentMid() != null) && log.getParentMid().equals(parentLogMessageId))
             .toList();
 
         var allFragmentsHaveUploaded = attachmentLogFragments.stream()
@@ -188,7 +189,7 @@ public class COPCMessageHandler {
                 + "OriginalBase64=" + largeFileLog.getBase64().toString() + " "
                 + "Length=" + largeFileLog.getLengthNum();
 
-        List<InboundMessage.Attachment> attachmentList = Arrays.asList(
+        return Arrays.asList(
             InboundMessage.Attachment.builder()
                 .payload(payload)
                 .isBase64(largeFileLog
@@ -198,8 +199,6 @@ public class COPCMessageHandler {
                 .description(fileDescription)
                 .build()
         );
-
-        return attachmentList;
     }
 
     private Document getEbXmlDocument(InboundMessage inboundMessage) throws SAXException {
@@ -210,7 +209,6 @@ public class COPCMessageHandler {
         Document ebXmlDocument, int patientId) throws ValidationException, InlineAttachmentProcessingException {
         String fragmentMid = getFragmentMidId(ebXmlDocument);
         String fileName = getFileNameForFragment(inboundMessage, payload);
-
 
         PatientAttachmentLog fragmentAttachmentLog
             = buildFragmentAttachmentLog(fragmentMid, fileName, inboundMessage.getAttachments().get(0).getContentType(), patientId);
@@ -249,7 +247,7 @@ public class COPCMessageHandler {
         // confirm filename in payload on future examples
         if (!inboundMessage.getAttachments().get(0).getDescription().isEmpty()
             && inboundMessage.getAttachments().get(0).getDescription().contains("Filename")) {
-            return xmlParseUtilService.parseFragmentFilename(inboundMessage.getAttachments().get(0).getDescription());
+            return XmlParseUtilService.parseFragmentFilename(inboundMessage.getAttachments().get(0).getDescription());
         } else {
             return retrieveFileNameFromPayload(payload);
         }
@@ -302,11 +300,11 @@ public class COPCMessageHandler {
 
                 // upload the file
                 attachmentHandlerService.storeAttachmentWithoutProcessing(
-                    xmlParseUtilService.parseFragmentFilename(descriptionString),
+                    XmlParseUtilService.parseFragmentFilename(descriptionString),
                     message.getAttachments().get(0).getPayload(),
                     conversationId,
                     message.getAttachments().get(0).getContentType(),
-                    xmlParseUtilService.parseFileLength(descriptionString)
+                    XmlParseUtilService.parseFileLength(descriptionString)
                 );
                 fileUpload = true;
             } else {
@@ -348,10 +346,10 @@ public class COPCMessageHandler {
     private void updateFragmentLog(PatientAttachmentLog childLog, PatientAttachmentLog parentLog, String descriptionString,
                                    int orderNum, Boolean isLargeAttachment) throws ParseException {
         childLog.setParentMid(parentLog.getMid());
-        childLog.setCompressed(xmlParseUtilService.parseCompressed(descriptionString));
+        childLog.setCompressed(XmlParseUtilService.parseCompressed(descriptionString));
         childLog.setLargeAttachment(isLargeAttachment);
         childLog.setSkeleton(parentLog.getSkeleton());
-        childLog.setBase64(xmlParseUtilService.parseBase64(descriptionString));
+        childLog.setBase64(XmlParseUtilService.parseBase64(descriptionString));
         childLog.setOrderNum(orderNum);
     }
 
@@ -360,13 +358,13 @@ public class COPCMessageHandler {
 
         return PatientAttachmentLog.builder()
             .mid(mid)
-            .filename(xmlParseUtilService.parseFragmentFilename(description))
+            .filename(XmlParseUtilService.parseFragmentFilename(description))
             .parentMid(parentMid)
             .patientMigrationReqId(patientId)
-            .contentType(xmlParseUtilService.parseContentType(description))
-            .compressed(xmlParseUtilService.parseCompressed(description))
+            .contentType(XmlParseUtilService.parseContentType(description))
+            .compressed(XmlParseUtilService.parseCompressed(description))
             .largeAttachment(isLargeAttachment)
-            .base64(xmlParseUtilService.parseBase64(description))
+            .base64(XmlParseUtilService.parseBase64(description))
             .skeleton(false)
             .uploaded(uploaded)
             .orderNum(attachmentOrder)

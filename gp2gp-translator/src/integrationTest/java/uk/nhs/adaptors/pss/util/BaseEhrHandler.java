@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.fail;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
 import java.io.PrintWriter;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.core.JmsTemplate;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
@@ -38,13 +40,20 @@ public abstract class BaseEhrHandler {
 
     private List<String> ignoredJsonPaths;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
-    private static final String LOSING_ODS_CODE = "D5445";
-    private static final String WINNING_ODS_CODE = "ABC";
 
+    @Getter
     protected static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
+
+    @Getter
     protected static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
 
+    @Getter @Setter
+    private String losingODSCode = "D5445";
+    @Getter @Setter
+    private String winingODSCode = "ABC";
+    @Getter @Setter
     private String patientNhsNumber;
+    @Getter @Setter
     private String conversationId;
 
     @Autowired
@@ -67,14 +76,19 @@ public abstract class BaseEhrHandler {
         startPatientMigrationJourney();
     }
 
-    private void startPatientMigrationJourney() {
-        patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
+    protected void startPatientMigrationJourney() {
+        patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, losingODSCode, winingODSCode);
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId);
     }
 
     protected boolean isEhrExtractTranslated() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
         return EHR_EXTRACT_TRANSLATED.equals(migrationStatusLog.getMigrationStatus());
+    }
+
+    protected boolean isEhrMigrationCompleted() {
+        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
+        return MIGRATION_COMPLETED.equals(migrationStatusLog.getMigrationStatus());
     }
 
     protected void verifyBundle(String path) throws JSONException {
@@ -111,7 +125,7 @@ public abstract class BaseEhrHandler {
             new CustomComparator(JSONCompareMode.STRICT, customizations));
     }
 
-    private String generatePatientNhsNumber() {
+    protected String generatePatientNhsNumber() {
         return RandomStringUtils.randomNumeric(NHS_NUMBER_MIN_MAX_LENGTH, NHS_NUMBER_MIN_MAX_LENGTH);
     }
 
@@ -119,7 +133,7 @@ public abstract class BaseEhrHandler {
         this.ignoredJsonPaths = ignoredJsonPaths;
     }
 
-    private String generateConversationId() {
+    protected String generateConversationId() {
         return UUID.randomUUID().toString();
     }
 }
