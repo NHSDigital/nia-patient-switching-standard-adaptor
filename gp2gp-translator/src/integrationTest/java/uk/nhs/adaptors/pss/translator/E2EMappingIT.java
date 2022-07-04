@@ -5,7 +5,6 @@ import static org.awaitility.Awaitility.await;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
@@ -42,11 +41,12 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class E2EMappingIT {
+public class E2EMappingIT extends BaseEhrHandler {
 
     private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
@@ -209,12 +209,7 @@ public class E2EMappingIT {
         return objectMapper.writeValueAsString(inboundMessage);
     }
 
-    private boolean isEhrMigrationCompleted() {
-        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        return MIGRATION_COMPLETED.equals(migrationStatusLog.getMigrationStatus());
-    }
-
-    private void verifyBundle(String path) throws JSONException {
+    protected void verifyBundle(String path) throws JSONException {
         var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         var expectedBundle = readResourceAsString(path).replaceAll(nhsNumberToBeReplaced, patientNhsNumber);
         var odsCodeToBeReplaced = getOdsToBeReplaced(expectedBundle);
