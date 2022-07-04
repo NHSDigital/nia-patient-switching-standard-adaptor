@@ -48,7 +48,6 @@ public class E2EMappingIT extends BaseEhrHandler {
     private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
-    private static final String CONVERSATION_ID_PLACEHOLDER = "{{getConversationId()}}";
     //these are programming language special characters, not to be confused with line endings
     private static final String SPECIAL_CHARS = "\\\\n|\\\\t|\\\\b|\\\\r";
 
@@ -74,7 +73,7 @@ public class E2EMappingIT extends BaseEhrHandler {
     public void setUp() {
         setPatientNhsNumber(generatePatientNhsNumber());
         setConversationId(generateConversationId());
-        setConversationId("B83002");
+        setLosingODSCode("B83002");
         setWiningODSCode("C81007");
         startPatientMigrationJourney();
     }

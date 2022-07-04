@@ -41,7 +41,10 @@ public abstract class BaseEhrHandler {
     private List<String> ignoredJsonPaths;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
 
+    @Getter
     protected static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
+
+    @Getter
     protected static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
 
     @Getter @Setter
