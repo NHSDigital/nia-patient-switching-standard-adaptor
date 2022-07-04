@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 public class AttachmentReferenceUpdaterService {
 
     private final StorageManagerService storageManagerService;
-    private XmlParseUtilService xmlParseUtilService;
 
     public String updateReferenceToAttachment(List<InboundMessage.Attachment> attachments, String conversationId, String payloadStr)
             throws ValidationException, AttachmentNotFoundException, InlineAttachmentProcessingException {
@@ -39,7 +38,7 @@ public class AttachmentReferenceUpdaterService {
             for (InboundMessage.Attachment attachment : attachments) {
 
                 try {
-                    if (!xmlParseUtilService.parseIsSkeleton(attachment.getDescription())) {
+                    if (!XmlParseUtilService.parseIsSkeleton(attachment.getDescription())) {
                         InlineAttachment inlineAttachment = new InlineAttachment(attachment);
                         String filename = inlineAttachment.getOriginalFilename();
 
