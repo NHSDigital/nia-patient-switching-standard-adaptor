@@ -30,4 +30,4 @@ then
 fi
 
 databaseUri="postgresql://${PS_DB_OWNER_NAME}:${POSTGRES_PASSWORD}@${PS_DB_HOST}:${PS_DB_PORT}/${dbName}"
-psql ${databaseUri} -c "\copy ${snomedCtSchema}.immunization_codes (conceptid, description, safetycode) FROM '${basedir}/snomed_immunization_codes.csv' DELIMITER ',' CSV HEADER QUOTE '\"'"
+psql ${databaseUri} -c "\copy ${snomedCtSchema}.immunization_codes (conceptid, description, safetycode) FROM '${basedir}/$1' DELIMITER ',' CSV HEADER QUOTE '\"'"
