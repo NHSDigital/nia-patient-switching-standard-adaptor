@@ -14,6 +14,7 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -81,14 +82,14 @@ public class MhsQueueMessageHandlerTest {
 
     @Test
     public void handleEhrExtractMessageWithoutErrorsShouldReturnTrue()
-            throws
-            JsonProcessingException,
-            JAXBException,
-            InlineAttachmentProcessingException,
-            BundleMappingException,
-            AttachmentNotFoundException,
-            ParseException,
-            SAXException {
+        throws
+        JsonProcessingException,
+        JAXBException,
+        InlineAttachmentProcessingException,
+        BundleMappingException,
+        AttachmentNotFoundException,
+        ParseException,
+        SAXException, TransformerException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
@@ -103,14 +104,14 @@ public class MhsQueueMessageHandlerTest {
 
     @Test
     public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldReturnFalse()
-            throws
-            JAXBException,
-            JsonProcessingException,
-            InlineAttachmentProcessingException,
-            BundleMappingException,
-            AttachmentNotFoundException,
-            ParseException,
-            SAXException {
+        throws
+        JAXBException,
+        JsonProcessingException,
+        InlineAttachmentProcessingException,
+        BundleMappingException,
+        AttachmentNotFoundException,
+        ParseException,
+        SAXException, TransformerException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);

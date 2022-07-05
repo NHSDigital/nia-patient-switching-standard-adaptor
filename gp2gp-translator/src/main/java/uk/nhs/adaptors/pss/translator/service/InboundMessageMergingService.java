@@ -1,10 +1,10 @@
 package uk.nhs.adaptors.pss.translator.service;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -34,8 +34,6 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
-import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 @Slf4j
 @Service
@@ -46,13 +44,13 @@ public class InboundMessageMergingService {
     private final AttachmentHandlerService attachmentHandlerService;
     private final AttachmentReferenceUpdaterService attachmentReferenceUpdaterService;
     private final MigrationStatusLogService migrationStatusLogService;
-    private final XmlParseUtilService xmlParseUtilService;
     private final ObjectMapper objectMapper;
-    private final XPathService xPathService;
     private final FhirParser fhirParser;
     private final BundleMapperService bundleMapperService;
     private final PatientMigrationRequestDao migrationRequestDao;
     private final NackAckPreparationService nackAckPreparationService;
+    private final SkeletonProcessingService skeletonProcessingService;
+
     private static final String CONVERSATION_ID_HAS_NOT_BEEN_GIVEN = "Conversation Id has not been given";
 
     public boolean canMergeCompleteBundle(String conversationId) throws ValidationException {
@@ -63,45 +61,6 @@ public class InboundMessageMergingService {
 
         var undeletedLogs = getUndeletedLogsForConversation(conversationId);
         return undeletedLogs.stream().allMatch(log -> log.getUploaded().equals(true));
-    }
-
-    private void findAndReplaceSkeleton(PatientAttachmentLog skeletonLog, InboundMessage inboundMessage, String conversationId)
-            throws SAXException, TransformerException {
-        // merge skeleton message into original payload
-
-        var skeletonFileAsString = new String(attachmentHandlerService.getAttachment(
-            skeletonLog.getFilename(), conversationId), StandardCharsets.UTF_8);
-
-        // get ebxml references to find document id from skeleton message
-        List<EbxmlReference> attachmentReferenceDescription = xmlParseUtilService.getEbxmlAttachmentsData(inboundMessage);
-        var ebxmlSkeletonReference = attachmentReferenceDescription
-                .stream()
-                .filter(reference -> reference.getHref().contains(skeletonLog.getMid()))
-                .findFirst();
-
-        if (ebxmlSkeletonReference.isEmpty()) {
-            return;
-        }
-
-        var skeletonDocumentId = ebxmlSkeletonReference.get().getDocumentId();
-
-        var payloadXml = xPathService.parseDocumentFromXml(inboundMessage.getPayload());
-
-        var valueNodes = xPathService.getNodes(payloadXml, "//*/@*[.='" + skeletonDocumentId + "']/parent::*/parent::*");
-
-        var payloadNodeToReplace = valueNodes.item(0);
-        var payloadNodeToReplaceParent = payloadNodeToReplace.getParentNode();
-
-        var skeletonExtractDocument = xPathService.parseDocumentFromXml(skeletonFileAsString);
-        var skeletonExtractNodes = skeletonExtractDocument.getElementsByTagName("*");
-        var primarySkeletonNode = skeletonExtractNodes.item(0);
-
-        // using xPathServices breaks the xml document pointer, reset it
-        payloadXml = payloadNodeToReplaceParent.getOwnerDocument();
-        var importedToPayloadNode = payloadXml.importNode(primarySkeletonNode, true);
-        payloadNodeToReplaceParent.replaceChild(importedToPayloadNode, payloadNodeToReplace);
-        inboundMessage.setPayload(xmlParseUtilService.getStringFromDocument(payloadXml));
-
     }
 
     public void mergeAndBundleMessage(String conversationId) throws JAXBException, JsonProcessingException {
@@ -115,19 +74,20 @@ public class InboundMessageMergingService {
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
 
         try {
-
             var attachmentLogs = getUndeletedLogsForConversation(conversationId);
 
             Optional<PatientAttachmentLog> skeletonLog = attachmentLogs.stream()
                 .filter(PatientAttachmentLog::getSkeleton).findFirst();
 
             if (skeletonLog.isPresent()) {
-                findAndReplaceSkeleton(skeletonLog.get(), inboundMessage, conversationId);
+                inboundMessage = skeletonProcessingService
+                    .updateInboundMessageWithSkeleton(skeletonLog.get(), inboundMessage, conversationId);
             }
 
             // process attachments
             var bypassPayloadLoadingArray = new String[attachmentLogs.size()];
             Arrays.fill(bypassPayloadLoadingArray, "");
+
             var messageAttachments = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
                     attachmentLogs,
                     Arrays.asList(bypassPayloadLoadingArray),
@@ -143,7 +103,6 @@ public class InboundMessageMergingService {
             inboundMessage.setPayload(newPayloadStr);
             payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
 
-
             var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
             migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
                     conversationId,
@@ -151,6 +110,7 @@ public class InboundMessageMergingService {
                     objectMapper.writeValueAsString(inboundMessage),
                     EHR_EXTRACT_TRANSLATED
             );
+            migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId);
 
         } catch (InlineAttachmentProcessingException | SAXException | TransformerException
                  | BundleMappingException | JAXBException | AttachmentNotFoundException | JsonProcessingException e) {
