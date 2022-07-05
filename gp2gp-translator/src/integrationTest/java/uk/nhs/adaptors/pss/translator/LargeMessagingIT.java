@@ -47,7 +47,7 @@ public final class LargeMessagingIT extends BaseEhrHandler {
     public void handleUk06WithCidAttachment() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_1/uk06.json");
 
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         verifyBundle("/json/LargeMessage/expectedBundleScenario1.json");
     }
@@ -56,7 +56,7 @@ public final class LargeMessagingIT extends BaseEhrHandler {
     public void handleUk06WithCompressedCidAttachmement() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_2/uk06.json");
 
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         verifyBundle("/json/LargeMessage/expectedBundleScenario2.json");
     }
@@ -69,22 +69,43 @@ public final class LargeMessagingIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
     }
 
     @Test
-    public void handleUk06WithSkeleton() throws JSONException {
+    public void handleUk06WithSkeletonAsMid() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_5/uk06.json");
 
         await().until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_5/copc.json");
 
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         verifyBundle("/json/LargeMessage/expectedBundleScenario5.json");
+    }
+
+    @Test
+    public void handleUk06WithSkeletonAsEntireRCMRInEHR() throws JSONException {
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_10/uk06.json");
+        await().until(this::isEhrMigrationCompleted);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario10.json");
+    }
+
+    @Test
+    public void handleUk06WithSkeletonAsEntireRCMRInCOPC() throws JSONException {
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_11/uk06.json");
+
+        await().until(this::hasContinueMessageBeenReceived);
+
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_11/copc.json");
+
+        await().until(this::isEhrMigrationCompleted);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario11.json");
     }
 
     @ParameterizedTest(name = "{0}")
@@ -98,7 +119,7 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         sendInboundMessageToQueue(scenarioDirectory + "copc0.json");
         sendInboundMessageToQueue(scenarioDirectory + "copc1.json");
 
-        await().until(this::isEhrExtractTranslated);
+        await().until(this::isEhrMigrationCompleted);
 
         verifyBundle(expectedBundleName);
     }
