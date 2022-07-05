@@ -65,7 +65,7 @@ public class MedicationStatementMapperTest {
         assertThat(dateTime.getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("20060428").getValue());
 
         var prescribingAgency = medicationStatement1
-            .getExtensionsByUrl("https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1");
+            .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1");
         assertThat(prescribingAgency.size()).isEqualTo(1);
         assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
         assertThat(medicationStatement1.getStatus()).isEqualTo(ACTIVE);
@@ -95,7 +95,7 @@ public class MedicationStatementMapperTest {
         assertThat(lastIssuedDate.size()).isEqualTo(0);
 
         var prescribingAgency = medicationStatement1
-            .getExtensionsByUrl("https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1");
+            .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1");
         assertThat(prescribingAgency.size()).isEqualTo(1);
         assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
         assertThat(medicationStatement1.getStatus()).isEqualTo(ACTIVE);
