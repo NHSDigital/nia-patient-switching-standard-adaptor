@@ -74,7 +74,7 @@ public class ProcedureRequestMapperTest {
             DateFormatUtil.parseToDateTimeType(planStatement.getEffectiveTime().getCenter().getValue()).getValue());
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
             DateFormatUtil.parseToDateTimeType(planStatement.getAvailabilityTime().getValue()).getValue());
-        assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
+        assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getRequester().getAgent().getReference())
             .isEqualTo("Practitioner/8D1610C2-5E48-4ED5-882B-5A4A172AFA35");
@@ -116,7 +116,7 @@ public class ProcedureRequestMapperTest {
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
-        assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
+        assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getRequester().getAgent().getReference())
             .isEqualTo("Practitioner/9C1610C2-5E48-4ED5-882B-5A4A172AFA35");
@@ -133,7 +133,7 @@ public class ProcedureRequestMapperTest {
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
-        assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
+        assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getRequester().getAgent().getReference())
             .isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
@@ -153,7 +153,7 @@ public class ProcedureRequestMapperTest {
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
             DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue()).getValue());
-        assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
+        assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
@@ -170,7 +170,7 @@ public class ProcedureRequestMapperTest {
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
             DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue()).getValue());
-        assertThat(procedureRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(
+        assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
