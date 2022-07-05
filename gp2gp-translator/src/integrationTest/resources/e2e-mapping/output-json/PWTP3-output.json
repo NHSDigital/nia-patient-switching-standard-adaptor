@@ -440,9 +440,9 @@
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         }
       },
-      "reasonCode": [ {
+      "code": {
         "text": "Fissure sealant required"
-      } ]
+      }
     }
   }, {
     "resource": {
@@ -467,9 +467,9 @@
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         }
       },
-      "reasonCode": [ {
+      "code": {
         "text": "Dental recall - high caries in mother and siblings"
-      } ],
+      },
       "note": [ {
         "text": "More blah blah"
       } ]

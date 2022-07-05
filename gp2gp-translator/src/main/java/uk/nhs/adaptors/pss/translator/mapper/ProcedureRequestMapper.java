@@ -45,9 +45,15 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
             .toList();
     }
 
-    public ProcedureRequest mapToProcedureRequest(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04PlanStatement planStatement,
-        Patient patient, List<Encounter> encounters, String practiseCode) {
+    public ProcedureRequest mapToProcedureRequest(
+            RCMRMT030101UK04EhrExtract ehrExtract,
+            RCMRMT030101UK04EhrComposition ehrComposition,
+            RCMRMT030101UK04PlanStatement planStatement,
+            Patient patient,
+            List<Encounter> encounters,
+            String practiseCode
+    ) {
+
         var id = planStatement.getId().getRoot();
         var procedureRequest = new ProcedureRequest();
         procedureRequest
@@ -60,7 +66,7 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
             .setId(id);
         procedureRequest.getIdentifier().add(buildIdentifier(id, practiseCode));
         procedureRequest.getNote().add(getNote(planStatement.getText()));
-        procedureRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode()));
+        procedureRequest.setCode(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode()));
         procedureRequest.getRequester().setAgent(ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(),
             ehrComposition));
 

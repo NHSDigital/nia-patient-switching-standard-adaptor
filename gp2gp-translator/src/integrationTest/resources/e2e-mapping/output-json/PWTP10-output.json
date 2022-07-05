@@ -2218,7 +2218,7 @@
           "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
         }
       },
-      "reasonCode": [ {
+      "code": {
         "coding": [ {
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2231,7 +2231,7 @@
           "code": "78975002",
           "display": "Malignant essential hypertension"
         } ]
-      } ]
+      }
     }
   }, {
     "resource": {
@@ -2259,13 +2259,13 @@
           "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
         }
       },
-      "reasonCode": [ {
+      "code": {
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "599341000000105",
           "display": "Hypertensive disease NOS"
         } ]
-      } ],
+      },
       "note": [ {
         "text": "This is some diary text"
       } ]
