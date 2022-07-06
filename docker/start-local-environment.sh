@@ -23,6 +23,10 @@ cd ../db-connector
 
 #cd ../db-connector
 #./gradlew update
+
+#cd ../snomed-immunization-loader
+#./load_immunization_codes.sh
+
 #####
 
 cd ../docker
