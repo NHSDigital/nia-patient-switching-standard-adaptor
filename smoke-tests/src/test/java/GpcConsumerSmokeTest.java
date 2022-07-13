@@ -19,20 +19,21 @@ import util.EnvVarsUtil;
 public class GpcConsumerSmokeTest {
 
     private final static String HEALTHCHECK_ENDPOINT = "/healthcheck";
-    private final static String GPC_URL_ENV_VARIABLE = "GP2GP_GPC_GET_URL";
-    private final static String GPC_URL_DEFAULT_VALUE = "http://localhost:8090/@ODS_CODE@/STU3/1/gpconnect";
+    private final static String SERVER_DEFAULT_HOST = "http://localhost";
+    private final static String SERVER_PORT_DEFAULT_VALUE = "8081";
+    private final static String GPC_PORT_ENV_VARIABLE = "GPC_FACADE_SERVER_PORT";
 
-    private static String url;
     private static String invalidResponseMessage;
+    private static String serverPort;
 
     @BeforeAll
     public static void setup() {
         Map<String, String> envVars = System.getenv();
 
-        url = EnvVarsUtil.replaceContainerUriAndExtractHost(
-            envVars.getOrDefault(GPC_URL_ENV_VARIABLE, GPC_URL_DEFAULT_VALUE), "http", "gpcc");
+        Optional<String> serverPortOptional = Optional.ofNullable(envVars.get(GPC_PORT_ENV_VARIABLE));
+        serverPort = serverPortOptional.orElse(SERVER_PORT_DEFAULT_VALUE);
 
-        invalidResponseMessage = "Invalid response from GPC Consumer at " + url;
+        invalidResponseMessage = "Invalid response from GP2GP adaptor at " + SERVER_DEFAULT_HOST + ":" + serverPort;
     }
 
     @Test
@@ -42,7 +43,7 @@ public class GpcConsumerSmokeTest {
 
         try (final CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet httpGet = new HttpGet(
-                    url + HEALTHCHECK_ENDPOINT
+                SERVER_DEFAULT_HOST + ":" + serverPort + HEALTHCHECK_ENDPOINT
             );
 
             responseBody = httpClient.execute(httpGet, response -> {
@@ -55,7 +56,7 @@ public class GpcConsumerSmokeTest {
                 }
             });
         } catch (IOException e) {
-            fail("Unable to connect to GPC Consumer at " + url);
+            fail("Unable to connect to GPC Consumer at " + SERVER_DEFAULT_HOST + ":" + serverPort + HEALTHCHECK_ENDPOINT);
         }
 
         assertThat(responseBody.isPresent())

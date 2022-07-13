@@ -17,8 +17,8 @@ import org.junit.jupiter.api.Test;
 public class Gp2GpAdaptorSmokeTest {
 
     private final static String SERVER_DEFAULT_HOST = "http://localhost";
-    private final static String SERVER_PORT_ENV_VARIABLE = "GP2GP_SERVER_PORT";
-    private final static String SERVER_PORT_DEFAULT_VALUE = "8080";
+    private final static String SERVER_PORT_ENV_VARIABLE = "GP2GP_TRANSLATOR_SERVER_PORT";
+    private final static String SERVER_PORT_DEFAULT_VALUE = "8085";
     private final static String HEALTHCHECK_ENDPOINT = "/healthcheck";
 
     private static String invalidResponseMessage;

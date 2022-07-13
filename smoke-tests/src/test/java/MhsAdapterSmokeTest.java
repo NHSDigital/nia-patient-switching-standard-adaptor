@@ -18,11 +18,11 @@ import org.junit.jupiter.api.Test;
 import util.EnvVarsUtil;
 
 public class MhsAdapterSmokeTest {
-    private final static String HEALTHCHECK_ENDPOINT = "/healthcheck";
+    private final static String HEALTHCHECK_ENDPOINT = "healthcheck";
 
-    private static final String URI_ENV_VARIABLE = "GP2GP_MHS_OUTBOUND_URL";
-    private static final String URI_DEFAULT_VALUE = "http://localhost:8081/mock-mhs-endpoint";
-    private static final String DOCKER_CONTAINER_NAME = "mock-mhs-adaptor";
+    private static final String URI_ENV_VARIABLE = "MHS_BASE_URL";
+    private static final String URI_DEFAULT_VALUE = "http://localhost:8080/";
+    private static final String DOCKER_CONTAINER_NAME = "mhs-adaptor-mock";
 
     private static String uri;
 
