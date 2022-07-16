@@ -2229,34 +2229,6 @@
   }, {
     "resource": {
       "resourceType": "Observation",
-      "id": "1E1EEC52-5D1E-40DE-8790-23DE3D0B1491",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "1E1EEC52-5D1E-40DE-8790-23DE3D0B1491"
-      } ],
-      "status": "final",
-      "code": {
-        "text": "Adverse reaction to Paracetamol And Dihydrocodeine"
-      },
-      "subject": {
-        "reference": "Patient/20feae14-45f4-4e7b-a0a0-b0d983dda84c"
-      },
-      "context": {
-        "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
-      },
-      "effectiveDateTime": "2010-06-30T04:59:00+00:00",
-      "issued": "2010-06-30T04:48:04.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ],
-      "comment": "Other Language text attached to adverse reaction: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
       "id": "C93659E1-1107-441C-BE25-C5EF4B7831D1",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]

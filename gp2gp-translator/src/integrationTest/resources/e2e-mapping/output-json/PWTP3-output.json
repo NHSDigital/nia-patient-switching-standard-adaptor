@@ -610,34 +610,6 @@
   }, {
     "resource": {
       "resourceType": "Observation",
-      "id": "327D5B8C-16EB-4FB5-AB8D-06704F33C54E",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "327D5B8C-16EB-4FB5-AB8D-06704F33C54E"
-      } ],
-      "status": "final",
-      "code": {
-        "text": "Adverse reactions"
-      },
-      "subject": {
-        "reference": "Patient/56f66fc3-075b-459b-b6c3-53443442c8b9"
-      },
-      "context": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "effectiveDateTime": "2010-01-23T13:27:00+00:00",
-      "issued": "2010-01-23T13:27:34.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ],
-      "comment": "Note - Local Code"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
       "id": "E46391DB-463A-457A-B88D-9249B64FFA1C",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
@@ -704,46 +676,6 @@
       "status": "final",
       "code": {
         "text": "Betel nut chewer"
-      },
-      "subject": {
-        "reference": "Patient/56f66fc3-075b-459b-b6c3-53443442c8b9"
-      },
-      "context": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "effectiveDateTime": "2010-01-23T13:27:00+00:00",
-      "issued": "2010-01-23T13:27:34.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ],
-      "comment": "Note - Local Code"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "1F829A26-F3ED-4E59-866C-E9CE88EFA3C2",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "1F829A26-F3ED-4E59-866C-E9CE88EFA3C2"
-      } ],
-      "status": "final",
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "432677013"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "292534001",
-          "display": "Atropine adverse reaction"
-        } ],
-        "text": "Adverse reaction to atropine"
       },
       "subject": {
         "reference": "Patient/56f66fc3-075b-459b-b6c3-53443442c8b9"

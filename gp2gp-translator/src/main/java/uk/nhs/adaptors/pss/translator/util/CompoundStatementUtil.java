@@ -29,8 +29,10 @@ public class CompoundStatementUtil {
         );
     }
 
-    public static List<RCMRMT030101UK04Component02> extractResourcesFromCompound(RCMRMT030101UK04CompoundStatement compoundStatement,
-        Function<RCMRMT030101UK04Component02, Boolean> checker) {
+    public static List<RCMRMT030101UK04Component02> extractResourcesFromCompound(
+            RCMRMT030101UK04CompoundStatement compoundStatement,
+            Function<RCMRMT030101UK04Component02, Boolean> checker
+    ) {
         return compoundStatement
             .getComponent()
             .stream()
@@ -39,19 +41,25 @@ public class CompoundStatementUtil {
             .toList();
     }
 
-    public static List<?> extractResourcesFromCompound(RCMRMT030101UK04CompoundStatement compoundStatement,
-        Function<RCMRMT030101UK04Component02, Boolean> checker, Function<RCMRMT030101UK04Component02, ?> extractor) {
+    public static List<?> extractResourcesFromCompound(
+            RCMRMT030101UK04CompoundStatement compoundStatement,
+            Function<RCMRMT030101UK04Component02, Boolean> checker,
+            Function<RCMRMT030101UK04Component02, ?> extractor
+    ) {
         return extractResourcesFromCompound(compoundStatement, checker)
             .stream()
             .map(extractor)
             .toList();
     }
 
-    public static List<?> extractResourcesFromCompound(RCMRMT030101UK04CompoundStatement compoundStatement,
-        Function<RCMRMT030101UK04Component02, Boolean> checker, Function<RCMRMT030101UK04Component02, ?> extractor,
-        Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker) {
+    public static List<?> extractResourcesFromCompound(
+            RCMRMT030101UK04CompoundStatement compoundStatement,
+            Function<RCMRMT030101UK04Component02, Boolean> checker,
+            Function<RCMRMT030101UK04Component02, ?> extractor,
+            Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker
+    ) {
 
-        if (compoundStatementChecker.apply(compoundStatement)) {
+        if (Boolean.TRUE.equals(compoundStatementChecker.apply(compoundStatement))) {
             return compoundStatement
                 .getComponent()
                 .stream()
@@ -68,16 +76,28 @@ public class CompoundStatementUtil {
         return Stream.concat(
             Stream.of(component02),
             component02.hasCompoundStatement()
-                ? component02.getCompoundStatement().getComponent().stream().flatMap(CompoundStatementUtil::flatten) : Stream.empty()
+                    ? component02
+                    .getCompoundStatement()
+                    .getComponent()
+                    .stream()
+                    .flatMap(CompoundStatementUtil::flatten)
+                    : Stream.empty()
         );
     }
 
-    private static Stream<RCMRMT030101UK04Component02> flatten(RCMRMT030101UK04Component02 component02,
-        Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker) {
+    private static Stream<RCMRMT030101UK04Component02> flatten(
+            RCMRMT030101UK04Component02 component02,
+            Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker
+    ) {
         return Stream.concat(
             Stream.of(component02),
-            component02.hasCompoundStatement() && compoundStatementChecker.apply(component02.getCompoundStatement())
-                ? component02.getCompoundStatement().getComponent().stream().flatMap(CompoundStatementUtil::flatten) : Stream.empty()
+                component02.hasCompoundStatement() && Boolean.TRUE.equals(compoundStatementChecker.apply(component02.getCompoundStatement()))
+                        ? component02
+                        .getCompoundStatement()
+                        .getComponent()
+                        .stream()
+                        .flatMap(component -> CompoundStatementUtil.flatten(component, compoundStatementChecker))
+                        : Stream.empty()
         );
     }
 }
