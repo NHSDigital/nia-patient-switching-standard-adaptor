@@ -70,7 +70,7 @@ public class ObservationMapperTest {
     @Test
     public void mapObservationWithValidData() {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
-        when(immunizationChecker.isImmunization(any(String.class))).thenReturn(false);
+        when(immunizationChecker.isImmunization(any())).thenReturn(false);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);

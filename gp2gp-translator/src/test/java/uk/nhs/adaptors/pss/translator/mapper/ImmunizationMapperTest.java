@@ -204,7 +204,7 @@ public class ImmunizationMapperTest {
         coding.setDisplay(CODING_DISPLAY);
         codeableConcept.addCoding(coding);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
-        when(immunizationChecker.isImmunization(any(String.class))).thenReturn(true);
+        when(immunizationChecker.isImmunization(any())).thenReturn(true);
     }
 
     private Patient getPatient() {
