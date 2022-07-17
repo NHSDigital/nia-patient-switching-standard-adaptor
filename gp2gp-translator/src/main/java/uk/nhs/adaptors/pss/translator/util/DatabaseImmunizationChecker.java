@@ -17,11 +17,12 @@ public class DatabaseImmunizationChecker implements ImmunizationChecker {
     public boolean isImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
         ImmunizationSnomedCT immunizationCode = null;
 
-        if(!observationStatement.getCode().getTranslation().isEmpty()) {
-            immunizationCode = immunizationSnomedDao.getImmunizationSnomednUsingConceptId(observationStatement.getCode().getTranslation().get(0).getCode());
+        if (!observationStatement.getCode().getTranslation().isEmpty()) {
+            immunizationCode = immunizationSnomedDao
+                    .getImmunizationSnomednUsingConceptId(observationStatement.getCode().getTranslation().get(0).getCode());
         }
 
-        if(immunizationCode == null) {
+        if (immunizationCode == null) {
             immunizationCode = immunizationSnomedDao.getImmunizationSnomednUsingConceptId(observationStatement.getCode().getCode());
         }
 
