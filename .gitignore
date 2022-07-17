@@ -31,3 +31,4 @@ build/
 *.gradle/
 docker/vars.sh
 /fhir-json-comparator/node_modules/
+/.run/
