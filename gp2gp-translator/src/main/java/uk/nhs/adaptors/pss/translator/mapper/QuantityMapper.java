@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -69,6 +70,6 @@ public class QuantityMapper {
 
     private void setQuantityValueAndUnit(Quantity quantity, String value, String unit, List<PQR> translation) {
         setUnit(quantity, unit, translation);
-        quantity.setValue((long) Double.parseDouble(value));
+        quantity.setValue(new BigDecimal(Double.parseDouble(value)));
     }
 }
