@@ -5855,86 +5855,6 @@
     }
   }, {
     "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "C8B1BEAF-FB71-45D1-89DA-298148C00CE1-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "C8B1BEAF-FB71-45D1-89DA-298148C00CE1"
-      },
-      "parent": [ {
-        "reference": "Observation/C8B1BEAF-FB71-45D1-89DA-298148C00CE1"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/4e92bae0-5818-40f7-bc95-a7ddad68cb02"
-      },
-      "context": {
-        "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
-      },
-      "authored": "2011-01-11T15:39:27+00:00",
-      "item": [ {
-        "linkId": "Happy puppet syndrome"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/6418F5A3-C427-4292-ABCF-F53E71B43F15"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/3E1A4EA2-661B-4467-8843-6A6B21DEF14F"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/58E20D47-F007-47F4-811E-992AE160BECC"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/C6D2153A-7EF6-4B1F-8F79-850372BFF67D"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/A77C238E-F630-48C0-B2EA-26F1B126DC1D"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/E8746411-9D21-4A5C-B70B-9D1FF00D3AE4"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/21B95C86-121F-4BC5-A2CD-3E2955F4D604"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/E0DD7160-64CA-48F3-AB00-B21C39D3FB23"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/B141FC3E-4DD2-4412-9655-DF43BBCE290B"
-          }
-        } ]
-      } ]
-    }
-  }, {
-    "resource": {
       "resourceType": "Observation",
       "id": "C8B1BEAF-FB71-45D1-89DA-298148C00CE1",
       "meta": {
@@ -5972,44 +5892,6 @@
       "issued": "2011-01-11T15:39:27.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "12041BEF-DF85-4DAB-9F1C-64DEEA0DCCDE-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "12041BEF-DF85-4DAB-9F1C-64DEEA0DCCDE"
-      },
-      "parent": [ {
-        "reference": "Observation/12041BEF-DF85-4DAB-9F1C-64DEEA0DCCDE"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/4e92bae0-5818-40f7-bc95-a7ddad68cb02"
-      },
-      "context": {
-        "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
-      },
-      "authored": "2011-01-11T15:39:27+00:00",
-      "item": [ {
-        "linkId": "O/E - blood pressure reading"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/5F4ED545-C4C1-4142-A38E-E649C9CB4C84"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/9B14D8D9-5A25-4C5B-A058-6D1145F7757C"
-          }
-        } ]
       } ]
     }
   }, {

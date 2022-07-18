@@ -14698,53 +14698,6 @@
     }
   }, {
     "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "31465FC9-15B2-4391-A5EF-8F70C2154AAF-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "31465FC9-15B2-4391-A5EF-8F70C2154AAF"
-      },
-      "parent": [ {
-        "reference": "Observation/31465FC9-15B2-4391-A5EF-8F70C2154AAF"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/fdd25af0-a6c0-4b1f-827c-fb0c0059d94c"
-      },
-      "authored": "2010-02-09T12:31:51+00:00",
-      "item": [ {
-        "linkId": "(EMISTest) - No Action,Interpretation      Desirable  Borderline  Increased Risk,Total cholesterol     <5.2       5.2-6.5     >6.5   mmol/l,Triglyceride reference range, Fasting 0.5-1.8 mmol/l, Non-fasting usually <4.0 mmol/l"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/A87EAFD1-ECCC-4B5F-BEF9-44490004395F"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/C45E3DA5-D7BC-4FDF-B4E0-6CCECCE60D24"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/3BC7ABC9-ABCB-4C01-A519-35CE664C3543"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/DFF5A615-0B55-45EA-83DF-FD412568C39B"
-          }
-        } ]
-      } ]
-    }
-  }, {
-    "resource": {
       "resourceType": "Observation",
       "id": "31465FC9-15B2-4391-A5EF-8F70C2154AAF",
       "meta": {
@@ -14777,59 +14730,6 @@
       "issued": "2010-02-09T12:31:51.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "FA2DE43F-F401-4BAF-9E61-BD99466F7A6C-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "FA2DE43F-F401-4BAF-9E61-BD99466F7A6C"
-      },
-      "parent": [ {
-        "reference": "Observation/FA2DE43F-F401-4BAF-9E61-BD99466F7A6C"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/fdd25af0-a6c0-4b1f-827c-fb0c0059d94c"
-      },
-      "authored": "2010-02-09T12:31:51+00:00",
-      "item": [ {
-        "linkId": "(EMISTest) - Abnormal - Contact Patient"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/7C8D2445-18AC-4AD0-99FE-02E1715D6319"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/FB74DF0D-BD0B-4FBF-B74C-D984DDACE08D"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/B8BF2173-50D8-4768-B430-A22267D347A5"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/D0BA10F0-49F8-46B0-94B6-FEA2ECF08D97"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/97B336AF-15EA-402D-BE7A-D47D0054A01B"
-          }
-        } ]
       } ]
     }
   }, {
@@ -14872,41 +14772,6 @@
     }
   }, {
     "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "53A0E453-AF2A-4873-B486-F9E898D998DE-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "53A0E453-AF2A-4873-B486-F9E898D998DE"
-      },
-      "parent": [ {
-        "reference": "Observation/53A0E453-AF2A-4873-B486-F9E898D998DE"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/fdd25af0-a6c0-4b1f-827c-fb0c0059d94c"
-      },
-      "authored": "2010-02-09T12:05:16+00:00",
-      "item": [ {
-        "linkId": "Results repeated,Low plasma Folate"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/01EC53CF-38F8-464D-BB6D-84EEF227646C"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/6BAD3CC7-6730-4B3E-9A7F-0EBF01F49FA4"
-          }
-        } ]
-      } ]
-    }
-  }, {
-    "resource": {
       "resourceType": "Observation",
       "id": "53A0E453-AF2A-4873-B486-F9E898D998DE",
       "meta": {
@@ -14927,113 +14792,6 @@
       "issued": "2010-02-09T12:05:16.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "E5A4B9BC-879A-424D-BBC8-54A632843EFC-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "E5A4B9BC-879A-424D-BBC8-54A632843EFC"
-      },
-      "parent": [ {
-        "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/fdd25af0-a6c0-4b1f-827c-fb0c0059d94c"
-      },
-      "authored": "2010-06-24T11:52:01+00:00",
-      "item": [ {
-        "linkId": "(EMISTest) - No Action"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/8FCF859A-ACCB-4BFC-8660-EB058DC16BD6"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/E05FA1CA-28B7-4552-A906-66CD83A0A865"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/DDCD392B-6D1E-47DA-B86E-149F28B7DACA"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/DA7DDDBF-21A5-465E-ABC4-7EFA2212A26F"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/0903F354-CFC9-482C-B7B8-0A96EBDA1C55"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/5DA05D66-A602-49FD-AADD-5B06F7976BE4"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/426878DF-1651-4B18-81E3-59504D594FC6"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/1ED0E1C8-F26A-4B03-8548-B3136CD028FC"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/BF41AED9-EA7C-44AE-A15F-CBBCECCCE911"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/5AC610C0-C650-464B-923C-3876C62D98CA"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/932687E7-1013-4BA8-AF6B-CE2E7E067CEE"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/B6EE8FE1-F006-485A-9872-83A11897B205"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/343FBE3E-0F23-442D-BB6C-16860EEFC08B"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/9ADD8DD1-F9E4-4D4D-90DB-E8EC61211F5A"
-          }
-        } ]
       } ]
     }
   }, {

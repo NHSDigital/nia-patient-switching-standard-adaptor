@@ -50,7 +50,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
     public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
 
-        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+        var mappings = mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllCompoundStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isTemplate)
@@ -58,6 +58,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
                 .map(compoundStatement -> mapTemplate(extract, composition, compoundStatement, patient, encounters, practiseCode))
                 .flatMap(List::stream)
         ).toList();
+        return mappings;
     }
 
     private List<DomainResource> mapTemplate(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
@@ -67,12 +68,12 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
         var parentObservation = createParentObservation(compoundStatement, practiseCode, patient, encounter,
             ehrComposition, ehrExtract);
 
-        var questionnaireResponse = createQuestionnaireResponse(compoundStatement, practiseCode, patient,
-            encounter, parentObservation, ehrComposition, ehrExtract);
-
-        addChildReferencesToQuestionnaireResponse(questionnaireResponse, compoundStatement);
-
-        return List.of(questionnaireResponse, parentObservation);
+//      The following have been disabled as Questionnares have been dropped from the PS Specification. NIAD-2190
+//        var questionnaireResponse = createQuestionnaireResponse(compoundStatement, practiseCode, patient,
+//            encounter, parentObservation, ehrComposition, ehrExtract);
+//        addChildReferencesToQuestionnaireResponse(questionnaireResponse, compoundStatement);
+//        return List.of(questionnaireResponse, parentObservation);
+        return List.of(parentObservation);
     }
 
     private void addChildReferencesToQuestionnaireResponse(QuestionnaireResponse questionnaireResponse,

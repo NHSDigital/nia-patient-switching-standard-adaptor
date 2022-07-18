@@ -2,9 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -61,54 +58,61 @@ public class TemplateMapperTest {
     private TemplateMapper templateMapper;
 
     @Test
+    // Questionnaires have been removed from the PS Specification, test have been modified to make sure
+    // they are not imported into the translation
     public void testMapTemplateWithAllData() {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_template.xml");
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
-        assertThat(mappedResources.size()).isEqualTo(2);
-        var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
-        var parentObservation = (Observation) mappedResources.get(1);
+        assertThat(mappedResources.size()).isEqualTo(1);
+        // var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
+        var parentObservation = (Observation) mappedResources.get(0);
 
-        assertQuestionnaireResponse(questionnaireResponse, ENCOUNTER_ID, "original-text", "20100113151332");
+        // assertQuestionnaireResponse(questionnaireResponse, ENCOUNTER_ID, "original-text", "20100113151332");
         assertParentObservation(parentObservation, ENCOUNTER_ID, "20100113151332", "3707E1F0-9011-11EC-B1E5-0800200C9A66");
 
-        verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromTemplate(any(), anyList());
+        // verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromTemplate(any(), anyList());
     }
 
     @Test
+    // Questionnaires have been removed from the PS Specification, test have been modified to make sure
+    // they are not imported into the translation
     public void testMapTemplateWithFallbackData() {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
 
         var ehrExtract = unmarshallEhrExtractElement("fallback_template.xml");
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
-        assertThat(mappedResources.size()).isEqualTo(2);
-        var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
-        var parentObservation = (Observation) mappedResources.get(1);
+        assertThat(mappedResources.size()).isEqualTo(1);
+//      var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
+        var parentObservation = (Observation) mappedResources.get(0);
 
-        assertQuestionnaireResponse(questionnaireResponse, null, "display-text", "20200101010101");
+//      assertQuestionnaireResponse(questionnaireResponse, null, "display-text", "20200101010101");
         assertParentObservation(parentObservation, null, "20200101010101", "9007E1F0-9011-11EC-B1E5-0800200C9A66");
 
-        assertThat(questionnaireResponse.getItem().size()).isOne();
+        // The assertion below is poor as we manually select 1 item above / removed
+//      assertThat(questionnaireResponse.getItem().size()).isOne();
     }
 
     @Test
+    // Questionnaires have been removed from the PS Specification, test have been modified to make
+    // sure they are not imported into the translation
     public void testMapNestedTemplate() {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
 
         var ehrExtract = unmarshallEhrExtractElement("nested_template.xml");
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
-        assertThat(mappedResources.size()).isEqualTo(2);
-        var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
-        var parentObservation = (Observation) mappedResources.get(1);
+        assertThat(mappedResources.size()).isEqualTo(1);
+        //var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
+        var parentObservation = (Observation) mappedResources.get(0);
 
-        assertQuestionnaireResponse(questionnaireResponse, null, "display-text", "20200101010101");
+        //assertQuestionnaireResponse(questionnaireResponse, null, "display-text", "20200101010101");
         assertParentObservation(parentObservation, null, "20200101010101", "9007E1F0-9011-11EC-B1E5-0800200C9A66");
 
-        verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromTemplate(any(), anyList());
+        // verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromTemplate(any(), anyList());
     }
 
     @Test
