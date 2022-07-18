@@ -3766,44 +3766,6 @@
     }
   }, {
     "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "F25C1328-B6D2-412F-9C56-A8F21182F100-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "F25C1328-B6D2-412F-9C56-A8F21182F100"
-      },
-      "parent": [ {
-        "reference": "Observation/F25C1328-B6D2-412F-9C56-A8F21182F100"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/a4197c4b-e97c-4f02-b19d-82c1f5d3acf9"
-      },
-      "context": {
-        "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
-      },
-      "authored": "2010-02-06T12:44:53+00:00",
-      "item": [ {
-        "linkId": "O/E - blood pressure reading"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/E796DB35-E4EF-4594-8D8D-84BD033457DE"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/11DD4FB9-4EBB-492E-A309-109FCA290493"
-          }
-        } ]
-      } ]
-    }
-  }, {
-    "resource": {
       "resourceType": "Observation",
       "id": "F25C1328-B6D2-412F-9C56-A8F21182F100",
       "meta": {

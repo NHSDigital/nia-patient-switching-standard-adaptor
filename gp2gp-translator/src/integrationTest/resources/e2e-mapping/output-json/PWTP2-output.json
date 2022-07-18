@@ -8713,50 +8713,6 @@
     }
   }, {
     "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "CEF9E22C-9EA2-4610-9B53-4595781D525D-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "CEF9E22C-9EA2-4610-9B53-4595781D525D"
-      },
-      "parent": [ {
-        "reference": "Observation/CEF9E22C-9EA2-4610-9B53-4595781D525D"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/7e26e62d-4e9e-401a-a4ee-d88a044c3d4f"
-      },
-      "context": {
-        "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
-      },
-      "authored": "2010-01-13T15:13:32+00:00",
-      "item": [ {
-        "linkId": "O/E - blood pressure reading"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/B242CABB-572B-4701-B524-3DFC5C9428CE"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/8BB5AF44-EF56-4816-8B78-71BA6BCF0ED5"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/6D45ED4A-61E8-401A-BF0E-D014F42545D2"
-          }
-        } ]
-      } ]
-    }
-  }, {
-    "resource": {
       "resourceType": "Observation",
       "id": "CEF9E22C-9EA2-4610-9B53-4595781D525D",
       "meta": {
@@ -8795,50 +8751,6 @@
     }
   }, {
     "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "9BEFB146-B729-4EB8-908C-539B279FFEB5-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "9BEFB146-B729-4EB8-908C-539B279FFEB5"
-      },
-      "parent": [ {
-        "reference": "Observation/9BEFB146-B729-4EB8-908C-539B279FFEB5"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/7e26e62d-4e9e-401a-a4ee-d88a044c3d4f"
-      },
-      "context": {
-        "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
-      },
-      "authored": "2010-07-14T15:28:13+00:00",
-      "item": [ {
-        "linkId": "O/E - blood pressure reading"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/BC85400F-8EB1-4B37-AB13-3F2AF48700EC"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/01DADA1A-B466-4EEC-A980-D3D7FD3DFE06"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/A405C758-B5DF-4793-AEE8-040B2406B164"
-          }
-        } ]
-      } ]
-    }
-  }, {
-    "resource": {
       "resourceType": "Observation",
       "id": "9BEFB146-B729-4EB8-908C-539B279FFEB5",
       "meta": {
@@ -8873,47 +8785,6 @@
       "issued": "2010-07-14T15:28:13.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "34638ABC-DCBB-4DF1-A1CB-AE4E49B7B36A-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "34638ABC-DCBB-4DF1-A1CB-AE4E49B7B36A"
-      },
-      "parent": [ {
-        "reference": "Observation/34638ABC-DCBB-4DF1-A1CB-AE4E49B7B36A"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/7e26e62d-4e9e-401a-a4ee-d88a044c3d4f"
-      },
-      "authored": "2010-07-14T15:27:49+00:00",
-      "item": [ {
-        "linkId": "O/E - blood pressure reading"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/CF1DF20D-BA11-44ED-BB97-EF375237B993"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/A355971C-94EB-434A-B212-C194DE3A9D5F"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/E5DC2C05-7DCE-4E95-8E09-5605277B0B85"
-          }
-        } ]
       } ]
     }
   }, {

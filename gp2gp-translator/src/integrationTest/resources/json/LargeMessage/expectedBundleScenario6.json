@@ -769,44 +769,6 @@
     }
   }, {
     "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "1D41AB30-1FF4-42C2-ABAD-EDAB7B8CF489-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "1D41AB30-1FF4-42C2-ABAD-EDAB7B8CF489"
-      },
-      "parent": [ {
-        "reference": "Observation/1D41AB30-1FF4-42C2-ABAD-EDAB7B8CF489"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/c3ef4493-a72d-4209-9782-f52aba54e0b2"
-      },
-      "context": {
-        "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
-      },
-      "authored": "2018-06-12T08:24:07+00:00",
-      "item": [ {
-        "linkId": "Alcohol consumption"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/551D5AD3-4CAD-4197-B749-385B08DB321E"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/15FF7FA4-DBD9-4C37-A479-7A86A890B7A8"
-          }
-        } ]
-      } ]
-    }
-  }, {
-    "resource": {
       "resourceType": "Observation",
       "id": "1D41AB30-1FF4-42C2-ABAD-EDAB7B8CF489",
       "meta": {
@@ -846,44 +808,6 @@
     }
   }, {
     "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "D772E5E9-75D2-4354-8E74-439ABE9C0D76-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "D772E5E9-75D2-4354-8E74-439ABE9C0D76"
-      },
-      "parent": [ {
-        "reference": "Observation/D772E5E9-75D2-4354-8E74-439ABE9C0D76"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/c3ef4493-a72d-4209-9782-f52aba54e0b2"
-      },
-      "context": {
-        "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
-      },
-      "authored": "2018-06-12T08:24:07+00:00",
-      "item": [ {
-        "linkId": "Ex smoker"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/946272CA-DA17-4D32-945E-D19B6D11A7F7"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/2D0329E8-42EA-4579-B6CF-FB86557094FF"
-          }
-        } ]
-      } ]
-    }
-  }, {
-    "resource": {
       "resourceType": "Observation",
       "id": "D772E5E9-75D2-4354-8E74-439ABE9C0D76",
       "meta": {
@@ -919,50 +843,6 @@
       "issued": "2018-06-12T08:24:07.000+00:00",
       "performer": [ {
         "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "QuestionnaireResponse",
-      "id": "7AF0B4DA-4DBC-458F-9EA3-6844C3B3B70C-QRSP",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-QuestionnaireResponse-1" ]
-      },
-      "identifier": {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "7AF0B4DA-4DBC-458F-9EA3-6844C3B3B70C"
-      },
-      "parent": [ {
-        "reference": "Observation/7AF0B4DA-4DBC-458F-9EA3-6844C3B3B70C"
-      } ],
-      "status": "completed",
-      "subject": {
-        "reference": "Patient/c3ef4493-a72d-4209-9782-f52aba54e0b2"
-      },
-      "context": {
-        "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
-      },
-      "authored": "2018-06-12T08:24:07+00:00",
-      "item": [ {
-        "linkId": "O/E - blood pressure reading"
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/2255F3D2-A7D9-4795-9BBF-6A4547994197"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/C0653C8C-99A5-4ABB-9188-390950339DAD"
-          }
-        } ]
-      }, {
-        "answer": [ {
-          "valueReference": {
-            "reference": "Observation/8D5D514B-28C6-47B0-B0FA-60446F4B9FFA"
-          }
-        } ]
       } ]
     }
   }, {
