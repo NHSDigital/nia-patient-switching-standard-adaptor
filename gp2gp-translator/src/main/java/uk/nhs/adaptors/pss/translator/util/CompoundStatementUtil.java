@@ -59,7 +59,7 @@ public class CompoundStatementUtil {
             Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker
     ) {
 
-        if (Boolean.TRUE.equals(compoundStatementChecker.apply(compoundStatement))) {
+        if (compoundStatementChecker.apply(compoundStatement)) {
             return compoundStatement
                 .getComponent()
                 .stream()
@@ -92,7 +92,7 @@ public class CompoundStatementUtil {
         return Stream.concat(
             Stream.of(component02),
                 component02.hasCompoundStatement()
-                && Boolean.TRUE.equals(compoundStatementChecker.apply(component02.getCompoundStatement()))
+                && compoundStatementChecker.apply(component02.getCompoundStatement())
                 ?   component02
                     .getCompoundStatement()
                     .getComponent()
