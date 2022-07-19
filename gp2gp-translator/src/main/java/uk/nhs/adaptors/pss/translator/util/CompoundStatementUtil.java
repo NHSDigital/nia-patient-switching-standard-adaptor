@@ -91,13 +91,14 @@ public class CompoundStatementUtil {
     ) {
         return Stream.concat(
             Stream.of(component02),
-                component02.hasCompoundStatement() && Boolean.TRUE.equals(compoundStatementChecker.apply(component02.getCompoundStatement()))
-                        ? component02
-                        .getCompoundStatement()
-                        .getComponent()
-                        .stream()
-                        .flatMap(component -> CompoundStatementUtil.flatten(component, compoundStatementChecker))
-                        : Stream.empty()
+                component02.hasCompoundStatement()
+                && Boolean.TRUE.equals(compoundStatementChecker.apply(component02.getCompoundStatement()))
+                ?   component02
+                    .getCompoundStatement()
+                    .getComponent()
+                    .stream()
+                    .flatMap(component -> CompoundStatementUtil.flatten(component, compoundStatementChecker))
+                : Stream.empty()
         );
     }
 }
