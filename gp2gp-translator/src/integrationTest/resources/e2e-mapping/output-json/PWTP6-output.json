@@ -2017,7 +2017,7 @@
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
       "valueQuantity": {
-        "value": 0,
+        "value": 0.5,
         "unit": "oz/week"
       }
     }
@@ -3203,7 +3203,7 @@
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
       "valueQuantity": {
-        "value": 1,
+        "value": 1.4,
         "unit": "m"
       },
       "comment": "Right Foot"
@@ -3246,7 +3246,7 @@
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
       "valueQuantity": {
-        "value": 1,
+        "value": 1.9,
         "unit": "m"
       },
       "comment": "Left Foot"

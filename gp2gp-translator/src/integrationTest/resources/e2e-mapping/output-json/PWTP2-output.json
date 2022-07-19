@@ -6927,7 +6927,7 @@
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
       "valueQuantity": {
-        "value": 35,
+        "value": 35.6,
         "unit": "1",
         "system": "http://unitsofmeasure.org",
         "code": "1"
