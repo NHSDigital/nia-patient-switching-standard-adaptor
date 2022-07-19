@@ -203,11 +203,12 @@ public class E2EMappingIT extends BaseEhrHandler {
                 .flatMap(List::stream)
                 .toList();
 
-        expectedBundle = expectedBundle.replaceAll(odsCodeToBeReplaced, this.getLosingODSCode());
+        expectedBundle = expectedBundle.replaceAll(odsCodeToBeReplaced, this.getLosingODSCode()).replaceAll(SPECIAL_CHARS, "");
+        var actualBundle = patientMigrationRequest.getBundleResource().replaceAll(SPECIAL_CHARS, "");
 
         assertBundleContent(
-                patientMigrationRequest.getBundleResource().replaceAll(SPECIAL_CHARS, ""),
-                expectedBundle.replaceAll(SPECIAL_CHARS, ""),
+                actualBundle,
+                expectedBundle,
                 combinedList
         );
     }

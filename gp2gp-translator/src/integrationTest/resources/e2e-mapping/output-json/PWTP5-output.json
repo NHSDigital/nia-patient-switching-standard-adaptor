@@ -2234,15 +2234,27 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
       },
       "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "1E1EEC52-5D1E-40DE-8790-23DE3D0B1491"
+        "system": "https://PSSAdaptor/D5445",
+        "value": "C93659E1-1107-441C-BE25-C5EF4B7831D1"
       } ],
       "status": "final",
       "code": {
-        "text": "Adverse reaction to Paracetamol And Dihydrocodeine"
+        "coding": [ {
+          "extension": [ {
+            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+            "extension": [ {
+              "url": "descriptionId",
+              "valueId": "65004017"
+            } ]
+          } ],
+          "system": "http://snomed.info/sct",
+          "code": "38598009",
+          "display": "Measles-mumps-rubella vaccination"
+        } ],
+        "text": "Measles/mumps/rubella vaccn."
       },
       "subject": {
-        "reference": "Patient/d6ad9982-a910-4d4c-9093-9478f93b19f8"
+        "reference": "Patient/20feae14-45f4-4e7b-a0a0-b0d983dda84c"
       },
       "context": {
         "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -2252,7 +2264,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "Other Language text attached to adverse reaction: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë"
+      "comment": "[Manufacturer: Pete], [Expiry Date: 21-Jun-2011], [Batch Number: 123456], GMS: GMS, Injection site: Left arm, This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is the END of the long paragraph."
     }
   }, {
     "resource": {
