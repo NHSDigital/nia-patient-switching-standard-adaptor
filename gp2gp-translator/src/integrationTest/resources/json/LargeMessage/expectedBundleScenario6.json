@@ -273,14 +273,6 @@
         }
       }, {
         "item": {
-          "reference": "QuestionnaireResponse/1D41AB30-1FF4-42C2-ABAD-EDAB7B8CF489-QRSP"
-        }
-      }, {
-        "item": {
-          "reference": "Observation/1D41AB30-1FF4-42C2-ABAD-EDAB7B8CF489"
-        }
-      }, {
-        "item": {
           "reference": "Observation/551D5AD3-4CAD-4197-B749-385B08DB321E"
         }
       }, {
@@ -289,27 +281,11 @@
         }
       }, {
         "item": {
-          "reference": "QuestionnaireResponse/D772E5E9-75D2-4354-8E74-439ABE9C0D76-QRSP"
-        }
-      }, {
-        "item": {
-          "reference": "Observation/D772E5E9-75D2-4354-8E74-439ABE9C0D76"
-        }
-      }, {
-        "item": {
           "reference": "Observation/946272CA-DA17-4D32-945E-D19B6D11A7F7"
         }
       }, {
         "item": {
           "reference": "Observation/2D0329E8-42EA-4579-B6CF-FB86557094FF"
-        }
-      }, {
-        "item": {
-          "reference": "QuestionnaireResponse/7AF0B4DA-4DBC-458F-9EA3-6844C3B3B70C-QRSP"
-        }
-      }, {
-        "item": {
-          "reference": "Observation/7AF0B4DA-4DBC-458F-9EA3-6844C3B3B70C"
         }
       }, {
         "item": {
