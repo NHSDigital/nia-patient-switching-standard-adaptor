@@ -1869,14 +1869,6 @@
         }
       }, {
         "item": {
-          "reference": "QuestionnaireResponse/E215C637-CD2E-4D1D-B890-84D77F236CF3-QRSP"
-        }
-      }, {
-        "item": {
-          "reference": "Observation/E215C637-CD2E-4D1D-B890-84D77F236CF3"
-        }
-      }, {
-        "item": {
           "reference": "Observation/44ABC72D-74E7-468E-8B92-5B7032E89203"
         }
       }, {
@@ -2040,14 +2032,6 @@
       }, {
         "item": {
           "reference": "DiagnosticReport/diagnostic-compound-id"
-        }
-      }, {
-        "item": {
-          "reference": "QuestionnaireResponse/questionnaire-response-id-QRSP"
-        }
-      }, {
-        "item": {
-          "reference": "Observation/questionnaire-response-id"
         }
       }, {
         "item": {

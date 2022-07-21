@@ -68,33 +68,35 @@ public class ResourceReferenceUtilTest {
         assertThat(references.get(2).getReference()).isEqualTo("MedicationRequest/9B4B797A-D674-4362-B666-2ADC8551EEDA");
     }
 
-    @Test
-    public void testTemplateResourcesReferencedAtEhrCompositionLevel() {
-        final RCMRMT030101UK04EhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_template.xml");
+//    removed as part of NIAD_2190
+//    @Test
+//    public void testTemplateResourcesReferencedAtEhrCompositionLevel() {
+//        final RCMRMT030101UK04EhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_template.xml");
+//
+//        List<Reference> references = new ArrayList<>();
+//        resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
+//
+//        assertThat(references.size()).isEqualTo(FOUR);
+//        assertThat(references.get(0).getReference()).isEqualTo("QuestionnaireResponse/7334D39A-BBB3-424A-B5D3-E841BCA39BF7-QRSP");
+//        assertThat(references.get(1).getReference()).isEqualTo("Observation/7334D39A-BBB3-424A-B5D3-E841BCA39BF7");
+//        assertThat(references.get(2).getReference()).isEqualTo("Observation/3DCC9FC9-1873-4004-9789-C4E5C52B02B9");
+//        assertThat(references.get(THREE).getReference()).isEqualTo("Observation/278ADD5F-2AC7-48DC-966A-0BA7C029C793");
+//    }
 
-        List<Reference> references = new ArrayList<>();
-        resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
-
-        assertThat(references.size()).isEqualTo(FOUR);
-        assertThat(references.get(0).getReference()).isEqualTo("QuestionnaireResponse/7334D39A-BBB3-424A-B5D3-E841BCA39BF7-QRSP");
-        assertThat(references.get(1).getReference()).isEqualTo("Observation/7334D39A-BBB3-424A-B5D3-E841BCA39BF7");
-        assertThat(references.get(2).getReference()).isEqualTo("Observation/3DCC9FC9-1873-4004-9789-C4E5C52B02B9");
-        assertThat(references.get(THREE).getReference()).isEqualTo("Observation/278ADD5F-2AC7-48DC-966A-0BA7C029C793");
-    }
-
-    @Test
-    public void testTemplateResourcesReferencedAtCompoundStatementLevel() {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("compound_statement_template.xml");
-
-        List<Reference> references = new ArrayList<>();
-        resourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
-
-        assertThat(references.size()).isEqualTo(FOUR);
-        assertThat(references.get(0).getReference()).isEqualTo("QuestionnaireResponse/7334D39A-BBB3-424A-B5D3-E841BCA39BF7-QRSP");
-        assertThat(references.get(1).getReference()).isEqualTo("Observation/7334D39A-BBB3-424A-B5D3-E841BCA39BF7");
-        assertThat(references.get(2).getReference()).isEqualTo("Observation/3DCC9FC9-1873-4004-9789-C4E5C52B02B9");
-        assertThat(references.get(THREE).getReference()).isEqualTo("Observation/278ADD5F-2AC7-48DC-966A-0BA7C029C793");
-    }
+//    removed as part of NIAD_2190
+//    @Test
+//    public void testTemplateResourcesReferencedAtCompoundStatementLevel() {
+//        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("compound_statement_template.xml");
+//
+//        List<Reference> references = new ArrayList<>();
+//        resourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
+//
+//        assertThat(references.size()).isEqualTo(FOUR);
+//        assertThat(references.get(0).getReference()).isEqualTo("QuestionnaireResponse/7334D39A-BBB3-424A-B5D3-E841BCA39BF7-QRSP");
+//        assertThat(references.get(1).getReference()).isEqualTo("Observation/7334D39A-BBB3-424A-B5D3-E841BCA39BF7");
+//        assertThat(references.get(2).getReference()).isEqualTo("Observation/3DCC9FC9-1873-4004-9789-C4E5C52B02B9");
+//        assertThat(references.get(THREE).getReference()).isEqualTo("Observation/278ADD5F-2AC7-48DC-966A-0BA7C029C793");
+//    }
 
     @Test
     public void testTemplateChildResourcesReferencedAsQuestionnaireAnswers() {
