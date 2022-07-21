@@ -114,7 +114,7 @@ public class ResourceReferenceUtil {
                 addBloodPressureEntry(compoundStatement, entryReferences);
             } else if (isAllergyIntolerance(compoundStatement)) {
                 addAllergyIntoleranceEntry(compoundStatement, entryReferences);
-            } else if (observationStatement.hasCode() && immunizationChecker.isImmunization(observationStatement.getCode().getCode())) {
+            } else if (observationStatement.hasCode() && immunizationChecker.isImmunization(observationStatement)) {
                 addImmunizationEntry(observationStatement, entryReferences);
             } else {
                 addUncategorisedObservationEntry(observationStatement, entryReferences);

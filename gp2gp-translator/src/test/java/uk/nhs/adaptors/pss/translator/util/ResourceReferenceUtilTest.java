@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -115,8 +116,8 @@ public class ResourceReferenceUtilTest {
         lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
-                String input = (String) invocation.getArgument(0);
-                return input.equals("1664081000000114");
+                RCMRMT030101UK04ObservationStatement statement = (RCMRMT030101UK04ObservationStatement) invocation.getArgument(0);
+                return statement.getCode().getCode().equals("1664081000000114");
             }
         });
 
@@ -147,8 +148,8 @@ public class ResourceReferenceUtilTest {
         lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
-                String input = (String) invocation.getArgument(0);
-                return input.equals("1664081000000114");
+                RCMRMT030101UK04ObservationStatement statement = (RCMRMT030101UK04ObservationStatement) invocation.getArgument(0);
+                return statement.getCode().getCode().equals("1664081000000114");
             }
         });
 

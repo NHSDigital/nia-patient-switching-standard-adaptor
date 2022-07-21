@@ -58,7 +58,7 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
 
     private boolean isImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
         if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
-            return immunizationChecker.isImmunization(observationStatement.getCode().getCode());
+            return immunizationChecker.isImmunization(observationStatement);
         }
         return false;
     }
