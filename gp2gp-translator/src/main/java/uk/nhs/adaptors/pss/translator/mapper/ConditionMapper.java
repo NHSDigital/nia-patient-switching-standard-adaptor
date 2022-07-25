@@ -313,7 +313,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 .collect(partitioningBy(RCMRMT030101UK04Component4::hasCompoundStatement));
 
 
-        var obsList = Stream.concat(componentsByHasCompoundStatement.get(false)
+        var observationStatementList = Stream.concat(componentsByHasCompoundStatement.get(false)
                 .stream()
                 .map(RCMRMT030101UK04Component4::getObservationStatement),
                 componentsByHasCompoundStatement.get(true).stream()
@@ -321,7 +321,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 .map(RCMRMT030101UK04Component02::getObservationStatement))
                 .toList();
 
-        return obsList.stream()
+        return observationStatementList.stream()
                 .filter(Objects::nonNull)
                 .filter(observationStatement -> id.equals(observationStatement.getId().getRoot()))
                 .findFirst();
