@@ -1,52 +1,27 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.ACTIVE;
-import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIVE;
-
-import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllLinkSets;
-import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildReferenceExtension;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.dstu3.model.*;
+import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
+import org.hl7.v3.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
-import org.hl7.fhir.dstu3.model.Annotation;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.dstu3.model.CodeType;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.DateTimeType;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.v3.CD;
-import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
-import org.hl7.v3.RCMRMT030101UK04Component6;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04LinkSet;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
-import org.hl7.v3.RCMRMT030101UK04StatementRef;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
+import static java.util.stream.Collectors.partitioningBy;
+import static java.util.stream.Collectors.toList;
+import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.ACTIVE;
+import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIVE;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllLinkSets;
+import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.*;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -303,11 +278,26 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private Optional<RCMRMT030101UK04ObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
-        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
-            .flatMap(e -> e.getEhrComposition().getComponent().stream())
-            .map(RCMRMT030101UK04Component4::getObservationStatement)
-            .filter(Objects::nonNull)
-            .filter(observationStatement -> id.equals(observationStatement.getId().getRoot()))
-            .findFirst();
+        var componentsByHasCompoundStatement = ehrExtract.getComponent()
+                .get(0)
+                .getEhrFolder()
+                .getComponent()
+                .stream()
+                .flatMap(e -> e.getEhrComposition().getComponent().stream())
+                .collect(partitioningBy(RCMRMT030101UK04Component4::hasCompoundStatement));
+
+
+        var obsList = Stream.concat(componentsByHasCompoundStatement.get(false)
+                .stream()
+                .map(RCMRMT030101UK04Component4::getObservationStatement),
+                componentsByHasCompoundStatement.get(true).stream()
+                .flatMap(cs -> cs.getCompoundStatement().getComponent().stream())
+                .map(RCMRMT030101UK04Component02::getObservationStatement))
+                .toList();
+
+        return obsList.stream()
+                .filter(Objects::nonNull)
+                .filter(observationStatement -> id.equals(observationStatement.getId().getRoot()))
+                .findFirst();
     }
 }
