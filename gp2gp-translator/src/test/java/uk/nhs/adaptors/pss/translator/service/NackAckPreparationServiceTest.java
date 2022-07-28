@@ -62,7 +62,7 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(true);
 
         assertTrue(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID);
+        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
     }
 
     @Test
@@ -73,7 +73,7 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(false);
 
         assertFalse(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID);
+        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
     }
 
     @Test
@@ -209,7 +209,7 @@ class NackAckPreparationServiceTest {
                 payload,
                 CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any());
+        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), null);
 
         assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
     }
@@ -222,7 +222,7 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(true);
 
         assertTrue(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID);
+        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
     }
 
     @Test
@@ -233,7 +233,7 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(false);
 
         assertFalse(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID);
+        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
     }
 
     @Test
@@ -369,7 +369,7 @@ class NackAckPreparationServiceTest {
                 payload,
                 CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any());
+        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), null);
 
         assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
     }

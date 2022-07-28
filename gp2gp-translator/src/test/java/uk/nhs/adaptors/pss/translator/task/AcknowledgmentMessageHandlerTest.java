@@ -50,7 +50,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACKNOWLEDGED, CONVERSATION_ID);
+        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACKNOWLEDGED, CONVERSATION_ID, null);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK, CONVERSATION_ID);
+        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK, CONVERSATION_ID, null);
     }
 
     @Test

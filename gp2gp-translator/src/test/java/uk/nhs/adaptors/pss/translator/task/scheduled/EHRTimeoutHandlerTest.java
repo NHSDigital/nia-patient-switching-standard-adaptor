@@ -131,7 +131,7 @@ public class EHRTimeoutHandlerTest {
         String conversationId = UUID.randomUUID().toString();
         callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_TRANSLATED, TEN_DAYS_AGO, 0, conversationId);
         verify(migrationStatusLogService, times(1))
-            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId);
+            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
     }
 
     @Test
@@ -176,7 +176,7 @@ public class EHRTimeoutHandlerTest {
 
         ehrTimeoutHandler.checkForTimeouts();
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), null);
     }
 
     @Test
@@ -191,7 +191,7 @@ public class EHRTimeoutHandlerTest {
 
         ehrTimeoutHandler.checkForTimeouts();
 
-        verify(migrationStatusLogService, times(1)).addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId);
+        verify(migrationStatusLogService, times(1)).addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null);
     }
 
     @Test
@@ -207,7 +207,7 @@ public class EHRTimeoutHandlerTest {
 
         ehrTimeoutHandler.checkForTimeouts();
 
-        verify(migrationStatusLogService, times(1)).addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId);
+        verify(migrationStatusLogService, times(1)).addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null);
     }
 
     @Test
@@ -223,7 +223,7 @@ public class EHRTimeoutHandlerTest {
 
         ehrTimeoutHandler.checkForTimeouts();
 
-        verify(migrationStatusLogService, times(1)).addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId);
+        verify(migrationStatusLogService, times(1)).addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null);
     }
 
     private void callCheckForTimeoutsWithOneRequest(MigrationStatus migrationStatus, ZonedDateTime requestTimestamp,

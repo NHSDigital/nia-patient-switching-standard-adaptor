@@ -1,6 +1,8 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_MESSAGE_PROCESSING;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.text.ParseException;
@@ -22,8 +24,10 @@ import org.xml.sax.SAXException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+//import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
+import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
@@ -46,6 +50,7 @@ public class COPCMessageHandler {
     private static final String DESCRIPTION_PATH = "/Envelope/Body/Manifest/Reference[position()=2]/Description";
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
 
+    private final MigrationStatusLogService migrationStatusLogService;
     private final PatientMigrationRequestDao migrationRequestDao;
     private final NackAckPreparationService nackAckPreparationService;
     private final PatientAttachmentLogService patientAttachmentLogService;
@@ -60,13 +65,18 @@ public class COPCMessageHandler {
 
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
+        String messageId = null;
+        migrationStatusLogService.addMigrationStatusLog(CONTINUE_MESSAGE_RECEIVED, conversationId, messageId);
+
+
 
         try {
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
-            String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
+            messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
             PatientAttachmentLog patientAttachmentLog = patientAttachmentLogService.findAttachmentLog(messageId, conversationId);
+            migrationStatusLogService.addMigrationStatusLog(CONTINUE_MESSAGE_PROCESSING, conversationId, messageId);
 
-            // If there is no PatientAttachmentLog for this message then we have receieved a message out of order
+            // If there is no PatientAttachmentLog for this message then we have received a message out of order
             if (patientAttachmentLog == null) {
                 addLogForEarlyFragmentAndStore(inboundMessage, conversationId, payload, ebXmlDocument, migrationRequest.getId());
             } else {
@@ -76,8 +86,10 @@ public class COPCMessageHandler {
                     storeCOPCAttachment(patientAttachmentLog, inboundMessage, conversationId);
                     patientAttachmentLog.setUploaded(true);
                     patientAttachmentLogService.updateAttachmentLog(patientAttachmentLog, conversationId);
+
                 }
             }
+
 
             nackAckPreparationService.sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
             checkAndMergeFileParts(inboundMessage, conversationId);
@@ -91,7 +103,7 @@ public class COPCMessageHandler {
             | SAXException | ExternalAttachmentProcessingException e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
-            nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+            nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
         }
     }
 
