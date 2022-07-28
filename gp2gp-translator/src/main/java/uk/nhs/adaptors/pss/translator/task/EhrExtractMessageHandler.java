@@ -80,13 +80,12 @@ public class EhrExtractMessageHandler {
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
         MigrationStatusLog migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        String messageId = null;
 
-        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId, messageId);
+        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId, null);
 
         try {
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
-            messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
+            String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
 
             boolean hasExternalAttachment = !(inboundMessage.getExternalAttachments() == null
                 || inboundMessage.getExternalAttachments().isEmpty());
@@ -177,7 +176,7 @@ public class EhrExtractMessageHandler {
             fhirParser.encodeToJson(bundle),
             objectMapper.writeValueAsString(inboundMessage),
             EHR_EXTRACT_TRANSLATED,
-                messageId
+            messageId
         );
 
         // return an acknowledged message to the sender
@@ -203,7 +202,7 @@ public class EhrExtractMessageHandler {
             null,
             objectMapper.writeValueAsString(inboundMessage),
             EHR_EXTRACT_TRANSLATED,
-                messageId
+            messageId
         );
 
         String patientNhsNumber = XmlParseUtilService.parseNhsNumber(payload);

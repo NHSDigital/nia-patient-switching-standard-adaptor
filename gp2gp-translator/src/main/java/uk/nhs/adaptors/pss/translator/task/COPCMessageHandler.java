@@ -65,14 +65,13 @@ public class COPCMessageHandler {
 
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
-        String messageId = null;
-        migrationStatusLogService.addMigrationStatusLog(CONTINUE_MESSAGE_RECEIVED, conversationId, messageId);
+        migrationStatusLogService.addMigrationStatusLog(CONTINUE_MESSAGE_RECEIVED, conversationId, null);
 
 
 
         try {
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
-            messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
+            String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
             PatientAttachmentLog patientAttachmentLog = patientAttachmentLogService.findAttachmentLog(messageId, conversationId);
             migrationStatusLogService.addMigrationStatusLog(CONTINUE_MESSAGE_PROCESSING, conversationId, messageId);
 
