@@ -40,8 +40,8 @@ public class MigrationStatusLogServiceTest {
         when(patientMigrationRequestDao.getMigrationRequestId(nhsNumber)).thenReturn(MIGRATION_REQUEST_ID);
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
 
-        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, nhsNumber);
+        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, nhsNumber, null);
 
-        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, now, MIGRATION_REQUEST_ID);
+        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, now, MIGRATION_REQUEST_ID, null);
     }
 }
