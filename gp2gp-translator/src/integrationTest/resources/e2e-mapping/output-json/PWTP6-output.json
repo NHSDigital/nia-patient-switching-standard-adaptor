@@ -160,7 +160,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/698C8458-569F-4451-863B-DBA96EDA776E-LOC"
+              "reference": "Location/{{LOCATION-1}}"
             }
           }
         ]
@@ -237,7 +237,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/B7E5AE3B-260D-4BEB-962A-BC489C30041F-LOC"
+              "reference": "Location/{{LOCATION-2}}"
             }
           }
         ]
@@ -314,7 +314,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/9F891565-9B5E-487F-9155-6131382DBED8-LOC"
+              "reference": "Location/{{LOCATION-2}}"
             }
           }
         ]
@@ -391,7 +391,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/62B17FF3-AC74-4118-A567-B34D09798DCA-LOC"
+              "reference": "Location/{{LOCATION-2}}"
             }
           }
         ]
@@ -468,7 +468,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/FE642D6E-A729-47E9-9512-B0DEA7AC36A1-LOC"
+              "reference": "Location/{{LOCATION-2}}"
             }
           }
         ]
@@ -545,7 +545,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C-LOC"
+              "reference": "Location/{{LOCATION-2}}"
             }
           }
         ]
@@ -2245,7 +2245,7 @@
     {
       "resource": {
         "resourceType": "Location",
-        "id": "698C8458-569F-4451-863B-DBA96EDA776E-LOC",
+        "id": "{{LOCATION-1}}",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
@@ -2254,7 +2254,7 @@
         "identifier": [
           {
             "system": "https://PSSAdaptor/B83002",
-            "value": "698C8458-569F-4451-863B-DBA96EDA776E-LOC"
+            "value": "{{LOCATION-1}}"
           }
         ],
         "status": "active",
@@ -2264,7 +2264,7 @@
     {
       "resource": {
         "resourceType": "Location",
-        "id": "B7E5AE3B-260D-4BEB-962A-BC489C30041F-LOC",
+        "id": "{{LOCATION-2}}",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
@@ -2273,102 +2273,7 @@
         "identifier": [
           {
             "system": "https://PSSAdaptor/B83002",
-            "value": "B7E5AE3B-260D-4BEB-962A-BC489C30041F-LOC"
-          }
-        ],
-        "status": "active",
-        "name": "EMIS LV Test Practice 1"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Location",
-        "id": "9F891565-9B5E-487F-9155-6131382DBED8-LOC",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/B83002",
-            "value": "9F891565-9B5E-487F-9155-6131382DBED8-LOC"
-          }
-        ],
-        "status": "active",
-        "name": "EMIS LV Test Practice 1"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Location",
-        "id": "62B17FF3-AC74-4118-A567-B34D09798DCA-LOC",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/B83002",
-            "value": "62B17FF3-AC74-4118-A567-B34D09798DCA-LOC"
-          }
-        ],
-        "status": "active",
-        "name": "EMIS LV Test Practice 1"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Location",
-        "id": "FE642D6E-A729-47E9-9512-B0DEA7AC36A1-LOC",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/B83002",
-            "value": "FE642D6E-A729-47E9-9512-B0DEA7AC36A1-LOC"
-          }
-        ],
-        "status": "active",
-        "name": "EMIS LV Test Practice 1"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Location",
-        "id": "7BF5AA51-D181-4CE4-85B9-9371A650C638-LOC",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/B83002",
-            "value": "7BF5AA51-D181-4CE4-85B9-9371A650C638-LOC"
-          }
-        ],
-        "status": "active",
-        "name": "EMIS LV Test Practice 1"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Location",
-        "id": "B7A64FCC-6F01-489E-8A2E-6D5080EFB36C-LOC",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/B83002",
-            "value": "B7A64FCC-6F01-489E-8A2E-6D5080EFB36C-LOC"
+            "value": "{{LOCATION-2}}"
           }
         ],
         "status": "active",

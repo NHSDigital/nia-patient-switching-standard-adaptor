@@ -20,6 +20,7 @@ import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -127,10 +128,21 @@ public class BundleMapperServiceTest {
         encounterResources.put(TOPIC_KEY, new ArrayList<>());
         encounterResources.put(CATEGORY_KEY, new ArrayList<>());
 
+        var location1 = new Location();
+        location1.setName("Branch Surgery");
+        location1.setId("1");
+
+        var location2 = new Location();
+        location1.setName("Branch Surgery");
+        location1.setId("2");
+
+        var entryLocations = List.of(location1, location2);
+
+
         when(agentDirectoryMapper.mapAgentDirectory(any())).thenReturn(mockedList);
         when(mockedList.stream()).thenReturn(agentResourceList.stream());
         when(patientMapper.mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class))).thenReturn(new Patient());
-        when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class)))
+        when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class), entryLocations))
             .thenReturn(encounterResources);
         when(organizationMapper.mapAuthorOrganization(anyString())).thenReturn(new Organization());
     }
@@ -140,11 +152,22 @@ public class BundleMapperServiceTest {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
         Bundle bundle = bundleMapperService.mapToBundle(xml, LOSING_ODS_CODE);
 
+        var location1 = new Location();
+        location1.setName("Branch Surgery");
+        location1.setId("1");
+
+        var location2 = new Location();
+        location1.setName("Branch Surgery");
+        location1.setId("2");
+
+        var entryLocations = List.of(location1, location2);
+
+
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(organizationMapper).mapAuthorOrganization(anyString());
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
-        verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), anyString(), anyString());
-        verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyString());
+        verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), anyString());
+        verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyString(), entryLocations);
         verify(procedureRequestMapper).mapResources(
             any(RCMRMT030101UK04EhrExtract.class),
             any(Patient.class),

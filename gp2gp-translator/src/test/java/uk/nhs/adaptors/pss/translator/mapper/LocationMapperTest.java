@@ -12,6 +12,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.junit.jupiter.api.Test;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 public class LocationMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/Location/";
@@ -23,14 +24,14 @@ public class LocationMapperTest {
     private static final int TELECOM_RANK = 1;
     private static final int TEL_PREFIX_INT = 4;
 
-    private final LocationMapper locationMapper = new LocationMapper();
+    private final LocationMapper locationMapper = new LocationMapper(new IdGeneratorService());
 
     @Test
     public void mapLocationWithValidData() {
         var ehrComposition = unmarshallCodeElement("full_valid_location_example.xml");
         var locationId = ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION;
 
-        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(), PRACTISE_CODE);
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), PRACTISE_CODE);
 
         assertThat(location.getId()).isEqualTo(ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION);
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), locationId);
@@ -50,7 +51,7 @@ public class LocationMapperTest {
         var ehrComposition = unmarshallCodeElement("no_located_entity_example.xml");
         var locationId = ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION;
 
-        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(), PRACTISE_CODE);
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), PRACTISE_CODE);
 
         assertThat(location.getId()).isEqualTo(locationId);
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), locationId);
@@ -63,7 +64,7 @@ public class LocationMapperTest {
         var ehrComposition = unmarshallCodeElement("no_located_place_example.xml");
         var locationId = ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION;
 
-        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(), PRACTISE_CODE);
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), PRACTISE_CODE);
 
         assertThat(location.getId()).isEqualTo(locationId);
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), locationId);
@@ -76,7 +77,7 @@ public class LocationMapperTest {
         var ehrComposition = unmarshallCodeElement("known_name_example.xml");
         var locationId = ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION;
 
-        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(), PRACTISE_CODE);
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), PRACTISE_CODE);
 
         assertThat(location.getId()).isEqualTo(ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION);
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), locationId);
@@ -90,7 +91,7 @@ public class LocationMapperTest {
         var ehrComposition = unmarshallCodeElement("unknown_name_example.xml");
         var locationId = ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION;
 
-        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(), PRACTISE_CODE);
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), PRACTISE_CODE);
 
         assertThat(location.getId()).isEqualTo(ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION);
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), locationId);
@@ -104,7 +105,7 @@ public class LocationMapperTest {
         var ehrComposition = unmarshallCodeElement("wp_telecom_example.xml");
         var locationId = ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION;
 
-        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(), PRACTISE_CODE);
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), PRACTISE_CODE);
 
         assertThat(location.getId()).isEqualTo(ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION);
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), locationId);
@@ -120,7 +121,7 @@ public class LocationMapperTest {
         var ehrComposition = unmarshallCodeElement("not_wp_telecom_example.xml");
         var locationId = ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION;
 
-        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(), PRACTISE_CODE);
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), PRACTISE_CODE);
 
         assertThat(location.getId()).isEqualTo(ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION);
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), locationId);
@@ -136,7 +137,7 @@ public class LocationMapperTest {
         var ehrComposition = unmarshallCodeElement("address_with_postcode_example.xml");
         var locationId = ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION;
 
-        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(), PRACTISE_CODE);
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), PRACTISE_CODE);
 
         assertThat(location.getId()).isEqualTo(ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION);
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), locationId);
@@ -154,7 +155,7 @@ public class LocationMapperTest {
         var ehrComposition = unmarshallCodeElement("address_without_postcode_example.xml");
         var locationId = ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION;
 
-        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(), PRACTISE_CODE);
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), PRACTISE_CODE);
 
         assertThat(location.getId()).isEqualTo(ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION);
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), locationId);
@@ -171,7 +172,7 @@ public class LocationMapperTest {
         var ehrComposition = unmarshallCodeElement("address_without_wp_example.xml");
         var locationId = ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION;
 
-        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(), PRACTISE_CODE);
+        Location location = locationMapper.mapToLocation(ehrComposition.getLocation(), PRACTISE_CODE);
 
         assertThat(location.getId()).isEqualTo(ehrComposition.getId().getRoot() + LOCATION_ID_EXTENSION);
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), locationId);

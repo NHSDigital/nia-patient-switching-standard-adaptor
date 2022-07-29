@@ -24,6 +24,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.v3.CD;
 import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.RCMRMT030101UK04Author;
@@ -51,7 +52,7 @@ public class EncounterMapper {
     private static final List<String> INVALID_CODES = List.of("196401000000100", "196391000000103");
     private static final String ENCOUNTER_META_PROFILE = "Encounter-1";
     private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/";
-    private static final String LOCATION_REFERENCE = "Location/%s-LOC";
+    private static final String LOCATION_REFERENCE = "Location/%s";
     private static final String PERFORMER_SYSTEM = "http://hl7.org/fhir/v3/ParticipationType";
     private static final String PERFORMER_CODE = "PPRF";
     private static final String PERFORMER_DISPLAY = "primary performer";
@@ -69,8 +70,12 @@ public class EncounterMapper {
     private final ConsultationListMapper consultationListMapper;
     private final ResourceReferenceUtil resourceReferenceUtil;
 
-    public Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        String practiseCode) {
+    public Map<String, List<? extends DomainResource>> mapEncounters(
+            RCMRMT030101UK04EhrExtract ehrExtract,
+            Patient patient,
+            String practiseCode,
+            List<Location> entryLocations
+    ) {
         List<Encounter> encounters = new ArrayList<>();
         List<ListResource> consultations = new ArrayList<>();
         List<ListResource> topics = new ArrayList<>();
@@ -81,7 +86,7 @@ public class EncounterMapper {
         List<RCMRMT030101UK04EhrComposition> ehrCompositionList = getEncounterEhrCompositions(ehrExtract);
 
         ehrCompositionList.forEach(ehrComposition -> {
-            var encounter = mapToEncounter(ehrComposition, patient, practiseCode);
+            var encounter = mapToEncounter(ehrComposition, patient, practiseCode, entryLocations);
             var consultation = consultationListMapper.mapToConsultation(ehrExtract, encounter);
 
             var topicCompoundStatementList = getTopicCompoundStatements(ehrComposition);
@@ -218,7 +223,7 @@ public class EncounterMapper {
         return compoundStatement != null && TOPIC_CLASS_CODE.equals(compoundStatement.getClassCode().get(0));
     }
 
-    private Encounter mapToEncounter(RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, String practiseCode) {
+    private Encounter mapToEncounter(RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, String practiseCode, List<Location> entryLocations) {
         var id = ehrComposition.getId().getRoot();
 
         var encounter = new Encounter();
@@ -232,7 +237,7 @@ public class EncounterMapper {
             .setMeta(generateMeta(ENCOUNTER_META_PROFILE))
             .setId(id);
 
-        setEncounterLocation(encounter, ehrComposition);
+        setEncounterLocation(encounter, ehrComposition, entryLocations);
 
         return encounter;
     }
@@ -310,12 +315,19 @@ public class EncounterMapper {
         return participants;
     }
 
-    private void setEncounterLocation(Encounter encounter, RCMRMT030101UK04EhrComposition ehrComposition) {
+    private void setEncounterLocation(Encounter encounter, RCMRMT030101UK04EhrComposition ehrComposition, List<Location> entryLocations) {
         if (ehrComposition.getLocation() != null) {
-            var location = new EncounterLocationComponent();
-            location.setLocation(new Reference(LOCATION_REFERENCE.formatted(ehrComposition.getId().getRoot())));
 
-            encounter.setLocation(List.of(location));
+            var locationName = ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName().toLowerCase();
+
+            for (var entryLocation : entryLocations) {
+                if(entryLocation.getName().toLowerCase().equals(locationName)){
+                    var id = entryLocation.getId();
+                    var location = new EncounterLocationComponent();
+                    location.setLocation(new Reference(LOCATION_REFERENCE.formatted(id)));
+                    encounter.setLocation(List.of(location));
+                }
+            }
         }
     }
 

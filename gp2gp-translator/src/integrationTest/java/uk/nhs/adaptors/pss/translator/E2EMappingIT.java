@@ -47,6 +47,7 @@ public class E2EMappingIT extends BaseEhrHandler {
 
     private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
+    private final String PSS_ADAPTOR_URL = "https://PSSAdaptor/";
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     //these are programming language special characters, not to be confused with line endings
     private static final String SPECIAL_CHARS = "\\\\n|\\\\t|\\\\b|\\\\r";
@@ -69,6 +70,7 @@ public class E2EMappingIT extends BaseEhrHandler {
     @Autowired
     private FhirParser fhirParserService;
 
+    @Override
     @BeforeEach
     public void setUp() {
         setPatientNhsNumber(generatePatientNhsNumber());
@@ -85,6 +87,26 @@ public class E2EMappingIT extends BaseEhrHandler {
             "entry[1].resource.id",
             "entry[*].resource.subject.reference",
             "entry[*].resource.patient.reference"
+
+          /*
+                ToDo
+                    the code bellow needs to be implemented on each json File
+                    implementation incompleted. the ignore fields only work with the PWTP6.
+                    1 - each PWTP file needs to be modified so locations don't show repeatedly
+                    2 - each test of PWTP* needs to have its own ignored properties
+
+
+/*            ,
+            "entry[4].resource.location[0].location.reference",
+            "entry[5].resource.location[0].location.reference",
+            "entry[6].resource.location[0].location.reference",
+            "entry[7].resource.location[0].location.reference",
+            "entry[8].resource.location[0].location.reference",
+            "entry[9].resource.location[0].location.reference",
+            "entry[36].resource.id",
+            "entry[36].resource.identifier[0].value",
+            "entry[37].resource.id",
+            "entry[37].resource.identifier[0].value"*/
     );
 
     @Test
@@ -189,6 +211,7 @@ public class E2EMappingIT extends BaseEhrHandler {
         return objectMapper.writeValueAsString(inboundMessage);
     }
 
+
     protected void verifyBundle(String path) throws JSONException {
         var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(getConversationId());
         var expectedBundle = readResourceAsString(path).replaceAll(nhsNumberToBeReplaced, getPatientNhsNumber());
@@ -214,7 +237,14 @@ public class E2EMappingIT extends BaseEhrHandler {
     }
 
     private String getOdsToBeReplaced(String expectedBundle) {
-        var startIndex = expectedBundle.toLowerCase().indexOf("https://PSSAdaptor/".toLowerCase()) + "https://PSSAdaptor/".length();
+        var startIndex = expectedBundle.toLowerCase().indexOf(PSS_ADAPTOR_URL.toLowerCase()) + PSS_ADAPTOR_URL.length();
+        var endIndex = expectedBundle.toLowerCase().indexOf("\"", startIndex);
+
+        return expectedBundle.substring(startIndex, endIndex);
+    }
+
+    private String getLocationToBeReplaced(String expectedBundle) {
+        var startIndex = expectedBundle.toLowerCase().indexOf(PSS_ADAPTOR_URL.toLowerCase()) + PSS_ADAPTOR_URL.length();
         var endIndex = expectedBundle.toLowerCase().indexOf("\"", startIndex);
 
         return expectedBundle.substring(startIndex, endIndex);
