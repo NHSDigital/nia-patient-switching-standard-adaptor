@@ -95,7 +95,7 @@ public class PatientTransferServiceTest {
         assertThat(patientMigrationRequest).isEqualTo(null);
         verify(pssQueuePublisher).sendToPssQueue(expectedPssQueueMessage);
         verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, CONVERSATION_ID, LOSING_ODS_CODE, WINNING_ODS_CODE);
-        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId);
+        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId, null);
     }
 
     @Test
