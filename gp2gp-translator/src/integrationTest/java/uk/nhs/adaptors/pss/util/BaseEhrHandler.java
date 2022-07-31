@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -102,7 +101,7 @@ public abstract class BaseEhrHandler {
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
         var combinedList = Stream.of(generateJsonPathIgnores(bundle), ignoredJsonPaths)
             .flatMap(List::stream)
-            .collect(Collectors.toList());
+            .toList();
 
         assertBundleContent(patientMigrationRequest.getBundleResource(), expectedBundle, combinedList);
     }
