@@ -72,7 +72,7 @@ public class CodeableConceptMapperTest {
 
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
 
-        assertThat(codeableConcept.getCoding().get(0).getCode()).isEqualTo(SNOMED_PREFERRED.getId());
+        assertThat(codeableConcept.getCoding().get(0).getCode()).isEqualTo("22298006");
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 2).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
@@ -369,13 +369,14 @@ public class CodeableConceptMapperTest {
 
     @Test
     public void mapSnomedCodeForMedicationResourceDescriptionIdAndDisplayExtensionsIgnored() {
+        //
         when(snomedCTDao.getSnomedDescriptionUsingConceptIdAndDisplayName(any(), any())).thenReturn(SNOMED_DESCRIPTION);
         when(snomedCTDao.getSnomedDescriptionPreferredTermUsingConceptId(any())).thenReturn(SNOMED_PREFERRED);
         var codedData = unmarshallCodeElement("concept-id-display-name-original-text-example.xml");
 
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConceptForMedication(codedData);
 
-        assertThat(codeableConcept.getCoding().get(0).getCode()).isEqualTo(SNOMED_PREFERRED.getId());
+        assertThat(codeableConcept.getCoding().get(0).getCode()).isEqualTo("22298006");
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
         assertThat(codeableConcept.getCoding().get(0).getExtension()).isNullOrEmpty();
         assertThat(codeableConcept.getText()).isEqualTo(ORIGINAL_TEXT);
