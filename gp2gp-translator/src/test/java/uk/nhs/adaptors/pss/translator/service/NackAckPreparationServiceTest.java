@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
@@ -209,7 +210,7 @@ class NackAckPreparationServiceTest {
                 payload,
                 CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), null);
+        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull());
 
         assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
     }
@@ -369,7 +370,7 @@ class NackAckPreparationServiceTest {
                 payload,
                 CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), null);
+        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull());
 
         assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
     }

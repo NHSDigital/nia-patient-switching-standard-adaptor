@@ -1,8 +1,6 @@
 package uk.nhs.adaptors.pss.translator.task.scheduled;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -176,7 +174,7 @@ public class EHRTimeoutHandlerTest {
 
         ehrTimeoutHandler.checkForTimeouts();
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), null);
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), isNull());
     }
 
     @Test
