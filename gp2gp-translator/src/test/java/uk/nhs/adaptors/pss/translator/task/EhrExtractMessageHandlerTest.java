@@ -45,8 +45,7 @@ import java.util.List;
 
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doThrow;
@@ -64,6 +63,7 @@ public class EhrExtractMessageHandlerTest {
     private static final String BUNDLE_STRING = "{bundle}";
     private static final String LOSING_ODE_CODE = "G543";
     private static final String WINNING_ODE_CODE = "B943";
+    private static final String MESSAGE_ID = randomUUID().toString();
 
     @Mock
     private ObjectMapper objectMapper;
@@ -108,7 +108,7 @@ public class EhrExtractMessageHandlerTest {
     private SkeletonProcessingService skeletonProcessingService;
 
     @Test
-    public void When_HandleMessageWithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
+    public void  When_HandleMessageWithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
         throws
         JsonProcessingException,
         JAXBException,
@@ -116,7 +116,8 @@ public class EhrExtractMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException
+    {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -125,7 +126,7 @@ public class EhrExtractMessageHandlerTest {
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID, null);
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
-            CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED, null);
+            CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED, MESSAGE_ID);
     }
 
     @Test
@@ -552,7 +553,7 @@ public class EhrExtractMessageHandlerTest {
 
     @SneakyThrows
     private String readInboundMessageEbXmlFromFile() {
-        return readResourceAsString("/xml/inbound_message_ebxml.xml");
+        return readResourceAsString("/xml/inbound_message_ebxml.xml").replace("{{messageId}}", MESSAGE_ID);
     }
 
     private String readInboundSingleMessageEbXmlFromFile() {

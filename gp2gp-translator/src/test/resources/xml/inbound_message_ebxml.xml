@@ -12,7 +12,7 @@
             <eb:Service>urn:nhs:names:services:gp2gp</eb:Service>
             <eb:Action>RCMR_IN030000UK06</eb:Action>
             <eb:MessageData>
-                <eb:MessageId>6E242658-3D8E-11E3-A7DC-172BDA00FA67</eb:MessageId>
+                <eb:MessageId>{{messageId}}</eb:MessageId>
                 <eb:Timestamp>2013-10-25T16:59:29Z</eb:Timestamp>
             </eb:MessageData>
             <eb:DuplicateElimination/>

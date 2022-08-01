@@ -67,6 +67,8 @@ public class EhrExtractMessageHandler {
 
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
 
+//    path "/Envelope/Header/MessageHeader/MessageData/MessageId"
+
     public void handleMessage(InboundMessage inboundMessage, String conversationId)
         throws
         JAXBException,
