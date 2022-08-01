@@ -122,11 +122,21 @@ public class EhrExtractMessageHandlerTest {
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
+        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
+                .thenReturn(MESSAGE_ID);
+
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID, null);
+
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
-            CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED, MESSAGE_ID);
+            CONVERSATION_ID,
+            BUNDLE_STRING,
+            INBOUND_MESSAGE_STRING,
+            EHR_EXTRACT_TRANSLATED,
+            MESSAGE_ID
+        );
     }
 
     @Test
@@ -142,6 +152,10 @@ public class EhrExtractMessageHandlerTest {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
+
+        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
+                .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
@@ -163,6 +177,10 @@ public class EhrExtractMessageHandlerTest {
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
 
+        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
+                .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
+
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(attachmentHandlerService).storeAttachments(inboundMessage.getAttachments(), CONVERSATION_ID);
@@ -181,6 +199,10 @@ public class EhrExtractMessageHandlerTest {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
+
+        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
+                .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
@@ -246,6 +268,10 @@ public class EhrExtractMessageHandlerTest {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
+
+        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
+                .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
@@ -520,10 +546,6 @@ public class EhrExtractMessageHandlerTest {
                 .updateReferenceToAttachment(
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
                 )).thenReturn(inboundMessage.getPayload());
-
-        when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
-        when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
-            .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
     }
 
     @SneakyThrows
