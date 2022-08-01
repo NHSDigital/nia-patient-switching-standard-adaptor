@@ -116,8 +116,7 @@ public class EhrExtractMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException
-    {
+        SAXException, TransformerException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -271,12 +270,12 @@ public class EhrExtractMessageHandlerTest {
 
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
-                .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
+                .thenReturn(MESSAGE_ID);
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
-            CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED, null);
+            CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED, MESSAGE_ID);
     }
 
     @Test
@@ -575,7 +574,7 @@ public class EhrExtractMessageHandlerTest {
 
     @SneakyThrows
     private String readInboundMessageEbXmlFromFile() {
-        return readResourceAsString("/xml/inbound_message_ebxml.xml").replace("{{messageId}}", MESSAGE_ID);
+        return readResourceAsString("/xml/inbound_message_ebxml.xml");
     }
 
     private String readInboundSingleMessageEbXmlFromFile() {
