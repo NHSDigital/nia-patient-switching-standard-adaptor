@@ -17,4 +17,5 @@ public class MigrationStatusLog {
     private MigrationStatus migrationStatus;
     private OffsetDateTime date;
     private int migrationRequestId;
+    private String messageId;
 }

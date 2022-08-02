@@ -86,7 +86,7 @@ public class EHRTimeoutHandlerIT {
             conversationId,
             "{test bundle}",
             objectMapper.writeValueAsString(inboundMessage),
-            migrationStatus);
+            migrationStatus, null);
 
         ehrTimeoutHandler.checkForTimeouts();
 
