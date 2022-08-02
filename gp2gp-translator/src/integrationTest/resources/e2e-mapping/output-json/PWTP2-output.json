@@ -123,7 +123,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/9B69EBA5-F541-4119-9142-0AA0F87E3758-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -178,7 +178,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/B618332C-F6FC-4A79-B193-580FD098B95C-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -233,7 +233,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -288,7 +288,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/F550CC56-EF65-4934-A7B1-3DC2E02243C3-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -343,7 +343,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/9B69F6AE-F991-49EE-9FFD-028E39B38BFE-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -398,7 +398,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/D81C5E8F-CB3A-4A78-92EA-51EC3665648E-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -453,7 +453,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/8FEB11AA-5785-43D3-99A9-E9D49EAF2161-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -508,7 +508,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/4088F3A1-CE58-4374-AABA-763C31738281-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -563,7 +563,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/DBF5776F-8A86-477C-AB98-57182A9B40FD-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -2082,13 +2082,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "9B69EBA5-F541-4119-9142-0AA0F87E3758-LOC",
+      "id": "{{LOCATION-1}}",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "9B69EBA5-F541-4119-9142-0AA0F87E3758-LOC"
+        "value": "{{LOCATION-1}}"
       } ],
       "status": "active",
       "name": "Branch Surgery Rhing"
@@ -2096,111 +2096,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "B618332C-F6FC-4A79-B193-580FD098B95C-LOC",
+      "id": "{{LOCATION-2}}",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "B618332C-F6FC-4A79-B193-580FD098B95C-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "F550CC56-EF65-4934-A7B1-3DC2E02243C3-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "F550CC56-EF65-4934-A7B1-3DC2E02243C3-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "9B69F6AE-F991-49EE-9FFD-028E39B38BFE-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "9B69F6AE-F991-49EE-9FFD-028E39B38BFE-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "D81C5E8F-CB3A-4A78-92EA-51EC3665648E-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "D81C5E8F-CB3A-4A78-92EA-51EC3665648E-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "8FEB11AA-5785-43D3-99A9-E9D49EAF2161-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "8FEB11AA-5785-43D3-99A9-E9D49EAF2161-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "4088F3A1-CE58-4374-AABA-763C31738281-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "4088F3A1-CE58-4374-AABA-763C31738281-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "DBF5776F-8A86-477C-AB98-57182A9B40FD-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "DBF5776F-8A86-477C-AB98-57182A9B40FD-LOC"
+        "value": "{{LOCATION-2}}"
       } ],
       "status": "active",
       "name": "EMIS LV Test Practice 1"

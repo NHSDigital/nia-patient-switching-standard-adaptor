@@ -109,7 +109,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/5649F991-91C0-4A01-A9CA-7C12F4032DD6-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -403,13 +403,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "5649F991-91C0-4A01-A9CA-7C12F4032DD6-LOC",
+      "id": "{{LOCATION-1}}",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "5649F991-91C0-4A01-A9CA-7C12F4032DD6-LOC"
+        "value": "{{LOCATION-1}}"
       } ],
       "status": "active",
       "name": "EMIS LV Test Practice 1"

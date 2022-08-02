@@ -370,7 +370,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -425,7 +425,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -480,7 +480,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -535,7 +535,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/9326C01E-488B-4EDF-B9C9-529E69EE0361-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -590,7 +590,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/4E95E2AF-BF10-45BB-AAA5-2547BD42C806-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -645,7 +645,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/DF71EC06-9453-4AE7-9C3C-E42871252772-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -801,7 +801,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/2485BC20-90B4-11EC-B1E5-0800200C9A66-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -906,7 +906,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -2046,13 +2046,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF-LOC",
+      "id": "{{LOCATION-1}}",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/D5445",
-        "value": "CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF-LOC"
+        "value": "{{LOCATION-1}}"
       } ],
       "status": "active",
       "name": "EMIS Test Practice Location"
@@ -2060,97 +2060,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039-LOC",
+      "id": "{{LOCATION-2}}",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/D5445",
-        "value": "3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS Test Practice Location"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS Test Practice Location"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "9326C01E-488B-4EDF-B9C9-529E69EE0361-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "9326C01E-488B-4EDF-B9C9-529E69EE0361-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS Test Practice Location"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "4E95E2AF-BF10-45BB-AAA5-2547BD42C806-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "4E95E2AF-BF10-45BB-AAA5-2547BD42C806-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS Test Practice Location"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "DF71EC06-9453-4AE7-9C3C-E42871252772-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "DF71EC06-9453-4AE7-9C3C-E42871252772-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS Test Practice Location"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "2485BC20-90B4-11EC-B1E5-0800200C9A66-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "2485BC20-90B4-11EC-B1E5-0800200C9A66-LOC"
-      } ],
-      "status": "active",
-      "name": "Test Location"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9-LOC"
+        "value": "{{LOCATION-2}}"
       } ],
       "status": "active",
       "name": "Test Location"

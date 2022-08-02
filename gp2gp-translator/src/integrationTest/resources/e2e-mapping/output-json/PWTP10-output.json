@@ -109,7 +109,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/0D68809F-354F-44BF-84AC-F69995369638-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -164,7 +164,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/B6C42958-A107-4188-9A9B-6D58AB25A657-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -219,7 +219,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/E92099A9-F7E9-4684-91EB-D6427F022041-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -274,7 +274,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/58488EEB-78EA-47F4-9A73-8D6836E09AAB-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -329,7 +329,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/81A3B881-FE23-4346-A7ED-48ED539E9054-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -383,7 +383,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/3995C975-2435-4AEC-AA26-7FF40D751E48-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -438,7 +438,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/0D27AD4C-6CC6-4743-965A-B0F2A020C2FD-LOC"
+          "reference": "Location/{{LOCATION-2}}"
         }
       } ]
     }
@@ -493,7 +493,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/20F49BAF-8E7B-49C3-8E64-91AC5810389B-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -2061,41 +2061,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "0D68809F-354F-44BF-84AC-F69995369638-LOC",
+      "id": "{{LOCATION-2}}",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "0D68809F-354F-44BF-84AC-F69995369638-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "B6C42958-A107-4188-9A9B-6D58AB25A657-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "B6C42958-A107-4188-9A9B-6D58AB25A657-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "E92099A9-F7E9-4684-91EB-D6427F022041-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "E92099A9-F7E9-4684-91EB-D6427F022041-LOC"
+        "value": "{{LOCATION-2}}"
       } ],
       "status": "active",
       "name": "Branch Surgery Rhing"
@@ -2103,83 +2075,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "F6796CE1-9A17-4BE2-8A87-ABEF9CA0F86E-LOC",
+      "id": "{{LOCATION-1}}",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "F6796CE1-9A17-4BE2-8A87-ABEF9CA0F86E-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "58488EEB-78EA-47F4-9A73-8D6836E09AAB-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "58488EEB-78EA-47F4-9A73-8D6836E09AAB-LOC"
-      } ],
-      "status": "active",
-      "name": "Branch Surgery Rhing"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "81A3B881-FE23-4346-A7ED-48ED539E9054-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "81A3B881-FE23-4346-A7ED-48ED539E9054-LOC"
-      } ],
-      "status": "active",
-      "name": "Branch Surgery Rhing"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "3995C975-2435-4AEC-AA26-7FF40D751E48-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "3995C975-2435-4AEC-AA26-7FF40D751E48-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "0D27AD4C-6CC6-4743-965A-B0F2A020C2FD-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "0D27AD4C-6CC6-4743-965A-B0F2A020C2FD-LOC"
-      } ],
-      "status": "active",
-      "name": "Branch Surgery Rhing"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "20F49BAF-8E7B-49C3-8E64-91AC5810389B-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "20F49BAF-8E7B-49C3-8E64-91AC5810389B-LOC"
+        "value": "{{LOCATION-1}}"
       } ],
       "status": "active",
       "name": "EMIS LV Test Practice 1"

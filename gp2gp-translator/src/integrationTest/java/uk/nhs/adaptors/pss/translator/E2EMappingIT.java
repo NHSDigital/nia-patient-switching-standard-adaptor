@@ -80,90 +80,194 @@ public class E2EMappingIT extends BaseEhrHandler {
         startPatientMigrationJourney();
     }
 
-    private static final List<String> STATIC_IGNORED_JSON_PATHS = List.of(
+    private static List<String> STATIC_IGNORED_JSON_PATHS = List.of(
             "id",
             "entry[0].resource.id",
             "entry[0].resource.identifier[0].value",
             "entry[1].resource.id",
             "entry[*].resource.subject.reference",
             "entry[*].resource.patient.reference"
-
-          /*
-                ToDo
-                    the code bellow needs to be implemented on each json File
-                    implementation incompleted. the ignore fields only work with the PWTP6.
-                    1 - each PWTP file needs to be modified so locations don't show repeatedly
-                    2 - each test of PWTP* needs to have its own ignored properties
-
-
-/*            ,
-            "entry[4].resource.location[0].location.reference",
-            "entry[5].resource.location[0].location.reference",
-            "entry[6].resource.location[0].location.reference",
-            "entry[7].resource.location[0].location.reference",
-            "entry[8].resource.location[0].location.reference",
-            "entry[9].resource.location[0].location.reference",
-            "entry[36].resource.id",
-            "entry[36].resource.identifier[0].value",
-            "entry[37].resource.id",
-            "entry[37].resource.identifier[0].value"*/
     );
 
     @Test
     public void handlePWTP2EhrExtractFromQueue() throws JSONException, JAXBException {
         String inputFileName = "PWTP2";
-        executeTest(inputFileName);
+
+
+        List<String> ignoredFields = List.of(
+                "entry[5].resource.location[0].location.reference",
+                "entry[6].resource.location[0].location.reference",
+                "entry[7].resource.location[0].location.reference",
+                "entry[8].resource.location[0].location.reference",
+                "entry[9].resource.location[0].location.reference",
+                "entry[10].resource.location[0].location.reference",
+                "entry[11].resource.location[0].location.reference",
+                "entry[12].resource.location[0].location.reference",
+                "entry[13].resource.location[0].location.reference",
+                "entry[52].resource.id",
+                "entry[52].resource.identifier[0].value",
+                "entry[53].resource.id",
+                "entry[53].resource.identifier[0].value"
+
+        );
+
+
+        executeTest(inputFileName, ignoredFields);
     }
 
     @Test
     public void handlePWTP3EhrExtractFromQueue() throws JSONException, JAXBException {
         String inputFileName = "PWTP3";
-        executeTest(inputFileName);
+
+        List<String> ignoredFields = List.of(
+                "entry[4].resource.location[0].location.reference",
+                "entry[12].resource.id",
+                "entry[12].resource.identifier[0].value"
+        );
+
+        executeTest(inputFileName, ignoredFields);
     }
 
     @Test
     public void handlePWTP4EhrExtractFromQueue() throws JSONException, JAXBException {
         String inputFileName = "PWTP4";
-        executeTest(inputFileName);
+
+        List<String> ignoredFields = List.of(
+            "entry[7].resource.location[0].location.reference",
+            "entry[8].resource.location[0].location.reference",
+            "entry[9].resource.location[0].location.reference",
+            "entry[10].resource.location[0].location.reference",
+            "entry[11].resource.location[0].location.reference",
+            "entry[12].resource.location[0].location.reference",
+            "entry[46].resource.id",
+            "entry[46].resource.identifier[0].value"
+        );
+
+        executeTest(inputFileName, ignoredFields);
     }
 
     @Test
     public void handlePWTP5EhrExtractFromQueue() throws JSONException, JAXBException {
         String inputFileName = "PWTP5";
-        executeTest(inputFileName);
+
+        List<String> ignoredFields = List.of(
+                "entry[3].resource.location[0].location.reference",
+                "entry[4].resource.location[0].location.reference",
+                "entry[5].resource.location[0].location.reference",
+                "entry[6].resource.location[0].location.reference",
+                "entry[7].resource.location[0].location.reference",
+                "entry[8].resource.location[0].location.reference",
+                "entry[9].resource.location[0].location.reference",
+                "entry[10].resource.location[0].location.reference",
+                "entry[11].resource.location[0].location.reference",
+                "entry[46].resource.id",
+                "entry[46].resource.identifier[0].value"
+
+        );
+
+        executeTest(inputFileName, ignoredFields);
     }
 
     @Test
     public void handlePWTP6EhrExtractFromQueue() throws JSONException, JAXBException {
         String inputFileName = "PWTP6";
-        executeTest(inputFileName);
+
+        List<String> ignoredFields = List.of(
+                "entry[4].resource.location[0].location.reference",
+                "entry[5].resource.location[0].location.reference",
+                "entry[6].resource.location[0].location.reference",
+                "entry[7].resource.location[0].location.reference",
+                "entry[8].resource.location[0].location.reference",
+                "entry[9].resource.location[0].location.reference",
+                "entry[36].resource.id",
+                "entry[36].resource.identifier[0].value",
+                "entry[37].resource.id",
+                "entry[37].resource.identifier[0].value"
+        );
+
+        executeTest(inputFileName, ignoredFields);
     }
 
     @Test
     public void handlePWTP7visEhrExtractFromQueue() throws JSONException, JAXBException {
         String inputFileName = "PWTP7_vis";
-        executeTest(inputFileName);
+
+        List<String> ignoredFields = List.of(
+                "entry[4].resource.location[0].location.reference",
+                "entry[5].resource.location[0].location.reference",
+                "entry[6].resource.location[0].location.reference",
+                "entry[7].resource.location[0].location.reference",
+                "entry[8].resource.location[0].location.reference",
+                "entry[9].resource.location[0].location.reference",
+                "entry[10].resource.location[0].location.reference",
+                "entry[11].resource.location[0].location.reference",
+                "entry[12].resource.location[0].location.reference",
+                "entry[13].resource.location[0].location.reference",
+                "entry[14].resource.location[0].location.reference",
+                "entry[49].resource.id",
+                "entry[49].resource.identifier[0].value"
+        );
+
+        executeTest(inputFileName, ignoredFields);
     }
 
     @Test
     public void handlePWTP9EhrExtractFromQueue() throws JSONException, JAXBException {
         String inputFileName = "PWTP9";
-        executeTest(inputFileName);
+
+        List<String> ignoredFields = List.of(
+                "entry[24].resource.location[0].location.reference",
+                "entry[25].resource.location[0].location.reference",
+                "entry[90].resource.id",
+                "entry[90].resource.identifier[0].value"
+                );
+
+        executeTest(inputFileName, ignoredFields);
     }
 
     @Test
     public void handlePWTP10EhrExtractFromQueue() throws JSONException, JAXBException {
         String inputFileName = "PWTP10";
-        executeTest(inputFileName);
+
+        List<String> ignoredFields = List.of(
+                "entry[4].resource.location[0].location.reference",
+                "entry[5].resource.location[0].location.reference",
+                "entry[6].resource.location[0].location.reference",
+                "entry[7].resource.location[0].location.reference",
+                "entry[8].resource.location[0].location.reference",
+                "entry[9].resource.location[0].location.reference",
+                "entry[10].resource.location[0].location.reference",
+                "entry[11].resource.location[0].location.reference",
+                "entry[51].resource.id",
+                "entry[51].resource.identifier[0].value",
+                "entry[52].resource.id",
+                "entry[52].resource.identifier[0].value"
+        );
+
+        executeTest(inputFileName, ignoredFields);
     }
 
     @Test
     public void handlePWTP11EhrExtractFromQueue() throws JSONException, JAXBException {
         String inputFileName = "PWTP11";
-        executeTest(inputFileName);
+
+        List<String> ignoredFields = List.of(
+                "entry[3].resource.location[0].location.reference",
+                "entry[4].resource.location[0].location.reference",
+                "entry[5].resource.location[0].location.reference",
+                "entry[6].resource.location[0].location.reference",
+                "entry[7].resource.location[0].location.reference",
+                "entry[8].resource.location[0].location.reference",
+                "entry[9].resource.location[0].location.reference",
+                "entry[53].resource.id",
+                "entry[53].resource.identifier[0].value"
+
+        );
+
+        executeTest(inputFileName, ignoredFields);
     }
 
-    private void executeTest(String inputFileName) throws JAXBException, JSONException {
+    private void executeTest(String inputFileName, List<String> ignoredFields) throws JAXBException, JSONException {
         // process starts with consuming a message from MHS queue
         sendInboundMessageToQueue("/e2e-mapping/input-xml/" + inputFileName + ".xml");
 
@@ -171,7 +275,7 @@ public class E2EMappingIT extends BaseEhrHandler {
         await().until(this::isEhrMigrationCompleted);
 
         // verify generated bundle resource
-        verifyBundle("/e2e-mapping/output-json/" + inputFileName + "-output.json");
+        verifyBundle("/e2e-mapping/output-json/" + inputFileName + "-output.json", ignoredFields);
     }
 
     private void sendInboundMessageToQueue(String payloadPartPath) throws JAXBException {
@@ -212,7 +316,7 @@ public class E2EMappingIT extends BaseEhrHandler {
     }
 
 
-    protected void verifyBundle(String path) throws JSONException {
+    protected void verifyBundle(String path, List<String> ignoredFields) throws JSONException {
         var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(getConversationId());
         var expectedBundle = readResourceAsString(path).replaceAll(nhsNumberToBeReplaced, getPatientNhsNumber());
         var odsCodeToBeReplaced = getOdsToBeReplaced(expectedBundle);
@@ -232,7 +336,7 @@ public class E2EMappingIT extends BaseEhrHandler {
         assertBundleContent(
                 actualBundle,
                 expectedBundle,
-                combinedList
+                Stream.concat(combinedList.stream(), ignoredFields.stream()).toList()
         );
     }
 

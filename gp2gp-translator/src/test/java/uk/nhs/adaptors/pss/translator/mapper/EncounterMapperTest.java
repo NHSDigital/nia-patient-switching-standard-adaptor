@@ -53,7 +53,6 @@ public class EncounterMapperTest {
     private static final String TOPIC_KEY = "topics";
     private static final String CATEGORY_KEY = "categories";
     private static final String LOCATION_PREFIX = "Location/";
-    private static final String LOCATION_SUFFIX = "-LOC";
     private static final String ENCOUNTER_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
@@ -101,6 +100,8 @@ public class EncounterMapperTest {
 
     private List<Location> entryLocations;
 
+    private static String LOCATION_ID =  "3";
+
     @BeforeEach
     public void setup() {
         patient = new Patient();
@@ -112,10 +113,14 @@ public class EncounterMapperTest {
         location1.setId("1");
 
         var location2 = new Location();
-        location1.setName("Branch Surgery");
-        location1.setId("2");
+        location2.setName("EMIS LV Test Practice 1");
+        location2.setId("2");
 
-        entryLocations = List.of(location1, location2);
+        var location3 = new Location();
+        location3.setName("test location");
+        location3.setId(LOCATION_ID);
+
+        entryLocations = List.of(location1, location2, location3);
     }
 
     @Test
@@ -135,7 +140,6 @@ public class EncounterMapperTest {
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
         assertThat(mappedResources.get(TOPIC_KEY).size()).isEqualTo(TWO_MAPPED_RESOURCES);
         assertThat(mappedResources.get(CATEGORY_KEY).size()).isEqualTo(ONE_MAPPED_RESOURCE);
-
         assertThat(encounterList.size()).isEqualTo(1);
     }
 
@@ -159,7 +163,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -196,7 +200,7 @@ public class EncounterMapperTest {
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
-        assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true, "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
+        assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true, "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -237,7 +241,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -264,7 +268,7 @@ public class EncounterMapperTest {
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
-        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, null, null);
+        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, null, null, LOCATION_ID);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -294,7 +298,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -330,7 +334,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -357,7 +361,7 @@ public class EncounterMapperTest {
         assertThat(encounterList.size()).isOne();
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
-        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, startDate, endDate);
+        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, startDate, endDate, LOCATION_ID);
     }
 
     private static Stream<Arguments> encounterPeriodTestFiles() {
@@ -395,21 +399,21 @@ public class EncounterMapperTest {
         );
     }
 
-    private void assertEncounter(Encounter encounter, String id, Boolean hasLocation, String startDate, String endDate) {
+    private void assertEncounter(Encounter encounter, String id, Boolean hasLocation, String startDate, String endDate,String locationId) {
         assertThat(encounter.getId()).isEqualTo(id);
         assertThat(encounter.getMeta().getProfile().get(0).getValue()).isEqualTo(ENCOUNTER_META_PROFILE);
         assertThat(encounter.getIdentifierFirstRep().getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
         assertThat(encounter.getIdentifierFirstRep().getValue()).isEqualTo(id);
         assertThat(encounter.getStatus()).isEqualTo(EncounterStatus.FINISHED);
         assertThat(encounter.getSubject().getResource()).isEqualTo(patient);
-        assertLocation(encounter, id, hasLocation);
+        assertLocation(encounter, locationId, hasLocation);
         assertPeriod(encounter.getPeriod(), startDate, endDate);
     }
 
     private void assertLocation(Encounter encounter, String id, boolean hasLocation) {
         if (hasLocation) {
             assertThat(encounter.getLocationFirstRep().getLocation().getReference())
-                .isEqualTo(LOCATION_PREFIX + id + LOCATION_SUFFIX);
+                .isEqualTo(LOCATION_PREFIX + id);
         } else {
             assertThat(encounter.getLocation().size()).isZero();
         }

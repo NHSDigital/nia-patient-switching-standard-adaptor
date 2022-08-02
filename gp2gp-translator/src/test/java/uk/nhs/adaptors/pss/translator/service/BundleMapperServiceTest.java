@@ -129,20 +129,15 @@ public class BundleMapperServiceTest {
         encounterResources.put(CATEGORY_KEY, new ArrayList<>());
 
         var location1 = new Location();
-        location1.setName("Branch Surgery");
+        location1.setName("EMIS Test Practice Location");
         location1.setId("1");
 
-        var location2 = new Location();
-        location1.setName("Branch Surgery");
-        location1.setId("2");
-
-        var entryLocations = List.of(location1, location2);
-
+        when(locationMapper.mapToLocation(any(RCMRMT030101UK04Location.class), anyString())).thenReturn(location1);
 
         when(agentDirectoryMapper.mapAgentDirectory(any())).thenReturn(mockedList);
         when(mockedList.stream()).thenReturn(agentResourceList.stream());
         when(patientMapper.mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class))).thenReturn(new Patient());
-        when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class), entryLocations))
+        when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class), any(List.class)))
             .thenReturn(encounterResources);
         when(organizationMapper.mapAuthorOrganization(anyString())).thenReturn(new Organization());
     }
@@ -152,22 +147,11 @@ public class BundleMapperServiceTest {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
         Bundle bundle = bundleMapperService.mapToBundle(xml, LOSING_ODS_CODE);
 
-        var location1 = new Location();
-        location1.setName("Branch Surgery");
-        location1.setId("1");
-
-        var location2 = new Location();
-        location1.setName("Branch Surgery");
-        location1.setId("2");
-
-        var entryLocations = List.of(location1, location2);
-
-
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(organizationMapper).mapAuthorOrganization(anyString());
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
         verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), anyString());
-        verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyString(), entryLocations);
+        verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyString(), anyList());
         verify(procedureRequestMapper).mapResources(
             any(RCMRMT030101UK04EhrExtract.class),
             any(Patient.class),
