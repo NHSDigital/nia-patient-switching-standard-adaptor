@@ -47,7 +47,7 @@ public class E2EMappingIT extends BaseEhrHandler {
 
     private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
-    private final String PSS_ADAPTOR_URL = "https://PSSAdaptor/";
+    private static final String PSS_ADAPTOR_URL = "https://PSSAdaptor/";
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     //these are programming language special characters, not to be confused with line endings
     private static final String SPECIAL_CHARS = "\\\\n|\\\\t|\\\\b|\\\\r";
@@ -80,7 +80,7 @@ public class E2EMappingIT extends BaseEhrHandler {
         startPatientMigrationJourney();
     }
 
-    private static List<String> STATIC_IGNORED_JSON_PATHS = List.of(
+    private static List<String> staticIgnoredJsonPaths = List.of(
             "id",
             "entry[0].resource.id",
             "entry[0].resource.identifier[0].value",
@@ -326,7 +326,7 @@ public class E2EMappingIT extends BaseEhrHandler {
         }
 
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
-        var combinedList = Stream.of(generateJsonPathIgnores(bundle), STATIC_IGNORED_JSON_PATHS)
+        var combinedList = Stream.of(generateJsonPathIgnores(bundle), staticIgnoredJsonPaths)
                 .flatMap(List::stream)
                 .toList();
 

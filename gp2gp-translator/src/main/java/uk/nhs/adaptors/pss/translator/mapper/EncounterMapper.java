@@ -222,7 +222,12 @@ public class EncounterMapper {
         return compoundStatement != null && TOPIC_CLASS_CODE.equals(compoundStatement.getClassCode().get(0));
     }
 
-    private Encounter mapToEncounter(RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, String practiseCode, List<Location> entryLocations) {
+    private Encounter mapToEncounter(
+            RCMRMT030101UK04EhrComposition ehrComposition,
+            Patient patient,
+            String practiseCode,
+            List<Location> entryLocations
+    ) {
         var id = ehrComposition.getId().getRoot();
 
         var encounter = new Encounter();
@@ -320,7 +325,7 @@ public class EncounterMapper {
             var locationName = ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName().toLowerCase();
 
             for (var entryLocation : entryLocations) {
-                if(entryLocation.getName().toLowerCase().equals(locationName)){
+                if (entryLocation.getName().toLowerCase().equals(locationName)) {
                     var id = entryLocation.getId();
                     var location = new EncounterLocationComponent();
                     location.setLocation(new Reference(LOCATION_REFERENCE.formatted(id)));

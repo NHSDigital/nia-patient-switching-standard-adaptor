@@ -172,7 +172,7 @@ public class LocationMapperTest {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(id);
 
-        assertTrue(id!= null && matcher.matches()); //add a regular expression here
+        assertTrue(id != null && matcher.matches()); //add a regular expression here
     }
 
     private void assertTelecom(ContactPoint mappedTelecom, String value) {

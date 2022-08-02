@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static java.util.UUID.randomUUID;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
