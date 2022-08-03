@@ -42,11 +42,11 @@ public class SendContinueRequestHandler {
             mhsClientService.send(request);
         } catch (WebClientResponseException webClientResponseException) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", webClientResponseException.getMessage());
-            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getConversationId());
+            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getConversationId(), null);
             throw webClientResponseException;
         }
 
         LOGGER.info("Got response from MHS - 202 Accepted");
-        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, data.getConversationId());
+        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, data.getConversationId(), null);
     }
 }

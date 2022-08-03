@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -132,7 +133,8 @@ public class InboundMessageMergingServiceTests {
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
         verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
-        verify(migrationStatusLogService, times(1)).updatePatientMigrationRequestAndAddMigrationStatusLog(any(), any(), any(), any());
+        verify(migrationStatusLogService,
+                times(1)).updatePatientMigrationRequestAndAddMigrationStatusLog(any(), any(), any(), any(), isNull());
     }
 
     @Test
@@ -173,7 +175,8 @@ public class InboundMessageMergingServiceTests {
         verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
         verify(attachmentHandlerService, never()).getAttachment(any(), any());
         verify(skeletonProcessingService, times(0)).updateInboundMessageWithSkeleton(any(), any(), any());
-        verify(migrationStatusLogService, times(1)).updatePatientMigrationRequestAndAddMigrationStatusLog(any(), any(), any(), any());
+        verify(migrationStatusLogService,
+                times(1)).updatePatientMigrationRequestAndAddMigrationStatusLog(any(), any(), any(), any(), isNull());
     }
 
     @Test
