@@ -51,8 +51,8 @@ public class AttachmentHandlerService {
                             throw new InlineAttachmentProcessingException("Incorrect payload length received");
                         }
                     }
-                    byte[] decodedPayload = inlineAttachment.getPayload().getBytes();
-                    if (inlineAttachment.isBase64() == false) {
+                    byte[] decodedPayload = inlineAttachment.getPayload().getBytes(StandardCharsets.UTF_8);
+                    if (!inlineAttachment.isBase64()) {
                         decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
                     }
 
