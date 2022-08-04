@@ -29,7 +29,7 @@ public class COPCHandlingIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().until(this::isEhrMigrationCompleted);
+        await().until(this::isCOPCMessageProcessing);
 
         var migrationStatusLog = getMigrationStatusLogService().getLatestMigrationStatusLog(getConversationId());
 
