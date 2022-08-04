@@ -50,7 +50,7 @@ public class COPCHandlingIT extends BaseEhrHandler {
         var migrationStatusLog = getMigrationStatusLogService().getLatestMigrationStatusLog(getConversationId());
 
 
-        Assertions.assertTrue(migrationStatusLog.getMigrationStatus().equals("ERROR_LRG_MSG_GENERAL_FAILURE"));
+        Assertions.assertEquals(migrationStatusLog.getMigrationStatus().toString(), "ERROR_LRG_MSG_GENERAL_FAILURE");
 
     }
 
