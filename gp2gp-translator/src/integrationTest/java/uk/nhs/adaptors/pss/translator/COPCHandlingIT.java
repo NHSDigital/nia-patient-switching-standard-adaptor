@@ -38,7 +38,7 @@ public class COPCHandlingIT extends BaseEhrHandler {
 
     }
     @Test
-    public void handleCOPCMessageWithMissingFilename() throws JSONException {
+    public void handleCOPCMessageWithMissingAttachment() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/NewError/uk06.json");
 
         await().until(this::hasContinueMessageBeenReceived);
