@@ -7,6 +7,7 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUES
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_MESSAGE_PROCESSING;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
 import java.io.PrintWriter;
@@ -95,6 +96,11 @@ public abstract class BaseEhrHandler {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
         return CONTINUE_MESSAGE_PROCESSING.equals(migrationStatusLog.getMigrationStatus());
     }
+    protected boolean isLargeGeneralMessageFailure() {
+        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
+        return ERROR_LRG_MSG_GENERAL_FAILURE.equals(migrationStatusLog.getMigrationStatus());
+    }
+
     protected void verifyBundle(String path) throws JSONException {
         var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
