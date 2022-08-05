@@ -102,8 +102,7 @@ public class COPCMessageHandler {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
                     + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
