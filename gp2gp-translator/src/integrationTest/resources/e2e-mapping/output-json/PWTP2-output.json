@@ -8891,7 +8891,7 @@
       "resourceType": "AllergyIntolerance",
       "id": "1531E51E-3B31-4815-B44D-3D25C0B063D1",
       "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
@@ -8935,7 +8935,7 @@
       "resourceType": "AllergyIntolerance",
       "id": "DF247B4C-87AD-44C1-A465-48C08B93B5B8",
       "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
@@ -8978,7 +8978,7 @@
       "resourceType": "AllergyIntolerance",
       "id": "BD611AF5-AE92-4C20-AE8B-935F96FED4E4",
       "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
@@ -9022,7 +9022,7 @@
       "resourceType": "AllergyIntolerance",
       "id": "B2C097BC-B4D2-4D49-BC0B-A6AD10345FF6",
       "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
