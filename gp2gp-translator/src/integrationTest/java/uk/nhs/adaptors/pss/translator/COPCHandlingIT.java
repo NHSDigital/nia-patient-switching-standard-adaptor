@@ -29,7 +29,7 @@ public class COPCHandlingIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().until(this::isEhrMigrationCompleted);
+        await().until(this::isCOPCMessageProcessing);
 
         var migrationStatusLog = getMigrationStatusLogService().getLatestMigrationStatusLog(getConversationId());
 
@@ -37,6 +37,23 @@ public class COPCHandlingIT extends BaseEhrHandler {
         Assertions.assertNotEquals(migrationStatusLog.getMessageId(), "");
 
     }
+    @Test
+    public void handleCOPCMessageWithMissingAttachment() throws JSONException {
+        sendInboundMessageToQueue("/json/LargeMessage/NewError/uk06.json");
+
+        await().until(this::hasContinueMessageBeenReceived);
+
+        sendInboundMessageToQueue("/json/LargeMessage/NewError/copc_error_missing_attachment.json");
+
+        await().until(this::isLargeGeneralMessageFailure);
+
+        var migrationStatusLog = getMigrationStatusLogService().getLatestMigrationStatusLog(getConversationId());
+
+
+        Assertions.assertEquals(migrationStatusLog.getMigrationStatus().toString(), "ERROR_LRG_MSG_GENERAL_FAILURE");
+
+    }
+
 
 
     private void sendInboundMessageToQueue(String json) {
