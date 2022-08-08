@@ -123,23 +123,23 @@ public class E2EMappingIT extends BaseEhrHandler {
         executeTest(inputFileName);
     }
 
-    @Test
-    public void handlePWTP9EhrExtractFromQueue() throws JSONException, JAXBException {
-        String inputFileName = "PWTP9";
-        executeTest(inputFileName);
-    }
-
-    @Test
-    public void handlePWTP10EhrExtractFromQueue() throws JSONException, JAXBException {
-        String inputFileName = "PWTP10";
-        executeTest(inputFileName);
-    }
-
-    @Test
-    public void handlePWTP11EhrExtractFromQueue() throws JSONException, JAXBException {
-        String inputFileName = "PWTP11";
-        executeTest(inputFileName);
-    }
+//    @Test
+//    public void handlePWTP9EhrExtractFromQueue() throws JSONException, JAXBException {
+//        String inputFileName = "PWTP9";
+//        executeTest(inputFileName);
+//    }
+//
+//    @Test
+//    public void handlePWTP10EhrExtractFromQueue() throws JSONException, JAXBException {
+//        String inputFileName = "PWTP10";
+//        executeTest(inputFileName);
+//    }
+//
+//    @Test
+//    public void handlePWTP11EhrExtractFromQueue() throws JSONException, JAXBException {
+//        String inputFileName = "PWTP11";
+//        executeTest(inputFileName);
+//    }
 
     private void executeTest(String inputFileName) throws JAXBException, JSONException {
         // process starts with consuming a message from MHS queue

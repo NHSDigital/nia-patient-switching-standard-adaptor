@@ -62,7 +62,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
         DocumentReference documentReference = new DocumentReference();
 
-        var id = narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot();
+        var id = narrativeStatement.getId().getRoot();
 
         documentReference.addIdentifier(buildIdentifier(id, organization.getIdentifierFirstRep().getValue()));
         documentReference.setId(id);
