@@ -264,11 +264,24 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private List<Extension> buildRelatedClinicalContent(Bundle bundle, List<RCMRMT030101UK04StatementRef> relatedClinicalStatementRefs) {
-        var bundleIdArr = bundle.getEntry().stream().map(entry -> entry.getResource().getId()).toArray();
-        var refIdList = relatedClinicalStatementRefs.stream().filter(entry -> Arrays.stream(bundleIdArr).anyMatch(entry.getId().getRoot()::equals)).map(entry -> entry.getId().getRoot()).toList();
-        var clinicalRefsList = bundle.getEntry().stream().filter(entry -> refIdList.contains(entry.getResource().getId())).toList();
 
-        var clinicalRefsExtensionList = clinicalRefsList.stream().map(BundleEntryComponent::getResource)
+        // Filter for bundle entries where entry ID exists in both streams
+        var bundleIdArr = bundle.getEntry()
+            .stream()
+            .map(entry -> entry.getResource().getId()).toArray();
+        var refIdList = relatedClinicalStatementRefs
+            .stream()
+            .filter(entry -> Arrays.stream(bundleIdArr).anyMatch(entry.getId().getRoot()::equals))
+            .map(entry -> entry.getId().getRoot()).toList();
+        var clinicalRefsList = bundle.getEntry()
+            .stream()
+            .filter(entry -> refIdList.contains(entry.getResource().getId()))
+            .toList();
+
+        // Parse bundle entries into condition reference extensions and return
+        var conditionExtensionList = clinicalRefsList
+            .stream()
+            .map(BundleEntryComponent::getResource)
             .map(resource -> {
                 var reference = new Reference(resource);
                 reference.setReferenceElement(new StringType(resource.getId()));
@@ -276,7 +289,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 return extension;
             }).toList();
 
-        return clinicalRefsExtensionList;
+        return conditionExtensionList;
     }
 
     private List<Annotation> buildNotes(Optional<RCMRMT030101UK04ObservationStatement> observationStatement,
