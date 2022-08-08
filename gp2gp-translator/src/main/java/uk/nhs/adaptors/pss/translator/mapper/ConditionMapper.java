@@ -165,24 +165,6 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                     }));
     }
 
-
-    private List<Extension> buildRelatedClinicalContent(Bundle bundle, List<RCMRMT030101UK04StatementRef> relatedClinicalStatementRefs) {
-
-        var bundleIdArr = bundle.getEntry().stream().map(entry -> entry.getResource().getId()).toArray();
-        var refIdList = relatedClinicalStatementRefs.stream().filter(entry -> Arrays.stream(bundleIdArr).anyMatch(entry.getId().getRoot()::equals)).map(entry -> entry.getId().getRoot()).toList();
-        var clinicalRefsList = bundle.getEntry().stream().filter(entry -> refIdList.contains(entry.getResource().getId())).toList();
-
-        var clinicalRefsExtensionList = clinicalRefsList.stream().map(BundleEntryComponent::getResource)
-            .map(resource -> {
-                var reference = new Reference(resource);
-                reference.setReferenceElement(new StringType(resource.getId()));
-                var extension = buildReferenceExtension(RELATED_CLINICAL_CONTENT_URL, reference);
-                return extension;
-            }).toList();
-
-        return clinicalRefsExtensionList;
-    }
-
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UK04LinkSet linkSet) {
         if (linkSet.getEffectiveTime() != null) {
             IVLTS effectiveTime = linkSet.getEffectiveTime();
@@ -281,15 +263,20 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .addCoding(coding);
     }
 
-    private List<Extension> buildRelatedClinicalContentOld(Bundle bundle, List<RCMRMT030101UK04StatementRef> relatedClinicalStatementRefs) {
-        return relatedClinicalStatementRefs.stream()
-            .flatMap(statementRef -> bundle.getEntry()
-                .stream()
-                .filter(entryComponent -> statementRef.getId().getRoot().equals(entryComponent.getResource().getId()))
-            )
-            .map(BundleEntryComponent::getResource)
-            .map(resource -> buildReferenceExtension(RELATED_CLINICAL_CONTENT_URL, new Reference(resource)))
-            .toList();
+    private List<Extension> buildRelatedClinicalContent(Bundle bundle, List<RCMRMT030101UK04StatementRef> relatedClinicalStatementRefs) {
+        var bundleIdArr = bundle.getEntry().stream().map(entry -> entry.getResource().getId()).toArray();
+        var refIdList = relatedClinicalStatementRefs.stream().filter(entry -> Arrays.stream(bundleIdArr).anyMatch(entry.getId().getRoot()::equals)).map(entry -> entry.getId().getRoot()).toList();
+        var clinicalRefsList = bundle.getEntry().stream().filter(entry -> refIdList.contains(entry.getResource().getId())).toList();
+
+        var clinicalRefsExtensionList = clinicalRefsList.stream().map(BundleEntryComponent::getResource)
+            .map(resource -> {
+                var reference = new Reference(resource);
+                reference.setReferenceElement(new StringType(resource.getId()));
+                var extension = buildReferenceExtension(RELATED_CLINICAL_CONTENT_URL, reference);
+                return extension;
+            }).toList();
+
+        return clinicalRefsExtensionList;
     }
 
     private List<Annotation> buildNotes(Optional<RCMRMT030101UK04ObservationStatement> observationStatement,
