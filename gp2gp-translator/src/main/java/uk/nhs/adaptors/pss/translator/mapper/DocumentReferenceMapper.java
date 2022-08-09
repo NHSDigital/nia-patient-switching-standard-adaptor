@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Attachment;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
@@ -73,6 +74,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         documentReference.setIndexedElement(getIndexed(ehrExtract));
         documentReference.setDescription(buildDescription(narrativeStatement));
         documentReference.setCustodian(new Reference(organization));
+        documentReference.setCreatedElement(getCreatedTime(ehrExtract));
         getAuthor(narrativeStatement, ehrComposition).ifPresent(documentReference::addAuthor);
 
         if (narrativeStatement.hasAvailabilityTime() && narrativeStatement.getAvailabilityTime().hasValue()) {
@@ -96,6 +98,14 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         return documentReference;
     }
 
+    private DateTimeType getCreatedTime(RCMRMT030101UK04EhrExtract ehrExtract) {
+        if (ehrExtract.hasAuthor() && ehrExtract.getAuthor().hasTime()
+            && ehrExtract.getAuthor().getTime().hasValue()) {
+                return DateFormatUtil.parseToDateTimeType(ehrExtract.getAuthor().getTime().getValue());
+        }
+        return null;
+    }
+
     private CodeableConcept getType(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
         var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
 
@@ -113,15 +123,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     }
 
     private InstantType getIndexed(RCMRMT030101UK04EhrExtract ehrExtract) {
-        if (ehrExtract.hasAuthor()) {
-            if (ehrExtract.getAuthor().hasTime() && ehrExtract.getAuthor().getTime().hasValue()) {
-                return DateFormatUtil.parseToInstantType(ehrExtract.getAuthor().getTime().getValue());
-            }
-
-            return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
-        }
-
-        return null;
+        return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
     }
 
     private Optional<Reference> getAuthor(RCMRMT030101UK04NarrativeStatement narrativeStatement,
