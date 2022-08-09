@@ -101,7 +101,8 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     private DateTimeType getCreatedTime(RCMRMT030101UK04EhrExtract ehrExtract) {
         if (ehrExtract.hasAuthor() && ehrExtract.getAuthor().hasTime()
             && ehrExtract.getAuthor().getTime().hasValue()) {
-                return DateFormatUtil.parseToDateTimeType(ehrExtract.getAuthor().getTime().getValue());
+            return DateFormatUtil.parseToDateTimeType(ehrExtract
+                    .getAuthor().getTime().getValue());
         }
         return null;
     }
