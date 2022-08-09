@@ -223,7 +223,8 @@ public class COPCMessageHandler {
     }
 
     private void addLogForEarlyFragmentAndStore(InboundMessage inboundMessage, String conversationId, COPCIN000001UK01Message payload,
-        Document ebXmlDocument, int patientId) throws ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
+        Document ebXmlDocument, int patientId) throws ValidationException, InlineAttachmentProcessingException,
+        UnsupportedFileTypeException {
         String fragmentMid = getFragmentMidId(ebXmlDocument);
         String fileName = getFileNameForFragment(inboundMessage, payload);
 
@@ -236,8 +237,10 @@ public class COPCMessageHandler {
     }
 
     private void storeCOPCAttachment(PatientAttachmentLog fragmentAttachmentLog, InboundMessage inboundMessage,
-                                     String conversationId) throws ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
-        if (supportedFileTypes.getAccepted().contains(fragmentAttachmentLog.getContentType())) {
+                                     String conversationId) throws ValidationException, InlineAttachmentProcessingException,
+        UnsupportedFileTypeException {
+        if (supportedFileTypes.getAccepted() != null
+            && supportedFileTypes.getAccepted().contains(fragmentAttachmentLog.getContentType())) {
             if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
                 attachmentHandlerService.storeAttachmentWithoutProcessing(fragmentAttachmentLog.getFilename(),
                     inboundMessage.getAttachments().get(0).getPayload(), conversationId,
@@ -250,8 +253,7 @@ public class COPCMessageHandler {
                 );
                 attachmentHandlerService.storeAttachments(attachment, conversationId);
             }
-        }
-        else {
+        } else {
             throw new UnsupportedFileTypeException(String.format("File type %s is unsupported", fragmentAttachmentLog.getContentType()));
         }
     }
