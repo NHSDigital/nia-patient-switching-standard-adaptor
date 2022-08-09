@@ -54,5 +54,8 @@ timeout:
   cronTime: ${TIMEOUT_CRON_TIME:0 0 */6 * * *}
   sdsPollFrequency: ${TIMEOUT_SDS_POLL_FREQUENCY:3}
 
+supported-filetypes:
+  accepted: ${SUPPORTED_FILE_TYPES:}
+
 
 

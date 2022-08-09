@@ -52,3 +52,6 @@ timeout:
   ehrExtractWeighting: ${TIMEOUT_EHR_EXTRACT_WEIGHTING:1}
   copcWeighting: ${TIMEOUT_COPC_WEIGHTING:1}
   cronTime: ${TIMEOUT_CRON_TIME:* * */6 * * *}
+
+supported-filetypes:
+  accepted: ${SUPPORTED_FILE_TYPES:}
