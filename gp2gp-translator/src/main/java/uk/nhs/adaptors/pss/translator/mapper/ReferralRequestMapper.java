@@ -6,6 +6,7 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,7 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralCategory;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.IVLTS;
@@ -39,6 +41,12 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     private static final String ACTION_DATE_PREFIX = "Action Date: ";
     private static final String PRACTITIONER_REFERENCE = "Practitioner/%s";
     private static final String RESP_PARTY_TYPE_CODE = "RESP";
+
+    private static Map<String, String> PriorityCodes = Map.of(
+            "394848005","routine",
+            "394849002","urgent",
+            "88694003" , "stat"
+    );
 
     private CodeableConceptMapper codeableConceptMapper;
 
@@ -71,6 +79,14 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         setReferralRequestRecipient(referralRequest, requestStatement.getResponsibleParty());
         setReferralRequestReasonCode(referralRequest, requestStatement.getCode());
 
+        var referralPriority =
+                new ReferralRequest
+                .ReferralPriorityEnumFactory()
+                .fromCode(
+                        getPriorityCodeFromEhrComposition(ehrComposition)
+                );
+
+        referralRequest.setPriority(referralPriority);
         return referralRequest;
     }
 
@@ -155,5 +171,80 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
 
     private boolean hasEffectiveTimeValue(IVLTS effectiveTime) {
         return effectiveTime != null && effectiveTime.getCenter() != null && effectiveTime.getCenter().getValue() != null;
+    }
+
+    private String getPriorityCodeFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition){
+
+        String priorityCode = null;
+
+        boolean isComponentNotNullInEhrComposition = ehrComposition != null
+                && ehrComposition.getComponent() != null
+                && ehrComposition.getComponent().size() > 0;
+
+        if (isComponentNotNullInEhrComposition) {
+
+            var priorityCodeList = ehrComposition
+                    .getComponent()
+                    .stream()
+                    .filter(component4 -> component4.getRequestStatement() != null)
+                    .map(component4 -> component4.getRequestStatement().getPriorityCode().getCode())
+                    .toList();
+
+            if (priorityCodeList.size() > 0 && StringUtils.isNotEmpty(priorityCodeList.get(0))) {
+                priorityCode = priorityCodeList.get(0);
+            } else {
+                /*
+                    if there is no priority code in the Top Component.
+                    we pass the child component to a recursive function,
+                    so it finds the priority code on each child inside the children
+                 */
+                priorityCode = getPriorityCode(
+                        ehrComposition
+                        .getComponent()
+                        .get(0).getCompoundStatement()
+                        .getComponent()
+                );
+            }
+        }
+
+        if(priorityCode == null){
+            return null;
+        }
+
+        if(PriorityCodes.containsKey(priorityCode)){
+            return PriorityCodes.get(priorityCode);
+        }
+
+        throw new IllegalArgumentException("Unknown ReferralPriority code '" + priorityCode + "'");
+    }
+
+
+    private String getPriorityCode(List<RCMRMT030101UK04Component02> component){
+        var priorityCodeList = component
+                .stream()
+                .filter(component02 -> component02.getRequestStatement() != null)
+                .map(component02 -> component02.getRequestStatement().getPriorityCode().getCode())
+                .toList();
+
+        if(priorityCodeList.size() > 0 &&  StringUtils.isNotEmpty(priorityCodeList.get(0)))
+        {
+            return priorityCodeList.get(0);
+        }
+
+        var componentList = component
+                .stream()
+                .filter(component02 -> component02.getCompoundStatement() != null)
+                .filter(
+                        component02 -> component02.getCompoundStatement().getComponent() != null
+                        && component02.getCompoundStatement().getComponent().size() > 0
+                )
+                .toList();
+
+        if( componentList.size() > 0)
+        {
+            return getPriorityCode(componentList.get(0).getCompoundStatement().getComponent());
+        } else {
+            return null;
+        }
     }
 }
