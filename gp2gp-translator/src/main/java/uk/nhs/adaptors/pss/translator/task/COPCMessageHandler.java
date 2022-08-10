@@ -237,10 +237,9 @@ public class COPCMessageHandler {
     }
 
     private void storeCOPCAttachment(PatientAttachmentLog fragmentAttachmentLog, InboundMessage inboundMessage,
-                                     String conversationId) throws ValidationException, InlineAttachmentProcessingException,
-        UnsupportedFileTypeException {
-        if (supportedFileTypes.getAccepted() != null
-            && supportedFileTypes.getAccepted().contains(fragmentAttachmentLog.getContentType())) {
+                                     String conversationId)
+        throws ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
+        if (checkIfFileTypeSupported(fragmentAttachmentLog.getContentType())) {
             if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
                 attachmentHandlerService.storeAttachmentWithoutProcessing(fragmentAttachmentLog.getFilename(),
                     inboundMessage.getAttachments().get(0).getPayload(), conversationId,
@@ -256,6 +255,11 @@ public class COPCMessageHandler {
         } else {
             throw new UnsupportedFileTypeException(String.format("File type %s is unsupported", fragmentAttachmentLog.getContentType()));
         }
+    }
+
+    private boolean checkIfFileTypeSupported(String fileType) {
+        return supportedFileTypes.getAccepted() != null
+            && supportedFileTypes.getAccepted().contains(fileType);
     }
 
     private boolean isManifestMessage(List<InboundMessage.Attachment> attachments,
