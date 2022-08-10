@@ -42,10 +42,10 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     private static final String PRACTITIONER_REFERENCE = "Practitioner/%s";
     private static final String RESP_PARTY_TYPE_CODE = "RESP";
 
-    private static Map<String, String> PriorityCodes = Map.of(
-            "394848005","routine",
-            "394849002","urgent",
-            "88694003" , "stat"
+    private static Map<String, String> priorityCodes = Map.of(
+            "394848005", "routine",
+            "394849002", "urgent",
+            "88694003", "stat"
     );
 
     private CodeableConceptMapper codeableConceptMapper;
@@ -173,13 +173,13 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         return effectiveTime != null && effectiveTime.getCenter() != null && effectiveTime.getCenter().getValue() != null;
     }
 
-    private String getPriorityCodeFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition){
+    private String getPriorityCodeFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition) {
 
         String priorityCode = null;
 
         boolean isComponentNotNullInEhrComposition = ehrComposition != null
                 && ehrComposition.getComponent() != null
-                && ehrComposition.getComponent().size() > 0;
+                && !ehrComposition.getComponent().isEmpty();
 
         if (isComponentNotNullInEhrComposition) {
 
@@ -190,7 +190,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                     .map(component4 -> component4.getRequestStatement().getPriorityCode().getCode())
                     .toList();
 
-            if (priorityCodeList.size() > 0 && StringUtils.isNotEmpty(priorityCodeList.get(0))) {
+            if ((!priorityCodeList.isEmpty()) && StringUtils.isNotEmpty(priorityCodeList.get(0))) {
                 priorityCode = priorityCodeList.get(0);
             } else {
                 /*
@@ -207,27 +207,26 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             }
         }
 
-        if(priorityCode == null){
+        if (priorityCode == null) {
             return null;
         }
 
-        if(PriorityCodes.containsKey(priorityCode)){
-            return PriorityCodes.get(priorityCode);
+        if (priorityCodes.containsKey(priorityCode)) {
+            return priorityCodes.get(priorityCode);
         }
 
         throw new IllegalArgumentException("Unknown ReferralPriority code '" + priorityCode + "'");
     }
 
 
-    private String getPriorityCode(List<RCMRMT030101UK04Component02> component){
+    private String getPriorityCode(List<RCMRMT030101UK04Component02> component) {
         var priorityCodeList = component
                 .stream()
                 .filter(component02 -> component02.getRequestStatement() != null)
                 .map(component02 -> component02.getRequestStatement().getPriorityCode().getCode())
                 .toList();
 
-        if(priorityCodeList.size() > 0 &&  StringUtils.isNotEmpty(priorityCodeList.get(0)))
-        {
+        if (!(priorityCodeList.isEmpty()) &&  StringUtils.isNotEmpty(priorityCodeList.get(0))) {
             return priorityCodeList.get(0);
         }
 
@@ -236,12 +235,11 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                 .filter(component02 -> component02.getCompoundStatement() != null)
                 .filter(
                         component02 -> component02.getCompoundStatement().getComponent() != null
-                        && component02.getCompoundStatement().getComponent().size() > 0
+                        && !(component02.getCompoundStatement().getComponent().isEmpty())
                 )
                 .toList();
 
-        if( componentList.size() > 0)
-        {
+        if (!componentList.isEmpty()) {
             return getPriorityCode(componentList.get(0).getCompoundStatement().getComponent());
         } else {
             return null;
