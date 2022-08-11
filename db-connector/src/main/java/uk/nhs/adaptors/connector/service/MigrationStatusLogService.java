@@ -19,12 +19,13 @@ public class MigrationStatusLogService {
     private final MigrationStatusLogDao migrationStatusLogDao;
     private final DateUtils dateUtils;
 
-    public void addMigrationStatusLog(MigrationStatus migrationStatus, String conversationId) {
+    public void addMigrationStatusLog(MigrationStatus migrationStatus, String conversationId, String messageId) {
         int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
         migrationStatusLogDao.addMigrationStatusLog(
             migrationStatus,
             dateUtils.getCurrentOffsetDateTime(),
-            migrationRequestId
+            migrationRequestId,
+            messageId
         );
         LOGGER.debug("Changed MigrationStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, migrationStatus.name());
     }
@@ -35,8 +36,8 @@ public class MigrationStatusLogService {
     }
 
     public void updatePatientMigrationRequestAndAddMigrationStatusLog(String conversationId, String bundle, String inboundMessage,
-        MigrationStatus migrationStatus) {
+        MigrationStatus migrationStatus, String messageId) {
         patientMigrationRequestDao.saveBundleAndInboundMessageData(conversationId, bundle, inboundMessage);
-        addMigrationStatusLog(migrationStatus, conversationId);
+        addMigrationStatusLog(migrationStatus, conversationId, messageId);
     }
 }

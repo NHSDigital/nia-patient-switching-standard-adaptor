@@ -105,7 +105,7 @@ public class EHRTimeoutHandler {
             LOGGER.error("Error retrieving persist duration: [{}]", e.getMessage());
         } catch (JsonProcessingException | SAXException | DateTimeParseException | JAXBException e) {
             LOGGER.error("Error parsing inbound message from database");
-            migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId);
+            migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null);
         }
 
         mdcService.applyConversationId("");
@@ -126,7 +126,7 @@ public class EHRTimeoutHandler {
             .build();
 
         LOGGER.debug("EHR Extract message timed out: sending NACK message");
-        migrationStatusLogService.addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId);
+        migrationStatusLogService.addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
 
         sendNACKMessageHandler.prepareAndSendMessage(messageData);
     }

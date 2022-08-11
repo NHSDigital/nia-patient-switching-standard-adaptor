@@ -16,7 +16,7 @@ public interface MigrationStatusLogDao {
     @SqlUpdate("insert_migration_status_log")
     @UseClasspathSqlLocator
     void addMigrationStatusLog(@Bind("status") MigrationStatus status,
-        @Bind("date") OffsetDateTime date, @Bind("migrationRequestId") int migrationRequestId
+        @Bind("date") OffsetDateTime date, @Bind("migrationRequestId") int migrationRequestId, @Bind("messageId") String messageId
     );
 
     @SqlQuery("select_migration_status_log")

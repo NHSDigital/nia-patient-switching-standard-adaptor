@@ -32,7 +32,7 @@ public class AcknowledgmentMessageHandler {
         MigrationStatus migrationStatus = getMigrationStatus(ackTypeCode);
 
         if (migrationStatus != null) {
-            migrationStatusLogService.addMigrationStatusLog(migrationStatus, conversationId);
+            migrationStatusLogService.addMigrationStatusLog(migrationStatus, conversationId, null);
         } else {
             LOGGER.info("Unknown acknowledgement typeCode [{}]", ackTypeCode);
         }

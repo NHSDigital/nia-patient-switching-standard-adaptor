@@ -90,7 +90,7 @@ public class SendContinueRequestHandlerTest {
         } catch (Exception e) {
         }
 
-        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, CONVERSATION_ID);
+        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, CONVERSATION_ID, null);
     }
 
     @Test
@@ -143,6 +143,6 @@ public class SendContinueRequestHandlerTest {
                 .build();
 
         sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
-        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, CONVERSATION_ID);
+        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, CONVERSATION_ID, null);
     }
 }
