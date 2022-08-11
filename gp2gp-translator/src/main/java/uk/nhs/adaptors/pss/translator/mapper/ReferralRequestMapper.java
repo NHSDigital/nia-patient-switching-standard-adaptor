@@ -179,31 +179,42 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
 
         boolean isComponentNotNullInEhrComposition = ehrComposition != null
                 && ehrComposition.getComponent() != null
-                && !ehrComposition.getComponent().isEmpty();
+                && !(ehrComposition.getComponent().isEmpty());
+
+        boolean componentIsNotNull = isComponentNotNullInEhrComposition
+                && ehrComposition.getComponent().get(0).getCompoundStatement() != null
+                && ehrComposition.getComponent().get(0).getCompoundStatement().getComponent() != null;
 
         if (isComponentNotNullInEhrComposition) {
 
             var priorityCodeList = ehrComposition
                     .getComponent()
                     .stream()
-                    .filter(component4 -> component4.getRequestStatement() != null)
+                    .filter(component4 ->
+                            component4.getRequestStatement() != null
+                            && component4.getRequestStatement().getPriorityCode()!= null
+                            && component4.getRequestStatement().getPriorityCode().getCode() != null
+                    )
                     .map(component4 -> component4.getRequestStatement().getPriorityCode().getCode())
                     .toList();
 
             if ((!priorityCodeList.isEmpty()) && StringUtils.isNotEmpty(priorityCodeList.get(0))) {
                 priorityCode = priorityCodeList.get(0);
             } else {
-                /*
-                    if there is no priority code in the Top Component.
-                    we pass the child component to a recursive function,
-                    so it finds the priority code on each child inside the children
-                 */
-                priorityCode = getPriorityCode(
-                        ehrComposition
-                        .getComponent()
-                        .get(0).getCompoundStatement()
-                        .getComponent()
-                );
+
+                if(componentIsNotNull){
+                    /*
+                        if there is no priority code in the Top Component.
+                        we pass the child component to a recursive function,
+                        so it finds the priority code on each child inside the children
+                     */
+                    priorityCode = getPriorityCode(
+                            ehrComposition
+                            .getComponent()
+                            .get(0).getCompoundStatement()
+                            .getComponent()
+                    );
+                }
             }
         }
 
