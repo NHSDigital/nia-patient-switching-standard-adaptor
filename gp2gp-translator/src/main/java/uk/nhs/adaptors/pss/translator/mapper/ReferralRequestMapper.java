@@ -192,7 +192,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                     .stream()
                     .filter(component4 ->
                             component4.getRequestStatement() != null
-                            && component4.getRequestStatement().getPriorityCode()!= null
+                            && component4.getRequestStatement().getPriorityCode() != null
                             && component4.getRequestStatement().getPriorityCode().getCode() != null
                     )
                     .map(component4 -> component4.getRequestStatement().getPriorityCode().getCode())
@@ -202,7 +202,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                 priorityCode = priorityCodeList.get(0);
             } else {
 
-                if(componentIsNotNull){
+                if (componentIsNotNull) {
                     /*
                         if there is no priority code in the Top Component.
                         we pass the child component to a recursive function,
