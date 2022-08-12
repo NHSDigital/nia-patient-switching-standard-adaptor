@@ -30,7 +30,7 @@ import lombok.SneakyThrows;
 @ExtendWith(MockitoExtension.class)
 public class DocumentReferenceTest {
     private static final String XML_RESOURCES_BASE = "xml/DocumentReference/";
-    private static final String NARRATIVE_STATEMENT_ROOT_ID = "31B75ED0-6E88-11EA-9384-E83935108FD5";
+    private static final String NARRATIVE_STATEMENT_ROOT_ID = "5E496953-065B-41F2-9577-BE8F2FBD0757";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1";
     private static final String CODING_DISPLAY = "Original Text document";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";

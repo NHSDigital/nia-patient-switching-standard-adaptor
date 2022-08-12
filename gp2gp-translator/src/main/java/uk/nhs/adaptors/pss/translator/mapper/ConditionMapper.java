@@ -263,23 +263,25 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .addCoding(coding);
     }
 
-    private List<Extension> buildRelatedClinicalContent(Bundle bundle, List<RCMRMT030101UK04StatementRef> relatedClinicalStatementRefs) {
+    private List<Extension> buildRelatedClinicalContent(Bundle bundle, List<RCMRMT030101UK04StatementRef> relatedClinicalStatementReferences) {
 
         // Filter for bundle entries where entry ID exists in both streams
-        var bundleIdArr = bundle.getEntry()
+        var bundleIds = bundle.getEntry()
             .stream()
             .map(entry -> entry.getResource().getId()).toArray();
-        var refIdList = relatedClinicalStatementRefs
+
+        var referenceIds = relatedClinicalStatementReferences
             .stream()
-            .filter(entry -> Arrays.stream(bundleIdArr).anyMatch(entry.getId().getRoot()::equals))
+            .filter(entry -> Arrays.stream(bundleIds).anyMatch(entry.getId().getRoot()::equals))
             .map(entry -> entry.getId().getRoot()).toList();
-        var clinicalRefsList = bundle.getEntry()
+
+        var clinicalReferences = bundle.getEntry()
             .stream()
-            .filter(entry -> refIdList.contains(entry.getResource().getId()))
+            .filter(entry -> referenceIds.contains(entry.getResource().getId()))
             .toList();
 
         // Parse bundle entries into condition reference extensions and return
-        var conditionExtensionList = clinicalRefsList
+        var conditionExtensions = clinicalReferences
             .stream()
             .map(BundleEntryComponent::getResource)
             .map(resource -> {
@@ -289,7 +291,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 return extension;
             }).toList();
 
-        return conditionExtensionList;
+        return conditionExtensions;
     }
 
     private List<Annotation> buildNotes(Optional<RCMRMT030101UK04ObservationStatement> observationStatement,
