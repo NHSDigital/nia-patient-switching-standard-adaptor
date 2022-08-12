@@ -332,18 +332,30 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 .get(0)
                 .getEhrFolder()
                 .getComponent()
-                .stream()
-                .flatMap(e -> e.getEhrComposition().getComponent().stream())
+                .stream().map(RCMRMT030101UK04Component3::getEhrComposition)
+            .toList();
+        var flatMap = componentsByHasCompoundStatement.stream().flatMap(e -> e.getComponent().stream())
                 .collect(partitioningBy(RCMRMT030101UK04Component4::hasCompoundStatement));
 
 
-        var observationStatementList = Stream.concat(componentsByHasCompoundStatement.get(false)
-                .stream()
-                .map(RCMRMT030101UK04Component4::getObservationStatement),
-                componentsByHasCompoundStatement.get(true).stream()
-                .flatMap(cs -> cs.getCompoundStatement().getComponent().stream())
-                .map(RCMRMT030101UK04Component02::getObservationStatement))
-                .toList();
+        var observationStatementList = new ArrayList<>(Stream.concat(flatMap.get(false)
+                    .stream()
+                    .map(RCMRMT030101UK04Component4::getObservationStatement),
+                flatMap.get(true).stream()
+                    .flatMap(cs -> cs.getCompoundStatement().getComponent().stream())
+                    .map(RCMRMT030101UK04Component02::getObservationStatement))
+            .toList());
+        var getInnerCompoundStatementsWithObservationStatements = flatMap.get(true)
+            .stream()
+            .map(RCMRMT030101UK04Component4::getCompoundStatement)
+            .flatMap(cs -> cs.getComponent().stream())
+            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(Objects::nonNull)
+            .flatMap(comp -> comp.getComponent().stream())
+            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .toList();
+
+        observationStatementList.addAll(getInnerCompoundStatementsWithObservationStatements);
 
         return observationStatementList.stream()
                 .filter(Objects::nonNull)

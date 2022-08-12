@@ -2301,6 +2301,7 @@
       } ],
       "status": "unknown",
       "intent": "order",
+      "priority": "routine",
       "subject": {
         "reference": "Patient/65437a9b-b915-4bc6-b715-14741ec71cc4"
       },
@@ -2352,6 +2353,7 @@
       } ],
       "status": "unknown",
       "intent": "order",
+      "priority": "routine",
       "subject": {
         "reference": "Patient/65437a9b-b915-4bc6-b715-14741ec71cc4"
       },
@@ -2403,6 +2405,7 @@
       } ],
       "status": "unknown",
       "intent": "order",
+      "priority": "routine",
       "subject": {
         "reference": "Patient/65437a9b-b915-4bc6-b715-14741ec71cc4"
       },
