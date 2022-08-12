@@ -61,14 +61,14 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         mockCompressedAttachments = List.of(
             InboundMessage.Attachment.builder()
                 .contentType("txt")
-                .isBase64("true")
+                .isBase64("false")
                 .description("Filename=\"text_attachment_encoded_and_compressed.txt\" ContentType=text/plain Compressed=Yes "
                     + "LargeAttachment=No OriginalBase64=No")
                 .payload(readFileAsString("InlineAttachments/text_attachment_encoded_and_compressed.txt"))
                 .build(),
             InboundMessage.Attachment.builder()
                 .contentType("application/pdf")
-                .isBase64("true")
+                .isBase64("false")
                 .description("Filename=\"large_messages.pdf\" ContentType=application/pdf Compressed=Yes "
                     + "LargeAttachment=No OriginalBase64=No")
                 .payload(readFileAsString("InlineAttachments/large_messages.pdf.txt"))
@@ -91,13 +91,13 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         mockAttachments = List.of(
             InboundMessage.Attachment.builder()
                 .contentType("txt")
-                .isBase64("true")
+                .isBase64("false")
                 .description("Filename=\"277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt\" ContentType=text/plain Compressed=No "
-                    + "LargeAttachment=No OriginalBase64=Yes")
+                    + "LargeAttachment=No OriginalBase64=No")
                 .payload("SGVsbG8gV29ybGQgZnJvbSBTY290dCBBbGV4YW5kZXI=").build(),
             InboundMessage.Attachment.builder()
                 .contentType("txt")
-                .isBase64("true")
+                .isBase64("false")
                 .description("Filename=\"text_attachment_encoded.txt\" ContentType=text/plain Compressed=No "
                     + "LargeAttachment=No OriginalBase64=No")
                 .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
@@ -392,9 +392,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         var attachment = List.of(InboundMessage.Attachment.builder()
             .contentType("txt")
-            .isBase64("true")
+            .isBase64("false")
             .description("Filename=\"277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt\" ContentType=text/plain Compressed=No "
-                + "LargeAttachment=No OriginalBase64=Yes; Length=45")
+                + "LargeAttachment=No OriginalBase64=No; Length=45")
             .payload("SGVsbG8gV29ybGQgZnJvbSBTY290dCBBbGV4YW5kZXI=").build());
 
         Exception exception = assertThrows(InlineAttachmentProcessingException.class, () ->
@@ -413,9 +413,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         var attachment = List.of(InboundMessage.Attachment.builder()
             .contentType("txt")
-            .isBase64("true")
+            .isBase64("false")
             .description("Filename=\"277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt\" ContentType=text/plain Compressed=No "
-                + "LargeAttachment=No OriginalBase64=Yes; Length=44")
+                + "LargeAttachment=No OriginalBase64=No; Length=44")
             .payload("SGVsbG8gV29ybGQgZnJvbSBTY290dCBBbGV4YW5kZXI=").build());
 
         attachmentHandlerService.storeAttachments(attachment, CONVERSATION_ID);
