@@ -263,7 +263,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .addCoding(coding);
     }
 
-    private List<Extension> buildRelatedClinicalContent(Bundle bundle, List<RCMRMT030101UK04StatementRef> relatedClinicalStatementReferences) {
+    private List<Extension> buildRelatedClinicalContent(Bundle bundle,
+        List<RCMRMT030101UK04StatementRef> relatedClinicalStatementReferences) {
 
         // Filter for bundle entries where entry ID exists in both streams
         var bundleIds = bundle.getEntry()
