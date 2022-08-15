@@ -77,10 +77,6 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         documentReference.setCreatedElement(getCreatedTime(ehrExtract));
         getAuthor(narrativeStatement, ehrComposition).ifPresent(documentReference::addAuthor);
 
-        if (narrativeStatement.hasAvailabilityTime() && narrativeStatement.getAvailabilityTime().hasValue()) {
-            documentReference.setCreatedElement(DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
-        }
-
         var encounterReference = encounterList.stream()
             .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
             .findFirst()
@@ -143,10 +139,6 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
         if (isAbsentAttachment(narrativeStatement)) {
             description = addLine(description, PLACEHOLDER_VALUE);
-        } else {
-            description = addLine(description,
-                buildFileName(narrativeStatement.getReference().get(0)
-                    .getReferredToExternalDocument().getText().getReference().getValue()));
         }
 
         return description;
@@ -197,7 +189,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     }
 
     private String buildFileName(String text) {
-        return text.replaceAll("file://localhost/", "Filename: ");
+        return text.replace("file://localhost/", "");
     }
 
     private boolean isContentTypeValid(String mediaType) {
