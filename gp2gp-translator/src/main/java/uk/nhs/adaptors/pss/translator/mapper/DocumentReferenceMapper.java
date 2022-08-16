@@ -132,26 +132,16 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     }
 
     private String buildDescription(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
-        String description = null;
         if (narrativeStatement.hasText()) {
-            description = addLine(description, narrativeStatement.getText());
+            return narrativeStatement.getText();
         }
 
         if (isAbsentAttachment(narrativeStatement)) {
-            description = addLine(description, PLACEHOLDER_VALUE);
+            return PLACEHOLDER_VALUE;
         } else {
-            if (description == null) {
-                description = addLine(description,
-                    buildFileName(narrativeStatement.getReference().get(0)
-                        .getReferredToExternalDocument().getText().getReference().getValue()));
-            }
+            return buildFileName(narrativeStatement.getReference().get(0)
+                    .getReferredToExternalDocument().getText().getReference().getValue());
         }
-
-        return description;
-    }
-
-    public static String addLine(String text, String line) {
-        return text == null ? line : text.concat(StringUtils.LF).concat(line);
     }
 
     private boolean isAbsentAttachment(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
