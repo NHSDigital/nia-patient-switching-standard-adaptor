@@ -1,0 +1,28 @@
+server:
+  port: 8443
+
+  ssl:
+    key-store: classpath:keystore.jks
+    key-store-password: 123456
+    key-alias: localhost
+    key-password: 123456
+    enabled: true
+
+  http:
+    port: 8086
+
+logging:
+  level:
+    com.benhession.mockspinemhsoutbound: INFO
+
+spring:
+  servlet:
+    multipart:
+      enabled: false
+  datasource:
+    url: ${PS_DB_URL:jdbc:postgresql://localhost:5436}/patient_switching
+    username: gp2gp_user
+    password: ${GP2GP_TRANSLATOR_USER_DB_PASSWORD}
+
+
+

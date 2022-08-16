@@ -1,0 +1,24 @@
+FROM gradle:7.2.0-jdk17 AS build
+
+COPY --chown=gradle:gradle ../mock-spine-mhs-outbound /home/gradle/mock-spine-mhs-outbound
+
+WORKDIR /home/gradle/mock-spine-mhs-outbound
+
+RUN gradle classes
+
+FROM build AS package
+
+RUN gradle --build-cache bootJar
+
+FROM eclipse-temurin:17-jre
+
+EXPOSE 8086
+EXPOSE 8443
+
+RUN mkdir /app
+
+COPY --from=package /home/gradle/mock-spine-mhs-outbound/build/libs/mock-spine-mhs-outbound.jar /app/mock-spine-mhs-outbound.jar
+
+USER 65534
+
+ENTRYPOINT ["java", "-jar", "/app/mock-spine-mhs-outbound.jar"]
