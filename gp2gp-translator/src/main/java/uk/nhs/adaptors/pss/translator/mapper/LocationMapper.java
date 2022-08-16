@@ -3,25 +3,31 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
+import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.dstu3.model.Address;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.v3.RCMRMT030101UK04Location;
 import org.hl7.v3.RCMRMT030101UK04Place;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.AddressUtil;
 import uk.nhs.adaptors.pss.translator.util.TelecomUtil;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LocationMapper {
     private static final String UNKNOWN_NAME = "Unknown";
     private static final String META_PROFILE = "Location-1";
-    private static final String LOCATION_ID_EXTENSION = "-LOC";
 
-    public Location mapToLocation(RCMRMT030101UK04Location location, String rootId, String practiseCode) {
-        var id = rootId + LOCATION_ID_EXTENSION;
+    @Autowired
+    private final IdGeneratorService idGeneratorService;
+
+    public Location mapToLocation(RCMRMT030101UK04Location location, String practiseCode) {
+        var id = idGeneratorService.generateUuid().toUpperCase();
         var identifier = buildIdentifier(id, practiseCode);
 
         if (location.getLocatedEntity() != null && location.getLocatedEntity().getLocatedPlace() != null) {

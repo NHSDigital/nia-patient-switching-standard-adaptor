@@ -149,7 +149,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/0CF70E30-DD21-433E-87AE-F32DA5FBE4DA-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -204,7 +204,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/A6CE9003-C784-4E11-A5C1-E406BCF35D55-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -259,7 +259,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/07FFDE3B-B0BC-4B02-BA20-624FE2E8AB8A-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -314,7 +314,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/8F1F0FF5-2F2C-482B-BD9A-98101786B46D-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -369,7 +369,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/825B1B60-525E-4D0A-B813-F3AE3E18EB5D-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -424,7 +424,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/18ADB528-260B-41D8-ACA5-77529A4A4F59-LOC"
+          "reference": "Location/{{LOCATION-1}}"
         }
       } ]
     }
@@ -1709,83 +1709,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "0CF70E30-DD21-433E-87AE-F32DA5FBE4DA-LOC",
+      "id": "{{LOCATION-1}}",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "0CF70E30-DD21-433E-87AE-F32DA5FBE4DA-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "A6CE9003-C784-4E11-A5C1-E406BCF35D55-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "A6CE9003-C784-4E11-A5C1-E406BCF35D55-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "07FFDE3B-B0BC-4B02-BA20-624FE2E8AB8A-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "07FFDE3B-B0BC-4B02-BA20-624FE2E8AB8A-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "8F1F0FF5-2F2C-482B-BD9A-98101786B46D-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "8F1F0FF5-2F2C-482B-BD9A-98101786B46D-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "825B1B60-525E-4D0A-B813-F3AE3E18EB5D-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "825B1B60-525E-4D0A-B813-F3AE3E18EB5D-LOC"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "18ADB528-260B-41D8-ACA5-77529A4A4F59-LOC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "18ADB528-260B-41D8-ACA5-77529A4A4F59-LOC"
+        "value": "{{LOCATION-1}}"
       } ],
       "status": "active",
       "name": "EMIS LV Test Practice 1"

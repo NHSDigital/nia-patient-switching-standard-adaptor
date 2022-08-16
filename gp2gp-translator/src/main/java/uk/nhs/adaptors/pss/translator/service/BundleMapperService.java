@@ -3,6 +3,10 @@ package uk.nhs.adaptors.pss.translator.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
@@ -87,6 +91,8 @@ public class BundleMapperService {
             final RCMRMT030101UK04EhrExtract ehrExtract = getEhrExtract(xmlMessage);
             final RCMRMT030101UK04EhrFolder ehrFolder = getEhrFolder(xmlMessage);
 
+            var locations = mapLocations(ehrFolder, losingPracticeOdsCode);
+
             var agents = mapAgentDirectories(ehrFolder);
             var patient = mapPatient(getEhrExtract(xmlMessage), getPatientOrganization(agents));
             addEntry(bundle, patient);
@@ -96,10 +102,9 @@ public class BundleMapperService {
 
             addEntries(bundle, agents);
 
-            var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, losingPracticeOdsCode);
+            var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, losingPracticeOdsCode, locations);
             var encounters = handleMappedEncounterResources(mappedEncounterEhrCompositions, bundle);
 
-            var locations = mapLocations(ehrFolder, losingPracticeOdsCode);
             addEntries(bundle, locations);
 
             var procedureRequests = procedureRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
@@ -160,8 +165,10 @@ public class BundleMapperService {
         addEntries(bundle, batteryObservations);
     }
 
-    private List<Encounter> handleMappedEncounterResources(Map<String, List<? extends DomainResource>> mappedEncounterEhrCompositions,
-        Bundle bundle) {
+    private List<Encounter> handleMappedEncounterResources(
+            Map<String, List<? extends DomainResource>> mappedEncounterEhrCompositions,
+            Bundle bundle
+    ) {
         var encounters = (List<Encounter>) mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
         var consultations = (List<ListResource>) mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
         var topics = (List<ListResource>) mappedEncounterEhrCompositions.get(TOPIC_KEY);
@@ -175,9 +182,12 @@ public class BundleMapperService {
         return encounters;
     }
 
-    private Map<String, List<? extends DomainResource>> mapEncounters(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        String losingPracticeOdsCode) {
-        return encounterMapper.mapEncounters(ehrExtract, patient, losingPracticeOdsCode);
+    private Map<String, List<? extends DomainResource>> mapEncounters(
+            RCMRMT030101UK04EhrExtract ehrExtract,
+            Patient patient,
+            String losingPracticeOdsCode,
+            List<Location> locations) {
+        return encounterMapper.mapEncounters(ehrExtract, patient, losingPracticeOdsCode, locations); //HERE
     }
 
     private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UK04EhrFolder ehrFolder) {
@@ -187,10 +197,22 @@ public class BundleMapperService {
     private List<Location> mapLocations(RCMRMT030101UK04EhrFolder ehrFolder, String losingPracticeOdsCode) {
 
         return ehrFolder.getComponent().stream()
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .filter(ehrComposition -> ehrComposition.getLocation() != null)
-            .map(ehrComposition -> locationMapper.mapToLocation(ehrComposition.getLocation(), ehrComposition.getId().getRoot(),
-                losingPracticeOdsCode)).toList();
+                .map(RCMRMT030101UK04Component3::getEhrComposition)
+                .filter(ehrComposition -> ehrComposition.getLocation() != null)
+                .map(
+                        ehrComposition -> locationMapper.mapToLocation(
+                                ehrComposition.getLocation(),
+                                losingPracticeOdsCode
+                        )
+                )
+                .collect(
+                        Collectors.collectingAndThen(
+                                Collectors.toCollection(
+                                        () -> new TreeSet<>(Comparator.comparing(Location::getName))
+                                ),
+                                ArrayList::new
+                        )
+                );
     }
 
     private Patient mapPatient(RCMRMT030101UK04EhrExtract ehrExtract, Organization organization) {
