@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.ReliabilityResponse;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.ReliabilityResponse;
 
 @RestController
 @RequestMapping("/reliability")

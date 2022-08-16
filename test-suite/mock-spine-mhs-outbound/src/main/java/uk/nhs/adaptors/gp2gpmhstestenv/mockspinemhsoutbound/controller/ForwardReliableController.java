@@ -1,9 +1,9 @@
 package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.controller;
 
-import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MessageHeaders.CONTENT_TYPE;
-import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MessageHeaders.CORRELATION_ID;
-import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MessageHeaders.INTERACTION_ID;
-import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MessageHeaders.MESSAGE_ID;
+import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.MessageHeaders.CONTENT_TYPE;
+import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.MessageHeaders.CORRELATION_ID;
+import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.MessageHeaders.INTERACTION_ID;
+import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.MessageHeaders.MESSAGE_ID;
 import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.ContentTypeService.MHS_OUTBOUND_CONTENT_TYPE;
 
 import java.time.LocalDateTime;
@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.OutboundMessage;
-import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.SuccessTemplateParams;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.OutboundMessage;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.SuccessTemplateParams;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.ContentTypeService;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.SpineResponseService;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.JournalService;

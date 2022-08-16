@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.EhrExtractStatus;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.EhrExtractStatus;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.EhrExtractStatusService;
 
 import lombok.AllArgsConstructor;

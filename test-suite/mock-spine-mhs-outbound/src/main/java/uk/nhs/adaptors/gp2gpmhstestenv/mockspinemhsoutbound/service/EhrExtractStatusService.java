@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.EhrExtractStatus;
-import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.repository.EhrExtractStatusRepository;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.EhrExtractStatus;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.repository.old.EhrExtractStatusRepository;
 
 import lombok.AllArgsConstructor;
 
