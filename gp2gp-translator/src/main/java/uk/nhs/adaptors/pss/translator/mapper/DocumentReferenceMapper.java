@@ -140,7 +140,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         if (isAbsentAttachment(narrativeStatement)) {
             description = addLine(description, PLACEHOLDER_VALUE);
         } else {
-            if(description == null) {
+            if (description == null) {
                 description = addLine(description,
                     buildFileName(narrativeStatement.getReference().get(0)
                         .getReferredToExternalDocument().getText().getReference().getValue()));
