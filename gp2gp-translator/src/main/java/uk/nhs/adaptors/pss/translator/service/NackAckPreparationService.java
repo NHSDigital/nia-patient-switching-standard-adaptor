@@ -121,7 +121,7 @@ public class NackAckPreparationService {
         LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
                 payload.getId().getRoot());
 
-        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId);
+        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null);
 
         return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
                 reason,
@@ -135,7 +135,7 @@ public class NackAckPreparationService {
         LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
                 payload.getId().getRoot());
 
-        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId);
+        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null);
 
         return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
                 reason,

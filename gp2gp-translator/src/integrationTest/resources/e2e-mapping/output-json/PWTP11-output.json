@@ -2159,19 +2159,6 @@
       } ],
       "status": "active",
       "intent": "plan",
-      "subject": {
-        "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
-      },
-      "context": {
-        "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
-      },
-      "occurrenceDateTime": "2020-02-09",
-      "authoredOn": "2010-03-24T09:04:07+00:00",
-      "requester": {
-        "agent": {
-          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
-      },
       "code": {
         "coding": [ {
           "extension": [ {
@@ -2185,6 +2172,19 @@
           "code": "40055000",
           "display": "Chronic sinusitis"
         } ]
+      },
+      "subject": {
+        "reference": "Patient/5d1b4584-4ba3-4eeb-829c-5c3e584fa51f"
+      },
+      "context": {
+        "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
+      },
+      "occurrenceDateTime": "2020-02-09",
+      "authoredOn": "2010-03-24T09:04:07+00:00",
+      "requester": {
+        "agent": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        }
       },
       "note": [ {
         "text": "Recall notes"
@@ -2605,7 +2605,7 @@
             } ]
           } ],
           "system": "http://snomed.info/sct",
-          "code": "20984015",
+          "code": "12184005",
           "display": "Visual field defect"
         } ]
       },
@@ -3041,7 +3041,7 @@
             } ]
           } ],
           "system": "http://snomed.info/sct",
-          "code": "3036434013",
+          "code": "160377001",
           "display": "Family history of asthma"
         } ]
       },
@@ -3457,7 +3457,7 @@
             } ]
           } ],
           "system": "http://snomed.info/sct",
-          "code": "40402016",
+          "code": "24069003",
           "display": "Nairobi sheep virus disease"
         } ]
       },
@@ -3808,6 +3808,20 @@
           "display": "Problem List Item"
         } ]
       } ],
+      "code": {
+        "coding": [ {
+          "extension": [ {
+            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+            "extension": [ {
+              "url": "descriptionId",
+              "valueId": "347639014"
+            } ]
+          } ],
+          "system": "http://snomed.info/sct",
+          "code": "232006002",
+          "display": "Macular hole"
+        } ]
+      },
       "subject": {
         "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
       },
@@ -3871,6 +3885,20 @@
           "display": "Problem List Item"
         } ]
       } ],
+      "code": {
+        "coding": [ {
+          "extension": [ {
+            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+            "extension": [ {
+              "url": "descriptionId",
+              "valueId": "150085018"
+            } ]
+          } ],
+          "system": "http://snomed.info/sct",
+          "code": "90560007",
+          "display": "Gout"
+        } ]
+      },
       "subject": {
         "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
       },
@@ -3884,6 +3912,8 @@
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       },
       "note": [ {
+        "text": "This is the first problem note"
+      }, {
         "text": "Inactive Problem, Significant"
       } ]
     }
@@ -3920,6 +3950,20 @@
           "display": "Problem List Item"
         } ]
       } ],
+      "code": {
+        "coding": [ {
+          "extension": [ {
+            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+            "extension": [ {
+              "url": "descriptionId",
+              "valueId": "66718013"
+            } ]
+          } ],
+          "system": "http://snomed.info/sct",
+          "code": "40055000",
+          "display": "Chronic sinusitis"
+        } ]
+      },
       "subject": {
         "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
       },
@@ -3932,6 +3976,8 @@
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       },
       "note": [ {
+        "text": "This is the second problem"
+      }, {
         "text": "Active Problem, Significant"
       } ]
     }
@@ -3963,6 +4009,20 @@
           "display": "Problem List Item"
         } ]
       } ],
+      "code": {
+        "coding": [ {
+          "extension": [ {
+            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+            "extension": [ {
+              "url": "descriptionId",
+              "valueId": "116082011"
+            } ]
+          } ],
+          "system": "http://snomed.info/sct",
+          "code": "69896004",
+          "display": "Rheumatoid arthritis"
+        } ]
+      },
       "subject": {
         "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
       },
@@ -3976,6 +4036,8 @@
       },
       "note": [ {
         "text": "Unspecified Significance: Defaulted to Minor"
+      }, {
+        "text": "This is the third problem"
       }, {
         "text": "Active Problem, Not Significant (Minor)"
       } ]
@@ -4150,7 +4212,7 @@
             } ]
           } ],
           "system": "http://snomed.info/sct",
-          "code": "40402016",
+          "code": "24069003",
           "display": "Nairobi sheep virus disease"
         } ]
       },

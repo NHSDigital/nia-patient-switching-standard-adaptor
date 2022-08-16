@@ -84,7 +84,7 @@ public class CodeableConceptMapper {
                     return createCodeableConcept(conceptId, SNOMED_SYSTEM, displayName, codedData.getOriginalText(),
                         createExtension(description.getId(), null, isMedicationResource));
                 } else {
-                    return createCodeableConcept(preferredTerm.getId(), SNOMED_SYSTEM, preferredTerm.getTerm(), codedData.getOriginalText(),
+                    return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(), codedData.getOriginalText(),
                         createExtension(description.getId(), description.getTerm(), isMedicationResource));
                 }
             }

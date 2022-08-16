@@ -108,9 +108,10 @@ public class InboundMessageMergingService {
                     conversationId,
                     fhirParser.encodeToJson(bundle),
                     objectMapper.writeValueAsString(inboundMessage),
-                    EHR_EXTRACT_TRANSLATED
+                    EHR_EXTRACT_TRANSLATED,
+                    null
             );
-            migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId);
+            migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId, null);
 
         } catch (InlineAttachmentProcessingException | SAXException | TransformerException
                  | BundleMappingException | JAXBException | AttachmentNotFoundException | JsonProcessingException e) {

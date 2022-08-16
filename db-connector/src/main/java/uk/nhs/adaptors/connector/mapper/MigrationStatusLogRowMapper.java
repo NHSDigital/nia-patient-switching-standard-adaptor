@@ -21,6 +21,7 @@ public class MigrationStatusLogRowMapper implements RowMapper<MigrationStatusLog
             .migrationStatus(MigrationStatus.valueOf(rs.getString("status")))
             .date(rs.getObject("date", OffsetDateTime.class))
             .migrationRequestId(rs.getInt("migration_request_id"))
+            .messageId(rs.getString("message_id"))
             .build();
     }
 }

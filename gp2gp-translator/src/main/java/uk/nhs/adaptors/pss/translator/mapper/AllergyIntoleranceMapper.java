@@ -38,7 +38,8 @@ import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance> {
     private static final String DRUG_ALLERGY_CODE = "14L..00";
     private static final String NON_DRUG_ALLERGY_CODE = "SN53.00";
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1";
+    // the meta profile is pre processed with the url so only the final section is required here
+    private static final String META_PROFILE = "AllergyIntolerance-1";
     private static final String ENCOUNTER_URL = "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter";
     private static final String CODE_SYSTEM = "2.16.840.1.113883.2.1.6.3";
     private static final String ALLERGY_TERM_TEXT = "H/O: drug allergy";

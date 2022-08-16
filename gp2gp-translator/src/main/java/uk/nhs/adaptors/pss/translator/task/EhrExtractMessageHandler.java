@@ -81,7 +81,7 @@ public class EhrExtractMessageHandler {
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
         MigrationStatusLog migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
 
-        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId);
+        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId, null);
 
         try {
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
@@ -96,11 +96,11 @@ public class EhrExtractMessageHandler {
 
             if (!hasExternalAttachment) {
                 // If there are no external attachments, process the entire message now
-                processAndCompleteEHRMessage(inboundMessage, conversationId, skeletonCIDAttachmentLog, migrationRequest);
+                processAndCompleteEHRMessage(inboundMessage, conversationId, skeletonCIDAttachmentLog, migrationRequest, messageId);
             } else {
                 //process MID messages and send continue message if external messages exist
                 processExternalAttachmentsAndSendContinueMessage(inboundMessage,
-                    migrationRequest, migrationStatusLog, payload, conversationId);
+                    migrationRequest, migrationStatusLog, payload, conversationId, messageId);
             }
 
         } catch (BundleMappingException
@@ -146,7 +146,7 @@ public class EhrExtractMessageHandler {
 
     private void processAndCompleteEHRMessage(InboundMessage inboundMessage,
         String conversationId, PatientAttachmentLog skeletonCIDAttachmentLog,
-        PatientMigrationRequest migrationRequest) throws JAXBException, TransformerException,
+        PatientMigrationRequest migrationRequest, String messageId) throws JAXBException, TransformerException,
         SAXException, AttachmentNotFoundException, InlineAttachmentProcessingException,
         BundleMappingException, JsonProcessingException {
 
@@ -175,17 +175,18 @@ public class EhrExtractMessageHandler {
             conversationId,
             fhirParser.encodeToJson(bundle),
             objectMapper.writeValueAsString(inboundMessage),
-            EHR_EXTRACT_TRANSLATED
+            EHR_EXTRACT_TRANSLATED,
+            messageId
         );
 
         // return an acknowledged message to the sender
         nackAckPreparationService.sendAckMessage(payload, conversationId);
-        migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId);
+        migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId, null);
     }
 
     private void processExternalAttachmentsAndSendContinueMessage(InboundMessage inboundMessage,
         PatientMigrationRequest migrationRequest, MigrationStatusLog migrationStatusLog,
-        RCMRIN030000UK06Message payload, String conversationId)
+        RCMRIN030000UK06Message payload, String conversationId, String messageId)
         throws ParseException, JsonProcessingException {
 
         for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
@@ -200,7 +201,8 @@ public class EhrExtractMessageHandler {
             conversationId,
             null,
             objectMapper.writeValueAsString(inboundMessage),
-            EHR_EXTRACT_TRANSLATED
+            EHR_EXTRACT_TRANSLATED,
+            messageId
         );
 
         String patientNhsNumber = XmlParseUtilService.parseNhsNumber(payload);
