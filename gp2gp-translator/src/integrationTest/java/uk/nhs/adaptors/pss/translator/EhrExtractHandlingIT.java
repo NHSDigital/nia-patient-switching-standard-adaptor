@@ -62,7 +62,19 @@ public class EhrExtractHandlingIT {
         "entry[0].resource.identifier[0].value",
         "entry[1].resource.id",
         "entry[*].resource.subject.reference",
-        "entry[*].resource.patient.reference"
+        "entry[*].resource.patient.reference",
+        "entry[21].resource.location[0].location.reference",
+        "entry[22].resource.location[0].location.reference",
+        "entry[23].resource.location[0].location.reference",
+        "entry[24].resource.location[0].location.reference",
+        "entry[25].resource.location[0].location.reference",
+        "entry[26].resource.location[0].location.reference",
+        "entry[29].resource.location[0].location.reference",
+        "entry[31].resource.location[0].location.reference",
+        "entry[59].resource.id",
+        "entry[59].resource.identifier[0].value",
+        "entry[60].resource.id",
+        "entry[60].resource.identifier[0].value"
     );
 
     @Autowired

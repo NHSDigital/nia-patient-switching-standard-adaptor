@@ -35,7 +35,7 @@ public class DocumentReferenceTest {
     private static final String CODING_DISPLAY = "Original Text document";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String NARRATIVE_STATEMENT_TYPE = "Record Attachment";
-    private static final String FILENAME = "Filename: 31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt";
+    private static final String FILENAME = "31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt";
     private static final String URL = "file://localhost/31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt";
     private static final String CONTENT_TYPE = "text/plain";
     private static final String ENCOUNTER_ID = "62A39454-299F-432E-993E-5A6232B4E099";
@@ -131,10 +131,9 @@ public class DocumentReferenceTest {
         assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
         assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
-        assertThat(documentReference.getDescription()).isEqualTo("Some example text\nFilename: "
-            + "31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt");
-        assertThat(documentReference.getIndexedElement().getValue().toInstant().toString()).isEqualTo("2010-01-14T00:00:00Z");
-        assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2020-10-12T13:33:44+00:00");
+        assertThat(documentReference.getDescription()).isEqualTo("Some example text");
+        assertThat(documentReference.getIndexedElement().getValue().toInstant().toString()).isEqualTo("2020-01-01T01:01:01Z");
+        assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2010-01-14");
         assertThat(documentReference.getSubject().getResource()).isNotNull();
         assertThat(documentReference.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(documentReference.getContext().getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
@@ -147,10 +146,9 @@ public class DocumentReferenceTest {
         assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
         assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
-        assertThat(documentReference.getDescription()).isEqualTo("Some example text\nFilename: "
-            + "31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt");
-        assertThat(documentReference.getIndexedElement().getValue().toInstant().toString()).isEqualTo("2010-01-14T00:00:00Z");
-        assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2020-10-12T13:33:44+00:00");
+        assertThat(documentReference.getDescription()).isEqualTo("Some example text");
+        assertThat(documentReference.getIndexedElement().getValue().toInstant().toString()).isEqualTo("2020-01-01T01:01:01Z");
+        assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2010-01-14");
         assertThat(documentReference.getSubject().getResource()).isNotNull();
         assertThat(documentReference.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(documentReference.getContext().getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
@@ -163,7 +161,7 @@ public class DocumentReferenceTest {
         assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
         assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
-        assertThat(documentReference.getDescription()).isEqualTo("Filename: 31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt");
+        assertThat(documentReference.getDescription()).isEqualTo("31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt");
         assertThat(documentReference.getCreated()).isNull();
         assertAttachmentData(documentReference);
     }
