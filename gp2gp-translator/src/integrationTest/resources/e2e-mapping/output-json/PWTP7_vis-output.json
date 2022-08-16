@@ -1921,7 +1921,7 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
+        "system": "https://PSSAdaptor/B83002",
         "value": "{{LOCATION-1}}"
       } ],
       "status": "active",

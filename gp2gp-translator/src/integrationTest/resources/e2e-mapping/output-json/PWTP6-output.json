@@ -2413,7 +2413,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "128130017",
+              "code": "77176002",
               "display": "Smoker"
             }
           ]
@@ -3033,7 +3033,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "406033016",
+              "code": "271306003",
               "display": "Best ever peak flow rate (respiratory)"
             }
           ]
@@ -3914,7 +3914,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "26325015",
+              "code": "15527001",
               "display": "Capillary filling"
             }
           ]
@@ -3974,7 +3974,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "26325015",
+              "code": "15527001",
               "display": "Capillary filling"
             }
           ]
@@ -4526,7 +4526,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "11001016",
+              "code": "6020002",
               "display": "Tinea pedis"
             }
           ]
@@ -4736,7 +4736,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "3788985010",
+              "code": "230572002",
               "display": "Neuropathy due to diabetes mellitus"
             }
           ]
@@ -4792,7 +4792,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "88021019",
+              "code": "52897009",
               "display": "Onychogryposis"
             }
           ]
@@ -4900,7 +4900,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "3789745018",
+              "code": "201250006",
               "display": "Ischaemic ulcer of foot due to diabetes mellitus"
             }
           ]
@@ -4956,7 +4956,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "3775803010",
+              "code": "201251005",
               "display": "Neuropathic ulcer of foot due to diabetes mellitus"
             }
           ]
@@ -5064,7 +5064,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "357895013",
+              "code": "238793001",
               "display": "Ischaemic leg ulcer"
             }
           ]
@@ -5120,7 +5120,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "357892011",
+              "code": "238792006",
               "display": "Mixed arteriovenous leg ulcer"
             }
           ]
@@ -6198,7 +6198,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "343212011",
+              "code": "228958009",
               "display": "alcohol units/week"
             }
           ]
@@ -6257,7 +6257,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "250307017",
+              "code": "160573003",
               "display": "Alcohol intake"
             }
           ]
@@ -6826,7 +6826,7 @@
                       }
                     ],
                     "system": "http://snomed.info/sct",
-                    "code": "3977131015",
+                    "code": "314414007",
                     "display": "Administration of first dose of meningitis C vaccine"
                   }
                 ]
@@ -6973,7 +6973,7 @@
                       }
                     ],
                     "system": "http://snomed.info/sct",
-                    "code": "3977125018",
+                    "code": "314415008",
                     "display": "Administration of second dose of meningitis C vaccine"
                   }
                 ]
@@ -7048,7 +7048,7 @@
                       }
                     ],
                     "system": "http://snomed.info/sct",
-                    "code": "2695814018",
+                    "code": "428975001",
                     "display": "Vaccination with Haemophilus influenzae type B and Neisseria meningitidis serotype C combination vaccine"
                   }
                 ]
@@ -7699,7 +7699,7 @@
                 }
               ],
               "system": "http://snomed.info/sct",
-              "code": "127638013",
+              "code": "76880004",
               "display": "Angelman syndrome"
             }
           ]
