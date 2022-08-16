@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Attachment;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
@@ -73,11 +74,8 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         documentReference.setIndexedElement(getIndexed(ehrExtract));
         documentReference.setDescription(buildDescription(narrativeStatement));
         documentReference.setCustodian(new Reference(organization));
+        documentReference.setCreatedElement(getCreatedTime(ehrExtract));
         getAuthor(narrativeStatement, ehrComposition).ifPresent(documentReference::addAuthor);
-
-        if (narrativeStatement.hasAvailabilityTime() && narrativeStatement.getAvailabilityTime().hasValue()) {
-            documentReference.setCreatedElement(DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()));
-        }
 
         var encounterReference = encounterList.stream()
             .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
@@ -94,6 +92,14 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         setContentAttachments(documentReference, narrativeStatement);
 
         return documentReference;
+    }
+
+    private DateTimeType getCreatedTime(RCMRMT030101UK04EhrExtract ehrExtract) {
+        if (ehrExtract.hasAuthor() && ehrExtract.getAuthor().hasTime()
+            && ehrExtract.getAuthor().getTime().hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAuthor().getTime().getValue());
+        }
+        return null;
     }
 
     private CodeableConcept getType(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
@@ -113,15 +119,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     }
 
     private InstantType getIndexed(RCMRMT030101UK04EhrExtract ehrExtract) {
-        if (ehrExtract.hasAuthor()) {
-            if (ehrExtract.getAuthor().hasTime() && ehrExtract.getAuthor().getTime().hasValue()) {
-                return DateFormatUtil.parseToInstantType(ehrExtract.getAuthor().getTime().getValue());
-            }
-
-            return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
-        }
-
-        return null;
+        return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
     }
 
     private Optional<Reference> getAuthor(RCMRMT030101UK04NarrativeStatement narrativeStatement,
@@ -134,24 +132,16 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     }
 
     private String buildDescription(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
-        String description = null;
         if (narrativeStatement.hasText()) {
-            description = addLine(description, narrativeStatement.getText());
+            return narrativeStatement.getText();
         }
 
         if (isAbsentAttachment(narrativeStatement)) {
-            description = addLine(description, PLACEHOLDER_VALUE);
+            return PLACEHOLDER_VALUE;
         } else {
-            description = addLine(description,
-                buildFileName(narrativeStatement.getReference().get(0)
-                    .getReferredToExternalDocument().getText().getReference().getValue()));
+            return buildFileName(narrativeStatement.getReference().get(0)
+                    .getReferredToExternalDocument().getText().getReference().getValue());
         }
-
-        return description;
-    }
-
-    public static String addLine(String text, String line) {
-        return text == null ? line : text.concat(StringUtils.LF).concat(line);
     }
 
     private boolean isAbsentAttachment(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
@@ -195,7 +185,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     }
 
     private String buildFileName(String text) {
-        return text.replaceAll("file://localhost/", "Filename: ");
+        return text.replace("file://localhost/", "");
     }
 
     private boolean isContentTypeValid(String mediaType) {
