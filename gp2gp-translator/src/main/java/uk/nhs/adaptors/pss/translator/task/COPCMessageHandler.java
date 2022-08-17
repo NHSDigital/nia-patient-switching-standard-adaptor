@@ -28,11 +28,13 @@ import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
+import uk.nhs.adaptors.pss.translator.config.SupportedFileTypes;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.ExternalAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
@@ -57,6 +59,7 @@ public class COPCMessageHandler {
     private final InboundMessageMergingService inboundMessageMergingService;
     private final XPathService xPathService;
     private final XmlParseUtilService xmlParseUtilService;
+    private final SupportedFileTypes supportedFileTypes;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId)
             throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
@@ -98,7 +101,7 @@ public class COPCMessageHandler {
 
             }
         } catch (ParseException | InlineAttachmentProcessingException | ValidationException
-            | SAXException | ExternalAttachmentProcessingException e) {
+                 | SAXException | ExternalAttachmentProcessingException | UnsupportedFileTypeException e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
                 + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
@@ -220,7 +223,8 @@ public class COPCMessageHandler {
     }
 
     private void addLogForEarlyFragmentAndStore(InboundMessage inboundMessage, String conversationId, COPCIN000001UK01Message payload,
-        Document ebXmlDocument, int patientId) throws ValidationException, InlineAttachmentProcessingException {
+        Document ebXmlDocument, int patientId) throws ValidationException, InlineAttachmentProcessingException,
+        UnsupportedFileTypeException {
         String fragmentMid = getFragmentMidId(ebXmlDocument);
         String fileName = getFileNameForFragment(inboundMessage, payload);
 
@@ -233,20 +237,29 @@ public class COPCMessageHandler {
     }
 
     private void storeCOPCAttachment(PatientAttachmentLog fragmentAttachmentLog, InboundMessage inboundMessage,
-                                     String conversationId) throws ValidationException, InlineAttachmentProcessingException {
-
-        if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
-            attachmentHandlerService.storeAttachmentWithoutProcessing(fragmentAttachmentLog.getFilename(),
+                                     String conversationId)
+        throws ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
+        if (checkIfFileTypeSupported(fragmentAttachmentLog.getContentType())) {
+            if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
+                attachmentHandlerService.storeAttachmentWithoutProcessing(fragmentAttachmentLog.getFilename(),
                     inboundMessage.getAttachments().get(0).getPayload(), conversationId,
                     fragmentAttachmentLog.getContentType(), fragmentAttachmentLog.getLengthNum());
-        } else {
-            var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
+            } else {
+                var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
                     List.of(fragmentAttachmentLog),
                     List.of(inboundMessage.getAttachments().get(0).getPayload()),
                     conversationId
-            );
-            attachmentHandlerService.storeAttachments(attachment, conversationId);
+                );
+                attachmentHandlerService.storeAttachments(attachment, conversationId);
+            }
+        } else {
+            throw new UnsupportedFileTypeException(String.format("File type %s is unsupported", fragmentAttachmentLog.getContentType()));
         }
+    }
+
+    private boolean checkIfFileTypeSupported(String fileType) {
+        return supportedFileTypes.getAccepted() != null
+            && supportedFileTypes.getAccepted().contains(fileType);
     }
 
     private boolean isManifestMessage(List<InboundMessage.Attachment> attachments,
