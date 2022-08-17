@@ -18021,12 +18021,12 @@
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
         "valueReference": {
-          "reference": "MedicationRequest/B1AF89A7-D501-4221-919C-4CB7EA76D827"
+          "reference": "MedicationRequest/9374FDA9-64C9-44AE-938C-6D54D25DED09"
         }
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
         "valueReference": {
-          "reference": "MedicationRequest/9374FDA9-64C9-44AE-938C-6D54D25DED09"
+          "reference": "MedicationRequest/B1AF89A7-D501-4221-919C-4CB7EA76D827"
         }
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",

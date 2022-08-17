@@ -1,6 +1,23 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import lombok.RequiredArgsConstructor;
+import static java.util.stream.Collectors.partitioningBy;
+
+import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.ACTIVE;
+import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIVE;
+
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllLinkSets;
+import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildReferenceExtension;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -20,6 +37,7 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04Component6;
@@ -29,25 +47,11 @@ import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.RCMRMT030101UK04StatementRef;
-import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.partitioningBy;
-import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.ACTIVE;
-import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIVE;
-import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllLinkSets;
-import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildReferenceExtension;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -259,15 +263,36 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .addCoding(coding);
     }
 
-    private List<Extension> buildRelatedClinicalContent(Bundle bundle, List<RCMRMT030101UK04StatementRef> relatedClinicalStatementRefs) {
-        return relatedClinicalStatementRefs.stream()
-            .flatMap(statementRef -> bundle.getEntry()
-                .stream()
-                .filter(entryComponent -> statementRef.getId().getRoot().equals(entryComponent.getResource().getId()))
-            )
-            .map(BundleEntryComponent::getResource)
-            .map(resource -> buildReferenceExtension(RELATED_CLINICAL_CONTENT_URL, new Reference(resource)))
+    private List<Extension> buildRelatedClinicalContent(Bundle bundle,
+        List<RCMRMT030101UK04StatementRef> relatedClinicalStatementReferences) {
+
+        // Filter for bundle entries where entry ID exists in both streams
+        var bundleIds = bundle.getEntry()
+            .stream()
+            .map(entry -> entry.getResource().getId()).toArray();
+
+        var referenceIds = relatedClinicalStatementReferences
+            .stream()
+            .filter(entry -> Arrays.stream(bundleIds).anyMatch(entry.getId().getRoot()::equals))
+            .map(entry -> entry.getId().getRoot()).toList();
+
+        var clinicalReferences = bundle.getEntry()
+            .stream()
+            .filter(entry -> referenceIds.contains(entry.getResource().getId()))
             .toList();
+
+        // Parse bundle entries into condition reference extensions and return
+        var conditionExtensions = clinicalReferences
+            .stream()
+            .map(BundleEntryComponent::getResource)
+            .map(resource -> {
+                var reference = new Reference(resource);
+                reference.setReferenceElement(new StringType(resource.getId()));
+                var extension = buildReferenceExtension(RELATED_CLINICAL_CONTENT_URL, reference);
+                return extension;
+            }).toList();
+
+        return conditionExtensions;
     }
 
     private List<Annotation> buildNotes(Optional<RCMRMT030101UK04ObservationStatement> observationStatement,
