@@ -16,6 +16,7 @@ services:
       - PS_AMQP_PASSWORD
       - PS_AMQP_MAX_REDELIVERIES
       - PS_LOGGING_LEVEL
+      - SUPPORTED_FILE_TYPES
     networks:
       - ps-network
 
@@ -30,7 +31,7 @@ services:
       - PS_DB_URL=jdbc:postgresql://ps_db:5432
       - GP2GP_TRANSLATOR_USER_DB_PASSWORD
       - PS_AMQP_BROKER=amqp://activemq:5672
-      - MHS_AMQP_BROKER=amqp://activemq:5672
+      - MHS_AMQP_BROKER=amqp://activemq:56722285
       - PS_QUEUE_NAME
       - MHS_QUEUE_NAME
       - PS_AMQP_USERNAME
