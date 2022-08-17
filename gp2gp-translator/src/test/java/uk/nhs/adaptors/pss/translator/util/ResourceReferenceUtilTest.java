@@ -133,7 +133,7 @@ public class ResourceReferenceUtilTest {
     private static Stream<Arguments> ehrCompositionResourceFiles() {
         return Stream.of(
             Arguments.of("ehr_composition_observation_comment.xml", "Observation/5E496953-065B-41F2-9577-BE8F2FBD0757"),
-            Arguments.of("ehr_composition_document_reference.xml", "DocumentReference/31B75ED0-6E88-11EA-9384-E83935108FD5"),
+            Arguments.of("ehr_composition_document_reference.xml", "DocumentReference/5E496953-065B-41F2-9577-BE8F2FBD0757"),
             Arguments.of("ehr_composition_immunization.xml", "Immunization/82A39454-299F-432E-993E-5A6232B4E099"),
             Arguments.of("ehr_composition_allergy_intolerance.xml", "AllergyIntolerance/35C0BE8D-F5F9-41C4-B819-4BE66FF8ED27"),
             Arguments.of("ehr_composition_observation_uncategorised.xml", "Observation/E9396E5B-B81A-4D69-BF0F-DFB1DFE80A33"),
@@ -165,7 +165,7 @@ public class ResourceReferenceUtilTest {
     private static Stream<Arguments> compoundStatementResourceFiles() {
         return Stream.of(
             Arguments.of("compound_statement_observation_comment.xml", "Observation/5E496953-065B-41F2-9577-BE8F2FBD0757"),
-            Arguments.of("compound_statement_document_reference.xml", "DocumentReference/31B75ED0-6E88-11EA-9384-E83935108FD5"),
+            Arguments.of("compound_statement_document_reference.xml", "DocumentReference/5E496953-065B-41F2-9577-BE8F2FBD0757"),
             Arguments.of("compound_statement_immunization.xml", "Immunization/82A39454-299F-432E-993E-5A6232B4E099"),
             Arguments.of("compound_statement_allergy_intolerance.xml", "AllergyIntolerance/35C0BE8D-F5F9-41C4-B819-4BE66FF8ED27"),
             Arguments.of("compound_statement_observation_uncategorised.xml", "Observation/E9396E5B-B81A-4D69-BF0F-DFB1DFE80A33"),

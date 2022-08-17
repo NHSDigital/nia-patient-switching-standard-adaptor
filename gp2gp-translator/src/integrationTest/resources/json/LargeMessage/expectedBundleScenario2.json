@@ -364,7 +364,7 @@
       },
       "entry": [ {
         "item": {
-          "reference": "DocumentReference/_1C135B3C-5AA5-4BF1-A08B-E6002455B806"
+          "reference": "DocumentReference/FDD5D332-0468-414A-84E5-AFDAD5B37BCE"
         }
       }, {
         "item": {
@@ -479,13 +479,13 @@
   }, {
     "resource": {
       "resourceType": "DocumentReference",
-      "id": "_1C135B3C-5AA5-4BF1-A08B-E6002455B806",
+      "id": "FDD5D332-0468-414A-84E5-AFDAD5B37BCE",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/D5445",
-        "value": "_1C135B3C-5AA5-4BF1-A08B-E6002455B806"
+        "value": "FDD5D332-0468-414A-84E5-AFDAD5B37BCE"
       } ],
       "status": "current",
       "type": {
