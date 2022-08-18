@@ -2,7 +2,7 @@ package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service;
 
 import org.springframework.stereotype.Service;
 
-import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.SuccessTemplateParams;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.SuccessTemplateParams;
 import com.github.mustachejava.Mustache;
 
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.util.MustacheUtil;

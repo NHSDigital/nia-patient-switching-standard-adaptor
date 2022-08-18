@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels;
+package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model;
 
 public class MessageHeaders {
     public static final String CONTENT_TYPE = "content-type";

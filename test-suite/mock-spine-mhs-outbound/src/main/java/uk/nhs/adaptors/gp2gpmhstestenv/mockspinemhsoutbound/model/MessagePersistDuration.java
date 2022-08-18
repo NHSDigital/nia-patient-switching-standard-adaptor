@@ -1,25 +1,24 @@
 package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Duration;
 
-@Entity
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 @Table(name="message_persist_duration")
 public class MessagePersistDuration {
-
     @Id
     private int id;
     private String messageType;
     private Duration persistDuration;
     private int callsSinceUpdate;
-    private int migrationRequestId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "migration_request_id")
+    private PatientMigrationRequest patientMigrationRequest;
 }

@@ -1,28 +1,29 @@
 package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="migration_status_log")
 public class MigrationStatusLog {
-    private int id;
 
+    @Id
+    private int id;
     @Enumerated(EnumType.STRING)
-    private MigrationStatus migrationStatus;   //
+    private MigrationStatus migrationStatus;
     private OffsetDateTime date;
-    private int migrationRequestId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "migration_request_id")
+    private PatientMigrationRequest patientMigrationRequest;
     private String messageId;
 }

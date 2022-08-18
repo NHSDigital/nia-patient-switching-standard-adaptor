@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.controller;
 
-import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.OutboundMessage;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.OutboundMessage;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.JournalService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+
+
+/*
+    Retrieves the data from JournalService Static map with messages.
+    we use it to query the messages sent from MHS outbout to our service
+ */
 @RestController
 @RequestMapping(path = "/retrieve")
 @AllArgsConstructor(onConstructor = @__(@Autowired))

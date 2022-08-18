@@ -1,7 +1,7 @@
 package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.filter;
 
-import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.MessageHeaders.CONTENT_TYPE;
-import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.MessageHeaders.MESSAGE_ID;
+import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MessageHeaders.CONTENT_TYPE;
+import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MessageHeaders.MESSAGE_ID;
 
 import java.io.IOException;
 import java.util.Optional;

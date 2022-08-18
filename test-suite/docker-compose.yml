@@ -172,12 +172,10 @@ services:
       - "8161:8161"
       - "5672:5672"
 
-
   mock-spine-mhs:
-    networks:
-      - nia-ps
-    #    depends_on:
-    #      - mongodb
+    depends_on:
+      - ps_db
+      - db_migration
     build:
       context: ./
       dockerfile: docker/mock-spine-mhs-outbound/DockerFile
@@ -185,6 +183,8 @@ services:
       - "8086:8086"
       - "8443:8443"
     environment:
-      - PS_DB_URL
+      - PS_DB_URL=${PS_DB_URL_INTERNAL}
       - GP2GP_TRANSLATOR_USER_DB_PASSWORD
-
+      - MOCK_SPINE_MHS_OUTBOUND_LOG_LEVEL
+    networks:
+      - nia-ps

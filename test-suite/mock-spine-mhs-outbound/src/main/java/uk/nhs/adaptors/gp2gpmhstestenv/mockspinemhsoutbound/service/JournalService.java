@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.OutboundMessage;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.OutboundMessage;
 
 @Slf4j
 @Service
@@ -31,10 +31,6 @@ public class JournalService {
 
     public void postJournalEntry(String correlationId, OutboundMessage message) {
 
-        addToRequestJournal(correlationId, message);
-    }
-
-    private void addToRequestJournal(String correlationId, OutboundMessage message) {
         if(REQUEST_JOURNALS_MAP.containsKey(correlationId)) {
             REQUEST_JOURNALS_MAP.replace(correlationId, Stream.concat(
                     REQUEST_JOURNALS_MAP.get(correlationId).stream(),
@@ -48,5 +44,7 @@ public class JournalService {
             LOGGER.info("Added new Journal entry with id: {}" + correlationId);
         }
     }
+
+
 
 }

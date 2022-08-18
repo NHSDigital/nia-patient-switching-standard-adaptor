@@ -8,4 +8,15 @@ import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.PatientMigrati
 public interface PatientMigrationRequestRepository  extends CrudRepository<PatientMigrationRequest, String> {
 
 
+
+/*    @Query("SELECT u FROM User u WHERE u.status = 1")
+    Collection<User> findAllActiveUsers();*/
+
+
+
+
+    PatientMigrationRequest findPatientMigrationRequestByConversationId(String conversationId);
+
+
+
 }

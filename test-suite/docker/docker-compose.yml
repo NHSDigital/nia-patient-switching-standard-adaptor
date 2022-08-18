@@ -127,7 +127,7 @@ services:
   ps_db:
     image: postgres:14.0
     ports:
-      - "${PS_DB_PORT}:5432"
+      - "${PS_DB_PORT}:5436"
     environment:
       - POSTGRES_PASSWORD
       - PS_DB_OWNER_NAME

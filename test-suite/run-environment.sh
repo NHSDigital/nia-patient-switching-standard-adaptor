@@ -4,7 +4,8 @@ set -x -e
 
 source ./vars.sh
 
-docker-compose down
+docker-compose down --rmi=local --remove-orphans
+docker-compose rm
 
 cd mock-spine-mhs-outbound
 

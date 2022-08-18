@@ -1,9 +1,9 @@
 package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.controller;
 
-import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.MessageHeaders.CONTENT_TYPE;
-import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.MessageHeaders.CORRELATION_ID;
-import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.MessageHeaders.INTERACTION_ID;
-import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.MessageHeaders.MESSAGE_ID;
+import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MessageHeaders.CONTENT_TYPE;
+import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MessageHeaders.CORRELATION_ID;
+import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MessageHeaders.INTERACTION_ID;
+import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MessageHeaders.MESSAGE_ID;
 import static uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.ContentTypeService.MHS_OUTBOUND_CONTENT_TYPE;
 
 import java.time.LocalDateTime;
@@ -21,14 +21,22 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.OutboundMessage;
-import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels.SuccessTemplateParams;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.OutboundMessage;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.SuccessTemplateParams;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.ContentTypeService;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.SpineResponseService;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.JournalService;
 
 import lombok.AllArgsConstructor;
 
+
+
+
+/*
+    this endpoint receives data from MHS outbount  - DELETE COMMENT
+    and sets a static variable for all JournalService. it is used again in
+    retrieve spine controller
+ */
 @RestController
 @RequestMapping(path = "/reliablemessaging/forwardreliable")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -74,6 +82,6 @@ public class ForwardReliableController {
             .timestamp(LocalDateTime.now().toString())
             .build();
 
-        return ResponseEntity.accepted().body(responseService.fillSuccessTemplate(params));
+        return ResponseEntity.accepted().body(responseService.fillSuccessTemplate(params)); //NEED TO CHECK if need to modify template sent back from MHS outbound - DELETE COMMENT
     }
 }

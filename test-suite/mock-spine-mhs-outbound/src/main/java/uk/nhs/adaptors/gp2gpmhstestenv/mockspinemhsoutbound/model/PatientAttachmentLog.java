@@ -1,24 +1,22 @@
 package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "patient_attachment_log")
 public class PatientAttachmentLog {
 
-    @NonNull
+    @Id
+    private String id;
     private String mid;
     private String parentMid;
-//  @NonNull filename required to create
     private String filename;
     private String contentType;
     private Boolean compressed;
@@ -27,8 +25,10 @@ public class PatientAttachmentLog {
     private Boolean skeleton;
     private Boolean uploaded;
     private Integer lengthNum;
-//  @NonNull patientMigrationReqId required to create
-    private Integer patientMigrationReqId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "migration_request_id")
+    private PatientMigrationRequest patientMigrationRequest;
     private Integer orderNum;
     private Boolean deleted;
 }

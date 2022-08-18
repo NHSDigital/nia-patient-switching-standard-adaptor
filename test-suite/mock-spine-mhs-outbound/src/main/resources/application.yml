@@ -13,16 +13,19 @@ server:
 
 logging:
   level:
-    com.benhession.mockspinemhsoutbound: INFO
+    com.benhession.mockspinemhsoutbound: ${MOCK_SPINE_MHS_OUTBOUND_LOG_LEVEL:INFO}
 
 spring:
   servlet:
     multipart:
       enabled: false
   datasource:
-    url: ${PS_DB_URL:jdbc:postgresql://localhost:5436}/patient_switching
+    driver-class-name: org.postgresql.Driver
+    url: ${PS_DB_URL}/patient_switching
     username: gp2gp_user
     password: ${GP2GP_TRANSLATOR_USER_DB_PASSWORD}
 
 
 
+# PS_DB_URL = "jdbc:postgresql://localhost:${PS_DB_PORT}
+#  spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver

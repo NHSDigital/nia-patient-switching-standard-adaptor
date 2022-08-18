@@ -1,10 +1,10 @@
-package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.previousmodels;
-
-import java.util.Map;
+package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
+
+import java.util.Map;
 
 @Data
 @Builder
