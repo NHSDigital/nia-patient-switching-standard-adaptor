@@ -4,8 +4,8 @@ set -x -e
 
 source ./vars.sh
 
-docker-compose down --rmi=local --remove-orphans
-docker-compose rm
+#docker-compose down --rmi=local --remove-orphans
+#docker-compose rm
 
 cd mock-spine-mhs-outbound
 
@@ -42,5 +42,5 @@ if [[ "$(docker network ls | grep "nia-ps")" == "" ]] ; then
     docker network create nia-ps
 fi
 
-docker-compose -f docker-compose.yml up -d;
+docker-compose -f docker-compose-part-1.yml up -d;
 

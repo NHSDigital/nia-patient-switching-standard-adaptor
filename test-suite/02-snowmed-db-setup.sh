@@ -9,12 +9,12 @@ NC='\033[0m'
 echo "${LIGHT_GREEN}Exporting environment variables${NC}"
 source vars.sh
 
-cd snowmed-database-loader
+cd docker/snowmed-database-loader
 ./load_release-postgresql.sh ${SNOWMED_FILE_LOCATION}
-cd ..
-cd snomed-immunization-loader
+cd ../..
+cd docker/snomed-immunization-loader
 ./load_immunization_codes.sh
-cd ..
+cd ../..
 
 
 docker-compose -f docker-compose-part-2.yml up -d
