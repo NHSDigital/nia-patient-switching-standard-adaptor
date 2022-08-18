@@ -186,17 +186,17 @@ export MHS_SYNC_ASYNC_STATE_TABLE_NAME="sync_async_state"
 
 # PSS Vars
 
-export PS_DB_PORT=5436;
-export PS_DB_URL="jdbc:postgresql://localhost:${PS_DB_PORT}";
+export PS_DB_PORT=5436; #useless variable
 export PS_DB_URL_INTERNAL="jdbc:postgresql://host.docker.internal:${PS_DB_PORT}";
 export PS_DB_OWNER_NAME="postgres";
 export PS_FROM_ODS_CODE="PSS_001";
 export PS_DB_HOST="localhost"
-export PS_DB_OWNER_PASSWORD="testpassword"; # change
-export PS_DB_OWNER_PASSWORD="testpassword"; # change
-export POSTGRES_PASSWORD="testpassword"; # change
-export GPC_FACADE_USER_DB_PASSWORD="testpassword"; # change
-export GP2GP_TRANSLATOR_USER_DB_PASSWORD="testpassword"; # change
+export PS_DB_URL="jdbc:postgresql://${PS_DB_HOST}:${PS_DB_PORT}";
+export PS_DB_OWNER_PASSWORD="123456"; # change
+export PS_DB_OWNER_PASSWORD="123456"; # change
+export POSTGRES_PASSWORD="123456"; # change
+export GPC_FACADE_USER_DB_PASSWORD="123456"; # change
+export GP2GP_TRANSLATOR_USER_DB_PASSWORD="123456"; # change
 export GP2GP_TRANSLATOR_SERVER_PORT=8085;
 export GPC_FACADE_SERVER_PORT=8081;
 export PS_QUEUE_NAME="pssQueue";
@@ -215,18 +215,10 @@ export DB_HOSTNAME="localhost";
 #MHS ROUTE VARS
 # Route responses are mocked by mock-spine-mhs-outbound
 ####################################
-# GP2GP VARSmock-spine-mhs
-export GP2GP_SERVER_PORT="8183"
-export GP2GP_AMQP_BROKERS="amqp://activemq:5672"
-export GP2GP_MONGO_URI="mongodb://mongodb:27017"
-export GP2GP_MONGO_DATABASE_NAME="gp2gp"
-export GP2GP_MHS_OUTBOUND_URL="http://outbound:80"
-export GP2GP_GPC_GET_URL="http://gpcc:8090/@ODS_CODE@/STU3/1/gpconnect"
-export GP2GP_LARGE_ATTACHMENT_THRESHOLD="31216"
-export GP2GP_LARGE_EHR_EXTRACT_THRESHOLD="31216"
 
 
 
 # LOGGING
 export MHS_LOG_LEVEL="DEBUG"
 export PS_LOGGING_LEVEL="DEBUG"
+export MOCK_SPINE_MHS_OUTBOUND_LOG_LEVEL="DEBUG"
