@@ -90,7 +90,7 @@ services:
       - "8081:8081"
     environment:
       - GPC_FACADE_SERVER_PORT
-      - PS_DB_URL
+      - PS_DB_URL=${PS_DB_URL_INTERNAL}
       - GPC_FACADE_USER_DB_PASSWORD
       - PS_AMQP_BROKER=amqp://activemq:5672
       - PS_QUEUE_NAME
