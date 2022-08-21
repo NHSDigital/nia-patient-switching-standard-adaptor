@@ -21,10 +21,10 @@ public class PatientMigrationRequestController
 {
     private PatientMigrationRequestService patientMigrationRequestService;
 
-    @GetMapping(path = "/patient-migration-request/{conversationId}")
-    public ResponseEntity<List<MigrationStatusLog>> findReceivedAcknowledgement(@PathVariable String conversationId) {
+    @GetMapping(path = "/patient-migration-request/{id}")
+    public ResponseEntity<List<MigrationStatusLog>> findReceivedAcknowledgement(@PathVariable String id) {
         Optional<List<MigrationStatusLog>> acknowledgement =
-                patientMigrationRequestService.findReceivedAcknowledgmentForConversationId(conversationId);
+                patientMigrationRequestService.findReceivedAcknowledgmentForConversationId(id);
 
         return acknowledgement.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }

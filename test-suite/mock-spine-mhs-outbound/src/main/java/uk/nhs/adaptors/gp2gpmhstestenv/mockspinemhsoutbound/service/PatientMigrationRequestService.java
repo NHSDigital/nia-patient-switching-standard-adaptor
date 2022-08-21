@@ -13,13 +13,12 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class PatientMigrationRequestService
-{
+public class PatientMigrationRequestService {
     private PatientMigrationRequestRepository patientMigrationRequestRepository;
 
 
     public Optional<List<MigrationStatusLog>> findReceivedAcknowledgmentForConversationId(String conversationId) {
-        Optional<PatientMigrationRequest> extractStatus = Optional.ofNullable(patientMigrationRequestRepository.findPatientMigrationRequestByConversationId(conversationId));
+        Optional<PatientMigrationRequest> extractStatus = Optional.ofNullable(patientMigrationRequestRepository.findByConversationId(conversationId));
 
         return extractStatus.map(PatientMigrationRequest::getMigrationStatusLog);
     }

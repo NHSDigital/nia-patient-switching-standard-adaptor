@@ -11,7 +11,7 @@ import java.time.Duration;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="message_persist_duration")
+@Table(name="message_persist_duration", schema = "public")
 public class MessagePersistDuration {
     @Id
     private int id;
