@@ -4,10 +4,7 @@ package uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MigrationStatusLog;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.PatientMigrationRequestService;
 
@@ -21,12 +18,15 @@ public class PatientMigrationRequestController
 {
     private PatientMigrationRequestService patientMigrationRequestService;
 
-    @GetMapping(path = "/patient-migration-request/{id}")
-    public ResponseEntity<List<MigrationStatusLog>> findReceivedAcknowledgement(@PathVariable String id) {
+    @GetMapping(path = "/migration-status-log/{conversationId}")
+    public ResponseEntity<List<MigrationStatusLog>> findReceivedAcknowledgement(@PathVariable String conversationId, @RequestParam("migrationStatus") String migrationStatus) {
         Optional<List<MigrationStatusLog>> acknowledgement =
-                patientMigrationRequestService.findReceivedAcknowledgmentForConversationId(id);
+                patientMigrationRequestService.findReceivedAcknowledgmentForConversationId(conversationId);
 
-
+        /*
+            ToDo ask scott about the data he wants from the tables
+            We need the Request Type but also the message ID
+          */
         return acknowledgement.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 }

@@ -4,7 +4,7 @@ set -x -e
 
 source ./vars.sh
 
-docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
+#docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
 
 cd mock-spine-mhs-outbound
 

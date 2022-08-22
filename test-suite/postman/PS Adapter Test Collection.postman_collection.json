@@ -1,30 +1,23 @@
 {
 	"info": {
-		"_postman_id": "d77d35a2-64be-400d-8989-4d41c19c20a3",
-		"name": "PS Adapter Test Collection",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "5028bcf8-a607-4479-855f-8734db595b4a",
+		"name": "Medicus Test Collection PSS Adaptor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20012745"
 	},
 	"item": [
 		{
-			"name": "Scenario 1",
-			"item": []
-		},
-		{
-			"name": "Scenario 2",
-			"item": []
-		},
-		{
-			"name": "Scenario 3 - SINGLE EHR processes with a single CID attachment",
+			"name": "Example Test",
 			"item": [
 				{
-					"name": "Send EHR Request to Facade",
+					"name": "01 - A Send EHR Request",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Repsonse should be 204 OK\", () => {",
-									"    pm.expect(pm.response.code).to.equal(204);",
+									"pm.test(\"Repsonse should be 200 OK\", () => {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -64,7 +57,7 @@
 							},
 							{
 								"key": "ConversationId",
-								"value": "94C8B843-8195-4317-9873-A9C5599166FE",
+								"value": "6E242658-3D8E-11E3-A7DC-172BDA00FA67",
 								"type": "text"
 							}
 						],
@@ -78,12 +71,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/Patient/$gpc.migratestructuredrecord",
+							"raw": "http://localhost:{{facade-port}}/Patient/$gpc.migratestructuredrecord",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8081",
+							"port": "{{facade-port}}",
 							"path": [
 								"Patient",
 								"$gpc.migratestructuredrecord"
@@ -93,15 +86,22 @@
 					"response": []
 				},
 				{
-					"name": "Verify Patient Migration Request Received",
+					"name": "01 - B verify EHR Request",
 					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Repsonse should be 200 OK\", () => {",
-									"    pm.expect(pm.response.code).to.equal(200);",
-									"})"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -109,73 +109,354 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "default",
-								"disabled": true
-							}
-						],
+						"header": [],
 						"url": {
-							"raw": "http://localhost:8086/pss-adaptor-db/patient-migration-request/{{conversationId}}",
+							"raw": "http://localhost:{{mock-spine-mhs-port}}/retrieve/{{conversation-id}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8086",
+							"port": "{{mock-spine-mhs-port}}",
 							"path": [
-								"pss-adaptor-db",
-								"patient-migration-request",
-								"{{conversationId}}"
+								"retrieve",
+								"{{conversation-id}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Post Uk06 to message queue",
+					"name": "02 - A Send EHR extract",
 					"request": {
 						"method": "POST",
-						"header": []
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/related; boundary=\"--=_MIME-Boundary\"; type=text/xml; start=<ebXMLHeader@spine.nhs.uk>",
+								"type": "text"
+							},
+							{
+								"key": "SOAPAction",
+								"value": "SOAPAction: urn:nhs:names:services:gp2gp/RCMR_IN010000UK05",
+								"type": "text"
+							},
+							{
+								"key": "Correlation-Id",
+								"value": "{{conversationId}}",
+								"type": "text"
+							},
+							{
+								"key": "Message-Id",
+								"value": "{{request-messageId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "message goes here!!!",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{inbound-port}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{inbound-port}}"
+						}
 					},
 					"response": []
 				},
 				{
-					"name": "Verify uk06 message received",
+					"name": "02 - B verify Continue OR ACK",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{mock-spine-mhs-port}}/retrieve/6E242658-3D8E-11E3-A7DC-172BDA00FA67/564E00E9-D831-4B4F-8FA6-5129FECB7810",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{mock-spine-mhs-port}}",
+							"path": [
+								"retrieve",
+								"6E242658-3D8E-11E3-A7DC-172BDA00FA67",
+								"564E00E9-D831-4B4F-8FA6-5129FECB7810"
+							]
+						}
 					},
 					"response": []
 				},
 				{
-					"name": "Verify bundle created in facade",
+					"name": "03 - A SendAttachment",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/related; boundary=\"--=_MIME-Boundary\"; type=text/xml; start=<ebXMLHeader@spine.nhs.uk>",
+								"type": "text"
+							},
+							{
+								"key": "SOAPAction",
+								"value": "SOAPAction: urn:nhs:names:services:gp2gp/RCMR_IN010000UK05",
+								"type": "text"
+							},
+							{
+								"key": "Correlation-Id",
+								"value": "{{conversationId}}",
+								"type": "text"
+							},
+							{
+								"key": "Message-Id",
+								"value": "{{request-messageId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:{{inbound-port}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{inbound-port}}"
+						}
 					},
 					"response": []
 				},
 				{
-					"name": "Verify file in storage",
+					"name": "03 - B Verify ACK",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{mock-spine-mhs-port}}/retrieve/6E242658-3D8E-11E3-A7DC-172BDA00FA67",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{mock-spine-mhs-port}}",
+							"path": [
+								"retrieve",
+								"6E242658-3D8E-11E3-A7DC-172BDA00FA67"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify DB is updated Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify the ACK was recieved\", () => {\r",
+									"    \r",
+									"    if(pm.response.code === 204) {\r",
+									"        pm.expect.fail(\"Response has no content\");\r",
+									"    } \r",
+									"})\r",
+									"\r",
+									"pm.test(\"ACK should reference initial request\", () => {\r",
+									"    responseBody = pm.response.json();\r",
+									"    messageRef = responseBody.messageRef;\r",
+									"\r",
+									"    pm.expect(messageRef).to.equal(pm.collectionVariables.get(\"ehr-extract-id\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"There shouldn't be any errors\", () => {\r",
+									"    responseBody = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseBody.errors).to.be.null;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{mock-spine-mhs-port}}/gp2gp-adaptor-db/migration-status-log/6E242658-3D8E-11E3-A7DC-172BDA00FA67?migrationStatus=REQUEST_RECEIVED",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{mock-spine-mhs-port}}",
+							"path": [
+								"gp2gp-adaptor-db",
+								"migration-status-log",
+								"6E242658-3D8E-11E3-A7DC-172BDA00FA67"
+							],
+							"query": [
+								{
+									"key": "migrationStatus",
+									"value": "REQUEST_RECEIVED"
+								}
+							]
+						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Test Group 1",
+			"item": [
+				{
+					"name": "Verify PS_MAP_01",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify the ACK was recieved\", () => {\r",
+									"    \r",
+									"    if(pm.response.code === 204) {\r",
+									"        pm.expect.fail(\"Response has no content\");\r",
+									"    } \r",
+									"})\r",
+									"\r",
+									"pm.test(\"ACK should reference initial request\", () => {\r",
+									"    responseBody = pm.response.json();\r",
+									"    messageRef = responseBody.messageRef;\r",
+									"\r",
+									"    pm.expect(messageRef).to.equal(pm.collectionVariables.get(\"ehr-extract-id\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"There shouldn't be any errors\", () => {\r",
+									"    responseBody = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseBody.errors).to.be.null;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8086/gp2gp-adaptor-db/received-ack/6E242658-3D8E-11E3-A7DC-172BDA00FA67",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8086",
+							"path": [
+								"gp2gp-adaptor-db",
+								"received-ack",
+								"6E242658-3D8E-11E3-A7DC-172BDA00FA67"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify DB is updated Copy 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify the ACK was recieved\", () => {\r",
+									"    \r",
+									"    if(pm.response.code === 204) {\r",
+									"        pm.expect.fail(\"Response has no content\");\r",
+									"    } \r",
+									"})\r",
+									"\r",
+									"pm.test(\"ACK should reference initial request\", () => {\r",
+									"    responseBody = pm.response.json();\r",
+									"    messageRef = responseBody.messageRef;\r",
+									"\r",
+									"    pm.expect(messageRef).to.equal(pm.collectionVariables.get(\"ehr-extract-id\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"There shouldn't be any errors\", () => {\r",
+									"    responseBody = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseBody.errors).to.be.null;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{mock-spine-mhs-port}}/gp2gp-adaptor-db/received-ack/6E242658-3D8E-11E3-A7DC-172BDA00FA67",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{mock-spine-mhs-port}}",
+							"path": [
+								"gp2gp-adaptor-db",
+								"received-ack",
+								"6E242658-3D8E-11E3-A7DC-172BDA00FA67"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test Group 2",
+			"item": []
+		},
+		{
+			"name": "Test Group 3",
+			"item": []
+		},
+		{
+			"name": "Test Group 4",
+			"item": []
+		},
+		{
+			"name": "Test Group 5",
+			"item": []
+		},
+		{
+			"name": "Test Group 6",
+			"item": []
+		},
+		{
+			"name": "Test Group 7",
+			"item": []
+		},
+		{
+			"name": "Test Group 8",
+			"item": []
 		}
 	],
 	"variable": [
 		{
-			"key": "conversationId",
-			"value": ""
+			"key": "inbound-port",
+			"value": "443"
 		},
 		{
-			"key": "request-messageId",
-			"value": ""
+			"key": "facade-port",
+			"value": "8081"
+		},
+		{
+			"key": "mock-spine-mhs-port",
+			"value": "8086"
 		}
 	]
 }
