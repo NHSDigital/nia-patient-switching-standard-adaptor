@@ -15,7 +15,167 @@
 		},
 		{
 			"name": "Scenario 3 - SINGLE EHR processes with a single CID attachment",
-			"item": []
+			"item": [
+				{
+					"name": "Send EHR Request to Facade",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Repsonse should be 204 OK\", () => {",
+									"    pm.expect(pm.response.code).to.equal(204);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "to-asid",
+								"value": "2167888439",
+								"type": "text"
+							},
+							{
+								"key": "from-asid",
+								"value": "2167888433",
+								"type": "text"
+							},
+							{
+								"key": "to-ods",
+								"value": "A378",
+								"type": "text"
+							},
+							{
+								"key": "from-ods",
+								"value": "B943",
+								"type": "text"
+							},
+							{
+								"key": "ConversationId",
+								"value": "94C8B843-8195-4317-9873-A9C5599166FE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resourceType\": \"Parameters\",\r\n    \"parameter\": [\r\n        {\r\n            \"name\": \"patientNHSNumber\",\r\n            \"valueIdentifier\": {\r\n                \"system\": \"https://fhir.nhs.uk/Id/nhs-number\",\r\n                \"value\": \"9998887771\"\r\n            }\r\n        },\r\n        {\r\n            \"name\": \"includeFullRecord\",\r\n            \"part\": [\r\n                {\r\n                    \"name\": \"includeSensitiveInfomation\",\r\n                    \"valueBoolean\": true\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/Patient/$gpc.migratestructuredrecord",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"Patient",
+								"$gpc.migratestructuredrecord"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Patient Migration Request Received",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Repsonse should be 200 OK\", () => {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8086/pss-adaptor-db/patient-migration-request/{{conversationId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8086",
+							"path": [
+								"pss-adaptor-db",
+								"patient-migration-request",
+								"{{conversationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Uk06 to message queue",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Verify uk06 message received",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Verify bundle created in facade",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Verify file in storage",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "conversationId",
+			"value": ""
+		},
+		{
+			"key": "request-messageId",
+			"value": ""
 		}
 	]
 }
