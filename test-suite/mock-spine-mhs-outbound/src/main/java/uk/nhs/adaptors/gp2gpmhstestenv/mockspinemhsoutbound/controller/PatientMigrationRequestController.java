@@ -26,6 +26,7 @@ public class PatientMigrationRequestController
         Optional<List<MigrationStatusLog>> acknowledgement =
                 patientMigrationRequestService.findReceivedAcknowledgmentForConversationId(id);
 
+
         return acknowledgement.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 }

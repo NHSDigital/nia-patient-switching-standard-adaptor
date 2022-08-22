@@ -107,7 +107,7 @@ services:
       - "8085:8085"
     environment:
       - GP2GP_TRANSLATOR_SERVER_PORT
-      - PS_DB_URL
+      - PS_DB_URL=${PS_DB_URL_INTERNAL}
       - GP2GP_TRANSLATOR_USER_DB_PASSWORD
       - PS_AMQP_BROKER=amqp://activemq:5672
       - MHS_AMQP_BROKER=amqp://activemq:5672
