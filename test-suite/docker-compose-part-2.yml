@@ -13,10 +13,10 @@ services:
       context: ./
       dockerfile: docker/mock-spine-mhs-outbound/DockerFile
     ports:
-      - "8086:8086"
-      - "8443:8443"
+      - "${MOCK_SPINE_MHS_PORT}:8086"
+      - "${MOCK_SPINE_MHS_FORWARD_RELIABLE_PORT}:8443"
     environment:
-      - PS_DB_URL=${PS_DB_URL_INTERNAL}
+      - PS_DB_URL
       - GP2GP_TRANSLATOR_USER_DB_PASSWORD
       - MOCK_SPINE_MHS_OUTBOUND_LOG_LEVEL
     networks:

@@ -122,6 +122,7 @@ T9etrsihBj08g8wbOxQCCeOuydoGCHAXrKyLHjCAGPp+r8LAJyQtjcWivK4arQg=
 -----END CERTIFICATE-----"
 
 #DYNAMODB VARS
+export DYNAMODB_HOST_NAME="dynamodb"
 export DYNAMODB_PORT="8000"
 
 #MONGODB VARS
@@ -137,16 +138,23 @@ export AWS_ACCESS_KEY_ID="FILL IN"
 export AWS_SECRET_ACCESS_KEY="FILL IN"
 export MHS_STATE_TABLE_NAME="mhs_state"
 export MHS_SYNC_ASYNC_STATE_TABLE_NAME="sync_async_state"
-export MHS_DB_ENDPOINT_URL="http://dynamodb:`echo $DYNAMODB_PORT`"
+export MHS_DB_ENDPOINT_URL="http://${DYNAMODB_HOST_NAME}:${DYNAMODB_PORT}"
+
+
+#MOCK SPINE MHS VARS
+export MOCK_SPINE_MHS_HOST_NAME="host.docker.internal"; #mock-spine-mhs
+export MOCK_SPINE_MHS_PORT=8086;
+export MOCK_SPINE_MHS_FORWARD_RELIABLE_PORT=8443;
 
 # MHS OUTBOUND VARS
-export MHS_OUTBOUND_PORT="80"
+export MHS_OUTBOUND_HOST_NAME="host.docker.internal" #outbound
+export MHS_OUTBOUND_PORT="8084"
 export MHS_RESYNC_INTERVAL="1"
 export MAX_RESYNC_RETRIES="20"
-export MHS_SPINE_ROUTE_LOOKUP_URL="http://mock-spine-mhs:8086"
+export MHS_SPINE_ROUTE_LOOKUP_URL="http://${MOCK_SPINE_MHS_HOST_NAME}:${MOCK_SPINE_MHS_PORT}"
 export MHS_SPINE_ORG_CODE="YES"
 export MHS_SPINE_REQUEST_MAX_SIZE="4999600"
-export MHS_FORWARD_RELIABLE_ENDPOINT_URL="https://mock-spine-mhs:8443/reliablemessaging/forwardreliable"
+export MHS_FORWARD_RELIABLE_ENDPOINT_URL="https://${MOCK_SPINE_MHS_HOST_NAME}:${MOCK_SPINE_MHS_FORWARD_RELIABLE_PORT}/reliablemessaging/forwardreliable"
 export MHS_OUTBOUND_VALIDATE_CERTIFICATE="False"
 #MHS_OUTBOUND_ROUTING_LOOKUP_METHOD = SPINE_ROUTE_LOOKUP or SDS_API VARS
 export MHS_OUTBOUND_ROUTING_LOOKUP_METHOD="SPINE_ROUTE_LOOKUP"
@@ -158,13 +166,30 @@ export MHS_OUTBOUND_ROUTING_LOOKUP_METHOD="SPINE_ROUTE_LOOKUP"
 # export RABBITMQ_PORT_2="5672"
 # export RABBITMQ_HOSTNAME="localhost"
 
+#ACTIVE MQ VARS
+
+export ACTIVE_HOST_NAME="activemq";
+export ACTIVE_MQ_PORT="5672";
+
+
+  #PSS queue
+export PS_AMQP_BROKER="amqp://${ACTIVE_HOST_NAME}:${ACTIVE_MQ_PORT}";
+export PS_QUEUE_NAME="pssQueue";
+export PS_AMQP_USERNAME="admin";
+export PS_AMQP_PASSWORD="admin";
+
+  #MHS queue
+export MHS_AMQP_BROKER="amqp://${ACTIVE_HOST_NAME}:${ACTIVE_MQ_PORT}";
+export MHS_QUEUE_NAME="mhsQueue";
+export MHS_AMQP_USERNAME="admin";
+export MHS_AMQP_PASSWORD="admin";
+
+
+
 #MHS INBOUND VARS
 export MHS_INBOUND_PORT="443"
-export MHS_INBOUND_SERVICE_PORTS="`echo $MHS_INBOUND_PORT`,`echo $MHS_OUTBOUND_PORT`"
-export MHS_INBOUND_QUEUE_BROKERS="amqp://activemq:5672"
-export MHS_INBOUND_QUEUE_NAME="inbound" # ASK pretty sure it's mhsqueue
-export MHS_SECRET_INBOUND_QUEUE_USERNAME="guest"
-export MHS_SECRET_INBOUND_QUEUE_PASSWORD="guest"
+export MHS_INBOUND_SERVICE_PORTS="${MHS_INBOUND_PORT},${MHS_OUTBOUND_PORT}"
+
 export MHS_INBOUND_QUEUE_MESSAGE_TTL_IN_SECONDS="1000"
 export MHS_INBOUND_USE_SSL="True"
 export MHS_INBOUND_QUEUE_MAX_RETRIES="3"
@@ -176,7 +201,7 @@ export MHS_ROUTE_PORT="8082"
 export MHS_SDS_URL="ldap://192.168.128.11"
 export MHS_SDS_SEARCH_BASE="ou=services,o=nhs"
 export MHS_DISABLE_SDS_TLS="True"
-export MHS_SDS_REDIS_CACHE_HOST="redis"
+export MHS_SDS_REDIS_CACHE_HOST_NAME="host.docker.internal"
 export MHS_SDS_REDIS_DISABLE_TLS="True"
 
 export MHS_STATE_TABLE_NAME="mhs_state"
@@ -186,12 +211,16 @@ export MHS_SYNC_ASYNC_STATE_TABLE_NAME="sync_async_state"
 
 # PSS Vars
 
-export PS_DB_PORT=5436; #useless variable
-export PS_DB_URL_INTERNAL="jdbc:postgresql://host.docker.internal:${PS_DB_PORT}";
+export DB_HOST_NAME="host.docker.internal"; #ps_db
+
+
+
+export PS_DB_HOST=${DB_HOST_NAME};
+export PS_DB_PORT=5436;
+export PS_DB_URL_INTERNAL="jdbc:postgresql://${DB_HOST_NAME}:${PS_DB_PORT}";
 export PS_DB_OWNER_NAME="postgres";
 export PS_FROM_ODS_CODE="PSS_001";
-export PS_DB_HOST="localhost"
-export PS_DB_URL="jdbc:postgresql://${PS_DB_HOST}:${PS_DB_PORT}";
+export PS_DB_URL="jdbc:postgresql://${DB_HOST_NAME}:${PS_DB_PORT}";
 export PS_DB_OWNER_PASSWORD="123456"; # change
 export PS_DB_OWNER_PASSWORD="123456"; # change
 export POSTGRES_PASSWORD="123456"; # change
@@ -199,15 +228,11 @@ export GPC_FACADE_USER_DB_PASSWORD="123456"; # change
 export GP2GP_TRANSLATOR_USER_DB_PASSWORD="123456"; # change
 export GP2GP_TRANSLATOR_SERVER_PORT=8085;
 export GPC_FACADE_SERVER_PORT=8081;
-export PS_QUEUE_NAME="pssQueue";
-export MHS_QUEUE_NAME="mhsQueue";
+
 export PS_AMQP_MAX_REDELIVERIES=3;
 export MHS_AMQP_MAX_REDELIVERIES=3;
-export MHS_BASE_URL="http://localhost:8082/";
+export MHS_BASE_URL="http://${MHS_OUTBOUND_HOST_NAME}:${MHS_OUTBOUND_PORT}/"; #outbount service - not the MHS mock
 export PS_LOGGING_LEVEL="DEBUG";
-export PS_AMQP_USERNAME="admin";
-export PS_AMQP_PASSWORD="admin";
-export DB_HOSTNAME="localhost";
 
 
 
@@ -216,6 +241,8 @@ export DB_HOSTNAME="localhost";
 # Route responses are mocked by mock-spine-mhs-outbound
 ####################################
 
+#PSS translator vars
+export GP2GP_MHS_OUTBOUND_URL="http://${MHS_OUTBOUND_HOST_NAME}:${MHS_OUTBOUND_PORT}"
 
 
 # LOGGING
