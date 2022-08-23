@@ -7,28 +7,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
 
+import org.hl7.v3.COPCIN000001UK01Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -47,13 +50,17 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.ExternalAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
+import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
+import uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil;
 
 @SuppressWarnings("InstantiationOfUtilityClass")
 @ExtendWith(MockitoExtension.class)
@@ -85,6 +92,7 @@ class COPCMessageHandlerTest {
     private XmlParseUtilService xmlParseUtilService;
     @Mock
     private SupportedFileTypes supportedFileTypesMock;
+
     private Document ebXmlDocument;
 
     @InjectMocks
@@ -105,6 +113,9 @@ class COPCMessageHandlerTest {
     @Mock
     private NackAckPreparationService nackAckPreparationServiceMock;
 
+    @Captor
+    private ArgumentCaptor<NACKMessageData> nackMessageDataCaptor;
+
     @Test
     public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_PartialLogToBeCreated()
         throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
@@ -116,7 +127,6 @@ class COPCMessageHandlerTest {
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
         when(patientAttachmentLogService.findAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
-        when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("xml/text")));
 
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
@@ -150,7 +160,6 @@ class COPCMessageHandlerTest {
         when(patientAttachmentLogService.findAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
 
-        when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("xml/text")));
         // ACT
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
@@ -293,7 +302,6 @@ class COPCMessageHandlerTest {
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
                 "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
-        when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("xml/text")));
 
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
@@ -315,7 +323,6 @@ class COPCMessageHandlerTest {
 
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
-        when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("xml/text")));
 
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
@@ -400,7 +407,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_HappyPath_Expect_ThrowNoErrors()
         throws SAXException, ValidationException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -423,18 +430,31 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void shouldThrowUnsupportedFileTypeExceptionWhenFileTypeIsNotSupported() throws AttachmentNotFoundException, JAXBException,
-        BundleMappingException, JsonProcessingException, InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+    public void shouldSendNackWhenFileTypeIsNotSupported() throws AttachmentNotFoundException, JAXBException,
+        BundleMappingException, JsonProcessingException, InlineAttachmentProcessingException, SAXException,
+        AttachmentLogException, UnsupportedFileTypeException {
+
         InboundMessage message = new InboundMessage();
         setUpInboundMessageAndMocks(message);
 
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
-            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
-        when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("text/json")));
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", false));
+
+        doThrow(UnsupportedFileTypeException.class)
+            .when(attachmentHandlerService)
+            .storeAttachments(any(), any());
+
+        COPCIN000001UK01Message mockedPayload = unmarshallString(message.getPayload(), COPCIN000001UK01Message.class);
+        MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
+        mockedXmlUnmarshall.when(
+            () -> XmlUnmarshallUtil.unmarshallString(any(), eq(COPCIN000001UK01Message.class))
+        ).thenReturn(mockedPayload);
 
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+        verify(nackAckPreparationServiceMock, times(1))
+            .sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, mockedPayload, CONVERSATION_ID);
 
-        verifyNoInteractions(attachmentHandlerService);
+        mockedXmlUnmarshall.close();
     }
 
     @Test
@@ -452,7 +472,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_CurrentAttachmentLogExists_Expect_ThrowNoError()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -475,7 +495,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_FragmentsAreMissingOrUploaded_Expect_NotDeleteFragments()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -517,7 +537,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_CheckByteCompilationCreatesFileAsExpected_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -545,7 +565,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_EnsureStoreAttachmentsIsCalled_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -608,7 +628,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_UpdateAttachmentLogDoesAsExpected_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -673,7 +693,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_DeleteAttachmentCalledForEachAttachmentLogFragment_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -737,7 +757,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_RemoveAttachmentCalledForEachAttachmentLogFragment_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -801,7 +821,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_ParentCOPCMessageIncomingAfterFragments_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());

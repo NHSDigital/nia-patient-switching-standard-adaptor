@@ -22,6 +22,7 @@ import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
@@ -75,7 +76,7 @@ public class EhrExtractMessageHandler {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -111,7 +112,8 @@ public class EhrExtractMessageHandler {
                     | SAXException
                     | StorageException
                     | TransformerException
-                    | ParseException ex
+                    | ParseException
+                    | UnsupportedFileTypeException ex
         ) {
             nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
@@ -120,12 +122,13 @@ public class EhrExtractMessageHandler {
 
     private PatientAttachmentLog processInternalAttachmentsAndReturnSkeletonLog(InboundMessage inboundMessage,
         PatientMigrationRequest migrationRequest, String conversationId, String messageId)
-        throws ParseException, ValidationException, InlineAttachmentProcessingException {
+        throws ParseException, ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
 
         PatientAttachmentLog skeletonCIDAttachmentLog = null;
 
         var attachments = inboundMessage.getAttachments();
         if (attachments != null) {
+
             attachmentHandlerService.storeAttachments(attachments, conversationId);
 
             for (var i = 0; i < attachments.size(); i++) {
@@ -294,4 +297,5 @@ public class EhrExtractMessageHandler {
     private Document getEbXmlDocument(InboundMessage inboundMessage) throws SAXException {
         return xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
     }
+
 }
