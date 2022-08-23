@@ -3,7 +3,7 @@
 # MHS VARS
 #SECRET KEY VARS
 #User-specific env variables
-export SNOWMED_FILE_LOCATION="/mnt/c/Users/Adonai/Documents/NIA/uk_sct2cl_32.10.0_20220216000001Z.zip";
+export SNOWMED_FILE_LOCATION="/mnt/c/Users/BenjaminHession/Documents/NIA/uk_sct2cl_32.10.0_20220216000001Z.zip";
 export MHS_SECRET_PARTY_KEY="Y90664-9198273"
 export MHS_SECRET_CLIENT_CERT="-----BEGIN CERTIFICATE-----
 MIIFPTCCAyUCFAKYCULeFVcQCwXCGCiCFVu09NmzMA0GCSqGSIb3DQEBCwUAMF0x
@@ -142,49 +142,37 @@ export MHS_DB_ENDPOINT_URL="http://${DYNAMODB_HOST_NAME}:${DYNAMODB_PORT}"
 
 
 #MOCK SPINE MHS VARS
-export MOCK_SPINE_MHS_HOST_NAME="host.docker.internal"; #mock-spine-mhs
 export MOCK_SPINE_MHS_PORT=8086;
 export MOCK_SPINE_MHS_FORWARD_RELIABLE_PORT=8443;
 
 # MHS OUTBOUND VARS
-export MHS_OUTBOUND_HOST_NAME="host.docker.internal" #outbound
 export MHS_OUTBOUND_PORT="8084"
 export MHS_RESYNC_INTERVAL="1"
 export MAX_RESYNC_RETRIES="20"
-export MHS_SPINE_ROUTE_LOOKUP_URL="http://${MOCK_SPINE_MHS_HOST_NAME}:${MOCK_SPINE_MHS_PORT}"
+export MHS_SPINE_ROUTE_LOOKUP_URL="http://mock-spine-mhs:8086"
 export MHS_SPINE_ORG_CODE="YES"
 export MHS_SPINE_REQUEST_MAX_SIZE="4999600"
-export MHS_FORWARD_RELIABLE_ENDPOINT_URL="https://${MOCK_SPINE_MHS_HOST_NAME}:${MOCK_SPINE_MHS_FORWARD_RELIABLE_PORT}/reliablemessaging/forwardreliable"
+export MHS_FORWARD_RELIABLE_ENDPOINT_URL="https://mock-spine-mhs:8443/reliablemessaging/forwardreliable"
 export MHS_OUTBOUND_VALIDATE_CERTIFICATE="False"
 #MHS_OUTBOUND_ROUTING_LOOKUP_METHOD = SPINE_ROUTE_LOOKUP or SDS_API VARS
 export MHS_OUTBOUND_ROUTING_LOOKUP_METHOD="SPINE_ROUTE_LOOKUP"
 #export MHS_SDS_API_URL=""
 #export MHS_SDS_API_KEY=""
 
-# #RABBITMQ VARS
-# export RABBITMQ_PORT_1="15672"
-# export RABBITMQ_PORT_2="5672"
-# export RABBITMQ_HOSTNAME="localhost"
-
 #ACTIVE MQ VARS
-
-export ACTIVE_HOST_NAME="activemq";
 export ACTIVE_MQ_PORT="5672";
 
-
   #PSS queue
-export PS_AMQP_BROKER="amqp://${ACTIVE_HOST_NAME}:${ACTIVE_MQ_PORT}";
+export PS_AMQP_BROKER="amqp://activemq:5672";
 export PS_QUEUE_NAME="pssQueue";
 export PS_AMQP_USERNAME="admin";
 export PS_AMQP_PASSWORD="admin";
 
   #MHS queue
-export MHS_AMQP_BROKER="amqp://${ACTIVE_HOST_NAME}:${ACTIVE_MQ_PORT}";
+export MHS_AMQP_BROKER="amqp://activemq:5672";
 export MHS_QUEUE_NAME="mhsQueue";
 export MHS_AMQP_USERNAME="admin";
 export MHS_AMQP_PASSWORD="admin";
-
-
 
 #MHS INBOUND VARS
 export MHS_INBOUND_PORT="443"
@@ -197,30 +185,31 @@ export MHS_INBOUND_QUEUE_RETRY_DELAY="500"
 export MHS_INBOUND_HEALTHCHECK_SERVER_PORT="8083"
 
 #MHS ROUTE VARS
-export MHS_ROUTE_PORT="8082"
-export MHS_SDS_URL="ldap://192.168.128.11"
-export MHS_SDS_SEARCH_BASE="ou=services,o=nhs"
-export MHS_DISABLE_SDS_TLS="True"
-export MHS_SDS_REDIS_CACHE_HOST_NAME="host.docker.internal"
-export MHS_SDS_REDIS_DISABLE_TLS="True"
+# Route responses are mocked by mock-spine-mhs-outbound
 
-export MHS_STATE_TABLE_NAME="mhs_state"
-export MHS_SYNC_ASYNC_STATE_TABLE_NAME="sync_async_state"
+#export MHS_ROUTE_PORT="8082"
+#export MHS_SDS_URL="ldap://192.168.128.11"
+#export MHS_SDS_SEARCH_BASE="ou=services,o=nhs"
+#export MHS_DISABLE_SDS_TLS="True"
+#export MHS_SDS_REDIS_CACHE_HOST_NAME="redis"
+#export MHS_SDS_REDIS_DISABLE_TLS="True"
+#
+#export MHS_STATE_TABLE_NAME="mhs_state"
+#export MHS_SYNC_ASYNC_STATE_TABLE_NAME="sync_async_state"
 
 ####################################
 
 # PSS Vars
 
-export DB_HOST_NAME="host.docker.internal"; #ps_db
+export DB_HOST_NAME="ps_db"; #ps_db
 
-
-
-export PS_DB_HOST=${DB_HOST_NAME};
 export PS_DB_PORT=5436;
-export PS_DB_URL_INTERNAL="jdbc:postgresql://${DB_HOST_NAME}:${PS_DB_PORT}";
+export PS_DB_HOST="localhost";
+
+export PS_DB_URL_INTERNAL="jdbc:postgresql://ps_db:5432";
 export PS_DB_OWNER_NAME="postgres";
 export PS_FROM_ODS_CODE="PSS_001";
-export PS_DB_URL="jdbc:postgresql://${DB_HOST_NAME}:${PS_DB_PORT}";
+export PS_DB_URL="jdbc:postgresql://ps_db:5432";
 export PS_DB_OWNER_PASSWORD="123456"; # change
 export PS_DB_OWNER_PASSWORD="123456"; # change
 export POSTGRES_PASSWORD="123456"; # change
@@ -231,21 +220,15 @@ export GPC_FACADE_SERVER_PORT=8081;
 
 export PS_AMQP_MAX_REDELIVERIES=3;
 export MHS_AMQP_MAX_REDELIVERIES=3;
-export MHS_BASE_URL="http://${MHS_OUTBOUND_HOST_NAME}:${MHS_OUTBOUND_PORT}/"; #outbount service - not the MHS mock
-export PS_LOGGING_LEVEL="DEBUG";
+export MHS_BASE_URL="http://outbound:80/"; #outbount service - not the MHS mock
 
-
-
-
-#MHS ROUTE VARS
-# Route responses are mocked by mock-spine-mhs-outbound
 ####################################
 
 #PSS translator vars
-export GP2GP_MHS_OUTBOUND_URL="http://${MHS_OUTBOUND_HOST_NAME}:${MHS_OUTBOUND_PORT}"
-
+export GP2GP_MHS_OUTBOUND_URL="http://outbound:80"
 
 # LOGGING
+export PS_LOGGING_LEVEL="DEBUG";
 export MHS_LOG_LEVEL="DEBUG"
 export PS_LOGGING_LEVEL="DEBUG"
 export MOCK_SPINE_MHS_OUTBOUND_LOG_LEVEL="DEBUG"

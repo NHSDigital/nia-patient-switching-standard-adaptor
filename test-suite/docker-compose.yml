@@ -68,19 +68,19 @@ services:
       - MHS_SDS_API_URL
       - MHS_SDS_API_KEY
 
-  route:
-    image: nhsdev/nia-mhs-route:1.2.2
-    networks:
-      - nia-ps
-    ports:
-      - "${MHS_ROUTE_PORT}:80"
-    environment:
-      - MHS_LOG_LEVEL
-      - MHS_SDS_URL
-      - MHS_SDS_SEARCH_BASE
-      - MHS_DISABLE_SDS_TLS
-      - MHS_SDS_REDIS_CACHE_HOST=${MHS_SDS_REDIS_CACHE_HOST_NAME}
-      - MHS_SDS_REDIS_DISABLE_TLS
+  #  route:
+  #    image: nhsdev/nia-mhs-route:1.2.2
+  #    networks:
+  #      - nia-ps
+  #    ports:
+  #      - "${MHS_ROUTE_PORT}:80"
+  #    environment:
+  #      - MHS_LOG_LEVEL
+  #      - MHS_SDS_URL
+  #      - MHS_SDS_SEARCH_BASE
+  #      - MHS_DISABLE_SDS_TLS
+  #      - MHS_SDS_REDIS_CACHE_HOST=${MHS_SDS_REDIS_CACHE_HOST_NAME}
+  #      - MHS_SDS_REDIS_DISABLE_TLS
 
   ########### PS Adapter Specific ###############
 
@@ -88,6 +88,8 @@ services:
     image: nhsdev/nia-ps-facade:0.2
     ports:
       - "8081:8081"
+    depends_on:
+      - ps_db
     environment:
       - GPC_FACADE_SERVER_PORT
       - PS_DB_URL
@@ -105,6 +107,8 @@ services:
     image: nhsdev/nia-ps-adaptor:0.2
     ports:
       - "8085:8085"
+    depends_on:
+      - ps_db
     environment:
       - GP2GP_TRANSLATOR_SERVER_PORT
       - PS_DB_URL
@@ -169,5 +173,21 @@ services:
     ports:
       - "8161:8161"
       - "${ACTIVE_MQ_PORT}:5672"
+    networks:
+      - nia-ps
+
+  mock-spine-mhs:
+    build:
+      context: ./
+      dockerfile: docker/mock-spine-mhs-outbound/DockerFile
+    ports:
+      - "${MOCK_SPINE_MHS_PORT}:8086"
+      - "${MOCK_SPINE_MHS_FORWARD_RELIABLE_PORT}:8443"
+    depends_on:
+      - ps_db
+    environment:
+      - PS_DB_URL
+      - GP2GP_TRANSLATOR_USER_DB_PASSWORD
+      - MOCK_SPINE_MHS_OUTBOUND_LOG_LEVEL
     networks:
       - nia-ps
