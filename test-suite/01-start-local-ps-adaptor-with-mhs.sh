@@ -4,7 +4,7 @@ set -x -e
 
 source ./vars.sh
 
-#docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
+docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
 
 cd mock-spine-mhs-outbound
 
@@ -43,3 +43,6 @@ fi
 
 docker-compose -f docker-compose-part-1.yml up -d;
 
+sleep 6m 30s
+
+./02-snowmed-db-setup.sh

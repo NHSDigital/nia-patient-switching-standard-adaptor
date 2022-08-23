@@ -45,7 +45,7 @@ public class RetrieveSpineController {
 
         return messagesOptional
                 .map(
-                        outboundMessageList-> ResponseEntity.ok(
+/*                        outboundMessageList-> ResponseEntity.ok(
                                 outboundMessageList
                                         .stream()
                                         .filter(
@@ -55,7 +55,8 @@ public class RetrieveSpineController {
                                                         .equals(messageId)
                                         )
                                         .toList()
-                        )
+                        )*/
+                        ResponseEntity::ok
                 )
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }

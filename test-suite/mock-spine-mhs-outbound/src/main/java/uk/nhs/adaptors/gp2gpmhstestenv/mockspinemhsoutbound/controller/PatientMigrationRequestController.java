@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.MigrationStatusLog;
+import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.model.PatientMigrationRequest;
 import uk.nhs.adaptors.gp2gpmhstestenv.mockspinemhsoutbound.service.PatientMigrationRequestService;
 
 import java.util.List;
@@ -18,15 +19,11 @@ public class PatientMigrationRequestController
 {
     private PatientMigrationRequestService patientMigrationRequestService;
 
-    @GetMapping(path = "/migration-status-log/{conversationId}")
-    public ResponseEntity<List<MigrationStatusLog>> findReceivedAcknowledgement(@PathVariable String conversationId, @RequestParam("migrationStatus") String migrationStatus) {
-        Optional<List<MigrationStatusLog>> acknowledgement =
-                patientMigrationRequestService.findReceivedAcknowledgmentForConversationId(conversationId);
-
-        /*
-            ToDo ask scott about the data he wants from the tables
-            We need the Request Type but also the message ID
-          */
+    @GetMapping(path = "/patient-migration-request/{conversationId}")
+    public ResponseEntity<PatientMigrationRequest> findPatientMigrationRequestByConversationId(
+            @PathVariable String conversationId
+    ) {
+        Optional<PatientMigrationRequest> acknowledgement = patientMigrationRequestService.findPatientMigrationRequestForConversationId(conversationId);
         return acknowledgement.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 }
