@@ -16,7 +16,6 @@ public class PatientMigrationRequestService {
 
 
     public Optional<PatientMigrationRequest> findPatientMigrationRequestForConversationId(String conversationId) {
-        Optional<PatientMigrationRequest> patientMigrationRequestOptional = Optional.ofNullable(patientMigrationRequestRepository.findByConversationId(conversationId));
-        return patientMigrationRequestOptional;
+        return Optional.ofNullable(patientMigrationRequestRepository.findByConversationId(conversationId));
     }
 }

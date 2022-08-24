@@ -5,6 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Getter
 @Setter
 @Builder
@@ -28,12 +30,17 @@ public class PatientMigrationRequest {
     private String losingPracticeOdsCode;
     @Column(name = "winning_practice_ods_code")
     private String winningPracticeOdsCode;
-    @OneToMany(mappedBy = "patientMigrationRequest", cascade = CascadeType.ALL)
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "patientMigrationRequest")
     private List<MigrationStatusLog> migrationStatusLog;
 
-    @OneToMany(mappedBy = "patientMigrationRequest", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "patientMigrationRequest")
     private List<MessagePersistDuration> messagePersistDurationList;
-    @OneToMany(mappedBy = "patientMigrationRequest", cascade = CascadeType.ALL)
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "patientMigrationRequest")
     private List<PatientAttachmentLog> patientAttachmentLog;
 
 }
