@@ -37,25 +37,4 @@ public class RetrieveSpineController {
 
         return messagesOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
-
-    @GetMapping(value = "/{conversationId}/{messageId}")
-    public ResponseEntity<List<OutboundMessage>> getRecordByMessageId(@PathVariable String conversationId, @PathVariable String messageId) {
-
-        Optional<List<OutboundMessage>> messagesOptional = journalService.getRequestJournalById(conversationId);
-
-        return messagesOptional
-                .map(
-                        outboundMessageList-> ResponseEntity.ok(
-                                outboundMessageList
-                                        .stream()
-                                        .filter(
-                                                outboundMessage -> outboundMessage
-                                                        .getBody()
-                                                        .contains(messageId)
-                                        )
-                                        .toList()
-                        )
-                )
-                .orElseGet(() -> ResponseEntity.noContent().build());
-    }
 }
