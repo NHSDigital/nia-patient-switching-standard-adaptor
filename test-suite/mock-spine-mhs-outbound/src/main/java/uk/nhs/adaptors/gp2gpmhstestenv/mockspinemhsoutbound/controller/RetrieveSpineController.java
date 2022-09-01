@@ -30,33 +30,31 @@ public class RetrieveSpineController {
         return ResponseEntity.ok(journalService.getRequestJournal());
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<List<OutboundMessage>> getRecordById(@PathVariable String id) {
+    @GetMapping(value = "/{conversationId}")
+    public ResponseEntity<List<OutboundMessage>> getRecordById(@PathVariable String conversationId) {
 
-        Optional<List<OutboundMessage>> messagesOptional = journalService.getRequestJournalById(id);
+        Optional<List<OutboundMessage>> messagesOptional = journalService.getRequestJournalById(conversationId);
 
         return messagesOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 
-    @GetMapping(value = "/{id}/{messageId}")
-    public ResponseEntity<List<OutboundMessage>> getRecordByMessageId(@PathVariable String id, @PathVariable String messageId) {
+    @GetMapping(value = "/{conversationId}/{messageId}")
+    public ResponseEntity<List<OutboundMessage>> getRecordByMessageId(@PathVariable String conversationId, @PathVariable String messageId) {
 
-        Optional<List<OutboundMessage>> messagesOptional = journalService.getRequestJournalById(id);
+        Optional<List<OutboundMessage>> messagesOptional = journalService.getRequestJournalById(conversationId);
 
         return messagesOptional
                 .map(
-/*                        outboundMessageList-> ResponseEntity.ok(
+                        outboundMessageList-> ResponseEntity.ok(
                                 outboundMessageList
                                         .stream()
                                         .filter(
                                                 outboundMessage -> outboundMessage
-                                                        .getHeaders()
-                                                        .get("message-id")
-                                                        .equals(messageId)
+                                                        .getBody()
+                                                        .contains(messageId)
                                         )
                                         .toList()
-                        )*/
-                        ResponseEntity::ok
+                        )
                 )
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
