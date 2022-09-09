@@ -58,7 +58,7 @@ public class AttachmentHandlerService {
 
                     if (!skipDecoding) {
                         if (!inlineAttachment.isBase64()) {
-                             decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
+                            decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
                         }
                     }
 
