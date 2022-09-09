@@ -12,6 +12,7 @@ import java.util.zip.GZIPInputStream;
 import javax.xml.bind.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -31,6 +32,8 @@ import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AttachmentHandlerService {
 
+    @Value("${base64.skipDecode}")
+    private final boolean skipDecoding;
     private final StorageManagerService storageManagerService;
 
     public void storeAttachments(List<InboundMessage.Attachment> attachments, String conversationId) throws ValidationException,
@@ -52,8 +55,11 @@ public class AttachmentHandlerService {
                         }
                     }
                     byte[] decodedPayload = inlineAttachment.getPayload().getBytes(StandardCharsets.UTF_8);
-                    if (!inlineAttachment.isBase64()) {
-                        decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
+
+                    if (!skipDecoding) {
+                        if (!inlineAttachment.isBase64()) {
+                             decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
+                        }
                     }
 
                     byte[] payload;
