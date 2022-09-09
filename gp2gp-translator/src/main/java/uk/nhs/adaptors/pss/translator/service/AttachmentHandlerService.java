@@ -33,7 +33,7 @@ import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 public class AttachmentHandlerService {
 
     @Value("${base64.skipDecode}")
-    private final boolean skipDecoding;
+    private boolean skipDecoding;
     private final StorageManagerService storageManagerService;
 
     public void storeAttachments(List<InboundMessage.Attachment> attachments, String conversationId) throws ValidationException,
@@ -57,6 +57,7 @@ public class AttachmentHandlerService {
                     byte[] decodedPayload = inlineAttachment.getPayload().getBytes(StandardCharsets.UTF_8);
 
                     if (!skipDecoding) {
+                        LOGGER.info("Base64 decoding is enabled");
                         if (!inlineAttachment.isBase64()) {
                             decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
                         }
