@@ -125,6 +125,7 @@ services:
       - MHS_AMQP_MAX_REDELIVERIES
       - MHS_BASE_URL
       - PS_LOGGING_LEVEL
+      - SUPPORTED_FILE_TYPES
     networks:
       - nia-ps
 
