@@ -69,8 +69,6 @@ public class COPCMessageHandler {
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
         migrationStatusLogService.addMigrationStatusLog(CONTINUE_MESSAGE_RECEIVED, conversationId, null);
 
-
-
         try {
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
             String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
@@ -87,10 +85,8 @@ public class COPCMessageHandler {
                     storeCOPCAttachment(patientAttachmentLog, inboundMessage, conversationId);
                     patientAttachmentLog.setUploaded(true);
                     patientAttachmentLogService.updateAttachmentLog(patientAttachmentLog, conversationId);
-
                 }
             }
-
 
             nackAckPreparationService.sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
             checkAndMergeFileParts(inboundMessage, conversationId);
@@ -114,7 +110,7 @@ public class COPCMessageHandler {
 
     public void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId)
         throws SAXException, AttachmentLogException, ValidationException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
 
         Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
@@ -239,22 +235,20 @@ public class COPCMessageHandler {
     private void storeCOPCAttachment(PatientAttachmentLog fragmentAttachmentLog, InboundMessage inboundMessage,
                                      String conversationId)
         throws ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
-        if (checkIfFileTypeSupported(fragmentAttachmentLog.getContentType())) {
-            if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
-                attachmentHandlerService.storeAttachmentWithoutProcessing(fragmentAttachmentLog.getFilename(),
-                    inboundMessage.getAttachments().get(0).getPayload(), conversationId,
-                    fragmentAttachmentLog.getContentType(), fragmentAttachmentLog.getLengthNum());
-            } else {
-                var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
-                    List.of(fragmentAttachmentLog),
-                    List.of(inboundMessage.getAttachments().get(0).getPayload()),
-                    conversationId
-                );
-                attachmentHandlerService.storeAttachments(attachment, conversationId);
-            }
+
+        if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
+            attachmentHandlerService.storeAttachmentWithoutProcessing(fragmentAttachmentLog.getFilename(),
+                inboundMessage.getAttachments().get(0).getPayload(), conversationId,
+                fragmentAttachmentLog.getContentType(), fragmentAttachmentLog.getLengthNum());
         } else {
-            throw new UnsupportedFileTypeException(String.format("File type %s is unsupported", fragmentAttachmentLog.getContentType()));
+            var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
+                List.of(fragmentAttachmentLog),
+                List.of(inboundMessage.getAttachments().get(0).getPayload()),
+                conversationId
+            );
+            attachmentHandlerService.storeAttachments(attachment, conversationId);
         }
+
     }
 
     private boolean checkIfFileTypeSupported(String fileType) {
