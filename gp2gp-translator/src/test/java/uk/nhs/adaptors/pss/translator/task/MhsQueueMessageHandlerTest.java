@@ -30,6 +30,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.service.MDCService;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
@@ -74,6 +76,9 @@ public class MhsQueueMessageHandlerTest {
 
     @Mock
     private AcknowledgmentMessageHandler acknowledgmentMessageHandler;
+
+    @Mock
+    private MigrationStatusLogService migrationStatusLogService;
 
     @InjectMocks
     private MhsQueueMessageHandler mhsQueueMessageHandler;
@@ -123,6 +128,29 @@ public class MhsQueueMessageHandlerTest {
         assertFalse(result);
         verify(mdcService).applyConversationId(CONVERSATION_ID);
         verifyNoInteractions(acknowledgmentMessageHandler);
+    }
+
+    @Test
+    public void handleEhrExtractMessageWhenEhrExtractMessageHandlerThrowsErrorShouldLogAMigrationStatusGeneralError()
+        throws
+        JAXBException,
+        JsonProcessingException,
+        InlineAttachmentProcessingException,
+        BundleMappingException,
+        AttachmentNotFoundException,
+        ParseException,
+        SAXException, TransformerException {
+
+        inboundMessage = new InboundMessage();
+        prepareMocks(EHR_EXTRACT_INTERACTION_ID);
+        doThrow(new JAXBException("Nobody expects the spanish inquisition!"))
+            .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
+
+        boolean result = mhsQueueMessageHandler.handleMessage(message);
+
+        assertFalse(result);
+        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, CONVERSATION_ID, null);
+
     }
 
     @Test
