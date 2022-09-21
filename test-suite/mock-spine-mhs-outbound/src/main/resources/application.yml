@@ -1,0 +1,31 @@
+server:
+  port: 8443
+
+  ssl:
+    key-store: classpath:keystore.jks
+    key-store-password: 123456
+    key-alias: localhost
+    key-password: 123456
+    enabled: true
+
+  http:
+    port: 8086
+
+logging:
+  level:
+    com.benhession.mockspinemhsoutbound: ${MOCK_SPINE_MHS_OUTBOUND_LOG_LEVEL:INFO}
+
+spring:
+  servlet:
+    multipart:
+      enabled: false
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${PS_DB_URL}/patient_switching
+    username: gp2gp_user
+    password: ${GP2GP_TRANSLATOR_USER_DB_PASSWORD}
+
+
+
+# PS_DB_URL = "jdbc:postgresql://localhost:${PS_DB_PORT}
+#  spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver

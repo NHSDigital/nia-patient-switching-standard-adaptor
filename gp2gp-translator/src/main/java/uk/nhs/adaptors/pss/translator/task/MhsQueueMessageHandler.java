@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.task;
 
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.xml.bind.JAXBException;
@@ -25,6 +27,7 @@ import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingExcept
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
+import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 
 import java.text.ParseException;
 
@@ -45,12 +48,16 @@ public class MhsQueueMessageHandler {
     private final EhrExtractMessageHandler ehrExtractMessageHandler;
     private final AcknowledgmentMessageHandler acknowledgmentMessageHandler;
     private final COPCMessageHandler continueMessageHandler;
+    private final MigrationStatusLogService migrationStatusLogService;
 
     public boolean handleMessage(Message message) {
+
+        String conversationId = ""; // We need access to conversation n our catch statements
+
         try {
             InboundMessage inboundMessage = readMessage(message);
             Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
-            String conversationId = xPathService.getNodeValue(ebXmlDocument, CONVERSATION_ID_PATH);
+            conversationId = xPathService.getNodeValue(ebXmlDocument, CONVERSATION_ID_PATH);
             applyConversationId(conversationId);
             String interactionId = xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH);
 
@@ -66,6 +73,12 @@ public class MhsQueueMessageHandler {
             return true;
         } catch (JMSException | JAXBException | SAXException e) {
             LOGGER.error("Unable to read the content of the inbound MHS message", e);
+
+            // Current child try catch blocks do not detect this condition so no failed migration log is added...
+            // We are however unlikely to have a payload at this point so cannot send a NACK
+            if (conversationId != null && !conversationId.isEmpty()) {
+                migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null);
+            }
             return false;
         } catch (JsonProcessingException | DataFormatException e) {
             LOGGER.error("Unable to parse messages", e);

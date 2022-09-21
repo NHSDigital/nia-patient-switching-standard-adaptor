@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP:Envelope xmlns:xsi="http://www.w3c.org/2001/XML-Schema-Instance" xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" xmlns:eb="http://www.oasis-open.org/committees/ebxml-msg/schema/msg-header-2_0.xsd" xmlns:hl7ebxml="urn:hl7-org:transport/ebXML/DSTUv1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <SOAP:Header>
+        <eb:MessageHeader SOAP:mustUnderstand="1" eb:version="2.0">
+            <eb:From>
+                <eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">AP4RTY-K33Y</eb:PartyId>
+            </eb:From>
+            <eb:To>
+                <eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">Y90664-9198273</eb:PartyId>
+            </eb:To>
+            <eb:CPAId>S918999410559</eb:CPAId>
+            <eb:ConversationId>{{conversationId}}</eb:ConversationId>
+            <eb:Service>urn:nhs:names:services:gp2gp</eb:Service>
+            <eb:Action>{{interactionId}}</eb:Action>
+            <eb:MessageData>
+                <eb:MessageId>{{messageId}}</eb:MessageId>
+                <eb:Timestamp>{{timestamp}}</eb:Timestamp>
+                <eb:RefToMessageId>{{refToMessageId}}</eb:RefToMessageId>
+            </eb:MessageData>
+            <eb:DuplicateElimination/>
+        </eb:MessageHeader>
+        <eb:AckRequested SOAP:mustUnderstand="1" eb:version="2.0" eb:signed="false" SOAP:actor="urn:oasis:names:tc:ebxml-msg:actor:toPartyMSH"/>
+        <eb:SyncReply SOAP:mustUnderstand="1" eb:version="2.0" SOAP:actor="http://schemas.xmlsoap.org/soap/actor/next"/>
+    </SOAP:Header>
+    <SOAP:Body>
+        <eb:Manifest SOAP:mustUnderstand="1" eb:version="2.0">
+            <eb:Reference xlink:href="cid:{{messageId}}@spine.nhs.uk">
+                <eb:Schema eb:location="http://www.nhsia.nhs.uk/schemas/HL7-Message.xsd" eb:version="1.0"/>
+                <eb:Description xml:lang="en">HL7 payload</eb:Description>
+                <hl7ebxml:Payload style="HL7" encoding="XML" version="3.0"/>
+            </eb:Reference>
+        </eb:Manifest>
+    </SOAP:Body>
+</SOAP:Envelope>
