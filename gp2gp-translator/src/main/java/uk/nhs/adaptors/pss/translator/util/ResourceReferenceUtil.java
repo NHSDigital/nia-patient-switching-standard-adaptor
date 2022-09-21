@@ -180,8 +180,11 @@ public class ResourceReferenceUtil {
     private static void addNarrativeStatementEntry(RCMRMT030101UK04NarrativeStatement narrativeStatement, List<Reference> entryReferences) {
         if (narrativeStatement != null) {
             if (isDocumentReference(narrativeStatement)) {
+                // document references actually use the narrative statement id rather than the referenceDocument root id in EMIS data
+                // if EMIS is incorrect, replace the id below with the following...
+                // narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot()
                 entryReferences.add(createResourceReference(ResourceType.DocumentReference.name(),
-                    narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot()));
+                    narrativeStatement.getId().getRoot()));
             } else {
                 entryReferences.add(createResourceReference(ResourceType.Observation.name(), narrativeStatement.getId().getRoot()));
             }

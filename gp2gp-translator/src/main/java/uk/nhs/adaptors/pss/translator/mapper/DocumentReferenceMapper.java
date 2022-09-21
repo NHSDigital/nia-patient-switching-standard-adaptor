@@ -63,7 +63,10 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
         DocumentReference documentReference = new DocumentReference();
 
-        var id = narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot();
+        // document references actually use the narrative statement id rather than the referenceDocument root id in EMIS data
+        // if EMIS is incorrect, replace the id below with the following...
+        // narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot()
+        var id = narrativeStatement.getId().getRoot();
 
         documentReference.addIdentifier(buildIdentifier(id, organization.getIdentifierFirstRep().getValue()));
         documentReference.setId(id);

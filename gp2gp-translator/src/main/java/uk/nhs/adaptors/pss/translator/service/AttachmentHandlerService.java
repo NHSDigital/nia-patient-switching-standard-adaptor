@@ -12,6 +12,7 @@ import java.util.zip.GZIPInputStream;
 import javax.xml.bind.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -19,7 +20,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.ion.NullValueException;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
+import uk.nhs.adaptors.pss.translator.config.SupportedFileTypes;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
 import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
@@ -31,10 +34,13 @@ import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AttachmentHandlerService {
 
+    @Value("${base64.skipDecode}")
+    private boolean skipDecoding;
     private final StorageManagerService storageManagerService;
+    private final SupportedFileTypes supportedFileTypes;
 
     public void storeAttachments(List<InboundMessage.Attachment> attachments, String conversationId) throws ValidationException,
-        InlineAttachmentProcessingException {
+        InlineAttachmentProcessingException, UnsupportedFileTypeException {
 
         if (!StringUtils.hasText(conversationId)) {
             throw new ValidationException("ConversationId cannot be null or empty");
@@ -45,6 +51,12 @@ public class AttachmentHandlerService {
                 try {
                     InlineAttachment inlineAttachment = new InlineAttachment(attachment);
 
+                    String contentType = inlineAttachment.getContentType();
+                    if (!checkIfFileTypeSupported(contentType)) {
+                        throw new UnsupportedFileTypeException(
+                            String.format("File type %s is unsupported", contentType));
+                    }
+
                     if (inlineAttachment != null) {
                         if (inlineAttachment.getLength() > 0
                             && inlineAttachment.getLength() != inlineAttachment.getPayload().length()) {
@@ -52,8 +64,12 @@ public class AttachmentHandlerService {
                         }
                     }
                     byte[] decodedPayload = inlineAttachment.getPayload().getBytes(StandardCharsets.UTF_8);
-                    if (!inlineAttachment.isBase64()) {
-                        decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
+
+                    if (!skipDecoding) {
+                        LOGGER.info("Base64 decoding is enabled");
+                        if (!inlineAttachment.isBase64()) {
+                            decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
+                        }
                     }
 
                     byte[] payload;
@@ -80,6 +96,8 @@ public class AttachmentHandlerService {
                     throw new InlineAttachmentProcessingException("Unable to decompress attachment: " + ex.getMessage());
                 } catch (ParseException ex) {
                     throw new InlineAttachmentProcessingException("Unable to parse inline attachment description: " + ex.getMessage());
+                } catch (UnsupportedFileTypeException ex) {
+                    throw ex;
                 }
             }
         }
@@ -189,5 +207,10 @@ public class AttachmentHandlerService {
         }
 
         return attachmentsResponse;
+    }
+
+    private boolean checkIfFileTypeSupported(String fileType) {
+        return supportedFileTypes.getAccepted() != null
+            && supportedFileTypes.getAccepted().contains(fileType);
     }
 }

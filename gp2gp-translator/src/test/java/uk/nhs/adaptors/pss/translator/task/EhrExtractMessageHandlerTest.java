@@ -24,6 +24,7 @@ import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
@@ -117,7 +118,7 @@ public class EhrExtractMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -148,7 +149,7 @@ public class EhrExtractMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -172,7 +173,7 @@ public class EhrExtractMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -195,7 +196,7 @@ public class EhrExtractMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -219,7 +220,7 @@ public class EhrExtractMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -264,7 +265,7 @@ public class EhrExtractMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         InboundMessage inboundMessage = new InboundMessage();
         prepareMocks(inboundMessage);
@@ -281,7 +282,7 @@ public class EhrExtractMessageHandlerTest {
 
     @Test
     public void When_HandleMessage_WithStoreAttachmentsThrows_Expect_InlineAttachmentProcessingException() throws JAXBException,
-        InlineAttachmentProcessingException {
+        InlineAttachmentProcessingException, UnsupportedFileTypeException {
         InboundMessage inboundMessage = new InboundMessage();
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -363,7 +364,7 @@ public class EhrExtractMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -402,7 +403,7 @@ public class EhrExtractMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -437,7 +438,8 @@ public class EhrExtractMessageHandlerTest {
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_ItShouldNotTranslate()
         throws JAXBException, BundleMappingException, AttachmentNotFoundException,
-        ParseException, JsonProcessingException, InlineAttachmentProcessingException, SAXException, TransformerException {
+        ParseException, JsonProcessingException, InlineAttachmentProcessingException,
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -472,7 +474,7 @@ public class EhrExtractMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");

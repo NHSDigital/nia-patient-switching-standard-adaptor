@@ -3855,22 +3855,22 @@
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
         "valueReference": {
-          "reference": "Observation/CD7A3174-9FFB-44EC-993C-337E10DCCD3E"
-        }
-      }, {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
-        "valueReference": {
           "reference": "Observation/669ED960-D7B7-453D-9C4E-6EF22AA481F0"
         }
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
         "valueReference": {
-          "reference": "Observation/441BC997-E06B-49D7-B453-7449F8D46A54"
+          "reference": "Observation/F139E0E6-8253-4B8D-AC2F-B30AA7057A65"
         }
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
         "valueReference": {
-          "reference": "Observation/F139E0E6-8253-4B8D-AC2F-B30AA7057A65"
+          "reference": "Observation/CD7A3174-9FFB-44EC-993C-337E10DCCD3E"
+        }
+      }, {
+        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
+        "valueReference": {
+          "reference": "Observation/441BC997-E06B-49D7-B453-7449F8D46A54"
         }
       } ],
       "identifier": [ {
