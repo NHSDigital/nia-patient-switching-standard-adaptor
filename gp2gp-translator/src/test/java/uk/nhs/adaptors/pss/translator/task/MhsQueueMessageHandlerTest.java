@@ -140,7 +140,7 @@ public class MhsQueueMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException {
+        SAXException, TransformerException, UnsupportedFileTypeException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
