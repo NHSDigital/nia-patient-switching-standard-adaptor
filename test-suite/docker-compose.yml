@@ -11,7 +11,7 @@ services:
   ############### MHS specific   ###################
 
   inbound:
-    image: nhsdev/nia-mhs-inbound:1.2.2
+    image: nhsdev/nia-mhs-inbound:1.2.3
     networks:
       - nia-ps
     ports:
@@ -104,7 +104,7 @@ services:
       - nia-ps
 
   ps_gp2gp_translator:
-    image: nhsdev/nia-ps-adaptor:0.2
+    image: nhsdev/nia-ps-adaptor:0.3
     ports:
       - "8085:8085"
     depends_on:
