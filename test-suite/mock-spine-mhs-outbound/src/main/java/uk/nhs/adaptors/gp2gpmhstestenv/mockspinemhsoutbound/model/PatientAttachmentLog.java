@@ -37,15 +37,15 @@ public class PatientAttachmentLog {
     @Column(name = "content_type")
     private String contentType;
     @Column(name = "compressed")
-    private boolean compressed;
+    private Boolean compressed;
     @Column(name = "large_attachment")
-    private boolean largeAttachment;
+    private Boolean largeAttachment;
     @Column(name = "base64")
-    private boolean base64;
+    private Boolean base64;
     @Column(name = "skeleton")
-    private boolean skeleton;
+    private Boolean skeleton;
     @Column(name = "uploaded")
-    private boolean uploaded;
+    private Boolean uploaded;
     @Column(name = "length_num")
     private Integer lengthNum;
 
