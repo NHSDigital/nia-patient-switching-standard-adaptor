@@ -53,4 +53,3 @@ cd docker/snomed-immunization-loader
 cd ../..
 
 docker-compose up -d ps_gp2gp_translator gpc_facade mock-spine-mhs
-#docker-compose up -d inbound
