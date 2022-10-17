@@ -33,7 +33,7 @@ databaseUri="postgresql://${PS_DB_OWNER_NAME}:${POSTGRES_PASSWORD}@${PS_DB_HOST}
 echo 'databaseuri'
 echo ${databaseUri}
 
-echo 'snowmedctschma'
+echo 'snomedctschma'
 echo ${snomedCtSchema}
 
 echo ${databaseUri} -c "\copy ${snomedCtSchema}.immunization_codes (conceptid, description, safetycode) FROM '${basedir}/$1' DELIMITER ',' CSV HEADER QUOTE '\"'"

@@ -11,7 +11,7 @@ services:
   ############### MHS specific   ###################
 
   inbound:
-    image: nhsdev/nia-mhs-inbound:1.2.3
+    image: local/mhs-inbound-sa
     networks:
       - nia-ps
     ports:
@@ -126,6 +126,12 @@ services:
       - MHS_BASE_URL
       - PS_LOGGING_LEVEL
       - SUPPORTED_FILE_TYPES
+      - STORAGE_TYPE
+      - STORAGE_REGION
+      - STORAGE_CONTAINER_NAME
+      - STORAGE_REFERENCE
+      - STORAGE_SECRET
+      - SKIP_DECODE
     networks:
       - nia-ps
 

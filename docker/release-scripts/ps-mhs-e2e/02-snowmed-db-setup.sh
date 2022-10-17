@@ -9,8 +9,8 @@ NC='\033[0m'
 echo "${LIGHT_GREEN}Exporting environment variables${NC}"
 source vars.sh
 
-cd snowmed-database-loader
-./load_release-postgresql.sh ${SNOWMED_FILE_LOCATION}
+cd snomed-database-loader
+./load_release-postgresql.sh ${SNOMED_FILE_LOCATION}
 cd ..
 cd snomed-immunization-loader
 ./load_immunization_codes.sh
