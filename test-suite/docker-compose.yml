@@ -126,6 +126,11 @@ services:
       - MHS_BASE_URL
       - PS_LOGGING_LEVEL
       - SUPPORTED_FILE_TYPES
+      - STORAGE_TYPE
+      - STORAGE_REGION
+      - STORAGE_CONTAINER_NAME
+      - STORAGE_REFERENCE
+      - STORAGE_SECRET
     networks:
       - nia-ps
 

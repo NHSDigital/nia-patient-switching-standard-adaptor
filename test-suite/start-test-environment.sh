@@ -45,8 +45,8 @@ docker-compose up -d activemq redis dynamodb ps_db outbound inbound
 docker-compose up db_migration
 docker-compose rm -f db_migration
 
-cd docker/snowmed-database-loader
-./load_release-postgresql.sh ${SNOWMED_FILE_LOCATION}
+cd docker/snomed-database-loader
+./load_release-postgresql.sh ${SNOMED_FILE_LOCATION}
 cd ../..
 cd docker/snomed-immunization-loader
 ./load_immunization_codes.sh

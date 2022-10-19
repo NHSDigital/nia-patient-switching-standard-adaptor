@@ -7,6 +7,6 @@ This will set up our docker environment and trigger off our migration process, y
 the DB migration is complete which will take a couple of minutes, and can be checked by looking at the migration container cli.
 A success message should be visible once done.
 
-3. Run script 02-snowmed-db-setup.sh
+3. Run script 02-snomed-db-setup.sh
 
-This will load all snowmed codes and immunizations.
+This will load all snomed codes and immunizations.
