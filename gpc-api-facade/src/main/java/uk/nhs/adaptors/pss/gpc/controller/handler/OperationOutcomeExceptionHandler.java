@@ -55,7 +55,8 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String ISSUE_SYSTEM = "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1";
     private static final Map<String, List<HttpMethod>> ALLOWED_METHODS = Map.of(
-        "/Patient/$gpc.migratestructuredrecord", List.of(POST)
+        "/Patient/$gpc.migratestructuredrecord", List.of(POST),
+            "/$gpc.ack", List.of(POST)
     );
 
     @Autowired
