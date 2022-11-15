@@ -11,4 +11,8 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class TransferRequestMessage extends PssQueueMessage {
     private String patientNhsNumber;
+    private String toAsid;
+    private String fromAsid;
+    private String toOds;
+    private String fromOds;
 }
