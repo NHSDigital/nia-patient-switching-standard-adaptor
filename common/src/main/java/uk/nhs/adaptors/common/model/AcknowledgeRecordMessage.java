@@ -11,6 +11,6 @@ import uk.nhs.adaptors.common.enums.ConfirmationResponse;
 @EqualsAndHashCode(callSuper = true)
 @Jacksonized
 public class AcknowledgeRecordMessage extends PssQueueMessage {
-    private String patientNhsNumber;
     private ConfirmationResponse confirmationResponse;
+    private String originalMessage;
 }
