@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import static uk.nhs.adaptors.common.enums.QueueMessageType.*;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
@@ -82,6 +83,7 @@ public class PatientTransferServiceTest {
             .fromAsid(HEADERS.get(FROM_ASID))
             .toOds(HEADERS.get(TO_ODS))
             .fromOds(HEADERS.get(FROM_ODS))
+            .messageType(TRANSFER_REQUEST)
             .build();
         var migrationRequestId = 1;
         OffsetDateTime now = OffsetDateTime.now();

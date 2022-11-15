@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.common.enums.QueueMessageType;
 import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.common.util.DateUtils;
-import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
@@ -27,7 +27,6 @@ import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientTransferService {
-    private final FhirParser fhirParser;
     private final PatientMigrationRequestDao patientMigrationRequestDao;
     private final MigrationStatusLogDao migrationStatusLogDao;
     private final PssQueuePublisher pssQueuePublisher;
@@ -64,6 +63,7 @@ public class PatientTransferService {
         return TransferRequestMessage.builder()
             .conversationId(conversationId)
             .patientNhsNumber(patientNhsNumber)
+            .messageType(QueueMessageType.TRANSFER_REQUEST)
             .toAsid(headers.get(TO_ASID))
             .fromAsid(headers.get(FROM_ASID))
             .toOds(headers.get(TO_ODS))
