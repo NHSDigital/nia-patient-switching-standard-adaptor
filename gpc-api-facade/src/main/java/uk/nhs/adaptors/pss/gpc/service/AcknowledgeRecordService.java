@@ -1,11 +1,9 @@
 package uk.nhs.adaptors.pss.gpc.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.common.enums.ConfirmationResponse;
-import uk.nhs.adaptors.common.enums.QueueMessageType;
 import uk.nhs.adaptors.common.model.AcknowledgeRecordMessage;
 import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
@@ -13,13 +11,13 @@ import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Locale;
-import java.util.Map;
 
-import static uk.nhs.adaptors.connector.model.MigrationStatus.*;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.CONFIRMATION_RESPONSE;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.CONVERSATION_ID;
+import static org.apache.commons.lang3.EnumUtils.getEnumIgnoreCase;
+import static uk.nhs.adaptors.common.enums.QueueMessageType.ACKNOWLEDGE_RECORD;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -29,16 +27,12 @@ public class AcknowledgeRecordService {
     private final PssQueuePublisher pssQueuePublisher;
     private final DateUtils dateUtils;
 
-    public Boolean handleAcknowledgeRecord(@NotNull Map<String, String> headers) {
+    public Boolean handleAcknowledgeRecord(
+            @NotNull @NotEmpty String conversationId,
+            @NotNull @NotEmpty String confirmationResponseString
+           ) {
 
-        var conversationIdHeaderValue = headers.get(CONVERSATION_ID);
-        var confirmationResponseHeaderValue = headers.get(CONFIRMATION_RESPONSE);
-
-        if(StringUtils.isBlank(conversationIdHeaderValue) || StringUtils.isBlank(confirmationResponseHeaderValue)) return false;
-
-        confirmationResponseHeaderValue = confirmationResponseHeaderValue.toUpperCase(Locale.ROOT);
-
-        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationIdHeaderValue);
+        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         if (patientMigrationRequest == null) return false;
 
         var patientMigrationRequestId = patientMigrationRequest.getId();
@@ -46,20 +40,16 @@ public class AcknowledgeRecordService {
         var patientMigrationStatusLog = migrationStatusLogDao.getLatestMigrationStatusLog(patientMigrationRequestId);
         if(patientMigrationStatusLog.getMigrationStatus() != MigrationStatus.MIGRATION_COMPLETED) return false;
 
-        ConfirmationResponse confirmationResponse;
-        try {
-            confirmationResponse = ConfirmationResponse.valueOf(confirmationResponseHeaderValue);
-        }
-        catch(Exception e) {
-            //TODO: Log Error somewhere here?
-            return false;
-        }
 
-        var patientNhsNumber = patientMigrationRequest.getPatientNhsNumber();
+        var confirmationResponse = getEnumIgnoreCase(ConfirmationResponse.class, confirmationResponseString);
+        if(confirmationResponse == null) return false;
+
+        var originalMessage = patientMigrationRequest.getInboundMessage();
+
         var pssMessage = createAcknowledgeRecordMessage(
-                patientNhsNumber,
-                conversationIdHeaderValue,
-                confirmationResponse);
+                conversationId,
+                confirmationResponse,
+                originalMessage);
 
         pssQueuePublisher.sendToPssQueue(pssMessage);
 
@@ -75,20 +65,16 @@ public class AcknowledgeRecordService {
 
         return true;
     }
-//
-//    private void processInboundMessage(String inboundMessage) {
-//
-//    }
 
     private AcknowledgeRecordMessage createAcknowledgeRecordMessage(
-            String patientNhsNumber,
             String conversationId,
-            ConfirmationResponse confirmationResponse) {
+            ConfirmationResponse confirmationResponse,
+            String originalMessage) {
         return AcknowledgeRecordMessage.builder()
             .conversationId(conversationId)
-            .patientNhsNumber(patientNhsNumber)
-            .messageType(QueueMessageType.ACKNOWLEDGE_RECORD)
+            .messageType(ACKNOWLEDGE_RECORD)
             .confirmationResponse(confirmationResponse)
+            .originalMessage(originalMessage)
             .build();
     }
 }

@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.common.enums.ConfirmationResponse;
-import uk.nhs.adaptors.common.enums.QueueMessageType;
 import uk.nhs.adaptors.common.model.AcknowledgeRecordMessage;
 import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
@@ -19,20 +18,20 @@ import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 
 import java.time.OffsetDateTime;
-import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.CONFIRMATION_RESPONSE;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.CONVERSATION_ID;
+import static uk.nhs.adaptors.common.enums.ConfirmationResponse.ACCEPTED;
+import static uk.nhs.adaptors.common.enums.QueueMessageType.ACKNOWLEDGE_RECORD;
 
 @ExtendWith(MockitoExtension.class)
 public class AcknowledgeRecordServiceTest {
     private static final String CONVERSATION_ID_VALUE = UUID.randomUUID().toString();
     private static final String INVALID_CONFIRMATION_RESPONSE_VALUE = "NotAValidResponse";
-    private static final String PATIENT_NHS_NUMBER = "123456789";
     private static final Integer PATIENT_MIGRATION_REQUEST_ID = 1;
+
+    private static final String ORIGINAL_MESSAGE = "MESSAGE";
 
     @Mock
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -57,38 +56,13 @@ public class AcknowledgeRecordServiceTest {
     @InjectMocks
     private AcknowledgeRecordService service;
 
-    @Test
-    public void handleAcknowledgeRecordRequestShouldReturnFalseWhenConversationIdIsEmpty() {
-        Map<String, String> headers = Map.of(
-                CONVERSATION_ID, "",
-                CONFIRMATION_RESPONSE, ConfirmationResponse.ACCEPTED.name()
-        );
-
-        var result = service.handleAcknowledgeRecord(headers);
-
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    public void handleAcknowledgeRecordRequestShouldReturnFalseWhenConfirmationResponseIsEmpty() {
-        Map<String, String> headers = Map.of(
-                CONVERSATION_ID, CONVERSATION_ID_VALUE,
-                CONFIRMATION_RESPONSE, ""
-        );
-
-        var result = service.handleAcknowledgeRecord(headers);
-
-        assertThat(result).isFalse();
-    }
 
     @Test
     public void handleAcknowledgeRecordRequestShouldReturnFalseWhenMigrationRequestNotFound() {
-        var headers = getValidHeaders(ConfirmationResponse.ACCEPTED);
-
         when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID_VALUE))
                 .thenReturn(null);
 
-        var result = service.handleAcknowledgeRecord(headers);
+        var result = service.handleAcknowledgeRecord(CONVERSATION_ID_VALUE, ACCEPTED.name());
 
         assertThat(result).isFalse();
         verify(patientMigrationRequestDao, times(1)).getMigrationRequest(CONVERSATION_ID_VALUE);
@@ -96,8 +70,6 @@ public class AcknowledgeRecordServiceTest {
 
     @Test
     public void handleAcknowledgeRecordRequestShouldReturnFalseWhenStatusIsNotMigrationCompleted() {
-        var headers = getValidHeaders(ConfirmationResponse.ACCEPTED);
-
         when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID_VALUE))
                 .thenReturn(patientMigrationRequest);
         when(patientMigrationRequest.getId())
@@ -107,7 +79,7 @@ public class AcknowledgeRecordServiceTest {
         when(migrationStatusLog.getMigrationStatus())
                 .thenReturn(MigrationStatus.REQUEST_RECEIVED);
 
-        var result = service.handleAcknowledgeRecord(headers);
+        var result = service.handleAcknowledgeRecord(CONVERSATION_ID_VALUE, ACCEPTED.name());
 
         assertThat(result).isFalse();
         verify(patientMigrationRequestDao, times(1)).getMigrationRequest(CONVERSATION_ID_VALUE);
@@ -116,11 +88,6 @@ public class AcknowledgeRecordServiceTest {
 
     @Test
     public void HandleAcknowledgeRecordRequestShouldReturnFalseWhenConfirmationResponseIsInvalid() {
-        Map<String, String> headers = Map.of(
-                CONVERSATION_ID, CONVERSATION_ID_VALUE,
-                CONFIRMATION_RESPONSE,  INVALID_CONFIRMATION_RESPONSE_VALUE
-        );
-
         when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID_VALUE))
                 .thenReturn(patientMigrationRequest);
         when(patientMigrationRequest.getId())
@@ -131,7 +98,7 @@ public class AcknowledgeRecordServiceTest {
                 .thenReturn(MigrationStatus.MIGRATION_COMPLETED);
 
 
-        var result = service.handleAcknowledgeRecord(headers);
+        var result = service.handleAcknowledgeRecord(CONVERSATION_ID_VALUE, INVALID_CONFIRMATION_RESPONSE_VALUE);
 
         assertThat(result).isFalse();
         verify(patientMigrationRequestDao, times(1)).getMigrationRequest(CONVERSATION_ID_VALUE);
@@ -142,16 +109,14 @@ public class AcknowledgeRecordServiceTest {
     public void HandleAcknowledgeRecordRequestShouldReturnTrueWhenConfirmationResponseIsAccepted() {
         configureMocksForValidResponse();
 
-        var headers = getValidHeaders(ConfirmationResponse.ACCEPTED);
-
         var expectedPssMessage = AcknowledgeRecordMessage.builder()
                 .conversationId(CONVERSATION_ID_VALUE)
-                .patientNhsNumber(PATIENT_NHS_NUMBER)
-                .messageType(QueueMessageType.ACKNOWLEDGE_RECORD)
-                .confirmationResponse(ConfirmationResponse.ACCEPTED)
+                .messageType(ACKNOWLEDGE_RECORD)
+                .originalMessage(ORIGINAL_MESSAGE)
+                .confirmationResponse(ACCEPTED)
                 .build();
 
-        var result = service.handleAcknowledgeRecord(headers);
+        var result = service.handleAcknowledgeRecord(CONVERSATION_ID_VALUE, ACCEPTED.name());
 
         assertThat(result).isTrue();
         verify(patientMigrationRequestDao, times(1)).getMigrationRequest(CONVERSATION_ID_VALUE);
@@ -170,16 +135,14 @@ public class AcknowledgeRecordServiceTest {
             ConfirmationResponse response) {
         configureMocksForValidResponse();
 
-        var headers = getValidHeaders(response);
-
         var expectedPssMessage = AcknowledgeRecordMessage.builder()
                 .conversationId(CONVERSATION_ID_VALUE)
-                .patientNhsNumber(PATIENT_NHS_NUMBER)
-                .messageType(QueueMessageType.ACKNOWLEDGE_RECORD)
+                .messageType(ACKNOWLEDGE_RECORD)
+                .originalMessage(ORIGINAL_MESSAGE)
                 .confirmationResponse(response)
                 .build();
 
-        var result = service.handleAcknowledgeRecord(headers);
+        var result = service.handleAcknowledgeRecord(CONVERSATION_ID_VALUE, response.name());
 
         assertThat(result).isTrue();
         verify(patientMigrationRequestDao, times(1)).getMigrationRequest(CONVERSATION_ID_VALUE);
@@ -199,17 +162,11 @@ public class AcknowledgeRecordServiceTest {
                 .thenReturn(patientMigrationRequest);
         when(patientMigrationRequest.getId())
                 .thenReturn(PATIENT_MIGRATION_REQUEST_ID);
-        when(patientMigrationRequest.getPatientNhsNumber())
-                .thenReturn(PATIENT_NHS_NUMBER);
+        when(patientMigrationRequest.getInboundMessage())
+                .thenReturn(ORIGINAL_MESSAGE);
         when(migrationStatusLog.getMigrationStatus())
                 .thenReturn(MigrationStatus.MIGRATION_COMPLETED);
         when(migrationStatusLogDao.getLatestMigrationStatusLog(PATIENT_MIGRATION_REQUEST_ID))
                 .thenReturn(migrationStatusLog);
-    }
-    private Map<String, String> getValidHeaders(ConfirmationResponse response) {
-        return Map.of(
-                CONVERSATION_ID, CONVERSATION_ID_VALUE,
-                CONFIRMATION_RESPONSE, response.name()
-        );
     }
 }
