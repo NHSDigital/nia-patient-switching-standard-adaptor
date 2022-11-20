@@ -79,7 +79,7 @@ public class AcknowledgeRecordServiceTest {
     }
 
     @Test
-    public void HandleAcknowledgeRecordRequestShouldReturnFalseWhenConfirmationResponseIsInvalid() {
+    public void handleAcknowledgeRecordRequestShouldReturnFalseWhenConfirmationResponseIsInvalid() {
         when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID_VALUE))
                 .thenReturn(patientMigrationRequest);
         when(patientMigrationRequest.getId())
@@ -98,7 +98,7 @@ public class AcknowledgeRecordServiceTest {
     }
 
     @Test
-    public void HandleAcknowledgeRecordRequestShouldReturnTrueWhenConfirmationResponseIsAccepted() {
+    public void handleAcknowledgeRecordRequestShouldReturnTrueWhenConfirmationResponseIsAccepted() {
         configureMocksForValidResponse();
 
         var expectedPssMessage = AcknowledgeRecordMessage.builder()
@@ -118,7 +118,7 @@ public class AcknowledgeRecordServiceTest {
 
     @ParameterizedTest
     @EnumSource(value = ConfirmationResponse.class, names = { "ACCEPTED" }, mode = EnumSource.Mode.EXCLUDE)
-    public void HandleAcknowledgeRecordRequestShouldReturnTrueWhenNegativeAcknowledgement(
+    public void handleAcknowledgeRecordRequestShouldReturnTrueWhenNegativeAcknowledgement(
             ConfirmationResponse response) {
         configureMocksForValidResponse();
 
