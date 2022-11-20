@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.common.enums.ConfirmationResponse;
 import uk.nhs.adaptors.common.model.AcknowledgeRecordMessage;
-import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
@@ -16,8 +15,6 @@ import javax.validation.constraints.NotNull;
 
 import static org.apache.commons.lang3.EnumUtils.getEnumIgnoreCase;
 import static uk.nhs.adaptors.common.enums.QueueMessageType.ACKNOWLEDGE_RECORD;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -25,7 +22,6 @@ public class AcknowledgeRecordService {
     private final PatientMigrationRequestDao patientMigrationRequestDao;
     private final MigrationStatusLogDao migrationStatusLogDao;
     private final PssQueuePublisher pssQueuePublisher;
-    private final DateUtils dateUtils;
 
     public Boolean handleAcknowledgeRecord(
             @NotNull @NotEmpty String conversationId,
@@ -40,7 +36,6 @@ public class AcknowledgeRecordService {
         var patientMigrationStatusLog = migrationStatusLogDao.getLatestMigrationStatusLog(patientMigrationRequestId);
         if(patientMigrationStatusLog.getMigrationStatus() != MigrationStatus.MIGRATION_COMPLETED) return false;
 
-
         var confirmationResponse = getEnumIgnoreCase(ConfirmationResponse.class, confirmationResponseString);
         if(confirmationResponse == null) return false;
 
@@ -52,16 +47,6 @@ public class AcknowledgeRecordService {
                 originalMessage);
 
         pssQueuePublisher.sendToPssQueue(pssMessage);
-
-        var migrationStatus = confirmationResponse == ConfirmationResponse.ACCEPTED
-                ? EHR_EXTRACT_REQUEST_ACKNOWLEDGED
-                : EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
-
-        migrationStatusLogDao.addMigrationStatusLog(
-                migrationStatus,
-                dateUtils.getCurrentOffsetDateTime(),
-                patientMigrationRequestId,
-                null);
 
         return true;
     }

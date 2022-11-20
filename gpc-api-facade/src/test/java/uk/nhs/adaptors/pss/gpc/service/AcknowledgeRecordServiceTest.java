@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.common.enums.ConfirmationResponse;
 import uk.nhs.adaptors.common.model.AcknowledgeRecordMessage;
-import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
@@ -17,7 +16,6 @@ import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 
-import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -48,14 +46,8 @@ public class AcknowledgeRecordServiceTest {
     @Mock
     private MigrationStatusLog migrationStatusLog;
 
-    @Mock
-    private DateUtils dateUtils;
-
-    private static final OffsetDateTime datetimeNow = OffsetDateTime.now();
-
     @InjectMocks
     private AcknowledgeRecordService service;
-
 
     @Test
     public void handleAcknowledgeRecordRequestShouldReturnFalseWhenMigrationRequestNotFound() {
@@ -121,12 +113,7 @@ public class AcknowledgeRecordServiceTest {
         assertThat(result).isTrue();
         verify(patientMigrationRequestDao, times(1)).getMigrationRequest(CONVERSATION_ID_VALUE);
         verify(migrationStatusLogDao, times(1)).getLatestMigrationStatusLog(PATIENT_MIGRATION_REQUEST_ID);
-        verify(migrationStatusLogDao, times(1)).addMigrationStatusLog(
-                MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED,
-                datetimeNow,
-                PATIENT_MIGRATION_REQUEST_ID,
-                null);
-       verify(pssQueuePublisher, times(1)).sendToPssQueue(expectedPssMessage);
+        verify(pssQueuePublisher, times(1)).sendToPssQueue(expectedPssMessage);
     }
 
     @ParameterizedTest
@@ -147,17 +134,10 @@ public class AcknowledgeRecordServiceTest {
         assertThat(result).isTrue();
         verify(patientMigrationRequestDao, times(1)).getMigrationRequest(CONVERSATION_ID_VALUE);
         verify(migrationStatusLogDao, times(1)).getLatestMigrationStatusLog(PATIENT_MIGRATION_REQUEST_ID);
-        verify(migrationStatusLogDao, times(1)).addMigrationStatusLog(
-                MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK,
-                datetimeNow,
-                PATIENT_MIGRATION_REQUEST_ID,
-                null);
         verify(pssQueuePublisher, times(1)).sendToPssQueue(expectedPssMessage);
     }
 
     private void configureMocksForValidResponse() {
-        when(dateUtils.getCurrentOffsetDateTime())
-                .thenReturn(datetimeNow);
         when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID_VALUE))
                 .thenReturn(patientMigrationRequest);
         when(patientMigrationRequest.getId())
