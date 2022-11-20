@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.v3.RCMRIN030000UK06Message;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +47,17 @@ public class AcknowledgeRecordService {
         }
 
         var conversationId = acknowledgeRecordMessage.getConversationId();
+        var confirmationResponse = acknowledgeRecordMessage.getConfirmationResponse();
 
-        if (acknowledgeRecordMessage.getConfirmationResponse() == ACCEPTED) {
+        if(StringUtils.isBlank(conversationId) || confirmationResponse == null) return false;
+
+        if(confirmationResponse == ACCEPTED) {
             return preparationService.sendAckMessage(message, conversationId);
         }
 
-        var nackReason = reasons.get(acknowledgeRecordMessage.getConfirmationResponse());
-
+        var nackReason = reasons.get(confirmationResponse);
         return preparationService.sendNackMessage(nackReason, message, conversationId);
+
     }
 
     private RCMRIN030000UK06Message parseOriginalMessage(AcknowledgeRecordMessage message)
