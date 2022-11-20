@@ -44,7 +44,7 @@ public class QueueMessageHandlerTest {
     private MDCService mdcService;
 
     @Mock
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @InjectMocks
     private QueueMessageHandler queueMessageHandler;

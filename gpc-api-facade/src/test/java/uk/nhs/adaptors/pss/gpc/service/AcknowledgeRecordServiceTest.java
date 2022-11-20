@@ -19,7 +19,9 @@ import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static uk.nhs.adaptors.common.enums.ConfirmationResponse.ACCEPTED;
 import static uk.nhs.adaptors.common.enums.QueueMessageType.ACKNOWLEDGE_RECORD;
 

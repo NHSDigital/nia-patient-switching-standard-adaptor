@@ -44,10 +44,8 @@ public class AcknowledgeRecordServiceTest {
     private static final String STRUCTURED_RECORD_PAYLOAD_XML_PATH = "/xml/RCMRIN030000UK06_LARGE_MSG/payload.xml";
     private static final String INVALID_ORIGINAL_MESSAGE = "NotAValidMessage";
     private static final String ORIGINAL_MESSAGE_VALUE = "originalMessage";
-
     private static final String CONVERSATION_ID_VALUE = UUID.randomUUID().toString();
-
-    private final static Map<ConfirmationResponse, NACKReason> reasons = Map.of(
+    private static final Map<ConfirmationResponse, NACKReason> REASONS = Map.of(
             ABA_INCORRECT_PATIENT, ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT,
             NON_ABA_INCORRECT_PATIENT, NON_ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT,
             FAILED_TO_INTEGRATE, CLINICAL_SYSTEM_INTEGRATION_FAILURE,
@@ -60,9 +58,8 @@ public class AcknowledgeRecordServiceTest {
     @Mock
     private ObjectMapper objectMapper;
 
-    @Mock InboundMessage inboundMessage;
-
-
+    @Mock
+    private InboundMessage inboundMessage;
 
     @InjectMocks
     private AcknowledgeRecordService acknowledgeRecordService;
@@ -147,7 +144,7 @@ public class AcknowledgeRecordServiceTest {
             boolean expectedResponse) {
 
         var payload = FileUtil.readResourceAsString(STRUCTURED_RECORD_PAYLOAD_XML_PATH);
-        var expectedNackReason = reasons.get(SUPPRESSED);
+        var expectedNackReason = REASONS.get(SUPPRESSED);
         setupMocks(payload);
         when(preparationService.sendNackMessage(
                 eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE)))
@@ -173,7 +170,7 @@ public class AcknowledgeRecordServiceTest {
             boolean expectedResponse) {
 
         var payload = FileUtil.readResourceAsString(STRUCTURED_RECORD_PAYLOAD_XML_PATH);
-        var expectedNackReason = reasons.get(ABA_INCORRECT_PATIENT);
+        var expectedNackReason = REASONS.get(ABA_INCORRECT_PATIENT);
         setupMocks(payload);
         when(preparationService.sendNackMessage(
                 eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE)))
@@ -199,7 +196,7 @@ public class AcknowledgeRecordServiceTest {
             boolean expectedResponse) {
 
         var payload = FileUtil.readResourceAsString(STRUCTURED_RECORD_PAYLOAD_XML_PATH);
-        var expectedNackReason = reasons.get(NON_ABA_INCORRECT_PATIENT);
+        var expectedNackReason = REASONS.get(NON_ABA_INCORRECT_PATIENT);
         setupMocks(payload);
         when(preparationService.sendNackMessage(
                 eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE)))
@@ -225,7 +222,7 @@ public class AcknowledgeRecordServiceTest {
             boolean expectedResponse) {
 
         var payload = FileUtil.readResourceAsString(STRUCTURED_RECORD_PAYLOAD_XML_PATH);
-        var expectedNackReason = reasons.get(FAILED_TO_INTEGRATE);
+        var expectedNackReason = REASONS.get(FAILED_TO_INTEGRATE);
         setupMocks(payload);
         when(preparationService.sendNackMessage(
                 eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE)))
