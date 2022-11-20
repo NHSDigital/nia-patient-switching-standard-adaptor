@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.common.model.AcknowledgeRecordMessage;
+import uk.nhs.adaptors.common.model.PssQueueMessage;
 import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.service.AcknowledgeRecordService;
@@ -18,7 +19,10 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static uk.nhs.adaptors.common.enums.QueueMessageType.ACKNOWLEDGE_RECORD;
 import static uk.nhs.adaptors.common.enums.QueueMessageType.TRANSFER_REQUEST;
 
@@ -38,6 +42,9 @@ public class QueueMessageHandlerTest {
 
     @Mock
     private MDCService mdcService;
+
+    @Mock
+    ObjectMapper objectMapper;
 
     @InjectMocks
     private QueueMessageHandler queueMessageHandler;
@@ -101,7 +108,19 @@ public class QueueMessageHandlerTest {
             .conversationId(CONVERSATION_ID)
             .messageType(TRANSFER_REQUEST)
             .build();
-        when(message.getBody(String.class)).thenReturn(new ObjectMapper().writeValueAsString(transferRequestMessage));
+
+        var pssQueueMessage = PssQueueMessage.builder()
+                .conversationId(CONVERSATION_ID)
+                .messageType(TRANSFER_REQUEST)
+                .build();
+
+        var transferRequestMessageString = new ObjectMapper().writeValueAsString(transferRequestMessage);
+
+        when(message.getBody(String.class)).thenReturn(transferRequestMessageString);
+        when(objectMapper.readValue(transferRequestMessageString, PssQueueMessage.class))
+                .thenReturn(pssQueueMessage);
+        when(objectMapper.readValue(transferRequestMessageString, TransferRequestMessage.class))
+                .thenReturn(transferRequestMessage);
         when(sendEhrExtractRequestHandler.prepareAndSendRequest(transferRequestMessage)).thenReturn(prepareAndSendRequestResult);
     }
 
@@ -112,11 +131,20 @@ public class QueueMessageHandlerTest {
                 .messageType(ACKNOWLEDGE_RECORD)
                 .build();
 
+        var pssQueueMessage = PssQueueMessage.builder()
+                .conversationId(CONVERSATION_ID)
+                .messageType(ACKNOWLEDGE_RECORD)
+                .build();
+
         var acknowledgeRequestMessageString = new ObjectMapper()
                 .writeValueAsString(acknowledgeRecordMessage);
 
         when(message.getBody(String.class))
                 .thenReturn(acknowledgeRequestMessageString);
+        when(objectMapper.readValue(acknowledgeRequestMessageString, PssQueueMessage.class))
+                .thenReturn(pssQueueMessage);
+        when(objectMapper.readValue(acknowledgeRequestMessageString, AcknowledgeRecordMessage.class))
+                .thenReturn(acknowledgeRecordMessage);
         when(acknowledgeRecordService.prepareAndSendAcknowledgementMessage(acknowledgeRecordMessage))
                 .thenReturn(prepareAndSendAcknowledgementMessageResult);
     }
