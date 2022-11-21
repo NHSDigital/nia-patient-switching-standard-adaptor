@@ -25,26 +25,27 @@ public class AcknowledgeRecordService {
 
     public Boolean handleAcknowledgeRecord(
             @NotNull @NotEmpty String conversationId,
-            @NotNull @NotEmpty String confirmationResponseString
-           ) {
-
+            @NotNull @NotEmpty String confirmationResponseString) {
         var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
-        if (patientMigrationRequest == null) return false;
+        if (patientMigrationRequest == null) {
+            return false;
+        }
 
         var patientMigrationRequestId = patientMigrationRequest.getId();
 
         var patientMigrationStatusLog = migrationStatusLogDao.getLatestMigrationStatusLog(patientMigrationRequestId);
-        if(patientMigrationStatusLog.getMigrationStatus() != MigrationStatus.MIGRATION_COMPLETED) return false;
+        if (patientMigrationStatusLog.getMigrationStatus() != MigrationStatus.MIGRATION_COMPLETED) {
+            return false;
+        }
 
         var confirmationResponse = getEnumIgnoreCase(ConfirmationResponse.class, confirmationResponseString);
-        if(confirmationResponse == null) return false;
+        if (confirmationResponse == null) {
+            return false;
+        }
 
         var originalMessage = patientMigrationRequest.getInboundMessage();
 
-        var pssMessage = createAcknowledgeRecordMessage(
-                conversationId,
-                confirmationResponse,
-                originalMessage);
+        var pssMessage = createAcknowledgeRecordMessage(conversationId, confirmationResponse, originalMessage);
 
         pssQueuePublisher.sendToPssQueue(pssMessage);
 

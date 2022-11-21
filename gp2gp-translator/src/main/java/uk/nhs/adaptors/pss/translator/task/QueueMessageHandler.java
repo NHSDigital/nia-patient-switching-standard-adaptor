@@ -41,16 +41,15 @@ public class QueueMessageHandler {
             mdcService.applyConversationId(pssQueueMessage.getConversationId());
 
             switch (pssQueueMessage.getMessageType()) {
-                case TRANSFER_REQUEST -> {
+                case TRANSFER_REQUEST:
                     var transferRequest = objectMapper.readValue(messageBody, TransferRequestMessage.class);
                     return sendEhrExtractRequestHandler.prepareAndSendRequest(transferRequest);
-                }
-                case ACKNOWLEDGE_RECORD -> {
+                case ACKNOWLEDGE_RECORD:
                     var acknowledgeRequest = objectMapper.readValue(messageBody, AcknowledgeRecordMessage.class);
                     return acknowledgeRecordService.prepareAndSendAcknowledgementMessage(acknowledgeRequest);
-                }
             }
-        } catch (JMSException e) {
+        }
+        catch (JMSException e) {
             LOGGER.error("Error while processing PSSQueue message_id=[{}]", messageId, e);
             return false;
         }

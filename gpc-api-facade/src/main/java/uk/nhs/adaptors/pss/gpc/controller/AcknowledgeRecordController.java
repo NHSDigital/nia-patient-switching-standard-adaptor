@@ -32,7 +32,7 @@ public class AcknowledgeRecordController {
     public ResponseEntity<String> acknowledgeRecord(
             @RequestHeader(CONFIRMATION_RESPONSE) @NotNull @NotEmpty String confirmationResponse,
             @RequestHeader(CONVERSATION_ID) @NotNull @NotEmpty String conversationId
-            ) {
+    ) {
         LOGGER.info("Received migrated structured record acknowledgement");
 
         var response = acknowledgeRecordService.handleAcknowledgeRecord(conversationId, confirmationResponse);
