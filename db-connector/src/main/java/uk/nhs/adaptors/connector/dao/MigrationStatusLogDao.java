@@ -23,6 +23,10 @@ public interface MigrationStatusLogDao {
     @UseClasspathSqlLocator
     MigrationStatusLog getLatestMigrationStatusLog(@Bind("migrationRequestId") int migrationRequestId);
 
+    @SqlQuery("select_migration_status_logs")
+    @UseClasspathSqlLocator
+    List<MigrationStatusLog> getLatestMigrationStatusLogs(@Bind("migrationRequestId") int migrationRequestId);
+
     @SqlQuery("select_migration_request_ids_by_migration_status")
     @UseClasspathSqlLocator
     List<Integer> getMigrationRequestIdsByMigrationStatus(@Bind("status") MigrationStatus status);
