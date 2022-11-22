@@ -47,12 +47,12 @@ public class QueueMessageHandler {
                 case ACKNOWLEDGE_RECORD:
                     var acknowledgeRequest = objectMapper.readValue(messageBody, AcknowledgeRecordMessage.class);
                     return acknowledgeRecordService.prepareAndSendAcknowledgementMessage(acknowledgeRequest);
+                default:
+                    throw new RuntimeException("Invalid enum value");
             }
-        }
-        catch (JMSException e) {
+        } catch (JMSException e) {
             LOGGER.error("Error while processing PSSQueue message_id=[{}]", messageId, e);
             return false;
         }
-        return false;
     }
 }

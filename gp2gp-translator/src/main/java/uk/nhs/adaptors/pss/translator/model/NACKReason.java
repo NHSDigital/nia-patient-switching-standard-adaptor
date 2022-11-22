@@ -4,7 +4,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 
-import static uk.nhs.adaptors.connector.model.MigrationStatus.*;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_REASSEMBLY_FAILURE;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
 
 @RequiredArgsConstructor
 public enum NACKReason {
@@ -31,9 +36,9 @@ public enum NACKReason {
             case LARGE_MESSAGE_REASSEMBLY_FAILURE -> ERROR_LRG_MSG_REASSEMBLY_FAILURE;
             case LARGE_MESSAGE_TIMEOUT -> ERROR_LRG_MSG_TIMEOUT;
             case UNEXPECTED_CONDITION, EHR_EXTRACT_CANNOT_BE_PROCESSED -> EHR_GENERAL_PROCESSING_ERROR;
-            case CLINICAL_SYSTEM_INTEGRATION_FAILURE, ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT,
-                    NON_ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT, ABA_EHR_EXTRACT_SUPPRESSED
-                    -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
+            case CLINICAL_SYSTEM_INTEGRATION_FAILURE, ABA_EHR_EXTRACT_SUPPRESSED  -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
+            case ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
+            case NON_ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
         };
     }
 }

@@ -17,8 +17,15 @@ import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import javax.xml.bind.JAXBException;
 import java.util.Map;
 
-import static uk.nhs.adaptors.common.enums.ConfirmationResponse.*;
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.*;
+import static uk.nhs.adaptors.common.enums.ConfirmationResponse.ABA_INCORRECT_PATIENT;
+import static uk.nhs.adaptors.common.enums.ConfirmationResponse.ACCEPTED;
+import static uk.nhs.adaptors.common.enums.ConfirmationResponse.FAILED_TO_INTEGRATE;
+import static uk.nhs.adaptors.common.enums.ConfirmationResponse.NON_ABA_INCORRECT_PATIENT;
+import static uk.nhs.adaptors.common.enums.ConfirmationResponse.SUPPRESSED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.ABA_EHR_EXTRACT_SUPPRESSED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.CLINICAL_SYSTEM_INTEGRATION_FAILURE;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.NON_ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @Slf4j
@@ -29,7 +36,7 @@ public class AcknowledgeRecordService {
     private final NackAckPreparationService preparationService;
     private final ObjectMapper objectMapper;
 
-    private final static Map<ConfirmationResponse, NACKReason> reasons = Map.of(
+    private static final Map<ConfirmationResponse, NACKReason> REASONS = Map.of(
             ABA_INCORRECT_PATIENT, ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT,
             NON_ABA_INCORRECT_PATIENT, NON_ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT,
             FAILED_TO_INTEGRATE, CLINICAL_SYSTEM_INTEGRATION_FAILURE,
@@ -41,23 +48,23 @@ public class AcknowledgeRecordService {
 
         try {
             message = parseOriginalMessage(acknowledgeRecordMessage);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
 
         var conversationId = acknowledgeRecordMessage.getConversationId();
         var confirmationResponse = acknowledgeRecordMessage.getConfirmationResponse();
 
-        if(StringUtils.isBlank(conversationId) || confirmationResponse == null) return false;
+        if (StringUtils.isBlank(conversationId) || confirmationResponse == null) {
+            return false;
+        }
 
-        if(confirmationResponse == ACCEPTED) {
+        if (confirmationResponse == ACCEPTED) {
             return preparationService.sendAckMessage(message, conversationId);
         }
 
-        var nackReason = reasons.get(confirmationResponse);
+        var nackReason = REASONS.get(confirmationResponse);
         return preparationService.sendNackMessage(nackReason, message, conversationId);
-
     }
 
     private RCMRIN030000UK06Message parseOriginalMessage(AcknowledgeRecordMessage message)
