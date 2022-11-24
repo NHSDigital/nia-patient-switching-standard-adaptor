@@ -69,14 +69,14 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         mockCompressedAttachments = List.of(
             InboundMessage.Attachment.builder()
                 .contentType("text/plain")
-                .isBase64("false")
+                .isBase64("true")
                 .description("Filename=\"text_attachment_encoded_and_compressed.txt\" ContentType=text/plain Compressed=Yes "
                     + "LargeAttachment=No OriginalBase64=No")
                 .payload(readFileAsString("InlineAttachments/text_attachment_encoded_and_compressed.txt"))
                 .build(),
             InboundMessage.Attachment.builder()
                 .contentType("application/pdf")
-                .isBase64("false")
+                .isBase64("true")
                 .description("Filename=\"large_messages.pdf\" ContentType=application/pdf Compressed=Yes "
                     + "LargeAttachment=No OriginalBase64=No")
                 .payload(readFileAsString("InlineAttachments/large_messages.pdf.txt"))
@@ -99,13 +99,13 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         mockAttachments = List.of(
             InboundMessage.Attachment.builder()
                 .contentType("text/plain")
-                .isBase64("false")
+                .isBase64("true")
                 .description("Filename=\"277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt\" ContentType=text/plain Compressed=No "
-                    + "LargeAttachment=No OriginalBase64=No")
+                    + "LargeAttachment=No OriginalBase64=Yes")
                 .payload("SGVsbG8gV29ybGQgZnJvbSBTY290dCBBbGV4YW5kZXI=").build(),
             InboundMessage.Attachment.builder()
                 .contentType("text/plain")
-                .isBase64("false")
+                .isBase64("true")
                 .description("Filename=\"text_attachment_encoded.txt\" ContentType=text/plain Compressed=No "
                     + "LargeAttachment=No OriginalBase64=No")
                 .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
