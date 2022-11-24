@@ -3,7 +3,7 @@
 # MHS VARS
 #SECRET KEY VARS
 #User-specific env variables
-export SNOWED_FILE_LOCATION="FILL-IN";
+export SNOMED_FILE_LOCATION="FILL-IN";
 export MHS_SECRET_PARTY_KEY="Y90664-9198273"
 export MHS_SECRET_CLIENT_CERT="-----BEGIN CERTIFICATE-----
 MIIFPTCCAyUCFAKYCULeFVcQCwXCGCiCFVu09NmzMA0GCSqGSIb3DQEBCwUAMF0x
@@ -210,11 +210,11 @@ export PS_DB_URL_INTERNAL="jdbc:postgresql://ps_db:5432";
 export PS_DB_OWNER_NAME="postgres";
 export PS_FROM_ODS_CODE="PSS_001";
 export PS_DB_URL="jdbc:postgresql://ps_db:5432";
-export PS_DB_OWNER_PASSWORD="123456"; # change
-export PS_DB_OWNER_PASSWORD="123456"; # change
-export POSTGRES_PASSWORD="123456"; # change
-export GPC_FACADE_USER_DB_PASSWORD="123456"; # change
-export GP2GP_TRANSLATOR_USER_DB_PASSWORD="123456"; # change
+export PS_DB_OWNER_PASSWORD="secret"; # change
+export PS_DB_OWNER_PASSWORD="secret"; # change
+export POSTGRES_PASSWORD="secret"; # change
+export GPC_FACADE_USER_DB_PASSWORD="secret"; # change
+export GP2GP_TRANSLATOR_USER_DB_PASSWORD="secret"; # change
 export GP2GP_TRANSLATOR_SERVER_PORT=8085;
 export GPC_FACADE_SERVER_PORT=8081;
 
