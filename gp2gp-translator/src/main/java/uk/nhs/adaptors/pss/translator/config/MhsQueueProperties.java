@@ -16,4 +16,9 @@ public class MhsQueueProperties {
     private String username;
     private String password;
     private int maxRedeliveries;
+    private String dlqPrefix;
+
+    public String getDLQName() {
+        return getDlqPrefix() + getQueueName();
+    }
 }
