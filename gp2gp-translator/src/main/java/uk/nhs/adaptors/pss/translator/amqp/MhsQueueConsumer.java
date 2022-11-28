@@ -16,6 +16,7 @@ import uk.nhs.adaptors.pss.translator.task.MhsQueueMessageHandler;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MhsQueueConsumer {
     private final MhsQueueMessageHandler mhsQueueMessageHandler;
+    private final MhsDlqPublisher mhsDlqPublisher;
 
     @JmsListener(destination = "${amqp.mhs.queueName}", containerFactory = "mhsQueueJmsListenerFactory")
     @SneakyThrows
@@ -27,7 +28,8 @@ public class MhsQueueConsumer {
             message.acknowledge();
             LOGGER.debug("Acknowledged MHSQueue message_id=[{}]", messageId);
         } else {
-            LOGGER.debug("Discarding message_id=[{}]", messageId);
+            LOGGER.debug("Sending message_id=[{}] to the dead letter queue", messageId);
+            mhsDlqPublisher.sendToMhsDlq(message);
         }
     }
 }

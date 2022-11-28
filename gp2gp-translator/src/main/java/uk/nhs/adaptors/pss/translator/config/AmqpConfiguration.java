@@ -103,6 +103,15 @@ public class AmqpConfiguration {
         return jmsTemplate;
     }
 
+    @Bean("jmsTemplateMhsDLQ")
+    public JmsTemplate jmsTemplateMhsDLQ(@Qualifier("mhsQueueConnectionFactory") JmsConnectionFactory connectionFactory,
+        MhsQueueProperties properties) {
+        JmsTemplate jmsTemplate = new JmsTemplate();
+        jmsTemplate.setConnectionFactory(connectionFactory);
+        jmsTemplate.setDefaultDestinationName(properties.getDLQName());
+        return jmsTemplate;
+    }
+
     private void configureRedeliveryPolicy(PssQueueProperties properties, JmsConnectionFactory factory) {
         factory.setRedeliveryPolicy(new CustomRedeliveryPolicy(
             properties.getMaxRedeliveries(), JmsMessageSupport.MODIFIED_FAILED_UNDELIVERABLE));
