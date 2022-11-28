@@ -9,6 +9,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
@@ -43,6 +44,11 @@ public class SendContinueRequestHandler {
         } catch (WebClientResponseException webClientResponseException) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", webClientResponseException.getMessage());
             migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getConversationId(), null);
+
+            if (webClientResponseException.getStatusCode().is5xxServerError()) {
+                throw new MhsServerErrorException("Unable to sent continue message, throwing in order to trigger retry");
+            }
+
             throw webClientResponseException;
         }
 

@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
@@ -35,6 +37,11 @@ public class SendACKMessageHandler {
             mhsClientService.send(request);
         } catch (WebClientResponseException e) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", e.getMessage());
+
+            if (e.getStatusCode().is5xxServerError()) {
+                throw new MhsServerErrorException("Unable to send ACK message, throwing in order to trigger retry");
+            }
+
             return false;
         }
         return true;
