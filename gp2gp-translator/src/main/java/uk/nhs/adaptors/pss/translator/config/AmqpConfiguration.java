@@ -21,6 +21,8 @@ import uk.nhs.adaptors.pss.translator.amqp.JmsListenerErrorHandler;
 @Configuration
 public class AmqpConfiguration {
 
+    private static final long TEN_SECONDS = 10000L;
+
     private final JmsListenerErrorHandler listenerErrorHandler;
 
     public AmqpConfiguration(JmsListenerErrorHandler listenerErrorHandler) {
@@ -78,6 +80,7 @@ public class AmqpConfiguration {
         factory.setCacheLevel(CACHE_CONSUMER);
         factory.setConnectionFactory(connectionFactory);
         factory.setErrorHandler(listenerErrorHandler);
+        factory.setRecoveryInterval(TEN_SECONDS);
 
         return factory;
     }
@@ -90,6 +93,7 @@ public class AmqpConfiguration {
         factory.setCacheLevel(CACHE_CONSUMER);
         factory.setConnectionFactory(connectionFactory);
         factory.setErrorHandler(listenerErrorHandler);
+        factory.setRecoveryInterval(TEN_SECONDS);
 
         return factory;
     }

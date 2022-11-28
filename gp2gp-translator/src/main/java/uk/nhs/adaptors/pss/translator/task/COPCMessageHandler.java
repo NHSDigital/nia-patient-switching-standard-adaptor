@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -96,6 +97,8 @@ public class COPCMessageHandler {
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
 
             }
+        } catch (WebClientRequestException e) {
+            throw e;
         } catch (ParseException | InlineAttachmentProcessingException | ValidationException
                  | SAXException | ExternalAttachmentProcessingException | UnsupportedFileTypeException e) {
             LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
