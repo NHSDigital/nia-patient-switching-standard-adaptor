@@ -195,9 +195,11 @@ public class EhrExtractMessageHandler {
         for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
             PatientAttachmentLog patientAttachmentLog;
 
-            //save COPC_UK01 messages
-            patientAttachmentLog = buildPatientAttachmentLogFromExternalAttachment(migrationRequest, externalAttachment);
-            patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
+            if (patientAttachmentLogService.findAttachmentLog(externalAttachment.getMessageId(), conversationId) == null) {
+                //save COPC_UK01 messages
+                patientAttachmentLog = buildPatientAttachmentLogFromExternalAttachment(migrationRequest, externalAttachment);
+                patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
+            }
         }
 
         migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
