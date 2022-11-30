@@ -14,6 +14,8 @@ import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -27,6 +29,9 @@ public class NackAckPreparationService {
 
         LOGGER.debug("Sending ACK message for message with Conversation ID: [{}]", conversationId);
 
+        migrationStatusLogService.
+                addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACKNOWLEDGED, conversationId, null);
+
         return sendACKMessageHandler.prepareAndSendMessage(prepareAckMessageData(
                 payload,
                 conversationId
@@ -36,6 +41,9 @@ public class NackAckPreparationService {
     public boolean sendAckMessage(COPCIN000001UK01Message payload, String conversationId, String losingPracticeOdsCode) {
 
         LOGGER.debug("Sending ACK message for message with Conversation ID: [{}]", conversationId);
+
+        migrationStatusLogService.
+                addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACKNOWLEDGED, conversationId, null);
 
         return sendACKMessageHandler.prepareAndSendMessage(prepareAckMessageData(
                 payload,

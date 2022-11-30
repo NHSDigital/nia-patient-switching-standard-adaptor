@@ -11,6 +11,8 @@ import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -33,6 +35,11 @@ public class MigrationStatusLogService {
     public MigrationStatusLog getLatestMigrationStatusLog(String conversationId) {
         int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
         return migrationStatusLogDao.getLatestMigrationStatusLog(migrationRequestId);
+    }
+
+    public List<MigrationStatusLog> getMigrationStatusLogs(String conversationId) {
+        int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
+        return migrationStatusLogDao.getLatestMigrationStatusLogs(migrationRequestId);
     }
 
     public void updatePatientMigrationRequestAndAddMigrationStatusLog(String conversationId, String bundle, String inboundMessage,

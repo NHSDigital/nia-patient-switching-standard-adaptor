@@ -5,4 +5,6 @@ public class HttpHeaders {
     public static final String FROM_ASID = "from-asid";
     public static final String TO_ODS = "to-ods";
     public static final String FROM_ODS = "from-ods";
+    public static final String CONVERSATION_ID = "conversationId";
+    public static final String CONFIRMATION_RESPONSE = "confirmationResponse";
 }
