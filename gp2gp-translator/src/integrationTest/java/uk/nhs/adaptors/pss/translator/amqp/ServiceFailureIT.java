@@ -13,11 +13,11 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ERROR;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 
 import java.time.Duration;
@@ -77,6 +77,8 @@ public class ServiceFailureIT extends BaseEhrHandler {
     private SendContinueRequestHandler sendContinueRequestHandler;
     @SpyBean
     private SendACKMessageHandler sendACKMessageHandler;
+    @SpyBean
+    private MhsDlqPublisher mhsDlqPublisher;
 
     @BeforeEach
     public void setup() {
@@ -131,7 +133,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
     }
 
     @Test
-    public void When_ReceivingCOPC_WithMhsOutboundServerError_Expect_LargeMessageFailure() {
+    public void When_ReceivingCOPC_WithMhsOutboundServerError_Expect_MessageSentToDLQ() {
         doThrow(MhsServerErrorException.class)
             .when(sendACKMessageHandler).prepareAndSendMessage(any());
 
@@ -141,14 +143,12 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
+        await().until(() -> hasMigrationStatus(CONTINUE_MESSAGE_PROCESSING, getConversationId()));
 
-        verify(sendACKMessageHandler, timeout(THIRTY_SECONDS).times( 1))
-            .prepareAndSendMessage(any());
-
+        verify(mhsDlqPublisher, timeout(THIRTY_SECONDS).times(1)).sendToMhsDlq(any());
 
         assertThat(getCurrentMigrationStatus(getConversationId()))
-            .isEqualTo(ERROR_LRG_MSG_GENERAL_FAILURE);
+            .isEqualTo(CONTINUE_MESSAGE_PROCESSING);
     }
 
     @Test
