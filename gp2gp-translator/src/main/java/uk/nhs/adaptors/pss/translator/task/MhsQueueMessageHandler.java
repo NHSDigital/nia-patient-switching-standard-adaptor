@@ -24,6 +24,7 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -100,6 +101,9 @@ public class MhsQueueMessageHandler {
             return false;
         } catch (UnsupportedFileTypeException e) {
             LOGGER.error("Unable to process inline attachments, one or more inline messages has an unsupported file type", e);
+            return false;
+        } catch (MhsServerErrorException e) {
+            LOGGER.error("Unable to sent message to MHS due to MHS Outbound server error");
             return false;
         }
     }

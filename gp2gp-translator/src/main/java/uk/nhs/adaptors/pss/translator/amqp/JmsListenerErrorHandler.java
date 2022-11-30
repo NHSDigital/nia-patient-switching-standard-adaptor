@@ -8,7 +8,6 @@ import org.springframework.util.ErrorHandler;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 
 @Component
 @Slf4j
@@ -16,8 +15,7 @@ public class JmsListenerErrorHandler implements ErrorHandler {
 
     private static final Map<Class<? extends RuntimeException>, String> RETRYABLE_EXCEPTION_MESSAGES = Map.of(
         ConnectionException.class, "Unable to connect to database",
-        WebClientRequestException.class, "Unable to connect to MHS",
-        MhsServerErrorException.class, "Received 5xx response from MHS"
+        WebClientRequestException.class, "Unable to connect to MHS"
     );
 
     @Override

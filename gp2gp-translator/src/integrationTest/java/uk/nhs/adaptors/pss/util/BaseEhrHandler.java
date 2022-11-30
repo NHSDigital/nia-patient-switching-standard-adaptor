@@ -70,6 +70,10 @@ public abstract class BaseEhrHandler {
     @Autowired
     private JmsTemplate mhsJmsTemplate;
 
+    @Qualifier("jmsTemplatePssQueue")
+    @Autowired
+    private JmsTemplate pssJmsTemplate;
+
     @BeforeEach
     public void setUp() {
         patientNhsNumber = generatePatientNhsNumber();

@@ -41,8 +41,8 @@ public class SendNACKMessageHandler {
         } catch (WebClientResponseException e) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", e.getMessage());
 
-            if(e.getStatusCode().is5xxServerError()) {
-                throw new MhsServerErrorException("Unable to sent NACK message, throwing in order to trigger retry");
+            if (e.getStatusCode().is5xxServerError()) {
+                throw new MhsServerErrorException("Unable to sent NACK message");
             }
 
             return false;

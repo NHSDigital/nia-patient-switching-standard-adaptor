@@ -22,6 +22,7 @@ import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
@@ -46,6 +47,7 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIV
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @Slf4j
@@ -116,6 +118,9 @@ public class EhrExtractMessageHandler {
                     | UnsupportedFileTypeException ex
         ) {
             nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+            throw ex;
+        } catch (MhsServerErrorException ex) {
+            nackAckPreparationService.sendNackMessage(UNEXPECTED_CONDITION, payload, conversationId);
             throw ex;
         }
     }
