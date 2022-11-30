@@ -46,7 +46,7 @@ public class SendContinueRequestHandler {
             migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getConversationId(), null);
 
             if (webClientResponseException.getStatusCode().is5xxServerError()) {
-                throw new MhsServerErrorException("Unable to sent continue message, throwing in order to trigger retry");
+                throw new MhsServerErrorException("Unable to sent continue message");
             }
 
             throw webClientResponseException;

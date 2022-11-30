@@ -39,7 +39,7 @@ public class SendACKMessageHandler {
             LOGGER.error("Received an ERROR response from MHS: [{}]", e.getMessage());
 
             if (e.getStatusCode().is5xxServerError()) {
-                throw new MhsServerErrorException("Unable to send ACK message, throwing in order to trigger retry");
+                throw new MhsServerErrorException("Unable to send ACK message");
             }
 
             return false;
