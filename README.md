@@ -1,7 +1,7 @@
 # nia-patient-switching-standard-adaptor
 National Integration Adaptor - Patient Switching Standard Adaptor
 
-Pipeline test - 7
+Pipeline test - 8
 
 Incumbent providers (e.g. TPP, EMIS, SystemOne) in order to deploy GP2GP Adaptor in their infrastructure
 to support losing practice scenario - i.e. whereby a different practice transfers patient data from the incumbent
