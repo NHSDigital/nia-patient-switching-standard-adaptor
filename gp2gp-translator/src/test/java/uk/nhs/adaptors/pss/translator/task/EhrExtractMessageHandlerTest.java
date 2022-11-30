@@ -1,41 +1,21 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import ca.uhn.fhir.parser.DataFormatException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.v3.RCMRIN030000UK06Message;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import static java.util.UUID.randomUUID;
 
-import uk.nhs.adaptors.common.util.fhir.FhirParser;
-import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
-import uk.nhs.adaptors.connector.model.MigrationStatusLog;
-import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
-import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
-import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
-import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
-import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
-import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
-import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
-import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
-import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
-import uk.nhs.adaptors.pss.translator.service.SkeletonProcessingService;
-import uk.nhs.adaptors.pss.translator.service.XPathService;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
-import javax.xml.transform.TransformerException;
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 
 import java.text.ParseException;
 import java.time.Instant;
@@ -44,18 +24,47 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.UUID.randomUUID;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationException;
+import javax.xml.transform.TransformerException;
 
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import org.hl7.fhir.dstu3.model.Bundle;
+import org.hl7.v3.RCMRIN030000UK06Message;
+import org.jdbi.v3.core.ConnectionException;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ca.uhn.fhir.parser.DataFormatException;
+import lombok.SneakyThrows;
+import uk.nhs.adaptors.common.util.fhir.FhirParser;
+import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
+import uk.nhs.adaptors.connector.model.MigrationStatusLog;
+import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
+import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
+import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
+import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
+import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
+import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
+import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
+import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
+import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
+import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
+import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
+import uk.nhs.adaptors.pss.translator.service.SkeletonProcessingService;
+import uk.nhs.adaptors.pss.translator.service.XPathService;
 
 @ExtendWith(MockitoExtension.class)
 public class EhrExtractMessageHandlerTest {
@@ -108,6 +117,9 @@ public class EhrExtractMessageHandlerTest {
 
     @Mock
     private SkeletonProcessingService skeletonProcessingService;
+
+    @Mock
+    private PatientAttachmentLog patientAttachmentLog;
 
     @Test
     public void  When_HandleMessageWithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
@@ -525,6 +537,134 @@ public class EhrExtractMessageHandlerTest {
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
         verify(patientAttachmentLogService, times(externalAttachmentsTestList.size())).addAttachmentLog(any());
+    }
+
+    @Test
+    public void When_HandleMessage_WithWebClientRequestException_Expect_ExceptionThrown() {
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+
+        InboundMessage inboundMessage = new InboundMessage();
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+            new InboundMessage.ExternalAttachment(
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                "66B41202-C358-4B4C-93C6-7A10803F9584",
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                    + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                    + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        prepareMigrationRequestAndMigrationStatusMocks();
+
+        doThrow(WebClientRequestException.class)
+            .when(sendContinueRequestHandler).prepareAndSendRequest(any());
+
+        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID))
+            .isInstanceOf(WebClientRequestException.class);
+    }
+    @Test
+    public void When_HandleMessage_WithConnectionException_Expect_ExceptionThrown() {
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+
+        InboundMessage inboundMessage = new InboundMessage();
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+            new InboundMessage.ExternalAttachment(
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                "66B41202-C358-4B4C-93C6-7A10803F9584",
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                    + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                    + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        prepareMigrationRequestAndMigrationStatusMocks();
+
+        doThrow(ConnectionException.class)
+            .when(sendContinueRequestHandler).prepareAndSendRequest(any());
+
+        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID))
+            .isInstanceOf(ConnectionException.class);
+    }
+
+    @Test
+    public void When_HandleMessage_WithMhsServerErrorException_Expect_MigrationFailed() {
+
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+
+        InboundMessage inboundMessage = new InboundMessage();
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+            new InboundMessage.ExternalAttachment(
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                "66B41202-C358-4B4C-93C6-7A10803F9584",
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                    + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                    + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        prepareMigrationRequestAndMigrationStatusMocks();
+
+        doThrow(MhsServerErrorException.class)
+            .when(sendContinueRequestHandler).prepareAndSendRequest(any());
+
+        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID))
+            .isInstanceOf(MhsServerErrorException.class);
+
+        verify(nackAckPreparationServiceMock).sendNackMessage(eq(UNEXPECTED_CONDITION), any(RCMRIN030000UK06Message.class), anyString());
+    }
+
+    @Test
+    public void When_HandleMessage_WithDuplicateMessage_Expect_AttachmentIsNotLoggedMoreThanOnce() throws AttachmentNotFoundException,
+        JAXBException, UnsupportedFileTypeException, BundleMappingException, ParseException, JsonProcessingException, TransformerException,
+        InlineAttachmentProcessingException, SAXException {
+
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+
+        InboundMessage inboundMessage = new InboundMessage();
+        List<InboundMessage.ExternalAttachment> externalAttachmentsTestList = new ArrayList<>();
+        externalAttachmentsTestList.add(
+            new InboundMessage.ExternalAttachment(
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs",
+                "66B41202-C358-4B4C-93C6-7A10803F9584",
+                "68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1",
+                "Filename=\"68E2A39F-7A24-449D-83CC-1B7CF1A9DAD7spine.nhs.ukExample1.gzip\" "
+                    + "ContentType=text/xml Compressed=Yes LargeAttachment=No OriginalBase64=Yes "
+                    + "DomainData=\"X-GP2GP-Skeleton: Yes\"")
+        );
+
+        inboundMessage.setPayload(readLargeInboundMessagePayloadFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        inboundMessage.setExternalAttachments(externalAttachmentsTestList);
+
+        prepareMigrationRequestAndMigrationStatusMocks();
+
+        when(patientAttachmentLogService.findAttachmentLog(externalAttachmentsTestList.get(0).getMessageId(), CONVERSATION_ID))
+            .thenReturn(null)
+                .thenReturn(patientAttachmentLog);
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(patientAttachmentLogService, times(1)).addAttachmentLog(any());
     }
 
     @SneakyThrows

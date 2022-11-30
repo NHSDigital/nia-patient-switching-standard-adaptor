@@ -12,18 +12,22 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.service.ContinueRequestService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
-
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
+import java.nio.charset.Charset;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
@@ -153,5 +157,31 @@ public class SendContinueRequestHandlerTest {
 
         sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
         verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, CONVERSATION_ID, null);
+    }
+
+    @Test
+    public void When_SendRequest_WithServerError_Expect_ExceptionThrown() {
+        ContinueRequestData continueRequestData = ContinueRequestData
+            .builder()
+            .conversationId(CONVERSATION_ID)
+            .fromAsid(FROM_ASID)
+            .toAsid(TO_ASID)
+            .nhsNumber(NHS_NUMBER)
+            .fromOdsCode(WINNING_ODS_CODE)
+            .toOdsCode(LOSING_ODS_CODE)
+            .mcciIN010000UK13creationTime(MCCI_IN010000UK13_CREATIONTIME)
+            .build();
+
+        when(mhsClientService.send(any())).thenThrow(
+            new WebClientResponseException(
+                INTERNAL_SERVER_ERROR.value(),
+                INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                new HttpHeaders(),
+                new byte[] {},
+                Charset.defaultCharset())
+        );
+
+        assertThatThrownBy(() -> sendContinueRequestHandler.prepareAndSendRequest(continueRequestData))
+            .isInstanceOf(MhsServerErrorException.class);
     }
 }

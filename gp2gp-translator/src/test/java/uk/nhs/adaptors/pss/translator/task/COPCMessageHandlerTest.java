@@ -3,11 +3,14 @@ package uk.nhs.adaptors.pss.translator.task;
 import static java.util.UUID.randomUUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -24,6 +27,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
 
 import org.hl7.v3.COPCIN000001UK01Message;
+import org.jdbi.v3.core.ConnectionException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -33,6 +37,7 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -50,6 +55,7 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.ExternalAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
@@ -911,6 +917,51 @@ class COPCMessageHandlerTest {
             copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID));
     }
 
+    @Test
+    public void When_HandleMessage_WithDbConnectionException_Expect_ExceptionThrown() throws SAXException {
+        InboundMessage message = new InboundMessage();
+        prepareFragmentMocks(message);
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
+            .thenReturn(null)
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
+
+        doThrow(ConnectionException.class)
+            .when(nackAckPreparationServiceMock).sendAckMessage(any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID), anyString());
+
+        assertThatThrownBy(() -> copcMessageHandler.handleMessage(message, CONVERSATION_ID))
+            .isInstanceOf(ConnectionException.class);
+    }
+
+    @Test
+    public void When_HandleMessage_WithWebClientRequestException_Expect_ExceptionThrown() throws SAXException {
+        InboundMessage message = new InboundMessage();
+        prepareFragmentMocks(message);
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
+            .thenReturn(null)
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
+
+        doThrow(WebClientRequestException.class)
+            .when(nackAckPreparationServiceMock).sendAckMessage(any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID), anyString());
+
+        assertThatThrownBy(() -> copcMessageHandler.handleMessage(message, CONVERSATION_ID))
+            .isInstanceOf(WebClientRequestException.class);
+    }
+
+    @Test
+    public void When_HandleMessage_WithMhsServerErrorException_Expect_ExceptionThrown() throws SAXException {
+        InboundMessage message = new InboundMessage();
+        prepareFragmentMocks(message);
+        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
+            .thenReturn(null)
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
+
+        doThrow(MhsServerErrorException.class)
+            .when(nackAckPreparationServiceMock).sendAckMessage(any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID), anyString());
+
+        assertThatThrownBy(() -> copcMessageHandler.handleMessage(message, CONVERSATION_ID))
+            .isInstanceOf(MhsServerErrorException.class);
+    }
+
     private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid, int orderNum,
                                                            boolean isUploaded, boolean isLargeAttachment) {
         return PatientAttachmentLog.builder()
@@ -1038,7 +1089,7 @@ class COPCMessageHandlerTest {
             "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", 1, false, true);
 
         var attachmentArray = Arrays.asList(attachmentLog1, attachmentLog2);
-        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
+        lenient().when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
             .thenReturn(attachmentArray);
     }
 
