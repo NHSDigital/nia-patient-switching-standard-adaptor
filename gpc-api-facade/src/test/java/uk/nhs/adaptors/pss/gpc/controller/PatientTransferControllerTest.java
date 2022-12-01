@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ERROR;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
@@ -102,6 +103,16 @@ public class PatientTransferControllerTest {
         Exception exception = assertThrows(IllegalStateException.class, () -> controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE));
         assertThat(exception.getMessage()).isEqualTo("Unsupported transfer status: EHR_EXTRACT_REQUEST_ERROR");
+    }
+
+    @Test
+    public void migratePatientStructuredRecordWhenTransferStatusIsEhrExtractNegativeAck() {
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
+            .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK));
+
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(
+            PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private MigrationStatusLog createMigrationStatusLog(MigrationStatus status) {
