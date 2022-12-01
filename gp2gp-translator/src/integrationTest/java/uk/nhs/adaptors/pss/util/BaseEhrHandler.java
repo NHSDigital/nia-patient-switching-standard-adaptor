@@ -6,7 +6,7 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_MESSAGE_PROCESSING;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
@@ -93,7 +93,7 @@ public abstract class BaseEhrHandler {
     }
     protected boolean isCOPCMessageProcessing() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        return CONTINUE_MESSAGE_PROCESSING.equals(migrationStatusLog.getMigrationStatus());
+        return COPC_MESSAGE_PROCESSING.equals(migrationStatusLog.getMigrationStatus());
     }
     protected boolean isLargeGeneralMessageFailure() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);

@@ -13,7 +13,7 @@ import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 import static org.awaitility.Awaitility.await;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_MESSAGE_PROCESSING;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -37,7 +37,7 @@ public class COPCHandlingIT extends BaseEhrHandler {
 
         var migrationStatusLog = migrationStatusLogs
                 .stream()
-                .filter(log -> log.getMigrationStatus() == CONTINUE_MESSAGE_PROCESSING)
+                .filter(log -> log.getMigrationStatus() == COPC_MESSAGE_PROCESSING)
                 .findFirst();
 
         Assertions.assertNotNull(migrationStatusLog);

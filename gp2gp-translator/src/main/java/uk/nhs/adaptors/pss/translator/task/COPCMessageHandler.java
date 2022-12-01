@@ -1,8 +1,8 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_MESSAGE_PROCESSING;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_MESSAGE_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.text.ParseException;
@@ -67,13 +67,13 @@ public class COPCMessageHandler {
 
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
-        migrationStatusLogService.addMigrationStatusLog(CONTINUE_MESSAGE_RECEIVED, conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(COPC_MESSAGE_RECEIVED, conversationId, null);
 
         try {
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
             String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
             PatientAttachmentLog patientAttachmentLog = patientAttachmentLogService.findAttachmentLog(messageId, conversationId);
-            migrationStatusLogService.addMigrationStatusLog(CONTINUE_MESSAGE_PROCESSING, conversationId, messageId);
+            migrationStatusLogService.addMigrationStatusLog(COPC_MESSAGE_PROCESSING, conversationId, messageId);
 
             // If there is no PatientAttachmentLog for this message then we have received a message out of order
             if (patientAttachmentLog == null) {

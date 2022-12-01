@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator;
 
 import static org.awaitility.Awaitility.await;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
@@ -24,7 +25,7 @@ import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})
-@DirtiesContext
+@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 public final class LargeMessagingIT extends BaseEhrHandler {
 
@@ -112,6 +113,9 @@ public final class LargeMessagingIT extends BaseEhrHandler {
     @MethodSource("ehrAndCopcMessageResourceFiles")
     public void uk06WithCopcMessages(String testName, String scenarioDirectory, String expectedBundleName) throws JSONException {
         sendInboundMessageToQueue(scenarioDirectory + "uk06.json");
+
+        System.out.println("conversation ID: " + getConversationId());
+        System.out.println("nhs number: " + getPatientNhsNumber());
 
         await().until(this::hasContinueMessageBeenReceived);
 
