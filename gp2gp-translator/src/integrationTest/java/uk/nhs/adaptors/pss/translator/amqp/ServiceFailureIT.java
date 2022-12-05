@@ -12,6 +12,7 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
+import static uk.nhs.adaptors.common.enums.QueueMessageType.TRANSFER_REQUEST;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
@@ -326,6 +327,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
             .fromOds(getWiningODSCode())
             .fromAsid(WINNING_ASID)
             .toAsid(LOSING_ASID)
+            .messageType(TRANSFER_REQUEST)
             .conversationId(conversationId)
             .build();
 
