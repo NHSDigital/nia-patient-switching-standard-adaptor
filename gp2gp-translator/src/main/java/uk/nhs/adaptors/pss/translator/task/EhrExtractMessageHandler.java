@@ -187,8 +187,6 @@ public class EhrExtractMessageHandler {
             messageId
         );
 
-        // return an acknowledged message to the sender
-        nackAckPreparationService.sendAckMessage(payload, conversationId);
         migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId, null);
     }
 
