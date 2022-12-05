@@ -13,11 +13,11 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ERROR;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 
 import java.time.Duration;
@@ -50,6 +50,7 @@ import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendContinueRequestHandler;
+import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -77,6 +78,8 @@ public class ServiceFailureIT extends BaseEhrHandler {
     private SendContinueRequestHandler sendContinueRequestHandler;
     @SpyBean
     private SendACKMessageHandler sendACKMessageHandler;
+    @SpyBean
+    private SendNACKMessageHandler sendNACKMessageHandler;
     @SpyBean
     private MhsDlqPublisher mhsDlqPublisher;
 
@@ -137,18 +140,21 @@ public class ServiceFailureIT extends BaseEhrHandler {
         doThrow(MhsServerErrorException.class)
             .when(sendACKMessageHandler).prepareAndSendMessage(any());
 
+        doThrow(MhsServerErrorException.class)
+            .when(sendNACKMessageHandler).prepareAndSendMessage(any());
+
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
 
         await().until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().until(() -> hasMigrationStatus(CONTINUE_MESSAGE_PROCESSING, getConversationId()));
+        await().until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
 
         verify(mhsDlqPublisher, timeout(THIRTY_SECONDS).times(1)).sendToMhsDlq(any());
 
         assertThat(getCurrentMigrationStatus(getConversationId()))
-            .isEqualTo(CONTINUE_MESSAGE_PROCESSING);
+            .isEqualTo(ERROR_LRG_MSG_GENERAL_FAILURE);
     }
 
     @Test
@@ -326,8 +332,6 @@ public class ServiceFailureIT extends BaseEhrHandler {
         getPssJmsTemplate().send(session ->
             session.createTextMessage(getObjectAsString(transferRequestMessage)));
     }
-
-
 
     @SneakyThrows
     private String getObjectAsString(Object object) {

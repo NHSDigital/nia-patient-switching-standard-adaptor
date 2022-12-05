@@ -17,6 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.util.ArrayList;
@@ -60,7 +61,6 @@ import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
-import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
@@ -458,7 +458,7 @@ class COPCMessageHandlerTest {
 
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
         verify(nackAckPreparationServiceMock, times(1))
-            .sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, mockedPayload, CONVERSATION_ID);
+            .sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, mockedPayload, CONVERSATION_ID);
 
         mockedXmlUnmarshall.close();
     }
@@ -948,7 +948,9 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_HandleMessage_WithMhsServerErrorException_Expect_ExceptionThrown() throws SAXException {
+    public void When_HandleMessage_WithMhsServerErrorException_Expect_NackIsAttempted() throws SAXException, AttachmentNotFoundException,
+        JAXBException, BundleMappingException, JsonProcessingException, InlineAttachmentProcessingException, AttachmentLogException {
+
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
@@ -958,8 +960,10 @@ class COPCMessageHandlerTest {
         doThrow(MhsServerErrorException.class)
             .when(nackAckPreparationServiceMock).sendAckMessage(any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID), anyString());
 
-        assertThatThrownBy(() -> copcMessageHandler.handleMessage(message, CONVERSATION_ID))
-            .isInstanceOf(MhsServerErrorException.class);
+        copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+
+        verify(nackAckPreparationServiceMock, times(1))
+            .sendNackMessage(eq(LARGE_MESSAGE_GENERAL_FAILURE), any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID));
     }
 
     private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid, int orderNum,
