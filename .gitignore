@@ -32,3 +32,4 @@ build/
 docker/vars.sh
 /fhir-json-comparator/node_modules/
 /.run/
+/env.yaml
