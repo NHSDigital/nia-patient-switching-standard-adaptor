@@ -36,7 +36,6 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.ExternalAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
@@ -99,7 +98,7 @@ public class COPCMessageHandler {
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
 
             }
-        } catch (WebClientRequestException | ConnectionException | MhsServerErrorException e) {
+        } catch (WebClientRequestException | ConnectionException e) {
             throw e;
         } catch (ParseException | InlineAttachmentProcessingException | ValidationException
                  | SAXException | ExternalAttachmentProcessingException | UnsupportedFileTypeException e) {
