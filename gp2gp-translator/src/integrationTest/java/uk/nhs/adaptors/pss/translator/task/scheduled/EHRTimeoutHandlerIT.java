@@ -109,6 +109,7 @@ public class EHRTimeoutHandlerIT {
         InboundMessage inboundMessage = createInboundMessage();
 
         when(sdsService.getPersistDurationFor(any(), any(), any())).thenReturn(Duration.parse(persistDuration));
+        when(nackMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
 
         patientMigrationRequestDao.addNewRequest(nhsNumber, conversationId, losingOdsCode, winningOdsCode);
         migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(

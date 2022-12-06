@@ -1,9 +1,10 @@
 package uk.nhs.adaptors.pss.translator.task.scheduled;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -48,6 +49,7 @@ import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.connector.service.PatientMigrationRequestService;
 import uk.nhs.adaptors.pss.translator.config.TimeoutProperties;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.exception.SdsRetrievalException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.PersistDurationService;
@@ -133,8 +135,36 @@ public class EHRTimeoutHandlerTest {
     }
 
     @Test
+    public void When_CheckForTimeouts_WithNackFailsToSend_Expect_MigrationLogNotUpdated() {
+        String conversationId = UUID.randomUUID().toString();
+
+        when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenReturn(false);
+
+        callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_TRANSLATED, TEN_DAYS_AGO, 0, conversationId);
+        verify(migrationStatusLogService, times(0))
+            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+    }
+
+    @Test
+    public void When_CheckForTimeouts_WithSendNackThrows_Expect_MigrationLogNotUpdated() {
+        String conversationId = UUID.randomUUID().toString();
+
+        when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenThrow(MhsServerErrorException.class);
+
+        assertThatThrownBy(
+                () -> callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_TRANSLATED, TEN_DAYS_AGO, 0, conversationId))
+            .isInstanceOf(MhsServerErrorException.class);
+
+        verify(migrationStatusLogService, times(0))
+            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+    }
+
+    @Test
     public void When_CheckForTimeouts_WithTimeout_Expect_MigrationLogUpdated() {
         String conversationId = UUID.randomUUID().toString();
+
+        when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
+
         callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_TRANSLATED, TEN_DAYS_AGO, 0, conversationId);
         verify(migrationStatusLogService, times(1))
             .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
@@ -143,6 +173,9 @@ public class EHRTimeoutHandlerTest {
     @Test
     public void When_CheckForTimeouts_WithTimeoutAndCOPCReceived_Expect_MigrationLogUpdated() {
         String conversationId = UUID.randomUUID().toString();
+
+        when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
+
         callCheckForTimeoutsWithOneRequest(COPC_MESSAGE_RECEIVED, TEN_DAYS_AGO, 2, conversationId);
         verify(migrationStatusLogService, times(1))
             .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
@@ -151,6 +184,9 @@ public class EHRTimeoutHandlerTest {
     @Test
     public void When_CheckForTimeouts_WithTimeoutAndCOPCProcessing_Expect_MigrationLogUpdated() {
         String conversationId = UUID.randomUUID().toString();
+
+        when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
+
         callCheckForTimeoutsWithOneRequest(COPC_MESSAGE_PROCESSING, TEN_DAYS_AGO, 2, conversationId);
         verify(migrationStatusLogService, times(1))
             .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
@@ -159,6 +195,9 @@ public class EHRTimeoutHandlerTest {
     @Test
     public void When_CheckForTimeouts_WithTimeoutAndCOPCAcknowledged_Expect_MigrationLogUpdated() {
         String conversationId = UUID.randomUUID().toString();
+
+        when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
+
         callCheckForTimeoutsWithOneRequest(COPC_ACKNOWLEDGED, TEN_DAYS_AGO, 2, conversationId);
         verify(migrationStatusLogService, times(1))
             .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
@@ -167,6 +206,9 @@ public class EHRTimeoutHandlerTest {
     @Test
     public void When_CheckForTimeouts_WithTimeoutAndEhrExtractProcessing_Expect_MigrationLogUpdated() {
         String conversationId = UUID.randomUUID().toString();
+
+        when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
+
         callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_PROCESSING, TEN_DAYS_AGO, 2, conversationId);
         verify(migrationStatusLogService, times(1))
             .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
@@ -175,6 +217,9 @@ public class EHRTimeoutHandlerTest {
     @Test
     public void When_CheckForTimeouts_WithTimeoutAndCopcFailed_Expect_MigrationLogUpdated() {
         String conversationId = UUID.randomUUID().toString();
+
+        when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
+
         callCheckForTimeoutsWithOneRequest(COPC_FAILED, TEN_DAYS_AGO, 2, conversationId);
         verify(migrationStatusLogService, times(1))
             .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
