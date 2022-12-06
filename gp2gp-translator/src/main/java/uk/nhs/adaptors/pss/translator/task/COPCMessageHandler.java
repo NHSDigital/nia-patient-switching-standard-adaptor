@@ -239,7 +239,7 @@ public class COPCMessageHandler {
                                      String conversationId)
         throws ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
 
-        if(inboundMessage.getAttachments().isEmpty()) {
+        if (inboundMessage.getAttachments().isEmpty()) {
             throw new InlineAttachmentProcessingException("COPC message does not contain an inline attachment");
         }
 

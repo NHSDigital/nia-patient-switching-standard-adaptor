@@ -25,7 +25,8 @@ public class PssQueueConsumer {
     public void receive(Message message, Session session) {
         String messageId = message.getJMSMessageID();
         int deliveryCount = message.getIntProperty("JMSXDeliveryCount");
-        LOGGER.debug("Received a message from PSSQueue, message_id=[{}], body=[{}], delivery_count=[{}]", messageId, ((TextMessage) message).getText(), deliveryCount);
+        LOGGER.debug("Received a message from PSSQueue, message_id=[{}], body=[{}], delivery_count=[{}]",
+            messageId, ((TextMessage) message).getText(), deliveryCount);
         if (queueMessageHandler.handle(message)) {
             message.acknowledge();
             LOGGER.debug("Acknowledged PSSQueue message_id=[{}]", messageId);
