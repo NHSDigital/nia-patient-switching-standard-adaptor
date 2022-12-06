@@ -6,8 +6,10 @@ import static org.springframework.http.HttpStatus.OK;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_ACKNOWLEDGED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
@@ -58,12 +60,14 @@ public class PatientTransferController {
         REQUEST_RECEIVED,
         EHR_EXTRACT_REQUEST_ACCEPTED,
         EHR_EXTRACT_RECEIVED,
+        EHR_EXTRACT_PROCESSING,
         EHR_EXTRACT_REQUEST_ACKNOWLEDGED,
         EHR_EXTRACT_TRANSLATED,
         CONTINUE_REQUEST_ACCEPTED,
         COPC_MESSAGE_RECEIVED,
         COPC_MESSAGE_PROCESSING,
-        COPC_ACKNOWLEDGED
+        COPC_ACKNOWLEDGED,
+        COPC_FAILED
     );
 
     private static final List<MigrationStatus> LRG_MESSAGE_ERRORS = List.of(
