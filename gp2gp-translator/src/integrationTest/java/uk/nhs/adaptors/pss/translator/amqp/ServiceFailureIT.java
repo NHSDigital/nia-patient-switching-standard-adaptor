@@ -85,19 +85,19 @@ public class ServiceFailureIT extends BaseEhrHandler {
     private MhsDlqPublisher mhsDlqPublisher;
 
     @BeforeEach
-    public void setup() {
-            setIgnoredJsonPaths(List.of(
-                "id",
-                "entry[0].resource.id",
-                "entry[0].resource.identifier[0].value",
-                "entry[*].resource.id",
-                "entry[*].resource.subject.reference",
-                "entry[*].resource.patient.reference",
-                "entry[*].resource.performer[0].reference",
-                "entry[*].resource.content[0].attachment.title",
-                "entry[*].resource.content[0].attachment.url",
-                "entry[*].resource.description"
-            ));
+    public void setupIgnoredPaths() {
+        setIgnoredJsonPaths(List.of(
+            "id",
+            "entry[0].resource.id",
+            "entry[0].resource.identifier[0].value",
+            "entry[*].resource.id",
+            "entry[*].resource.subject.reference",
+            "entry[*].resource.patient.reference",
+            "entry[*].resource.performer[0].reference",
+            "entry[*].resource.content[0].attachment.title",
+            "entry[*].resource.content[0].attachment.url",
+            "entry[*].resource.description"
+        ));
     }
 
     @Test
@@ -117,7 +117,6 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
         assertThat(getCurrentMigrationStatus(conversationId))
             .isEqualTo(EHR_EXTRACT_REQUEST_ERROR);
-
     }
 
     @Test
@@ -129,7 +128,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
         await().until(() -> hasMigrationStatus(EHR_GENERAL_PROCESSING_ERROR, getConversationId()));
 
-        verify(sendContinueRequestHandler, times( 1))
+        verify(sendContinueRequestHandler, times(1))
             .prepareAndSendRequest(any());
 
         assertThat(getCurrentMigrationStatus(getConversationId()))
@@ -159,7 +158,8 @@ public class ServiceFailureIT extends BaseEhrHandler {
     }
 
     @Test
-    public void When_SendingInitialRequest_WithMhsWebClientRequestException_Expect_MigrationCompletesWhenMhsRecovers() throws JSONException {
+    public void When_SendingInitialRequest_WithMhsWebClientRequestException_Expect_MigrationCompletesWhenMhsRecovers()
+        throws JSONException {
         var conversationId = generateConversationId();
         var patientNhsNumber = generatePatientNhsNumber();
 
@@ -189,13 +189,13 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
     @Test
     public void When_ReceivingEhrExtract_WithMhsWebClientRequestException_Expect_MigrationCompletesWhenMhsRecovers() throws JSONException {
-            doThrow(WebClientRequestException.class)
-                .doThrow(WebClientRequestException.class)
-                .doThrow(WebClientRequestException.class)
-                .doThrow(WebClientRequestException.class)
-                .doThrow(WebClientRequestException.class)
-                .doCallRealMethod()
-                    .when(mhsClientService).send(any());
+        doThrow(WebClientRequestException.class)
+            .doThrow(WebClientRequestException.class)
+            .doThrow(WebClientRequestException.class)
+            .doThrow(WebClientRequestException.class)
+            .doThrow(WebClientRequestException.class)
+            .doCallRealMethod()
+            .when(mhsClientService).send(any());
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
 
@@ -342,7 +342,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
     private WebClientResponseException getInternalServerErrorException() {
         return new WebClientResponseException(
-            INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR.getReasonPhrase(), httpHeaders, STUB_BODY.getBytes(), UTF_8);
+            INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR.getReasonPhrase(), httpHeaders, STUB_BODY.getBytes(UTF_8), UTF_8);
     }
 
     private void sendInboundMessageToQueue(String json) {
