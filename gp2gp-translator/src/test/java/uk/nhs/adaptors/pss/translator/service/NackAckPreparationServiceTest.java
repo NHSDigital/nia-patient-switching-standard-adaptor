@@ -27,6 +27,7 @@ import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
@@ -223,7 +224,7 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(true);
 
         assertTrue(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(COPC_FAILED, CONVERSATION_ID, null);
     }
 
     @Test
@@ -234,7 +235,7 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(false);
 
         assertFalse(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(COPC_FAILED, CONVERSATION_ID, null);
     }
 
     @Test
@@ -372,7 +373,7 @@ class NackAckPreparationServiceTest {
 
         verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull());
 
-        assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
+        assertEquals(COPC_FAILED, migrationStatusCaptor.getValue());
     }
 
     @SneakyThrows

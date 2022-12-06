@@ -15,10 +15,10 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static uk.nhs.adaptors.common.enums.QueueMessageType.TRANSFER_REQUEST;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ERROR;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 
 import java.time.Duration;
@@ -150,12 +150,12 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
+        await().until(() -> hasMigrationStatus(COPC_FAILED, getConversationId()));
 
         verify(mhsDlqPublisher, timeout(THIRTY_SECONDS).times(1)).sendToMhsDlq(any());
 
         assertThat(getCurrentMigrationStatus(getConversationId()))
-            .isEqualTo(ERROR_LRG_MSG_GENERAL_FAILURE);
+            .isEqualTo(COPC_FAILED);
     }
 
     @Test

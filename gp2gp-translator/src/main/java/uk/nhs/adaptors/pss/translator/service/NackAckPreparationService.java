@@ -15,6 +15,7 @@ import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_ACKNOWLEDGED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.FINAL_ACK_SENT;
 
 @Slf4j
@@ -144,7 +145,7 @@ public class NackAckPreparationService {
         LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
                 payload.getId().getRoot());
 
-        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(COPC_FAILED, conversationId, null);
 
         return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
                 reason,

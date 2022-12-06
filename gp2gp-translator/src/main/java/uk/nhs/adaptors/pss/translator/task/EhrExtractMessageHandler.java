@@ -43,6 +43,7 @@ import javax.xml.transform.TransformerException;
 import java.text.ParseException;
 import java.time.Instant;
 
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
@@ -209,7 +210,7 @@ public class EhrExtractMessageHandler {
             conversationId,
             null,
             objectMapper.writeValueAsString(inboundMessage),
-            EHR_EXTRACT_TRANSLATED,
+            EHR_EXTRACT_PROCESSING,
             messageId
         );
 

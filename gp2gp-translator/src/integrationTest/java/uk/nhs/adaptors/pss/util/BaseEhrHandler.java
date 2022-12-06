@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.util;
 import static org.assertj.core.api.Assertions.fail;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
@@ -102,6 +103,11 @@ public abstract class BaseEhrHandler {
     protected boolean isLargeGeneralMessageFailure() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
         return ERROR_LRG_MSG_GENERAL_FAILURE.equals(migrationStatusLog.getMigrationStatus());
+    }
+
+    protected boolean isCopcFailed() {
+        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
+        return COPC_FAILED.equals(migrationStatusLog.getMigrationStatus());
     }
 
     protected void verifyBundle(String path) throws JSONException {
