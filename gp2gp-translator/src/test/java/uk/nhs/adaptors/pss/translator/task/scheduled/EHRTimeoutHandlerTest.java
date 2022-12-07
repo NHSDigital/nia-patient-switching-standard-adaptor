@@ -320,7 +320,9 @@ public class EHRTimeoutHandlerTest {
     private void callCheckForTimeoutsWithOneRequest(MigrationStatus migrationStatus, ZonedDateTime requestTimestamp,
         long numberOfAttachments, String conversationId) {
 
-        try (MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class)) {
+        MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
+
+        try {
 
             // Arrange
 
@@ -352,12 +354,16 @@ public class EHRTimeoutHandlerTest {
 
         } catch (JsonProcessingException | SAXException e) {
             throw new RuntimeException(e);
+        } finally {
+            mockedXmlUnmarshall.close();
         }
     }
 
     private void callCheckForTimeoutWithTwoRequests(ZonedDateTime firstRequestTimestamp, ZonedDateTime secondRequestTimestamp) {
 
-        try (MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class)) {
+        MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
+
+        try {
 
             // Arrange
 
@@ -396,6 +402,8 @@ public class EHRTimeoutHandlerTest {
 
         } catch (JsonProcessingException | SAXException e) {
             throw new RuntimeException(e);
+        } finally {
+            mockedXmlUnmarshall.close();
         }
     }
 }
