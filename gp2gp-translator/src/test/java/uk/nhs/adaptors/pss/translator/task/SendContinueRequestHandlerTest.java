@@ -74,7 +74,8 @@ public class SendContinueRequestHandlerTest {
                 .mcciIN010000UK13creationTime(MCCI_IN010000UK13_CREATIONTIME)
                 .build();
 
-        doThrow(new WebClientResponseException(BAD_REQUEST.value(), BAD_REQUEST.getReasonPhrase(), headers, "test body".getBytes(UTF_8), UTF_8))
+        doThrow(new WebClientResponseException(BAD_REQUEST.value(), BAD_REQUEST.getReasonPhrase(), headers,
+            "test body".getBytes(UTF_8), UTF_8))
             .when(mhsClientService).send(any());
 
         assertThrows(WebClientResponseException.class, () -> {
