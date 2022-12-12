@@ -72,6 +72,23 @@ public class AmqpConfiguration {
         return factory;
     }
 
+    @Bean("gp2gpAdaptorQueueConnectionFactory")
+    public JmsConnectionFactory jmsConnectionFactoryGp2GpAdaptorInboundQueue(Gp2GpAdaptorQueueProperties properties) {
+        JmsConnectionFactory factory = new JmsConnectionFactory();
+
+        factory.setRemoteURI(properties.getBroker());
+
+        if (StringUtils.isNotBlank(properties.getUsername())) {
+            factory.setUsername(properties.getUsername());
+        }
+
+        if (StringUtils.isNotBlank(properties.getPassword())) {
+            factory.setPassword(properties.getPassword());
+        }
+
+        return factory;
+    }
+
     @Bean("pssQueueJmsListenerFactory")
     public JmsListenerContainerFactory<?> jmsListenerContainerFactoryPssQueue(
         @Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
@@ -119,6 +136,15 @@ public class AmqpConfiguration {
     @Bean("jmsTemplatePssQueue")
     public JmsTemplate jmsTemplateMhsQueue(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory,
         PssQueueProperties properties) {
+        JmsTemplate jmsTemplate = new JmsTemplate();
+        jmsTemplate.setConnectionFactory(connectionFactory);
+        jmsTemplate.setDefaultDestinationName(properties.getQueueName());
+        return jmsTemplate;
+    }
+
+    @Bean("jmsTemplateGp2GpAdaptorQueue")
+    public JmsTemplate jmsTemplateGp2GpAdaptorQueue(@Qualifier("gp2gpAdaptorQueueConnectionFactory") JmsConnectionFactory connectionFactory,
+        Gp2GpAdaptorQueueProperties properties) {
         JmsTemplate jmsTemplate = new JmsTemplate();
         jmsTemplate.setConnectionFactory(connectionFactory);
         jmsTemplate.setDefaultDestinationName(properties.getQueueName());

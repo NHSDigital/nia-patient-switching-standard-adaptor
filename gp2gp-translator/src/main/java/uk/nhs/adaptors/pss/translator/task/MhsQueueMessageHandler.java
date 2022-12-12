@@ -19,10 +19,12 @@ import ca.uhn.fhir.parser.DataFormatException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
+import uk.nhs.adaptors.connector.service.PatientMigrationRequestService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
+import uk.nhs.adaptors.pss.translator.exception.ConversationIdNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
@@ -50,6 +52,7 @@ public class MhsQueueMessageHandler {
     private final AcknowledgmentMessageHandler acknowledgmentMessageHandler;
     private final COPCMessageHandler continueMessageHandler;
     private final MigrationStatusLogService migrationStatusLogService;
+    private final PatientMigrationRequestService migrationRequestService;
 
     public boolean handleMessage(Message message) {
 
@@ -60,6 +63,13 @@ public class MhsQueueMessageHandler {
             Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
             conversationId = xPathService.getNodeValue(ebXmlDocument, CONVERSATION_ID_PATH);
             applyConversationId(conversationId);
+
+            if (!migrationRequestService.hasMigrationRequest(conversationId)) {
+
+                throw new ConversationIdNotFoundException("Conversation ID" + conversationId
+                    + "does not have a migration status log entry", conversationId);
+            }
+
             String interactionId = xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH);
 
             if (ACKNOWLEDGEMENT_INTERACTION_ID.equals(interactionId)) {
