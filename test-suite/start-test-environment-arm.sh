@@ -41,9 +41,9 @@ if [[ "$(docker network ls | grep "nia-ps")" == "" ]] ; then
     docker network create nia-ps
 fi
 
-docker-compose up -d activemq redis dynamodb ps_db outbound inbound
-docker-compose up db_migration
-docker-compose rm -f db_migration
+docker-compose -f docker-compose-arm.yml up -d activemq redis dynamodb ps_db outbound inbound
+docker-compose -f docker-compose-arm.yml up db_migration
+docker-compose -f docker-compose-arm.yml rm -f db_migration
 
 cd docker/snomed-database-loader
 ./load_release-postgresql.sh ${SNOMED_FILE_LOCATION}
@@ -52,4 +52,4 @@ cd docker/snomed-immunization-loader
 ./load_immunization_codes.sh
 cd ../..
 
-docker-compose up -d ps_gp2gp_translator gpc_facade mock-spine-mhs
+docker-compose -f docker-compose-arm.yml up -d ps_gp2gp_translator gpc_facade mock-spine-mhs

@@ -11,7 +11,7 @@ services:
   ############### MHS specific   ###################
 
   inbound:
-    image: nhsdev/nia-mhs-inbound:1.2.3
+    image: nhsdev/nia-mhs-inbound:1.2.4-arm64
     networks:
       - nia-ps
     ports:
@@ -40,7 +40,7 @@ services:
       - SERVICE_PORTS=${MHS_INBOUND_SERVICE_PORTS}
 
   outbound:
-    image: nhsdev/nia-mhs-outbound:1.2.2
+    image: nhsdev/nia-mhs-outbound:1.2.4-arm64
     networks:
       - nia-ps
     ports:
@@ -85,7 +85,7 @@ services:
   ########### PS Adapter Specific ###############
 
   gpc_facade:
-    image: nhsdev/nia-ps-facade:0.2
+    image: nhsdev/nia-ps-facade:0.3-arm64
     ports:
       - "8081:8081"
     depends_on:
@@ -104,7 +104,7 @@ services:
       - nia-ps
 
   ps_gp2gp_translator:
-    image: nhsdev/nia-ps-adaptor:0.3
+    image: nhsdev/nia-ps-adaptor:0.4-arm64
     ports:
       - "8085:8085"
     depends_on:
