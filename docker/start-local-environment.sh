@@ -18,14 +18,12 @@ cd ../db-connector
 ./gradlew update
 
 ##### comment out if there is no uk_sct2cl_32.10.0_20220216000001Z.zip file
-#cd ../snomed-database-loader
-#./load_release-postgresql.sh "$SNOMED_CT_TERMINOLOGY_FILE"
+cd ../snomed-database-loader
+./load_release-postgresql.sh "$SNOMED_CT_TERMINOLOGY_FILE"
 
-#cd ../db-connector
-#./gradlew update
 
-#cd ../snomed-immunization-loader
-#./load_immunization_codes.sh
+cd ../snomed-immunization-loader
+./load_immunization_codes.sh snomed_immunization_codes.csv
 
 #####
 
