@@ -2,7 +2,8 @@
 
 set -x -e
 
-source ./vars.sh
+source ../vars.sh
+source ./daisy_chaining_vars.sh
 
 docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
 
@@ -50,5 +51,7 @@ cd ../docker/snomed-database-loader
 cd ../snomed-immunization-loader
 ./load_immunization_codes.sh
 cd ../../daisy-chaining
+
+docker-compose build ps_gp2gp_translator gpc_facade
 
 docker-compose up -d ps_gp2gp_translator gpc_facade mock-spine-mhs gp2gp

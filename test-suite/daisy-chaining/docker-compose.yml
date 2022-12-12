@@ -11,6 +11,7 @@ services:
   ############### MHS specific   ###################
 
   inbound:
+#    image: nhsdev/nia-mhs-inbound:1.2.4-arm64
     image: nhsdev/nia-mhs-inbound:1.2.4-amd64
     networks:
       - nia-daisy-chain
@@ -71,7 +72,9 @@ services:
   ########### PS Adapter Specific ###############
 
   gpc_facade:
-    image: nhsdev/nia-ps-facade:0.2
+    build:
+      context: ../../
+      dockerfile: ./docker/gpc-facade/Dockerfile
     ports:
       - "8081:8081"
     depends_on:
@@ -90,7 +93,9 @@ services:
       - nia-daisy-chain
 
   ps_gp2gp_translator:
-    image: nhsdev/nia-ps-adaptor:0.3
+    build:
+      context: ../../
+      dockerfile: ./docker/gp2gp-translator/Dockerfile
     ports:
       - "8085:8085"
     depends_on:
@@ -117,6 +122,11 @@ services:
       - STORAGE_CONTAINER_NAME
       - STORAGE_REFERENCE
       - STORAGE_SECRET
+      - PS_DAISY_CHAINING_ACTIVE
+      - GP2GP_MHS_INBOUND_QUEUE
+      - GP2GP_AMQP_BROKERS
+      - GP2GP_AMQP_USERNAME
+      - GP2GP_AMQP_PASSWORD
     networks:
       - nia-daisy-chain
 
@@ -146,9 +156,8 @@ services:
   ########### GP2GP Adapter Specific ###############
 
   gp2gp:
-    #    image: nhsdev/nia-gp2gp-adaptor:1.5.5-arm64
-    #    image: nhsdev/nia-gp2gp-adaptor:1.5.5-amd64
-    image: local/gp2gp
+#      image:  nhsdev/nia-gp2gp-adaptor:1.5.5-arm64
+    image: nhsdev/nia-gp2gp-adaptor:1.5.5-amd64
     networks:
       - nia-daisy-chain
     depends_on:
@@ -195,7 +204,6 @@ services:
         - "27017:27017"
 
   gpcc:
-    #    image: nhsdev/nia-gpc-consumer-adaptor:0.3.3
     image: nhsdev/nia-gpcc-gp2gp-invest:0.1
     networks:
       - nia-daisy-chain
