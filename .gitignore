@@ -32,4 +32,6 @@ build/
 docker/vars.sh
 /fhir-json-comparator/node_modules/
 /.run/
+/gp2gp-translator/src/nonFunctionalTest/apache-jmeter-5.5/
+/gp2gp-translator/src/nonFunctionalTest/Results/
 /env.yaml
