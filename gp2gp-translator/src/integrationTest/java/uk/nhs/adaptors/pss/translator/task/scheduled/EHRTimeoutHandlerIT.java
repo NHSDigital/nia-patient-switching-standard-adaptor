@@ -65,37 +65,37 @@ public class EHRTimeoutHandlerIT {
     private SendNACKMessageHandler nackMessageHandler;
 
     @Test
-    public void When_CheckForTimeouts_WhenEHRExtractTranslatedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+    public void When_CheckForTimeouts_WithEHRExtractTranslatedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
         checkDatabaseUpdated(EHR_EXTRACT_TRANSLATED);
     }
 
     @Test
-    public void When_CheckForTimeouts_WhenWhenContinueRequestAcceptedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+    public void When_CheckForTimeouts_WithContinueRequestAcceptedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
         checkDatabaseUpdated(CONTINUE_REQUEST_ACCEPTED);
     }
 
     @Test
-    public void When_CheckForTimeouts_WhenWhenCopcReceivedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+    public void When_CheckForTimeouts_WithCopcReceivedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
         checkDatabaseUpdated(COPC_MESSAGE_RECEIVED);
     }
 
     @Test
-    public void When_CheckForTimeouts_WhenWhenCopcProcessingAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+    public void When_CheckForTimeouts_WithCopcProcessingAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
         checkDatabaseUpdated(COPC_MESSAGE_PROCESSING);
     }
 
     @Test
-    public void When_CheckForTimeouts_WhenWhenCopcAcknowledgedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+    public void When_CheckForTimeouts_WithCopcAcknowledgedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
         checkDatabaseUpdated(COPC_ACKNOWLEDGED);
     }
 
     @Test
-    public void When_CheckForTimeouts_WhenWhenEhrExtractProcessingAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+    public void When_CheckForTimeouts_WithEhrExtractProcessingAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
         checkDatabaseUpdated(EHR_EXTRACT_PROCESSING);
     }
 
     @Test
-    public void When_CheckForTimeouts_WhenWhenCopcFailedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+    public void When_CheckForTimeouts_WithCopcFailedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
         checkDatabaseUpdated(EHR_EXTRACT_PROCESSING);
     }
 
