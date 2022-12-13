@@ -7,6 +7,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
@@ -39,6 +40,11 @@ public class SendNACKMessageHandler {
             LOGGER.debug(response);
         } catch (WebClientResponseException e) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", e.getMessage());
+
+            if (e.getStatusCode().is5xxServerError()) {
+                throw new MhsServerErrorException("Unable to sent NACK message");
+            }
+
             return false;
         }
 

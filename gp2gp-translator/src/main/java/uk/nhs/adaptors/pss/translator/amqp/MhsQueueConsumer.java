@@ -16,17 +16,20 @@ import uk.nhs.adaptors.pss.translator.task.MhsQueueMessageHandler;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MhsQueueConsumer {
     private final MhsQueueMessageHandler mhsQueueMessageHandler;
+    private final MhsDlqPublisher mhsDlqPublisher;
 
     @JmsListener(destination = "${amqp.mhs.queueName}", containerFactory = "mhsQueueJmsListenerFactory")
     @SneakyThrows
     public void receive(Message message) {
         String messageId = message.getJMSMessageID();
-        LOGGER.debug("Received a message from MHSQueue, message_id=[{}]", messageId);
+        int deliveryCount = message.getIntProperty("JMSXDeliveryCount");
+        LOGGER.debug("Received a message from MHSQueue, message_id=[{}], delivery_count=[{}]", messageId, deliveryCount);
         if (mhsQueueMessageHandler.handleMessage(message)) {
             message.acknowledge();
             LOGGER.debug("Acknowledged MHSQueue message_id=[{}]", messageId);
         } else {
-            LOGGER.debug("Leaving message of message_id=[{}] on the MHSQueue", messageId);
+            LOGGER.debug("Sending message_id=[{}] to the dead letter queue", messageId);
+            mhsDlqPublisher.sendToMhsDlq(message);
         }
     }
 }

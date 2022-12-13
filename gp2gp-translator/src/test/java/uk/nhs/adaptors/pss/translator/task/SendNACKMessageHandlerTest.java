@@ -2,11 +2,13 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import static java.util.UUID.randomUUID;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import java.nio.charset.Charset;
 
@@ -21,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
@@ -75,7 +78,7 @@ public class SendNACKMessageHandlerTest {
     }
 
     @Test
-    public void When_SendMessage_WithFails_Expect_FalseIsReturned() {
+    public void When_SendMessage_WithClientError_Expect_FalseIsReturned() {
         when(mhsClientService.send(request)).thenThrow(
             new WebClientResponseException(
                 HttpStatus.BAD_REQUEST.value(),
@@ -87,4 +90,20 @@ public class SendNACKMessageHandlerTest {
 
         assertFalse(messageHandler.prepareAndSendMessage(messageData));
     }
+
+    @Test
+    public void When_SendMessage_WithServerError_Expect_ExceptionThrown() {
+        when(mhsClientService.send(request)).thenThrow(
+            new WebClientResponseException(
+                INTERNAL_SERVER_ERROR.value(),
+                INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                new HttpHeaders(),
+                new byte[] {},
+                Charset.defaultCharset())
+        );
+
+        assertThatThrownBy(() -> messageHandler.prepareAndSendMessage(messageData))
+            .isInstanceOf(MhsServerErrorException.class);
+    }
+
 }

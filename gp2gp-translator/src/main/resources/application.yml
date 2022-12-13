@@ -32,6 +32,7 @@ amqp:
     username: ${MHS_AMQP_USERNAME:}
     password: ${MHS_AMQP_PASSWORD:}
     maxRedeliveries: ${MHS_AMQP_MAX_REDELIVERIES:3}
+    dlqPrefix: ${MHS_DLQ_PREFIX:DLQ.}
 
 mhs:
   url: ${MHS_BASE_URL:http://localhost:8080}

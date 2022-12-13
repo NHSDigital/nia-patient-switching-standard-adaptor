@@ -22,6 +22,7 @@ import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
@@ -42,10 +43,12 @@ import javax.xml.transform.TransformerException;
 import java.text.ParseException;
 import java.time.Instant;
 
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @Slf4j
@@ -117,6 +120,9 @@ public class EhrExtractMessageHandler {
         ) {
             nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
             throw ex;
+        } catch (MhsServerErrorException ex) {
+            nackAckPreparationService.sendNackMessage(UNEXPECTED_CONDITION, payload, conversationId);
+            throw ex;
         }
     }
 
@@ -182,8 +188,6 @@ public class EhrExtractMessageHandler {
             messageId
         );
 
-        // return an acknowledged message to the sender
-        nackAckPreparationService.sendAckMessage(payload, conversationId);
         migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId, null);
     }
 
@@ -195,16 +199,18 @@ public class EhrExtractMessageHandler {
         for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
             PatientAttachmentLog patientAttachmentLog;
 
-            //save COPC_UK01 messages
-            patientAttachmentLog = buildPatientAttachmentLogFromExternalAttachment(migrationRequest, externalAttachment);
-            patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
+            if (patientAttachmentLogService.findAttachmentLog(externalAttachment.getMessageId(), conversationId) == null) {
+                //save COPC_UK01 messages
+                patientAttachmentLog = buildPatientAttachmentLogFromExternalAttachment(migrationRequest, externalAttachment);
+                patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
+            }
         }
 
         migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
             conversationId,
             null,
             objectMapper.writeValueAsString(inboundMessage),
-            EHR_EXTRACT_TRANSLATED,
+            EHR_EXTRACT_PROCESSING,
             messageId
         );
 

@@ -6,8 +6,10 @@ import static org.springframework.http.HttpStatus.OK;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_ACKNOWLEDGED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
@@ -18,6 +20,7 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_ATTA
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_REASSEMBLY_FAILURE;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.FINAL_ACK_SENT;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.handler.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
@@ -57,12 +60,14 @@ public class PatientTransferController {
         REQUEST_RECEIVED,
         EHR_EXTRACT_REQUEST_ACCEPTED,
         EHR_EXTRACT_RECEIVED,
+        EHR_EXTRACT_PROCESSING,
         EHR_EXTRACT_REQUEST_ACKNOWLEDGED,
         EHR_EXTRACT_TRANSLATED,
         CONTINUE_REQUEST_ACCEPTED,
         COPC_MESSAGE_RECEIVED,
         COPC_MESSAGE_PROCESSING,
-        COPC_ACKNOWLEDGED
+        COPC_ACKNOWLEDGED,
+        COPC_FAILED
     );
 
     private static final List<MigrationStatus> LRG_MESSAGE_ERRORS = List.of(
@@ -98,7 +103,8 @@ public class PatientTransferController {
             return new ResponseEntity<>(ACCEPTED);
         } else if (IN_PROGRESS_STATUSES.contains(request.getMigrationStatus())) {
             return new ResponseEntity<>(NO_CONTENT);
-        } else if (MIGRATION_COMPLETED == request.getMigrationStatus()) {
+        } else if (MIGRATION_COMPLETED == request.getMigrationStatus()
+            || FINAL_ACK_SENT == request.getMigrationStatus()) {
             return new ResponseEntity<>(patientTransferService.getBundleResource(), OK);
         } else if (LRG_MESSAGE_ERRORS.contains(request.getMigrationStatus())
             || EHR_GENERAL_PROCESSING_ERROR == request.getMigrationStatus()

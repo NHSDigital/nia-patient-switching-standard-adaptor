@@ -6,6 +6,10 @@ import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_ACKNOWLEDGED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
 
@@ -61,13 +65,38 @@ public class EHRTimeoutHandlerIT {
     private SendNACKMessageHandler nackMessageHandler;
 
     @Test
-    public void When_CheckForTimeouts_WhenEHRExtractTranslatedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+    public void When_CheckForTimeouts_WithEHRExtractTranslatedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
         checkDatabaseUpdated(EHR_EXTRACT_TRANSLATED);
     }
 
     @Test
-    public void When_CheckForTimeouts_WhenWhenContinueRequestAcceptedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+    public void When_CheckForTimeouts_WithContinueRequestAcceptedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
         checkDatabaseUpdated(CONTINUE_REQUEST_ACCEPTED);
+    }
+
+    @Test
+    public void When_CheckForTimeouts_WithCopcReceivedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+        checkDatabaseUpdated(COPC_MESSAGE_RECEIVED);
+    }
+
+    @Test
+    public void When_CheckForTimeouts_WithCopcProcessingAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+        checkDatabaseUpdated(COPC_MESSAGE_PROCESSING);
+    }
+
+    @Test
+    public void When_CheckForTimeouts_WithCopcAcknowledgedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+        checkDatabaseUpdated(COPC_ACKNOWLEDGED);
+    }
+
+    @Test
+    public void When_CheckForTimeouts_WithEhrExtractProcessingAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+        checkDatabaseUpdated(EHR_EXTRACT_PROCESSING);
+    }
+
+    @Test
+    public void When_CheckForTimeouts_WithCopcFailedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+        checkDatabaseUpdated(EHR_EXTRACT_PROCESSING);
     }
 
     private void checkDatabaseUpdated(MigrationStatus migrationStatus) throws IOException {
@@ -80,6 +109,7 @@ public class EHRTimeoutHandlerIT {
         InboundMessage inboundMessage = createInboundMessage();
 
         when(sdsService.getPersistDurationFor(any(), any(), any())).thenReturn(Duration.parse(persistDuration));
+        when(nackMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
 
         patientMigrationRequestDao.addNewRequest(nhsNumber, conversationId, losingOdsCode, winningOdsCode);
         migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(

@@ -15,7 +15,8 @@ import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_ACKNOWLEDGED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.FINAL_ACK_SENT;
 
 @Slf4j
 @Service
@@ -28,10 +29,10 @@ public class NackAckPreparationService {
 
     public boolean sendAckMessage(RCMRIN030000UK06Message payload, String conversationId) {
 
-        LOGGER.debug("Sending ACK message for message with Conversation ID: [{}]", conversationId);
+        LOGGER.debug("Sending Final ACK message for Conversation ID: [{}]", conversationId);
 
         migrationStatusLogService.
-                addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACKNOWLEDGED, conversationId, null);
+                addMigrationStatusLog(FINAL_ACK_SENT, conversationId, null);
 
         return sendACKMessageHandler.prepareAndSendMessage(prepareAckMessageData(
                 payload,
@@ -41,7 +42,7 @@ public class NackAckPreparationService {
 
     public boolean sendAckMessage(COPCIN000001UK01Message payload, String conversationId, String losingPracticeOdsCode) {
 
-        LOGGER.debug("Sending ACK message for message with Conversation ID: [{}]", conversationId);
+        LOGGER.debug("Sending ACK message for COPC message with Conversation ID: [{}]", conversationId);
 
         migrationStatusLogService.
                 addMigrationStatusLog(COPC_ACKNOWLEDGED, conversationId, null);
@@ -144,7 +145,7 @@ public class NackAckPreparationService {
         LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
                 payload.getId().getRoot());
 
-        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(COPC_FAILED, conversationId, null);
 
         return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
                 reason,

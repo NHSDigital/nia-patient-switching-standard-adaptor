@@ -1,6 +1,11 @@
 package uk.nhs.adaptors.pss.translator.task.scheduled;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_ACKNOWLEDGED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_TIMEOUT;
@@ -9,7 +14,9 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallSt
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBException;
 
@@ -58,14 +65,19 @@ public class EHRTimeoutHandler {
     public void checkForTimeouts() {
         LOGGER.info("running scheduled task to check for timeouts");
 
-        List<PatientMigrationRequest> extractReceivedRequests =
-            migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED);
-        List<PatientMigrationRequest> largeMessageRequests =
-            migrationRequestService.getMigrationRequestByCurrentMigrationStatus(CONTINUE_REQUEST_ACCEPTED);
+        // Ehr Extract Translated is not the final state for a simple EHR, so we can use it for timeouts
+        List<PatientMigrationRequest> inProgressRequests = Stream.of(
+                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED),
+                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_PROCESSING),
+                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(CONTINUE_REQUEST_ACCEPTED),
+                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(COPC_MESSAGE_RECEIVED),
+                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(COPC_MESSAGE_PROCESSING),
+                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(COPC_ACKNOWLEDGED),
+                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(COPC_FAILED))
+            .flatMap(Collection::stream)
+            .toList();
 
-        extractReceivedRequests.forEach(this::handleMigrationTimeout);
-
-        largeMessageRequests.forEach(this::handleMigrationTimeout);
+        inProgressRequests.forEach(this::handleMigrationTimeout);
     }
 
     private void handleMigrationTimeout(PatientMigrationRequest migrationRequest) {
@@ -126,8 +138,8 @@ public class EHRTimeoutHandler {
             .build();
 
         LOGGER.debug("EHR Extract message timed out: sending NACK message");
-        migrationStatusLogService.addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
-
-        sendNACKMessageHandler.prepareAndSendMessage(messageData);
+        if (sendNACKMessageHandler.prepareAndSendMessage(messageData)) {
+            migrationStatusLogService.addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+        }
     }
 }

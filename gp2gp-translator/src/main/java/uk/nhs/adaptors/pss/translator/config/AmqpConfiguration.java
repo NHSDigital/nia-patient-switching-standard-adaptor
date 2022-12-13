@@ -2,8 +2,6 @@ package uk.nhs.adaptors.pss.translator.config;
 
 import static org.springframework.jms.listener.DefaultMessageListenerContainer.CACHE_CONSUMER;
 
-import javax.jms.Session;
-
 import org.apache.qpid.jms.JmsConnectionFactory;
 import org.apache.qpid.jms.JmsDestination;
 import org.apache.qpid.jms.message.JmsMessageSupport;
@@ -18,9 +16,19 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import uk.nhs.adaptors.pss.translator.amqp.JmsListenerErrorHandler;
 
 @Configuration
 public class AmqpConfiguration {
+
+    private static final long TEN_SECONDS = 10000L;
+
+    private final JmsListenerErrorHandler listenerErrorHandler;
+
+    public AmqpConfiguration(JmsListenerErrorHandler listenerErrorHandler) {
+        this.listenerErrorHandler = listenerErrorHandler;
+    }
+
     @Bean
     public MessageConverter jsonMessageConverter() {
         return new MappingJackson2MessageConverter();
@@ -68,9 +76,11 @@ public class AmqpConfiguration {
     public JmsListenerContainerFactory<?> jmsListenerContainerFactoryPssQueue(
         @Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);
+        factory.setSessionTransacted(true);
         factory.setCacheLevel(CACHE_CONSUMER);
         factory.setConnectionFactory(connectionFactory);
+        factory.setErrorHandler(listenerErrorHandler);
+        factory.setRecoveryInterval(TEN_SECONDS);
 
         return factory;
     }
@@ -79,9 +89,11 @@ public class AmqpConfiguration {
     public JmsListenerContainerFactory<?> jmsListenerContainerFactoryMhsQueue(
         @Qualifier("mhsQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);
+        factory.setSessionTransacted(true);
         factory.setCacheLevel(CACHE_CONSUMER);
         factory.setConnectionFactory(connectionFactory);
+        factory.setErrorHandler(listenerErrorHandler);
+        factory.setRecoveryInterval(TEN_SECONDS);
 
         return factory;
     }
@@ -89,6 +101,24 @@ public class AmqpConfiguration {
     @Bean("jmsTemplateMhsQueue")
     public JmsTemplate jmsTemplateMhsQueue(@Qualifier("mhsQueueConnectionFactory") JmsConnectionFactory connectionFactory,
         MhsQueueProperties properties) {
+        JmsTemplate jmsTemplate = new JmsTemplate();
+        jmsTemplate.setConnectionFactory(connectionFactory);
+        jmsTemplate.setDefaultDestinationName(properties.getQueueName());
+        return jmsTemplate;
+    }
+
+    @Bean("jmsTemplateMhsDLQ")
+    public JmsTemplate jmsTemplateMhsDLQ(@Qualifier("mhsQueueConnectionFactory") JmsConnectionFactory connectionFactory,
+        MhsQueueProperties properties) {
+        JmsTemplate jmsTemplate = new JmsTemplate();
+        jmsTemplate.setConnectionFactory(connectionFactory);
+        jmsTemplate.setDefaultDestinationName(properties.getDLQName());
+        return jmsTemplate;
+    }
+
+    @Bean("jmsTemplatePssQueue")
+    public JmsTemplate jmsTemplateMhsQueue(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory,
+        PssQueueProperties properties) {
         JmsTemplate jmsTemplate = new JmsTemplate();
         jmsTemplate.setConnectionFactory(connectionFactory);
         jmsTemplate.setDefaultDestinationName(properties.getQueueName());
