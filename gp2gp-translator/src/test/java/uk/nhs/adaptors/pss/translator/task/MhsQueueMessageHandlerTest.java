@@ -107,6 +107,7 @@ public class MhsQueueMessageHandlerTest {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
@@ -129,6 +130,7 @@ public class MhsQueueMessageHandlerTest {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new JAXBException("Nobody expects the spanish inquisition!"))
             .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
 
@@ -152,6 +154,7 @@ public class MhsQueueMessageHandlerTest {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new JAXBException("Nobody expects the spanish inquisition!"))
             .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
 
@@ -166,6 +169,7 @@ public class MhsQueueMessageHandlerTest {
     public void handleAcknowledgeMessageWithoutErrorsShouldReturnTrue() throws SAXException {
         inboundMessage = new InboundMessage();
         prepareMocks(ACKNOWLEDGEMENT_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
@@ -179,6 +183,7 @@ public class MhsQueueMessageHandlerTest {
     public void handleAcknowledgeMessageWhenAcknowledgmentMessageHandlerThrowsErrorShouldReturnFalse() throws SAXException {
         inboundMessage = new InboundMessage();
         prepareMocks(ACKNOWLEDGEMENT_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new SAXException("Nobody expects the spanish inquisition!"))
             .when(acknowledgmentMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
 
@@ -194,6 +199,7 @@ public class MhsQueueMessageHandlerTest {
     public void handleMessageWithUnsupportedInteractionIdShouldReturnTrue() {
         inboundMessage = new InboundMessage();
         prepareMocks(UNKNOWN_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 

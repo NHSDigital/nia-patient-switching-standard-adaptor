@@ -24,10 +24,10 @@ import uk.nhs.adaptors.pss.translator.task.MhsQueueMessageHandler;
 @ExtendWith(MockitoExtension.class)
 public class MhsQueueConsumerTest {
 
-    private final static int MAX_REDELIVERIES = 3;
-    private final static int FIRST_DELIVERY = 1;
+    private static final int MAX_REDELIVERIES = 3;
+    private static final int FIRST_DELIVERY = 1;
 
-    private final static String DELIVERY_COUNT_PROPERTY = "JMSXDeliveryCount";
+    private static final String DELIVERY_COUNT_PROPERTY = "JMSXDeliveryCount";
     @Mock
     private MhsQueueMessageHandler mhsQueueMessageHandler;
     @Mock
