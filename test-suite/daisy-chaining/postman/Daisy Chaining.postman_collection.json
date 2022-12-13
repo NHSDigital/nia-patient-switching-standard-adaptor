@@ -1,0 +1,1429 @@
+{
+	"info": {
+		"_postman_id": "d78b5572-640c-4b67-8fe9-131d130d132c",
+		"name": "Daisy Chaining",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15249429"
+	},
+	"item": [
+		{
+			"name": "PS Adaptor Cid message normal Running",
+			"item": [
+				{
+					"name": "01 - A Send EHR Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Repsonse should be 202 OK\", () => {",
+									"    pm.expect(pm.response.code).to.equal(202);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateUUID() { // Public Domain/MIT",
+									"    var d = new Date().getTime();//Timestamp",
+									"    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {",
+									"        var r = Math.random() * 16;//random number between 0 and 16",
+									"        if(d > 0){//Use timestamp until depleted",
+									"            r = (d + r)%16 | 0;",
+									"            d = Math.floor(d/16);",
+									"        } else {//Use microseconds since page-load if supported",
+									"            r = (d2 + r)%16 | 0;",
+									"            d2 = Math.floor(d2/16);",
+									"        }",
+									"        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);",
+									"    });",
+									"}",
+									"",
+									"function generateNHSNumber() {",
+									"    return 'yxxxxxxxy0'.replace(/[xy]/g, (d) => Math.floor(d === 'y' ? Math.random() * 8 + 1 : Math.random() * 9));",
+									"}",
+									"",
+									"pm.collectionVariables.set(\"nhs-number-test-group-3\", generateNHSNumber());",
+									"pm.collectionVariables.set(\"conversation-id\", generateUUID());",
+									"pm.collectionVariables.set(\"request-retry-count\", 0)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "to-asid",
+								"value": "{{winning-ods}}",
+								"type": "text"
+							},
+							{
+								"key": "from-asid",
+								"value": "{{losing-ods}}",
+								"type": "text"
+							},
+							{
+								"key": "to-ods",
+								"value": "{{winning-asid}}",
+								"type": "text"
+							},
+							{
+								"key": "from-ods",
+								"value": "{{losing-asid}}",
+								"type": "text"
+							},
+							{
+								"key": "ConversationId",
+								"value": "{{conversation-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resourceType\": \"Parameters\",\r\n    \"parameter\": [\r\n        {\r\n            \"name\": \"patientNHSNumber\",\r\n            \"valueIdentifier\": {\r\n                \"system\": \"https://fhir.nhs.uk/Id/nhs-number\",\r\n                \"value\": \"{{nhs-number-test-group-3}}\"\r\n            }\r\n        },\r\n        {\r\n            \"name\": \"includeFullRecord\",\r\n            \"part\": [\r\n                {\r\n                    \"name\": \"includeSensitiveInfomation\",\r\n                    \"valueBoolean\": true\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{facade-port}}/Patient/$gpc.migratestructuredrecord",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{facade-port}}",
+							"path": [
+								"Patient",
+								"$gpc.migratestructuredrecord"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "01 - B Verify EHR Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const conversationId = pm.collectionVariables.get(\"conversationId\");",
+									"const numOfRetries = 3;",
+									"let count = pm.collectionVariables.get(\"ehr-retry-count\");",
+									"",
+									"if(pm.response.code === 200) {",
+									"    executeTests();",
+									"}else{",
+									"    retryRequest();",
+									"}",
+									"",
+									"function executeTests() {",
+									"    const response = pm.response.json();",
+									"    const ehrExtractInteractionId = \"RCMR_IN030000UK06\";",
+									"    const ehrExtractConversationId = pm.collectionVariables.get(\"conversation-id\");",
+									"",
+									"    const responseArray = pm.response.json();",
+									"",
+									"    pm.test(\"The message journal should have at least one entry\", () => {",
+									"        pm.expect(responseArray.length >= 1 ).to.be.true;",
+									"    });",
+									"",
+									"    const outboundmessage = responseArray[0];",
+									"    const interactionId = outboundmessage.headers[\"interaction-id\"];",
+									"    const correlationId = outboundmessage.headers[\"correlation-id\"];",
+									"",
+									"    pm.test(\"The interaction id of the first journal entry should equal \".concat(ehrExtractInteractionId), () => {",
+									"        pm.expect(interactionId).to.equal(ehrExtractInteractionId);",
+									"    });",
+									"",
+									"    pm.test(\"The conversation id of the first journal entry should equal \".concat(ehrExtractConversationId), () => {",
+									"        pm.expect(correlationId).to.equal(ehrExtractConversationId);",
+									"    });",
+									"",
+									"",
+									"    pm.test(\"Message has Request message tag\", () => {",
+									"        pm.expect(response[0].body.includes(\"<RCMR_IN010000UK05\")).to.be.true;",
+									"        pm.expect(response[0].body.includes(\"</RCMR_IN010000UK05>\")).to.be.true;",
+									"    });",
+									"",
+									"    if(pm.expect(response[0].body.includes(\"<RCMR_IN010000UK05\"))) {",
+									"        const messageId = response[0].headers[\"message-id\"];",
+									"        pm.collectionVariables.set(\"ehr-request-id\", messageId);",
+									"    }",
+									"}",
+									"",
+									"",
+									"function retryRequest() {",
+									"",
+									"    setTimeout(() => {}, 5000);",
+									"",
+									"    if(++count >= numOfRetries) {",
+									"       ",
+									"          pm.test(\"Jornal should contain EHR extract\", () => {",
+									"            pm.expect.fail(\"max number of retries reached\");",
+									"        });",
+									"    ",
+									"    } else {",
+									"        pm.collectionVariables.set(\"ehr-retry-count\", count);",
+									"",
+									"        postman.setNextRequest(pm.info.requestId);",
+									"    }",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {}, 5000);",
+									"pm.collectionVariables.set(\"ehr-request-id\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:{{mock-spine-mhs-port}}/retrieve/{{conversation-id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{mock-spine-mhs-port}}",
+							"path": [
+								"retrieve",
+								"{{conversation-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "01 - C Verify DB Logs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"this till test \r",
+									"    PS_GEN_1\r",
+									"*/\r",
+									"\r",
+									"\r",
+									"\r",
+									"if(pm.response.code === 200) {\r",
+									"    executeTests();\r",
+									"}else{\r",
+									"    retryRequest();\r",
+									"}\r",
+									"\r",
+									"function executeTests() {\r",
+									"    const response = pm.response.json();\r",
+									"    const migrationStatusLog = response.migrationStatusLog;\r",
+									"\r",
+									"    pm.test(\"Verify migration logged as request recived\", () => {\r",
+									"        \r",
+									"        const hasRequestRecieved = migrationStatusLog.some(log => log.migrationStatus === \"REQUEST_RECEIVED\");\r",
+									"\r",
+									"        pm.expect(hasRequestRecieved).to.be.true;\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"Verify migration logged as EHR Extract Request Accepted\", () => {\r",
+									"        \r",
+									"        const  hasRequestAccepted= migrationStatusLog.some(log => log.migrationStatus === \"EHR_EXTRACT_REQUEST_ACCEPTED\");\r",
+									"\r",
+									"        pm.expect(hasRequestAccepted).to.be.true;\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function retryRequest() {\r",
+									"\r",
+									"    setTimeout(() => {}, 5000);\r",
+									"\r",
+									"    if(++count >= numOfRetries) {\r",
+									"       \r",
+									"          pm.test(\"Jornal should contain EHR extract\", () => {\r",
+									"            pm.expect.fail(\"max number of retries reached\");\r",
+									"        });\r",
+									"    \r",
+									"    } else {\r",
+									"        pm.collectionVariables.set(\"ehr-retry-count\", count);\r",
+									"\r",
+									"        postman.setNextRequest(pm.info.requestId);\r",
+									"    }\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{mock-spine-mhs-port}}/pss-adaptor-db/patient-migration-request/{{conversation-id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{mock-spine-mhs-port}}",
+							"path": [
+								"pss-adaptor-db",
+								"patient-migration-request",
+								"{{conversation-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02 - A Send EHR Extract to Inbound MHS",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateUUID() { // Public Domain/MIT",
+									"    var d = new Date().getTime();//Timestamp",
+									"    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {",
+									"        var r = Math.random() * 16;//random number between 0 and 16",
+									"        if(d > 0){//Use timestamp until depleted",
+									"            r = (d + r)%16 | 0;",
+									"            d = Math.floor(d/16);",
+									"        } else {//Use microseconds since page-load if supported",
+									"            r = (d2 + r)%16 | 0;",
+									"            d2 = Math.floor(d2/16);",
+									"        }",
+									"        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);",
+									"    });",
+									"}",
+									"",
+									"pm.collectionVariables.set(\"messageId\", generateUUID());",
+									"pm.collectionVariables.set(\"timestamp\", Date.now().toString);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Repsonse should be 200 OK\", () => {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/related; boundary=\"--=_MIME-Boundary\"; type=text/xml; start=<ebXMLHeader@spine.nhs.uk>",
+								"type": "text"
+							},
+							{
+								"key": "SOAPAction",
+								"value": "SOAPAction: urn:nhs:names:services:gp2gp/RCMR_IN010000UK05",
+								"type": "text"
+							},
+							{
+								"key": "Correlation-Id",
+								"value": "{{conversation-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "----=_MIME-Boundary\nContent-Id: <ebXMLHeader@spine.nhs.uk>\nContent-Type: text/xml; charset=UTF-8\nContent-Transfer-Encoding: 8bit\n\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP:Envelope xmlns:xsi=\"http://www.w3c.org/2001/XML-Schema-Instance\" xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:eb=\"http://www.oasis-open.org/committees/ebxml-msg/schema/msg-header-2_0.xsd\" xmlns:hl7ebxml=\"urn:hl7-org:transport/ebxml/DSTUv1.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<SOAP:Header>\n\t<eb:MessageHeader SOAP:mustUnderstand=\"1\" eb:version=\"2.0\">\n\t\t<eb:From>\n\t\t\t<eb:PartyId eb:type=\"urn:nhs:names:partyType:ocs+serviceInstance\">RHM-801710</eb:PartyId>\n\t\t</eb:From>\n\t\t<eb:To>\n\t\t\t<eb:PartyId eb:type=\"urn:nhs:names:partyType:ocs+serviceInstance\">{{winning-party-key}}</eb:PartyId>\n\t\t</eb:To>\n\t\t<eb:CPAId>S2030731A2137919</eb:CPAId>\n\t\t<eb:ConversationId>{{conversation-id}}</eb:ConversationId>\n\t\t<eb:Service>urn:nhs:names:services:gp2gp</eb:Service>\n\t\t<eb:Action>RCMR_IN030000UK06</eb:Action>\n\t\t<eb:MessageData>\n\t\t\t<eb:MessageId>{{messageId}}</eb:MessageId>\n\t\t\t<eb:Timestamp>{{timestamp}}</eb:Timestamp>\n\t\t</eb:MessageData>\n\t\t<eb:DuplicateElimination/>\n\t</eb:MessageHeader>\n\t<eb:AckRequested SOAP:mustUnderstand=\"1\" eb:version=\"2.0\" eb:signed=\"false\" SOAP:actor=\"urn:oasis:names:tc:ebxml-msg:actor:nextMSH\"/>\n\t\n</SOAP:Header>\n<SOAP:Body>\n\t<eb:Manifest SOAP:mustUnderstand=\"1\" eb:version=\"2.0\">\n\t\t<eb:Reference xlink:href=\"cid:{{messageId}}@spine.nhs.uk\">\n\t\t\t<eb:Schema eb:location=\"http://www.nhsia.nhs.uk/schemas/HL7-Message.xsd\" eb:version=\"1.0\"/>\n\t\t\t<eb:Description xml:lang=\"en\">HL7 payload</eb:Description> \n\t\t\t<hl7ebxml:Payload style=\"HL7\" encoding=\"XML\" version=\"3.0\"/>\n\t\t</eb:Reference>\n\t\t<eb:Reference eb:id=\"277F29F1-FEAB-4D38-8266-FEB7A1E6227D\" xlink:href=\"cid:17C993E0-0302-4C3C-9608-7E4862193784\">\n\t\t\t<eb:Description xml:lang=\"en\">\n\t\t\t\tFilename=\"277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt\" \n\t\t\t\tContentType=text/plain \n\t\t\t\tCompressed=No \n\t\t\t\tLargeAttachment=No \n\t\t\t\tOriginalBase64=Yes\n\t\t\t</eb:Description>\n\t\t</eb:Reference>\n\t</eb:Manifest>\n</SOAP:Body>\n</SOAP:Envelope>\n\n----=_MIME-Boundary\nContent-Id: <{{messageId}}@spine.nhs.uk>\nContent-Type: application/xml; charset=UTF-8\nContent-Transfer-Encoding: 8bit\n\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<RCMR_IN030000UK06 xmlns=\"urn:hl7-org:v3\"\n\txmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n\t<id root=\"{{messageId}}\" />\n\t<creationTime value=\"20131025165328\" />\n\t<versionCode code=\"V3NPfIT3.1.10\" />\n\t<interactionId root=\"2.16.840.1.113883.2.1.3.2.4.12\"\n\t\textension=\"RCMR_IN030000UK06\" />\n\t<processingCode code=\"P\" />\n\t<processingModeCode code=\"T\" />\n\t<acceptAckCode code=\"NE\" />\n\t<communicationFunctionRcv typeCode=\"RCV\">\n\t\t<device classCode=\"DEV\" determinerCode=\"INSTANCE\">\n\t\t\t<id root=\"1.2.826.0.1285.0.2.0.107\" extension=\"276827251543\" />\n\t\t</device>\n\t</communicationFunctionRcv>\n\t<communicationFunctionSnd typeCode=\"SND\">\n\t\t<device classCode=\"DEV\" determinerCode=\"INSTANCE\">\n\t\t\t<id root=\"1.2.826.0.1285.0.2.0.107\" extension=\"715373337545\" />\n\t\t</device>\n\t</communicationFunctionSnd>\n\t<ControlActEvent classCode=\"CACT\" moodCode=\"EVN\">\n\t\t<author1 typeCode=\"AUT\">\n\t\t\t<AgentSystemSDS classCode=\"AGNT\">\n\t\t\t\t<agentSystemSDS classCode=\"DEV\" determinerCode=\"INSTANCE\">\n\t\t\t\t\t<id root=\"1.2.826.0.1285.0.2.0.107\" extension=\"715373337545\" />\n\t\t\t\t</agentSystemSDS>\n\t\t\t</AgentSystemSDS>\n\t\t</author1>\n\t\t<subject typeCode=\"SUBJ\" contextConductionInd=\"false\">\n\t\t\t<EhrExtract classCode=\"EXTRACT\" moodCode=\"EVN\">\n\t\t\t\t<id root=\"7DFAECD9-A169-4187-B0A0-2613EDD7D835\" />\n\t\t\t\t<statusCode code=\"COMPLETE\" />\n\t\t\t\t<availabilityTime value=\"20131025165328\" />\n\t\t\t\t<recordTarget typeCode=\"RCT\">\n\t\t\t\t\t<patient classCode=\"PAT\">\n\t\t\t\t\t\t<id extension=\"{{nhs-number-test-group-3}}\" root=\"2.16.840.1.113883.2.1.4.1\" />\n\t\t\t\t\t</patient>\n\t\t\t\t</recordTarget>\n\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t<time value=\"20131025165328\" />\n\t\t\t\t\t<AgentOrgSDS classCode=\"AGNT\">\n\t\t\t\t\t\t<agentOrganizationSDS classCode=\"ORG\"\n\t\t\t\t\t\t\tdeterminerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t<id extension=\"B83002\" root=\"1.2.826.0.1285.0.1.10\" />\n\t\t\t\t\t\t</agentOrganizationSDS>\n\t\t\t\t\t</AgentOrgSDS>\n\t\t\t\t</author>\n\t\t\t\t<destination typeCode=\"DST\">\n\t\t\t\t\t<AgentOrgSDS classCode=\"AGNT\">\n\t\t\t\t\t\t<agentOrganizationSDS classCode=\"ORG\"\n\t\t\t\t\t\t\tdeterminerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t<id nullFlavor=\"UNK\" />\n\t\t\t\t\t\t</agentOrganizationSDS>\n\t\t\t\t\t</AgentOrgSDS>\n\t\t\t\t</destination>\n\t\t\t\t<component typeCode=\"COMP\">\n\t\t\t\t\t<ehrFolder classCode=\"FOLDER\" moodCode=\"EVN\">\n\t\t\t\t\t\t<id root=\"AEB45918-8B0A-4391-B1D4-837AF6E46B7D\" />\n\t\t\t\t\t\t<statusCode code=\"COMPLETE\" />\n\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t<low value=\"20050314\" />\n\t\t\t\t\t\t\t<high value=\"20131025165328\" />\n\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t<availabilityTime value=\"20131025165328\" />\n\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t<time value=\"20131025165328\" />\n\t\t\t\t\t\t\t<AgentOrgSDS classCode=\"AGNT\">\n\t\t\t\t\t\t\t\t<agentOrganizationSDS classCode=\"ORG\"\n\t\t\t\t\t\t\t\t\tdeterminerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t\t\t<id extension=\"B83002\" root=\"1.2.826.0.1285.0.1.10\" />\n\t\t\t\t\t\t\t\t</agentOrganizationSDS>\n\t\t\t\t\t\t\t</AgentOrgSDS>\n\t\t\t\t\t\t</author>\n\t\t\t\t\t\t<responsibleParty typeCode=\"RESP\">\n\t\t\t\t\t\t\t<agentDirectory classCode=\"AGNT\">\n\t\t\t\t\t\t\t\t<part typeCode=\"PART\">\n\t\t\t\t\t\t\t\t\t<Agent classCode=\"AGNT\">\n\t\t\t\t\t\t\t\t\t\t<id root=\"9C3AB881-FCDE-48EC-8028-37B20E0AE893\" />\n\t\t\t\t\t\t\t\t\t\t<code code=\"394745000\" displayName=\"General practice (organisation)\"\n\t\t\t\t\t\t\t\t\t\t\tcodeSystem=\"2.16.840.1.113883.2.1.3.2.4.15\" />\n\t\t\t\t\t\t\t\t\t\t<agentOrganization classCode=\"ORG\"\n\t\t\t\t\t\t\t\t\t\t\tdeterminerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"B83002\" root=\"2.16.840.1.113883.2.1.4.3\" />\n\t\t\t\t\t\t\t\t\t\t\t<name>Ilkley and  Wharfedale Medical Practice</name>\n\t\t\t\t\t\t\t\t\t\t\t<telecom value=\"tel:01234567890\" use=\"WP\" />\n\t\t\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>ILKLEY</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>LEEDS</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>WEST YORKSHIRE</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<postalCode>LS29 8TH</postalCode>\n\t\t\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t\t</agentOrganization>\n\t\t\t\t\t\t\t\t\t</Agent>\n\t\t\t\t\t\t\t\t</part>\n\t\t\t\t\t\t\t\t<part typeCode=\"PART\">\n\t\t\t\t\t\t\t\t\t<Agent classCode=\"AGNT\">\n\t\t\t\t\t\t\t\t\t\t<id root=\"14CA7344-7460-4C96-BABC-AA0A2C8E96D6 \" />\n\t\t\t\t\t\t\t\t\t\t<id root=\"2.16.840.1.113883.2.1.4.2\" extension=\"G2141239\" />\n\t\t\t\t\t\t\t\t\t\t<code code=\"309394004\" displayName=\"General Practitioner Principal\">\n\t\t\t\t\t\t\t\t\t\t\t<originalText>Partner</originalText>\n\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t<agentPerson classCode=\"PSN\" determinerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t\t\t\t\t<name>\n\t\t\t\t\t\t\t\t\t\t\t\t<prefix>Dr</prefix>\n\t\t\t\t\t\t\t\t\t\t\t\t<given>Emma</given>\n\t\t\t\t\t\t\t\t\t\t\t\t<family>Anderson</family>\n\t\t\t\t\t\t\t\t\t\t\t</name>\n\t\t\t\t\t\t\t\t\t\t</agentPerson>\n\t\t\t\t\t\t\t\t\t\t<representedOrganization classCode=\"ORG\"\n\t\t\t\t\t\t\t\t\t\t\tdeterminerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"B83002\" root=\"2.16.840.1.113883.2.1.4.3\" />\n\t\t\t\t\t\t\t\t\t\t\t<name>Ilkley and Wharfedale Medical Practice</name>\n\t\t\t\t\t\t\t\t\t\t\t<telecom value=\"tel:01234567890\" use=\"WP\" />\n\t\t\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>ILKLEY</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>LEEDS</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>WEST YORKSHIRE</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<postalCode>LS29 8TH</postalCode>\n\t\t\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t\t</representedOrganization>\n\t\t\t\t\t\t\t\t\t</Agent>\n\t\t\t\t\t\t\t\t</part>\n\t\t\t\t\t\t\t\t<part typeCode=\"PART\">\n\t\t\t\t\t\t\t\t\t<Agent classCode=\"AGNT\">\n\t\t\t\t\t\t\t\t\t\t<id root=\"791185CE-FF04-4D50-83EC-AA02A8BABB02\" />\n\t\t\t\t\t\t\t\t\t\t<code code=\"309394004\" displayName=\"General Practitioner Principal\">\n\t\t\t\t\t\t\t\t\t\t\t<originalText>Administrator</originalText>\n\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t<agentPerson classCode=\"PSN\" determinerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t\t\t\t\t<name>\n\t\t\t\t\t\t\t\t\t\t\t\t<prefix>Mr</prefix>\n\t\t\t\t\t\t\t\t\t\t\t\t<given>John</given>\n\t\t\t\t\t\t\t\t\t\t\t\t<family>Thompson</family>\n\t\t\t\t\t\t\t\t\t\t\t</name>\n\t\t\t\t\t\t\t\t\t\t</agentPerson>\n\t\t\t\t\t\t\t\t\t\t<representedOrganization classCode=\"ORG\"\n\t\t\t\t\t\t\t\t\t\t\tdeterminerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"B83002\" root=\"2.16.840.1.113883.2.1.4.3\" />\n\t\t\t\t\t\t\t\t\t\t\t<name>Ilkley and Wharfedale Medical Practice</name>\n\t\t\t\t\t\t\t\t\t\t\t<telecom value=\"tel:01234567890\" use=\"WP\" />\n\t\t\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>ILKLEY</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>LEEDS</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>WEST YORKSHIRE</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<postalCode>LS29 8TH</postalCode>\n\t\t\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t\t</representedOrganization>\n\t\t\t\t\t\t\t\t\t</Agent>\n\t\t\t\t\t\t\t\t</part>\n\t\t\t\t\t\t\t\t<part typeCode=\"PART\">\n\t\t\t\t\t\t\t\t\t<Agent classCode=\"AGNT\">\n\t\t\t\t\t\t\t\t\t\t<id root=\"88B177A7-2C70-4911-82F4-D1B9D8E504F8\" />\n\t\t\t\t\t\t\t\t\t\t<code code=\"394741009\" displayName=\"Other Health Professional\">\n\t\t\t\t\t\t\t\t\t\t\t<originalText>Health Visitor</originalText>\n\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t<agentPerson classCode=\"PSN\" determinerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t\t\t\t\t<name>\n\t\t\t\t\t\t\t\t\t\t\t\t<prefix>Ms</prefix>\n\t\t\t\t\t\t\t\t\t\t\t\t<given>Joan</given>\n\t\t\t\t\t\t\t\t\t\t\t\t<family>Richards</family>\n\t\t\t\t\t\t\t\t\t\t\t</name>\n\t\t\t\t\t\t\t\t\t\t</agentPerson>\n\t\t\t\t\t\t\t\t\t</Agent>\n\t\t\t\t\t\t\t\t</part>\n\t\t\t\t\t\t\t\t<part typeCode=\"PART\">\n\t\t\t\t\t\t\t\t\t<Agent classCode=\"AGNT\">\n\t\t\t\t\t\t\t\t\t\t<id root=\"D1575DF5-E445-4521-AF6E-14C2D1E61265\" />\n\t\t\t\t\t\t\t\t\t\t<id root=\"2.16.840.1.113883.2.1.4.2\" extension=\"G9489493\" />\n\t\t\t\t\t\t\t\t\t\t<code code=\"309394004\" displayName=\"General Practitioner Principal\">\n\t\t\t\t\t\t\t\t\t\t\t<originalText>Partner</originalText>\n\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t<agentPerson classCode=\"PSN\" determinerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t\t\t\t\t<name>\n\t\t\t\t\t\t\t\t\t\t\t\t<prefix>Dr</prefix>\n\t\t\t\t\t\t\t\t\t\t\t\t<given>Jon</given>\n\t\t\t\t\t\t\t\t\t\t\t\t<family>Abbot</family>\n\t\t\t\t\t\t\t\t\t\t\t</name>\n\t\t\t\t\t\t\t\t\t\t</agentPerson>\n\t\t\t\t\t\t\t\t\t\t<representedOrganization classCode=\"ORG\"\n\t\t\t\t\t\t\t\t\t\t\tdeterminerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"B83002\" root=\"2.16.840.1.113883.2.1.4.3\" />\n\t\t\t\t\t\t\t\t\t\t\t<name>Ilkley and Wharfedale Medical Practice</name>\n\t\t\t\t\t\t\t\t\t\t\t<telecom value=\"tel:01234567890\" use=\"WP\" />\n\t\t\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>ILKLEY</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>LEEDS</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>WEST YORKSHIRE</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<postalCode>LS29 8TH</postalCode>\n\t\t\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t\t</representedOrganization>\n\t\t\t\t\t\t\t\t\t</Agent>\n\t\t\t\t\t\t\t\t</part>\n\t\t\t\t\t\t\t\t<part typeCode=\"PART\">\n\t\t\t\t\t\t\t\t\t<Agent classCode=\"AGNT\">\n\t\t\t\t\t\t\t\t\t\t<id root=\"CCBD8C5C-E396-4F84-839D-0FD350C75BE7\" />\n\t\t\t\t\t\t\t\t\t\t<agentDevice classCode=\"DEV\" determinerCode=\"INSTANCE\">\n\t\t\t\t\t\t\t\t\t\t\t<id root=\"13CFAAAE-8FD0-456D-B8B7-3F077B05D2FD\" />\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"24551000000106\" displayName=\"GP computer systems\"\n\t\t\t\t\t\t\t\t\t\t\t\tcodeSystem=\"2.16.840.1.113883.2.1.3.2.4.15\" />\n\t\t\t\t\t\t\t\t\t\t\t<softwareName>Example System</softwareName>\n\t\t\t\t\t\t\t\t\t\t</agentDevice>\n\t\t\t\t\t\t\t\t\t</Agent>\n\t\t\t\t\t\t\t\t</part>\n\t\t\t\t\t\t\t</agentDirectory>\n\t\t\t\t\t\t</responsibleParty>\n\t\t\t\t\t\t<component typeCode=\"COMP\">\n\t\t\t\t\t\t\t<ehrComposition classCode=\"COMPOSITION\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t<id root=\"26EE99BB-00FF-4596-9D8B-1D349C1D70A1\" />\n\t\t\t\t\t\t\t\t<code code=\"25741000000100\" displayName=\"Third Party Consultation\"\n\t\t\t\t\t\t\t\t\tcodeSystem=\"2.16.840.1.113883.2.1.3.2.4.15\" />\n\t\t\t\t\t\t\t\t<statusCode code=\"COMPLETE\" />\n\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t<low value=\"20050314155200\" />\n\t\t\t\t\t\t\t\t\t<high value=\"20131025165328\" />\n\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t<availabilityTime value=\"20131025165328\" />\n\t\t\t\t\t\t\t\t<author typeCode=\"AUT\" contextControlCode=\"OP\">\n\t\t\t\t\t\t\t\t\t<time value=\"20131025165328\" />\n\t\t\t\t\t\t\t\t\t<agentRef classCode=\"AGNT\">\n\t\t\t\t\t\t\t\t\t\t<id root=\"D1575DF5-E445-4521-AF6E-14C2D1E61265\" />\n\t\t\t\t\t\t\t\t\t</agentRef>\n\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t<component typeCode=\"COMP\">\n\t\t\t\t\t\t\t\t\t<CompoundStatement classCode=\"TOPIC\"\n\t\t\t\t\t\t\t\t\t\tmoodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t<id root=\"DCFDB486-F40A-4266-8B6E-88F9E38FC61A\" />\n\t\t\t\t\t\t\t\t\t\t<code nullFlavor=\"UNK\" />\n\t\t\t\t\t\t\t\t\t\t<statusCode code=\"COMPLETE\" />\n\t\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t<center nullFlavor=\"NI\" />\n\t\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t\t<availabilityTime value=\"20131025165328\" />\n\t\t\t\t\t\t\t\t\t\t<component typeCode=\"COMP\" contextConductionInd=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t<CompoundStatement classCode=\"CATEGORY\"\n\t\t\t\t\t\t\t\t\t\t\t\tmoodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\t<id root=\"8FA84DDE-70DC-462F-8A7F-3C532F9B7D47\" />\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"394867009\" displayName=\"Health Administration\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<originalText>Administration</originalText>\n\t\t\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"COMPLETE\" />\n\t\t\t\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<center nullFlavor=\"NI\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t\t<availabilityTime value=\"20131025165328\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<component typeCode=\"COMP\" contextConductionInd=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<NarrativeStatement classCode=\"OBS\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tmoodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<id root=\"FDD5D332-0468-414A-84E5-AFDAD5B37BCE\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<text>application/binary</text>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"COMPLETE\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<availabilityTime value=\"20131025165328\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t</NarrativeStatement>\n\t\t\t\t\t\t\t\t\t\t\t\t</component>\t\t\t\t\t\t\t\t\t\t\t\t<component typeCode=\"COMP\" contextConductionInd=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<NarrativeStatement classCode=\"OBS\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tmoodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<id root=\"5703D932-5A3F-42FD-BA9E-4C7CDDFF0656\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<text>text/plain</text>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"COMPLETE\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<availabilityTime value=\"20131025165328\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<reference typeCode=\"REFR\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<referredToExternalDocument\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tclassCode=\"DOC\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<id root=\"_277F29F1-FEAB-4D38-8266-FEB7A1E6227D\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"9b36.00\" displayName=\"Other digital signal\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcodeSystem=\"2.16.840.1.113883.2.1.6.10\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<originalText>Other Attachment</originalText>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<qualifier>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<name code=\"mediatype\" displayName=\"Media Type\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<value code=\"MMT011\" displayName=\"Other Attachment\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</qualifier>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<qualifier>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<name code=\"entity_ty\" displayName=\"Entity Type\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<value code=\"627\" displayName=\"ATTACHMENT\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</qualifier>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<qualifier>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<name code=\"thirdparty\" displayName=\"Third Party\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<value code=\"1\" displayName=\"Yes\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</qualifier>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<qualifier>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<name code=\"private\" displayName=\"Private\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<value code=\"0\" displayName=\"No\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</qualifier>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<translation code=\"9b36.00\" displayName=\"Other digital signal\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tcodeSystem=\"2.16.840.1.113883.2.1.6.2\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<translation code=\"37251000000104\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tdisplayName=\"Other digital signal\" codeSystem=\"2.16.840.1.113883.2.1.3.2.4.15\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<text mediaType=\"text/plain\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"file://localhost/277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</referredToExternalDocument>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</reference>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</NarrativeStatement>\n\t\t\t\t\t\t\t\t\t\t\t\t</component>\t\t\t\t\t\t\t\t\t\t\t\t<component typeCode=\"COMP\" contextConductionInd=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<NarrativeStatement classCode=\"OBS\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tmoodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<id root=\"7D88CB4A-7989-42E0-901D-816DAA869D08\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<text>text/plain</text>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"COMPLETE\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<availabilityTime value=\"20131025165328\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t</NarrativeStatement>\n\t\t\t\t\t\t\t\t\t\t\t\t</component>\t\t\t\t\t\t\t\t\t\t\t\t<component typeCode=\"COMP\" contextConductionInd=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<NarrativeStatement classCode=\"OBS\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tmoodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<id root=\"2531F667-AA89-4540-A50B-56298B13FC4C\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<text>video/mpeg</text>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"COMPLETE\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<availabilityTime value=\"20131025165328\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t</NarrativeStatement>\n\t\t\t\t\t\t\t\t\t\t\t\t</component>\n\t\t\t\t\t\t\t\t\t\t\t</CompoundStatement>\n\t\t\t\t\t\t\t\t\t\t</component>\n\t\t\t\t\t\t\t\t\t</CompoundStatement>\n\t\t\t\t\t\t\t\t</component>\n\t\t\t\t\t\t\t</ehrComposition>\n\t\t\t\t\t\t</component>\n\t\t\t\t\t</ehrFolder>\n\t\t\t\t</component>\n\t\t\t\t<inFulfillmentOf typeCode=\"FLFS\">\n\t\t\t\t\t<priorEhrRequest classCode=\"EXTRACT\" moodCode=\"RQO\">\n\t\t\t\t\t\t<id nullFlavor=\"UNK\" />\n\t\t\t\t\t</priorEhrRequest>\n\t\t\t\t</inFulfillmentOf>\n\t\t\t\t<limitation typeCode=\"LIMIT\" inversionInd=\"true\">\n\t\t\t\t\t<limitingEhrExtractSpecification\n\t\t\t\t\t\tclassCode=\"OBS\" moodCode=\"DEF\">\n\t\t\t\t\t\t<id root=\"94BA37B9-53F2-475B-A206-0535BD9E336D\" />\n\t\t\t\t\t\t<code code=\"37241000000102\" displayName=\"Entire record available to originator\"\n\t\t\t\t\t\t\tcodeSystem=\"2.16.840.1.113883.2.1.3.2.4.15\" />\n\t\t\t\t\t</limitingEhrExtractSpecification>\n\t\t\t\t</limitation>\n\t\t\t</EhrExtract>\n\t\t</subject>\n\t</ControlActEvent>\n</RCMR_IN030000UK06>\n\n\n----=_MIME-Boundary\nContent-Id: <17C993E0-0302-4C3C-9608-7E4862193784>\nContent-Type: text/plain\nContent-Transfer-Encoding: base64\n\nDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBBcGFjaGUgTGljZW5zZQ0KICAgICAg\nICAgICAgICAgICAgICAgICAgICAgVmVyc2lvbiAyLjAsIEphbnVhcnkgMjAwNA0KICAgICAgICAg\nICAgICAgICAgICAgICAgaHR0cDovL3d3dy5hcGFjaGUub3JnL2xpY2Vuc2VzLw0KDQogICBURVJN\nUyBBTkQgQ09ORElUSU9OUyBGT1IgVVNFLCBSRVBST0RVQ1RJT04sIEFORCBESVNUUklCVVRJT04N\nCg0KICAgMS4gRGVmaW5pdGlvbnMuDQoNCiAgICAgICJMaWNlbnNlIiBzaGFsbCBtZWFuIHRoZSB0\nZXJtcyBhbmQgY29uZGl0aW9ucyBmb3IgdXNlLCByZXByb2R1Y3Rpb24sDQogICAgICBhbmQgZGlz\ndHJpYnV0aW9uIGFzIGRlZmluZWQgYnkgU2VjdGlvbnMgMSB0aHJvdWdoIDkgb2YgdGhpcyBkb2N1\nbWVudC4NCg0KICAgICAgIkxpY2Vuc29yIiBzaGFsbCBtZWFuIHRoZSBjb3B5cmlnaHQgb3duZXIg\nb3IgZW50aXR5IGF1dGhvcml6ZWQgYnkNCiAgICAgIHRoZSBjb3B5cmlnaHQgb3duZXIgdGhhdCBp\ncyBncmFudGluZyB0aGUgTGljZW5zZS4NCg0KICAgICAgIkxlZ2FsIEVudGl0eSIgc2hhbGwgbWVh\nbiB0aGUgdW5pb24gb2YgdGhlIGFjdGluZyBlbnRpdHkgYW5kIGFsbA0KICAgICAgb3RoZXIgZW50\naXRpZXMgdGhhdCBjb250cm9sLCBhcmUgY29udHJvbGxlZCBieSwgb3IgYXJlIHVuZGVyIGNvbW1v\nbg0KICAgICAgY29udHJvbCB3aXRoIHRoYXQgZW50aXR5LiBGb3IgdGhlIHB1cnBvc2VzIG9mIHRo\naXMgZGVmaW5pdGlvbiwNCiAgICAgICJjb250cm9sIiBtZWFucyAoaSkgdGhlIHBvd2VyLCBkaXJl\nY3Qgb3IgaW5kaXJlY3QsIHRvIGNhdXNlIHRoZQ0KICAgICAgZGlyZWN0aW9uIG9yIG1hbmFnZW1l\nbnQgb2Ygc3VjaCBlbnRpdHksIHdoZXRoZXIgYnkgY29udHJhY3Qgb3INCiAgICAgIG90aGVyd2lz\nZSwgb3IgKGlpKSBvd25lcnNoaXAgb2YgZmlmdHkgcGVyY2VudCAoNTAlKSBvciBtb3JlIG9mIHRo\nZQ0KICAgICAgb3V0c3RhbmRpbmcgc2hhcmVzLCBvciAoaWlpKSBiZW5lZmljaWFsIG93bmVyc2hp\ncCBvZiBzdWNoIGVudGl0eS4NCg0KICAgICAgIllvdSIgKG9yICJZb3VyIikgc2hhbGwgbWVhbiBh\nbiBpbmRpdmlkdWFsIG9yIExlZ2FsIEVudGl0eQ0KICAgICAgZXhlcmNpc2luZyBwZXJtaXNzaW9u\ncyBncmFudGVkIGJ5IHRoaXMgTGljZW5zZS4NCg0KICAgICAgIlNvdXJjZSIgZm9ybSBzaGFsbCBt\nZWFuIHRoZSBwcmVmZXJyZWQgZm9ybSBmb3IgbWFraW5nIG1vZGlmaWNhdGlvbnMsDQogICAgICBp\nbmNsdWRpbmcgYnV0IG5vdCBsaW1pdGVkIHRvIHNvZnR3YXJlIHNvdXJjZSBjb2RlLCBkb2N1bWVu\ndGF0aW9uDQogICAgICBzb3VyY2UsIGFuZCBjb25maWd1cmF0aW9uIGZpbGVzLg0KDQogICAgICAi\nT2JqZWN0IiBmb3JtIHNoYWxsIG1lYW4gYW55IGZvcm0gcmVzdWx0aW5nIGZyb20gbWVjaGFuaWNh\nbA0KICAgICAgdHJhbnNmb3JtYXRpb24gb3IgdHJhbnNsYXRpb24gb2YgYSBTb3VyY2UgZm9ybSwg\naW5jbHVkaW5nIGJ1dA0KICAgICAgbm90IGxpbWl0ZWQgdG8gY29tcGlsZWQgb2JqZWN0IGNvZGUs\nIGdlbmVyYXRlZCBkb2N1bWVudGF0aW9uLA0KICAgICAgYW5kIGNvbnZlcnNpb25zIHRvIG90aGVy\nIG1lZGlhIHR5cGVzLg0KDQogICAgICAiV29yayIgc2hhbGwgbWVhbiB0aGUgd29yayBvZiBhdXRo\nb3JzaGlwLCB3aGV0aGVyIGluIFNvdXJjZSBvcg0KICAgICAgT2JqZWN0IGZvcm0sIG1hZGUgYXZh\naWxhYmxlIHVuZGVyIHRoZSBMaWNlbnNlLCBhcyBpbmRpY2F0ZWQgYnkgYQ0KICAgICAgY29weXJp\nZ2h0IG5vdGljZSB0aGF0IGlzIGluY2x1ZGVkIGluIG9yIGF0dGFjaGVkIHRvIHRoZSB3b3JrDQog\nICAgICAoYW4gZXhhbXBsZSBpcyBwcm92aWRlZCBpbiB0aGUgQXBwZW5kaXggYmVsb3cpLg0KDQog\nICAgICAiRGVyaXZhdGl2ZSBXb3JrcyIgc2hhbGwgbWVhbiBhbnkgd29yaywgd2hldGhlciBpbiBT\nb3VyY2Ugb3IgT2JqZWN0DQogICAgICBmb3JtLCB0aGF0IGlzIGJhc2VkIG9uIChvciBkZXJpdmVk\nIGZyb20pIHRoZSBXb3JrIGFuZCBmb3Igd2hpY2ggdGhlDQogICAgICBlZGl0b3JpYWwgcmV2aXNp\nb25zLCBhbm5vdGF0aW9ucywgZWxhYm9yYXRpb25zLCBvciBvdGhlciBtb2RpZmljYXRpb25zDQog\nICAgICByZXByZXNlbnQsIGFzIGEgd2hvbGUsIGFuIG9yaWdpbmFsIHdvcmsgb2YgYXV0aG9yc2hp\ncC4gRm9yIHRoZSBwdXJwb3Nlcw0KICAgICAgb2YgdGhpcyBMaWNlbnNlLCBEZXJpdmF0aXZlIFdv\ncmtzIHNoYWxsIG5vdCBpbmNsdWRlIHdvcmtzIHRoYXQgcmVtYWluDQogICAgICBzZXBhcmFibGUg\nZnJvbSwgb3IgbWVyZWx5IGxpbmsgKG9yIGJpbmQgYnkgbmFtZSkgdG8gdGhlIGludGVyZmFjZXMg\nb2YsDQogICAgICB0aGUgV29yayBhbmQgRGVyaXZhdGl2ZSBXb3JrcyB0aGVyZW9mLg0KDQogICAg\nICAiQ29udHJpYnV0aW9uIiBzaGFsbCBtZWFuIGFueSB3b3JrIG9mIGF1dGhvcnNoaXAsIGluY2x1\nZGluZw0KICAgICAgdGhlIG9yaWdpbmFsIHZlcnNpb24gb2YgdGhlIFdvcmsgYW5kIGFueSBtb2Rp\nZmljYXRpb25zIG9yIGFkZGl0aW9ucw0KICAgICAgdG8gdGhhdCBXb3JrIG9yIERlcml2YXRpdmUg\nV29ya3MgdGhlcmVvZiwgdGhhdCBpcyBpbnRlbnRpb25hbGx5DQogICAgICBzdWJtaXR0ZWQgdG8g\nTGljZW5zb3IgZm9yIGluY2x1c2lvbiBpbiB0aGUgV29yayBieSB0aGUgY29weXJpZ2h0IG93bmVy\nDQogICAgICBvciBieSBhbiBpbmRpdmlkdWFsIG9yIExlZ2FsIEVudGl0eSBhdXRob3JpemVkIHRv\nIHN1Ym1pdCBvbiBiZWhhbGYgb2YNCiAgICAgIHRoZSBjb3B5cmlnaHQgb3duZXIuIEZvciB0aGUg\ncHVycG9zZXMgb2YgdGhpcyBkZWZpbml0aW9uLCAic3VibWl0dGVkIg0KICAgICAgbWVhbnMgYW55\nIGZvcm0gb2YgZWxlY3Ryb25pYywgdmVyYmFsLCBvciB3cml0dGVuIGNvbW11bmljYXRpb24gc2Vu\ndA0KICAgICAgdG8gdGhlIExpY2Vuc29yIG9yIGl0cyByZXByZXNlbnRhdGl2ZXMsIGluY2x1ZGlu\nZyBidXQgbm90IGxpbWl0ZWQgdG8NCiAgICAgIGNvbW11bmljYXRpb24gb24gZWxlY3Ryb25pYyBt\nYWlsaW5nIGxpc3RzLCBzb3VyY2UgY29kZSBjb250cm9sIHN5c3RlbXMsDQogICAgICBhbmQgaXNz\ndWUgdHJhY2tpbmcgc3lzdGVtcyB0aGF0IGFyZSBtYW5hZ2VkIGJ5LCBvciBvbiBiZWhhbGYgb2Ys\nIHRoZQ0KICAgICAgTGljZW5zb3IgZm9yIHRoZSBwdXJwb3NlIG9mIGRpc2N1c3NpbmcgYW5kIGlt\ncHJvdmluZyB0aGUgV29yaywgYnV0DQogICAgICBleGNsdWRpbmcgY29tbXVuaWNhdGlvbiB0aGF0\nIGlzIGNvbnNwaWN1b3VzbHkgbWFya2VkIG9yIG90aGVyd2lzZQ0KICAgICAgZGVzaWduYXRlZCBp\nbiB3cml0aW5nIGJ5IHRoZSBjb3B5cmlnaHQgb3duZXIgYXMgIk5vdCBhIENvbnRyaWJ1dGlvbi4i\nDQoNCiAgICAgICJDb250cmlidXRvciIgc2hhbGwgbWVhbiBMaWNlbnNvciBhbmQgYW55IGluZGl2\naWR1YWwgb3IgTGVnYWwgRW50aXR5DQogICAgICBvbiBiZWhhbGYgb2Ygd2hvbSBhIENvbnRyaWJ1\ndGlvbiBoYXMgYmVlbiByZWNlaXZlZCBieSBMaWNlbnNvciBhbmQNCiAgICAgIHN1YnNlcXVlbnRs\neSBpbmNvcnBvcmF0ZWQgd2l0aGluIHRoZSBXb3JrLg0KDQogICAyLiBHcmFudCBvZiBDb3B5cmln\naHQgTGljZW5zZS4gU3ViamVjdCB0byB0aGUgdGVybXMgYW5kIGNvbmRpdGlvbnMgb2YNCiAgICAg\nIHRoaXMgTGljZW5zZSwgZWFjaCBDb250cmlidXRvciBoZXJlYnkgZ3JhbnRzIHRvIFlvdSBhIHBl\ncnBldHVhbCwNCiAgICAgIHdvcmxkd2lkZSwgbm9uLWV4Y2x1c2l2ZSwgbm8tY2hhcmdlLCByb3lh\nbHR5LWZyZWUsIGlycmV2b2NhYmxlDQogICAgICBjb3B5cmlnaHQgbGljZW5zZSB0byByZXByb2R1\nY2UsIHByZXBhcmUgRGVyaXZhdGl2ZSBXb3JrcyBvZiwNCiAgICAgIHB1YmxpY2x5IGRpc3BsYXks\nIHB1YmxpY2x5IHBlcmZvcm0sIHN1YmxpY2Vuc2UsIGFuZCBkaXN0cmlidXRlIHRoZQ0KICAgICAg\nV29yayBhbmQgc3VjaCBEZXJpdmF0aXZlIFdvcmtzIGluIFNvdXJjZSBvciBPYmplY3QgZm9ybS4N\nCg0KICAgMy4gR3JhbnQgb2YgUGF0ZW50IExpY2Vuc2UuIFN1YmplY3QgdG8gdGhlIHRlcm1zIGFu\nZCBjb25kaXRpb25zIG9mDQogICAgICB0aGlzIExpY2Vuc2UsIGVhY2ggQ29udHJpYnV0b3IgaGVy\nZWJ5IGdyYW50cyB0byBZb3UgYSBwZXJwZXR1YWwsDQogICAgICB3b3JsZHdpZGUsIG5vbi1leGNs\ndXNpdmUsIG5vLWNoYXJnZSwgcm95YWx0eS1mcmVlLCBpcnJldm9jYWJsZQ0KICAgICAgKGV4Y2Vw\ndCBhcyBzdGF0ZWQgaW4gdGhpcyBzZWN0aW9uKSBwYXRlbnQgbGljZW5zZSB0byBtYWtlLCBoYXZl\nIG1hZGUsDQogICAgICB1c2UsIG9mZmVyIHRvIHNlbGwsIHNlbGwsIGltcG9ydCwgYW5kIG90aGVy\nd2lzZSB0cmFuc2ZlciB0aGUgV29yaywNCiAgICAgIHdoZXJlIHN1Y2ggbGljZW5zZSBhcHBsaWVz\nIG9ubHkgdG8gdGhvc2UgcGF0ZW50IGNsYWltcyBsaWNlbnNhYmxlDQogICAgICBieSBzdWNoIENv\nbnRyaWJ1dG9yIHRoYXQgYXJlIG5lY2Vzc2FyaWx5IGluZnJpbmdlZCBieSB0aGVpcg0KICAgICAg\nQ29udHJpYnV0aW9uKHMpIGFsb25lIG9yIGJ5IGNvbWJpbmF0aW9uIG9mIHRoZWlyIENvbnRyaWJ1\ndGlvbihzKQ0KICAgICAgd2l0aCB0aGUgV29yayB0byB3aGljaCBzdWNoIENvbnRyaWJ1dGlvbihz\nKSB3YXMgc3VibWl0dGVkLiBJZiBZb3UNCiAgICAgIGluc3RpdHV0ZSBwYXRlbnQgbGl0aWdhdGlv\nbiBhZ2FpbnN0IGFueSBlbnRpdHkgKGluY2x1ZGluZyBhDQogICAgICBjcm9zcy1jbGFpbSBvciBj\nb3VudGVyY2xhaW0gaW4gYSBsYXdzdWl0KSBhbGxlZ2luZyB0aGF0IHRoZSBXb3JrDQogICAgICBv\nciBhIENvbnRyaWJ1dGlvbiBpbmNvcnBvcmF0ZWQgd2l0aGluIHRoZSBXb3JrIGNvbnN0aXR1dGVz\nIGRpcmVjdA0KICAgICAgb3IgY29udHJpYnV0b3J5IHBhdGVudCBpbmZyaW5nZW1lbnQsIHRoZW4g\nYW55IHBhdGVudCBsaWNlbnNlcw0KICAgICAgZ3JhbnRlZCB0byBZb3UgdW5kZXIgdGhpcyBMaWNl\nbnNlIGZvciB0aGF0IFdvcmsgc2hhbGwgdGVybWluYXRlDQogICAgICBhcyBvZiB0aGUgZGF0ZSBz\ndWNoIGxpdGlnYXRpb24gaXMgZmlsZWQuDQoNCiAgIDQuIFJlZGlzdHJpYnV0aW9uLiBZb3UgbWF5\nIHJlcHJvZHVjZSBhbmQgZGlzdHJpYnV0ZSBjb3BpZXMgb2YgdGhlDQogICAgICBXb3JrIG9yIERl\ncml2YXRpdmUgV29ya3MgdGhlcmVvZiBpbiBhbnkgbWVkaXVtLCB3aXRoIG9yIHdpdGhvdXQNCiAg\nICAgIG1vZGlmaWNhdGlvbnMsIGFuZCBpbiBTb3VyY2Ugb3IgT2JqZWN0IGZvcm0sIHByb3ZpZGVk\nIHRoYXQgWW91DQogICAgICBtZWV0IHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoNCg0KICAgICAg\nKGEpIFlvdSBtdXN0IGdpdmUgYW55IG90aGVyIHJlY2lwaWVudHMgb2YgdGhlIFdvcmsgb3INCiAg\nICAgICAgICBEZXJpdmF0aXZlIFdvcmtzIGEgY29weSBvZiB0aGlzIExpY2Vuc2U7IGFuZA0KDQog\nICAgICAoYikgWW91IG11c3QgY2F1c2UgYW55IG1vZGlmaWVkIGZpbGVzIHRvIGNhcnJ5IHByb21p\nbmVudCBub3RpY2VzDQogICAgICAgICAgc3RhdGluZyB0aGF0IFlvdSBjaGFuZ2VkIHRoZSBmaWxl\nczsgYW5kDQoNCiAgICAgIChjKSBZb3UgbXVzdCByZXRhaW4sIGluIHRoZSBTb3VyY2UgZm9ybSBv\nZiBhbnkgRGVyaXZhdGl2ZSBXb3Jrcw0KICAgICAgICAgIHRoYXQgWW91IGRpc3RyaWJ1dGUsIGFs\nbCBjb3B5cmlnaHQsIHBhdGVudCwgdHJhZGVtYXJrLCBhbmQNCiAgICAgICAgICBhdHRyaWJ1dGlv\nbiBub3RpY2VzIGZyb20gdGhlIFNvdXJjZSBmb3JtIG9mIHRoZSBXb3JrLA0KICAgICAgICAgIGV4\nY2x1ZGluZyB0aG9zZSBub3RpY2VzIHRoYXQgZG8gbm90IHBlcnRhaW4gdG8gYW55IHBhcnQgb2YN\nCiAgICAgICAgICB0aGUgRGVyaXZhdGl2ZSBXb3JrczsgYW5kDQoNCiAgICAgIChkKSBJZiB0aGUg\nV29yayBpbmNsdWRlcyBhICJOT1RJQ0UiIHRleHQgZmlsZSBhcyBwYXJ0IG9mIGl0cw0KICAgICAg\nICAgIGRpc3RyaWJ1dGlvbiwgdGhlbiBhbnkgRGVyaXZhdGl2ZSBXb3JrcyB0aGF0IFlvdSBkaXN0\ncmlidXRlIG11c3QNCiAgICAgICAgICBpbmNsdWRlIGEgcmVhZGFibGUgY29weSBvZiB0aGUgYXR0\ncmlidXRpb24gbm90aWNlcyBjb250YWluZWQNCiAgICAgICAgICB3aXRoaW4gc3VjaCBOT1RJQ0Ug\nZmlsZSwgZXhjbHVkaW5nIHRob3NlIG5vdGljZXMgdGhhdCBkbyBub3QNCiAgICAgICAgICBwZXJ0\nYWluIHRvIGFueSBwYXJ0IG9mIHRoZSBEZXJpdmF0aXZlIFdvcmtzLCBpbiBhdCBsZWFzdCBvbmUN\nCiAgICAgICAgICBvZiB0aGUgZm9sbG93aW5nIHBsYWNlczogd2l0aGluIGEgTk9USUNFIHRleHQg\nZmlsZSBkaXN0cmlidXRlZA0KICAgICAgICAgIGFzIHBhcnQgb2YgdGhlIERlcml2YXRpdmUgV29y\na3M7IHdpdGhpbiB0aGUgU291cmNlIGZvcm0gb3INCiAgICAgICAgICBkb2N1bWVudGF0aW9uLCBp\nZiBwcm92aWRlZCBhbG9uZyB3aXRoIHRoZSBEZXJpdmF0aXZlIFdvcmtzOyBvciwNCiAgICAgICAg\nICB3aXRoaW4gYSBkaXNwbGF5IGdlbmVyYXRlZCBieSB0aGUgRGVyaXZhdGl2ZSBXb3JrcywgaWYg\nYW5kDQogICAgICAgICAgd2hlcmV2ZXIgc3VjaCB0aGlyZC1wYXJ0eSBub3RpY2VzIG5vcm1hbGx5\nIGFwcGVhci4gVGhlIGNvbnRlbnRzDQogICAgICAgICAgb2YgdGhlIE5PVElDRSBmaWxlIGFyZSBm\nb3IgaW5mb3JtYXRpb25hbCBwdXJwb3NlcyBvbmx5IGFuZA0KICAgICAgICAgIGRvIG5vdCBtb2Rp\nZnkgdGhlIExpY2Vuc2UuIFlvdSBtYXkgYWRkIFlvdXIgb3duIGF0dHJpYnV0aW9uDQogICAgICAg\nICAgbm90aWNlcyB3aXRoaW4gRGVyaXZhdGl2ZSBXb3JrcyB0aGF0IFlvdSBkaXN0cmlidXRlLCBh\nbG9uZ3NpZGUNCiAgICAgICAgICBvciBhcyBhbiBhZGRlbmR1bSB0byB0aGUgTk9USUNFIHRleHQg\nZnJvbSB0aGUgV29yaywgcHJvdmlkZWQNCiAgICAgICAgICB0aGF0IHN1Y2ggYWRkaXRpb25hbCBh\ndHRyaWJ1dGlvbiBub3RpY2VzIGNhbm5vdCBiZSBjb25zdHJ1ZWQNCiAgICAgICAgICBhcyBtb2Rp\nZnlpbmcgdGhlIExpY2Vuc2UuDQoNCiAgICAgIFlvdSBtYXkgYWRkIFlvdXIgb3duIGNvcHlyaWdo\ndCBzdGF0ZW1lbnQgdG8gWW91ciBtb2RpZmljYXRpb25zIGFuZA0KICAgICAgbWF5IHByb3ZpZGUg\nYWRkaXRpb25hbCBvciBkaWZmZXJlbnQgbGljZW5zZSB0ZXJtcyBhbmQgY29uZGl0aW9ucw0KICAg\nICAgZm9yIHVzZSwgcmVwcm9kdWN0aW9uLCBvciBkaXN0cmlidXRpb24gb2YgWW91ciBtb2RpZmlj\nYXRpb25zLCBvcg0KICAgICAgZm9yIGFueSBzdWNoIERlcml2YXRpdmUgV29ya3MgYXMgYSB3aG9s\nZSwgcHJvdmlkZWQgWW91ciB1c2UsDQogICAgICByZXByb2R1Y3Rpb24sIGFuZCBkaXN0cmlidXRp\nb24gb2YgdGhlIFdvcmsgb3RoZXJ3aXNlIGNvbXBsaWVzIHdpdGgNCiAgICAgIHRoZSBjb25kaXRp\nb25zIHN0YXRlZCBpbiB0aGlzIExpY2Vuc2UuDQoNCiAgIDUuIFN1Ym1pc3Npb24gb2YgQ29udHJp\nYnV0aW9ucy4gVW5sZXNzIFlvdSBleHBsaWNpdGx5IHN0YXRlIG90aGVyd2lzZSwNCiAgICAgIGFu\neSBDb250cmlidXRpb24gaW50ZW50aW9uYWxseSBzdWJtaXR0ZWQgZm9yIGluY2x1c2lvbiBpbiB0\naGUgV29yaw0KICAgICAgYnkgWW91IHRvIHRoZSBMaWNlbnNvciBzaGFsbCBiZSB1bmRlciB0aGUg\ndGVybXMgYW5kIGNvbmRpdGlvbnMgb2YNCiAgICAgIHRoaXMgTGljZW5zZSwgd2l0aG91dCBhbnkg\nYWRkaXRpb25hbCB0ZXJtcyBvciBjb25kaXRpb25zLg0KICAgICAgTm90d2l0aHN0YW5kaW5nIHRo\nZSBhYm92ZSwgbm90aGluZyBoZXJlaW4gc2hhbGwgc3VwZXJzZWRlIG9yIG1vZGlmeQ0KICAgICAg\ndGhlIHRlcm1zIG9mIGFueSBzZXBhcmF0ZSBsaWNlbnNlIGFncmVlbWVudCB5b3UgbWF5IGhhdmUg\nZXhlY3V0ZWQNCiAgICAgIHdpdGggTGljZW5zb3IgcmVnYXJkaW5nIHN1Y2ggQ29udHJpYnV0aW9u\ncy4NCg0KICAgNi4gVHJhZGVtYXJrcy4gVGhpcyBMaWNlbnNlIGRvZXMgbm90IGdyYW50IHBlcm1p\nc3Npb24gdG8gdXNlIHRoZSB0cmFkZQ0KICAgICAgbmFtZXMsIHRyYWRlbWFya3MsIHNlcnZpY2Ug\nbWFya3MsIG9yIHByb2R1Y3QgbmFtZXMgb2YgdGhlIExpY2Vuc29yLA0KICAgICAgZXhjZXB0IGFz\nIHJlcXVpcmVkIGZvciByZWFzb25hYmxlIGFuZCBjdXN0b21hcnkgdXNlIGluIGRlc2NyaWJpbmcg\ndGhlDQogICAgICBvcmlnaW4gb2YgdGhlIFdvcmsgYW5kIHJlcHJvZHVjaW5nIHRoZSBjb250ZW50\nIG9mIHRoZSBOT1RJQ0UgZmlsZS4NCg0KICAgNy4gRGlzY2xhaW1lciBvZiBXYXJyYW50eS4gVW5s\nZXNzIHJlcXVpcmVkIGJ5IGFwcGxpY2FibGUgbGF3IG9yDQogICAgICBhZ3JlZWQgdG8gaW4gd3Jp\ndGluZywgTGljZW5zb3IgcHJvdmlkZXMgdGhlIFdvcmsgKGFuZCBlYWNoDQogICAgICBDb250cmli\ndXRvciBwcm92aWRlcyBpdHMgQ29udHJpYnV0aW9ucykgb24gYW4gIkFTIElTIiBCQVNJUywNCiAg\nICAgIFdJVEhPVVQgV0FSUkFOVElFUyBPUiBDT05ESVRJT05TIE9GIEFOWSBLSU5ELCBlaXRoZXIg\nZXhwcmVzcyBvcg0KICAgICAgaW1wbGllZCwgaW5jbHVkaW5nLCB3aXRob3V0IGxpbWl0YXRpb24s\nIGFueSB3YXJyYW50aWVzIG9yIGNvbmRpdGlvbnMNCiAgICAgIG9mIFRJVExFLCBOT04tSU5GUklO\nR0VNRU5ULCBNRVJDSEFOVEFCSUxJVFksIG9yIEZJVE5FU1MgRk9SIEENCiAgICAgIFBBUlRJQ1VM\nQVIgUFVSUE9TRS4gWW91IGFyZSBzb2xlbHkgcmVzcG9uc2libGUgZm9yIGRldGVybWluaW5nIHRo\nZQ0KICAgICAgYXBwcm9wcmlhdGVuZXNzIG9mIHVzaW5nIG9yIHJlZGlzdHJpYnV0aW5nIHRoZSBX\nb3JrIGFuZCBhc3N1bWUgYW55DQogICAgICByaXNrcyBhc3NvY2lhdGVkIHdpdGggWW91ciBleGVy\nY2lzZSBvZiBwZXJtaXNzaW9ucyB1bmRlciB0aGlzIExpY2Vuc2UuDQoNCiAgIDguIExpbWl0YXRp\nb24gb2YgTGlhYmlsaXR5LiBJbiBubyBldmVudCBhbmQgdW5kZXIgbm8gbGVnYWwgdGhlb3J5LA0K\nICAgICAgd2hldGhlciBpbiB0b3J0IChpbmNsdWRpbmcgbmVnbGlnZW5jZSksIGNvbnRyYWN0LCBv\nciBvdGhlcndpc2UsDQogICAgICB1bmxlc3MgcmVxdWlyZWQgYnkgYXBwbGljYWJsZSBsYXcgKHN1\nY2ggYXMgZGVsaWJlcmF0ZSBhbmQgZ3Jvc3NseQ0KICAgICAgbmVnbGlnZW50IGFjdHMpIG9yIGFn\ncmVlZCB0byBpbiB3cml0aW5nLCBzaGFsbCBhbnkgQ29udHJpYnV0b3IgYmUNCiAgICAgIGxpYWJs\nZSB0byBZb3UgZm9yIGRhbWFnZXMsIGluY2x1ZGluZyBhbnkgZGlyZWN0LCBpbmRpcmVjdCwgc3Bl\nY2lhbCwNCiAgICAgIGluY2lkZW50YWwsIG9yIGNvbnNlcXVlbnRpYWwgZGFtYWdlcyBvZiBhbnkg\nY2hhcmFjdGVyIGFyaXNpbmcgYXMgYQ0KICAgICAgcmVzdWx0IG9mIHRoaXMgTGljZW5zZSBvciBv\ndXQgb2YgdGhlIHVzZSBvciBpbmFiaWxpdHkgdG8gdXNlIHRoZQ0KICAgICAgV29yayAoaW5jbHVk\naW5nIGJ1dCBub3QgbGltaXRlZCB0byBkYW1hZ2VzIGZvciBsb3NzIG9mIGdvb2R3aWxsLA0KICAg\nICAgd29yayBzdG9wcGFnZSwgY29tcHV0ZXIgZmFpbHVyZSBvciBtYWxmdW5jdGlvbiwgb3IgYW55\nIGFuZCBhbGwNCiAgICAgIG90aGVyIGNvbW1lcmNpYWwgZGFtYWdlcyBvciBsb3NzZXMpLCBldmVu\nIGlmIHN1Y2ggQ29udHJpYnV0b3INCiAgICAgIGhhcyBiZWVuIGFkdmlzZWQgb2YgdGhlIHBvc3Np\nYmlsaXR5IG9mIHN1Y2ggZGFtYWdlcy4NCg0KICAgOS4gQWNjZXB0aW5nIFdhcnJhbnR5IG9yIEFk\nZGl0aW9uYWwgTGlhYmlsaXR5LiBXaGlsZSByZWRpc3RyaWJ1dGluZw0KICAgICAgdGhlIFdvcmsg\nb3IgRGVyaXZhdGl2ZSBXb3JrcyB0aGVyZW9mLCBZb3UgbWF5IGNob29zZSB0byBvZmZlciwNCiAg\nICAgIGFuZCBjaGFyZ2UgYSBmZWUgZm9yLCBhY2NlcHRhbmNlIG9mIHN1cHBvcnQsIHdhcnJhbnR5\nLCBpbmRlbW5pdHksDQogICAgICBvciBvdGhlciBsaWFiaWxpdHkgb2JsaWdhdGlvbnMgYW5kL29y\nIHJpZ2h0cyBjb25zaXN0ZW50IHdpdGggdGhpcw0KICAgICAgTGljZW5zZS4gSG93ZXZlciwgaW4g\nYWNjZXB0aW5nIHN1Y2ggb2JsaWdhdGlvbnMsIFlvdSBtYXkgYWN0IG9ubHkNCiAgICAgIG9uIFlv\ndXIgb3duIGJlaGFsZiBhbmQgb24gWW91ciBzb2xlIHJlc3BvbnNpYmlsaXR5LCBub3Qgb24gYmVo\nYWxmDQogICAgICBvZiBhbnkgb3RoZXIgQ29udHJpYnV0b3IsIGFuZCBvbmx5IGlmIFlvdSBhZ3Jl\nZSB0byBpbmRlbW5pZnksDQogICAgICBkZWZlbmQsIGFuZCBob2xkIGVhY2ggQ29udHJpYnV0b3Ig\naGFybWxlc3MgZm9yIGFueSBsaWFiaWxpdHkNCiAgICAgIGluY3VycmVkIGJ5LCBvciBjbGFpbXMg\nYXNzZXJ0ZWQgYWdhaW5zdCwgc3VjaCBDb250cmlidXRvciBieSByZWFzb24NCiAgICAgIG9mIHlv\ndXIgYWNjZXB0aW5nIGFueSBzdWNoIHdhcnJhbnR5IG9yIGFkZGl0aW9uYWwgbGlhYmlsaXR5Lg0K\nDQogICBFTkQgT0YgVEVSTVMgQU5EIENPTkRJVElPTlMNCg0KICAgQVBQRU5ESVg6IEhvdyB0byBh\ncHBseSB0aGUgQXBhY2hlIExpY2Vuc2UgdG8geW91ciB3b3JrLg0KDQogICAgICBUbyBhcHBseSB0\naGUgQXBhY2hlIExpY2Vuc2UgdG8geW91ciB3b3JrLCBhdHRhY2ggdGhlIGZvbGxvd2luZw0KICAg\nICAgYm9pbGVycGxhdGUgbm90aWNlLCB3aXRoIHRoZSBmaWVsZHMgZW5jbG9zZWQgYnkgYnJhY2tl\ndHMgIltdIg0KICAgICAgcmVwbGFjZWQgd2l0aCB5b3VyIG93biBpZGVudGlmeWluZyBpbmZvcm1h\ndGlvbi4gKERvbid0IGluY2x1ZGUNCiAgICAgIHRoZSBicmFja2V0cyEpICBUaGUgdGV4dCBzaG91\nbGQgYmUgZW5jbG9zZWQgaW4gdGhlIGFwcHJvcHJpYXRlDQogICAgICBjb21tZW50IHN5bnRheCBm\nb3IgdGhlIGZpbGUgZm9ybWF0LiBXZSBhbHNvIHJlY29tbWVuZCB0aGF0IGENCiAgICAgIGZpbGUg\nb3IgY2xhc3MgbmFtZSBhbmQgZGVzY3JpcHRpb24gb2YgcHVycG9zZSBiZSBpbmNsdWRlZCBvbiB0\naGUNCiAgICAgIHNhbWUgInByaW50ZWQgcGFnZSIgYXMgdGhlIGNvcHlyaWdodCBub3RpY2UgZm9y\nIGVhc2llcg0KICAgICAgaWRlbnRpZmljYXRpb24gd2l0aGluIHRoaXJkLXBhcnR5IGFyY2hpdmVz\nLg0KDQogICBDb3B5cmlnaHQgW3l5eXldIFtuYW1lIG9mIGNvcHlyaWdodCBvd25lcl0NCg0KICAg\nTGljZW5zZWQgdW5kZXIgdGhlIEFwYWNoZSBMaWNlbnNlLCBWZXJzaW9uIDIuMCAodGhlICJMaWNl\nbnNlIik7DQogICB5b3UgbWF5IG5vdCB1c2UgdGhpcyBmaWxlIGV4Y2VwdCBpbiBjb21wbGlhbmNl\nIHdpdGggdGhlIExpY2Vuc2UuDQogICBZb3UgbWF5IG9idGFpbiBhIGNvcHkgb2YgdGhlIExpY2Vu\nc2UgYXQNCg0KICAgICAgIGh0dHA6Ly93d3cuYXBhY2hlLm9yZy9saWNlbnNlcy9MSUNFTlNFLTIu\nMA0KDQogICBVbmxlc3MgcmVxdWlyZWQgYnkgYXBwbGljYWJsZSBsYXcgb3IgYWdyZWVkIHRvIGlu\nIHdyaXRpbmcsIHNvZnR3YXJlDQogICBkaXN0cmlidXRlZCB1bmRlciB0aGUgTGljZW5zZSBpcyBk\naXN0cmlidXRlZCBvbiBhbiAiQVMgSVMiIEJBU0lTLA0KICAgV0lUSE9VVCBXQVJSQU5USUVTIE9S\nIENPTkRJVElPTlMgT0YgQU5ZIEtJTkQsIGVpdGhlciBleHByZXNzIG9yIGltcGxpZWQuDQogICBT\nZWUgdGhlIExpY2Vuc2UgZm9yIHRoZSBzcGVjaWZpYyBsYW5ndWFnZSBnb3Zlcm5pbmcgcGVybWlz\nc2lvbnMgYW5kDQogICBsaW1pdGF0aW9ucyB1bmRlciB0aGUgTGljZW5zZS4NCg==\n----=_MIME-Boundary--"
+						},
+						"url": {
+							"raw": "https://localhost:{{inbound-port}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{inbound-port}}"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02 - B Verify EHR Extract",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const numOfRetries = 3;",
+									"let count = pm.collectionVariables.get(\"ehr-retry-count\");",
+									"",
+									"function retryRequest() {",
+									"",
+									"    setTimeout(() => {}, 5000);",
+									"",
+									"    if(++count >= numOfRetries) {",
+									"       ",
+									"          pm.test(\"Jornal should contain EHR extract\", () => {",
+									"            pm.expect.fail(\"max number of retries reached\");",
+									"        });",
+									"    ",
+									"    } else {",
+									"        pm.collectionVariables.set(\"ehr-retry-count\", count);",
+									"",
+									"        postman.setNextRequest(pm.info.requestId);",
+									"    }",
+									"}",
+									"",
+									"function executeTests() {",
+									"",
+									"    pm.test(\"Repsonse should be 200 OK\", () => {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    })",
+									"",
+									"    pm.test(\"Migration status is completed\", () => {",
+									"        responseBody = pm.response.json();",
+									"        statusLog = responseBody.migrationStatusLog;",
+									"        lastStatusLogPos = statusLog.length - 1;",
+									"",
+									"        lastStatusLog = statusLog[lastStatusLogPos]",
+									"",
+									"        pm.expect(lastStatusLog.migrationStatus).to.equal(\"MIGRATION_COMPLETED\");",
+									"    });",
+									"}",
+									"",
+									"function migrationComplete() {",
+									"    responseBody = pm.response.json();",
+									"    statusLog = responseBody.migrationStatusLog;",
+									"    lastStatusLogPos = statusLog.length - 1;",
+									"",
+									"    lastStatusLog = statusLog[lastStatusLogPos]",
+									"",
+									"    return lastStatusLog.migrationStatus === \"MIGRATION_COMPLETED\";",
+									"}",
+									"",
+									"if (migrationComplete()) {",
+									"    executeTests();",
+									"} else {",
+									"    retryRequest();",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8086/pss-adaptor-db/patient-migration-request/{{conversation-id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8086",
+							"path": [
+								"pss-adaptor-db",
+								"patient-migration-request",
+								"{{conversation-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02 - C Verify DB Logs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"    the following tests are bellow:\r",
+									"    PS_GEN_10\r",
+									"\r",
+									"    PS_GEN_11\r",
+									"*/\r",
+									"if(pm.response.code === 200) {\r",
+									"    executeTests();\r",
+									"}else{\r",
+									"    retryRequest();\r",
+									"}\r",
+									"\r",
+									"function executeTests() {\r",
+									"\r",
+									"    pm.test(\"Verify there is a database entry\", () => {\r",
+									"\r",
+									"        if (pm.response.code === 204) {\r",
+									"            pm.expect.fail(\"Response has no content\");\r",
+									"        } \r",
+									"    });\r",
+									"\r",
+									"    const response = pm.response.json();\r",
+									"    const migrationStatusLog = response.migrationStatusLog;\r",
+									"\r",
+									"    pm.test(\"Verify migration logged as EHR_EXTRACT_RECEIVED\", () => {\r",
+									"        \r",
+									"        const hasRequestRecieved = migrationStatusLog.some(log => log.migrationStatus === \"EHR_EXTRACT_RECEIVED\");\r",
+									"\r",
+									"        pm.expect(hasRequestRecieved).to.be.true;\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"Verify migration logged as EHR_EXTRACT_TRANSLATED\", () => {\r",
+									"        \r",
+									"        const  hasRequestAccepted= migrationStatusLog.some(log => log.migrationStatus === \"EHR_EXTRACT_TRANSLATED\");\r",
+									"\r",
+									"        pm.expect(hasRequestAccepted).to.be.true;\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"Verify migration logged as MIGRATION_COMPLETED\", () => {\r",
+									"        \r",
+									"        const hasRequestRecieved = migrationStatusLog.some(log => log.migrationStatus === \"MIGRATION_COMPLETED\");\r",
+									"\r",
+									"        pm.expect(hasRequestRecieved).to.be.true;\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"\r",
+									"\r",
+									"function retryRequest() {\r",
+									"\r",
+									"    setTimeout(() => {}, 5000);\r",
+									"\r",
+									"    if(++count >= numOfRetries) {\r",
+									"    \r",
+									"        pm.collectionVariables.set(\"request-retry-count\", 0);\r",
+									"\r",
+									"        pm.test(\"database entry should exist for conversation\", () => {\r",
+									"            pm.expect.fail(\"max number of retries reached\");\r",
+									"        });\r",
+									"    \r",
+									"    } else {\r",
+									"        pm.collectionVariables.set(\"request-retry-count\", count);\r",
+									"\r",
+									"        postman.setNextRequest(pm.info.requestId);\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{mock-spine-mhs-port}}/pss-adaptor-db/patient-migration-request/{{conversation-id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{mock-spine-mhs-port}}",
+							"path": [
+								"pss-adaptor-db",
+								"patient-migration-request",
+								"{{conversation-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03 - Get Bundle from Facade",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* Send this message a couple of seconds after the previous message was sent*/",
+									"",
+									"",
+									"const response = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"Repsonse should be OK 200\", () => {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"})",
+									"",
+									"pm.test(\"Response should contain a Bundle JSON\", () => {",
+									"    pm.expect(response.resourceType.includes(\"Bundle\")).to.be.true;",
+									"})",
+									"",
+									"",
+									"pm.test(\"Response containing Bundle JSON should contain more than 1 resourceType\", () => {",
+									"    pm.expect(response.entry.length > 0).to.be.true;",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {}, 5000);\r",
+									"pm.collectionVariables.set(\"ehr-request-id\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							},
+							{
+								"key": "to-asid",
+								"value": "{{losing-asid}}",
+								"type": "text"
+							},
+							{
+								"key": "from-asid",
+								"value": "{{winning-asid}}",
+								"type": "text"
+							},
+							{
+								"key": "to-ods",
+								"value": "{{losing-ods}}",
+								"type": "text"
+							},
+							{
+								"key": "from-ods",
+								"value": "{{winning-ods}}",
+								"type": "text"
+							},
+							{
+								"key": "ConversationId",
+								"value": "{{conversation-id}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"resourceType\": \"Parameters\",\r\n    \"parameter\": [\r\n        {\r\n            \"name\": \"patientNHSNumber\",\r\n            \"valueIdentifier\": {\r\n                \"system\": \"https://fhir.nhs.uk/Id/nhs-number\",\r\n                \"value\": \"{{nhs-number-test-group-3}}\"\r\n            }\r\n        },\r\n        {\r\n            \"name\": \"includeFullRecord\",\r\n            \"part\": [\r\n                {\r\n                    \"name\": \"includeSensitiveInfomation\",\r\n                    \"valueBoolean\": true\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{facade-port}}/Patient/$gpc.migratestructuredrecord",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{facade-port}}",
+							"path": [
+								"Patient",
+								"$gpc.migratestructuredrecord"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify file in storage",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Repsonse should be 200 OK\", () => {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"})",
+									"",
+									"pm.test(\"File uploaded is true\", () => {",
+									"    responseBody = pm.response.json();",
+									"    attachment = responseBody.patientAttachmentLog;",
+									"",
+									"    pm.expect(attachment).to.not.be.null;",
+									"    pm.expect(attachment[0].uploaded).to.be.true",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8086/pss-adaptor-db/patient-migration-request/{{conversation-id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8086",
+							"path": [
+								"pss-adaptor-db",
+								"patient-migration-request",
+								"{{conversation-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GP2GP Adaptor EHR and Continue Message and ACK",
+			"item": [
+				{
+					"name": "Send EHR Request",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateUUID() { // Public Domain/MIT\r",
+									"    var d = new Date().getTime();//Timestamp\r",
+									"    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported\r",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+									"        var r = Math.random() * 16;//random number between 0 and 16\r",
+									"        if(d > 0){//Use timestamp until depleted\r",
+									"            r = (d + r)%16 | 0;\r",
+									"            d = Math.floor(d/16);\r",
+									"        } else {//Use microseconds since page-load if supported\r",
+									"            r = (d2 + r)%16 | 0;\r",
+									"            d2 = Math.floor(d2/16);\r",
+									"        }\r",
+									"        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(\"conversationId\", generateUUID());\r",
+									"pm.collectionVariables.set(\"request-messageId\", generateUUID());\r",
+									"pm.collectionVariables.set(\"timestamp\", Date.now().toString);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"ehr-retry-count\", 0);\r",
+									"pm.collectionVariables.set(\"ack-retry-count\", 0);\r",
+									"\r",
+									"pm.test(\"Response should be 200 OK\", () => {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/related; boundary=\"--=_MIME-Boundary\"; type=text/xml; start=<ebXMLHeader@spine.nhs.uk>",
+								"type": "text"
+							},
+							{
+								"key": "SOAPAction",
+								"value": "SOAPAction: urn:nhs:names:services:gp2gp/RCMR_IN010000UK05",
+								"type": "text"
+							},
+							{
+								"key": "Correlation-Id",
+								"value": "{{conversationId}}",
+								"type": "text"
+							},
+							{
+								"key": "Message-Id",
+								"value": "{{request-messageId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "----=_MIME-Boundary\r\nContent-Id: <ebXMLHeader@spine.nhs.uk>\r\nContent-Type: text/xml; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<soap:Envelope xmlns:eb=\"http://www.oasis-open.org/committees/ebxml-msg/schema/msg-header-2_0.xsd\" xmlns:hl7ebxml=\"urn:hl7-org:transport/ebxml/DSTUv1.0\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n\t<soap:Header>\r\n\t\t<eb:MessageHeader eb:version=\"2.0\" soap:mustUnderstand=\"1\">\r\n\t\t\t<eb:From>\r\n\t\t\t\t<eb:PartyId eb:type=\"urn:nhs:names:partyType:ocs+serviceInstance\">AP4RTY-K33Y</eb:PartyId>\r\n\t\t\t</eb:From>\r\n\t\t\t<eb:To>\r\n\t\t\t\t<eb:PartyId eb:type=\"urn:nhs:names:partyType:ocs+serviceInstance\">{{losing-party-key}}</eb:PartyId>\r\n\t\t\t</eb:To>\r\n\t\t\t<eb:CPAId>1b09c9557a7794ff6fd2</eb:CPAId>\r\n\t\t\t<eb:ConversationId>{{conversationId}}</eb:ConversationId>\r\n\t\t\t<eb:Service>urn:nhs:names:services:gp2gp</eb:Service>\r\n\t\t\t<eb:Action>RCMR_IN010000UK05</eb:Action>\r\n\t\t\t<eb:MessageData>\r\n\t\t\t\t<eb:MessageId>{{request-messageId}}</eb:MessageId>\r\n\t\t\t\t<eb:Timestamp>{{timestamp}}</eb:Timestamp>\r\n\t\t\t\t<eb:TimeToLive>{{timestamp}}</eb:TimeToLive>\r\n\t\t\t</eb:MessageData>\r\n\t\t\t<eb:DuplicateElimination/>\r\n\t\t</eb:MessageHeader>\r\n\t\t<eb:AckRequested eb:signed=\"false\" eb:version=\"2.0\" soap:actor=\"urn:oasis:names:tc:ebxml-msg:actor:nextMSH\" soap:mustUnderstand=\"1\"/>\r\n\t</soap:Header>\r\n\t<soap:Body>\r\n\t\t<eb:Manifest eb:version=\"2.0\" soap:mustUnderstand=\"1\">\r\n\t\t\t<eb:Reference xlink:href=\"cid:{{request-messageId}}@e-mis.com/EMISWeb/GP2GP2.2A\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\r\n\t\t\t\t<eb:Description xml:lang=\"en\">RCMR_IN010000UK05</eb:Description>\r\n\t\t\t\t<hl7ebxml:Payload encoding=\"XML\" style=\"HL7\" version=\"3.0\"/>\r\n\t\t\t</eb:Reference>\r\n\t\t</eb:Manifest>\r\n\t</soap:Body>\r\n</soap:Envelope>\r\n----=_MIME-Boundary\r\nContent-Id: <{{request-messageId}}@spine.nhs.uk>\r\nContent-Type: text/xml; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<RCMR_IN010000UK05 type=\"Message\" xmlns=\"urn:hl7-org:v3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n\t<id root=\"{{request-messageId}}\"/>\r\n\t<creationTime value=\"20201116171338\"/>\r\n\t<versionCode code=\"V3NPfIT3.1.10\"/>\r\n\t<interactionId extension=\"RCMR_IN010000UK05\" root=\"2.16.840.1.113883.2.1.3.2.4.12\"/>\r\n\t<processingCode code=\"P\"/>\r\n\t<processingModeCode code=\"T\"/>\r\n\t<acceptAckCode code=\"NE\"/>\r\n\t<communicationFunctionRcv type=\"CommunicationFunction\" typeCode=\"RCV\">\r\n\t\t<device classCode=\"DEV\" determinerCode=\"INSTANCE\" type=\"Device\">\r\n\t\t\t<id extension=\"{{losing-asid}}\" root=\"1.2.826.0.1285.0.2.0.107\"/>\r\n\t\t</device>\r\n\t</communicationFunctionRcv>\r\n\t<communicationFunctionSnd type=\"CommunicationFunction\" typeCode=\"SND\">\r\n\t\t<device classCode=\"DEV\" determinerCode=\"INSTANCE\" type=\"Device\">\r\n\t\t\t<id extension=\"{{winning-asid}}\" root=\"1.2.826.0.1285.0.2.0.107\"/>\r\n\t\t</device>\r\n\t</communicationFunctionSnd>\r\n\t<ControlActEvent classCode=\"CACT\" moodCode=\"EVN\" type=\"ControlAct\">\r\n\t\t<author1 type=\"Participation\" typeCode=\"AUT\">\r\n\t\t\t<AgentSystemSDS classCode=\"AGNT\" type=\"RoleHeir\">\r\n\t\t\t\t<agentSystemSDS classCode=\"DEV\" determinerCode=\"INSTANCE\" type=\"Device\">\r\n\t\t\t\t\t<id extension=\"{{winning-asid}}\" root=\"1.2.826.0.1285.0.2.0.107\"/>\r\n\t\t\t\t</agentSystemSDS>\r\n\t\t\t</AgentSystemSDS>\r\n\t\t</author1>\r\n\t\t<subject contextConductionInd=\"false\" type=\"ActRelationship\" typeCode=\"SUBJ\">\r\n\t\t\t<EhrRequest classCode=\"EXTRACT\" moodCode=\"RQO\" type=\"ActHeir\">\r\n\t\t\t\t<id root=\"041CA2AE-3EC6-4AC9-942F-0F6621CC0BFC\"/>\r\n\t\t\t\t<recordTarget type=\"Participation\" typeCode=\"RCT\">\r\n\t\t\t\t\t<patient classCode=\"PAT\" type=\"Patient\">\r\n\t\t\t\t\t\t<id extension=\"{{test-2-nhs-number}}\" root=\"2.16.840.1.113883.2.1.4.1\"/>\r\n\t\t\t\t\t</patient>\r\n\t\t\t\t</recordTarget>\r\n\t\t\t\t<author type=\"Participation\" typeCode=\"AUT\">\r\n\t\t\t\t\t<AgentOrgSDS classCode=\"AGNT\" type=\"RoleHeir\">\r\n\t\t\t\t\t\t<agentOrganizationSDS classCode=\"ORG\" determinerCode=\"INSTANCE\" type=\"Organization\">\r\n\t\t\t\t\t\t\t<id extension=\"{{winning-ods}}\" root=\"1.2.826.0.1285.0.1.10\"/>\r\n\t\t\t\t\t\t</agentOrganizationSDS>\r\n\t\t\t\t\t</AgentOrgSDS>\r\n\t\t\t\t</author>\r\n\t\t\t\t<destination type=\"Participation\" typeCode=\"DST\">\r\n\t\t\t\t\t<AgentOrgSDS classCode=\"AGNT\" type=\"RoleHeir\">\r\n\t\t\t\t\t\t<agentOrganizationSDS classCode=\"ORG\" determinerCode=\"INSTANCE\" type=\"Organization\">\r\n\t\t\t\t\t\t\t<id extension=\"{{losing-ods}}\" root=\"1.2.826.0.1285.0.1.10\"/>\r\n\t\t\t\t\t\t</agentOrganizationSDS>\r\n\t\t\t\t\t</AgentOrgSDS>\r\n\t\t\t\t</destination>\r\n\t\t\t</EhrRequest>\r\n\t\t</subject>\r\n\t</ControlActEvent>\r\n</RCMR_IN010000UK05>\r\n----=_MIME-Boundary--",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{inbound-port}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{inbound-port}}"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify EHR Recieved",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const conversationId = pm.collectionVariables.get(\"conversationId\");\r",
+									"const numOfRetries = 3;\r",
+									"let count = pm.collectionVariables.get(\"ehr-retry-count\");\r",
+									"\r",
+									"function retryRequest() {\r",
+									"\r",
+									"    setTimeout(() => {}, 5000);\r",
+									"\r",
+									"    if(++count >= numOfRetries) {\r",
+									"       \r",
+									"          pm.test(\"Jornal should contain EHR extract\", () => {\r",
+									"            pm.expect.fail(\"max number of retries reached\");\r",
+									"        });\r",
+									"    \r",
+									"    } else {\r",
+									"        pm.collectionVariables.set(\"ehr-retry-count\", count);\r",
+									"\r",
+									"        postman.setNextRequest(pm.info.requestId);\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"function checkForEhrExtract() {\r",
+									"\r",
+									"    const ehrExtractInteractionId = \"RCMR_IN030000UK06\";\r",
+									"    const responseArray = pm.response.json();\r",
+									"\r",
+									"    pm.test(\"The message journal should have at least one entry\", () => {\r",
+									"        pm.expect(responseArray.length >= 1 ).to.be.true;\r",
+									"    });\r",
+									"\r",
+									"    const outboundmessage = responseArray[0];\r",
+									"    const interactionId = outboundmessage.headers[\"interaction-id\"];\r",
+									"\r",
+									"    pm.test(\"The interaction id of the first journal entry should equal \".concat(ehrExtractInteractionId), () => {\r",
+									"        pm.expect(interactionId).to.equal(ehrExtractInteractionId);\r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"ehr-extract-id\", outboundmessage.headers[\"message-id\"]);\r",
+									"\r",
+									"}\r",
+									"\r",
+									"switch (pm.response.code) {\r",
+									"    case 200:\r",
+									"        checkForEhrExtract();\r",
+									"        break;\r",
+									"    case 204:\r",
+									"        retryRequest();\r",
+									"        break;\r",
+									"    default:\r",
+									"        pm.expect.fail(\"Invalid response from spine mock journal request\"); \r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{mock-spine-mhs-port}}/retrieve/{{conversationId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{mock-spine-mhs-port}}",
+							"path": [
+								"retrieve",
+								"{{conversationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Continue Message",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateUUID() { // Public Domain/MIT\r",
+									"    var d = new Date().getTime();//Timestamp\r",
+									"    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported\r",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+									"        var r = Math.random() * 16;//random number between 0 and 16\r",
+									"        if(d > 0){//Use timestamp until depleted\r",
+									"            r = (d + r)%16 | 0;\r",
+									"            d = Math.floor(d/16);\r",
+									"        } else {//Use microseconds since page-load if supported\r",
+									"            r = (d2 + r)%16 | 0;\r",
+									"            d2 = Math.floor(d2/16);\r",
+									"        }\r",
+									"        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(\"messageId\", generateUUID())\r",
+									"pm.collectionVariables.set(\"timestamp\", Date.now().toString)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"ehr-retry-count\", 0);\r",
+									"pm.collectionVariables.set(\"ack-retry-count\", 0);\r",
+									"\r",
+									"pm.test(\"Response should be 200 OK\", () => {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/related; boundary=\"--=_MIME-Boundary\"; type=text/xml; start=<ebXMLHeader@spine.nhs.uk>",
+								"type": "text"
+							},
+							{
+								"key": "SOAPAction",
+								"value": "SOAPAction: urn:nhs:names:services:gp2gp/RCMR_IN010000UK05",
+								"type": "text"
+							},
+							{
+								"key": "Correlation-Id",
+								"value": "{{conversationId}}",
+								"type": "text"
+							},
+							{
+								"key": "Message_Id",
+								"value": "{{messageId}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "----=_MIME-Boundary\r\nContent-Id: <ebXMLHeader@spine.nhs.uk>\r\nContent-Type: text/xml; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:eb=\"http://www.oasis-open.org/committees/ebxml-msg/schema/msg-header-2_0.xsd\" xmlns:hl7ebxml=\"urn:hl7-org:transport/ebxml/DSTUv1.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3c.org/2001/XML-Schema-Instance\">\r\n  <SOAP:Header>\r\n    <eb:MessageHeader SOAP:mustUnderstand=\"1\" eb:version=\"2.0\">\r\n      <eb:From>\r\n        <eb:PartyId eb:type=\"urn:nhs:names:partyType:ocs+serviceInstance\">AP4RTY-K33Y</eb:PartyId>\r\n      </eb:From>\r\n      <eb:To>\r\n        <eb:PartyId eb:type=\"urn:nhs:names:partyType:ocs+serviceInstance\">{{losing-party-key}}</eb:PartyId>\r\n      </eb:To>\r\n      <eb:CPAId>S2030731A2137927</eb:CPAId>\r\n      <eb:ConversationId>{{conversationId}}</eb:ConversationId>\r\n      <eb:Service>urn:nhs:names:services:gp2gp</eb:Service>\r\n      <eb:Action>COPC_IN000001UK01</eb:Action>\r\n      <eb:MessageData>\r\n        <eb:MessageId>{{messageId}}</eb:MessageId>\r\n        <eb:Timestamp>{{timestamp}}</eb:Timestamp>\r\n      </eb:MessageData>\r\n      <eb:DuplicateElimination/>\r\n    </eb:MessageHeader>\r\n  </SOAP:Header>\r\n  <SOAP:Body>\r\n    <eb:Manifest SOAP:mustUnderstand=\"1\" eb:version=\"2.0\">\r\n      <eb:Reference xlink:href=\"cid:{{messageId}}@spine.nhs.uk\">\r\n        <eb:Schema eb:location=\"http://www.nhsia.nhs.uk/schemas/HL7-Message.xsd\" eb:version=\"1.0\"/>\r\n        <eb:Description xml:lang=\"en\">HL7 payload</eb:Description>\r\n        <hl7ebxml:Payload encoding=\"XML\" style=\"HL7\" version=\"3.0\"/>\r\n      </eb:Reference>\r\n    </eb:Manifest>\r\n  </SOAP:Body>\r\n</SOAP:Envelope>\r\n\r\n----=_MIME-Boundary\r\nContent-Id: <{{messageId}}@spine.nhs.uk>\r\nContent-Type: text/xml; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<COPC_IN000001UK01 xmlns=\"urn:hl7-org:v3\">\r\n  <id root=\"{{messageId}}\"/>\r\n  <creationTime value=\"20201116171340\"/>\r\n  <versionCode code=\"V3NPfIT3.0\"/>\r\n  <interactionId extension=\"COPC_IN000001UK01\" root=\"2.16.840.1.113883.2.1.3.2.4.12\"/>\r\n  <processingCode code=\"P\"/>\r\n  <processingModeCode code=\"T\"/>\r\n  <acceptAckCode code=\"NE\"/>\r\n  <communicationFunctionRcv>\r\n    <device classCode=\"DEV\" determinerCode=\"INSTANCE\">\r\n      <id extension=\"{{losing-asid}}\" root=\"1.2.826.0.1285.0.2.0.107\"/>\r\n    </device>\r\n  </communicationFunctionRcv>\r\n  <communicationFunctionSnd>\r\n    <device classCode=\"DEV\" determinerCode=\"INSTANCE\">\r\n      <id extension=\"{{winning-asid}}\" root=\"1.2.826.0.1285.0.2.0.107\"/>\r\n    </device>\r\n  </communicationFunctionSnd>\r\n  <ControlActEvent classCode=\"CACT\" moodCode=\"EVN\">\r\n    <author1 typeCode=\"AUT\">\r\n      <AgentSystemSDS classCode=\"AGNT\">\r\n        <agentSystemSDS classCode=\"DEV\" determinerCode=\"INSTANCE\">\r\n          <id extension=\"{{winning-asid}}\" root=\"1.2.826.0.1285.0.2.0.107\"/>\r\n        </agentSystemSDS>\r\n      </AgentSystemSDS>\r\n    </author1>\r\n    <subject contextConductionInd=\"false\" typeCode=\"SUBJ\">\r\n      <hl7:PayloadInformation classCode=\"OBS\" moodCode=\"EVN\" xmlns=\"urn:hl7-org:v3\" xmlns:gp=\"urn:nhs:names:services:gp2gp\" xmlns:hl7=\"urn:hl7-org:v3\" xmlns:npfitct=\"template:NPFIT:content\" xmlns:npfitlc=\"NPFIT:HL7:Localisation\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"urn:hl7-org:v3 ../../Schemas/COPC_MT000001UK01.xsdurn:nhs:names:services:gp2gp ../../Schemas/GP2GP_LM.xsd\">\r\n        <code code=\"GP2GP_PI\" codeSystem=\"2.16.840.1.113883.2.1.3.2.4.17.202\" displayName=\"GP2GP Payload Information\"/>\r\n        <id root=\"{{messageId}}\"/>\r\n        <npfitlc:messageType extension=\"RCMR_MT000002GB01\" root=\"2.16.840.1.113883.2.1.3.2.4.18.17\"/>\r\n        <value>\r\n          <gp:Gp2gpfragment>\r\n            <gp:Version>01</gp:Version>\r\n            <gp:Recipients>\r\n              <gp:Recipient>{{losing-ods}}</gp:Recipient>\r\n            </gp:Recipients>\r\n            <gp:From>{{winning-ods}}</gp:From>\r\n            <gp:subject>Continue Acknowledgement</gp:subject>\r\n            <gp:message-id>{{messageId}}</gp:message-id>\r\n          </gp:Gp2gpfragment>\r\n        </value>\r\n        <pertinentInformation typeCode=\"PERT\">\r\n          <sequenceNumber value=\"1\"/>\r\n          <pertinentPayloadBody classCode=\"OBS\" moodCode=\"EVN\">\r\n            <code code=\"GP2GP_PB\" codeSystem=\"2.16.840.1.113883.2.1.3.2.4.17.202\" displayName=\"GP2GP Payload Body\"/>\r\n            <id root=\"{{messageId}}\"/>\r\n            <value>\r\n              <gp:Gp2gpfragment>\r\n                <Message type=\"Message\" xmlns=\"urn:hl7-org:v3\">\r\n                  <id root=\"{{messageId}}\"/>\r\n                  <code code=\"0\" codeSystem=\"2.16.840.1.113883.2.1.3.2.4.17.101\" displayName=\"Continue\"/>\r\n                  <creationTime value=\"201009201130\"/>\r\n                  <versionCode code=\"V3NPfIT3.1.09\"/>\r\n                  <interactionId extension=\"MCCI_IN010000UK13\" root=\"2.16.840.1.113883.2.1.3.2.4.12\"/>\r\n                  <processingCode code=\"P\"/>\r\n                  <processingModeCode code=\"T\"/>\r\n                  <acceptAckCode code=\"NE\"/>\r\n                  <acknowledgement typeCode=\"AA\">\r\n                    <acknowledgementDetail typeCode=\"IF\">\r\n                      <code code=\"0\" codeSystem=\"2.16.840.1.113883.2.1.3.2.4.17.101\" displayName=\"Continue\"/>\r\n                    </acknowledgementDetail>\r\n                    <messageRef>\r\n                      <id root=\"{{conversationId}}\"/>\r\n                    </messageRef>\r\n                  </acknowledgement>\r\n                  <communicationFunctionRcv>\r\n                    <device classCode=\"DEV\" determinerCode=\"INSTANCE\">\r\n                      <id extension=\"{{losing-asid}}\" root=\"1.2.826.0.1285.0.2.0.107\"/>\r\n                    </device>\r\n                  </communicationFunctionRcv>\r\n                  <communicationFunctionSnd>\r\n                    <device classCode=\"DEV\" determinerCode=\"INSTANCE\">\r\n                      <id extension=\"{{winning-asid}}\" root=\"1.2.826.0.1285.0.2.0.107\"/>\r\n                    </device>\r\n                  </communicationFunctionSnd>\r\n                </Message>\r\n                <gp:acknowledgedMessage>\r\n                  <gp:id root=\"{{conversationId}}\"/>\r\n                </gp:acknowledgedMessage>\r\n              </gp:Gp2gpfragment>\r\n            </value>\r\n          </pertinentPayloadBody>\r\n        </pertinentInformation>\r\n      </hl7:PayloadInformation>\r\n    </subject>\r\n  </ControlActEvent>\r\n</COPC_IN000001UK01>\r\n----=_MIME-Boundary--",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{inbound-port}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{inbound-port}}"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check for COPC message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const numOfRetries = 3;\r",
+									"let count = pm.collectionVariables.get(\"ehr-retry-count\");\r",
+									"\r",
+									"function retryRequest() {\r",
+									"\r",
+									"    setTimeout(() => {}, 10000);\r",
+									"\r",
+									"    if(++count >= numOfRetries) {\r",
+									"       \r",
+									"       pm.test(\"Journal should have copc messages\", () => {\r",
+									"           pm.expect.fail(\"max number of retries reached retrieving COPC message.\");\r",
+									"       });\r",
+									"        \r",
+									"    } else {\r",
+									"        pm.collectionVariables.set(\"ehr-retry-count\", count);\r",
+									"\r",
+									"        postman.setNextRequest(pm.info.requestId);\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"function checkForCopcMessage() {\r",
+									"\r",
+									"    const copcInteractionId = \"COPC_IN000001UK01\";\r",
+									"    let hasCopc = false;\r",
+									"    \r",
+									"    const responseArray = pm.response.json();\r",
+									"\r",
+									"    responseArray.find(response => {\r",
+									"\r",
+									"        console.log(response.headers[\"interaction-id\"]);\r",
+									"        if (response.headers[\"interaction-id\"] === copcInteractionId) {\r",
+									"            hasCopc = true;\r",
+									"            return true;\r",
+									"        }\r",
+									"\r",
+									"    });\r",
+									"   \r",
+									"    return hasCopc;\r",
+									"}\r",
+									"\r",
+									"if (!checkForCopcMessage()) {\r",
+									"    retryRequest();\r",
+									"}\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{mock-spine-mhs-port}}/retrieve/{{conversationId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{mock-spine-mhs-port}}",
+							"path": [
+								"retrieve",
+								"{{conversationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify ACK Recieved From Adaptor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const conversationId = pm.collectionVariables.get(\"conversationId\");\r",
+									"const numOfRetries = 3;\r",
+									"let count = pm.collectionVariables.get(\"ack-retry-count\");\r",
+									"\r",
+									"function retryRequest() {\r",
+									"\r",
+									"    setTimeout(() => {}, 5000);\r",
+									"\r",
+									"    if(++count >= numOfRetries) {\r",
+									"        pm.test(\"Message jounal should contain ack of EHR Request\", () => {\r",
+									"            pm.expect.fail(\"Max number of retries reached\");\r",
+									"        })\r",
+									"    } else {\r",
+									"        pm.collectionVariables.set(\"ack-retry-count\", count);\r",
+									"\r",
+									"        postman.setNextRequest(pm.info.requestId);\r",
+									"    }\r",
+									"\r",
+									"}\r",
+									"\r",
+									"function checkForAck() {\r",
+									"\r",
+									"    const requestId = pm.collectionVariables.get(\"request-messageId\");\r",
+									"    const ackInteractionId = \"MCCI_IN010000UK13\";\r",
+									"    let containsAck = false;\r",
+									"\r",
+									"    const messageArray = pm.response.json();\r",
+									"\r",
+									"    messageArray.forEach(message => {\r",
+									"\r",
+									"        const isAck = message.headers[\"interaction-id\"] === ackInteractionId;\r",
+									"        const isAA = message.body.includes(\"typeCode=\\\"AA\\\"\");\r",
+									"        const isAckForRequest = message.body.includes(\"<id root=\\\"\".concat(requestId).concat(\"\\\"\"));\r",
+									"\r",
+									"        if(isAck && isAA && isAckForRequest) {\r",
+									"            containsAck = true;\r",
+									"        }\r",
+									"    });\r",
+									"    return containsAck;\r",
+									"}\r",
+									"\r",
+									"const containsAck = checkForAck();\r",
+									"\r",
+									"pm.test(\"response shoud be 200 OK\", () => {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"if(!containsAck) {\r",
+									"    retryRequest();\r",
+									"} else {\r",
+									"    pm.test(\"The message journal should have at least two entries\", () => {\r",
+									"        const responseArray = pm.response.json();\r",
+									"        pm.expect(responseArray.length >= 2 ).to.be.true;\r",
+									"    });\r",
+									"\r",
+									"    pm.test(\"Message jounal should contain ack of EHR Request\", () => {\r",
+									"        pm.expect(containsAck).to.equal(true);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{mock-spine-mhs-port}}/retrieve/{{conversationId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{mock-spine-mhs-port}}",
+							"path": [
+								"retrieve",
+								"{{conversationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send ACK",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateUUID() { // Public Domain/MIT\r",
+									"    var d = new Date().getTime();//Timestamp\r",
+									"    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported\r",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+									"        var r = Math.random() * 16;//random number between 0 and 16\r",
+									"        if(d > 0){//Use timestamp until depleted\r",
+									"            r = (d + r)%16 | 0;\r",
+									"            d = Math.floor(d/16);\r",
+									"        } else {//Use microseconds since page-load if supported\r",
+									"            r = (d2 + r)%16 | 0;\r",
+									"            d2 = Math.floor(d2/16);\r",
+									"        }\r",
+									"        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(\"messageId\", generateUUID());\r",
+									"pm.collectionVariables.set(\"timestamp\", Date.now().toString);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response shoud be 200 OK\", () => {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"strictSSL": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/related; boundary=\"--=_MIME-Boundary\"; type=text/xml; start=<ebXMLHeader@spine.nhs.uk>",
+								"type": "text"
+							},
+							{
+								"key": "SOAPAction",
+								"value": "SOAPAction: urn:nhs:names:services:gp2gp/RCMR_IN010000UK05",
+								"type": "text"
+							},
+							{
+								"key": "Correlation-Id",
+								"value": "{{conversationId}}",
+								"type": "text"
+							},
+							{
+								"key": "Message_Id",
+								"value": "{{messageId}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "----=_MIME-Boundary\r\nContent-Id: <ebXMLHeader@spine.nhs.uk>\r\nContent-Type: text/xml; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<SOAP:Envelope xmlns:xsi=\"http://www.w3c.org/2001/XML-Schema-Instance\" xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:eb=\"http://www.oasis-open.org/committees/ebxml-msg/schema/msg-header-2_0.xsd\" xmlns:hl7ebxml=\"urn:hl7-org:transport/ebXML/DSTUv1.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\r\n<SOAP:Header>\r\n\t<eb:MessageHeader SOAP:mustUnderstand=\"1\" eb:version=\"2.0\">\r\n\t\t<eb:From>\r\n\t\t\t<eb:PartyId eb:type=\"urn:nhs:names:partyType:ocs+serviceInstance\">AP4RTY-K33Y</eb:PartyId>\r\n\t\t</eb:From>\r\n\t\t<eb:To>\r\n\t\t\t<eb:PartyId eb:type=\"urn:nhs:names:partyType:ocs+serviceInstance\">{{losing-party-key}}</eb:PartyId>\r\n\t\t</eb:To>\r\n\t\t<eb:CPAId>S918999410559</eb:CPAId>\r\n\t\t<eb:ConversationId>{{conversationId}}</eb:ConversationId>\r\n\t\t<eb:Service>urn:nhs:names:services:gp2gp</eb:Service>\r\n\t\t<eb:Action>MCCI_IN010000UK13</eb:Action>\r\n\t\t<eb:MessageData>\r\n\t\t\t<eb:MessageId>{{messageId}}</eb:MessageId>\r\n\t\t\t<eb:Timestamp>{{timestamp}}</eb:Timestamp>\r\n\t\t</eb:MessageData>\r\n        <eb:DuplicateElimination/>\r\n    </eb:MessageHeader>\r\n    <eb:AckRequested SOAP:mustUnderstand=\"1\" eb:version=\"2.0\" eb:signed=\"false\" SOAP:actor=\"urn:oasis:names:tc:ebxml-msg:actor:nextMSH\"/>\r\n</SOAP:Header>\r\n<SOAP:Body>\r\n    <eb:Manifest SOAP:mustUnderstand=\"1\" eb:version=\"2.0\">\r\n        <eb:Reference xlink:href=\"cid:{{messageId}}@spine.nhs.uk\">\r\n            <eb:Schema eb:location=\"http://www.nhsia.nhs.uk/schemas/HL7-Message.xsd\" eb:version=\"1.0\"/>\r\n            <eb:Description xml:lang=\"en\">HL7 payload</eb:Description>\r\n            <hl7ebxml:Payload style=\"HL7\" encoding=\"XML\" version=\"3.0\"/>\r\n        </eb:Reference>\r\n    </eb:Manifest>\r\n</SOAP:Body>\r\n</SOAP:Envelope>\r\n\r\n----=_MIME-Boundary\r\nContent-Id: <{{messageId}}@spine.nhs.uk>\r\nContent-Type: text/xml; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n<MCCI_IN010000UK13 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" type=\"Message\" xmlns=\"urn:hl7-org:v3\">\r\n    <id root=\"{{messageId}}\"/>\r\n    <creationTime value=\"20201116171342\"/>\r\n    <versionCode code=\"V3NPfIT3.1.10\" />\r\n    <interactionId root=\"2.16.840.1.113883.2.1.3.2.4.12\" extension=\"MCCI_IN010000UK13\"/>\r\n    <processingCode code=\"P\"/>\r\n    <processingModeCode code=\"T\"/>\r\n    <acceptAckCode code=\"NE\"/>\r\n    <acknowledgement type=\"Acknowledgement\" typeCode=\"AA\">\r\n        <messageRef type=\"Message\">\r\n            <id root=\"{{ehr-extract-id}}\" />\r\n        </messageRef>\r\n    </acknowledgement>\r\n    <communicationFunctionRcv type=\"CommunicationFunction\" typeCode=\"RCV\">\r\n        <device type=\"Device\" classCode=\"DEV\" determinerCode=\"INSTANCE\">\r\n            <id root=\"1.2.826.0.1285.0.2.0.107\" extension=\"{{losing-asid}}\"/>\r\n        </device>\r\n    </communicationFunctionRcv>\r\n    <communicationFunctionSnd type=\"CommunicationFunction\" typeCode=\"SND\">\r\n        <device type=\"Device\" classCode=\"DEV\" determinerCode=\"INSTANCE\">\r\n            <id root=\"1.2.826.0.1285.0.2.0.107\" extension=\"{{winning-asid}}\"/>\r\n        </device>\r\n    </communicationFunctionSnd>\r\n    <ControlActEvent type=\"ControlAct\" classCode=\"CACT\" moodCode=\"EVN\">\r\n        <author1 type=\"Participation\" typeCode=\"AUT\">\r\n            <AgentSystemSDS type=\"RoleHeir\" classCode=\"AGNT\">\r\n                <agentSystemSDS type=\"Device\" classCode=\"DEV\" determinerCode=\"INSTANCE\">\r\n                    <id root=\"1.2.826.0.1285.0.2.0.107\" extension=\"{{winning-asid}}\"/>\r\n                </agentSystemSDS>\r\n            </AgentSystemSDS>\r\n        </author1>\r\n    </ControlActEvent>\r\n</MCCI_IN010000UK13>\r\n----=_MIME-Boundary--\r\n",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{inbound-port}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{inbound-port}}"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Migration Status is complete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code shoud be 200 OK\", () =>{\r",
+									"    pm.response.code === 200\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check migration is complete\", () => {\r",
+									"    pm.response.json().migrationStatus === \"COMPLETE\"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{gp2gp-adaptor-port}}/ehr-status/{{conversationId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{gp2gp-adaptor-port}}",
+							"path": [
+								"ehr-status",
+								"{{conversationId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "inbound-port",
+			"value": "443"
+		},
+		{
+			"key": "facade-port",
+			"value": "8081"
+		},
+		{
+			"key": "mock-spine-mhs-port",
+			"value": "8086"
+		},
+		{
+			"key": "nhs-number-test-group-3",
+			"value": ""
+		},
+		{
+			"key": "conversation-id",
+			"value": ""
+		},
+		{
+			"key": "request-retry-count",
+			"value": ""
+		},
+		{
+			"key": "ehr-request-id",
+			"value": ""
+		},
+		{
+			"key": "ehr-retry-count",
+			"value": ""
+		},
+		{
+			"key": "winning-ods",
+			"value": "2167888439",
+			"type": "string"
+		},
+		{
+			"key": "losing-ods",
+			"value": "D5445",
+			"type": "string"
+		},
+		{
+			"key": "winning-asid",
+			"value": "A378",
+			"type": "string"
+		},
+		{
+			"key": "losing-asid",
+			"value": "B943",
+			"type": "string"
+		},
+		{
+			"key": "messageId",
+			"value": ""
+		},
+		{
+			"key": "timestamp",
+			"value": ""
+		},
+		{
+			"key": "winning-party-key",
+			"value": "Y90664-9198273",
+			"type": "string"
+		},
+		{
+			"key": "test-2-nhs-number",
+			"value": "9690937294"
+		},
+		{
+			"key": "losing-party-key",
+			"value": "Y90664-9198273",
+			"type": "string"
+		},
+		{
+			"key": "conversationId",
+			"value": ""
+		},
+		{
+			"key": "request-messageId",
+			"value": ""
+		},
+		{
+			"key": "ack-retry-count",
+			"value": ""
+		},
+		{
+			"key": "ehr-extract-id",
+			"value": ""
+		},
+		{
+			"key": "gp2gp-adaptor-port",
+			"value": "8183",
+			"type": "string"
+		}
+	]
+}
