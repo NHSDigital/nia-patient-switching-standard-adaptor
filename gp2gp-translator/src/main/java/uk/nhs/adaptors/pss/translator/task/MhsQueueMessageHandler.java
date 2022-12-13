@@ -63,14 +63,13 @@ public class MhsQueueMessageHandler {
             Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
             conversationId = xPathService.getNodeValue(ebXmlDocument, CONVERSATION_ID_PATH);
             applyConversationId(conversationId);
+            String interactionId = xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH);
 
             if (!migrationRequestService.hasMigrationRequest(conversationId)) {
 
                 throw new ConversationIdNotFoundException("Conversation ID" + conversationId
                     + "does not have a migration status log entry", conversationId);
             }
-
-            String interactionId = xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH);
 
             if (ACKNOWLEDGEMENT_INTERACTION_ID.equals(interactionId)) {
                 acknowledgmentMessageHandler.handleMessage(inboundMessage, conversationId);

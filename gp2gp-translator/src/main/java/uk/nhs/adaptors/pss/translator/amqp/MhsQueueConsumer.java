@@ -50,6 +50,7 @@ public class MhsQueueConsumer {
                 LOGGER.info("Conversation ID [{}] not recognised. Sending message to GP2GP Adaptor inbound queue", e.getConversationId());
                 gp2GpQueuePublisher.sendToGp2GpAdaptor(message);
             } else {
+                LOGGER.debug("Rolling back session for message_id=[{}], unrecognised conversation ID", messageId);
                 session.rollback();
             }
         }
