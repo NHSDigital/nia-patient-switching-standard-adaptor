@@ -4,12 +4,14 @@ import javax.jms.Message;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
+@ConditionalOnProperty(value="amqp.daisyChaining", havingValue="true")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class Gp2GpQueuePublisher {
     @Qualifier("jmsTemplateGp2GpAdaptorQueue")

@@ -16,13 +16,15 @@ import uk.nhs.adaptors.pss.translator.exception.ConversationIdNotFoundException;
 import uk.nhs.adaptors.pss.translator.task.MhsQueueMessageHandler;
 
 @Component
-@ConditionalOnProperty(value = "amqp.daisyChaining", havingValue = "false")
+@ConditionalOnProperty(value="amqp.daisyChaining", havingValue="true")
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class MhsQueueConsumer {
+public class MhsDaisyChainingQueueConsumer {
     private final MhsQueueMessageHandler mhsQueueMessageHandler;
     private final MhsDlqPublisher mhsDlqPublisher;
     private final MhsQueueProperties mhsQueueProperties;
+
+    private final Gp2GpQueuePublisher gp2GpQueuePublisher;
 
     @JmsListener(destination = "${amqp.mhs.queueName}", containerFactory = "mhsQueueJmsListenerFactory")
     @SneakyThrows
@@ -40,13 +42,16 @@ public class MhsQueueConsumer {
                 LOGGER.debug("Sending message_id=[{}] to the dead letter queue", messageId);
                 mhsDlqPublisher.sendToMhsDlq(message);
             }
-        } catch (ConversationIdNotFoundException e) {
-            if (deliveryCount > mhsQueueProperties.getMaxRedeliveries()) {
-                LOGGER.info("Conversation ID [{}] not recognised. Sending message to Dead Letter Queeue", e.getConversationId());
-            }
-                LOGGER.debug("Rolling back session for message_id=[{}], unrecognised conversation ID", messageId);
 
-            session.rollback();
+        } catch (ConversationIdNotFoundException e) {
+
+            if (deliveryCount > mhsQueueProperties.getMaxRedeliveries()) {
+                LOGGER.info("Conversation ID [{}] not recognised. Sending message to GP2GP Adaptor inbound queue", e.getConversationId());
+                gp2GpQueuePublisher.sendToGp2GpAdaptor(message);
+            } else {
+                LOGGER.debug("Rolling back session for message_id=[{}], unrecognised conversation ID", messageId);
+                session.rollback();
+            }
         }
     }
 }

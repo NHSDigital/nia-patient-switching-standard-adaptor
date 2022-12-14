@@ -21,8 +21,7 @@ import uk.nhs.adaptors.pss.translator.exception.ConversationIdNotFoundException;
 import uk.nhs.adaptors.pss.translator.task.MhsQueueMessageHandler;
 
 @ExtendWith(MockitoExtension.class)
-public class MhsQueueConsumerTest {
-
+public class MhsDaisyChainingQueueConsumerTest {
     private static final int MAX_REDELIVERIES = 3;
     private static final int FIRST_DELIVERY = 1;
 
@@ -34,11 +33,13 @@ public class MhsQueueConsumerTest {
     @Mock
     private MhsQueueProperties mhsQueueProperties;
     @Mock
+    private Gp2GpQueuePublisher gp2GpQueuePublisher;
+    @Mock
     private Message message;
     @Mock
     private Session session;
     @InjectMocks
-    private MhsQueueConsumer mhsQueueConsumer;
+    private MhsDaisyChainingQueueConsumer mhsQueueConsumer;
 
     @Test
     @SneakyThrows
@@ -68,19 +69,7 @@ public class MhsQueueConsumerTest {
 
     @Test
     @SneakyThrows
-    public void When_ConversationIdNotFound_WithoutDaisyChaining_Expect_SessionRolledBack() {
-        when(mhsQueueMessageHandler.handleMessage(message)).thenThrow(ConversationIdNotFoundException.class);
-        when(message.getJMSMessageID()).thenReturn(UUID.randomUUID().toString());
-        when(message.getIntProperty(DELIVERY_COUNT_PROPERTY)).thenReturn(MAX_REDELIVERIES + 1);
-
-        mhsQueueConsumer.receive(message, session);
-
-        verify(session, times(1)).rollback();
-    }
-
-    @Test
-    @SneakyThrows
-    public void When_ConversationIdNotFound_WithMaxRedeliveriesReached_Expect_SessionRolledBack() {
+    public void When_ConversationIdNotFound_WithDaisyChainingAndMaxRedeliveriesReached_Expect_MessageSentToGp2GpQueue() {
         when(mhsQueueMessageHandler.handleMessage(message)).thenThrow(ConversationIdNotFoundException.class);
         when(message.getJMSMessageID()).thenReturn(UUID.randomUUID().toString());
         when(message.getIntProperty(DELIVERY_COUNT_PROPERTY)).thenReturn(MAX_REDELIVERIES + 1);
@@ -88,12 +77,13 @@ public class MhsQueueConsumerTest {
 
         mhsQueueConsumer.receive(message, session);
 
-        verify(session, times(1)).rollback();
+        verify(gp2GpQueuePublisher, times(1)).sendToGp2GpAdaptor(message);
     }
+
 
     @Test
     @SneakyThrows
-    public void When_ConversationIdNotFound_WithMaxRedeliveriesNotReached_Expect_SessionRolledBack() {
+    public void When_ConversationIdNotFound_WithDaisyChainingAndMaxRedeliveriesNotReached_Expect_SessionRolledBack() {
         when(mhsQueueMessageHandler.handleMessage(message)).thenThrow(ConversationIdNotFoundException.class);
         when(message.getJMSMessageID()).thenReturn(UUID.randomUUID().toString());
         when(message.getIntProperty(DELIVERY_COUNT_PROPERTY)).thenReturn(MAX_REDELIVERIES);
@@ -101,6 +91,7 @@ public class MhsQueueConsumerTest {
 
         mhsQueueConsumer.receive(message, session);
 
+        verify(gp2GpQueuePublisher, times(0)).sendToGp2GpAdaptor(message);
         verify(session, times(1)).rollback();
     }
 }

@@ -7,6 +7,7 @@ import org.apache.qpid.jms.JmsDestination;
 import org.apache.qpid.jms.message.JmsMessageSupport;
 import org.apache.qpid.jms.policy.JmsRedeliveryPolicy;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
@@ -73,6 +74,7 @@ public class AmqpConfiguration {
     }
 
     @Bean("gp2gpAdaptorQueueConnectionFactory")
+    @ConditionalOnProperty(value="amqp.daisyChaining", havingValue="true")
     public JmsConnectionFactory jmsConnectionFactoryGp2GpAdaptorInboundQueue(Gp2GpAdaptorQueueProperties properties) {
         JmsConnectionFactory factory = new JmsConnectionFactory();
 
@@ -143,6 +145,7 @@ public class AmqpConfiguration {
     }
 
     @Bean("jmsTemplateGp2GpAdaptorQueue")
+    @ConditionalOnProperty(value="amqp.daisyChaining", havingValue="true")
     public JmsTemplate jmsTemplateGp2GpAdaptorQueue(@Qualifier("gp2gpAdaptorQueueConnectionFactory") JmsConnectionFactory connectionFactory,
         Gp2GpAdaptorQueueProperties properties) {
         JmsTemplate jmsTemplate = new JmsTemplate();
