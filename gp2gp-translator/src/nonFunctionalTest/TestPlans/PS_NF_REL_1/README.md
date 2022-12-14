@@ -13,6 +13,7 @@
 * Execute the script 'run-tests.sh' and wait to complete.
 
 By default, this test is configured to use 5 threads, each running for 24 hours.
+Note there is a setting 'threadDuration' which will control how long the each thread will loop for.
 
 You will not see any update in the command line window as the messages are being sent, however the log files will be
 updated as each test stage runs.

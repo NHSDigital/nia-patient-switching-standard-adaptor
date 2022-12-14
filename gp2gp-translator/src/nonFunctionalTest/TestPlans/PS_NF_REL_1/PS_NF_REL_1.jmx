@@ -21,7 +21,7 @@
         <stringProp name="ThreadGroup.num_threads">${__P(threadCount, 5)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampUp, 1)}</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">86400</stringProp>
+        <stringProp name="ThreadGroup.duration">${__P(threadDuration, 86400)}</stringProp>
         <stringProp name="ThreadGroup.delay">1</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="TestPlan.comments">Can the system run for more than 24 hours under a consistent load?</stringProp>
@@ -738,7 +738,7 @@ SampleResult.setIgnore();</stringProp>
           <stringProp name="filename">../../Results/PS_NF_REL_1/SummaryReport_${__time(YMDHMS)}.csv</stringProp>
         </ResultCollector>
         <hashTree/>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
