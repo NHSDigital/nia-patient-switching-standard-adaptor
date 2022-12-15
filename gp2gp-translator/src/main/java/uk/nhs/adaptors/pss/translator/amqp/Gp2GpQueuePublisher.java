@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
 @Component
-@ConditionalOnProperty(value="amqp.daisyChaining", havingValue="true")
+@ConditionalOnProperty(value = "amqp.daisyChaining", havingValue = "true")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class Gp2GpQueuePublisher {
     @Qualifier("jmsTemplateGp2GpAdaptorQueue")

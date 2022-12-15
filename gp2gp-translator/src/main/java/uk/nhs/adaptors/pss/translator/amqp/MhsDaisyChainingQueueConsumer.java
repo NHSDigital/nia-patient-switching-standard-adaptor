@@ -16,7 +16,7 @@ import uk.nhs.adaptors.pss.translator.exception.ConversationIdNotFoundException;
 import uk.nhs.adaptors.pss.translator.task.MhsQueueMessageHandler;
 
 @Component
-@ConditionalOnProperty(value="amqp.daisyChaining", havingValue="true")
+@ConditionalOnProperty(value = "amqp.daisyChaining", havingValue = "true")
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MhsDaisyChainingQueueConsumer {

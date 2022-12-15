@@ -44,8 +44,8 @@ public class MhsQueueConsumer {
             if (deliveryCount > mhsQueueProperties.getMaxRedeliveries()) {
                 LOGGER.info("Conversation ID [{}] not recognised. Sending message to Dead Letter Queeue", e.getConversationId());
             }
-                LOGGER.debug("Rolling back session for message_id=[{}], unrecognised conversation ID", messageId);
 
+            LOGGER.debug("Rolling back session for message_id=[{}], unrecognised conversation ID", messageId);
             session.rollback();
         }
     }

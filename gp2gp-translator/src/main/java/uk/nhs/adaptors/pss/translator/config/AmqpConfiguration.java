@@ -74,7 +74,7 @@ public class AmqpConfiguration {
     }
 
     @Bean("gp2gpAdaptorQueueConnectionFactory")
-    @ConditionalOnProperty(value="amqp.daisyChaining", havingValue="true")
+    @ConditionalOnProperty(value = "amqp.daisyChaining", havingValue = "true")
     public JmsConnectionFactory jmsConnectionFactoryGp2GpAdaptorInboundQueue(Gp2GpAdaptorQueueProperties properties) {
         JmsConnectionFactory factory = new JmsConnectionFactory();
 
@@ -145,7 +145,7 @@ public class AmqpConfiguration {
     }
 
     @Bean("jmsTemplateGp2GpAdaptorQueue")
-    @ConditionalOnProperty(value="amqp.daisyChaining", havingValue="true")
+    @ConditionalOnProperty(value = "amqp.daisyChaining", havingValue = "true")
     public JmsTemplate jmsTemplateGp2GpAdaptorQueue(@Qualifier("gp2gpAdaptorQueueConnectionFactory") JmsConnectionFactory connectionFactory,
         Gp2GpAdaptorQueueProperties properties) {
         JmsTemplate jmsTemplate = new JmsTemplate();
