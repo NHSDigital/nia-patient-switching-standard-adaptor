@@ -11,7 +11,7 @@ services:
   ############### MHS specific   ###################
 
   inbound:
-    image: nhsdev/nia-mhs-inbound:1.2.4-amd64
+    image: ${MHS_INBOUND_VERSION}
     networks:
       - nia-ps
     ports:
@@ -40,7 +40,7 @@ services:
       - SERVICE_PORTS=${MHS_INBOUND_SERVICE_PORTS}
 
   outbound:
-    image: nhsdev/nia-mhs-outbound:1.2.4-amd64
+    image: ${MHS_OUTBOUND_VERSION}
     networks:
       - nia-ps
     ports:
@@ -85,7 +85,7 @@ services:
   ########### PS Adapter Specific ###############
 
   gpc_facade:
-    image: nhsdev/nia-ps-facade:0.3-amd64
+    image: ${PS_FACADE_VERSION}
     ports:
       - "8081:8081"
     depends_on:
@@ -104,7 +104,7 @@ services:
       - nia-ps
 
   ps_gp2gp_translator:
-    image: nhsdev/nia-ps-adaptor:0.4-amd64
+    image: ${PS_TRANSLATOR_VERSION}
     ports:
       - "8085:8085"
     depends_on:
@@ -135,7 +135,7 @@ services:
       - nia-ps
 
   ps_db:
-    image: postgres:14.0
+    image: ${POSTGRES_VERSION}
     ports:
       - "${PS_DB_PORT}:5432"
     environment:
@@ -145,7 +145,7 @@ services:
       - nia-ps
 
   db_migration:
-    image: nhsdev/nia-ps-db-migration:0.2
+    image: ${PS_DB_MIGRATION_VERSION}
     depends_on:
       - ps_db
     environment:
@@ -160,20 +160,21 @@ services:
   ########### LOCAL TESTING ONLY #################
 
   dynamodb:
-    image: nhsdev/nia-dynamodb-local:1.0.3
+    image: ${DYNAMODB_VERSION}
     networks:
       - nia-ps
     ports:
       - "8000:8000"
 
   redis:
-    image: redis
+    image: ${REDIS_VERSION}
     networks:
       - nia-ps
     ports:
       - "6379:6379"
 
   activemq:
+#    image: ${ACTIVEMQ_VERSION}
     build:
       context: docker/activemq
     ports:
