@@ -210,8 +210,6 @@ export PS_AMQP_PASSWORD="admin";
 export DB_HOSTNAME="localhost";
 
 
-
-
 #MHS ROUTE VARS
 # Route responses are mocked by mock-spine-mhs-outbound
 ####################################
