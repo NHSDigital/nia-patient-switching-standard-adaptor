@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+#Keep Docker image versions in a separate vars file to use across test and prod versions
+source ./vars-versions.sh
+
 #############################################
 # MHS VARS
 #SECRET KEY VARS
