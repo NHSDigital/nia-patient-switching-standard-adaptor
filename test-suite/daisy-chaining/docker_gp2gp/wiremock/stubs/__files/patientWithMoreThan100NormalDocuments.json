@@ -1,0 +1,4058 @@
+{
+    "resourceType": "Bundle",
+    "meta": {
+        "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-Searchset-Bundle-1"
+        ]
+    },
+    "type": "searchset",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "id": "3",
+                "meta": {
+                    "versionId": "1521806400000",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-RegistrationDetails-1",
+                        "extension": [
+                            {
+                                "url": "registrationPeriod",
+                                "valuePeriod": {
+                                    "start": "1962-07-13T00:00:00+01:00"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1",
+                        "extension": [
+                            {
+                                "url": "language",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-HumanLanguage-1",
+                                            "code": "en",
+                                            "display": "English"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "url": "preferred",
+                                "valueBoolean": false
+                            },
+                            {
+                                "url": "modeOfCommunication",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-LanguageAbilityMode-1",
+                                            "code": "RWR",
+                                            "display": "Received written"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "url": "communicationProficiency",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-LanguageAbilityProficiency-1",
+                                            "code": "E",
+                                            "display": "Excellent"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "url": "interpreterRequired",
+                                "valueBoolean": false
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "extension": [
+                            {
+                                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSNumberVerificationStatus-1",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-NHSNumberVerificationStatus-1",
+                                            "code": "01",
+                                            "display": "Number present and verified"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "system": "https://fhir.nhs.uk/Id/nhs-number",
+                        "value": "6487946541"
+                    }
+                ],
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "text": "Samuel HESLBY",
+                        "family": "HESLBY",
+                        "given": [
+                            "Samuel"
+                        ],
+                        "prefix": [
+                            "MR"
+                        ]
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "02123636563",
+                        "use": "home"
+                    }
+                ],
+                "gender": "male",
+                "birthDate": "1936-03-17",
+                "address": [
+                    {
+                        "use": "home",
+                        "type": "physical",
+                        "line": [
+                            "10 MANOR DRIVE",
+                            "STILLINGTON"
+                        ],
+                        "city": "STOCKTON-ON-TEES",
+                        "district": "CLEVELAND",
+                        "postalCode": "TS21 1JG"
+                    }
+                ],
+                "generalPractitioner": [
+                    {
+                        "reference": "Practitioner/1"
+                    }
+                ],
+                "managingOrganization": {
+                    "reference": "Organization/7"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "1",
+                "meta": {
+                    "versionId": "1469444400000",
+                    "lastUpdated": "2016-07-25T12:00:00.000+01:00",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1",
+                        "extension": [
+                            {
+                                "url": "language",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-HumanLanguage-1",
+                                            "code": "de",
+                                            "display": "German"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSCommunication-1",
+                        "extension": [
+                            {
+                                "url": "language",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-HumanLanguage-1",
+                                            "code": "en",
+                                            "display": "English"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "system": "https://fhir.nhs.uk/Id/sds-user-id",
+                        "value": "G13579135"
+                    }
+                ],
+                "name": [
+                    {
+                        "use": "usual",
+                        "family": "Gilbert",
+                        "given": [
+                            "Nichole"
+                        ],
+                        "prefix": [
+                            "Miss"
+                        ]
+                    }
+                ],
+                "gender": "female"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "6c41ebfd-57c3-4162-9d7b-208c171a2fd7"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Organization",
+                "id": "7",
+                "meta": {
+                    "versionId": "1469444400000",
+                    "lastUpdated": "2016-07-25T12:00:00.000+01:00",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+                        "value": "B82617"
+                    }
+                ],
+                "name": "COXWOLD SURGERY",
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "12345678",
+                        "use": "work"
+                    }
+                ],
+                "address": [
+                    {
+                        "use": "work",
+                        "line": [
+                            "NHS NPFIT Test Data Manager",
+                            "Princes Exchange"
+                        ],
+                        "city": "Leeds",
+                        "district": "West Yorkshire",
+                        "postalCode": "LS1 4HY"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "PractitionerRole",
+                "id": "e0244de8-07ef-4274-9f7a-d7067bcc8d21",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1"
+                    ]
+                },
+                "practitioner": {
+                    "reference": "Practitioner/6c41ebfd-57c3-4162-9d7b-208c171a2fd7"
+                },
+                "organization": {
+                    "reference": "Organization/db67f447-b30d-442a-8e31-6918d1367eeb"
+                },
+                "code": [
+                    {
+                        "coding": [
+                            {
+                                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-SDSJobRoleName-1",
+                                "code": "R0260",
+                                "display": "General Medical Practitioner"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Location",
+                "id": "17",
+                "meta": {
+                    "versionId": "636064088100870233",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
+                    ]
+                },
+                "name": "The Trevelyan Practice",
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "03003035678",
+                        "use": "work"
+                    }
+                ],
+                "address": {
+                    "line": [
+                        "Trevelyan Square",
+                        "Boar Ln",
+                        "Leeds"
+                    ],
+                    "postalCode": "LS1 6AE"
+                },
+                "managingOrganization": {
+                    "reference": "Organization/db67f447-b30d-442a-8e31-6918d1367eeb"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "02552018-af42-465b-9668-c191112145a7",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "e7fd6564-e52d-48d8-8ce7-bb4dff40ecec",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "a9e0f7d1-ee0e-4c4f-ae61-ba2420c3c209",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "3642d880-07a6-4bfb-85f9-a5c9294ff944",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "49a1a9e9-5b89-4cb2-89ea-eb6480f739c3",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "72ec94d2-9a7f-42f0-86d9-1cd1b910f7a8",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "54ef8576-2b9a-41c5-8ba4-fe8a61b5c42c",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "a1ef736f-5e52-40c9-82dd-67d015d63a2f",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "cf6666d9-dfdf-4952-87fb-c61c7a163ead",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "dc44c8b9-5921-442b-9eb9-7afa7b243a14",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "525d15b8-33f7-49ba-bd00-8808066f97a8",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "6ce842d3-a310-4b39-8d3a-b1034eaa57f3",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "ab7d0ee8-12ce-4984-8747-adf9db688c3b",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "e2ec34b5-8236-4723-be16-f7c3e1f1e42c",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "2078d51e-e705-4493-82ec-7cac3d81d927",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "5971fdf3-554e-45c5-b3ab-8bc7ed6bddbd",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "1757641e-6ce3-4fd0-8997-6ac1c4f0cfb8",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "c42cf4e8-7959-4454-9e78-b5ea48716680",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "4c187825-2674-4749-a99a-750d1248989c",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "2a6b9848-5e7a-462e-afd3-343da16921e0",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "985ea1b8-0b3f-4f7a-89fd-86b9e0e85f35",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "01b233d8-1998-44fc-b541-4c413ee9e868",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "726af7e6-3052-4eda-90c4-08f90e89c90e",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "05fb6218-1378-431e-8262-e0f112247413",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "0e4d18cd-5c2f-43c7-9504-c34f1abad61a",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "de4ad8da-f448-4b4b-923b-8a61461dd75f",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "01b899c0-a40f-40ca-8eaf-913c7dc61cda",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "836784ba-d520-45a7-95e2-2cb48a3cb1fc",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "dc587937-1c9b-49d2-9c05-ef6ddf1344a9",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "cbed0e31-3b93-4d58-9fe4-17f07a7bd77b",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "6cbdc17d-11ff-4f9f-b9cd-b894374e1e5d",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "bcde7006-5c48-4b51-b380-8df56b3019b8",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "fe1fceba-6173-4eef-87ed-5d0f0898d37f",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "01765203-66fc-4178-8b94-0a5cb6b07164",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "87cd0d78-27ec-413c-98b5-2db970a11863",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "95ee269e-ad19-4276-a248-2c88e0e57e17",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "5bf77c75-8357-4e7d-a5db-96617a64bbf7",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "c374631c-483f-4507-96f2-2928c6277380",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "208e03c2-c618-40a0-b185-ebc02bc01000",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "ba2dd92b-6dae-40e8-910b-af076a340f48",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "e800a283-9479-4884-a819-cb4483f6ec73",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "3e1dac09-7014-41ca-9b4c-73923a6bff13",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "14b86d1c-ae76-406b-903c-e09ab0688c59",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "a65ce824-40e8-4afd-aa08-dae5d733e9c8",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "2ececf9c-83b4-461a-87c9-50c7f1e599c2",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "ac7f5bfc-5acf-4690-94df-d9f98f1355ac",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "73978ab5-a6a5-46f7-b2d9-2f9f9dba6b10",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "4235ac24-732f-47d4-ad4d-9aba23fdb02e",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "3efdc008-907e-4cd3-87df-e279a88bc2f1",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "3173a74b-a440-4c0d-90ec-2ba9c396b9d1",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "4a543484-7571-46f3-9f70-734d231cc8b2",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "7f1a29f8-c33e-4a70-a981-b372b005b715",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "e6ef0242-bcfe-4a2e-82d4-bd3f11d8063c",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "5de6d92c-c640-4ac9-b566-119a025998f5",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "545904bf-4300-49da-a530-ce7adff43f04",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "5efcfb28-0f0f-4427-9fdd-a61998d46782",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "4325e0ff-f66e-400f-baf7-93cc36d8a60f",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "29bfd12c-01b9-4d98-9070-5c07046ff656",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "07e0f2c9-0fba-4f27-bc3d-68b13bcacc94",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "5a21083e-0ae3-4a47-9d07-dff310777143",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "aa4bbae1-3e6a-4a1f-a99c-21ea754f1887",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "ef068769-1ac0-440b-9d24-d063327d912a",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "d917bef7-9d1d-415f-b0fc-fc4a4d64b854",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "1708992f-a287-41b9-96c7-1a3bcfc8ae76",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "1d8e3176-2ac7-4704-b284-7c69f5610089",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "29119146-89ee-4d22-9ce3-7aa837db0405",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "e86caab4-9ef8-46d9-adf0-33f929f003ee",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "137edc8e-7c5a-4ab5-a5be-b9f3ea98dc71",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "7febe947-efb2-47da-ad1b-943e9691b8c2",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "f270e9b1-c955-4337-b03d-d4f5b8e3b0f8",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "10060bc6-943a-448b-999a-44acdfc5107b",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "7349207b-c0a7-4aaf-9353-2414128c600c",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "e5cd78b1-c8cc-46ad-9cdd-5dc376be8b69",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "c2d0a0e0-e459-4d92-8f74-11dc1d708a34",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "87aaafe9-e6ba-4e8c-a65f-e171bb1c9068",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "cccaa793-e21c-4b1c-970f-866e7d827019",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "4bc66a13-21c2-41c3-bdfe-9f1f2a5be663",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "f2c05589-6b4e-4985-9269-1a7c7055f8e0",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "4b9af3fa-7a26-4273-a753-d10409d85b31",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "efb369b9-f578-4280-9795-daaadd6c9b15",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "c6c677f8-10ff-4a90-8b41-d7122c42cd0d",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "cf8508e2-0da2-4e6e-8ad1-2c32f1a26f1c",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "b8cec282-d06b-40bd-871a-de10cc2c59d6",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "83ff638e-0a07-428e-80c7-b3cacebc2b57",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "2d4926a1-c055-49d4-9759-70a29a77eae2",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "8c839529-0e0c-4fcd-b3f9-75f9e2a9d8ae",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "9bf223c8-86e0-406f-b1a5-316d28142994",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "e02d8dcf-5bb8-4db0-899d-2239cd855767",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "37ebb169-2626-4ceb-a122-c3727d75a1a3",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "b402ee90-5ca2-481f-822d-4faae17a62f2",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "ec6c8820-038b-441d-9e4a-ff5380825a9f",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "13f611c0-7e86-479c-b0a5-9b920e60b408",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "20c84935-f8c5-4094-9717-cbfa24ec027e",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "a9fafe8b-0c3e-4e64-a9b4-63fb8a763847",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "2f988455-372c-43ee-b7ed-22458e06bab2",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "5d3aaa1f-a658-40be-8297-5a7e3c48132f",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "c4c22658-d8af-41f1-81e7-99bd16270794",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "bd5b066f-486d-42ee-b83a-2ebd6f570aad",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "1c7206c0-d0d0-4959-9a4e-1ece532962ab",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "b711f64e-921a-4971-94d0-19522e4ce248",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "819ab1e8-39e5-49b8-b2fd-80dcf783624a",
+                "meta": {
+                    "versionId": "8017752596891037527",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://EMISWeb/A82038",
+                        "value": "D7AF52BA-T3ST-C4S3-N0N0-F0C2DF916CEC"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "text": "Christmas Party"
+                },
+                "subject": {
+                    "reference": "Patient/3"
+                },
+                "created": "2020-12-22T14:53:00+00:00",
+                "indexed": "2020-12-22T14:55:58.567+00:00",
+                "description": "Referral Non-AbsentAttachment's Christmas Party (23-Dec-2021)",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "url": "{{request.baseUrl}}/B82617/STU3/1/gpconnect/documents/fhir/Binary/07a6483f-732b-461e-86b6-edb665c45510",
+                            "size": 13
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

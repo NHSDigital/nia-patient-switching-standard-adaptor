@@ -33,4 +33,8 @@ public interface PatientMigrationRequestDao {
     @SqlQuery("select_patient_migration_request_by_id_in")
     @UseClasspathSqlLocator
     List<PatientMigrationRequest> getMigrationRequestByIdIn(@BindList("migrationRequestIds") List<Integer> migrationRequestIds);
+
+    @SqlQuery("exists_by_conversation_id")
+    @UseClasspathSqlLocator
+    boolean existsByConversationId(@Bind("conversationId") String conversationId);
 }

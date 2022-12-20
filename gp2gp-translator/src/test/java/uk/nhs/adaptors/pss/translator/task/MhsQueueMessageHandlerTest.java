@@ -2,14 +2,18 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import static java.util.UUID.randomUUID;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+
+import java.text.ParseException;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -32,15 +36,15 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.connector.service.PatientMigrationRequestService;
 import uk.nhs.adaptors.pss.translator.amqp.JmsReader;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
+import uk.nhs.adaptors.pss.translator.exception.ConversationIdNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
-
-import java.text.ParseException;
 
 @ExtendWith(MockitoExtension.class)
 public class MhsQueueMessageHandlerTest {
@@ -48,7 +52,8 @@ public class MhsQueueMessageHandlerTest {
     private static final String INBOUND_MESSAGE_STRING = "{hi i'm inbound message}";
     private static final String EHR_EXTRACT_INTERACTION_ID = "RCMR_IN030000UK06";
     private static final String ACKNOWLEDGEMENT_INTERACTION_ID = "MCCI_IN010000UK13";
-    private static final String OTHER_INTERACTION_ID = "COPC_IN000001UK01";
+    private static final String COPC_INTERACTION_ID = "COPC_IN000001UK01";
+    private static final String EHR_EXTRACT_REQUEST_INTERACTION_ID = "RCMR_IN010000UK05";
     private static final String UNKNOWN_INTERACTION_ID = "RANDOM_IN000001UK01";
     private static final String CONVERSATION_ID_PATH = "/Envelope/Header/MessageHeader/ConversationId";
     private static final String INTERACTION_ID_PATH = "/Envelope/Header/MessageHeader/Action";
@@ -81,6 +86,9 @@ public class MhsQueueMessageHandlerTest {
     @Mock
     private MigrationStatusLogService migrationStatusLogService;
 
+    @Mock
+    private PatientMigrationRequestService migrationRequestService;
+
     @InjectMocks
     private MhsQueueMessageHandler mhsQueueMessageHandler;
 
@@ -99,6 +107,7 @@ public class MhsQueueMessageHandlerTest {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
@@ -121,6 +130,7 @@ public class MhsQueueMessageHandlerTest {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new JAXBException("Nobody expects the spanish inquisition!"))
             .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
 
@@ -144,6 +154,7 @@ public class MhsQueueMessageHandlerTest {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new JAXBException("Nobody expects the spanish inquisition!"))
             .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
 
@@ -158,6 +169,7 @@ public class MhsQueueMessageHandlerTest {
     public void handleAcknowledgeMessageWithoutErrorsShouldReturnTrue() throws SAXException {
         inboundMessage = new InboundMessage();
         prepareMocks(ACKNOWLEDGEMENT_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
@@ -171,6 +183,7 @@ public class MhsQueueMessageHandlerTest {
     public void handleAcknowledgeMessageWhenAcknowledgmentMessageHandlerThrowsErrorShouldReturnFalse() throws SAXException {
         inboundMessage = new InboundMessage();
         prepareMocks(ACKNOWLEDGEMENT_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new SAXException("Nobody expects the spanish inquisition!"))
             .when(acknowledgmentMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
 
@@ -186,6 +199,7 @@ public class MhsQueueMessageHandlerTest {
     public void handleMessageWithUnsupportedInteractionIdShouldReturnTrue() {
         inboundMessage = new InboundMessage();
         prepareMocks(UNKNOWN_INTERACTION_ID);
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
@@ -206,6 +220,39 @@ public class MhsQueueMessageHandlerTest {
         verifyNoInteractions(acknowledgmentMessageHandler);
         verifyNoInteractions(ehrExtractMessageHandler);
         verifyNoInteractions(mdcService);
+    }
+
+    @Test
+    public void When_HandleMessage_WithConversationIdNotFoundAndAckInteractionId_Expect_ExceptionThrown() {
+        inboundMessage = new InboundMessage();
+        prepareMocks(ACKNOWLEDGEMENT_INTERACTION_ID);
+
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(false);
+
+        assertThatThrownBy(() -> mhsQueueMessageHandler.handleMessage(message))
+            .isInstanceOf(ConversationIdNotFoundException.class);
+    }
+
+    @Test
+    public void When_HandleMessage_WithConversationIdNotFoundAndCopcInteractionId_Expect_ExceptionThrown() {
+        inboundMessage = new InboundMessage();
+        prepareMocks(COPC_INTERACTION_ID);
+
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(false);
+
+        assertThatThrownBy(() -> mhsQueueMessageHandler.handleMessage(message))
+            .isInstanceOf(ConversationIdNotFoundException.class);
+    }
+
+    @Test
+    public void When_HandleMessage_WithConversationIdNotFoundAndRequestInteractionId_Expect_ExceptionThrown() {
+        inboundMessage = new InboundMessage();
+        prepareMocks(EHR_EXTRACT_REQUEST_INTERACTION_ID);
+
+        when(migrationRequestService.hasMigrationRequest(any())).thenReturn(false);
+
+        assertThatThrownBy(() -> mhsQueueMessageHandler.handleMessage(message))
+            .isInstanceOf(ConversationIdNotFoundException.class);
     }
 
     @SneakyThrows

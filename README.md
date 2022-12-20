@@ -203,6 +203,26 @@ Before cloning the project, navigate to:
    1. open docker desktop/settings/resources/WSL INTEGRATION
    2. tick the box where it says "Ubuntu" or the name of your ubuntu terminal
    
+## Daisy-Chaining
+
+It is possible to run the PS Adaptor and the [GP2GP Adaptor](https://github.com/nhsconnect/integration-adaptor-gp2gp) side by side using a single instance of the MHS Adaptor.
+When using this configuration, messages received by the PS Adaptor with an unrecognised conversation ID are forwarded 
+to the GP2GP Adaptor via it's inbound queue. Conversely, the default behaviour without daisy-chain enabled is to put 
+messages with an unrecognised conversation ID on a dead letter queue. 
+
+**To enable daisy-chaining the following environment variables need to be set:**
+
+- `PS_DAISY_CHAINING_ACTIVE`: set to `true` to enable daisy-chaining - default = `false`
+- `GP2GP_AMQP_BROKERS`: the location of the GP2GP Adaptors inbound queue. This should be set to the url of a single JMS broker 
+- (the PS Adaptor does not support concurrent GP2GP Adaptor brokers) - default = `amqp://localhost:5672`
+
+**Optional environment variables:**
+
+- `GP2GP_MHS_INBOUND_QUEUE`: The name of the GP2GP Adaptors inbound queue
+- `GP2GP_AMQP_USERNAME`: The username for accessing the broker
+- `GP2GP_AMQP_PASSWORD`: The password for accessing the broker
+
+An example daisy chaining environment is provided in test-suite/daisy-chaining 
 
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).

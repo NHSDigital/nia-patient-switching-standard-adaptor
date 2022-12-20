@@ -7,7 +7,7 @@
     </appender>
 
 
-    <root level="${PS_LOGGING_LEVEL:-INFO}">
+    <root level="${ROOT_LOGGING_LEVEL:-WARN}">
         <appender-ref ref="TEXT"/>
     </root>
 
