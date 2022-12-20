@@ -144,7 +144,7 @@ SampleResult.setIgnore();</stringProp>
         <PublisherSampler guiclass="JMSPublisherGui" testclass="PublisherSampler" testname="${threadDetails} Send RCMR_IN30000UK06 message" enabled="true">
           <stringProp name="jms.jndi_properties">false</stringProp>
           <stringProp name="jms.initial_context_factory">org.apache.qpid.jms.jndi.JmsInitialContextFactory</stringProp>
-          <stringProp name="jms.provider_url">/Users/martinwheeler/Documents/Configuration/jndi.properties</stringProp>
+          <stringProp name="jms.provider_url">${__P(jndiPropertiesPath, ../../Configuration/jndi.properties)}</stringProp>
           <stringProp name="jms.connection_factory">qpidConnectionFactory</stringProp>
           <stringProp name="jms.topic">mhsQueueName</stringProp>
           <stringProp name="jms.expiration"></stringProp>
@@ -153,8 +153,8 @@ SampleResult.setIgnore();</stringProp>
           <stringProp name="jms.security_principle"></stringProp>
           <stringProp name="jms.security_credentials"></stringProp>
           <stringProp name="jms.text_message"></stringProp>
-          <stringProp name="jms.input_file">/Users/martinwheeler/Documents/ValidMessages/RCMR_IN030000UK06.txt</stringProp>
-          <stringProp name="jms.random_path">/Users/martinwheeler/Documents</stringProp>
+          <stringProp name="jms.input_file">../../ValidMessages/RCMR_IN030000UK06.txt</stringProp>
+          <stringProp name="jms.random_path"></stringProp>
           <stringProp name="jms.config_choice">jms_use_file</stringProp>
           <stringProp name="jms.config_msg_type">jms_text_message</stringProp>
           <stringProp name="jms.iterations">1</stringProp>
