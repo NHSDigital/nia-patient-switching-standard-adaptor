@@ -1,0 +1,272 @@
+version: '3'
+
+############ Network ##############
+
+networks:
+  nia-daisy-chain:
+    external: true
+
+services:
+
+  ############### MHS specific   ###################
+
+  inbound:
+    image: ${MHS_INBOUND_VERSION}
+    networks:
+      - nia-daisy-chain
+    ports:
+      - "${MHS_INBOUND_PORT}:443"
+      - "8079:80"
+      - "${MHS_INBOUND_HEALTHCHECK_SERVER_PORT}:${MHS_INBOUND_HEALTHCHECK_SERVER_PORT}"
+    environment:
+      - MHS_INBOUND_HEALTHCHECK_SERVER_PORT
+      - MHS_LOG_LEVEL
+      - MHS_SECRET_PARTY_KEY
+      - MHS_SECRET_CLIENT_CERT
+      - MHS_SECRET_CLIENT_KEY
+      - MHS_SECRET_CA_CERTS
+      - MHS_INBOUND_QUEUE_BROKERS=${MHS_AMQP_BROKER}
+      - MHS_INBOUND_QUEUE_NAME=${MHS_QUEUE_NAME}
+      - MHS_SECRET_INBOUND_QUEUE_USERNAME=${MHS_AMQP_USERNAME}
+      - MHS_SECRET_INBOUND_QUEUE_PASSWORD=${MHS_AMQP_PASSWORD}
+      - MHS_STATE_TABLE_NAME
+      - MHS_SYNC_ASYNC_STATE_TABLE_NAME
+      - MHS_DB_ENDPOINT_URL
+      - MHS_INBOUND_QUEUE_MESSAGE_TTL_IN_SECONDS
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - MHS_INBOUND_USE_SSL
+      - TCP_PORTS=${MHS_INBOUND_PORT}
+      - SERVICE_PORTS=${MHS_INBOUND_SERVICE_PORTS}
+
+  outbound:
+    image: ${MHS_OUTBOUND_VERSION}
+    networks:
+      - nia-daisy-chain
+    ports:
+      - "${MHS_OUTBOUND_PORT}:80"
+    environment:
+      - MHS_LOG_LEVEL
+      - MHS_SECRET_PARTY_KEY
+      - MHS_SECRET_CLIENT_CERT
+      - MHS_SECRET_CLIENT_KEY
+      - MHS_SECRET_CA_CERTS
+      - MHS_STATE_TABLE_NAME
+      - MHS_DB_ENDPOINT_URL
+      - MHS_SYNC_ASYNC_STATE_TABLE_NAME
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - MHS_RESYNC_INTERVAL
+      - MAX_RESYNC_RETRIES
+      - MHS_SPINE_ROUTE_LOOKUP_URL
+      - MHS_SPINE_ORG_CODE
+      - MHS_SPINE_REQUEST_MAX_SIZE
+      - MHS_FORWARD_RELIABLE_ENDPOINT_URL
+      - MHS_OUTBOUND_VALIDATE_CERTIFICATE
+      - SERVICE_PORTS
+      - MHS_OUTBOUND_ROUTING_LOOKUP_METHOD
+      - MHS_SDS_API_URL
+      - MHS_SDS_API_KEY
+
+  ########### PS Adapter Specific ###############
+
+  gpc_facade:
+    build:
+      context: ../../
+      dockerfile: ./docker/gpc-facade/Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - ps_db
+    environment:
+      - GPC_FACADE_SERVER_PORT
+      - PS_DB_URL
+      - GPC_FACADE_USER_DB_PASSWORD
+      - PS_AMQP_BROKER
+      - PS_QUEUE_NAME
+      - PS_AMQP_USERNAME
+      - PS_AMQP_PASSWORD
+      - PS_AMQP_MAX_REDELIVERIES
+      - PS_LOGGING_LEVEL
+    networks:
+      - nia-daisy-chain
+
+  ps_gp2gp_translator:
+    build:
+      context: ../../
+      dockerfile: ./docker/gp2gp-translator/Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      - ps_db
+    environment:
+      - GP2GP_TRANSLATOR_SERVER_PORT
+      - PS_DB_URL
+      - GP2GP_TRANSLATOR_USER_DB_PASSWORD
+      - PS_AMQP_BROKER
+      - MHS_AMQP_BROKER
+      - PS_QUEUE_NAME
+      - MHS_QUEUE_NAME
+      - PS_AMQP_USERNAME
+      - PS_AMQP_PASSWORD
+      - PS_AMQP_MAX_REDELIVERIES
+      - MHS_AMQP_USERNAME
+      - MHS_AMQP_PASSWORD
+      - MHS_AMQP_MAX_REDELIVERIES
+      - MHS_BASE_URL
+      - PS_LOGGING_LEVEL
+      - SUPPORTED_FILE_TYPES
+      - STORAGE_TYPE
+      - STORAGE_REGION
+      - STORAGE_CONTAINER_NAME
+      - STORAGE_REFERENCE
+      - STORAGE_SECRET
+      - PS_DAISY_CHAINING_ACTIVE
+      - GP2GP_MHS_INBOUND_QUEUE
+      - GP2GP_AMQP_BROKERS
+      - GP2GP_AMQP_USERNAME
+      - GP2GP_AMQP_PASSWORD
+    networks:
+      - nia-daisy-chain
+
+  ps_db:
+    image: ${POSTGRES_VERSION}
+    ports:
+      - "${PS_DB_PORT}:5432"
+    environment:
+      - POSTGRES_PASSWORD
+      - PS_DB_OWNER_NAME
+    networks:
+      - nia-daisy-chain
+
+  db_migration:
+    image: ${PS_DB_MIGRATION_VERSION}
+    depends_on:
+      - ps_db
+    environment:
+      - POSTGRES_PASSWORD
+      - PS_DB_OWNER_NAME
+      - PS_DB_URL
+      - GPC_FACADE_USER_DB_PASSWORD
+      - GP2GP_TRANSLATOR_USER_DB_PASSWORD
+    networks:
+      - nia-daisy-chain
+
+  ########### GP2GP Adapter Specific ###############
+
+  gp2gp:
+    image: ${GP2GP_ADAPTOR_VERSION}
+    networks:
+      - nia-daisy-chain
+    depends_on:
+      - mongodb
+      - activemq
+    ports:
+      - "${GP2GP_SERVER_PORT}:8183"
+    environment:
+      - GP2GP_SERVER_PORT
+      - GP2GP_LOGGING_LEVEL
+      - GP2GP_AMQP_BROKERS
+      - GP2GP_AMQP_USERNAME
+      - GP2GP_AMQP_PASSWORD
+      - GP2GP_AMQP_MAX_REDELIVERIES
+      - GP2GP_MONGO_URI
+      - GP2GP_MONGO_DATABASE_NAME
+      - GP2GP_MONGO_TTL
+      - GP2GP_COSMOS_DB_ENABLED
+      - GP2GP_STORAGE_TYPE
+      - GP2GP_STORAGE_CONTAINER_NAME
+      - GP2GP_MHS_OUTBOUND_URL
+      - AZURE_STORAGE_CONNECTION_STRING
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_REGION
+      - GP2GP_GPC_GET_URL
+      - GP2GP_GPC_DOCUMENTS_FHIR_BASE
+      - GP2GP_GPC_STRUCTURED_FHIR_BASE
+      - GP2GP_SSL_TRUST_STORE_URL
+      - GP2GP_SSL_TRUST_STORE_PASSWORD
+      - GP2GP_GPC_OVERRIDE_NHS_NUMBER
+      - GP2GP_GPC_OVERRIDE_FROM_ASID
+      - GP2GP_GPC_OVERRIDE_TO_ASID
+      - GP2GP_GPC_GET_TEST_URL
+      - GP2GP_LARGE_ATTACHMENT_THRESHOLD
+      - GP2GP_LARGE_EHR_EXTRACT_THRESHOLD
+      - GP2GP_MHS_INBOUND_QUEUE
+
+  mongodb:
+    networks:
+      - nia-daisy-chain
+    image: ${MONGODB_VERSION}
+    ports:
+        - "27017:27017"
+
+  gpcc:
+    image: ${GPCC_ADAPTOR_VERSION}
+    networks:
+      - nia-daisy-chain
+    ports:
+      - "8090:8090"
+    environment:
+      - GPC_CONSUMER_LOGGING_LEVEL
+      - GPC_CONSUMER_SERVER_PORT
+      - GPC_CONSUMER_SPINE_CLIENT_CERT
+      - GPC_CONSUMER_SPINE_CLIENT_KEY
+      - GPC_CONSUMER_SPINE_ROOT_CA_CERT
+      - GPC_CONSUMER_SPINE_SUB_CA_CERT
+      - GPC_CONSUMER_SEARCH_DOCUMENTS_PATH
+      - GPC_CONSUMER_GPC_STRUCTURED_PATH
+      - GPC_CONSUMER_GPC_GET_PATIENT_PATH
+      - GPC_CONSUMER_GPC_GET_DOCUMENT_PATH
+      - GPC_CONSUMER_SDS_URL
+      - GPC_CONSUMER_SDS_APIKEY
+      - GPC_CONSUMER_SSP_URL
+
+  wiremock:
+    networks:
+      - nia-daisy-chain
+    build: docker_gp2gp/wiremock
+    ports:
+      - "8110:8080"
+
+  ########### LOCAL TESTING ONLY #################
+
+  dynamodb:
+    image: ${DYNAMODB_VERSION}
+    networks:
+      - nia-daisy-chain
+    ports:
+      - "8000:8000"
+
+  redis:
+    image: redis
+    networks:
+      - nia-daisy-chain
+    ports:
+      - "6379:6379"
+
+  activemq:
+    image: ${ACTIVEMQ_VERSION}
+#    build:
+#      context: ../docker/activemq
+    ports:
+      - "8161:8161"
+      - "${ACTIVE_MQ_PORT}:5672"
+    networks:
+      - nia-daisy-chain
+
+  mock-spine-mhs:
+    build:
+      context: ../
+      dockerfile: ./docker/mock-spine-mhs-outbound/DockerFile
+    ports:
+      - "${MOCK_SPINE_MHS_PORT}:8086"
+      - "${MOCK_SPINE_MHS_FORWARD_RELIABLE_PORT}:8443"
+    depends_on:
+      - ps_db
+    environment:
+      - PS_DB_URL
+      - GP2GP_TRANSLATOR_USER_DB_PASSWORD
+      - MOCK_SPINE_MHS_OUTBOUND_LOG_LEVEL
+    networks:
+      - nia-daisy-chain

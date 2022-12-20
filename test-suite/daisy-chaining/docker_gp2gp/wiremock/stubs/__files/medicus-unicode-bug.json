@@ -1,0 +1,4065 @@
+{
+    "resourceType": "Bundle",
+    "meta": {
+        "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1"
+        ]
+    },
+    "id": "edbe9124-107d-47b0-ae86-58ea38709365",
+    "type": "collection",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "id": "00d756ae-360d-11ed-95ee-060b232f1aa2",
+                "meta": {
+                    "versionId": "b054cee05d5843b5d9e856b10c56d79a",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-RegistrationDetails-1",
+                        "extension": [
+                            {
+                                "url": "registrationPeriod",
+                                "valuePeriod": {
+                                    "start": "2000-06-29"
+                                }
+                            },
+                            {
+                                "url": "registrationType",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-RegistrationType-1",
+                                            "code": "R",
+                                            "display": "Regular"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "extension": [
+                            {
+                                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-NHSNumberVerificationStatus-1",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-NHSNumberVerificationStatus-1",
+                                            "code": "01",
+                                            "display": "Number present and verified"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "system": "https://fhir.nhs.uk/Id/nhs-number",
+                        "value": "9693142837"
+                    }
+                ],
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "family": "Watson",
+                        "prefix": [
+                            "Mr"
+                        ],
+                        "given": [
+                            "Sam"
+                        ]
+                    }
+                ],
+                "gender": "male",
+                "birthDate": "2020-12-22",
+                "address": [
+                    {
+                        "use": "home",
+                        "line": [
+                            "126 GREEN DRAGON LANE",
+                            "LONDON"
+                        ],
+                        "postalCode": "N21 1HA",
+                        "country": "GBR"
+                    }
+                ],
+                "managingOrganization": {
+                    "reference": "Organization/F85003"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Organization",
+                "id": "F85003",
+                "meta": {
+                    "versionId": "46b094770b261cb692f88dd406ba5c31",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+                        "value": "F85003"
+                    }
+                ],
+                "active": true,
+                "name": "Riley House GP Practice",
+                "address": [
+                    {
+                        "use": "work",
+                        "line": [
+                            "101 Yvonne Falls"
+                        ],
+                        "city": "West Carey",
+                        "district": "Norfolk",
+                        "postalCode": "MK3 7SA",
+                        "country": "GBR"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "+441273749184",
+                        "use": "work"
+                    },
+                    {
+                        "system": "fax",
+                        "value": "+441455338473",
+                        "use": "work"
+                    },
+                    {
+                        "system": "email",
+                        "value": "bakers.hill@medicus.health",
+                        "use": "work"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Condition",
+                "id": "79458b66-43ae-11ed-ad2f-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+                        "valueCode": "major"
+                    },
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+                        "extension": [
+                            {
+                                "url": "type",
+                                "valueCode": "sibling"
+                            },
+                            {
+                                "url": "target",
+                                "valueReference": {
+                                    "reference": "Condition/a79cd640-43ae-11ed-93dd-0a0bbb679524"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "79458b66-43ae-11ed-ad2f-0a0bbb679524"
+                    }
+                ],
+                "clinicalStatus": "active",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/condition-category",
+                                "code": "problem-list-item",
+                                "display": "Problem List Item"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "65778007",
+                            "display": "Sinoatrial block",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "109278014"
+                                        },
+                                        {
+                                            "url": "descriptionDisplay",
+                                            "valueString": "Sinoauricular block"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "onsetDateTime": "2022-09",
+                "assertedDate": "2022-10-04T07:33:35+01:00",
+                "asserter": {
+                    "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                },
+                "note": [
+                    {
+                        "text": "This is a test problem. Unicode test:\n\nThe convention in English is “to use double quotation marks to indicate quotation, and ‘single quotation marks’ for nested quotations.”\n\nEn français la convention est « d'utiliser les guillemets français doubles pour les citations, et “ les guillemets anglais doubles ” ou bien ‹ les guillemets français simples › pour les citations imbriquées. »\n\nAuf Deutsch ist die Vereinbarung »umgekehrte zweifache Anführungszeichen für die Zitate zu benutzen, sogar ›einfache Anführungszeichen‹ für die verschachtelte Zitate«; diese Anführungszeichen „dürfen auch solche ‚englische‘ Anführungszeichen sein.“\n\nThe en-dash is used between numbers such as in: 1685–1750 (J. S. Bach). It is longer than the hyphen (as in “en-dash”, or, more properly, “en‐dash”) but shorter than the em-dash, which is used — like this — as a sort of parenthesis. Neither should be confused with the horizontal bar which is used to introduce quotation in some cases.\n― Like this?\n― Right.\n\nThe ellipsis is… well, it just is."
+                    },
+                    {
+                        "text": "Episode: Subsequent"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "1332aa9c-28d6-11eb-adc1-0242ac120002",
+                "meta": {
+                    "versionId": "d638bbaf8a63b7bfd23de016e0ecbb65",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+                    ]
+                },
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "family": "Lincoln",
+                        "prefix": [
+                            "Dr"
+                        ],
+                        "given": [
+                            "Lara",
+                            "Lona"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "PractitionerRole",
+                "id": "5a35f33983c7b57b366aa0efa7d3422a",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1"
+                    ]
+                },
+                "practitioner": {
+                    "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                },
+                "organization": {
+                    "reference": "Organization/F85003"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Condition",
+                "id": "9e02bbf4-43ae-11ed-9cca-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+                        "valueCode": "major"
+                    },
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+                        "extension": [
+                            {
+                                "url": "type",
+                                "valueCode": "child"
+                            },
+                            {
+                                "url": "target",
+                                "valueReference": {
+                                    "reference": "Condition/a79cd640-43ae-11ed-93dd-0a0bbb679524"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "9e02bbf4-43ae-11ed-9cca-0a0bbb679524"
+                    }
+                ],
+                "clinicalStatus": "active",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/condition-category",
+                                "code": "problem-list-item",
+                                "display": "Problem List Item"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "195967001",
+                            "display": "Asthma",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "301485011"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "onsetDateTime": "1991-07-19",
+                "assertedDate": "2022-10-04T07:34:37+01:00",
+                "asserter": {
+                    "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                },
+                "note": [
+                    {
+                        "text": "Potentially onset earlier."
+                    },
+                    {
+                        "text": "Episode: First"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Condition",
+                "id": "a79cd640-43ae-11ed-93dd-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+                        "valueCode": "minor"
+                    },
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+                        "extension": [
+                            {
+                                "url": "type",
+                                "valueCode": "sibling"
+                            },
+                            {
+                                "url": "target",
+                                "valueReference": {
+                                    "reference": "Condition/79458b66-43ae-11ed-ad2f-0a0bbb679524"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+                        "extension": [
+                            {
+                                "url": "type",
+                                "valueCode": "parent"
+                            },
+                            {
+                                "url": "target",
+                                "valueReference": {
+                                    "reference": "Condition/9e02bbf4-43ae-11ed-9cca-0a0bbb679524"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "a79cd640-43ae-11ed-93dd-0a0bbb679524"
+                    }
+                ],
+                "clinicalStatus": "active",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/condition-category",
+                                "code": "problem-list-item",
+                                "display": "Problem List Item"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "73430006",
+                            "display": "Sleep apnoea",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "200354014"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "assertedDate": "2022-10-04T07:34:53+01:00",
+                "asserter": {
+                    "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                },
+                "note": [
+                    {
+                        "text": "Child of asthma."
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Problems",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Problems",
+                            "system": "http://snomed.info/sct",
+                            "code": "717711000000103"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "Condition/79458b66-43ae-11ed-ad2f-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Condition/9e02bbf4-43ae-11ed-9cca-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Condition/a79cd640-43ae-11ed-93dd-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "AllergyIntolerance",
+                "id": "988d7ac8-43af-11ed-943a-0a0bbb679524",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "988d7ac8-43af-11ed-943a-0a0bbb679524"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
+                        "valueReference": {
+                            "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                        }
+                    }
+                ],
+                "verificationStatus": "unconfirmed",
+                "assertedDate": "2022-10-04T00:00:00+01:00",
+                "onsetDateTime": "1992",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "293584003",
+                            "display": "Paracetamol allergy",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "433806013"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "clinicalStatus": "active",
+                "patient": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "recorder": {
+                    "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                },
+                "category": [
+                    "medication"
+                ],
+                "note": [
+                    {
+                        "text": "Observed by clinicians"
+                    },
+                    {
+                        "text": "Certainty: Certain"
+                    }
+                ],
+                "reaction": [
+                    {
+                        "manifestation": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http://snomed.info/sct",
+                                        "code": "735173007",
+                                        "display": "Anaphylactic shock",
+                                        "extension": [
+                                            {
+                                                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                                "extension": [
+                                                    {
+                                                        "url": "descriptionId",
+                                                        "valueId": "3513354016"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "severity": "severe"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Allergies and adverse reactions",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Allergies and adverse reactions",
+                            "system": "http://snomed.info/sct",
+                            "code": "886921000000105"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "AllergyIntolerance/988d7ac8-43af-11ed-943a-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Ended allergies",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Ended allergies",
+                            "system": "http://snomed.info/sct",
+                            "code": "1103671000000101"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "note": [
+                    {
+                        "text": "Information not available."
+                    }
+                ],
+                "emptyReason": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-ListEmptyReasonCode-1",
+                            "code": "no-content-recorded",
+                            "display": "No Content Recorded"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationStatement",
+                "id": "ms-fc7d2045-28d9-11eb-adc1-157b0d2984af",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "ms-fc7d2045-28d9-11eb-adc1-157b0d2984af"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
+                        "valueCodeableConcept": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1",
+                                    "code": "prescribed-at-gp-practice",
+                                    "display": "Prescribed at GP practice"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1",
+                        "valueDateTime": "2022-10-04"
+                    }
+                ],
+                "status": "active",
+                "basedOn": [
+                    {
+                        "reference": "MedicationRequest/mr-fc7d2045-28d9-11eb-adc1-157b0d2984af"
+                    }
+                ],
+                "medicationReference": {
+                    "reference": "Medication/52911000001107"
+                },
+                "effectivePeriod": {
+                    "start": "2022-09-16"
+                },
+                "dateAsserted": "2022-09-16",
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "taken": "unk",
+                "dosage": [
+                    {
+                        "text": "1 tablet - every MORNING"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Medication",
+                "id": "52911000001107",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1"
+                    ]
+                },
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "52911000001107",
+                            "display": "Prednisolone 1mg tablets (Alliance Healthcare (Distribution) Ltd)"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationRequest",
+                "id": "mr-fc7d2045-28d9-11eb-adc1-157b0d2984af",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "mr-fc7d2045-28d9-11eb-adc1-157b0d2984af"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
+                        "valueCodeableConcept": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1",
+                                    "code": "repeat",
+                                    "display": "Repeat"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1",
+                        "extension": [
+                            {
+                                "url": "numberOfRepeatPrescriptionsAllowed",
+                                "valueUnsignedInt": 6
+                            },
+                            {
+                                "url": "numberOfRepeatPrescriptionsIssued",
+                                "valueUnsignedInt": 2
+                            }
+                        ]
+                    }
+                ],
+                "status": "completed",
+                "intent": "plan",
+                "medicationReference": {
+                    "reference": "Medication/52911000001107"
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "authoredOn": "2022-09-16",
+                "recorder": {
+                    "reference": "Practitioner/1339aa9b-28d6-11eb-adc1-0242ac120002"
+                },
+                "requester": {
+                    "agent": {
+                        "reference": "Organization/F85003"
+                    }
+                },
+                "dosageInstruction": [
+                    {
+                        "text": "1 tablet - every MORNING"
+                    }
+                ],
+                "dispenseRequest": {
+                    "validityPeriod": {
+                        "start": "2022-09-16"
+                    },
+                    "quantity": {
+                        "value": 1,
+                        "unit": "tablet"
+                    },
+                    "expectedSupplyDuration": {
+                        "value": 28,
+                        "system": "http://unitsofmeasure.org",
+                        "code": "d"
+                    }
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationRequest",
+                "id": "d7b189c3-28d9-11eb-adc1-d1b78e65af04",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "d7b189c3-28d9-11eb-adc1-d1b78e65af04"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
+                        "valueCodeableConcept": {
+                            "text": "No information available"
+                        }
+                    }
+                ],
+                "status": "completed",
+                "basedOn": [
+                    {
+                        "reference": "MedicationRequest/mr-fc7d2045-28d9-11eb-adc1-157b0d2984af"
+                    }
+                ],
+                "intent": "order",
+                "medicationReference": {
+                    "reference": "Medication/52911000001107"
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "authoredOn": "2022-09-18",
+                "recorder": {
+                    "reference": "Practitioner/1339aa9b-28d6-11eb-adc1-0242ac120002"
+                },
+                "requester": {
+                    "agent": {
+                        "reference": "Organization/F85003"
+                    }
+                },
+                "dosageInstruction": [
+                    {
+                        "text": "1 tablet - every MORNING"
+                    }
+                ],
+                "dispenseRequest": {
+                    "validityPeriod": {
+                        "start": "2022-09-18",
+                        "end": "2022-10-16"
+                    },
+                    "quantity": {
+                        "value": 1,
+                        "unit": "tablet"
+                    },
+                    "expectedSupplyDuration": {
+                        "value": 28,
+                        "system": "http://unitsofmeasure.org",
+                        "code": "d"
+                    }
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "1339aa9b-28d6-11eb-adc1-0242ac120002",
+                "meta": {
+                    "versionId": "704a92affc89d2a572a13641098a7f5f",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+                    ]
+                },
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "family": "Davies",
+                        "prefix": [
+                            "Prof"
+                        ],
+                        "given": [
+                            "Caitlin",
+                            "Tina"
+                        ],
+                        "suffix": [
+                            "III"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "PractitionerRole",
+                "id": "8962446c571059058ca90f4e64077c4b",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1"
+                    ]
+                },
+                "practitioner": {
+                    "reference": "Practitioner/1339aa9b-28d6-11eb-adc1-0242ac120002"
+                },
+                "organization": {
+                    "reference": "Organization/F85003"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationRequest",
+                "id": "d49e62c0-28d9-11eb-adc1-ebd7289a4f56",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "d49e62c0-28d9-11eb-adc1-ebd7289a4f56"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
+                        "valueCodeableConcept": {
+                            "text": "No information available"
+                        }
+                    }
+                ],
+                "status": "completed",
+                "basedOn": [
+                    {
+                        "reference": "MedicationRequest/mr-fc7d2045-28d9-11eb-adc1-157b0d2984af"
+                    }
+                ],
+                "intent": "order",
+                "medicationReference": {
+                    "reference": "Medication/52911000001107"
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "authoredOn": "2022-10-16",
+                "recorder": {
+                    "reference": "Practitioner/1339aa9b-28d6-11eb-adc1-0242ac120002"
+                },
+                "requester": {
+                    "agent": {
+                        "reference": "Organization/F85003"
+                    }
+                },
+                "dosageInstruction": [
+                    {
+                        "text": "1 tablet - every MORNING"
+                    }
+                ],
+                "dispenseRequest": {
+                    "validityPeriod": {
+                        "start": "2022-10-16",
+                        "end": "2022-11-13"
+                    },
+                    "quantity": {
+                        "value": 1,
+                        "unit": "tablet"
+                    },
+                    "expectedSupplyDuration": {
+                        "value": 28,
+                        "system": "http://unitsofmeasure.org",
+                        "code": "d"
+                    }
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationStatement",
+                "id": "ms-0614dac8-43b0-11ed-bf45-0a0bbb679524",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "ms-0614dac8-43b0-11ed-bf45-0a0bbb679524"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
+                        "valueCodeableConcept": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1",
+                                    "code": "prescribed-at-gp-practice",
+                                    "display": "Prescribed at GP practice"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1",
+                        "valueDateTime": "2022-10-04"
+                    }
+                ],
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "status": "completed",
+                "basedOn": [
+                    {
+                        "reference": "MedicationRequest/mr-0614dac8-43b0-11ed-bf45-0a0bbb679524"
+                    }
+                ],
+                "medicationReference": {
+                    "reference": "Medication/26148711000001101"
+                },
+                "effectivePeriod": {
+                    "start": "2022-10-04",
+                    "end": "2022-11-01"
+                },
+                "dateAsserted": "2022-10-04",
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "taken": "unk",
+                "dosage": [
+                    {
+                        "text": "One puff as needed. Max 10 doses per day"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Medication",
+                "id": "26148711000001101",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1"
+                    ]
+                },
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "26148711000001101",
+                            "display": "Beclometasone 100micrograms/dose / Formoterol 6micrograms/dose dry powder inhaler"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationRequest",
+                "id": "mr-0614dac8-43b0-11ed-bf45-0a0bbb679524",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "mr-0614dac8-43b0-11ed-bf45-0a0bbb679524"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
+                        "valueCodeableConcept": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1",
+                                    "code": "acute",
+                                    "display": "Acute"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "status": "completed",
+                "intent": "plan",
+                "medicationReference": {
+                    "reference": "Medication/26148711000001101"
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "authoredOn": "2022-10-04",
+                "recorder": {
+                    "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                },
+                "requester": {
+                    "agent": {
+                        "reference": "Organization/F85003"
+                    }
+                },
+                "dosageInstruction": [
+                    {
+                        "text": "One puff as needed. Max 10 doses per day"
+                    }
+                ],
+                "dispenseRequest": {
+                    "validityPeriod": {
+                        "start": "2022-10-04",
+                        "end": "2022-11-01"
+                    },
+                    "quantity": {
+                        "value": 1,
+                        "unit": "dose"
+                    },
+                    "expectedSupplyDuration": {
+                        "value": 28,
+                        "system": "http://unitsofmeasure.org",
+                        "code": "d"
+                    }
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationRequest",
+                "id": "061523b6-43b0-11ed-87eb-0a0bbb679524",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "061523b6-43b0-11ed-87eb-0a0bbb679524"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
+                        "valueCodeableConcept": {
+                            "text": "No information available"
+                        }
+                    }
+                ],
+                "status": "completed",
+                "basedOn": [
+                    {
+                        "reference": "MedicationRequest/mr-0614dac8-43b0-11ed-bf45-0a0bbb679524"
+                    }
+                ],
+                "intent": "order",
+                "medicationReference": {
+                    "reference": "Medication/26148711000001101"
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "authoredOn": "2022-10-04",
+                "recorder": {
+                    "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                },
+                "requester": {
+                    "agent": {
+                        "reference": "Organization/F85003"
+                    }
+                },
+                "dosageInstruction": [
+                    {
+                        "text": "One puff as needed. Max 10 doses per day"
+                    }
+                ],
+                "dispenseRequest": {
+                    "validityPeriod": {
+                        "start": "2022-10-04",
+                        "end": "2022-11-01"
+                    },
+                    "quantity": {
+                        "value": 1,
+                        "unit": "dose"
+                    },
+                    "expectedSupplyDuration": {
+                        "value": 28,
+                        "system": "http://unitsofmeasure.org",
+                        "code": "d"
+                    }
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationStatement",
+                "id": "ms-c945a406-43af-11ed-90e9-0a0bbb679524",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "ms-c945a406-43af-11ed-90e9-0a0bbb679524"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
+                        "valueCodeableConcept": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1",
+                                    "code": "prescribed-by-another-organisation",
+                                    "display": "Prescribed by another organisation"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "status": "active",
+                "basedOn": [
+                    {
+                        "reference": "MedicationRequest/mr-c945a406-43af-11ed-90e9-0a0bbb679524"
+                    }
+                ],
+                "medicationReference": {
+                    "reference": "Medication/27658006"
+                },
+                "effectivePeriod": {
+                    "start": "2022-10-04"
+                },
+                "dateAsserted": "2022-10-04",
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "taken": "unk",
+                "dosage": [
+                    {
+                        "text": "200mg daily"
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "Additional Information: Prescribed by hospital"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Medication",
+                "id": "27658006",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1"
+                    ]
+                },
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "27658006",
+                            "display": "Amoxicillin"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationRequest",
+                "id": "mr-c945a406-43af-11ed-90e9-0a0bbb679524",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "mr-c945a406-43af-11ed-90e9-0a0bbb679524"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
+                        "valueCodeableConcept": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1",
+                                    "code": "acute",
+                                    "display": "Acute"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "status": "active",
+                "intent": "plan",
+                "medicationReference": {
+                    "reference": "Medication/27658006"
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "authoredOn": "2022-10-04",
+                "recorder": {
+                    "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                },
+                "requester": {
+                    "agent": {
+                        "reference": "Organization/F85003"
+                    }
+                },
+                "dosageInstruction": [
+                    {
+                        "text": "200mg daily"
+                    }
+                ],
+                "dispenseRequest": {
+                    "validityPeriod": {
+                        "start": "2022-10-04"
+                    }
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationStatement",
+                "id": "ms-e95ecc90-43af-11ed-8306-0a0bbb679524",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "ms-e95ecc90-43af-11ed-8306-0a0bbb679524"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
+                        "valueCodeableConcept": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1",
+                                    "code": "prescribed-by-another-organisation",
+                                    "display": "Prescribed by another organisation"
+                                }
+                            ],
+                            "text": "Over the counter medication"
+                        }
+                    }
+                ],
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "status": "active",
+                "basedOn": [
+                    {
+                        "reference": "MedicationRequest/mr-e95ecc90-43af-11ed-8306-0a0bbb679524"
+                    }
+                ],
+                "medicationReference": {
+                    "reference": "Medication/412556009"
+                },
+                "effectivePeriod": {
+                    "start": "2022-10-04"
+                },
+                "dateAsserted": "2022-10-04",
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "taken": "unk",
+                "dosage": [
+                    {
+                        "text": "0.1ml once per day"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Medication",
+                "id": "412556009",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1"
+                    ]
+                },
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "412556009",
+                            "display": "Co-codamol"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationRequest",
+                "id": "mr-e95ecc90-43af-11ed-8306-0a0bbb679524",
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "mr-e95ecc90-43af-11ed-8306-0a0bbb679524"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
+                        "valueCodeableConcept": {
+                            "text": "No information available"
+                        }
+                    }
+                ],
+                "status": "active",
+                "intent": "plan",
+                "medicationReference": {
+                    "reference": "Medication/412556009"
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "authoredOn": "2022-10-04",
+                "recorder": {
+                    "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                },
+                "dosageInstruction": [
+                    {
+                        "text": "0.1ml once per day"
+                    }
+                ],
+                "dispenseRequest": {
+                    "validityPeriod": {
+                        "start": "2022-10-04"
+                    }
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Medications and medical devices",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Medications and medical devices",
+                            "system": "http://snomed.info/sct",
+                            "code": "933361000000108"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "MedicationStatement/ms-fc7d2045-28d9-11eb-adc1-157b0d2984af"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "MedicationStatement/ms-0614dac8-43b0-11ed-bf45-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "MedicationStatement/ms-c945a406-43af-11ed-90e9-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "MedicationStatement/ms-e95ecc90-43af-11ed-8306-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Encounter",
+                "id": "e61ec0cc-43ae-11ed-ba7c-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                    }
+                ],
+                "status": "finished",
+                "type": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "325861000000105",
+                                "display": "Face to face consultation",
+                                "extension": [
+                                    {
+                                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                        "extension": [
+                                            {
+                                                "url": "descriptionId",
+                                                "valueId": "600731000000118"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "participant": [
+                    {
+                        "type": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                        "code": "PPRF",
+                                        "display": "Primary Performer"
+                                    }
+                                ]
+                            }
+                        ],
+                        "individual": {
+                            "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                        }
+                    },
+                    {
+                        "type": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                        "code": "PART",
+                                        "display": "Participant"
+                                    }
+                                ]
+                            }
+                        ],
+                        "individual": {
+                            "reference": "Practitioner/4a18bd73-28d9-11eb-adc1-213bc7ad69f8"
+                        }
+                    },
+                    {
+                        "type": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                        "code": "PART",
+                                        "display": "Participant"
+                                    }
+                                ]
+                            }
+                        ],
+                        "individual": {
+                            "display": "translator"
+                        }
+                    },
+                    {
+                        "type": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                                        "code": "REC",
+                                        "display": "Recorder"
+                                    }
+                                ]
+                            }
+                        ],
+                        "individual": {
+                            "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                        }
+                    }
+                ],
+                "period": {
+                    "start": "2022-10-04T07:36:00+01:00"
+                },
+                "location": [
+                    {
+                        "location": {
+                            "reference": "Location/c1073d6b-28d9-11eb-adc1-2a09fc8b15ed"
+                        }
+                    }
+                ],
+                "serviceProvider": {
+                    "reference": "Organization/F85003"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Location",
+                "id": "c1073d6b-28d9-11eb-adc1-2a09fc8b15ed",
+                "meta": {
+                    "versionId": "337ee2cb549a0c54a2819eaf9ddc9e7a",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
+                    ]
+                },
+                "status": "active",
+                "name": "Andover Site",
+                "address": [
+                    {
+                        "use": "work",
+                        "line": [
+                            "872 Melisa Spurs"
+                        ],
+                        "city": "Legrosberg",
+                        "district": "Cornwall",
+                        "postalCode": "W5 9TG",
+                        "country": "GBR"
+                    }
+                ],
+                "managingOrganization": {
+                    "reference": "Organization/F85003"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "4a18bd73-28d9-11eb-adc1-213bc7ad69f8",
+                "meta": {
+                    "versionId": "cf7c7d18eb75d97ef4893b516f40c58c",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+                    ]
+                },
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "text": "Paula Allen"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "PractitionerRole",
+                "id": "d9db432039c853c5ac6e54173306090e",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1"
+                    ]
+                },
+                "practitioner": {
+                    "reference": "Practitioner/4a18bd73-28d9-11eb-adc1-213bc7ad69f8"
+                },
+                "organization": {
+                    "reference": "Organization/F85003"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "id": "e61ec0cc-43ae-11ed-ba7c-0a0bbb679524-consultation",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "encounter": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "date": "2022-10-04T07:49:46+01:00",
+                "orderedBy": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/list-order",
+                            "code": "system",
+                            "display": "Sorted by System"
+                        }
+                    ]
+                },
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "325851000000107",
+                            "display": "Consultation"
+                        }
+                    ]
+                },
+                "title": "Face to face consultation",
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "List/e629771a-43ae-11ed-9377-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "List/92164412-43b0-11ed-8218-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "id": "e629771a-43ae-11ed-9377-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+                        "extension": [
+                            {
+                                "url": "target",
+                                "valueReference": {
+                                    "reference": "Condition/9e02bbf4-43ae-11ed-9cca-0a0bbb679524"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "status": "current",
+                "mode": "snapshot",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "25851000000105",
+                            "display": "Topic (EHR)"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "encounter": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "date": "2022-10-04T07:36:38+01:00",
+                "orderedBy": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/list-order",
+                            "code": "system",
+                            "display": "Sorted by System"
+                        }
+                    ]
+                },
+                "title": "Asthma annual review",
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "List/e9978ffe-43ae-11ed-9a38-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "List/9e0d81c8-43af-11ed-9b49-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "id": "e9978ffe-43ae-11ed-9a38-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "24781000000107",
+                            "display": "Category (EHR)"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "encounter": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "date": "2022-10-04T07:49:46+01:00",
+                "orderedBy": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/list-order",
+                            "code": "system",
+                            "display": "Sorted by System"
+                        }
+                    ]
+                },
+                "title": "History",
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "Observation/26215e14-43af-11ed-b414-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/f93b4478-43ae-11ed-8db8-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/05babca6-43af-11ed-8388-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/3eab7938-43af-11ed-b34a-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/751eb836-43af-11ed-beb0-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "AllergyIntolerance/988d7ac8-43af-11ed-943a-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/b8af8472-43af-11ed-bd79-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "26215e14-43af-11ed-b414-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "26215e14-43af-11ed-b414-0a0bbb679524"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "89510009",
+                            "display": "Space of Mall",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "148406016"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "effectiveDateTime": "2022-10-04",
+                "issued": "2022-10-04T07:38:25+01:00",
+                "performer": [
+                    {
+                        "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                    },
+                    {
+                        "reference": "Organization/F85003"
+                    }
+                ],
+                "comment": "X X X X Y X X X Y X X X Y X X X Y X X X Y X X X Y X X X Y X X X Y X X X Y X X X Y X X X Y (figure space; unbreakable)"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "f93b4478-43ae-11ed-8db8-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "f93b4478-43ae-11ed-8db8-0a0bbb679524"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "34028000",
+                            "display": "Aluterus monoceros",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "56831014"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "effectiveDateTime": "2022-10-04",
+                "issued": "2022-10-04T07:37:10+01:00",
+                "performer": [
+                    {
+                        "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                    },
+                    {
+                        "reference": "Organization/F85003"
+                    }
+                ],
+                "comment": "По оживлённым берегам"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "05babca6-43af-11ed-8388-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "05babca6-43af-11ed-8388-0a0bbb679524"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "41453009",
+                            "display": "Strabismus surgery",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "69139010"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "effectiveDateTime": "2022-10-04",
+                "issued": "2022-10-04T07:37:31+01:00",
+                "performer": [
+                    {
+                        "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                    },
+                    {
+                        "reference": "Organization/F85003"
+                    }
+                ],
+                "comment": "Iou iou; ta pant' an exēkoi saphē."
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "3eab7938-43af-11ed-b34a-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "3eab7938-43af-11ed-b34a-0a0bbb679524"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "75367002",
+                            "display": "Blood pressure",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "125176019"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "effectiveDateTime": "2022-10-04T11:23:00+01:00",
+                "issued": "2022-10-04T07:39:06+01:00",
+                "performer": [
+                    {
+                        "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                    },
+                    {
+                        "reference": "Organization/F85003"
+                    }
+                ],
+                "interpretation": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v2-0078",
+                            "code": "H",
+                            "display": "High"
+                        }
+                    ]
+                },
+                "comment": "Taking standing",
+                "bodySite": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "368208006",
+                            "display": "Left upper arm structure",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "507686016"
+                                        },
+                                        {
+                                            "url": "descriptionDisplay",
+                                            "valueString": "Left arm"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://snomed.info/sct",
+                                    "code": "271649006",
+                                    "display": "Systolic blood pressure",
+                                    "extension": [
+                                        {
+                                            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                            "extension": [
+                                                {
+                                                    "url": "descriptionId",
+                                                    "valueId": "406507015"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "value": 120,
+                            "unit": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org"
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://snomed.info/sct",
+                                    "code": "271650006",
+                                    "display": "Diastolic blood pressure",
+                                    "extension": [
+                                        {
+                                            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                            "extension": [
+                                                {
+                                                    "url": "descriptionId",
+                                                    "valueId": "406508013"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "value": 80,
+                            "unit": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "751eb836-43af-11ed-beb0-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "751eb836-43af-11ed-beb0-0a0bbb679524"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "395177003",
+                            "display": "Smoking free weeks",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "1488873010"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "effectiveDateTime": "2022-10-04T00:00:00+01:00",
+                "issued": "2022-10-04T07:40:38+01:00",
+                "performer": [
+                    {
+                        "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                    },
+                    {
+                        "reference": "Organization/F85003"
+                    }
+                ],
+                "valueQuantity": {
+                    "value": 12,
+                    "unit": "week",
+                    "system": "http://unitsofmeasure.org"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "b8af8472-43af-11ed-bd79-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "b8af8472-43af-11ed-bd79-0a0bbb679524"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "35646002",
+                            "display": "Excision of lesion of skin",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "486231012"
+                                        },
+                                        {
+                                            "url": "descriptionDisplay",
+                                            "valueString": "Excision of skin lesion"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "effectiveDateTime": "2022-10-04",
+                "issued": "2022-10-04T07:42:31+01:00",
+                "performer": [
+                    {
+                        "reference": "Practitioner/4a18bd73-28d9-11eb-adc1-213bc7ad69f8"
+                    },
+                    {
+                        "reference": "Organization/F85003"
+                    }
+                ],
+                "comment": "Procedure details"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "id": "9e0d81c8-43af-11ed-9b49-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "24781000000107",
+                            "display": "Category (EHR)"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "encounter": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "date": "2022-10-04T07:49:46+01:00",
+                "orderedBy": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/list-order",
+                            "code": "system",
+                            "display": "Sorted by System"
+                        }
+                    ]
+                },
+                "title": "Plan",
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "Observation/3971df6a-43b0-11ed-b0fd-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "MedicationRequest/mr-c945a406-43af-11ed-90e9-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "MedicationRequest/mr-e95ecc90-43af-11ed-8306-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "MedicationRequest/mr-0614dac8-43b0-11ed-bf45-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "DocumentReference/emed3-fit-note--75a79696-43b0-11ed-bf16-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Immunization/5bfff1b6-43b0-11ed-8f3b-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "3971df6a-43b0-11ed-b0fd-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "3971df6a-43b0-11ed-b0fd-0a0bbb679524"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "18629005",
+                            "display": "Administration of medication",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "31412019"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "effectiveDateTime": "2022-10-04T00:00:00+01:00",
+                "issued": "2022-10-04T07:46:07+01:00",
+                "performer": [
+                    {
+                        "reference": "Practitioner/9fbe3c2d-28d9-11eb-adc1-5eaf7613dc09"
+                    },
+                    {
+                        "reference": "Organization/F85003"
+                    }
+                ],
+                "comment": "Product name: Hepatitis A vaccine\nAdministered dose quantity: 10\nRoute: Intravenous\nBatch number: AB12345\nExpiry date: Sun 12 Jan 1992\nNotes: No adverse reaction noted",
+                "bodySite": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "368209003",
+                            "display": "Right upper arm structure",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "507691015"
+                                        },
+                                        {
+                                            "url": "descriptionDisplay",
+                                            "valueString": "Right arm"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "9fbe3c2d-28d9-11eb-adc1-5eaf7613dc09",
+                "meta": {
+                    "versionId": "3af186732d8fbfc7b4f384359c5f6a46",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+                    ]
+                },
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "text": "Nick Matthews"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "PractitionerRole",
+                "id": "74bcd15f9860f58c66b1f489c586655e",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1"
+                    ]
+                },
+                "practitioner": {
+                    "reference": "Practitioner/9fbe3c2d-28d9-11eb-adc1-5eaf7613dc09"
+                },
+                "organization": {
+                    "reference": "Organization/F85003"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "emed3-fit-note--75a79696-43b0-11ed-bf16-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "masterIdentifier": {
+                    "system": "https://medicus.health",
+                    "value": "emed3-fit-note--75a79696-43b0-11ed-bf16-0a0bbb679524"
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "emed3-fit-note--75a79696-43b0-11ed-bf16-0a0bbb679524"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "751481000000104",
+                            "display": "eMED3 (2010) new statement issued, not fit for work",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "1653351000000114"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "text": "eMED3 (2010) new statement issued, not fit for work"
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "created": "2022-10-04",
+                "indexed": "2022-10-04T07:47:49+01:00",
+                "author": [
+                    {
+                        "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                    }
+                ],
+                "custodian": {
+                    "reference": "Organization/F85003"
+                },
+                "description": "Fit note",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "application/pdf",
+                            "size": 64429,
+                            "url": "https://a10001.api.staging.medicus.health/F85003/STU3/1/gpconnect/documents/Binary/emed3-fit-note--75a79696-43b0-11ed-bf16-0a0bbb679524"
+                        }
+                    }
+                ],
+                "context": {
+                    "encounter": {
+                        "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                    }
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Immunization",
+                "id": "5bfff1b6-43b0-11ed-8f3b-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
+                        "valueDateTime": "2022-10-04T07:47:05+01:00"
+                    },
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
+                        "valueCodeableConcept": {
+                            "coding": [
+                                {
+                                    "system": "http://snomed.info/sct",
+                                    "code": "1324681000000101",
+                                    "display": "Administration of first dose of SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "5bfff1b6-43b0-11ed-8f3b-0a0bbb679524"
+                    }
+                ],
+                "status": "completed",
+                "notGiven": false,
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "39473011000001103",
+                            "display": "COVID-19 Vaccine Nuvaxovid (recombinant, adjuvanted) 5micrograms/0.5ml dose dispersion for injection multidose vials (Novavax CZ a.s.)"
+                        }
+                    ]
+                },
+                "patient": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "encounter": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "date": "2022-10-04",
+                "primarySource": true,
+                "manufacturer": {
+                    "reference": "Organization/manufacturer-40543111000001107"
+                },
+                "lotNumber": "A1B240101",
+                "expirationDate": "2022-10-19",
+                "site": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "368209003",
+                            "display": "Right upper arm structure",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "507692010"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "route": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "78421000",
+                            "display": "Intramuscular"
+                        }
+                    ]
+                },
+                "doseQuantity": {
+                    "value": 15,
+                    "system": "http://unitsofmeasure.org",
+                    "code": "ml"
+                },
+                "practitioner": [
+                    {
+                        "role": {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/v2/0443",
+                                    "code": "EP",
+                                    "display": "Entering Provider"
+                                },
+                                {
+                                    "system": "http://hl7.org/fhir/stu3/valueset-immunization-role.html",
+                                    "code": "AP",
+                                    "display": "Administering Provider"
+                                }
+                            ]
+                        },
+                        "actor": {
+                            "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                        }
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "Administered by organisation: Riley House GP Practice"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Organization",
+                "id": "manufacturer-40543111000001107",
+                "meta": {
+                    "versionId": "ddfd3a8072dd90c95af1952dc8f7ed6a",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1"
+                    ]
+                },
+                "active": true,
+                "name": "Novavax CZ a.s."
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "id": "92164412-43b0-11ed-8218-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+                        "extension": [
+                            {
+                                "url": "target",
+                                "valueReference": {
+                                    "reference": "Condition/79458b66-43ae-11ed-ad2f-0a0bbb679524"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "status": "current",
+                "mode": "snapshot",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "25851000000105",
+                            "display": "Topic (EHR)"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "encounter": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "date": "2022-10-04T07:48:36+01:00",
+                "orderedBy": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/list-order",
+                            "code": "system",
+                            "display": "Sorted by System"
+                        }
+                    ]
+                },
+                "title": "Topic 2",
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "List/996298a6-43b0-11ed-add2-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "id": "996298a6-43b0-11ed-add2-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "24781000000107",
+                            "display": "Category (EHR)"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "encounter": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "date": "2022-10-04T07:49:46+01:00",
+                "orderedBy": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/list-order",
+                            "code": "system",
+                            "display": "Sorted by System"
+                        }
+                    ]
+                },
+                "title": "Examination",
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "Observation/9c5bb920-43b0-11ed-8a90-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/b4ca8982-43b0-11ed-9bde-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "9c5bb920-43b0-11ed-8a90-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "9c5bb920-43b0-11ed-8a90-0a0bbb679524"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "37331000000100",
+                            "display": "Comment note",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "87901000000115"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "effectiveDateTime": "2022-10-04",
+                "issued": "2022-10-04T07:48:53+01:00",
+                "performer": [
+                    {
+                        "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                    },
+                    {
+                        "reference": "Organization/F85003"
+                    }
+                ],
+                "comment": "Non-coded"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "b4ca8982-43b0-11ed-9bde-0a0bbb679524",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "b4ca8982-43b0-11ed-9bde-0a0bbb679524"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "37331000000100",
+                            "display": "Comment note",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "87901000000115"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "context": {
+                    "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                },
+                "effectiveDateTime": "2022-10-04",
+                "issued": "2022-10-04T07:49:34+01:00",
+                "performer": [
+                    {
+                        "reference": "Practitioner/1332aa9c-28d6-11eb-adc1-0242ac120002"
+                    },
+                    {
+                        "reference": "Organization/F85003"
+                    }
+                ],
+                "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "List of consultations",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "List of consultations",
+                            "system": "http://snomed.info/sct",
+                            "code": "1149501000000101"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "Encounter/e61ec0cc-43ae-11ed-ba7c-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Immunisations",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Immunisations",
+                            "system": "http://snomed.info/sct",
+                            "code": "1102181000000102"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "Immunization/5bfff1b6-43b0-11ed-8f3b-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "491ef27b-28d9-11eb-adc1-f07859c314bd",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "491ef27b-28d9-11eb-adc1-f07859c314bd"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "248333004",
+                            "display": "Standing height",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "370729019"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "effectiveDateTime": "2022-06-30T10:20:00+01:00",
+                "issued": "2022-09-16T23:29:31+01:00",
+                "valueQuantity": {
+                    "value": 186,
+                    "unit": "cm",
+                    "system": "http://unitsofmeasure.org"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "34cb0867-28d9-11eb-adc1-e5fc148960a3",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "34cb0867-28d9-11eb-adc1-e5fc148960a3"
+                    }
+                ],
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "75367002",
+                            "display": "Blood pressure",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "125176019"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "effectiveDateTime": "2022-06-30T00:00:00+01:00",
+                "issued": "2022-09-16T23:29:31+01:00",
+                "bodySite": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "368209003",
+                            "display": "Right upper arm structure",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "507691015"
+                                        },
+                                        {
+                                            "url": "descriptionDisplay",
+                                            "valueString": "Right arm"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://snomed.info/sct",
+                                    "code": "271649006",
+                                    "display": "Systolic blood pressure",
+                                    "extension": [
+                                        {
+                                            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                            "extension": [
+                                                {
+                                                    "url": "descriptionId",
+                                                    "valueId": "406507015"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "value": 129,
+                            "unit": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org"
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://snomed.info/sct",
+                                    "code": "271650006",
+                                    "display": "Diastolic blood pressure",
+                                    "extension": [
+                                        {
+                                            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                            "extension": [
+                                                {
+                                                    "url": "descriptionId",
+                                                    "valueId": "406508013"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "value": 87,
+                            "unit": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Uncategorised data",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Miscellaneous records",
+                            "system": "http://snomed.info/sct",
+                            "code": "826501000000100"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "Observation/3eab7938-43af-11ed-b34a-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/751eb836-43af-11ed-beb0-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/491ef27b-28d9-11eb-adc1-f07859c314bd"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/34cb0867-28d9-11eb-adc1-e5fc148960a3"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/b8af8472-43af-11ed-bd79-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/3971df6a-43b0-11ed-b0fd-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Investigations and results",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Investigations and results",
+                            "system": "http://snomed.info/sct",
+                            "code": "887191000000108"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "note": [
+                    {
+                        "text": "Information not available."
+                    }
+                ],
+                "emptyReason": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-ListEmptyReasonCode-1",
+                            "code": "no-content-recorded",
+                            "display": "No Content Recorded"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Outbound referral",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Outbound referral",
+                            "system": "http://snomed.info/sct",
+                            "code": "792931000000107"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "note": [
+                    {
+                        "text": "Information not available."
+                    }
+                ],
+                "emptyReason": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-ListEmptyReasonCode-1",
+                            "code": "no-content-recorded",
+                            "display": "No Content Recorded"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "ProcedureRequest",
+                "id": "08d7ca9e-360f-11ed-89ac-060b232f1aa2",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "08d7ca9e-360f-11ed-89ac-060b232f1aa2"
+                    }
+                ],
+                "status": "active",
+                "intent": "plan",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "45392008",
+                            "display": "Psychologic evaluation or test procedure",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "75671014"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "occurrencePeriod": {
+                    "start": "2022-09-19",
+                    "end": "2022-09-21"
+                },
+                "authoredOn": "2022-09-16T23:29:31+01:00",
+                "requester": {
+                    "agent": {
+                        "reference": "Practitioner/1339aa9a-28d6-11eb-adc1-0242ac120002"
+                    }
+                },
+                "note": [
+                    {
+                        "text": "Recall"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "1339aa9a-28d6-11eb-adc1-0242ac120002",
+                "meta": {
+                    "versionId": "c0bd412e4805f3e032d615cb34fbe1a4",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+                    ]
+                },
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "family": "Kennedy",
+                        "prefix": [
+                            "Mrs"
+                        ],
+                        "given": [
+                            "Christian",
+                            "Sean"
+                        ],
+                        "suffix": [
+                            "MD"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "PractitionerRole",
+                "id": "aaedd03e6ebe1a4a7095120467c743e1",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1"
+                    ]
+                },
+                "practitioner": {
+                    "reference": "Practitioner/1339aa9a-28d6-11eb-adc1-0242ac120002"
+                },
+                "organization": {
+                    "reference": "Organization/F85003"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "ProcedureRequest",
+                "id": "08d7cc74-360f-11ed-99a1-060b232f1aa2",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "08d7cc74-360f-11ed-99a1-060b232f1aa2"
+                    }
+                ],
+                "status": "active",
+                "intent": "plan",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "45392008",
+                            "display": "Psychologic evaluation or test procedure",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "75671014"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "occurrencePeriod": {
+                    "start": "2022-09-19",
+                    "end": "2022-09-23"
+                },
+                "authoredOn": "2022-09-16T23:29:31+01:00",
+                "requester": {
+                    "agent": {
+                        "reference": "Practitioner/1339aa9a-28d6-11eb-adc1-0242ac120002"
+                    }
+                },
+                "note": [
+                    {
+                        "text": "Recall"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "ProcedureRequest",
+                "id": "08d7cd0a-360f-11ed-99a7-060b232f1aa2",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "08d7cd0a-360f-11ed-99a7-060b232f1aa2"
+                    }
+                ],
+                "status": "active",
+                "intent": "plan",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "45392008",
+                            "display": "Psychologic evaluation or test procedure",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "75671014"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "occurrencePeriod": {
+                    "start": "2022-08-09",
+                    "end": "2022-09-11"
+                },
+                "authoredOn": "2022-09-16T23:29:31+01:00",
+                "requester": {
+                    "agent": {
+                        "reference": "Practitioner/1339aa9a-28d6-11eb-adc1-0242ac120002"
+                    }
+                },
+                "note": [
+                    {
+                        "text": "Recall"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "ProcedureRequest",
+                "id": "08d7ccc4-360f-11ed-9bb0-060b232f1aa2",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "08d7ccc4-360f-11ed-9bb0-060b232f1aa2"
+                    }
+                ],
+                "status": "active",
+                "intent": "plan",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "45392008",
+                            "display": "Psychologic evaluation or test procedure",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "75671014"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "occurrencePeriod": {
+                    "start": "2022-09-16",
+                    "end": "2022-09-26"
+                },
+                "authoredOn": "2022-09-16T23:29:31+01:00",
+                "requester": {
+                    "agent": {
+                        "reference": "Practitioner/1339aa9a-28d6-11eb-adc1-0242ac120002"
+                    }
+                },
+                "note": [
+                    {
+                        "text": "Recall"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Patient recall administration",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Patient recall administration",
+                            "system": "http://snomed.info/sct",
+                            "code": "714311000000108"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "ProcedureRequest/08d7ca9e-360f-11ed-89ac-060b232f1aa2"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "ProcedureRequest/08d7cc74-360f-11ed-99a1-060b232f1aa2"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "ProcedureRequest/08d7cd0a-360f-11ed-99a7-060b232f1aa2"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "ProcedureRequest/08d7ccc4-360f-11ed-9bb0-060b232f1aa2"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "care-record-document--68b052bc-360d-11ed-8e12-060b232f1aa2",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "masterIdentifier": {
+                    "system": "https://medicus.health",
+                    "value": "care-record-document--68b052bc-360d-11ed-8e12-060b232f1aa2"
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "care-record-document--68b052bc-360d-11ed-8e12-060b232f1aa2"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "823691000000103",
+                            "display": "Clinical letter",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "2143901000000113"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "created": "2014-06-15",
+                "indexed": "2022-09-16T23:17:53+01:00",
+                "author": [
+                    {
+                        "reference": "Practitioner/1332aa7c-28d6-11eb-adc1-0242ac120002"
+                    }
+                ],
+                "custodian": {
+                    "reference": "Organization/F85003"
+                },
+                "description": "Clinical letter",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "application/pdf",
+                            "size": 315497,
+                            "url": "https://a10001.api.staging.medicus.health/F85003/STU3/1/gpconnect/documents/Binary/care-record-document--68b052bc-360d-11ed-8e12-060b232f1aa2"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "1332aa7c-28d6-11eb-adc1-0242ac120002",
+                "meta": {
+                    "versionId": "79d7a0c985c4eac313c97b3f91e402fa",
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+                    ]
+                },
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "text": "Jason Parker"
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "PractitionerRole",
+                "id": "2490570d973fd416d117823a5fd52aff",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-PractitionerRole-1"
+                    ]
+                },
+                "practitioner": {
+                    "reference": "Practitioner/1332aa7c-28d6-11eb-adc1-0242ac120002"
+                },
+                "organization": {
+                    "reference": "Organization/F85003"
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "care-record-document--6929bfee-360d-11ed-810c-060b232f1aa2",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1"
+                    ]
+                },
+                "masterIdentifier": {
+                    "system": "https://medicus.health",
+                    "value": "care-record-document--6929bfee-360d-11ed-810c-060b232f1aa2"
+                },
+                "identifier": [
+                    {
+                        "system": "https://medicus.health",
+                        "value": "care-record-document--6929bfee-360d-11ed-810c-060b232f1aa2"
+                    }
+                ],
+                "status": "current",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "823691000000103",
+                            "display": "Clinical letter",
+                            "extension": [
+                                {
+                                    "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "2143901000000113"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "created": "1971-12-31",
+                "indexed": "2022-09-16T23:17:54+01:00",
+                "author": [
+                    {
+                        "reference": "Practitioner/1332aa7c-28d6-11eb-adc1-0242ac120002"
+                    }
+                ],
+                "custodian": {
+                    "reference": "Organization/F85003"
+                },
+                "description": "Clinical letter",
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "application/pdf",
+                            "size": 315497,
+                            "url": "https://a10001.api.staging.medicus.health/F85003/STU3/1/gpconnect/documents/Binary/care-record-document--6929bfee-360d-11ed-810c-060b232f1aa2"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Problems - linked problems not relating to the primary query",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Problems - linked problems not relating to the primary query",
+                            "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/GPConnect-SecondaryListValues-1",
+                            "code": "problems-linked-problems-not-relating-to-the-primary-query"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "note": [
+                    {
+                        "text": "Information not available."
+                    }
+                ],
+                "emptyReason": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-ListEmptyReasonCode-1",
+                            "code": "no-content-recorded",
+                            "display": "No Content Recorded"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Consultations - allergies contained in consultations",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Consultations - allergies contained in consultations",
+                            "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/GPConnect-SecondaryListValues-1",
+                            "code": "consultations-allergies-contained-in-consultations"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "AllergyIntolerance/988d7ac8-43af-11ed-943a-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Consultations - documents contained in consultations",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Consultations - documents contained in consultations",
+                            "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/GPConnect-SecondaryListValues-1",
+                            "code": "consultations-documents-contained-in-consultations"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "DocumentReference/emed3-fit-note--75a79696-43b0-11ed-bf16-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Consultations - immunisations contained in consultations",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Consultations - immunisations contained in consultations",
+                            "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/GPConnect-SecondaryListValues-1",
+                            "code": "consultations-immunisations-contained-in-consultations"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "Immunization/5bfff1b6-43b0-11ed-8f3b-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Consultations - medications contained in consultations",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Consultations - medications contained in consultations",
+                            "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/GPConnect-SecondaryListValues-1",
+                            "code": "consultations-medications-contained-in-consultations"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "MedicationRequest/mr-c945a406-43af-11ed-90e9-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "MedicationRequest/mr-e95ecc90-43af-11ed-8306-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "MedicationRequest/mr-0614dac8-43b0-11ed-bf45-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "List",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+                    ]
+                },
+                "status": "current",
+                "mode": "snapshot",
+                "title": "Consultations - uncategorised data contained in consultations",
+                "code": {
+                    "coding": [
+                        {
+                            "display": "Consultations - uncategorised data contained in consultations",
+                            "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/GPConnect-SecondaryListValues-1",
+                            "code": "consultations-uncategorised-data-contained-in-consultations"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/00d756ae-360d-11ed-95ee-060b232f1aa2"
+                },
+                "entry": [
+                    {
+                        "item": {
+                            "reference": "Observation/26215e14-43af-11ed-b414-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/f93b4478-43ae-11ed-8db8-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/05babca6-43af-11ed-8388-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/3eab7938-43af-11ed-b34a-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/751eb836-43af-11ed-beb0-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/b8af8472-43af-11ed-bd79-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/3971df6a-43b0-11ed-b0fd-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/9c5bb920-43b0-11ed-8a90-0a0bbb679524"
+                        }
+                    },
+                    {
+                        "item": {
+                            "reference": "Observation/b4ca8982-43b0-11ed-9bde-0a0bbb679524"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

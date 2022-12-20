@@ -7,7 +7,7 @@ source ./vars-versions.sh
 # MHS VARS
 #SECRET KEY VARS
 #User-specific env variables
-export SNOMED_FILE_LOCATION="/Users/scott.alexander/Documents/projects/nhs-d/nia-patient-switching-standard-adaptor/test-suite/docker/uk_sct2cl_35.0.0_20220928000001Z.zip";
+export SNOMED_FILE_LOCATION="FILL_IN";
 export MHS_SECRET_PARTY_KEY="Y90664-9198273"
 export MHS_SECRET_CLIENT_CERT="-----BEGIN CERTIFICATE-----
 MIIFPTCCAyUCFAKYCULeFVcQCwXCGCiCFVu09NmzMA0GCSqGSIb3DQEBCwUAMF0x

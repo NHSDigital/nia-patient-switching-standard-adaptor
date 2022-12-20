@@ -33,6 +33,12 @@ amqp:
     password: ${MHS_AMQP_PASSWORD:}
     maxRedeliveries: ${MHS_AMQP_MAX_REDELIVERIES:3}
     dlqPrefix: ${MHS_DLQ_PREFIX:DLQ.}
+  gp2gp:
+    queueName: ${GP2GP_MHS_INBOUND_QUEUE:gp2gpInboundQueue}
+    broker: ${GP2GP_AMQP_BROKERS:amqp://localhost:5672}
+    username: ${GP2GP_AMQP_USERNAME:}
+    password: ${GP2GP_AMQP_PASSWORD:}
+  daisyChaining: ${PS_DAISY_CHAINING_ACTIVE:false}
 
 mhs:
   url: ${MHS_BASE_URL:http://localhost:8080}

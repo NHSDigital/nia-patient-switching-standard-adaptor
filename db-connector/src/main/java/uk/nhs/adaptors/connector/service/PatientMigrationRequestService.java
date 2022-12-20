@@ -27,4 +27,8 @@ public class PatientMigrationRequestService {
 
         return migrationRequestDao.getMigrationRequestByIdIn(ids);
     }
+
+    public boolean hasMigrationRequest(String conversationId) {
+        return migrationRequestDao.existsByConversationId(conversationId);
+    }
 }
