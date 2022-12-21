@@ -1,3 +1,5 @@
+#!/bin/bash
+
 now=$(date "+%y%m%d-%H%M%S")
 echo "-------------------------------------------------------------------------------------"
 echo "Before starting this test, please ensure that the translator container is not running"
