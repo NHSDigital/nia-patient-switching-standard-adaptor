@@ -48,7 +48,7 @@
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
-        <stringProp name="TestPlan.comments">Can the system process 12 messages submitted in parallel (10 passing 2 failing)</stringProp>
+        <stringProp name="TestPlan.comments">Can the system process 30 batches of 12 messages submitted in parallel?</stringProp>
       </ThreadGroup>
       <hashTree>
         <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Prepare variables - Run: ${__groovy(vars.getIteration())}" enabled="true">
