@@ -1,2098 +1,2779 @@
 {
   "resourceType": "Bundle",
-  "id": "5c8b2941-5d92-45c7-bb14-8df9ad3693fe",
+  "id": "c1b43279-0083-4d3d-bb99-e60d5d954396",
   "meta": {
-    "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
+    "profile": [
+      "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1"
+    ]
   },
   "type": "collection",
-  "entry": [ {
-    "resource": {
-      "resourceType": "Patient",
-      "id": "a346b9d6-9583-4014-b05b-40c43c22fdc4",
-      "meta": {
-        "versionId": "1521806400000",
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
-      },
-      "identifier": [ {
-        "system": "https://fhir.nhs.uk/Id/nhs-number",
-        "value": "Test Harness"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Organization",
-      "id": "f0e55c3b-0ba5-47fe-b632-7d3287f4dfe4",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
-      },
-      "identifier": [ {
-        "system": "https://fhir.nhs.uk/Id/ods-organization-code",
-        "value": "B83002"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Practitioner",
-      "id": "C5DEFBF3-0174-BC6F-182C-B777B9C6FF43",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
-      },
-      "name": [ {
-        "use": "official",
-        "family": "Whitcombe",
-        "given": [ "Peter" ],
-        "prefix": [ "Dr" ]
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Practitioner",
-      "id": "1E473786-E7FA-785E-C911-A8D38FB56F20",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1" ]
-      },
-      "name": [ {
-        "use": "official",
-        "family": "McAvenue",
-        "given": [ "David" ],
-        "prefix": [ "Dr" ]
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Encounter",
-      "id": "5649F991-91C0-4A01-A9CA-7C12F4032DD6",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      } ],
-      "status": "finished",
-      "type": [ {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "25671000000102",
-          "display": "Surgery Consultation Note"
-        } ],
-        "text": "GP Surgery"
-      } ],
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "participant": [ {
-        "type": [ {
-          "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
-            "code": "REC",
-            "display": "recorder"
-          } ]
-        } ],
-        "individual": {
-          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
-      }, {
-        "type": [ {
-          "coding": [ {
-            "system": "http://hl7.org/fhir/v3/ParticipationType",
-            "code": "PPRF",
-            "display": "primary performer"
-          } ]
-        } ],
-        "individual": {
-          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
-      } ],
-      "period": {
-        "start": "2010-01-23T13:27:00+00:00"
-      },
-      "location": [ {
-        "location": {
-          "reference": "Location/{{LOCATION-1}}"
-        }
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "List",
-      "id": "5649F991-91C0-4A01-A9CA-7C12F4032DD6-CONS",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
-      },
-      "status": "current",
-      "mode": "snapshot",
-      "title": "GP Surgery",
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "325851000000107",
-          "display": "Consultation"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "encounter": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "date": "2010-01-23T13:27:00+00:00",
-      "orderedBy": {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/list-order",
-          "code": "system",
-          "display": "Sorted by System"
-        } ]
-      },
-      "entry": [ {
-        "item": {
-          "reference": "List/98BE220A-6F8F-460A-9AB6-18ECFC8F8F60"
-        }
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "List",
-      "id": "98BE220A-6F8F-460A-9AB6-18ECFC8F8F60",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
-      },
-      "status": "current",
-      "mode": "snapshot",
-      "title": "UnspecifiedCondtions",
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "25851000000105",
-          "display": "Topic (EHR)"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "encounter": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "date": "2010-01-23T13:27:00+00:00",
-      "orderedBy": {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/list-order",
-          "code": "system",
-          "display": "Sorted by System"
-        } ]
-      },
-      "entry": [ {
-        "item": {
-          "reference": "List/CE259D96-3060-424A-9DCB-CF6FB793CF9F"
-        }
-      }, {
-        "item": {
-          "reference": "List/450E5AA4-C3DF-4832-89DE-45795BD8C88E"
-        }
-      }, {
-        "item": {
-          "reference": "List/19F713BF-6F50-4C4E-A49F-7A42613E2ECC"
-        }
-      }, {
-        "item": {
-          "reference": "List/A8995C7C-D9A9-49F7-90E3-F81EBE522E20"
-        }
-      }, {
-        "item": {
-          "reference": "List/726A2E1D-455C-491C-A545-05B64A34E87A"
-        }
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "List",
-      "id": "CE259D96-3060-424A-9DCB-CF6FB793CF9F",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
-      },
-      "status": "current",
-      "mode": "snapshot",
-      "title": "Social",
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "24781000000107",
-          "display": "Category (EHR)"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "encounter": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "date": "2010-01-23T13:27:00+00:00",
-      "orderedBy": {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/list-order",
-          "code": "system",
-          "display": "Sorted by System"
-        } ]
-      },
-      "entry": [ {
-        "item": {
-          "reference": "Observation/9062EDFC-B23B-41BB-81BD-22345131CA51"
-        }
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "List",
-      "id": "450E5AA4-C3DF-4832-89DE-45795BD8C88E",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
-      },
-      "status": "current",
-      "mode": "snapshot",
-      "title": "Comment",
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "24781000000107",
-          "display": "Category (EHR)"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "encounter": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "date": "2010-01-23T13:27:00+00:00",
-      "orderedBy": {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/list-order",
-          "code": "system",
-          "display": "Sorted by System"
-        } ]
-      },
-      "entry": [ {
-        "item": {
-          "reference": "AllergyIntolerance/54E7269B-46EE-4B90-9BB9-70CDE571994E"
-        }
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "List",
-      "id": "19F713BF-6F50-4C4E-A49F-7A42613E2ECC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
-      },
-      "status": "current",
-      "mode": "snapshot",
-      "title": "Follow up",
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "24781000000107",
-          "display": "Category (EHR)"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "encounter": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "date": "2010-01-23T13:27:00+00:00",
-      "orderedBy": {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/list-order",
-          "code": "system",
-          "display": "Sorted by System"
-        } ]
-      },
-      "entry": [ {
-        "item": {
-          "reference": "ProcedureRequest/2FD02B22-C71D-4022-B800-04718374D0EC"
-        }
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "List",
-      "id": "A8995C7C-D9A9-49F7-90E3-F81EBE522E20",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
-      },
-      "status": "current",
-      "mode": "snapshot",
-      "title": "Examination",
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "24781000000107",
-          "display": "Category (EHR)"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "encounter": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "date": "2010-01-23T13:27:00+00:00",
-      "orderedBy": {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/list-order",
-          "code": "system",
-          "display": "Sorted by System"
-        } ]
-      },
-      "entry": [ {
-        "item": {
-          "reference": "Observation/E46391DB-463A-457A-B88D-9249B64FFA1C"
-        }
-      }, {
-        "item": {
-          "reference": "Observation/AD4BF8B3-A5D2-47E4-B8C2-A780A09A7CA2"
-        }
-      }, {
-        "item": {
-          "reference": "Observation/4495C500-1709-4020-9D40-5DB993539D38"
-        }
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "List",
-      "id": "726A2E1D-455C-491C-A545-05B64A34E87A",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
-      },
-      "status": "current",
-      "mode": "snapshot",
-      "title": "History",
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "24781000000107",
-          "display": "Category (EHR)"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "encounter": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "date": "2010-01-23T13:27:00+00:00",
-      "orderedBy": {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/list-order",
-          "code": "system",
-          "display": "Sorted by System"
-        } ]
-      },
-      "entry": [ {
-        "item": {
-          "reference": "AllergyIntolerance/866A9FEE-5076-4837-91D3-E1F03CBF3C30"
-        }
-      }, {
-        "item": {
-          "reference": "Observation/191F1BEA-ED27-43A1-9FFD-5DBF646122C9"
-        }
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Location",
-      "id": "{{LOCATION-1}}",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "{{LOCATION-1}}"
-      } ],
-      "status": "active",
-      "name": "EMIS LV Test Practice 1"
-    }
-  }, {
-    "resource": {
-      "resourceType": "ProcedureRequest",
-      "id": "2FD02B22-C71D-4022-B800-04718374D0EC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "2FD02B22-C71D-4022-B800-04718374D0EC"
-      } ],
-      "status": "active",
-      "intent": "plan",
-      "code": {
-        "text": "Fissure sealant required"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "context": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "occurrenceDateTime": "2010-01-23",
-      "authoredOn": "2010-01-23T13:27:34+00:00",
-      "requester": {
-        "agent": {
-          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "9c38dc7b-28d2-4210-8347-52cdf112d2d8",
+        "meta": {
+          "versionId": "1521806400000",
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/nhs-number",
+            "value": "Test Harness"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Organization",
+        "id": "572d200d-386e-49ae-8c5a-e2d94b5b3b38",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+            "value": "2167888433"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "C5DEFBF3-0174-BC6F-182C-B777B9C6FF43",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+          ]
+        },
+        "name": [
+          {
+            "use": "official",
+            "family": "Whitcombe",
+            "given": [
+              "Peter"
+            ],
+            "prefix": [
+              "Dr"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "1E473786-E7FA-785E-C911-A8D38FB56F20",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
+          ]
+        },
+        "name": [
+          {
+            "use": "official",
+            "family": "McAvenue",
+            "given": [
+              "David"
+            ],
+            "prefix": [
+              "Dr"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "5649F991-91C0-4A01-A9CA-7C12F4032DD6",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+          }
+        ],
+        "status": "finished",
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "25671000000102",
+                "display": "Surgery Consultation Note"
+              }
+            ],
+            "text": "GP Surgery"
+          }
+        ],
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "https://fhir.nhs.uk/STU3/CodeSystem/GPConnect-ParticipantType-1",
+                    "code": "REC",
+                    "display": "recorder"
+                  }
+                ]
+              }
+            ],
+            "individual": {
+              "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+            }
+          },
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/v3/ParticipationType",
+                    "code": "PPRF",
+                    "display": "primary performer"
+                  }
+                ]
+              }
+            ],
+            "individual": {
+              "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+            }
+          }
+        ],
+        "period": {
+          "start": "2010-01-23T13:27:00+00:00"
+        },
+        "location": [
+          {
+            "location": {
+              "reference": "Location/ADF01B63-695A-4517-BD03-2B1757D51EA8"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "List",
+        "id": "5649F991-91C0-4A01-A9CA-7C12F4032DD6-CONS",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+          ]
+        },
+        "status": "current",
+        "mode": "snapshot",
+        "title": "GP Surgery",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "325851000000107",
+              "display": "Consultation"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "encounter": {
+          "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "date": "2010-01-23T13:27:00+00:00",
+        "orderedBy": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/list-order",
+              "code": "system",
+              "display": "Sorted by System"
+            }
+          ]
+        },
+        "entry": [
+          {
+            "item": {
+              "reference": "List/98BE220A-6F8F-460A-9AB6-18ECFC8F8F60"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "List",
+        "id": "98BE220A-6F8F-460A-9AB6-18ECFC8F8F60",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+          ]
+        },
+        "status": "current",
+        "mode": "snapshot",
+        "title": "UnspecifiedCondtions",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "25851000000105",
+              "display": "Topic (EHR)"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "encounter": {
+          "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "date": "2010-01-23T13:27:00+00:00",
+        "orderedBy": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/list-order",
+              "code": "system",
+              "display": "Sorted by System"
+            }
+          ]
+        },
+        "entry": [
+          {
+            "item": {
+              "reference": "List/CE259D96-3060-424A-9DCB-CF6FB793CF9F"
+            }
+          },
+          {
+            "item": {
+              "reference": "List/450E5AA4-C3DF-4832-89DE-45795BD8C88E"
+            }
+          },
+          {
+            "item": {
+              "reference": "List/19F713BF-6F50-4C4E-A49F-7A42613E2ECC"
+            }
+          },
+          {
+            "item": {
+              "reference": "List/A8995C7C-D9A9-49F7-90E3-F81EBE522E20"
+            }
+          },
+          {
+            "item": {
+              "reference": "List/726A2E1D-455C-491C-A545-05B64A34E87A"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "List",
+        "id": "CE259D96-3060-424A-9DCB-CF6FB793CF9F",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+          ]
+        },
+        "status": "current",
+        "mode": "snapshot",
+        "title": "Social",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "24781000000107",
+              "display": "Category (EHR)"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "encounter": {
+          "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "date": "2010-01-23T13:27:00+00:00",
+        "orderedBy": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/list-order",
+              "code": "system",
+              "display": "Sorted by System"
+            }
+          ]
+        },
+        "entry": [
+          {
+            "item": {
+              "reference": "Observation/9062EDFC-B23B-41BB-81BD-22345131CA51"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "List",
+        "id": "450E5AA4-C3DF-4832-89DE-45795BD8C88E",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+          ]
+        },
+        "status": "current",
+        "mode": "snapshot",
+        "title": "Comment",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "24781000000107",
+              "display": "Category (EHR)"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "encounter": {
+          "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "date": "2010-01-23T13:27:00+00:00",
+        "orderedBy": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/list-order",
+              "code": "system",
+              "display": "Sorted by System"
+            }
+          ]
+        },
+        "entry": [
+          {
+            "item": {
+              "reference": "AllergyIntolerance/54E7269B-46EE-4B90-9BB9-70CDE571994E"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "List",
+        "id": "19F713BF-6F50-4C4E-A49F-7A42613E2ECC",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+          ]
+        },
+        "status": "current",
+        "mode": "snapshot",
+        "title": "Follow up",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "24781000000107",
+              "display": "Category (EHR)"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "encounter": {
+          "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "date": "2010-01-23T13:27:00+00:00",
+        "orderedBy": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/list-order",
+              "code": "system",
+              "display": "Sorted by System"
+            }
+          ]
+        },
+        "entry": [
+          {
+            "item": {
+              "reference": "ProcedureRequest/2FD02B22-C71D-4022-B800-04718374D0EC"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "List",
+        "id": "A8995C7C-D9A9-49F7-90E3-F81EBE522E20",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+          ]
+        },
+        "status": "current",
+        "mode": "snapshot",
+        "title": "Examination",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "24781000000107",
+              "display": "Category (EHR)"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "encounter": {
+          "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "date": "2010-01-23T13:27:00+00:00",
+        "orderedBy": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/list-order",
+              "code": "system",
+              "display": "Sorted by System"
+            }
+          ]
+        },
+        "entry": [
+          {
+            "item": {
+              "reference": "Observation/E46391DB-463A-457A-B88D-9249B64FFA1C"
+            }
+          },
+          {
+            "item": {
+              "reference": "Observation/AD4BF8B3-A5D2-47E4-B8C2-A780A09A7CA2"
+            }
+          },
+          {
+            "item": {
+              "reference": "Observation/4495C500-1709-4020-9D40-5DB993539D38"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "List",
+        "id": "726A2E1D-455C-491C-A545-05B64A34E87A",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
+          ]
+        },
+        "status": "current",
+        "mode": "snapshot",
+        "title": "History",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "24781000000107",
+              "display": "Category (EHR)"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "encounter": {
+          "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "date": "2010-01-23T13:27:00+00:00",
+        "orderedBy": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/list-order",
+              "code": "system",
+              "display": "Sorted by System"
+            }
+          ]
+        },
+        "entry": [
+          {
+            "item": {
+              "reference": "AllergyIntolerance/866A9FEE-5076-4837-91D3-E1F03CBF3C30"
+            }
+          },
+          {
+            "item": {
+              "reference": "Observation/191F1BEA-ED27-43A1-9FFD-5DBF646122C9"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Location",
+        "id": "ADF01B63-695A-4517-BD03-2B1757D51EA8",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "ADF01B63-695A-4517-BD03-2B1757D51EA8"
+          }
+        ],
+        "status": "active",
+        "name": "EMIS LV Test Practice 1"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "ProcedureRequest",
+        "id": "2FD02B22-C71D-4022-B800-04718374D0EC",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "2FD02B22-C71D-4022-B800-04718374D0EC"
+          }
+        ],
+        "status": "active",
+        "intent": "plan",
+        "code": {
+          "text": "Fissure sealant required"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "context": {
+          "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "occurrenceDateTime": "2010-01-23",
+        "authoredOn": "2010-01-23T13:27:34+00:00",
+        "requester": {
+          "agent": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
         }
       }
-    }
-  }, {
-    "resource": {
-      "resourceType": "ProcedureRequest",
-      "id": "1B1C6F50-D8BE-4480-83D6-EF25AC5F1836",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "1B1C6F50-D8BE-4480-83D6-EF25AC5F1836"
-      } ],
-      "status": "active",
-      "intent": "plan",
-      "code": {
-        "text": "Dental recall - high caries in mother and siblings"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "occurrenceDateTime": "2015-10-12T13:12:00+00:00",
-      "authoredOn": "2010-10-12T13:50:58+00:00",
-      "requester": {
-        "agent": {
-          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
-      },
-      "note": [ {
-        "text": "More blah blah"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Medication",
-      "id": "0967d2f3-ebcc-47ee-917c-d5ca7dc36879",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
-      },
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "324607004",
-          "display": "Ciprofloxacin 250mg tablets"
-        } ]
+    },
+    {
+      "resource": {
+        "resourceType": "ProcedureRequest",
+        "id": "1B1C6F50-D8BE-4480-83D6-EF25AC5F1836",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "1B1C6F50-D8BE-4480-83D6-EF25AC5F1836"
+          }
+        ],
+        "status": "active",
+        "intent": "plan",
+        "code": {
+          "text": "Dental recall - high caries in mother and siblings"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "occurrenceDateTime": "2015-10-12T13:12:00+00:00",
+        "authoredOn": "2010-10-12T13:50:58+00:00",
+        "requester": {
+          "agent": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        },
+        "note": [
+          {
+            "text": "More blah blah"
+          }
+        ]
       }
-    }
-  }, {
-    "resource": {
-      "resourceType": "MedicationRequest",
-      "id": "CA5509BF-A7E3-4879-A842-419BA8637238",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
-        "valueCodeableConcept": {
-          "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1",
-            "code": "acute",
-            "display": "Acute"
-          } ]
+    },
+    {
+      "resource": {
+        "resourceType": "Medication",
+        "id": "f872f2d6-62d7-4db8-8171-3eaa7018e6f0",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1"
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "324607004",
+              "display": "Ciprofloxacin 250mg tablets"
+            }
+          ]
         }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "CA5509BF-A7E3-4879-A842-419BA8637238"
-      } ],
-      "status": "completed",
-      "intent": "plan",
-      "medicationReference": {
-        "reference": "Medication/0967d2f3-ebcc-47ee-917c-d5ca7dc36879"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "authoredOn": "2010-02-26T11:08:17+00:00",
-      "requester": {
-        "agent": {
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "CA5509BF-A7E3-4879-A842-419BA8637238",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1",
+                  "code": "acute",
+                  "display": "Acute"
+                }
+              ]
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "CA5509BF-A7E3-4879-A842-419BA8637238"
+          }
+        ],
+        "status": "completed",
+        "intent": "plan",
+        "medicationReference": {
+          "reference": "Medication/f872f2d6-62d7-4db8-8171-3eaa7018e6f0"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "authoredOn": "2010-02-26T11:08:17+00:00",
+        "requester": {
+          "agent": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        },
+        "recorder": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "dosageInstruction": [
+          {
+            "text": "One To Be Taken Twice A Day"
+          }
+        ],
+        "dispenseRequest": {
+          "validityPeriod": {
+            "start": "2010-02-26"
+          },
+          "quantity": {
+            "value": 10.0,
+            "unit": "tablet"
+          }
         }
-      },
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "dosageInstruction": [ {
-        "text": "One To Be Taken Twice A Day"
-      } ],
-      "dispenseRequest": {
-        "validityPeriod": {
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationStatement",
+        "id": "CA5509BF-A7E3-4879-A842-419BA8637238-MS",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1",
+                  "code": "prescribed-at-gp-practice",
+                  "display": "Prescribed at GP practice"
+                }
+              ]
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "CA5509BF-A7E3-4879-A842-419BA8637238-MS"
+          }
+        ],
+        "basedOn": [
+          {
+            "reference": "MedicationRequest/CA5509BF-A7E3-4879-A842-419BA8637238"
+          }
+        ],
+        "status": "completed",
+        "medicationReference": {
+          "reference": "Medication/f872f2d6-62d7-4db8-8171-3eaa7018e6f0"
+        },
+        "effectivePeriod": {
           "start": "2010-02-26"
         },
-        "quantity": {
-          "value": 10.0,
-          "unit": "tablet"
-        }
+        "dateAsserted": "2010-02-26T11:08:17+00:00",
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "taken": "unk",
+        "dosage": [
+          {
+            "text": "One To Be Taken Twice A Day"
+          }
+        ]
       }
-    }
-  }, {
-    "resource": {
-      "resourceType": "MedicationStatement",
-      "id": "CA5509BF-A7E3-4879-A842-419BA8637238-MS",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationStatement-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1",
-        "valueCodeableConcept": {
-          "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescribingAgency-1",
-            "code": "prescribed-at-gp-practice",
-            "display": "Prescribed at GP practice"
-          } ]
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "CA5509BF-A7E3-4879-A842-419BA8637238-MS"
-      } ],
-      "basedOn": [ {
-        "reference": "MedicationRequest/CA5509BF-A7E3-4879-A842-419BA8637238"
-      } ],
-      "status": "completed",
-      "medicationReference": {
-        "reference": "Medication/0967d2f3-ebcc-47ee-917c-d5ca7dc36879"
-      },
-      "effectivePeriod": {
-        "start": "2010-02-26"
-      },
-      "dateAsserted": "2010-02-26T11:08:17+00:00",
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "taken": "unk",
-      "dosage": [ {
-        "text": "One To Be Taken Twice A Day"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "9062EDFC-B23B-41BB-81BD-22345131CA51",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "9062EDFC-B23B-41BB-81BD-22345131CA51"
-      } ],
-      "status": "final",
-      "code": {
-        "text": "Surveillance"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "context": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "effectiveDateTime": "2010-01-23T13:27:00+00:00",
-      "issued": "2010-01-23T13:27:34.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "E46391DB-463A-457A-B88D-9249B64FFA1C",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "E46391DB-463A-457A-B88D-9249B64FFA1C"
-      } ],
-      "status": "final",
-      "code": {
-        "text": "Threats/reports of violence"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "context": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "effectiveDateTime": "2010-01-23T13:27:00+00:00",
-      "issued": "2010-01-23T13:27:34.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ],
-      "comment": "Note - Local Code"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "AD4BF8B3-A5D2-47E4-B8C2-A780A09A7CA2",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "AD4BF8B3-A5D2-47E4-B8C2-A780A09A7CA2"
-      } ],
-      "status": "final",
-      "code": {
-        "text": "Patient died"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "context": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "effectiveDateTime": "2010-01-23T13:27:00+00:00",
-      "issued": "2010-01-23T13:27:34.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "4495C500-1709-4020-9D40-5DB993539D38",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "4495C500-1709-4020-9D40-5DB993539D38"
-      } ],
-      "status": "final",
-      "code": {
-        "text": "Betel nut chewer"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "context": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "effectiveDateTime": "2010-01-23T13:27:00+00:00",
-      "issued": "2010-01-23T13:27:34.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ],
-      "comment": "Note - Local Code"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "191F1BEA-ED27-43A1-9FFD-5DBF646122C9",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "191F1BEA-ED27-43A1-9FFD-5DBF646122C9"
-      } ],
-      "status": "final",
-      "code": {
-        "text": "H/O: allergies"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "context": {
-        "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-      },
-      "effectiveDateTime": "2010-01-23T13:27:00+00:00",
-      "issued": "2010-01-23T13:27:34.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ],
-      "comment": "Note - Local Code"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "00B4034D-3E7C-4AA3-89F1-F0F27BAF2640",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "00B4034D-3E7C-4AA3-89F1-F0F27BAF2640"
-      } ],
-      "status": "final",
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "487634016"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "38070000",
-          "display": "Cohabiting"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "effectiveDateTime": "2010-01-14",
-      "issued": "2010-01-14T09:42:02.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "B5A97E3C-3655-41E5-9880-3F11CBB4B00E",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "B5A97E3C-3655-41E5-9880-3F11CBB4B00E"
-      } ],
-      "status": "final",
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "494161000000100",
-          "display": "White Irish - ethnic category 2001 census"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "effectiveDateTime": "2010-01-14T09:42:00+00:00",
-      "issued": "2010-01-14T09:42:02.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "1B649895-8804-45F9-B04B-6F5C36782F95",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "1B649895-8804-45F9-B04B-6F5C36782F95"
-      } ],
-      "status": "final",
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "250259013"
-            }, {
-              "url": "descriptionDisplay",
-              "valueString": "Roman Catholic"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "160540005",
-          "display": "Roman Catholic, follower of religion"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "effectiveDateTime": "2010-01-14T09:42:00+00:00",
-      "issued": "2010-01-14T09:42:02.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "CDF96FF9-267A-41F7-93A1-BEBDCDEC2B98",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "CDF96FF9-267A-41F7-93A1-BEBDCDEC2B98"
-      } ],
-      "status": "final",
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2160072013"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "408522002",
-          "display": "Main spoken language Gaelic"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "effectiveDateTime": "2010-01-14T09:42:00+00:00",
-      "issued": "2010-01-14T09:42:02.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "84C3521C-38DF-4B12-8A10-1D78D330919A",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "84C3521C-38DF-4B12-8A10-1D78D330919A"
-      } ],
-      "status": "final",
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "310539013"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "202307002",
-          "display": "Ankylosis of the elbow joint"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "effectiveDateTime": "2010-02-22",
-      "issued": "2010-02-22T13:41:20.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ],
-      "comment": "hhhh"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "6E6D96EF-5792-4448-B75D-E17888379ABB",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "6E6D96EF-5792-4448-B75D-E17888379ABB"
-      } ],
-      "status": "final",
-      "code": {
-        "text": "Cervical smear adequate"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "effectiveDateTime": "2010-10-01",
-      "issued": "2010-10-01T10:00:06.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ],
-      "comment": "What does this really mean?"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Observation",
-      "id": "5926DE9E-4131-4FDC-B29C-07387210D7D5",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "5926DE9E-4131-4FDC-B29C-07387210D7D5"
-      } ],
-      "status": "final",
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "127639017"
-            }, {
-              "url": "descriptionDisplay",
-              "valueString": "Happy puppet syndrome"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "76880004",
-          "display": "Angelman syndrome"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "effectiveDateTime": "2010-10-12",
-      "issued": "2010-10-12T13:50:55.000+00:00",
-      "performer": [ {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      } ],
-      "comment": "hhh €"
-    }
-  }, {
-    "resource": {
-      "resourceType": "Condition",
-      "id": "2A2EBA69-75D0-4273-88FD-AC6EF5B6C57E",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
-        "valueCode": "major"
-      }, {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
-        "valueReference": {
-          "reference": "230D3D37-99E3-450A-AE88-B5AB802B7137"
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "2A2EBA69-75D0-4273-88FD-AC6EF5B6C57E"
-      } ],
-      "clinicalStatus": "active",
-      "category": [ {
-        "coding": [ {
-          "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-          "code": "problem-list-item",
-          "display": "Problem List Item"
-        } ]
-      } ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "433133014"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "292967008",
-          "display": "Amoxycillin adverse reaction"
-        } ],
-        "text": "Adverse reaction to amoxycillin"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "1978-12-31",
-      "assertedDate": "2010-01-14T09:53:33+00:00",
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "Defaulted status to active : Unknown status at source"
-      }, {
-        "text": "Health Administration"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Condition",
-      "id": "536805C0-486C-4D3F-9FBE-5C8997C5E13E",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
-        "valueCode": "minor"
-      }, {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
-        "valueReference": {
-          "reference": "861743F4-C1E5-4792-B853-5CB833DAA260"
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "536805C0-486C-4D3F-9FBE-5C8997C5E13E"
-      } ],
-      "clinicalStatus": "inactive",
-      "category": [ {
-        "coding": [ {
-          "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-          "code": "problem-list-item",
-          "display": "Problem List Item"
-        } ]
-      } ],
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "424251000000100",
-          "display": "[X]Personal history of allergy to other antibiotic agents"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2009-01-12",
-      "abatementDateTime": "2012-05-17",
-      "assertedDate": "2010-01-14T09:53:56+00:00",
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "Unspecified Significance: Defaulted to Minor"
-      }, {
-        "text": "Inactive Problem, Not Significant (Minor)"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Condition",
-      "id": "EE883947-70E2-4B08-8294-96C33AFA2BC0",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
-        "valueCode": "minor"
-      }, {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
-        "valueReference": {
-          "reference": "FD86136D-9A3A-4084-AA8C-8BAE7B65846E"
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "EE883947-70E2-4B08-8294-96C33AFA2BC0"
-      } ],
-      "clinicalStatus": "inactive",
-      "category": [ {
-        "coding": [ {
-          "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-          "code": "problem-list-item",
-          "display": "Problem List Item"
-        } ]
-      } ],
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "562141000000103",
-          "display": "H/O: antibiotic allergy NOS"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "abatementDateTime": "2010-05-24",
-      "assertedDate": "2010-01-14T09:49:56+00:00",
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "Unspecified Significance: Defaulted to Minor"
-      }, {
-        "text": "This is a note for anitbiotic allergy NOS"
-      }, {
-        "text": "Inactive Problem, Not Significant (Minor)"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Condition",
-      "id": "7BE3D75B-5387-44F7-B615-F457E3733A0D",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
-        "valueCode": "major"
-      }, {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
-        "valueReference": {
-          "reference": "A9B01656-A0CD-4082-8200-7CD9E242C93E"
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "7BE3D75B-5387-44F7-B615-F457E3733A0D"
-      } ],
-      "clinicalStatus": "active",
-      "category": [ {
-        "coding": [ {
-          "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-          "code": "problem-list-item",
-          "display": "Problem List Item"
-        } ]
-      } ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "3743556014"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "91930004",
-          "display": "Allergy to edible egg"
-        } ],
-        "text": "Egg allergy"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T09:53:42+00:00",
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "Active Problem, Significant"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Condition",
-      "id": "A3455A7F-F6CD-4A76-9035-FDB7AB0530F8",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
-        "valueCode": "major"
-      }, {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
-        "valueReference": {
-          "reference": "550C0CA4-6597-4064-9083-0647D438408C"
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "A3455A7F-F6CD-4A76-9035-FDB7AB0530F8"
-      } ],
-      "clinicalStatus": "active",
-      "category": [ {
-        "coding": [ {
-          "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-          "code": "problem-list-item",
-          "display": "Problem List Item"
-        } ]
-      } ],
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "603051000000102",
-          "display": "Drug hypersensitivity NOS"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T09:54:12+00:00",
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "asprin allergy"
-      }, {
-        "text": "Active Problem, Significant"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Condition",
-      "id": "9A4AA474-0BE4-42F6-994F-50DF1A0E8B73",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
-        "valueCode": "minor"
-      }, {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
-        "valueReference": {
-          "reference": "98D3F591-DA0D-424F-867D-706F2E5F9FF9"
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "9A4AA474-0BE4-42F6-994F-50DF1A0E8B73"
-      } ],
-      "clinicalStatus": "inactive",
-      "category": [ {
-        "coding": [ {
-          "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-          "code": "problem-list-item",
-          "display": "Problem List Item"
-        } ]
-      } ],
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "192911000000109",
-          "display": "[V]Personal history of bisphosphonate allergy"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "abatementDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T09:57:57+00:00",
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "Unspecified Significance: Defaulted to Minor"
-      }, {
-        "text": "Inactive Problem, Not Significant (Minor)"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Condition",
-      "id": "2E65C43C-C249-4FE9-84A9-1185EBCD17D2",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
-        "valueCode": "major"
-      }, {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
-        "valueReference": {
-          "reference": "B36170D4-E32A-4328-9722-39CF73C46253"
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "2E65C43C-C249-4FE9-84A9-1185EBCD17D2"
-      } ],
-      "clinicalStatus": "inactive",
-      "category": [ {
-        "coding": [ {
-          "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-          "code": "problem-list-item",
-          "display": "Problem List Item"
-        } ]
-      } ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2548385017"
-            }, {
-              "url": "descriptionDisplay",
-              "valueString": "H/O: combined calcium and vitamin D3 preparation allergy"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "417424008",
-          "display": "History of - combined calcium and vitamin D3 preparation allergy"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "abatementDateTime": "2012-05-17",
-      "assertedDate": "2010-01-14T10:05:55+00:00",
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "Inactive Problem, Significant"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Condition",
-      "id": "8DC4E19F-FD3B-4967-9CE6-B66572207F55",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
-        "valueCode": "major"
-      }, {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
-        "valueReference": {
-          "reference": "Observation/84C3521C-38DF-4B12-8A10-1D78D330919A"
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "8DC4E19F-FD3B-4967-9CE6-B66572207F55"
-      } ],
-      "clinicalStatus": "active",
-      "category": [ {
-        "coding": [ {
-          "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-          "code": "problem-list-item",
-          "display": "Problem List Item"
-        } ]
-      } ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "310539013"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "202307002",
-          "display": "Ankylosis of the elbow joint"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-02-22",
-      "assertedDate": "2010-02-22T13:41:20+00:00",
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "hhhh"
-      }, {
-        "text": "Active Problem, Significant"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Condition",
-      "id": "8B3D81A3-861D-454D-A0D9-86426D4B8ABF",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
-        "valueCode": "minor"
-      }, {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
-        "valueReference": {
-          "reference": "Observation/6E6D96EF-5792-4448-B75D-E17888379ABB"
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "8B3D81A3-861D-454D-A0D9-86426D4B8ABF"
-      } ],
-      "clinicalStatus": "active",
-      "category": [ {
-        "coding": [ {
-          "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-          "code": "problem-list-item",
-          "display": "Problem List Item"
-        } ]
-      } ],
-      "code": {
-        "text": "Cervical smear adequate"
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-10-01",
-      "assertedDate": "2010-10-01T10:00:06+00:00",
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "Defaulted status to active : Unknown status at source"
-      }, {
-        "text": "Unspecified Significance: Defaulted to Minor"
-      }, {
-        "text": "What does this really mean?"
-      }, {
-        "text": "Health Administration"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "Condition",
-      "id": "A0DCAF11-6646-4036-BAD7-3E56A067D0A5",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
-        "valueCode": "major"
-      }, {
-        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
-        "valueReference": {
-          "reference": "Observation/5926DE9E-4131-4FDC-B29C-07387210D7D5"
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "A0DCAF11-6646-4036-BAD7-3E56A067D0A5"
-      } ],
-      "clinicalStatus": "active",
-      "category": [ {
-        "coding": [ {
-          "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-          "code": "problem-list-item",
-          "display": "Problem List Item"
-        } ]
-      } ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "127639017"
-            }, {
-              "url": "descriptionDisplay",
-              "valueString": "Happy puppet syndrome"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "76880004",
-          "display": "Angelman syndrome"
-        } ]
-      },
-      "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-10-12",
-      "assertedDate": "2010-10-12T13:50:55+00:00",
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "hhh €"
-      }, {
-        "text": "Active Problem, Significant"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "54E7269B-46EE-4B90-9BB9-70CDE571994E",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "extension": [ {
-        "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
-        "valueReference": {
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "9062EDFC-B23B-41BB-81BD-22345131CA51",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "9062EDFC-B23B-41BB-81BD-22345131CA51"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "text": "Surveillance"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "context": {
           "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "54E7269B-46EE-4B90-9BB9-70CDE571994E"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "text": "Adverse reactions"
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-23T13:27:00+00:00",
-      "assertedDate": "2010-01-23T13:27:34+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "Note - Local Code"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "866A9FEE-5076-4837-91D3-E1F03CBF3C30",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "extension": [ {
-        "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
-        "valueReference": {
+        },
+        "effectiveDateTime": "2010-01-23T13:27:00+00:00",
+        "issued": "2010-01-23T13:27:34.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "E46391DB-463A-457A-B88D-9249B64FFA1C",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "E46391DB-463A-457A-B88D-9249B64FFA1C"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "text": "Threats/reports of violence"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "context": {
           "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "effectiveDateTime": "2010-01-23T13:27:00+00:00",
+        "issued": "2010-01-23T13:27:34.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "Note - Local Code"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "AD4BF8B3-A5D2-47E4-B8C2-A780A09A7CA2",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "AD4BF8B3-A5D2-47E4-B8C2-A780A09A7CA2"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "text": "Patient died"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "context": {
+          "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "effectiveDateTime": "2010-01-23T13:27:00+00:00",
+        "issued": "2010-01-23T13:27:34.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4495C500-1709-4020-9D40-5DB993539D38",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "4495C500-1709-4020-9D40-5DB993539D38"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "text": "Betel nut chewer"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "context": {
+          "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "effectiveDateTime": "2010-01-23T13:27:00+00:00",
+        "issued": "2010-01-23T13:27:34.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "Note - Local Code"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "191F1BEA-ED27-43A1-9FFD-5DBF646122C9",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "191F1BEA-ED27-43A1-9FFD-5DBF646122C9"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "text": "H/O: allergies"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "context": {
+          "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+        },
+        "effectiveDateTime": "2010-01-23T13:27:00+00:00",
+        "issued": "2010-01-23T13:27:34.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "Note - Local Code"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "00B4034D-3E7C-4AA3-89F1-F0F27BAF2640",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "00B4034D-3E7C-4AA3-89F1-F0F27BAF2640"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "487634016"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "38070000",
+              "display": "Cohabiting"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "effectiveDateTime": "2010-01-14",
+        "issued": "2010-01-14T09:42:02.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "B5A97E3C-3655-41E5-9880-3F11CBB4B00E",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "B5A97E3C-3655-41E5-9880-3F11CBB4B00E"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "494161000000100",
+              "display": "White Irish - ethnic category 2001 census"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "effectiveDateTime": "2010-01-14T09:42:00+00:00",
+        "issued": "2010-01-14T09:42:02.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1B649895-8804-45F9-B04B-6F5C36782F95",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "1B649895-8804-45F9-B04B-6F5C36782F95"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "250259013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Roman Catholic"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "160540005",
+              "display": "Roman Catholic, follower of religion"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "effectiveDateTime": "2010-01-14T09:42:00+00:00",
+        "issued": "2010-01-14T09:42:02.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "CDF96FF9-267A-41F7-93A1-BEBDCDEC2B98",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "CDF96FF9-267A-41F7-93A1-BEBDCDEC2B98"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "2160072013"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "408522002",
+              "display": "Main spoken language Gaelic"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "effectiveDateTime": "2010-01-14T09:42:00+00:00",
+        "issued": "2010-01-14T09:42:02.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "84C3521C-38DF-4B12-8A10-1D78D330919A",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "84C3521C-38DF-4B12-8A10-1D78D330919A"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "310539013"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "202307002",
+              "display": "Ankylosis of the elbow joint"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "effectiveDateTime": "2010-02-22",
+        "issued": "2010-02-22T13:41:20.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "hhhh"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "6E6D96EF-5792-4448-B75D-E17888379ABB",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "6E6D96EF-5792-4448-B75D-E17888379ABB"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "text": "Cervical smear adequate"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "effectiveDateTime": "2010-10-01",
+        "issued": "2010-10-01T10:00:06.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "What does this really mean?"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "5926DE9E-4131-4FDC-B29C-07387210D7D5",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "5926DE9E-4131-4FDC-B29C-07387210D7D5"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "127639017"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Happy puppet syndrome"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "76880004",
+              "display": "Angelman syndrome"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "effectiveDateTime": "2010-10-12",
+        "issued": "2010-10-12T13:50:55.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "hhh \€"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "2A2EBA69-75D0-4273-88FD-AC6EF5B6C57E",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+            "valueCode": "major"
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+            "valueReference": {
+              "reference": "AllergyIntolerance/230D3D37-99E3-450A-AE88-B5AB802B7137"
+            }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
+            "valueReference": {
+              "reference": "AllergyIntolerance/BA2E4425-1BC9-47C2-863C-761C8D37BF37"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "2A2EBA69-75D0-4273-88FD-AC6EF5B6C57E"
+          }
+        ],
+        "clinicalStatus": "active",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "433133014"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "292967008",
+              "display": "Amoxycillin adverse reaction"
+            }
+          ],
+          "text": "Adverse reaction to amoxycillin"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "1978-12-31",
+        "assertedDate": "2010-01-14T09:53:33+00:00",
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Defaulted status to active : Unknown status at source"
+          },
+          {
+            "text": "Health Administration"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "536805C0-486C-4D3F-9FBE-5C8997C5E13E",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+            "valueCode": "minor"
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+            "valueReference": {
+              "reference": "AllergyIntolerance/861743F4-C1E5-4792-B853-5CB833DAA260"
+            }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
+            "valueReference": {
+              "reference": "AllergyIntolerance/7F185736-4104-4B55-8A42-069FC8000E3E"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "536805C0-486C-4D3F-9FBE-5C8997C5E13E"
+          }
+        ],
+        "clinicalStatus": "inactive",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "424251000000100",
+              "display": "[X]Personal history of allergy to other antibiotic agents"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2009-01-12",
+        "abatementDateTime": "2012-05-17",
+        "assertedDate": "2010-01-14T09:53:56+00:00",
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Unspecified Significance: Defaulted to Minor"
+          },
+          {
+            "text": "Inactive Problem, Not Significant (Minor)"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "EE883947-70E2-4B08-8294-96C33AFA2BC0",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+            "valueCode": "minor"
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+            "valueReference": {
+              "reference": "AllergyIntolerance/FD86136D-9A3A-4084-AA8C-8BAE7B65846E"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "EE883947-70E2-4B08-8294-96C33AFA2BC0"
+          }
+        ],
+        "clinicalStatus": "inactive",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "562141000000103",
+              "display": "H/O: antibiotic allergy NOS"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "abatementDateTime": "2010-05-24",
+        "assertedDate": "2010-01-14T09:49:56+00:00",
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Unspecified Significance: Defaulted to Minor"
+          },
+          {
+            "text": "This is a note for anitbiotic allergy NOS"
+          },
+          {
+            "text": "Inactive Problem, Not Significant (Minor)"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "7BE3D75B-5387-44F7-B615-F457E3733A0D",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+            "valueCode": "major"
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+            "valueReference": {
+              "reference": "AllergyIntolerance/A9B01656-A0CD-4082-8200-7CD9E242C93E"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "7BE3D75B-5387-44F7-B615-F457E3733A0D"
+          }
+        ],
+        "clinicalStatus": "active",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "3743556014"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "91930004",
+              "display": "Allergy to edible egg"
+            }
+          ],
+          "text": "Egg allergy"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T09:53:42+00:00",
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Active Problem, Significant"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "A3455A7F-F6CD-4A76-9035-FDB7AB0530F8",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+            "valueCode": "major"
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+            "valueReference": {
+              "reference": "AllergyIntolerance/550C0CA4-6597-4064-9083-0647D438408C"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "A3455A7F-F6CD-4A76-9035-FDB7AB0530F8"
+          }
+        ],
+        "clinicalStatus": "active",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "603051000000102",
+              "display": "Drug hypersensitivity NOS"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T09:54:12+00:00",
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "asprin allergy"
+          },
+          {
+            "text": "Active Problem, Significant"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "9A4AA474-0BE4-42F6-994F-50DF1A0E8B73",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+            "valueCode": "minor"
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+            "valueReference": {
+              "reference": "AllergyIntolerance/98D3F591-DA0D-424F-867D-706F2E5F9FF9"
+            }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
+            "valueReference": {
+              "reference": "AllergyIntolerance/94B23356-F63E-4E9A-806A-9A865A445FDA"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "9A4AA474-0BE4-42F6-994F-50DF1A0E8B73"
+          }
+        ],
+        "clinicalStatus": "inactive",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "192911000000109",
+              "display": "[V]Personal history of bisphosphonate allergy"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "abatementDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T09:57:57+00:00",
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Unspecified Significance: Defaulted to Minor"
+          },
+          {
+            "text": "Inactive Problem, Not Significant (Minor)"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "2E65C43C-C249-4FE9-84A9-1185EBCD17D2",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+            "valueCode": "major"
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+            "valueReference": {
+              "reference": "AllergyIntolerance/B36170D4-E32A-4328-9722-39CF73C46253"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "2E65C43C-C249-4FE9-84A9-1185EBCD17D2"
+          }
+        ],
+        "clinicalStatus": "inactive",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "2548385017"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "H/O: combined calcium and vitamin D3 preparation allergy"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "417424008",
+              "display": "History of - combined calcium and vitamin D3 preparation allergy"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "abatementDateTime": "2012-05-17",
+        "assertedDate": "2010-01-14T10:05:55+00:00",
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Inactive Problem, Significant"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "8DC4E19F-FD3B-4967-9CE6-B66572207F55",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+            "valueCode": "major"
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+            "valueReference": {
+              "reference": "Observation/84C3521C-38DF-4B12-8A10-1D78D330919A"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "8DC4E19F-FD3B-4967-9CE6-B66572207F55"
+          }
+        ],
+        "clinicalStatus": "active",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "310539013"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "202307002",
+              "display": "Ankylosis of the elbow joint"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-02-22",
+        "assertedDate": "2010-02-22T13:41:20+00:00",
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "hhhh"
+          },
+          {
+            "text": "Active Problem, Significant"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "8B3D81A3-861D-454D-A0D9-86426D4B8ABF",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+            "valueCode": "minor"
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+            "valueReference": {
+              "reference": "Observation/6E6D96EF-5792-4448-B75D-E17888379ABB"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "8B3D81A3-861D-454D-A0D9-86426D4B8ABF"
+          }
+        ],
+        "clinicalStatus": "active",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "text": "Cervical smear adequate"
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-10-01",
+        "assertedDate": "2010-10-01T10:00:06+00:00",
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Defaulted status to active : Unknown status at source"
+          },
+          {
+            "text": "Unspecified Significance: Defaulted to Minor"
+          },
+          {
+            "text": "What does this really mean?"
+          },
+          {
+            "text": "Health Administration"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "A0DCAF11-6646-4036-BAD7-3E56A067D0A5",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProblemHeader-Condition-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ProblemSignificance-1",
+            "valueCode": "major"
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ActualProblem-1",
+            "valueReference": {
+              "reference": "Observation/5926DE9E-4131-4FDC-B29C-07387210D7D5"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "A0DCAF11-6646-4036-BAD7-3E56A067D0A5"
+          }
+        ],
+        "clinicalStatus": "active",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "127639017"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Happy puppet syndrome"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "76880004",
+              "display": "Angelman syndrome"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-10-12",
+        "assertedDate": "2010-10-12T13:50:55+00:00",
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "hhh \€"
+          },
+          {
+            "text": "Active Problem, Significant"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "327D5B8C-16EB-4FB5-AB8D-06704F33C54E",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
+            "valueReference": {
+              "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "327D5B8C-16EB-4FB5-AB8D-06704F33C54E"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "text": "Adverse reactions"
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-23T13:27:00+00:00",
+        "assertedDate": "2010-01-23T13:27:34+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Note - Local Code"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "1F829A26-F3ED-4E59-866C-E9CE88EFA3C2",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
+            "valueReference": {
+              "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "1F829A26-F3ED-4E59-866C-E9CE88EFA3C2"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "432677013"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "292534001",
+              "display": "Atropine adverse reaction"
+            }
+          ],
+          "text": "Adverse reaction to atropine"
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-23T13:27:00+00:00",
+        "assertedDate": "2010-01-23T13:27:34+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Note - Local Code"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "230D3D37-99E3-450A-AE88-B5AB802B7137",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "230D3D37-99E3-450A-AE88-B5AB802B7137"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "433133014"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "292967008",
+              "display": "Amoxycillin adverse reaction"
+            }
+          ],
+          "text": "Adverse reaction to amoxycillin"
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "1978-12-31",
+        "assertedDate": "2010-01-14T09:53:33+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "866A9FEE-5076-4837-91D3-E1F03CBF3C30"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "432677013"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "292534001",
-          "display": "Atropine adverse reaction"
-        } ],
-        "text": "Adverse reaction to atropine"
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-23T13:27:00+00:00",
-      "assertedDate": "2010-01-23T13:27:34+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "Note - Local Code"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "002E59C8-CF2B-46D5-8B31-1263F73431E6",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "002E59C8-CF2B-46D5-8B31-1263F73431E6"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "433133014"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "292967008",
-          "display": "Amoxycillin adverse reaction"
-        } ],
-        "text": "Adverse reaction to amoxycillin"
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "1978-12-31",
-      "assertedDate": "2010-01-14T09:53:33+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "BA2E4425-1BC9-47C2-863C-761C8D37BF37",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "BA2E4425-1BC9-47C2-863C-761C8D37BF37"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "433133014"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "292967008",
+              "display": "Amoxycillin adverse reaction"
+            }
+          ],
+          "text": "Adverse reaction to amoxycillin"
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "1980-03-21",
+        "assertedDate": "2010-01-14T09:53:33+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "861743F4-C1E5-4792-B853-5CB833DAA260",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "861743F4-C1E5-4792-B853-5CB833DAA260"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "424251000000100",
+              "display": "[X]Personal history of allergy to other antibiotic agents"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2009-01-12",
+        "assertedDate": "2010-01-14T09:53:56+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "9B9D00A1-0C64-41E6-8BE1-2B21DD7651B8",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "9B9D00A1-0C64-41E6-8BE1-2B21DD7651B8"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "text": "Adverse reaction to Ethyol"
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T09:49:44+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "FD86136D-9A3A-4084-AA8C-8BAE7B65846E",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "FD86136D-9A3A-4084-AA8C-8BAE7B65846E"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "562141000000103",
+              "display": "H/O: antibiotic allergy NOS"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T09:49:56+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "This is a note for anitbiotic allergy NOS"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "A9B01656-A0CD-4082-8200-7CD9E242C93E",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "A9B01656-A0CD-4082-8200-7CD9E242C93E"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "environment"
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "3743556014"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "91930004",
+              "display": "Allergy to edible egg"
+            }
+          ],
+          "text": "Egg allergy"
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T09:53:42+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "7F185736-4104-4B55-8A42-069FC8000E3E",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "7F185736-4104-4B55-8A42-069FC8000E3E"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "424251000000100",
+              "display": "[X]Personal history of allergy to other antibiotic agents"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T09:53:56+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "550C0CA4-6597-4064-9083-0647D438408C",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "550C0CA4-6597-4064-9083-0647D438408C"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "603051000000102",
+              "display": "Drug hypersensitivity NOS"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T09:54:12+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "asprin allergy"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "75691D32-C7DE-4639-AA74-24B1AF61C32B",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "75691D32-C7DE-4639-AA74-24B1AF61C32B"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "environment"
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "442105017"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "300909004",
+              "display": "Allergic reaction to wasp sting"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T09:57:28+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "This is a Wasp Sting allergy note"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "94B23356-F63E-4E9A-806A-9A865A445FDA",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "94B23356-F63E-4E9A-806A-9A865A445FDA"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "192911000000109",
+              "display": "[V]Personal history of bisphosphonate allergy"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T09:57:57+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "98D3F591-DA0D-424F-867D-706F2E5F9FF9",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "98D3F591-DA0D-424F-867D-706F2E5F9FF9"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "192911000000109",
+              "display": "[V]Personal history of bisphosphonate allergy"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T09:57:57+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "B36170D4-E32A-4328-9722-39CF73C46253",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "B36170D4-E32A-4328-9722-39CF73C46253"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "2548385017"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "H/O: combined calcium and vitamin D3 preparation allergy"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "417424008",
+              "display": "History of - combined calcium and vitamin D3 preparation allergy"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-01-14",
+        "assertedDate": "2010-01-14T10:05:55+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "4143D7D9-3A3B-4C19-9826-24D14BB9F012",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "4143D7D9-3A3B-4C19-9826-24D14BB9F012"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "text": "Adverse reaction to Erythromid"
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-08-09",
+        "assertedDate": "2010-08-09T12:04:28+00:00",
+        "recorder": {
+          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+        },
+        "asserter": {
+          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+        },
+        "note": [
+          {
+            "text": "EmisAllergycode"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "7C1D0BD1-7931-4AFA-A280-FDAB6C0C1757",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "7C1D0BD1-7931-4AFA-A280-FDAB6C0C1757"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "251834017"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "161600004",
+              "display": "H/O: erythromycin allergy"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
+        },
+        "onsetDateTime": "2010-10-12T13:12:00+00:00",
+        "assertedDate": "2010-10-12T13:50:58+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Blah de blah"
+          }
+        ]
       }
     }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "D2286C3D-F426-428F-9DD9-6212403DA772",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "D2286C3D-F426-428F-9DD9-6212403DA772"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "433133014"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "292967008",
-          "display": "Amoxycillin adverse reaction"
-        } ],
-        "text": "Adverse reaction to amoxycillin"
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "1980-03-21",
-      "assertedDate": "2010-01-14T09:53:33+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "0D17898F-0829-49DE-9FC6-77C588D47078",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "0D17898F-0829-49DE-9FC6-77C588D47078"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "424251000000100",
-          "display": "[X]Personal history of allergy to other antibiotic agents"
-        } ]
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2009-01-12",
-      "assertedDate": "2010-01-14T09:53:56+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "EFF920F4-582A-41AA-9276-DDFB9F92E2B9",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "EFF920F4-582A-41AA-9276-DDFB9F92E2B9"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "text": "Adverse reaction to Ethyol"
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T09:49:44+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "526E5988-5CFE-41E5-9C24-FFF7B8812AE7",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "526E5988-5CFE-41E5-9C24-FFF7B8812AE7"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "562141000000103",
-          "display": "H/O: antibiotic allergy NOS"
-        } ]
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T09:49:56+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "This is a note for anitbiotic allergy NOS"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "1BBDFFFE-DB86-411D-B7F4-EFE194EB31D8",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "1BBDFFFE-DB86-411D-B7F4-EFE194EB31D8"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "environment" ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "3743556014"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "91930004",
-          "display": "Allergy to edible egg"
-        } ],
-        "text": "Egg allergy"
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T09:53:42+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "A0326B81-08A0-4B0E-BD6E-7D024E907B2A",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "A0326B81-08A0-4B0E-BD6E-7D024E907B2A"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "424251000000100",
-          "display": "[X]Personal history of allergy to other antibiotic agents"
-        } ]
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T09:53:56+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "8CEB56BC-98C9-4D4E-8D7F-A4C3786D2A1C",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "8CEB56BC-98C9-4D4E-8D7F-A4C3786D2A1C"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "603051000000102",
-          "display": "Drug hypersensitivity NOS"
-        } ]
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T09:54:12+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "asprin allergy"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "ABF65F59-5CA2-4741-A4AE-F9FC9A833F44",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "ABF65F59-5CA2-4741-A4AE-F9FC9A833F44"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "environment" ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "442105017"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "300909004",
-          "display": "Allergic reaction to wasp sting"
-        } ]
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T09:57:28+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "This is a Wasp Sting allergy note"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "65DC7C30-7CC9-4612-8A6D-FB251257090E",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "65DC7C30-7CC9-4612-8A6D-FB251257090E"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "192911000000109",
-          "display": "[V]Personal history of bisphosphonate allergy"
-        } ]
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T09:57:57+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "71067F1E-3B6A-431A-9DDA-FE8D7E8279C1",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "71067F1E-3B6A-431A-9DDA-FE8D7E8279C1"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "192911000000109",
-          "display": "[V]Personal history of bisphosphonate allergy"
-        } ]
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T09:57:57+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "88C71E3D-EDD0-4617-8380-1EA2A319A068",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "88C71E3D-EDD0-4617-8380-1EA2A319A068"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2548385017"
-            }, {
-              "url": "descriptionDisplay",
-              "valueString": "H/O: combined calcium and vitamin D3 preparation allergy"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "417424008",
-          "display": "History of - combined calcium and vitamin D3 preparation allergy"
-        } ]
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-01-14",
-      "assertedDate": "2010-01-14T10:05:55+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "AAFAFA00-DC63-4A7E-B0FD-DC207F6731AD",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "AAFAFA00-DC63-4A7E-B0FD-DC207F6731AD"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "text": "Adverse reaction to Erythromid"
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-08-09",
-      "assertedDate": "2010-08-09T12:04:28+00:00",
-      "recorder": {
-        "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-      },
-      "asserter": {
-        "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-      },
-      "note": [ {
-        "text": "EmisAllergycode"
-      } ]
-    }
-  }, {
-    "resource": {
-      "resourceType": "AllergyIntolerance",
-      "id": "B845BEA3-26E0-4478-A9F0-D8B078E9A4BB",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/B83002",
-        "value": "B845BEA3-26E0-4478-A9F0-D8B078E9A4BB"
-      } ],
-      "clinicalStatus": "active",
-      "verificationStatus": "unconfirmed",
-      "category": [ "medication" ],
-      "code": {
-        "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "251834017"
-            } ]
-          } ],
-          "system": "http://snomed.info/sct",
-          "code": "161600004",
-          "display": "H/O: erythromycin allergy"
-        } ]
-      },
-      "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
-      },
-      "onsetDateTime": "2010-10-12T13:12:00+00:00",
-      "assertedDate": "2010-10-12T13:50:58+00:00",
-      "recorder": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "asserter": {
-        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-      },
-      "note": [ {
-        "text": "Blah de blah"
-      } ]
-    }
-  } ]
+  ]
 }
