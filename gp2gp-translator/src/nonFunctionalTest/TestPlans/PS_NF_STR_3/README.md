@@ -32,8 +32,3 @@ file and the summary report file. You should appear in the format below under th
 ```
 
 Full report details will also be generated in the ../Results/PS_NF_STR_3/report-<timestamp> folder.
-
-
-
-
-
