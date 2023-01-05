@@ -562,7 +562,7 @@ SampleResult.setIgnore();</stringProp>
         <stringProp name="filename">../../Results/PS_NF_STR_1/SummaryReport_${__time(YMDHMS)}.csv</stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
