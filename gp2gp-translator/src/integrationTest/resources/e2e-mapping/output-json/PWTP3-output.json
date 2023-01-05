@@ -526,7 +526,7 @@
     {
       "resource": {
         "resourceType": "Location",
-        "id": "ADF01B63-695A-4517-BD03-2B1757D51EA8",
+        "id": "{{LOCATION-1}}",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
@@ -535,7 +535,7 @@
         "identifier": [
           {
             "system": "https://PSSAdaptor/2167888433",
-            "value": "ADF01B63-695A-4517-BD03-2B1757D51EA8"
+            "value": "{{LOCATION-1}}"
           }
         ],
         "status": "active",
