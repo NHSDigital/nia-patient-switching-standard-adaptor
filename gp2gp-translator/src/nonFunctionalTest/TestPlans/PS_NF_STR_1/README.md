@@ -21,9 +21,3 @@ file and the summary report file. You should appear in the format below under th
 [1] Expected Passed Message Flow - 1997 ms
 [Thread Group]: 8125 ms
 ```
-
-
-
-
-
-
