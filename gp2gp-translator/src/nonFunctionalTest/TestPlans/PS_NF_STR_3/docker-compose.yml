@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  gp2gp_translator_nft1:
+    build:
+      context: ../../../../..
+      dockerfile: ./docker/gp2gp-translator/Dockerfile
+    ports:
+      - "8086:8086"
+    environment:
+      - GP2GP_TRANSLATOR_SERVER_PORT
+      - PS_DB_URL=jdbc:postgresql://ps_db:5432
+      - GP2GP_TRANSLATOR_USER_DB_PASSWORD
+      - PS_AMQP_BROKER=amqp://activemq:5672
+      - MHS_AMQP_BROKER=amqp://activemq:5672
+      - PS_QUEUE_NAME
+      - MHS_QUEUE_NAME
+      - PS_AMQP_USERNAME
+      - PS_AMQP_PASSWORD
+      - PS_AMQP_MAX_REDELIVERIES
+      - MHS_AMQP_USERNAME
+      - MHS_AMQP_PASSWORD
+      - MHS_AMQP_MAX_REDELIVERIES
+      - MHS_BASE_URL=http://mhs-adaptor-mock:8080/
+      - PS_LOGGING_LEVEL
+      - SUPPORTED_FILE_TYPES
+    networks:
+      - ps-network
+
+  gp2gp_translator_nft2:
+    build:
+      context: ../../../../..
+      dockerfile: ./docker/gp2gp-translator/Dockerfile
+    ports:
+      - "8087:8087"
+    environment:
+      - GP2GP_TRANSLATOR_SERVER_PORT
+      - PS_DB_URL=jdbc:postgresql://ps_db:5432
+      - GP2GP_TRANSLATOR_USER_DB_PASSWORD
+      - PS_AMQP_BROKER=amqp://activemq:5672
+      - MHS_AMQP_BROKER=amqp://activemq:5672
+      - PS_QUEUE_NAME
+      - MHS_QUEUE_NAME
+      - PS_AMQP_USERNAME
+      - PS_AMQP_PASSWORD
+      - PS_AMQP_MAX_REDELIVERIES
+      - MHS_AMQP_USERNAME
+      - MHS_AMQP_PASSWORD
+      - MHS_AMQP_MAX_REDELIVERIES
+      - MHS_BASE_URL=http://mhs-adaptor-mock:8080/
+      - PS_LOGGING_LEVEL
+      - SUPPORTED_FILE_TYPES
+    networks:
+      - ps-network
+
+networks:
+  ps-network:
+    external: true
