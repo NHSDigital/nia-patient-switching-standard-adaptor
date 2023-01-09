@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="PS Adapator - Non-functional Testing Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="Setup Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Set up Thread Group" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">${__time(,threadGroupStartTime)}
+</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="PS_NF_STR_3" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${__P(loopCount, 2)}</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(threadCount, 12)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampUp, 0)}</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+        <stringProp name="TestPlan.comments">Can the system process 20 batches of 12 messages submitted in parallel using 3 threads/ instances? </stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Prepare variables - Run: ${__groovy(vars.getIteration())}" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">import org.apache.commons.lang3.RandomUtils;
+
+def nhsNumberFormat = &apos;yxxxxxxxy0&apos;;
+
+def nhsNumber = nhsNumberFormat
+	.replaceAll(&quot;y&quot;, y -&gt; org.apache.commons.lang3.RandomUtils.nextInt(1,9).toString())
+	.replaceAll(&quot;x&quot;, x -&gt; org.apache.commons.lang3.RandomUtils.nextInt(0,9).toString());
+
+vars.put(&quot;conversationId&quot;, UUID.randomUUID().toString());
+vars.put(&quot;nhsNumber&quot;, nhsNumber );
+vars.put(&quot;messageId&quot;, UUID.randomUUID().toString());
+vars.put(&quot;statusCode&quot;, &quot;0&quot;);
+vars.put(&quot;threadDetails&quot;, &quot;[&quot; + ctx.getThreadNum() +&quot;]&quot;);
+
+if(ctx.getThreadNum() % 6 == 0) {
+	vars.put(&quot;messageTypeSelector&quot;, &quot;1&quot;)
+	vars.put(&quot;messageTypeName&quot;, &quot;Expected Failed Message Flow&quot;)
+} else {
+	vars.put(&quot;messageTypeSelector&quot;, &quot;0&quot;)
+	vars.put(&quot;messageTypeName&quot;, &quot;Expected Passed Message Flow&quot;)
+}
+
+
+log.info(vars.get(&quot;threadDetails&quot;) + &quot;Preparing request with conversationId: &quot; + vars.get(&quot;conversationId&quot;));
+
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="TestPlan.comments">Prepare variables to be used within the current swtich block: ConversationId, nhsNumber, messageId, statusCode (default)</stringProp>
+        </JSR223Sampler>
+        <hashTree>
+          <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer" enabled="true">
+            <intProp name="groupSize">0</intProp>
+            <longProp name="timeoutInMs">0</longProp>
+          </SyncTimer>
+          <hashTree/>
+        </hashTree>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/fhir+json</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">to-asid</stringProp>
+              <stringProp name="Header.value">${__P(toAsid, B943)}</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">from-asid</stringProp>
+              <stringProp name="Header.value">${__P(fromAsid, A378)}</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">to-ods</stringProp>
+              <stringProp name="Header.value">${__P(toOds, 2167888433)}</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">from-ods</stringProp>
+              <stringProp name="Header.value">${__P(fromOds, 2167888439)}</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">ConversationId</stringProp>
+              <stringProp name="Header.value">${conversationId}</stringProp>
+            </elementProp>
+          </collectionProp>
+          <stringProp name="TestPlan.comments">Setup header values for EHR Requests</stringProp>
+        </HeaderManager>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send Inital  EHR Request " enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;resourceType&quot;: &quot;Parameters&quot;,&#xd;
+    &quot;parameter&quot;: [&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;patientNHSNumber&quot;,&#xd;
+            &quot;valueIdentifier&quot;: {&#xd;
+                &quot;system&quot;: &quot;https://fhir.nhs.uk/Id/nhs-number&quot;,&#xd;
+                &quot;value&quot;: &quot;${nhsNumber}&quot;&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;includeFullRecord&quot;,&#xd;
+            &quot;part&quot;: [&#xd;
+                {&#xd;
+                    &quot;name&quot;: &quot;includeSensitiveInfomation&quot;,&#xd;
+                    &quot;valueBoolean&quot;: true&#xd;
+                }&#xd;
+            ]&#xd;
+        }&#xd;
+    ]&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/Patient/$gpc.migratestructuredrecord</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
+          <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
+          <stringProp name="TestPlan.comments">Send the initial EHR request with previously created variables and headers</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49588">202</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">&quot;Failed to send initial response, or server did not return 202 (Accepted)&quot;</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+            <stringProp name="TestPlan.comments">Assert that the response is the expected 202 (Accepted)</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Record StartTime" enabled="true">
+          <stringProp name="TestPlan.comments">Record StartTime of JMS Message</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">${__time(,startTime)}
+SampleResult.setIgnore();</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="${threadDetails} ${messageTypeName} - Transaction Controller" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+          <stringProp name="TestPlan.comments">This is used to group all requests into one sample to allow for timings</stringProp>
+          <boolProp name="TransactionController.parent">true</boolProp>
+        </TransactionController>
+        <hashTree>
+          <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Message Type Randomiser" enabled="true">
+            <stringProp name="TestPlan.comments">A psuedo-random Variable generator to select different message types based on 0 based Index</stringProp>
+            <stringProp name="maximumValue">${__P(fixedMessageType, 2)}</stringProp>
+            <stringProp name="minimumValue">${__P(fixedMessageType, 0)}</stringProp>
+            <stringProp name="outputFormat">0</stringProp>
+            <boolProp name="perThread">true</boolProp>
+            <stringProp name="randomSeed"></stringProp>
+            <stringProp name="variableName">messageTypeSelector</stringProp>
+          </RandomVariableConfig>
+          <hashTree/>
+          <SwitchController guiclass="SwitchControllerGui" testclass="SwitchController" testname="Message Type Selector" enabled="true">
+            <stringProp name="SwitchController.value">${messageTypeSelector}</stringProp>
+            <stringProp name="TestPlan.comments">A switch controller to choose the message type based on the results of &apos;Message Type Randomiser&apos;</stringProp>
+          </SwitchController>
+          <hashTree>
+            <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="${threadDetails} 0: Switch - RCMR_IN030000UK06" enabled="true">
+              <boolProp name="TransactionController.includeTimers">false</boolProp>
+              <boolProp name="TransactionController.parent">true</boolProp>
+              <stringProp name="TestPlan.comments">A transaction controller to send a standard RCMR_IN030000UK06 message flow</stringProp>
+            </TransactionController>
+            <hashTree>
+              <PublisherSampler guiclass="JMSPublisherGui" testclass="PublisherSampler" testname="${threadDetails} Send RCMR_IN30000UK06 message" enabled="true">
+                <stringProp name="jms.jndi_properties">false</stringProp>
+                <stringProp name="jms.initial_context_factory">org.apache.qpid.jms.jndi.JmsInitialContextFactory</stringProp>
+                <stringProp name="jms.provider_url">${__P(jndiPropertiesPath, ../../Configuration/jndi.properties)}</stringProp>
+                <stringProp name="jms.connection_factory">qpidConnectionFactory</stringProp>
+                <stringProp name="jms.topic">mhsQueueName</stringProp>
+                <stringProp name="jms.expiration"></stringProp>
+                <stringProp name="jms_error_reconnect_on_codes"></stringProp>
+                <stringProp name="jms.priority"></stringProp>
+                <stringProp name="jms.security_principle"></stringProp>
+                <stringProp name="jms.security_credentials"></stringProp>
+                <stringProp name="jms.text_message"></stringProp>
+                <stringProp name="jms.input_file">../../ValidMessages/RCMR_IN030000UK06.txt</stringProp>
+                <stringProp name="jms.random_path"></stringProp>
+                <stringProp name="jms.config_choice">jms_use_file</stringProp>
+                <stringProp name="jms.config_msg_type">jms_text_message</stringProp>
+                <stringProp name="jms.iterations">1</stringProp>
+                <boolProp name="jms.authenticate">false</boolProp>
+                <elementProp name="jms.jmsProperties" elementType="JMSProperties">
+                  <collectionProp name="JMSProperties.properties">
+                    <elementProp name="" elementType="JMSProperty">
+                      <stringProp name="JMSProperty.name">SOAPAction</stringProp>
+                      <stringProp name="JMSProperty.value">SOAPAction: urn:nhs:names:services:gp2gp/RCMR_IN010000UK05</stringProp>
+                      <stringProp name="JMSProperty.type">java.lang.String</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="jms.file_encoding">ISO-8859-1</stringProp>
+                <stringProp name="TestPlan.comments">Send RCMR_IN30000UK06 message to the MHS Queue based on file template</stringProp>
+              </PublisherSampler>
+              <hashTree/>
+              <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="Wait for response" enabled="true">
+                <stringProp name="WhileController.condition">${__jexl3(&quot;${statusCode}&quot; == &quot;204&quot; || &quot;${statusCode}&quot; == &quot;0&quot;)}</stringProp>
+                <stringProp name="TestPlan.comments">While the status code is default (0) or (204) waiting then complete the nested steps</stringProp>
+              </WhileController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send EHR Request" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">{&#xd;
+    &quot;resourceType&quot;: &quot;Parameters&quot;,&#xd;
+    &quot;parameter&quot;: [&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;patientNHSNumber&quot;,&#xd;
+            &quot;valueIdentifier&quot;: {&#xd;
+                &quot;system&quot;: &quot;https://fhir.nhs.uk/Id/nhs-number&quot;,&#xd;
+                &quot;value&quot;: &quot;${nhsNumber}&quot;&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;includeFullRecord&quot;,&#xd;
+            &quot;part&quot;: [&#xd;
+                {&#xd;
+                    &quot;name&quot;: &quot;includeSensitiveInfomation&quot;,&#xd;
+                    &quot;valueBoolean&quot;: true&#xd;
+                }&#xd;
+            ]&#xd;
+        }&#xd;
+    ]&#xd;
+}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">localhost</stringProp>
+                  <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">/Patient/$gpc.migratestructuredrecord</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
+                  <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
+                  <stringProp name="TestPlan.comments">Resend the initial request to request status</stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Response Status Code Extractor" enabled="true">
+                    <stringProp name="RegexExtractor.useHeaders">code</stringProp>
+                    <stringProp name="RegexExtractor.refname">statusCode</stringProp>
+                    <stringProp name="RegexExtractor.regex">(\d+)</stringProp>
+                    <stringProp name="RegexExtractor.template">$1$</stringProp>
+                    <stringProp name="RegexExtractor.default">0</stringProp>
+                    <stringProp name="RegexExtractor.match_number"></stringProp>
+                    <stringProp name="TestPlan.comments">Extract the statusCode from the response to be used in the parent While Controller</stringProp>
+                  </RegexExtractor>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1447184276">200|204</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.custom_message">Response should be 200 or 204</stringProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">1</intProp>
+                    <stringProp name="Scope.variable">statusCode</stringProp>
+                    <stringProp name="TestPlan.comments">Assert tha the response is either 204 (waiting) or 200 (success)</stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
+                <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Wait for 1 Second" enabled="true">
+                  <intProp name="ActionProcessor.action">1</intProp>
+                  <intProp name="ActionProcessor.target">0</intProp>
+                  <stringProp name="ActionProcessor.duration">1000</stringProp>
+                  <stringProp name="TestPlan.comments">Wait between requests </stringProp>
+                </TestAction>
+                <hashTree>
+                  <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+                    <stringProp name="ConstantTimer.delay">1000</stringProp>
+                    <stringProp name="RandomTimer.range">100</stringProp>
+                  </UniformRandomTimer>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+            </hashTree>
+            <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="${threadDetails} 1: Switch - RCMR_IN030000UK06 - Invalid" enabled="true">
+              <boolProp name="TransactionController.includeTimers">false</boolProp>
+              <boolProp name="TransactionController.parent">true</boolProp>
+              <stringProp name="TestPlan.comments">A transaction controller to send  an RCMR_IN030000UK06 message flow with an invalid message</stringProp>
+            </TransactionController>
+            <hashTree>
+              <PublisherSampler guiclass="JMSPublisherGui" testclass="PublisherSampler" testname="${threadDetails} Send  Invalid RCMR_IN30000UK06 message" enabled="true">
+                <stringProp name="jms.jndi_properties">false</stringProp>
+                <stringProp name="jms.initial_context_factory">org.apache.qpid.jms.jndi.JmsInitialContextFactory</stringProp>
+                <stringProp name="jms.provider_url">${__P(jndiPropertiesPath, ../../Configuration/jndi.properties)}</stringProp>
+                <stringProp name="jms.connection_factory">qpidConnectionFactory</stringProp>
+                <stringProp name="jms.topic">mhsQueueName</stringProp>
+                <stringProp name="jms.expiration"></stringProp>
+                <stringProp name="jms_error_reconnect_on_codes"></stringProp>
+                <stringProp name="jms.priority"></stringProp>
+                <stringProp name="jms.security_principle"></stringProp>
+                <stringProp name="jms.security_credentials"></stringProp>
+                <stringProp name="jms.text_message"></stringProp>
+                <stringProp name="jms.input_file">../../InvalidMessages/RCMR_IN030000UK06.txt</stringProp>
+                <stringProp name="jms.random_path"></stringProp>
+                <stringProp name="jms.config_choice">jms_use_file</stringProp>
+                <stringProp name="jms.config_msg_type">jms_text_message</stringProp>
+                <stringProp name="jms.iterations">1</stringProp>
+                <boolProp name="jms.authenticate">false</boolProp>
+                <elementProp name="jms.jmsProperties" elementType="JMSProperties">
+                  <collectionProp name="JMSProperties.properties">
+                    <elementProp name="" elementType="JMSProperty">
+                      <stringProp name="JMSProperty.name">SOAPAction</stringProp>
+                      <stringProp name="JMSProperty.value">SOAPAction: urn:nhs:names:services:gp2gp/RCMR_IN010000UK05</stringProp>
+                      <stringProp name="JMSProperty.type">java.lang.String</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="jms.file_encoding">ISO-8859-1</stringProp>
+                <stringProp name="TestPlan.comments">Send Invalid RCMR_IN30000UK06 message to the MHS Queue based on file template</stringProp>
+              </PublisherSampler>
+              <hashTree/>
+              <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="Wait for response" enabled="true">
+                <stringProp name="WhileController.condition">${__jexl3(&quot;${statusCode}&quot; == &quot;204&quot; || &quot;${statusCode}&quot; == &quot;0&quot;)}</stringProp>
+                <stringProp name="TestPlan.comments">While the status code is default (0) or (204) waiting then complete the nested steps</stringProp>
+              </WhileController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send EHR Request" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">{&#xd;
+    &quot;resourceType&quot;: &quot;Parameters&quot;,&#xd;
+    &quot;parameter&quot;: [&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;patientNHSNumber&quot;,&#xd;
+            &quot;valueIdentifier&quot;: {&#xd;
+                &quot;system&quot;: &quot;https://fhir.nhs.uk/Id/nhs-number&quot;,&#xd;
+                &quot;value&quot;: &quot;${nhsNumber}&quot;&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;includeFullRecord&quot;,&#xd;
+            &quot;part&quot;: [&#xd;
+                {&#xd;
+                    &quot;name&quot;: &quot;includeSensitiveInfomation&quot;,&#xd;
+                    &quot;valueBoolean&quot;: true&#xd;
+                }&#xd;
+            ]&#xd;
+        }&#xd;
+    ]&#xd;
+}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">localhost</stringProp>
+                  <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">/Patient/$gpc.migratestructuredrecord</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
+                  <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
+                  <stringProp name="TestPlan.comments">Resend the initial request to request status</stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Response Status Code Extractor" enabled="true">
+                    <stringProp name="RegexExtractor.useHeaders">code</stringProp>
+                    <stringProp name="RegexExtractor.refname">statusCode</stringProp>
+                    <stringProp name="RegexExtractor.regex">(\d+)</stringProp>
+                    <stringProp name="RegexExtractor.template">$1$</stringProp>
+                    <stringProp name="RegexExtractor.default">0</stringProp>
+                    <stringProp name="RegexExtractor.match_number"></stringProp>
+                    <stringProp name="TestPlan.comments">Extract the statusCode from the response to be used in the parent While Controller</stringProp>
+                  </RegexExtractor>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="1215326767">500|204</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.custom_message">Response should be 500 or 204</stringProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                    <boolProp name="Assertion.assume_success">true</boolProp>
+                    <intProp name="Assertion.test_type">1</intProp>
+                    <stringProp name="Scope.variable">statusCode</stringProp>
+                    <stringProp name="TestPlan.comments">Assert that the response is  204 (waiting) </stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
+                <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Wait for 1 Second" enabled="true">
+                  <intProp name="ActionProcessor.action">1</intProp>
+                  <intProp name="ActionProcessor.target">0</intProp>
+                  <stringProp name="ActionProcessor.duration">1000</stringProp>
+                  <stringProp name="TestPlan.comments">Wait between requests </stringProp>
+                </TestAction>
+                <hashTree>
+                  <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+                    <stringProp name="ConstantTimer.delay">1000</stringProp>
+                    <stringProp name="RandomTimer.range">100</stringProp>
+                  </UniformRandomTimer>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+            </hashTree>
+            <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="${threadDetails} 2: Switch - COPC_IN000001UK01" enabled="true">
+              <boolProp name="TransactionController.includeTimers">false</boolProp>
+              <boolProp name="TransactionController.parent">true</boolProp>
+              <stringProp name="TestPlan.comments">A transaction controller to send a COPC_IN000001UK01 message flow</stringProp>
+            </TransactionController>
+            <hashTree>
+              <PublisherSampler guiclass="JMSPublisherGui" testclass="PublisherSampler" testname="${threadDetails} Send RCMR_IN30000UK06 with external attachments message" enabled="true">
+                <stringProp name="jms.jndi_properties">false</stringProp>
+                <stringProp name="jms.initial_context_factory">org.apache.qpid.jms.jndi.JmsInitialContextFactory</stringProp>
+                <stringProp name="jms.provider_url">${__P(jndiPropertiesPath, ../../Configuration/jndi.properties)}</stringProp>
+                <stringProp name="jms.connection_factory">qpidConnectionFactory</stringProp>
+                <stringProp name="jms.topic">mhsQueueName</stringProp>
+                <stringProp name="jms.expiration"></stringProp>
+                <stringProp name="jms_error_reconnect_on_codes"></stringProp>
+                <stringProp name="jms.priority"></stringProp>
+                <stringProp name="jms.security_principle"></stringProp>
+                <stringProp name="jms.security_credentials"></stringProp>
+                <stringProp name="jms.text_message"></stringProp>
+                <stringProp name="jms.input_file">../../ValidMessages/RCMR_IN030000UK06_ExtenalAttachments.txt</stringProp>
+                <stringProp name="jms.random_path"></stringProp>
+                <stringProp name="jms.config_choice">jms_use_file</stringProp>
+                <stringProp name="jms.config_msg_type">jms_text_message</stringProp>
+                <stringProp name="jms.iterations">1</stringProp>
+                <boolProp name="jms.authenticate">false</boolProp>
+                <elementProp name="jms.jmsProperties" elementType="JMSProperties">
+                  <collectionProp name="JMSProperties.properties">
+                    <elementProp name="" elementType="JMSProperty">
+                      <stringProp name="JMSProperty.name">SOAPAction</stringProp>
+                      <stringProp name="JMSProperty.value">SOAPAction: urn:nhs:names:services:gp2gp/RCMR_IN010000UK05</stringProp>
+                      <stringProp name="JMSProperty.type">java.lang.String</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="jms.file_encoding">ISO-8859-1</stringProp>
+                <stringProp name="TestPlan.comments">Send Initial RCMR_IN30000UK06 with external attachments to the MHS Queue based on file template</stringProp>
+              </PublisherSampler>
+              <hashTree/>
+              <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="Wait for response" enabled="true">
+                <stringProp name="WhileController.condition">${__jexl3(&quot;${statusCode}&quot; == &quot;0&quot;)}</stringProp>
+                <stringProp name="TestPlan.comments">While the status code is default (0) then complete the nested steps</stringProp>
+              </WhileController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send EHR Request" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">{&#xd;
+    &quot;resourceType&quot;: &quot;Parameters&quot;,&#xd;
+    &quot;parameter&quot;: [&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;patientNHSNumber&quot;,&#xd;
+            &quot;valueIdentifier&quot;: {&#xd;
+                &quot;system&quot;: &quot;https://fhir.nhs.uk/Id/nhs-number&quot;,&#xd;
+                &quot;value&quot;: &quot;${nhsNumber}&quot;&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;includeFullRecord&quot;,&#xd;
+            &quot;part&quot;: [&#xd;
+                {&#xd;
+                    &quot;name&quot;: &quot;includeSensitiveInfomation&quot;,&#xd;
+                    &quot;valueBoolean&quot;: true&#xd;
+                }&#xd;
+            ]&#xd;
+        }&#xd;
+    ]&#xd;
+}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">localhost</stringProp>
+                  <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">/Patient/$gpc.migratestructuredrecord</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
+                  <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
+                  <stringProp name="TestPlan.comments">Resend the initial request to request status</stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Response Status Code Extractor" enabled="true">
+                    <stringProp name="RegexExtractor.useHeaders">code</stringProp>
+                    <stringProp name="RegexExtractor.refname">statusCode</stringProp>
+                    <stringProp name="RegexExtractor.regex">(\d+)</stringProp>
+                    <stringProp name="RegexExtractor.template">$1$</stringProp>
+                    <stringProp name="RegexExtractor.default">0</stringProp>
+                    <stringProp name="RegexExtractor.match_number"></stringProp>
+                    <stringProp name="TestPlan.comments">Extract the statusCode from the response to be used in the parent While Controller</stringProp>
+                  </RegexExtractor>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="1215326767">500|204</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.custom_message">Response should be 500 or 204</stringProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                    <boolProp name="Assertion.assume_success">true</boolProp>
+                    <intProp name="Assertion.test_type">1</intProp>
+                    <stringProp name="Scope.variable">statusCode</stringProp>
+                    <stringProp name="TestPlan.comments">Assert tha the response is either 204 (waiting) or 500 (Internal Server Error)</stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
+                <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Wait for 1 Second" enabled="true">
+                  <intProp name="ActionProcessor.action">1</intProp>
+                  <intProp name="ActionProcessor.target">0</intProp>
+                  <stringProp name="ActionProcessor.duration">1000</stringProp>
+                  <stringProp name="TestPlan.comments">Wait between requests</stringProp>
+                </TestAction>
+                <hashTree>
+                  <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+                    <stringProp name="ConstantTimer.delay">1000</stringProp>
+                    <stringProp name="RandomTimer.range">100</stringProp>
+                  </UniformRandomTimer>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+              <PublisherSampler guiclass="JMSPublisherGui" testclass="PublisherSampler" testname="${threadDetails} Send COPC_IN000001UK01 message" enabled="true">
+                <stringProp name="jms.jndi_properties">false</stringProp>
+                <stringProp name="jms.initial_context_factory">org.apache.qpid.jms.jndi.JmsInitialContextFactory</stringProp>
+                <stringProp name="jms.provider_url">${__P(jndiPropertiesPath, ../../Configuration/jndi.properties)}</stringProp>
+                <stringProp name="jms.connection_factory">qpidConnectionFactory</stringProp>
+                <stringProp name="jms.topic">mhsQueueName</stringProp>
+                <stringProp name="jms.expiration"></stringProp>
+                <stringProp name="jms_error_reconnect_on_codes"></stringProp>
+                <stringProp name="jms.priority"></stringProp>
+                <stringProp name="jms.security_principle"></stringProp>
+                <stringProp name="jms.security_credentials"></stringProp>
+                <stringProp name="jms.text_message"></stringProp>
+                <stringProp name="jms.input_file">../../ValidMessages/COPC_IN000001UK01.txt</stringProp>
+                <stringProp name="jms.random_path"></stringProp>
+                <stringProp name="jms.config_choice">jms_use_file</stringProp>
+                <stringProp name="jms.config_msg_type">jms_text_message</stringProp>
+                <stringProp name="jms.iterations">1</stringProp>
+                <boolProp name="jms.authenticate">false</boolProp>
+                <elementProp name="jms.jmsProperties" elementType="JMSProperties">
+                  <collectionProp name="JMSProperties.properties">
+                    <elementProp name="" elementType="JMSProperty">
+                      <stringProp name="JMSProperty.name">SOAPAction</stringProp>
+                      <stringProp name="JMSProperty.value">SOAPAction: urn:nhs:names:services:gp2gp/RCMR_IN010000UK05</stringProp>
+                      <stringProp name="JMSProperty.type">java.lang.String</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="jms.file_encoding">ISO-8859-1</stringProp>
+                <stringProp name="TestPlan.comments">Send  COPC_IN000001UK01 to the MHS Queue based on file template</stringProp>
+              </PublisherSampler>
+              <hashTree/>
+              <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="Wait for response" enabled="true">
+                <stringProp name="WhileController.condition">${__jexl3(&quot;${statusCode}&quot; == &quot;204&quot; || &quot;${statusCode}&quot; == &quot;0&quot;)}</stringProp>
+                <stringProp name="TestPlan.comments">While the status code is default (0) or (204) waiting then complete the nested steps</stringProp>
+              </WhileController>
+              <hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send EHR Request" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">{&#xd;
+    &quot;resourceType&quot;: &quot;Parameters&quot;,&#xd;
+    &quot;parameter&quot;: [&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;patientNHSNumber&quot;,&#xd;
+            &quot;valueIdentifier&quot;: {&#xd;
+                &quot;system&quot;: &quot;https://fhir.nhs.uk/Id/nhs-number&quot;,&#xd;
+                &quot;value&quot;: &quot;${nhsNumber}&quot;&#xd;
+            }&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;includeFullRecord&quot;,&#xd;
+            &quot;part&quot;: [&#xd;
+                {&#xd;
+                    &quot;name&quot;: &quot;includeSensitiveInfomation&quot;,&#xd;
+                    &quot;valueBoolean&quot;: true&#xd;
+                }&#xd;
+            ]&#xd;
+        }&#xd;
+    ]&#xd;
+}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">localhost</stringProp>
+                  <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
+                  <stringProp name="HTTPSampler.protocol">http</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">/Patient/$gpc.migratestructuredrecord</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
+                  <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
+                  <stringProp name="TestPlan.comments">Resend the initial request to request status</stringProp>
+                </HTTPSamplerProxy>
+                <hashTree>
+                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Response Status Code Extractor" enabled="true">
+                    <stringProp name="RegexExtractor.useHeaders">code</stringProp>
+                    <stringProp name="RegexExtractor.refname">statusCode</stringProp>
+                    <stringProp name="RegexExtractor.regex">(\d+)</stringProp>
+                    <stringProp name="RegexExtractor.template">$1$</stringProp>
+                    <stringProp name="RegexExtractor.default">0</stringProp>
+                    <stringProp name="RegexExtractor.match_number"></stringProp>
+                    <stringProp name="TestPlan.comments">Extract the statusCode from the response to be used in the parent While Controller</stringProp>
+                  </RegexExtractor>
+                  <hashTree/>
+                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
+                    <collectionProp name="Asserion.test_strings">
+                      <stringProp name="-1447184276">200|204</stringProp>
+                    </collectionProp>
+                    <stringProp name="Assertion.custom_message">Response should be 200 or 204</stringProp>
+                    <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                    <boolProp name="Assertion.assume_success">false</boolProp>
+                    <intProp name="Assertion.test_type">1</intProp>
+                    <stringProp name="Scope.variable">statusCode</stringProp>
+                    <stringProp name="TestPlan.comments">Assert tha the response is either 204 (waiting) or 500 (Internal Server Error)</stringProp>
+                  </ResponseAssertion>
+                  <hashTree/>
+                </hashTree>
+                <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Wait for 1 Second" enabled="true">
+                  <intProp name="ActionProcessor.action">1</intProp>
+                  <intProp name="ActionProcessor.target">0</intProp>
+                  <stringProp name="ActionProcessor.duration">1000</stringProp>
+                  <stringProp name="TestPlan.comments">Wait between requests</stringProp>
+                </TestAction>
+                <hashTree>
+                  <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+                    <stringProp name="ConstantTimer.delay">1000</stringProp>
+                    <stringProp name="RandomTimer.range">100</stringProp>
+                  </UniformRandomTimer>
+                  <hashTree/>
+                </hashTree>
+              </hashTree>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="${threadDetails} ${messageTypeName} - ${__longSum(${__time(,)},-${startTime},)} ms" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">log.info(&quot;[&quot; + ctx.getThreadNum() + &quot;]: Duration: &quot; + ${__longSum(${__time(,)},-${startTime},)} + &quot;ms&quot;);</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <PostThreadGroup guiclass="PostThreadGroupGui" testclass="PostThreadGroup" testname="Teardown Thread Group " enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+      </PostThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="[Thread Group]: ${__longSum(${__time(,)},-${threadGroupStartTime},)} ms" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">log.info(&quot;[Thread Group]: Duration: &quot; + ${__longSum(${__time(,)},-${threadGroupStartTime},)} + &quot;ms&quot;);</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>false</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>true</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <sampleCount>true</sampleCount>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename">../../Results/PS_NF_STR_3/SummaryReport_${__time(YMDHMS)}.csv</stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>false</time>
+            <latency>false</latency>
+            <timestamp>false</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>false</message>
+            <threadName>true</threadName>
+            <dataType>false</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <url>true</url>
+          </value>
+        </objProp>
+        <stringProp name="filename">../../Results/PS_NF_STR_3/AssertionResults_${__time(YMDHMS)}.csv</stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
