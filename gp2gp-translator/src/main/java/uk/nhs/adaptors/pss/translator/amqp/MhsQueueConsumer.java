@@ -42,7 +42,7 @@ public class MhsQueueConsumer {
             }
         } catch (ConversationIdNotFoundException e) {
             if (deliveryCount > mhsQueueProperties.getMaxRedeliveries()) {
-                LOGGER.info("Conversation ID [{}] not recognised. Sending message to Dead Letter Queeue", e.getConversationId());
+                LOGGER.info("Conversation ID [{}] not recognised. Sending message to Dead Letter Queue", e.getConversationId());
             }
 
             LOGGER.debug("Rolling back session for message_id=[{}], unrecognised conversation ID", messageId);
