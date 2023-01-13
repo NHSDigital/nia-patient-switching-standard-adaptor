@@ -17,6 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
@@ -62,6 +63,7 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
+import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -98,6 +100,8 @@ class COPCMessageHandlerTest {
     private XmlParseUtilService xmlParseUtilService;
     @Mock
     private SupportedFileTypes supportedFileTypesMock;
+    @Mock
+    private FailedProcessHandlingService failedProcessHandlingService;
 
     private Document ebXmlDocument;
 
@@ -966,6 +970,24 @@ class COPCMessageHandlerTest {
             .sendNackMessage(eq(LARGE_MESSAGE_GENERAL_FAILURE), any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID));
     }
 
+    @Test
+    @SneakyThrows
+    public void When_HandleMessage_With_ProcessHasFailed_Expect_FailureHandled() {
+        when(failedProcessHandlingService.hasProcessFailed(CONVERSATION_ID))
+            .thenReturn(true);
+
+        var inboundMessage = new InboundMessage();
+        inboundMessage.setPayload(readCopcInboundMessageFromFile());
+
+        copcMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(failedProcessHandlingService, times(1))
+            .handleFailedProcess(any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID));
+
+        verify(migrationStatusLogService, times(0))
+            .addMigrationStatusLog(COPC_MESSAGE_RECEIVED, CONVERSATION_ID, null);
+    }
+
     private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid, int orderNum,
                                                            boolean isUploaded, boolean isLargeAttachment) {
         return PatientAttachmentLog.builder()
@@ -1116,7 +1138,7 @@ class COPCMessageHandlerTest {
 
     @SneakyThrows
     private String readCopcInboundMessageFromFile() {
-        return readResourceAsString("/xml/COPC_IN000001UK01_CONTINUE/payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
+        return readResourceAsString("/xml/COPC_IN000001UK01_subsequent_message/payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 
     @SneakyThrows

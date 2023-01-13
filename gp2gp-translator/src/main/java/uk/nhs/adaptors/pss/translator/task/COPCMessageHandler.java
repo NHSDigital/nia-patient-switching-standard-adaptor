@@ -40,6 +40,7 @@ import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
+import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -62,12 +63,19 @@ public class COPCMessageHandler {
     private final XPathService xPathService;
     private final XmlParseUtilService xmlParseUtilService;
     private final SupportedFileTypes supportedFileTypes;
+    private final FailedProcessHandlingService failedProcessHandlingService;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId)
             throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
                 AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         COPCIN000001UK01Message payload = unmarshallString(inboundMessage.getPayload(), COPCIN000001UK01Message.class);
+
+        if (failedProcessHandlingService.hasProcessFailed(conversationId)) {
+            failedProcessHandlingService.handleFailedProcess(payload, conversationId);
+            return;
+        }
+
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
         migrationStatusLogService.addMigrationStatusLog(COPC_MESSAGE_RECEIVED, conversationId, null);
 
@@ -341,9 +349,10 @@ public class COPCMessageHandler {
 
                 var externalAttachmentResult = message.getExternalAttachments()
                     .stream()
-                    .filter(attachment -> attachment.getMessageId().equals(localMessageId)).findFirst();
+                    .filter(attachment -> attachment.getMessageId().equals(localMessageId))
+                    .findFirst();
 
-                if (externalAttachmentResult == null || externalAttachmentResult.stream().count() != 1) {
+                if (externalAttachmentResult.isEmpty()) {
                     throw new ValidationException("External Attachment in payload header does not match a received External Attachment ID");
                 }
 
