@@ -55,7 +55,8 @@ public class FailedProcessHandlingService {
     }
 
     public void handleFailedProcess(RCMRIN030000UK06Message ehrExtractMessage, String conversationId) {
-        LOGGER.info("Received EHR Extract [Message ID: {}] but the process has already failed. Responding with NACK for unexpected condition.", ehrExtractMessage.getId());
+        LOGGER.info("Received EHR Extract [Message ID: {}] but the transfer process has already failed. "
+            + "Responding with NACK for unexpected condition.", ehrExtractMessage.getId());
 
         var nackMessageData = nackAckPreparationService
             .prepareNackMessageData(UNEXPECTED_CONDITION, ehrExtractMessage, conversationId);
@@ -73,6 +74,9 @@ public class FailedProcessHandlingService {
             case ERROR_LRG_MSG_TIMEOUT -> LARGE_MESSAGE_TIMEOUT;
             default -> LARGE_MESSAGE_GENERAL_FAILURE;
         };
+
+        LOGGER.info("Received COPC Message [Message ID: {}], but the transfer process has already failed. Responding with NACK code {}",
+            copcMessage.getId(), nackReason.getCode());
 
         var nackMessageData = nackAckPreparationService
             .prepareNackMessageData(nackReason, copcMessage, conversationId);
