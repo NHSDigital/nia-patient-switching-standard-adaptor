@@ -197,7 +197,7 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
     }
 
     private boolean nackSentWithCode(String code) {
-        ArrayList<Request> requests = new ArrayList<> (getMhsRequestsForConversation());
+        ArrayList<Request> requests = new ArrayList<>(getMhsRequestsForConversation());
 
         if (requests.isEmpty()) {
             return false;

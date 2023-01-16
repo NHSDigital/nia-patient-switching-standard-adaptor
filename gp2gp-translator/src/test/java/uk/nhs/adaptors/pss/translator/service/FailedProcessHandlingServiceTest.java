@@ -50,7 +50,7 @@ public class FailedProcessHandlingServiceTest {
     private NACKMessageData messageData;
 
     @InjectMocks
-    FailedProcessHandlingService failedProcessHandlingService;
+    private FailedProcessHandlingService failedProcessHandlingService;
 
     @ParameterizedTest
     @EnumSource(
