@@ -14,6 +14,7 @@ import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITI
 import java.util.UUID;
 
 import org.hl7.v3.COPCIN000001UK01Message;
+import org.hl7.v3.II;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,6 +45,8 @@ public class FailedProcessHandlingServiceTest {
     @Mock
     private COPCIN000001UK01Message copcMessage;
     @Mock
+    private II mockId;
+    @Mock
     private NACKMessageData messageData;
 
     @InjectMocks
@@ -66,7 +69,9 @@ public class FailedProcessHandlingServiceTest {
             "COPC_ACKNOWLEDGED",
             "COPC_FAILED",
             "MIGRATION_COMPLETED",
-            "FINAL_ACK_SENT"
+            "FINAL_ACK_SENT",
+            "CONTINUE_REQUEST_ERROR",
+            "EHR_EXTRACT_REQUEST_ERROR"
         })
     public void When_HasProcessFailed_With_FailedMigrationStatus_Expect_True(MigrationStatus migrationStatus) {
         String conversationId = UUID.randomUUID().toString();
@@ -86,6 +91,7 @@ public class FailedProcessHandlingServiceTest {
     public void When_HandleFailedProcess_With_EhrExtract_Expect_UnexpectedCondition() {
         String conversationId = UUID.randomUUID().toString();
 
+        when(ehrExtractMessage.getId()).thenReturn(mockId);
         when(nackAckPreparationService.prepareNackMessageData(eq(UNEXPECTED_CONDITION), eq(ehrExtractMessage), eq(conversationId)))
             .thenReturn(messageData);
 
@@ -101,6 +107,7 @@ public class FailedProcessHandlingServiceTest {
             .migrationStatus(EHR_EXTRACT_REQUEST_NEGATIVE_ACK)
             .build();
 
+        when(copcMessage.getId()).thenReturn(mockId);
         when(migrationStatusLogService.getLatestMigrationStatusLog(conversationId))
             .thenReturn(statusLog);
 
@@ -119,6 +126,7 @@ public class FailedProcessHandlingServiceTest {
             .migrationStatus(ERROR_LRG_MSG_TIMEOUT)
             .build();
 
+        when(copcMessage.getId()).thenReturn(mockId);
         when(migrationStatusLogService.getLatestMigrationStatusLog(conversationId))
             .thenReturn(statusLog);
 
@@ -157,6 +165,7 @@ public class FailedProcessHandlingServiceTest {
             .migrationStatus(migrationStatus)
             .build();
 
+        when(copcMessage.getId()).thenReturn(mockId);
         when(migrationStatusLogService.getLatestMigrationStatusLog(conversationId))
             .thenReturn(statusLog);
 

@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ERROR;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ERROR;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED;
@@ -37,9 +35,7 @@ public class FailedProcessHandlingService {
     private final SendNACKMessageHandler sendNACKMessageHandler;
 
     private static final List<MigrationStatus> FAILED_MIGRATION_STATUSES = List.of(
-        EHR_EXTRACT_REQUEST_ERROR,
         EHR_EXTRACT_REQUEST_NEGATIVE_ACK,
-        CONTINUE_REQUEST_ERROR,
         ERROR_LRG_MSG_REASSEMBLY_FAILURE,
         ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED,
         ERROR_LRG_MSG_GENERAL_FAILURE,
@@ -56,7 +52,7 @@ public class FailedProcessHandlingService {
 
     public void handleFailedProcess(RCMRIN030000UK06Message ehrExtractMessage, String conversationId) {
         LOGGER.info("Received EHR Extract [Message ID: {}] but the transfer process has already failed. "
-            + "Responding with NACK for unexpected condition.", ehrExtractMessage.getId());
+            + "Responding with NACK for unexpected condition.", ehrExtractMessage.getId().getRoot());
 
         var nackMessageData = nackAckPreparationService
             .prepareNackMessageData(UNEXPECTED_CONDITION, ehrExtractMessage, conversationId);
@@ -76,7 +72,7 @@ public class FailedProcessHandlingService {
         };
 
         LOGGER.info("Received COPC Message [Message ID: {}], but the transfer process has already failed. Responding with NACK code {}",
-            copcMessage.getId(), nackReason.getCode());
+            copcMessage.getId().getRoot(), nackReason.getCode());
 
         var nackMessageData = nackAckPreparationService
             .prepareNackMessageData(nackReason, copcMessage, conversationId);
