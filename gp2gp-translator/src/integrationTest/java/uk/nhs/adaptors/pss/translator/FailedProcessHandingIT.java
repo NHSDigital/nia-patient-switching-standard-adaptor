@@ -30,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.mhsmock.model.Request;
 import uk.nhs.adaptors.pss.mhsmock.model.RequestJournal;
@@ -119,36 +120,28 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
 
     @Test
     public void When_ProcessFailedByNme_With_CopcMessageAndTimeout_Expect_NotProcessed() {
-        sendEhrExtractToQueue();
-
-        await().until(this::isContinueRequestAccepted);
-
-        migrationStatusLogService.addMigrationStatusLog(ERROR_LRG_MSG_TIMEOUT, getConversationId(), null);
-
-        sendCopcToQueue();
-
-        await().until(() -> nackSentWithCode(LARGE_MESSAGE_TIMEOUT_CODE));
-
-        var migrationStatus = migrationStatusLogService.getLatestMigrationStatusLog(getConversationId()).getMigrationStatus();
-
-        assertThat(migrationStatus).isEqualTo(ERROR_LRG_MSG_TIMEOUT);
+        whenCopcSentExpectNackCode(ERROR_LRG_MSG_TIMEOUT, LARGE_MESSAGE_TIMEOUT_CODE);
     }
 
     @Test
     public void When_ProcessFailedByNme_With_CopcMessage_Expect_NotProcessed() {
+        whenCopcSentExpectNackCode(EHR_GENERAL_PROCESSING_ERROR, EHR_GENERAL_PROCESSING_ERROR_CODE);
+    }
+
+    private void whenCopcSentExpectNackCode(MigrationStatus preCopcMigrationStatus, String nackCode) {
         sendEhrExtractToQueue();
 
         await().until(this::isContinueRequestAccepted);
 
-        migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, getConversationId(), null);
+        migrationStatusLogService.addMigrationStatusLog(preCopcMigrationStatus, getConversationId(), null);
 
         sendCopcToQueue();
 
-        await().until(() -> nackSentWithCode(EHR_GENERAL_PROCESSING_ERROR_CODE));
+        await().until(() -> nackSentWithCode(nackCode));
 
         var migrationStatus = migrationStatusLogService.getLatestMigrationStatusLog(getConversationId()).getMigrationStatus();
 
-        assertThat(migrationStatus).isEqualTo(EHR_GENERAL_PROCESSING_ERROR);
+        assertThat(migrationStatus).isEqualTo(preCopcMigrationStatus);
     }
 
     private void sendNackToQueue() {
@@ -203,16 +196,14 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
             return false;
         }
 
-        requests.sort(Comparator.comparing(Request::getLoggedDate));
+        requests.sort(Comparator.comparing(Request::getLoggedDate).reversed());
 
-        var mostRecentRequest = requests.get(requests.size() - 1);
+        var mostRecentRequest = requests.get(0);
 
         return mostRecentRequest.getHeaders().getInteractionId().equals(ACK_INTERACTION_ID)
             && mostRecentRequest.getBody()
-                .replace("\\\\", "")
                 .contains("<acknowledgement typeCode=\\\"AE\\\">")
             && mostRecentRequest.getBody()
-                .replace("\\\\", "")
                 .contains("<code code=\\\"" + code + "\\\" codeSystem=\\\"2.16.840.1.113883.2.1.3.2.4.17.101\\\">");
     }
 
