@@ -27,7 +27,7 @@ public class MhsRequestBuilder {
 
     private static final String ODS_CODE = "ods-code";
     private static final String INTERACTION_ID = "Interaction-Id";
-    private static final String MHS_OUTBOUND_EXTRACT_CORE_INTERACTION_ID = "RCMR_IN030000UK06";
+    private static final String MHS_OUTBOUND_EXTRACT_CORE_INTERACTION_ID = "RCMR_IN010000UK05";
     private static final String MHS_OUTBOUND_COMMON_INTERACTION_ID = "COPC_IN000001UK01";
     private static final String MHS_OUTBOUND_APPLICATION_ACKNOWLEDGMENT_INTERACTION_ID = "MCCI_IN010000UK13";
     private static final String CORRELATION_ID = "Correlation-Id";

@@ -161,6 +161,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                             .stream()
                             .map(RCMRMT030101UK04Component6::getStatementRef)
                             .toList();
+
                         buildRelatedClinicalContent(bundle, statementRefs).forEach(condition::addExtension);
                     }));
     }
