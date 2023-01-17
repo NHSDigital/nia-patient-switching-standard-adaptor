@@ -98,7 +98,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     }
 
     private DateTimeType getCreatedTime(RCMRMT030101UK04EhrComposition ehrComposition) {
-        if(ehrComposition.hasAvailabilityTime()) {
+        if (ehrComposition.hasAvailabilityTime()) {
             return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
         }
         return null;
