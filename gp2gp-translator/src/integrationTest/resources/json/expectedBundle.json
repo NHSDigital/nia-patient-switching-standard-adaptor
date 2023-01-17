@@ -30557,8 +30557,8 @@
         "subject": {
           "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
-        "created": "2020-01-01T01:01:01+00:00",
-        "indexed": "2020-01-01T01:01:01.000+00:00",
+        "created": "2010-01-15T10:14:00+00:00",
+        "indexed": "2010-01-15T10:06:46.000+00:00",
         "author": [
           {
             "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
@@ -30612,8 +30612,8 @@
         "subject": {
           "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
-        "created": "2020-01-01T01:01:01+00:00",
-        "indexed": "2020-01-01T01:01:01.000+00:00",
+        "created": "2010-01-13T15:20:00+00:00",
+        "indexed": "2010-01-13T15:13:32.000+00:00",
         "author": [
           {
             "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
@@ -30668,8 +30668,8 @@
         "subject": {
           "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
-        "created": "2020-01-01T01:01:01+00:00",
-        "indexed": "2020-01-01T01:01:01.000+00:00",
+        "created": "2010-01-13T15:20:00+00:00",
+        "indexed": "2010-01-13T15:13:32.000+00:00",
         "author": [
           {
             "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
@@ -30724,8 +30724,8 @@
         "subject": {
           "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
-        "created": "2020-01-01T01:01:01+00:00",
-        "indexed": "2020-01-01T01:01:01.000+00:00",
+        "created": "2019-07-08T13:35:00+00:00",
+        "indexed": "2010-01-14T00:00:00.000+00:00",
         "author": [
           {
             "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"

@@ -222,6 +222,8 @@ public class RCMRMT030101UK04EhrComposition {
         this.availabilityTime = value;
     }
 
+    public boolean hasAvailabilityTime() {return availabilityTime != null; }
+
     /**
      * Gets the value of the author property.
      * 
