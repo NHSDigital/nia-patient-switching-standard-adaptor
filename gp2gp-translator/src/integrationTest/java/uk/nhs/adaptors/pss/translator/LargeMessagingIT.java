@@ -114,9 +114,6 @@ public final class LargeMessagingIT extends BaseEhrHandler {
     public void uk06WithCopcMessages(String testName, String scenarioDirectory, String expectedBundleName) throws JSONException {
         sendInboundMessageToQueue(scenarioDirectory + "uk06.json");
 
-        System.out.println("conversation ID: " + getConversationId());
-        System.out.println("nhs number: " + getPatientNhsNumber());
-
         await().until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue(scenarioDirectory + "copc_index.json");

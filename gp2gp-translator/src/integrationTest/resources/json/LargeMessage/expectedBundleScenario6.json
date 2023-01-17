@@ -721,7 +721,8 @@
       "subject": {
         "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
       },
-      "indexed": "2018-06-12T08:29:15.000+00:00",
+      "created": "2018-06-12",
+      "indexed": "2018-06-12T08:24:07.000+00:00",
       "author": [ {
         "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
       } ],

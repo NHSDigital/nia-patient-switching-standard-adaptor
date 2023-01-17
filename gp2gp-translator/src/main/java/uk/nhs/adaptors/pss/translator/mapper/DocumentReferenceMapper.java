@@ -52,14 +52,14 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
             extractAllNarrativeStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isDocumentReference)
-                .map(narrativeStatement -> mapDocumentReference(narrativeStatement, composition, patient, extract, encounterList,
+                .map(narrativeStatement -> mapDocumentReference(narrativeStatement, composition, patient, encounterList,
                     organization)))
             .toList();
     }
 
     private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement,
-        RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, RCMRMT030101UK04EhrExtract ehrExtract,
-        List<Encounter> encounterList, Organization organization) {
+        RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, List<Encounter> encounterList,
+                                                   Organization organization) {
 
         DocumentReference documentReference = new DocumentReference();
 
@@ -74,10 +74,10 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         documentReference.setStatus(DocumentReferenceStatus.CURRENT);
         documentReference.setType(getType(narrativeStatement));
         documentReference.setSubject(new Reference(patient));
-        documentReference.setIndexedElement(getIndexed(ehrExtract));
         documentReference.setDescription(buildDescription(narrativeStatement));
+        documentReference.setIndexedElement(getIndexed(ehrComposition));
         documentReference.setCustodian(new Reference(organization));
-        documentReference.setCreatedElement(getCreatedTime(ehrExtract));
+        documentReference.setCreatedElement(getCreatedTime(ehrComposition));
         getAuthor(narrativeStatement, ehrComposition).ifPresent(documentReference::addAuthor);
 
         var encounterReference = encounterList.stream()
@@ -97,10 +97,17 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         return documentReference;
     }
 
-    private DateTimeType getCreatedTime(RCMRMT030101UK04EhrExtract ehrExtract) {
-        if (ehrExtract.hasAuthor() && ehrExtract.getAuthor().hasTime()
-            && ehrExtract.getAuthor().getTime().hasValue()) {
-            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAuthor().getTime().getValue());
+    private DateTimeType getCreatedTime(RCMRMT030101UK04EhrComposition ehrComposition) {
+        if (ehrComposition.hasAvailabilityTime()) {
+            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
+        }
+        return null;
+    }
+
+    private InstantType getIndexed(RCMRMT030101UK04EhrComposition ehrComposition) {
+        if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime()
+                && ehrComposition.getAuthor().getTime().hasValue()) {
+            return DateFormatUtil.parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
         }
         return null;
     }
@@ -119,10 +126,6 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         }
 
         return null;
-    }
-
-    private InstantType getIndexed(RCMRMT030101UK04EhrExtract ehrExtract) {
-        return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
     }
 
     private Optional<Reference> getAuthor(RCMRMT030101UK04NarrativeStatement narrativeStatement,

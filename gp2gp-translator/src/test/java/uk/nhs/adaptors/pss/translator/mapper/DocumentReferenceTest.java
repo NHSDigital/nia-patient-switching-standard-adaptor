@@ -132,8 +132,8 @@ public class DocumentReferenceTest {
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
         assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(documentReference.getDescription()).isEqualTo("Some example text");
-        assertThat(documentReference.getIndexedElement().getValue().toInstant().toString()).isEqualTo("2020-01-01T01:01:01Z");
-        assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2010-01-14");
+        assertThat(documentReference.getIndexedElement().getValue()).isEqualTo("2010-01-14");
+        assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2019-07-08T13:35:00+00:00");
         assertThat(documentReference.getSubject().getResource()).isNotNull();
         assertThat(documentReference.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(documentReference.getContext().getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
@@ -147,8 +147,8 @@ public class DocumentReferenceTest {
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
         assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(documentReference.getDescription()).isEqualTo("Some example text");
-        assertThat(documentReference.getIndexedElement().getValue().toInstant().toString()).isEqualTo("2020-01-01T01:01:01Z");
-        assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2010-01-14");
+        assertThat(documentReference.getIndexedElement().getValue()).isEqualTo("2010-01-14");
+        assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2019-07-08T13:35:00+00:00");
         assertThat(documentReference.getSubject().getResource()).isNotNull();
         assertThat(documentReference.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(documentReference.getContext().getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
@@ -162,7 +162,7 @@ public class DocumentReferenceTest {
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
         assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(documentReference.getDescription()).isEqualTo("31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt");
-        assertThat(documentReference.getCreated()).isNull();
+        assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2019-07-08T13:35:00+00:00");
         assertAttachmentData(documentReference);
     }
 
