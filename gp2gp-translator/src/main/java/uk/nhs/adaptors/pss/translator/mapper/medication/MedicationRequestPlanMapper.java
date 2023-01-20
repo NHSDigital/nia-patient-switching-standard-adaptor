@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
@@ -96,7 +97,7 @@ public class MedicationRequestPlanMapper {
                 .ifPresent(statusChangeExtensions::add);
 
             discontinue
-                .map(this::extractTermText)
+                .flatMap(this::extractTermText)
                 .map(this::buildStatusReasonCodeableConceptExtension)
                 .ifPresent(statusChangeExtensions::add);
 
@@ -179,34 +180,16 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private String extractTermText(RCMRMT030101UK04Discontinue discontinue) {
-        StringBuilder statusReasonStringBuilder = new StringBuilder();
-        if (discontinue.hasCode() && discontinue.getCode().hasOriginalText()) {
-            statusReasonStringBuilder.append(discontinue.getCode().getOriginalText())
-                .append(StringUtils.SPACE);
-        }
+    private Optional<String> extractTermText(RCMRMT030101UK04Discontinue discontinue) {
 
-        if (discontinue.hasCode() && !discontinue.getCode().hasOriginalText() && discontinue.getCode().hasDisplayName()) {
-            statusReasonStringBuilder.append(discontinue.getCode().hasDisplayName())
-                .append(StringUtils.SPACE);
-        }
-
-        discontinue.getPertinentInformation()
+        var pertinentInfo = discontinue.getPertinentInformation()
             .stream()
             .map(RCMRMT030101UK04PertinentInformation2::getPertinentSupplyAnnotation)
             .map(RCMRMT030101UK04SupplyAnnotation::getText)
             .filter(StringUtils::isNotBlank)
-            .forEach(text -> {
-                statusReasonStringBuilder.append(text)
-                    .append(StringUtils.SPACE);
-            });
+            .collect(Collectors.joining(", "));
 
-        if (discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasNullFlavor()
-            && discontinue.getAvailabilityTime().getNullFlavor().value().equals("UNK")) {
-            statusReasonStringBuilder.append("Unknown date");
-        }
-
-        return statusReasonStringBuilder.toString();
+        return pertinentInfo.isEmpty() ? Optional.empty() : Optional.of(pertinentInfo);
     }
 
     private Optional<Reference> extractPriorPrescription(RCMRMT030101UK04Authorise supplyAuthorise) {

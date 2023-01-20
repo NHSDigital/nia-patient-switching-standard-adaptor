@@ -154,6 +154,44 @@ public class MedicationRequestPlanMapperTest {
         assertThat(expiryDate.size()).isEqualTo(0);
     }
 
+    @Test
+    public void When_MappingDiscontinue_With_PertinentInformation_Expect_StatusReasonAdded() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract2.xml");
+        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UK04Authorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
+
+        var medicationRequest =
+            medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.orElseThrow(),
+                PRACTISE_CODE);
+
+        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+        assertThat(statusExt.size()).isEqualTo(1);
+
+        var statusReasonExt = statusExt.get(0).getExtensionsByUrl("statusReason");
+        assertThat(statusReasonExt.size()).isEqualTo(1);
+
+        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
+
+        assertThat(statusReason.getText()).isEqualTo("Patient no longer requires these");
+    }
+
+    @Test
+    public void When_MappingDiscontinue_With_MissingPertinentInformation_Expect_StatusReasonNotAdded() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract7.xml");
+        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UK04Authorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
+
+        var medicationRequest =
+            medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.orElseThrow(),
+                PRACTISE_CODE);
+
+        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+        assertThat(statusExt.size()).isEqualTo(1);
+
+        var statusReasonExt = statusExt.get(0).getExtensionsByUrl("statusReason");
+        assertThat(statusReasonExt.size()).isEqualTo(0);
+    }
+
     private Optional<RCMRMT030101UK04Authorise> extractSupplyAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement) {
         return medicationStatement
             .getComponent()
