@@ -4343,7 +4343,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true Patient no longer requires these "
+                  "text": "Patient no longer requires these"
                 }
               }
             ]
@@ -4959,7 +4959,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true zzzzzss "
+                  "text": "zzzzzss"
                 }
               }
             ]
@@ -5278,7 +5278,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true allergy "
+                  "text": "allergy"
                 }
               }
             ]
@@ -7445,7 +7445,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true Allergy "
+                  "text": "Allergy"
                 }
               }
             ]
@@ -7754,7 +7754,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true Alergy "
+                  "text": "Alergy"
                 }
               }
             ]
@@ -8145,7 +8145,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true John said "
+                  "text": "John said"
                 }
               }
             ]
@@ -9052,7 +9052,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true kjhkjkjhjkjkj "
+                  "text": "kjhkjkjhjkjkj"
                 }
               }
             ]
@@ -9352,12 +9352,6 @@
               {
                 "url": "statusChangeDate",
                 "valueDateTime": "2010-03-23"
-              },
-              {
-                "url": "statusReason",
-                "valueCodeableConcept": {
-                  "text": "true "
-                }
               }
             ]
           },
@@ -13301,7 +13295,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true some reason "
+                  "text": "some reason"
                 }
               }
             ]
@@ -13616,7 +13610,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true Recreate 22047 "
+                  "text": "Recreate 22047"
                 }
               }
             ]
@@ -13770,7 +13764,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true End course for acute post G -> T switch for 22047 "
+                  "text": "End course for acute post G -> T switch for 22047"
                 }
               }
             ]
