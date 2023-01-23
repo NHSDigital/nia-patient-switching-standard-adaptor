@@ -64,6 +64,7 @@ public class MedicationRequestPlanMapper {
     private static final String COMPLETE = "COMPLETE";
     private static final String NHS_PRESCRIPTION = "NHS prescription";
     private static final String PRESCRIPTION_TYPE = "Prescription type: ";
+    private static final String MISSING_REASON_STRING = "No information available";
 
     private final MedicationMapper medicationMapper;
 
@@ -97,7 +98,7 @@ public class MedicationRequestPlanMapper {
                 .ifPresent(statusChangeExtensions::add);
 
             discontinue
-                .flatMap(this::extractTermText)
+                .map(this::extractTermText)
                 .map(this::buildStatusReasonCodeableConceptExtension)
                 .ifPresent(statusChangeExtensions::add);
 
@@ -180,7 +181,7 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private Optional<String> extractTermText(RCMRMT030101UK04Discontinue discontinue) {
+    private String extractTermText(RCMRMT030101UK04Discontinue discontinue) {
 
         var pertinentInfo = discontinue.getPertinentInformation()
             .stream()
@@ -189,7 +190,14 @@ public class MedicationRequestPlanMapper {
             .filter(StringUtils::isNotBlank)
             .collect(Collectors.joining(", "));
 
-        return pertinentInfo.isEmpty() ? Optional.empty() : Optional.of(pertinentInfo);
+        String displayName = discontinue.getCode().getDisplayName();
+        String altText = displayName != null ? displayName : discontinue.getCode().getOriginalText();
+
+        if (altText == null) {
+            altText = MISSING_REASON_STRING;
+        }
+
+        return pertinentInfo.isEmpty() ? altText : pertinentInfo;
     }
 
     private Optional<Reference> extractPriorPrescription(RCMRMT030101UK04Authorise supplyAuthorise) {

@@ -176,7 +176,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingDiscontinue_With_MissingPertinentInformation_Expect_StatusReasonNotAdded() {
+    public void When_MappingDiscontinue_With_MissingPertinentInformationAndCodeDisplayPresent_Expect_DisplayAddedAsReason() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract7.xml");
         Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UK04Authorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
@@ -189,7 +189,50 @@ public class MedicationRequestPlanMapperTest {
         assertThat(statusExt.size()).isEqualTo(1);
 
         var statusReasonExt = statusExt.get(0).getExtensionsByUrl("statusReason");
-        assertThat(statusReasonExt.size()).isEqualTo(0);
+        assertThat(statusReasonExt.size()).isEqualTo(1);
+
+        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
+        assertThat(statusReason.getText()).isEqualTo("Medication Course Ended");
+    }
+
+    @Test
+    public void When_MappingDiscontinue_With_MissingPertinentInformationAndCodeDisplay_Expect_OriginalTextAddedAsReason() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract8.xml");
+        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UK04Authorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
+
+        var medicationRequest =
+            medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.orElseThrow(),
+                PRACTISE_CODE);
+
+        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+        assertThat(statusExt.size()).isEqualTo(1);
+
+        var statusReasonExt = statusExt.get(0).getExtensionsByUrl("statusReason");
+        assertThat(statusReasonExt.size()).isEqualTo(1);
+
+        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
+        assertThat(statusReason.getText()).isEqualTo("Ended");
+    }
+
+    @Test
+    public void When_MappingDiscontinue_With_MissingPertinentInformationAndCodeDisplayAndOriginalText_Expect_DefaultTextAddedAsReason() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract9.xml");
+        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UK04Authorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
+
+        var medicationRequest =
+            medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement.get(), supplyAuthorise.orElseThrow(),
+                PRACTISE_CODE);
+
+        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+        assertThat(statusExt.size()).isEqualTo(1);
+
+        var statusReasonExt = statusExt.get(0).getExtensionsByUrl("statusReason");
+        assertThat(statusReasonExt.size()).isEqualTo(1);
+
+        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
+        assertThat(statusReason.getText()).isEqualTo("No information available");
     }
 
     private Optional<RCMRMT030101UK04Authorise> extractSupplyAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement) {

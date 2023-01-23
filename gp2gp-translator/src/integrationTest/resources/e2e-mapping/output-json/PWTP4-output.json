@@ -9352,6 +9352,12 @@
               {
                 "url": "statusChangeDate",
                 "valueDateTime": "2010-03-23"
+              },
+              {
+                "url": "statusReason",
+                "valueCodeableConcept": {
+                  "text": "Medication Course Ended"
+                }
               }
             ]
           },
