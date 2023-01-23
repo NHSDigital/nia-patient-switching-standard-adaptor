@@ -41,7 +41,8 @@ public class PatientAttachmentLogService {
             attachmentLogInput.getSkeleton(),
             attachmentLogInput.getUploaded(),
             attachmentLogInput.getOrderNum(),
-            attachmentLogInput.getLengthNum()
+            attachmentLogInput.getLengthNum(),
+            attachmentLogInput.getPostProcessedLengthNum()
         );
         LOGGER.debug("Created migration log mid=[{}] for patient migration request id=[{}]", mid, filename);
     }
@@ -102,7 +103,9 @@ public class PatientAttachmentLogService {
             attachmentLogInput.getSkeleton(),
             attachmentLogInput.getUploaded(),
             attachmentLogInput.getLengthNum(),
-            attachmentLogInput.getOrderNum()
+            attachmentLogInput.getOrderNum(),
+            attachmentLogInput.getPostProcessedLengthNum()
+
         );
         LOGGER.debug("Updated migration log mid=[{}]", mid);
     }

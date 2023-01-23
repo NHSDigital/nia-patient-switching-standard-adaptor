@@ -26,4 +26,5 @@ public class PatientAttachmentLog {
     private Integer patientMigrationReqId;
     private Integer orderNum;
     private Boolean deleted;
+    private Integer postProcessedLengthNum;
 }
