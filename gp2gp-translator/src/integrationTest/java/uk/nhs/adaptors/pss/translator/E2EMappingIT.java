@@ -104,10 +104,10 @@ public class E2EMappingIT extends BaseEhrHandler {
                 "entry[11].resource.location[0].location.reference",
                 "entry[12].resource.location[0].location.reference",
                 "entry[13].resource.location[0].location.reference",
-                "entry[52].resource.id",
-                "entry[52].resource.identifier[0].value",
-                "entry[53].resource.id",
-                "entry[53].resource.identifier[0].value"
+                "entry[50].resource.id",
+                "entry[50].resource.identifier[0].value",
+                "entry[51].resource.id",
+                "entry[51].resource.identifier[0].value"
 
         );
 
