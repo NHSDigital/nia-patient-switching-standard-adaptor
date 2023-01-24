@@ -137,7 +137,8 @@ public class ResourceReferenceUtilTest {
             Arguments.of("ehr_composition_immunization.xml", "Immunization/82A39454-299F-432E-993E-5A6232B4E099"),
             Arguments.of("ehr_composition_allergy_intolerance.xml", "AllergyIntolerance/35C0BE8D-F5F9-41C4-B819-4BE66FF8ED27"),
             Arguments.of("ehr_composition_observation_uncategorised.xml", "Observation/E9396E5B-B81A-4D69-BF0F-DFB1DFE80A33"),
-            Arguments.of("ehr_composition_condition.xml", "Condition/5968B6B2-8E9A-4A78-8979-C8F14F4D274B"),
+//      removed as part of NIAD-2359
+//            Arguments.of("ehr_composition_condition.xml", "Condition/5968B6B2-8E9A-4A78-8979-C8F14F4D274B"),
             Arguments.of("ehr_composition_blood_pressure.xml", "Observation/FE739904-2AAB-4B3F-9718-84BE019FD483"),
             Arguments.of("ehr_composition_diagnostic_report.xml", "DiagnosticReport/2E135210-74C2-478A-90DC-0FC9F7B8103C")
         );

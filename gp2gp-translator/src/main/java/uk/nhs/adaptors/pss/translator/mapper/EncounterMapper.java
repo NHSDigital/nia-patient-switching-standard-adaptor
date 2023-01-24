@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
@@ -29,6 +30,7 @@ import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.II;
+import org.hl7.v3.LinkableComponent;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
@@ -120,6 +122,8 @@ public class EncounterMapper {
         List<Reference> entryReferences = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, entryReferences);
         entryReferences.forEach(reference -> addEntry(topic, reference));
+        var relatedProblems = getRelatedProblemsForFlatConsultation(ehrComposition);
+        relatedProblems.forEach(topic::addExtension);
 
         consultation.addEntry(new ListEntryComponent(new Reference(topic)));
         topics.add(topic);
@@ -134,14 +138,19 @@ public class EncounterMapper {
 
             generateCategoryLists(topicCompoundStatement, topic, categories);
 
-            List<Extension> relatedProblems = getRelatedProblemsFromEncounter(topicCompoundStatement, ehrComposition);
+            List<Extension> relatedProblems = getRelatedProblemsForStructuredConsultation(topicCompoundStatement, ehrComposition);
             relatedProblems.forEach(topic::addExtension);
 
             topics.add(topic);
         });
     }
 
-    private List<Extension> getRelatedProblemsFromEncounter(RCMRMT030101UK04CompoundStatement topicCompoundStatement,
+    private List<Extension> getRelatedProblemsForFlatConsultation(RCMRMT030101UK04EhrComposition ehrComposition) {
+         var components = ehrComposition.getComponent();
+         return buildRelatedProblemExtensions(getLinkSetNamedStatementIds(components), getLinkSets(ehrComposition));
+    }
+
+    private List<Extension> getRelatedProblemsForStructuredConsultation(RCMRMT030101UK04CompoundStatement topicCompoundStatement,
         RCMRMT030101UK04EhrComposition ehrComposition) {
 
         var components = topicCompoundStatement.getComponent().stream()
@@ -150,14 +159,20 @@ public class EncounterMapper {
             .flatMap(categoryCompoundStatement -> categoryCompoundStatement.getComponent().stream())
             .toList();
 
+        return buildRelatedProblemExtensions(getLinkSetNamedStatementIds(components), getLinkSets(ehrComposition));
+
+    }
+
+    private Set<String> getLinkSetNamedStatementIds(List<? extends LinkableComponent> components) {
+
         List<String> observationStatementIds = components.stream()
-            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .map(LinkableComponent::getObservationStatement)
             .filter(Objects::nonNull)
             .map(observationStatement -> observationStatement.getId().getRoot())
             .toList();
 
         List<String> requestStatementIds = components.stream()
-            .map(RCMRMT030101UK04Component02::getRequestStatement)
+            .map(LinkableComponent::getRequestStatement)
             .filter(Objects::nonNull)
             .flatMap(requestStatement -> requestStatement.getId().stream())
             .map(II::getRoot)
@@ -168,7 +183,12 @@ public class EncounterMapper {
         statementIds.addAll(observationStatementIds);
         statementIds.addAll(requestStatementIds);
 
-        var linkSets = getLinkSets(ehrComposition);
+        return statementIds;
+    }
+
+    private List<Extension> buildRelatedProblemExtensions(Set<String> statementIds,
+        List<RCMRMT030101UK04LinkSet> linkSets) {
+
         List<Extension> extensions = new ArrayList<>();
 
         for (var linkSet : linkSets) {
@@ -180,7 +200,7 @@ public class EncounterMapper {
                 var extension = new Extension(RELATED_PROBLEM_URL);
 
                 extension.addExtension(new Extension(RELATED_PROBLEM_TARGET_URL,
-                        new Reference(new IdType(ResourceType.Condition.name(), linkSet.getId().getRoot()))));
+                    new Reference(new IdType(ResourceType.Condition.name(), linkSet.getId().getRoot()))));
 
                 extensions.add(extension);
             }
