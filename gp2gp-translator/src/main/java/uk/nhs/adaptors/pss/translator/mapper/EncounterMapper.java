@@ -5,6 +5,7 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -16,16 +17,18 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterLocationComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
+import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.ListResource.ListEntryComponent;
+import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.v3.CD;
 import org.hl7.v3.CsNullFlavor;
+import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
@@ -64,6 +67,9 @@ public class EncounterMapper {
     private static final String CONSULTATION_KEY = "consultations";
     private static final String TOPIC_KEY = "topics";
     private static final String CATEGORY_KEY = "categories";
+    private static final String IDENTIFIER_EXTERNAL = "2.16.840.1.113883.2.1.4.5.3";
+    private static final String RELATED_PROBLEM_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1";
+    private static final String RELATED_PROBLEM_TARGET_URL = "target";
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final ConsultationListMapper consultationListMapper;
@@ -127,22 +133,60 @@ public class EncounterMapper {
             consultation.addEntry(new ListEntryComponent(new Reference(topic)));
 
             generateCategoryLists(topicCompoundStatement, topic, categories);
-            generateLinkSetTopicLists(ehrComposition, consultation, topics);
+
+            List<Extension> relatedProblems = getRelatedProblemsFromEncounter(topicCompoundStatement, ehrComposition);
+            relatedProblems.forEach(topic::addExtension);
 
             topics.add(topic);
         });
     }
 
-    private void generateLinkSetTopicLists(RCMRMT030101UK04EhrComposition ehrComposition, ListResource consultation,
-        List<ListResource> topics) {
-        var linkSetList = getLinkSets(ehrComposition);
-        if (!CollectionUtils.isEmpty(linkSetList)) {
-            var linkSetTopic = consultationListMapper.mapToTopic(consultation, null);
+    private List<Extension> getRelatedProblemsFromEncounter(RCMRMT030101UK04CompoundStatement topicCompoundStatement,
+        RCMRMT030101UK04EhrComposition ehrComposition) {
 
-            addLinkSetsAsTopicEntries(linkSetList, linkSetTopic);
-            consultation.addEntry(new ListEntryComponent(new Reference(linkSetTopic)));
-            topics.add(linkSetTopic);
+        var components = topicCompoundStatement.getComponent().stream()
+            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(Objects::nonNull)
+            .flatMap(categoryCompoundStatement -> categoryCompoundStatement.getComponent().stream())
+            .toList();
+
+        List<String> observationStatementIds = components.stream()
+            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .filter(Objects::nonNull)
+            .map(observationStatement -> observationStatement.getId().getRoot())
+            .toList();
+
+        List<String> requestStatementIds = components.stream()
+            .map(RCMRMT030101UK04Component02::getRequestStatement)
+            .filter(Objects::nonNull)
+            .flatMap(requestStatement -> requestStatement.getId().stream())
+            .map(II::getRoot)
+            .filter(root -> !root.equals(IDENTIFIER_EXTERNAL))
+            .toList();
+
+        HashSet<String> statementIds = new HashSet<>();
+        statementIds.addAll(observationStatementIds);
+        statementIds.addAll(requestStatementIds);
+
+        var linkSets = getLinkSets(ehrComposition);
+        List<Extension> extensions = new ArrayList<>();
+
+        for (var linkSet : linkSets) {
+            var conditionNamed = linkSet.getConditionNamed();
+
+            if (conditionNamed != null
+                && statementIds.contains(conditionNamed.getNamedStatementRef().getId().getRoot())) {
+
+                var extension = new Extension(RELATED_PROBLEM_URL);
+
+                extension.addExtension(new Extension(RELATED_PROBLEM_TARGET_URL,
+                        new Reference(new IdType(ResourceType.Condition.name(), linkSet.getId().getRoot()))));
+
+                extensions.add(extension);
+            }
         }
+
+        return extensions;
     }
 
     private List<RCMRMT030101UK04LinkSet> getLinkSets(RCMRMT030101UK04EhrComposition ehrComposition) {
@@ -151,11 +195,6 @@ public class EncounterMapper {
             .map(RCMRMT030101UK04Component4::getLinkSet)
             .filter(Objects::nonNull)
             .toList();
-    }
-
-    private void addLinkSetsAsTopicEntries(List<RCMRMT030101UK04LinkSet> linkSetList, ListResource linkSetTopic) {
-        linkSetList.forEach(linkSet -> linkSetTopic.addEntry(new ListEntryComponent(
-            new Reference(new IdType(ResourceType.Condition.name(), linkSet.getId().getRoot())))));
     }
 
     private void generateCategoryLists(RCMRMT030101UK04CompoundStatement topicCompoundStatement, ListResource topic,

@@ -80,6 +80,8 @@ public class EncounterMapperTest {
     private static final int ONE_MAPPED_RESOURCE = 1;
     private static final int TWO_MAPPED_RESOURCES = 2;
     private static final String LINKSET_REFERENCE = "Condition/DCC26FC9-4D1C-11E3-A2DD-010000000161";
+    private static final String RELATED_PROBLEM_EXT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1";
+    private static final String RELATED_PROBLEM_TARGET_URL = "target";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -189,8 +191,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
-            .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
@@ -201,7 +201,7 @@ public class EncounterMapperTest {
 
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
-        assertThat(mappedResources.get(TOPIC_KEY).size()).isEqualTo(TWO_MAPPED_RESOURCES);
+        assertThat(mappedResources.get(TOPIC_KEY).size()).isOne();
         assertThat(mappedResources.get(CATEGORY_KEY).size()).isOne();
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
@@ -217,17 +217,19 @@ public class EncounterMapperTest {
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
 
-        var linkSetTopic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
-        assertThat(linkSetTopic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
-        assertThat(consultation.getEntry().get(1).getItem().getReference())
-            .isEqualTo(ENCOUNTER_ID_2);
-        assertThat(linkSetTopic.getEntry().get(2).getItem().getReference())
-            .isEqualTo(LINKSET_REFERENCE);
-
-        var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(1);
+        var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
         assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(consultation.getEntry().get(0).getItem().getReference())
             .isEqualTo(ENCOUNTER_ID);
+
+        var relatedProblemExt = topic.getExtensionsByUrl(RELATED_PROBLEM_EXT_URL);
+        assertThat(relatedProblemExt.size()).isOne();
+
+        var relatedProblemTarget = relatedProblemExt.get(0).getExtensionsByUrl(RELATED_PROBLEM_TARGET_URL);
+        assertThat(relatedProblemTarget.size()).isOne();
+
+        var relatedProblemReference = (Reference) relatedProblemTarget.get(0).getValue();
+        assertThat(relatedProblemReference.getReference()).isEqualTo(LINKSET_REFERENCE);
 
         var category = (ListResource) mappedResources.get(CATEGORY_KEY).get(0);
         assertThat(category.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
