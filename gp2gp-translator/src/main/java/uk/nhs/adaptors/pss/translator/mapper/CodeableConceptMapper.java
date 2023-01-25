@@ -62,7 +62,14 @@ public class CodeableConceptMapper {
 
     private CodeableConcept generateCodeableConceptUsingConceptId(CD codedData, CD mainCodeFromTranslation, boolean isMedicationResource) {
         var conceptId = codedData.getCode();
-        var displayName = codedData.getDisplayName();
+
+        var displayName = (String) null;
+
+        if (codedData.getDisplayName() == null && mainCodeFromTranslation != null){
+            displayName = mainCodeFromTranslation.getDisplayName();
+        } else {
+            displayName = codedData.getDisplayName();
+        }
 
         var originalText = translationMainCodeHasOriginalText(mainCodeFromTranslation)
             ? mainCodeFromTranslation.getOriginalText()
@@ -76,16 +83,16 @@ public class CodeableConceptMapper {
 
             if (preferredValuePresentNoDescriptionValue(preferredTerm, description)) {
                 return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(),
-                    determineTextFieldValue(originalText, displayName), createExtension(preferredTerm.getId(), null, isMedicationResource));
+                    determineTextFieldValue(originalText, displayName), createExtension(null, null, isMedicationResource));
             }
 
             if (preferredAndDescriptionValuesPresent(preferredTerm, description)) {
                 if (isDescriptionPreferredTerm(description, preferredTerm)) {
-                    return createCodeableConcept(conceptId, SNOMED_SYSTEM, displayName, codedData.getOriginalText(),
-                        createExtension(description.getId(), null, isMedicationResource));
+                    return createCodeableConcept(conceptId, SNOMED_SYSTEM, displayName, determineTextFieldValue(originalText, displayName),
+                        createExtension(null, null, isMedicationResource));
                 } else {
-                    return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(), codedData.getOriginalText(),
-                        createExtension(description.getId(), description.getTerm(), isMedicationResource));
+                    return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(), determineTextFieldValue(originalText, displayName),
+                            createExtensionIfTextAndTermMatches(originalText, displayName, description, isMedicationResource));
                 }
             }
         } else {
@@ -100,7 +107,7 @@ public class CodeableConceptMapper {
                 }
 
                 return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(), text,
-                    createExtension(description.getId(), null, isMedicationResource));
+                    createExtension(null, null, isMedicationResource));
             }
         }
 
@@ -198,6 +205,15 @@ public class CodeableConceptMapper {
         }
 
         return extension;
+    }
+
+    private Extension createExtensionIfTextAndTermMatches(String originalText, String displayName,
+                                                          SnomedCTDescription description,
+                                                          boolean isMedicationResource) {
+
+        return determineTextFieldValue(originalText, displayName).equals(description.getTerm()) ?
+                createExtension(description.getId(), description.getTerm(), isMedicationResource) :
+                createExtension(null, null, false);
     }
 
     private CD getSnomedTranslationElement(CD codedData) {

@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "3785c4fd-0103-4cca-9156-5b408ff28e22",
+  "id": "807c6f55-41da-4fc6-a366-4ab39b0be461",
   "meta": {
     "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
   },
@@ -8,7 +8,7 @@
   "entry": [ {
     "resource": {
       "resourceType": "Patient",
-      "id": "ceeec1c5-b26b-4971-9f3c-591cdb0459bd",
+      "id": "bd64b1f1-0081-4abe-9f62-b2a859805b27",
       "meta": {
         "versionId": "1521806400000",
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -21,7 +21,7 @@
   }, {
     "resource": {
       "resourceType": "Organization",
-      "id": "bc6bab4f-bef8-49b7-9662-a588d036b057",
+      "id": "8774fca0-2b2c-4da0-ab31-2374abd6edde",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
       },
@@ -93,7 +93,7 @@
         "text": "Residential home visit note"
       } ],
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "participant": [ {
         "type": [ {
@@ -123,7 +123,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/{{LOCATION-1}}"
+          "reference": "Location/30FA9B95-7ADD-4616-A4AD-AC1AF309414C"
         }
       } ]
     }
@@ -148,7 +148,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "participant": [ {
         "type": [ {
@@ -178,7 +178,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/{{LOCATION-2}}"
+          "reference": "Location/942DC45E-D494-4FA9-8E9D-2AB72FEBEFCA"
         }
       } ]
     }
@@ -203,7 +203,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "participant": [ {
         "type": [ {
@@ -233,7 +233,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/{{LOCATION-2}}"
+          "reference": "Location/942DC45E-D494-4FA9-8E9D-2AB72FEBEFCA"
         }
       } ]
     }
@@ -258,7 +258,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "participant": [ {
         "type": [ {
@@ -288,7 +288,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/{{LOCATION-2}}"
+          "reference": "Location/942DC45E-D494-4FA9-8E9D-2AB72FEBEFCA"
         }
       } ]
     }
@@ -313,7 +313,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "participant": [ {
         "type": [ {
@@ -343,7 +343,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/{{LOCATION-2}}"
+          "reference": "Location/942DC45E-D494-4FA9-8E9D-2AB72FEBEFCA"
         }
       } ]
     }
@@ -368,7 +368,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "participant": [ {
         "type": [ {
@@ -398,7 +398,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/{{LOCATION-2}}"
+          "reference": "Location/942DC45E-D494-4FA9-8E9D-2AB72FEBEFCA"
         }
       } ]
     }
@@ -423,7 +423,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "participant": [ {
         "type": [ {
@@ -453,7 +453,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/{{LOCATION-2}}"
+          "reference": "Location/942DC45E-D494-4FA9-8E9D-2AB72FEBEFCA"
         }
       } ]
     }
@@ -478,7 +478,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "participant": [ {
         "type": [ {
@@ -508,7 +508,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/{{LOCATION-2}}"
+          "reference": "Location/942DC45E-D494-4FA9-8E9D-2AB72FEBEFCA"
         }
       } ]
     }
@@ -533,7 +533,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "participant": [ {
         "type": [ {
@@ -563,7 +563,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/{{LOCATION-2}}"
+          "reference": "Location/942DC45E-D494-4FA9-8E9D-2AB72FEBEFCA"
         }
       } ]
     }
@@ -585,7 +585,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -604,7 +604,7 @@
         }
       }, {
         "item": {
-          "reference": "List/2d9960b6-f5dd-434f-8d2e-ca17118b9dd0"
+          "reference": "List/b99daa1a-5216-4ee5-a809-dcbbb606f66f"
         }
       } ]
     }
@@ -626,7 +626,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -663,7 +663,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -700,7 +700,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/F550CC56-EF65-4934-A7B1-3DC2E02243C3"
@@ -737,7 +737,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -756,7 +756,7 @@
         }
       }, {
         "item": {
-          "reference": "List/6ec409e2-b8fc-468e-9f0d-74676c4d270e"
+          "reference": "List/ea6cf6ba-df03-44e5-9a97-24c6bc7d0f1c"
         }
       } ]
     }
@@ -778,7 +778,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/D81C5E8F-CB3A-4A78-92EA-51EC3665648E"
@@ -815,7 +815,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/8FEB11AA-5785-43D3-99A9-E9D49EAF2161"
@@ -852,7 +852,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -889,7 +889,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/DBF5776F-8A86-477C-AB98-57182A9B40FD"
@@ -911,7 +911,7 @@
   }, {
     "resource": {
       "resourceType": "List",
-      "id": "2d9960b6-f5dd-434f-8d2e-ca17118b9dd0",
+      "id": "b99daa1a-5216-4ee5-a809-dcbbb606f66f",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
       },
@@ -925,7 +925,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -962,7 +962,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -1007,7 +1007,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -1052,7 +1052,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -1101,7 +1101,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/F550CC56-EF65-4934-A7B1-3DC2E02243C3"
@@ -1123,7 +1123,7 @@
   }, {
     "resource": {
       "resourceType": "List",
-      "id": "6ec409e2-b8fc-468e-9f0d-74676c4d270e",
+      "id": "ea6cf6ba-df03-44e5-9a97-24c6bc7d0f1c",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1" ]
       },
@@ -1137,7 +1137,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -1174,7 +1174,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -1219,7 +1219,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/D81C5E8F-CB3A-4A78-92EA-51EC3665648E"
@@ -1256,7 +1256,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/8FEB11AA-5785-43D3-99A9-E9D49EAF2161"
@@ -1293,7 +1293,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -1330,7 +1330,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/DBF5776F-8A86-477C-AB98-57182A9B40FD"
@@ -1367,7 +1367,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -1404,7 +1404,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -1461,7 +1461,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -1498,7 +1498,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -1535,7 +1535,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -1572,7 +1572,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -1609,7 +1609,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -1662,7 +1662,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -1703,7 +1703,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -1740,7 +1740,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -1777,7 +1777,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/F550CC56-EF65-4934-A7B1-3DC2E02243C3"
@@ -1814,7 +1814,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -1851,7 +1851,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -1900,7 +1900,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -1941,7 +1941,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/D81C5E8F-CB3A-4A78-92EA-51EC3665648E"
@@ -1978,7 +1978,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/8FEB11AA-5785-43D3-99A9-E9D49EAF2161"
@@ -2015,7 +2015,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -2060,7 +2060,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "encounter": {
         "reference": "Encounter/DBF5776F-8A86-477C-AB98-57182A9B40FD"
@@ -2082,13 +2082,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "{{LOCATION-1}}",
+      "id": "30FA9B95-7ADD-4616-A4AD-AC1AF309414C",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "{{LOCATION-1}}"
+        "value": "30FA9B95-7ADD-4616-A4AD-AC1AF309414C"
       } ],
       "status": "active",
       "name": "Branch Surgery Rhing"
@@ -2096,13 +2096,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "{{LOCATION-2}}",
+      "id": "942DC45E-D494-4FA9-8E9D-2AB72FEBEFCA",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "{{LOCATION-2}}"
+        "value": "942DC45E-D494-4FA9-8E9D-2AB72FEBEFCA"
       } ],
       "status": "active",
       "name": "EMIS LV Test Practice 1"
@@ -2135,10 +2135,11 @@
           "system": "http://snomed.info/sct",
           "code": "182836005",
           "display": "Review of medication"
-        } ]
+        } ],
+        "text": "Medication review"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -2166,20 +2167,14 @@
       "intent": "plan",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "301485011"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "195967001",
           "display": "Asthma"
-        } ]
+        } ],
+        "text": "Asthma"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -2195,7 +2190,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "e0424f31-77ed-440e-832b-b356da9987c4",
+      "id": "ce5b491c-98e5-477f-8b95-f8b9dc654d3e",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2240,10 +2235,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/e0424f31-77ed-440e-832b-b356da9987c4"
+        "reference": "Medication/ce5b491c-98e5-477f-8b95-f8b9dc654d3e"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:31+00:00",
       "requester": {
@@ -2296,14 +2291,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/e0424f31-77ed-440e-832b-b356da9987c4"
+        "reference": "Medication/ce5b491c-98e5-477f-8b95-f8b9dc654d3e"
       },
       "effectivePeriod": {
         "start": "2010-01-13"
       },
       "dateAsserted": "2010-01-13T11:37:31+00:00",
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2313,7 +2308,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "d3aa9724-b002-4412-8773-d0281d1a7fd3",
+      "id": "32deb8d5-e669-4f76-8ff4-b1d386303262",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2349,10 +2344,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/d3aa9724-b002-4412-8773-d0281d1a7fd3"
+        "reference": "Medication/32deb8d5-e669-4f76-8ff4-b1d386303262"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:31+00:00",
       "requester": {
@@ -2405,14 +2400,14 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/d3aa9724-b002-4412-8773-d0281d1a7fd3"
+        "reference": "Medication/32deb8d5-e669-4f76-8ff4-b1d386303262"
       },
       "effectivePeriod": {
         "start": "2010-01-13"
       },
       "dateAsserted": "2010-01-13T11:37:31+00:00",
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2422,7 +2417,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "839216fb-7018-431b-bfa8-581d5b19e10c",
+      "id": "4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2467,10 +2462,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:31+00:00",
       "requester": {
@@ -2523,14 +2518,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "effectivePeriod": {
         "start": "2010-01-13"
       },
       "dateAsserted": "2010-01-13T11:37:31+00:00",
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2540,7 +2535,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "29b41ead-3823-4848-9bd8-5f4791256e54",
+      "id": "db69f7c9-1848-4dd7-bd34-f3e96f0e6b11",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2576,10 +2571,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/29b41ead-3823-4848-9bd8-5f4791256e54"
+        "reference": "Medication/db69f7c9-1848-4dd7-bd34-f3e96f0e6b11"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:31+00:00",
       "requester": {
@@ -2632,14 +2627,14 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/29b41ead-3823-4848-9bd8-5f4791256e54"
+        "reference": "Medication/db69f7c9-1848-4dd7-bd34-f3e96f0e6b11"
       },
       "effectivePeriod": {
         "start": "2010-01-13"
       },
       "dateAsserted": "2010-01-13T11:37:31+00:00",
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2649,7 +2644,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "4f3eec30-a040-41f2-ae5a-300c01c38e2a",
+      "id": "57d55182-c752-4d0f-aef8-8653e188a84a",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2658,7 +2653,8 @@
           "system": "http://snomed.info/sct",
           "code": "326324002",
           "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
-        } ]
+        } ],
+        "text": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
       }
     }
   }, {
@@ -2685,10 +2681,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/4f3eec30-a040-41f2-ae5a-300c01c38e2a"
+        "reference": "Medication/57d55182-c752-4d0f-aef8-8653e188a84a"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:31+00:00",
       "requester": {
@@ -2741,14 +2737,14 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/4f3eec30-a040-41f2-ae5a-300c01c38e2a"
+        "reference": "Medication/57d55182-c752-4d0f-aef8-8653e188a84a"
       },
       "effectivePeriod": {
         "start": "2010-01-13"
       },
       "dateAsserted": "2010-01-13T11:37:31+00:00",
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2782,10 +2778,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -2836,10 +2832,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -2866,7 +2862,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "474d5e04-afa9-4140-9a79-cfae942f48f5",
+      "id": "78911aae-3874-45eb-bc79-7b65c0b3b5a5",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2906,10 +2902,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -2960,10 +2956,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3014,10 +3010,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3068,10 +3064,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3122,10 +3118,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3176,10 +3172,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3230,10 +3226,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3284,10 +3280,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3338,10 +3334,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3392,10 +3388,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3446,10 +3442,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3500,10 +3496,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3554,10 +3550,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3608,10 +3604,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-02-10T11:06:34+00:00",
       "requester": {
@@ -3662,10 +3658,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -3716,10 +3712,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -3770,10 +3766,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -3824,10 +3820,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -3878,10 +3874,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -3932,10 +3928,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -3986,10 +3982,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -4040,10 +4036,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -4094,10 +4090,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -4148,10 +4144,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -4202,10 +4198,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -4256,10 +4252,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -4310,10 +4306,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -4364,10 +4360,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -4418,10 +4414,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -4472,10 +4468,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-17T15:34:51+00:00",
       "requester": {
@@ -4526,10 +4522,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -4580,10 +4576,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -4634,10 +4630,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -4688,10 +4684,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -4742,10 +4738,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -4796,10 +4792,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -4850,10 +4846,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -4904,10 +4900,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -4958,10 +4954,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -5012,10 +5008,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -5066,10 +5062,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -5120,10 +5116,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -5174,10 +5170,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -5228,10 +5224,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -5282,10 +5278,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -5336,10 +5332,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2011-06-20T12:36:16+00:00",
       "requester": {
@@ -5390,10 +5386,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -5444,10 +5440,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -5498,10 +5494,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -5552,10 +5548,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -5606,10 +5602,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -5660,10 +5656,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -5714,10 +5710,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -5768,10 +5764,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -5822,10 +5818,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -5876,10 +5872,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -5930,10 +5926,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -5984,10 +5980,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/474d5e04-afa9-4140-9a79-cfae942f48f5"
+        "reference": "Medication/78911aae-3874-45eb-bc79-7b65c0b3b5a5"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -6038,10 +6034,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/d3aa9724-b002-4412-8773-d0281d1a7fd3"
+        "reference": "Medication/32deb8d5-e669-4f76-8ff4-b1d386303262"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -6092,10 +6088,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/29b41ead-3823-4848-9bd8-5f4791256e54"
+        "reference": "Medication/db69f7c9-1848-4dd7-bd34-f3e96f0e6b11"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -6122,7 +6118,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "ef29d201-e61b-492a-a020-6896922f218b",
+      "id": "3d5d750e-ee9e-4908-9a59-268115d88378",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -6131,7 +6127,8 @@
           "system": "http://snomed.info/sct",
           "code": "326324002",
           "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
-        } ]
+        } ],
+        "text": "Levonorgestrel 150microgram / Ethinylestradiol 30microgram tablets"
       }
     }
   }, {
@@ -6161,10 +6158,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/ef29d201-e61b-492a-a020-6896922f218b"
+        "reference": "Medication/3d5d750e-ee9e-4908-9a59-268115d88378"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -6215,10 +6212,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -6269,10 +6266,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -6323,10 +6320,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -6377,10 +6374,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -6431,10 +6428,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -6485,10 +6482,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/839216fb-7018-431b-bfa8-581d5b19e10c"
+        "reference": "Medication/4fdc41c1-4afa-4bf0-a3a1-8d99cdef48e6"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-01-13T11:37:34+00:00",
       "requester": {
@@ -6539,10 +6536,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/d3aa9724-b002-4412-8773-d0281d1a7fd3"
+        "reference": "Medication/32deb8d5-e669-4f76-8ff4-b1d386303262"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "authoredOn": "2010-02-26T14:24:01+00:00",
       "requester": {
@@ -6593,10 +6590,11 @@
           "system": "http://snomed.info/sct",
           "code": "22298006",
           "display": "Myocardial infarction"
-        } ]
+        } ],
+        "text": "Heart attack"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6621,20 +6619,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254075012"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163030003",
           "display": "O/E - Systolic BP reading"
-        } ]
+        } ],
+        "text": "Systolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6663,20 +6655,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254076013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163031004",
           "display": "O/E - Diastolic BP reading"
-        } ]
+        } ],
+        "text": "Diastolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6705,20 +6691,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "253677014"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "162763007",
           "display": "O/E - weight"
-        } ]
+        } ],
+        "text": "O/E - weight"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6747,20 +6727,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "253669010"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "162755006",
           "display": "O/E - height"
-        } ]
+        } ],
+        "text": "O/E - height"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6789,20 +6763,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "100716012"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "60621009",
           "display": "Body mass index"
-        } ]
+        } ],
+        "text": "Body mass index"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6833,20 +6801,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "397693011"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "266894000",
           "display": "FH: Cardiovascular disease"
-        } ]
+        } ],
+        "text": "FH: Cardiovascular disease"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6878,7 +6840,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -6903,13 +6865,6 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "50032014"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "29893006",
           "display": "Peak expiratory flow measurement"
@@ -6917,7 +6872,7 @@
         "text": "Peak exp. flow rate: PEFR/PFR"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -6959,10 +6914,11 @@
           "system": "http://snomed.info/sct",
           "code": "271306003",
           "display": "Best ever peak flow rate (respiratory)"
-        } ]
+        } ],
+        "text": "Best ever peak flow rate"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -6991,13 +6947,6 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "406311013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "271508001",
           "display": "Expected peak flow rate (respiratory)"
@@ -7005,7 +6954,7 @@
         "text": "Predicted peak flow"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7034,20 +6983,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "264548013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "170639000",
           "display": "Peak flow meter at home"
-        } ]
+        } ],
+        "text": "Peak flow meter at home"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7072,20 +7015,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "264534013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "170625000",
           "display": "Inhaler technique - good"
-        } ]
+        } ],
+        "text": "Inhaler technique - good"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7110,20 +7047,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "264545011"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "170636007",
           "display": "Asthma never disturbs sleep"
-        } ]
+        } ],
+        "text": "Asthma never disturbs sleep"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7148,20 +7079,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "264567012"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "170656008",
           "display": "Asthma sometimes restricts exercise"
-        } ]
+        } ],
+        "text": "Asthma sometimes restricts exercise"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7186,20 +7111,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "126835018"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "76376003",
           "display": "Endometriosis of uterus"
-        } ]
+        } ],
+        "text": "Endometriosis of uterus"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7224,20 +7143,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "36112013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "21522001",
           "display": "Abdominal pain"
-        } ]
+        } ],
+        "text": "Abdominal pain"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7275,10 +7188,11 @@
           "system": "http://snomed.info/sct",
           "code": "80182007",
           "display": "Irregular periods"
-        } ]
+        } ],
+        "text": "Irregular menstrual cycle"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7304,20 +7218,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "252082012"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "161779006",
           "display": "H/O: menstrual disorder"
-        } ]
+        } ],
+        "text": "H/O: menstrual disorder"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7342,20 +7250,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "250049017"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "160393005",
           "display": "FH: Menstrual disorder"
-        } ]
+        } ],
+        "text": "FH: Menstrual disorder"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7381,20 +7283,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "250049017"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "160393005",
           "display": "FH: Menstrual disorder"
-        } ]
+        } ],
+        "text": "FH: Menstrual disorder"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7420,20 +7316,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254075012"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163030003",
           "display": "O/E - Systolic BP reading"
-        } ]
+        } ],
+        "text": "Systolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -7462,20 +7352,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254076013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163031004",
           "display": "O/E - Diastolic BP reading"
-        } ]
+        } ],
+        "text": "Diastolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -7504,13 +7388,6 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "304838011"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "198288003",
           "display": "Anxiety state"
@@ -7518,7 +7395,7 @@
         "text": "Anxiety states"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/DBF5776F-8A86-477C-AB98-57182A9B40FD"
@@ -7544,20 +7421,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "395173015"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "265943003",
           "display": "Etcher/engraver"
-        } ]
+        } ],
+        "text": "Etcher/engraver"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "effectiveDateTime": "1988-01-01",
       "issued": "2010-01-13T15:41:41.000+00:00",
@@ -7593,10 +7464,11 @@
           "system": "http://snomed.info/sct",
           "code": "21719001",
           "display": "Allergic rhinitis due to pollen"
-        } ]
+        } ],
+        "text": "Allergic rhinitis due to pollens"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "effectiveDateTime": "2010-01-13",
       "issued": "2010-01-13T11:41:11.000+00:00",
@@ -7631,10 +7503,11 @@
           "system": "http://snomed.info/sct",
           "code": "76880004",
           "display": "Angelman syndrome"
-        } ]
+        } ],
+        "text": "Happy puppet syndrome"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "effectiveDateTime": "2010-01-13",
       "issued": "2010-01-13T14:57:25.000+00:00",
@@ -7670,10 +7543,11 @@
           "system": "http://snomed.info/sct",
           "code": "22298006",
           "display": "Myocardial infarction"
-        } ]
+        } ],
+        "text": "Heart attack"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "effectiveDateTime": "2010-01-13",
       "issued": "2010-01-13T14:57:39.000+00:00",
@@ -7696,20 +7570,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2548578015"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "417528008",
           "display": "Consent given for upload to local shared electronic record"
-        } ]
+        } ],
+        "text": "Consent given for upload to local shared electronic record"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "effectiveDateTime": "2010-06-09T15:08:00+00:00",
       "issued": "2010-06-09T15:04:09.000+00:00",
@@ -7731,20 +7599,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254075012"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163030003",
           "display": "O/E - Systolic BP reading"
-        } ]
+        } ],
+        "text": "Systolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:27:49.000+00:00",
@@ -7770,20 +7632,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254076013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163031004",
           "display": "O/E - Diastolic BP reading"
-        } ]
+        } ],
+        "text": "Diastolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:27:49.000+00:00",
@@ -7809,20 +7665,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "397879018"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "267032009",
           "display": "Tired all the time"
-        } ]
+        } ],
+        "text": "Tired all the time"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:31:24.000+00:00",
@@ -7845,20 +7695,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "475210013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "359814004",
           "display": "Monkeypox"
-        } ]
+        } ],
+        "text": "Monkeypox"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:32:51.000+00:00",
@@ -7910,10 +7754,11 @@
           "system": "http://snomed.info/sct",
           "code": "22298006",
           "display": "Myocardial infarction"
-        } ]
+        } ],
+        "text": "Heart attack"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -7957,20 +7802,14 @@
       } ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "126835018"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "76376003",
           "display": "Endometriosis of uterus"
-        } ]
+        } ],
+        "text": "Endometriosis of uterus"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -8027,10 +7866,11 @@
           "system": "http://snomed.info/sct",
           "code": "21719001",
           "display": "Allergic rhinitis due to pollen"
-        } ]
+        } ],
+        "text": "Allergic rhinitis due to pollens"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T11:41:11+00:00",
@@ -8076,20 +7916,14 @@
       } ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1488801013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "395102008",
           "display": "H/O: aspirin allergy"
-        } ]
+        } ],
+        "text": "H/O: aspirin allergy"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T11:41:26+00:00",
@@ -8134,13 +7968,6 @@
       } ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "3743500010"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "91935009",
           "display": "Allergy to peanut"
@@ -8148,7 +7975,7 @@
         "text": "Peanut allergy"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "onsetDateTime": "2010-01-13",
       "abatementDateTime": "2010-03-23",
@@ -8192,20 +8019,14 @@
       } ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2159181010"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "407580005",
           "display": "H/O: warfarin allergy"
-        } ]
+        } ],
+        "text": "H/O: warfarin allergy"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T14:57:10+00:00",
@@ -8261,10 +8082,11 @@
           "system": "http://snomed.info/sct",
           "code": "76880004",
           "display": "Angelman syndrome"
-        } ]
+        } ],
+        "text": "Happy puppet syndrome"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T14:57:25+00:00",
@@ -8320,10 +8142,11 @@
           "system": "http://snomed.info/sct",
           "code": "22298006",
           "display": "Myocardial infarction"
-        } ]
+        } ],
+        "text": "Heart attack"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T14:57:39+00:00",
@@ -8366,20 +8189,14 @@
       } ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "475210013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "359814004",
           "display": "Monkeypox"
-        } ]
+        } ],
+        "text": "Monkeypox"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "onsetDateTime": "2010-07-14",
       "assertedDate": "2010-07-14T15:32:51+00:00",
@@ -8412,7 +8229,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -8444,7 +8261,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -8476,7 +8293,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -8508,7 +8325,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/F550CC56-EF65-4934-A7B1-3DC2E02243C3"
@@ -8518,7 +8335,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "Quick Note Clinical Purpose: Discussion with Patient / Relative\n                                                            1.This is a line of text with a line break at the end.\n                                                            2.This is a line of text with a line break at the end.\n                                                            3.This is a line of text with a line break at the end.\n                                                            4.This is a line of text with a line break at the end.\n\n                                                            The Line above this one was blank (with a line break)\n\n                                                            This is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line,  this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line,and this is the end of the long line.\n\n                                                            ThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesENDOFTEXT\n\n                                                            The line below contains special characters...\n                                                            ¬`1234567890!\"£$%^&*()_+=-{}][~@#':;<>?,./|\\"
+      "comment": "Quick Note Clinical Purpose: Discussion with Patient / Relative                                                            1.This is a line of text with a line break at the end.                                                            2.This is a line of text with a line break at the end.                                                            3.This is a line of text with a line break at the end.                                                            4.This is a line of text with a line break at the end.                                                            The Line above this one was blank (with a line break)                                                            This is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line,  this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line,and this is the end of the long line.                                                            ThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesENDOFTEXT                                                            The line below contains special characters...                                                            ¬`1234567890!\"£$%^&*()_+=-{}][~@#':;<>?,./|\\"
     }
   }, {
     "resource": {
@@ -8540,7 +8357,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -8572,7 +8389,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/D81C5E8F-CB3A-4A78-92EA-51EC3665648E"
@@ -8582,7 +8399,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "Quick Note Clinical Purpose: Child Health\n                                                            hhhhhhhhh"
+      "comment": "Quick Note Clinical Purpose: Child Health                                                            hhhhhhhhh"
     }
   }, {
     "resource": {
@@ -8604,7 +8421,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/8FEB11AA-5785-43D3-99A9-E9D49EAF2161"
@@ -8636,7 +8453,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -8668,7 +8485,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:27:49.000+00:00",
@@ -8691,20 +8508,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254063019"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163020007",
           "display": "O/E - blood pressure reading"
-        } ]
+        } ],
+        "text": "O/E - blood pressure reading"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -8729,20 +8540,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254063019"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163020007",
           "display": "O/E - blood pressure reading"
-        } ]
+        } ],
+        "text": "O/E - blood pressure reading"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "context": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -8767,20 +8572,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254063019"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163020007",
           "display": "O/E - blood pressure reading"
-        } ]
+        } ],
+        "text": "O/E - blood pressure reading"
       },
       "subject": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:27:49.000+00:00",
@@ -8804,13 +8603,6 @@
       "category": [ "environment" ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "3743500010"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "91935009",
           "display": "Allergy to peanut"
@@ -8818,7 +8610,7 @@
         "text": "Peanut allergy"
       },
       "patient": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T11:37:56+00:00",
@@ -8848,20 +8640,14 @@
       "category": [ "medication" ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1488801013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "395102008",
           "display": "H/O: aspirin allergy"
-        } ]
+        } ],
+        "text": "H/O: aspirin allergy"
       },
       "patient": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T11:41:26+00:00",
@@ -8891,13 +8677,6 @@
       "category": [ "environment" ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "3743500010"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "91935009",
           "display": "Allergy to peanut"
@@ -8905,7 +8684,7 @@
         "text": "Peanut allergy"
       },
       "patient": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T14:04:45+00:00",
@@ -8935,20 +8714,14 @@
       "category": [ "medication" ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2159181010"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "407580005",
           "display": "H/O: warfarin allergy"
-        } ]
+        } ],
+        "text": "H/O: warfarin allergy"
       },
       "patient": {
-        "reference": "Patient/ceeec1c5-b26b-4971-9f3c-591cdb0459bd"
+        "reference": "Patient/bd64b1f1-0081-4abe-9f62-b2a859805b27"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T14:57:10+00:00",

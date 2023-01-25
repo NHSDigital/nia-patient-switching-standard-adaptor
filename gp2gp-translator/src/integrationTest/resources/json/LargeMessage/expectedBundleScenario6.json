@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "0ab84162-19fd-4038-91e4-02f819156a3a",
+  "id": "7195fe97-7e18-4048-9583-cb6478a4cfbd",
   "meta": {
     "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
   },
@@ -8,14 +8,14 @@
   "entry": [ {
     "resource": {
       "resourceType": "Patient",
-      "id": "8804c8be-212b-44a4-9402-c543aa047258",
+      "id": "d84ff297-9cbc-4665-ab54-9c19314b0edb",
       "meta": {
         "versionId": "1521806400000",
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
       },
       "identifier": [ {
         "system": "https://fhir.nhs.uk/Id/nhs-number",
-        "value": "4657351033"
+        "value": "5329898212"
       } ],
       "managingOrganization": {
         "reference": "Organization/0B98DC27-535D-4BC1-A99F-AA5880A446E1"
@@ -24,7 +24,7 @@
   }, {
     "resource": {
       "resourceType": "Organization",
-      "id": "70dad06f-ce0b-482e-b086-a6aa7b1e2080",
+      "id": "b7ea18bb-f798-4bf1-b4d4-544e6e52f2c7",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
       },
@@ -124,7 +124,7 @@
         "text": "Other"
       } ],
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "participant": [ {
         "type": [ {
@@ -172,7 +172,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "encounter": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -209,7 +209,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "encounter": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -250,7 +250,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "encounter": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -319,7 +319,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "encounter": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -352,13 +352,6 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "253669010"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "162755006",
           "display": "O/E - height"
@@ -366,7 +359,7 @@
         "text": "O/E - height"
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -397,13 +390,6 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "253677014"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "162763007",
           "display": "O/E - weight"
@@ -411,7 +397,7 @@
         "text": "O/E - weight"
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -446,7 +432,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "250307017"
+              "valueId": "1221271018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Alcohol consumption"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -456,7 +445,7 @@
         "text": "Alcohol consumption"
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -487,13 +476,6 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "250373019"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "160617001",
           "display": "Stopped smoking"
@@ -501,7 +483,7 @@
         "text": "Stopped smoking"
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -526,13 +508,6 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254075012"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163030003",
           "display": "O/E - Systolic BP reading"
@@ -540,7 +515,7 @@
         "text": "O/E - Systolic BP reading"
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -571,13 +546,6 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254076013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163031004",
           "display": "O/E - Diastolic BP reading"
@@ -585,7 +553,7 @@
         "text": "O/E - Diastolic BP reading"
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -622,7 +590,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -654,7 +622,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -686,7 +654,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -719,20 +687,20 @@
         "text": "Other Attachment"
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "indexed": "2018-06-12T08:29:15.000+00:00",
       "author": [ {
         "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
       } ],
       "custodian": {
-        "reference": "Organization/70dad06f-ce0b-482e-b086-a6aa7b1e2080"
+        "reference": "Organization/b7ea18bb-f798-4bf1-b4d4-544e6e52f2c7"
       },
       "content": [ {
         "attachment": {
           "contentType": "image/tiff",
-          "url": "17f220bd-8793-44fc-a518-a50da34c8ed1_588210BB-401D-41F9-84D2-978697CEEFE5_00011000.tif",
-          "title": "17f220bd-8793-44fc-a518-a50da34c8ed1_588210BB-401D-41F9-84D2-978697CEEFE5_00011000.tif"
+          "url": "4eba0476-bb86-4237-a219-206bc827fdf4_588210BB-401D-41F9-84D2-978697CEEFE5_00011000.tif",
+          "title": "4eba0476-bb86-4237-a219-206bc827fdf4_588210BB-401D-41F9-84D2-978697CEEFE5_00011000.tif"
         }
       } ],
       "context": {
@@ -759,7 +727,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "250307017"
+              "valueId": "1221271018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Alcohol consumption"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -769,7 +740,7 @@
         "text": "Alcohol consumption"
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -794,13 +765,6 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "15046012"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "8517006",
           "display": "Ex-smoker"
@@ -808,7 +772,7 @@
         "text": "Ex smoker"
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
@@ -833,13 +797,6 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "254063019"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "163020007",
           "display": "O/E - blood pressure reading"
@@ -847,7 +804,7 @@
         "text": "O/E - blood pressure reading"
       },
       "subject": {
-        "reference": "Patient/8804c8be-212b-44a4-9402-c543aa047258"
+        "reference": "Patient/d84ff297-9cbc-4665-ab54-9c19314b0edb"
       },
       "context": {
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"

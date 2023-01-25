@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "5c8b2941-5d92-45c7-bb14-8df9ad3693fe",
+  "id": "6cbc9922-e85f-4272-baa0-db9522d32771",
   "meta": {
     "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
   },
@@ -8,7 +8,7 @@
   "entry": [ {
     "resource": {
       "resourceType": "Patient",
-      "id": "a346b9d6-9583-4014-b05b-40c43c22fdc4",
+      "id": "ca719e30-7366-4a2f-9be0-33968b2f77b8",
       "meta": {
         "versionId": "1521806400000",
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -21,7 +21,7 @@
   }, {
     "resource": {
       "resourceType": "Organization",
-      "id": "f0e55c3b-0ba5-47fe-b632-7d3287f4dfe4",
+      "id": "78b7880a-0196-42f1-9d2b-03d95f23f451",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
       },
@@ -79,7 +79,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "participant": [ {
         "type": [ {
@@ -109,7 +109,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/{{LOCATION-1}}"
+          "reference": "Location/54BF938A-3049-4F09-9748-9F934B0801C1"
         }
       } ]
     }
@@ -131,7 +131,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "encounter": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -168,7 +168,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "encounter": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -221,7 +221,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "encounter": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -258,7 +258,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "encounter": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -295,7 +295,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "encounter": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -332,7 +332,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "encounter": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -377,7 +377,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "encounter": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -403,13 +403,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "{{LOCATION-1}}",
+      "id": "54BF938A-3049-4F09-9748-9F934B0801C1",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "{{LOCATION-1}}"
+        "value": "54BF938A-3049-4F09-9748-9F934B0801C1"
       } ],
       "status": "active",
       "name": "EMIS LV Test Practice 1"
@@ -431,7 +431,7 @@
         "text": "Fissure sealant required"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "context": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -461,7 +461,7 @@
         "text": "Dental recall - high caries in mother and siblings"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "occurrenceDateTime": "2015-10-12T13:12:00+00:00",
       "authoredOn": "2010-10-12T13:50:58+00:00",
@@ -477,7 +477,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "0967d2f3-ebcc-47ee-917c-d5ca7dc36879",
+      "id": "8d12f36a-84af-4b95-bd80-6a447f2ff7ad",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -486,7 +486,8 @@
           "system": "http://snomed.info/sct",
           "code": "324607004",
           "display": "Ciprofloxacin 250mg tablets"
-        } ]
+        } ],
+        "text": "Ciprofloxacin 250mg tablets"
       }
     }
   }, {
@@ -513,10 +514,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/0967d2f3-ebcc-47ee-917c-d5ca7dc36879"
+        "reference": "Medication/8d12f36a-84af-4b95-bd80-6a447f2ff7ad"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "authoredOn": "2010-02-26T11:08:17+00:00",
       "requester": {
@@ -566,14 +567,14 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/0967d2f3-ebcc-47ee-917c-d5ca7dc36879"
+        "reference": "Medication/8d12f36a-84af-4b95-bd80-6a447f2ff7ad"
       },
       "effectivePeriod": {
         "start": "2010-02-26"
       },
       "dateAsserted": "2010-02-26T11:08:17+00:00",
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "taken": "unk",
       "dosage": [ {
@@ -596,7 +597,7 @@
         "text": "Surveillance"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "context": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -623,7 +624,7 @@
         "text": "Threats/reports of violence"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "context": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -651,7 +652,7 @@
         "text": "Patient died"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "context": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -678,7 +679,7 @@
         "text": "Betel nut chewer"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "context": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -706,7 +707,7 @@
         "text": "H/O: allergies"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "context": {
         "reference": "Encounter/5649F991-91C0-4A01-A9CA-7C12F4032DD6"
@@ -732,20 +733,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "487634016"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "38070000",
           "display": "Cohabiting"
-        } ]
+        } ],
+        "text": "Cohabiting"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "effectiveDateTime": "2010-01-14",
       "issued": "2010-01-14T09:42:02.000+00:00",
@@ -773,7 +768,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "effectiveDateTime": "2010-01-14T09:42:00+00:00",
       "issued": "2010-01-14T09:42:02.000+00:00",
@@ -808,10 +803,11 @@
           "system": "http://snomed.info/sct",
           "code": "160540005",
           "display": "Roman Catholic, follower of religion"
-        } ]
+        } ],
+        "text": "Roman Catholic"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "effectiveDateTime": "2010-01-14T09:42:00+00:00",
       "issued": "2010-01-14T09:42:02.000+00:00",
@@ -833,20 +829,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2160072013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "408522002",
           "display": "Main spoken language Gaelic"
-        } ]
+        } ],
+        "text": "Main spoken language Gaelic"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "effectiveDateTime": "2010-01-14T09:42:00+00:00",
       "issued": "2010-01-14T09:42:02.000+00:00",
@@ -868,20 +858,14 @@
       "status": "final",
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "310539013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "202307002",
           "display": "Ankylosis of the elbow joint"
-        } ]
+        } ],
+        "text": "Ankylosis of the elbow joint"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "effectiveDateTime": "2010-02-22",
       "issued": "2010-02-22T13:41:20.000+00:00",
@@ -906,7 +890,7 @@
         "text": "Cervical smear adequate"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "effectiveDateTime": "2010-10-01",
       "issued": "2010-10-01T10:00:06.000+00:00",
@@ -942,10 +926,11 @@
           "system": "http://snomed.info/sct",
           "code": "76880004",
           "display": "Angelman syndrome"
-        } ]
+        } ],
+        "text": "Happy puppet syndrome"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "effectiveDateTime": "2010-10-12",
       "issued": "2010-10-12T13:50:55.000+00:00",
@@ -984,13 +969,6 @@
       } ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "433133014"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "292967008",
           "display": "Amoxycillin adverse reaction"
@@ -998,7 +976,7 @@
         "text": "Adverse reaction to amoxycillin"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "1978-12-31",
       "assertedDate": "2010-01-14T09:53:33+00:00",
@@ -1047,7 +1025,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2009-01-12",
       "abatementDateTime": "2012-05-17",
@@ -1097,7 +1075,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "abatementDateTime": "2010-05-24",
@@ -1143,13 +1121,6 @@
       } ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "3743556014"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "91930004",
           "display": "Allergy to edible egg"
@@ -1157,7 +1128,7 @@
         "text": "Egg allergy"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "assertedDate": "2010-01-14T09:53:42+00:00",
@@ -1204,7 +1175,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "assertedDate": "2010-01-14T09:54:12+00:00",
@@ -1253,7 +1224,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "abatementDateTime": "2010-01-14",
@@ -1310,10 +1281,11 @@
           "system": "http://snomed.info/sct",
           "code": "417424008",
           "display": "History of - combined calcium and vitamin D3 preparation allergy"
-        } ]
+        } ],
+        "text": "H/O: combined calcium and vitamin D3 preparation allergy"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "abatementDateTime": "2012-05-17",
@@ -1355,20 +1327,14 @@
       } ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "310539013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "202307002",
           "display": "Ankylosis of the elbow joint"
-        } ]
+        } ],
+        "text": "Ankylosis of the elbow joint"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-02-22",
       "assertedDate": "2010-02-22T13:41:20+00:00",
@@ -1413,7 +1379,7 @@
         "text": "Cervical smear adequate"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-10-01",
       "assertedDate": "2010-10-01T10:00:06+00:00",
@@ -1473,10 +1439,11 @@
           "system": "http://snomed.info/sct",
           "code": "76880004",
           "display": "Angelman syndrome"
-        } ]
+        } ],
+        "text": "Happy puppet syndrome"
       },
       "subject": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-10-12",
       "assertedDate": "2010-10-12T13:50:55+00:00",
@@ -1513,7 +1480,7 @@
         "text": "Adverse reactions"
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-23T13:27:00+00:00",
       "assertedDate": "2010-01-23T13:27:34+00:00",
@@ -1549,13 +1516,6 @@
       "category": [ "medication" ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "432677013"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "292534001",
           "display": "Atropine adverse reaction"
@@ -1563,7 +1523,7 @@
         "text": "Adverse reaction to atropine"
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-23T13:27:00+00:00",
       "assertedDate": "2010-01-23T13:27:34+00:00",
@@ -1593,13 +1553,6 @@
       "category": [ "medication" ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "433133014"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "292967008",
           "display": "Amoxycillin adverse reaction"
@@ -1607,7 +1560,7 @@
         "text": "Adverse reaction to amoxycillin"
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "1978-12-31",
       "assertedDate": "2010-01-14T09:53:33+00:00",
@@ -1634,13 +1587,6 @@
       "category": [ "medication" ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "433133014"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "292967008",
           "display": "Amoxycillin adverse reaction"
@@ -1648,7 +1594,7 @@
         "text": "Adverse reaction to amoxycillin"
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "1980-03-21",
       "assertedDate": "2010-01-14T09:53:33+00:00",
@@ -1681,7 +1627,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2009-01-12",
       "assertedDate": "2010-01-14T09:53:56+00:00",
@@ -1710,7 +1656,7 @@
         "text": "Adverse reaction to Ethyol"
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "assertedDate": "2010-01-14T09:49:44+00:00",
@@ -1743,7 +1689,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "assertedDate": "2010-01-14T09:49:56+00:00",
@@ -1773,13 +1719,6 @@
       "category": [ "environment" ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "3743556014"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "91930004",
           "display": "Allergy to edible egg"
@@ -1787,7 +1726,7 @@
         "text": "Egg allergy"
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "assertedDate": "2010-01-14T09:53:42+00:00",
@@ -1820,7 +1759,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "assertedDate": "2010-01-14T09:53:56+00:00",
@@ -1853,7 +1792,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "assertedDate": "2010-01-14T09:54:12+00:00",
@@ -1883,20 +1822,14 @@
       "category": [ "environment" ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "442105017"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "300909004",
           "display": "Allergic reaction to wasp sting"
-        } ]
+        } ],
+        "text": "Allergic reaction to wasp sting"
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "assertedDate": "2010-01-14T09:57:28+00:00",
@@ -1932,7 +1865,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "assertedDate": "2010-01-14T09:57:57+00:00",
@@ -1965,7 +1898,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "assertedDate": "2010-01-14T09:57:57+00:00",
@@ -2005,10 +1938,11 @@
           "system": "http://snomed.info/sct",
           "code": "417424008",
           "display": "History of - combined calcium and vitamin D3 preparation allergy"
-        } ]
+        } ],
+        "text": "H/O: combined calcium and vitamin D3 preparation allergy"
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-01-14",
       "assertedDate": "2010-01-14T10:05:55+00:00",
@@ -2037,7 +1971,7 @@
         "text": "Adverse reaction to Erythromid"
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-08-09",
       "assertedDate": "2010-08-09T12:04:28+00:00",
@@ -2067,20 +2001,14 @@
       "category": [ "medication" ],
       "code": {
         "coding": [ {
-          "extension": [ {
-            "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-            "extension": [ {
-              "url": "descriptionId",
-              "valueId": "251834017"
-            } ]
-          } ],
           "system": "http://snomed.info/sct",
           "code": "161600004",
           "display": "H/O: erythromycin allergy"
-        } ]
+        } ],
+        "text": "H/O: erythromycin allergy"
       },
       "patient": {
-        "reference": "Patient/a346b9d6-9583-4014-b05b-40c43c22fdc4"
+        "reference": "Patient/ca719e30-7366-4a2f-9be0-33968b2f77b8"
       },
       "onsetDateTime": "2010-10-12T13:12:00+00:00",
       "assertedDate": "2010-10-12T13:50:58+00:00",
