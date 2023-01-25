@@ -139,8 +139,8 @@ public class E2EMappingIT extends BaseEhrHandler {
             "entry[10].resource.location[0].location.reference",
             "entry[11].resource.location[0].location.reference",
             "entry[12].resource.location[0].location.reference",
-            "entry[46].resource.id",
-            "entry[46].resource.identifier[0].value"
+            "entry[45].resource.id",
+            "entry[45].resource.identifier[0].value"
         );
 
         executeTest(inputFileName, ignoredFields);
@@ -204,8 +204,8 @@ public class E2EMappingIT extends BaseEhrHandler {
                 "entry[12].resource.location[0].location.reference",
                 "entry[13].resource.location[0].location.reference",
                 "entry[14].resource.location[0].location.reference",
-                "entry[49].resource.id",
-                "entry[49].resource.identifier[0].value"
+                "entry[48].resource.id",
+                "entry[48].resource.identifier[0].value"
         );
 
         executeTest(inputFileName, ignoredFields);
@@ -238,10 +238,10 @@ public class E2EMappingIT extends BaseEhrHandler {
                 "entry[9].resource.location[0].location.reference",
                 "entry[10].resource.location[0].location.reference",
                 "entry[11].resource.location[0].location.reference",
-                "entry[51].resource.id",
-                "entry[51].resource.identifier[0].value",
-                "entry[52].resource.id",
-                "entry[52].resource.identifier[0].value"
+                "entry[49].resource.id",
+                "entry[49].resource.identifier[0].value",
+                "entry[50].resource.id",
+                "entry[50].resource.identifier[0].value"
         );
 
         executeTest(inputFileName, ignoredFields);
@@ -259,8 +259,8 @@ public class E2EMappingIT extends BaseEhrHandler {
                 "entry[7].resource.location[0].location.reference",
                 "entry[8].resource.location[0].location.reference",
                 "entry[9].resource.location[0].location.reference",
-                "entry[53].resource.id",
-                "entry[53].resource.identifier[0].value"
+                "entry[49].resource.id",
+                "entry[49].resource.identifier[0].value"
 
         );
 
