@@ -40,6 +40,7 @@ public class ResourceReferenceUtil {
         ehrComposition.getComponent().forEach(component -> {
             addPlanStatementEntry(component.getPlanStatement(), entryReferences);
             addRequestStatementEntry(component.getRequestStatement(), entryReferences);
+            addLinkSetEntry(component.getLinkSet(), entryReferences);
             addObservationStatementEntry(component.getObservationStatement(), entryReferences, null);
             addNarrativeStatementEntry(component.getNarrativeStatement(), entryReferences);
             addMedicationEntry(component.getMedicationStatement(), entryReferences);

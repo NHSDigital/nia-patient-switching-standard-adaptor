@@ -122,8 +122,6 @@ public class EncounterMapper {
         List<Reference> entryReferences = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, entryReferences);
         entryReferences.forEach(reference -> addEntry(topic, reference));
-        var relatedProblems = getRelatedProblemsForFlatConsultation(ehrComposition);
-        relatedProblems.forEach(topic::addExtension);
 
         consultation.addEntry(new ListEntryComponent(new Reference(topic)));
         topics.add(topic);
@@ -143,11 +141,6 @@ public class EncounterMapper {
 
             topics.add(topic);
         });
-    }
-
-    private List<Extension> getRelatedProblemsForFlatConsultation(RCMRMT030101UK04EhrComposition ehrComposition) {
-         var components = ehrComposition.getComponent();
-         return buildRelatedProblemExtensions(getLinkSetNamedStatementIds(components), getLinkSets(ehrComposition));
     }
 
     private List<Extension> getRelatedProblemsForStructuredConsultation(RCMRMT030101UK04CompoundStatement topicCompoundStatement,

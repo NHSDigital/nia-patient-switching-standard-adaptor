@@ -268,13 +268,7 @@ public class EncounterMapperTest {
         assertThat(consultation.getEntryFirstRep().getItem().getReference()).isEqualTo(ENCOUNTER_ID);
 
         var relatedProblemExt = topic.getExtensionsByUrl(RELATED_PROBLEM_EXT_URL);
-        assertThat(relatedProblemExt.size()).isOne();
-
-        var relatedProblemTarget = relatedProblemExt.get(0).getExtensionsByUrl(RELATED_PROBLEM_TARGET_URL);
-        assertThat(relatedProblemTarget.size()).isOne();
-
-        var relatedProblemReference = (Reference) relatedProblemTarget.get(0).getValue();
-        assertThat(relatedProblemReference.getReference()).isEqualTo(LINKSET_REFERENCE);
+        assertThat(relatedProblemExt.isEmpty()).isTrue();
     }
 
     @Test
