@@ -57,6 +57,7 @@ public class MedicationRequestPlanMapperTest {
         "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1";
     private static final String PRESCRIPTION_TYPE_URL =
         "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1";
+    private static final String DEFAULT_STATUS_REASON = "No information available";
 
     private static final int ONE = 1;
     private static final int TWO = 2;
@@ -176,7 +177,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingDiscontinue_With_MissingPertinentInformationAndCodeDisplayPresent_Expect_DisplayAddedAsReason() {
+    public void When_MappingDiscontinue_With_MissingPertinentInformationAndCodeDisplayPresent_Expect_DefaultTextAddedAsReason() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract7.xml");
         Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UK04Authorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
@@ -192,11 +193,11 @@ public class MedicationRequestPlanMapperTest {
         assertThat(statusReasonExt.size()).isEqualTo(1);
 
         var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-        assertThat(statusReason.getText()).isEqualTo("Medication Course Ended");
+        assertThat(statusReason.getText()).isEqualTo(DEFAULT_STATUS_REASON);
     }
 
     @Test
-    public void When_MappingDiscontinue_With_MissingPertinentInformationAndCodeDisplay_Expect_OriginalTextAddedAsReason() {
+    public void When_MappingDiscontinue_With_MissingPertinentInformationAndCodeDisplay_Expect_DefaultTextAddedAsReason() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract8.xml");
         Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UK04Authorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
@@ -212,11 +213,11 @@ public class MedicationRequestPlanMapperTest {
         assertThat(statusReasonExt.size()).isEqualTo(1);
 
         var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-        assertThat(statusReason.getText()).isEqualTo("Ended");
+        assertThat(statusReason.getText()).isEqualTo(DEFAULT_STATUS_REASON);
     }
 
     @Test
-    public void When_MappingDiscontinue_With_MissingPertinentInformationAndCodeDisplayAndOriginalText_Expect_DefaultTextAddedAsReason() {
+    public void When_MappingDiscontinue_With_MissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract9.xml");
         Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UK04Authorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
@@ -232,7 +233,7 @@ public class MedicationRequestPlanMapperTest {
         assertThat(statusReasonExt.size()).isEqualTo(1);
 
         var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-        assertThat(statusReason.getText()).isEqualTo("No information available");
+        assertThat(statusReason.getText()).isEqualTo(DEFAULT_STATUS_REASON);
     }
 
     private Optional<RCMRMT030101UK04Authorise> extractSupplyAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement) {

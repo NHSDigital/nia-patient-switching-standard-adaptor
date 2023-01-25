@@ -190,14 +190,7 @@ public class MedicationRequestPlanMapper {
             .filter(StringUtils::isNotBlank)
             .collect(Collectors.joining(", "));
 
-        String displayName = discontinue.getCode().getDisplayName();
-        String altText = displayName != null ? displayName : discontinue.getCode().getOriginalText();
-
-        if (altText == null) {
-            altText = MISSING_REASON_STRING;
-        }
-
-        return pertinentInfo.isEmpty() ? altText : pertinentInfo;
+        return pertinentInfo.isEmpty() ? MISSING_REASON_STRING : pertinentInfo;
     }
 
     private Optional<Reference> extractPriorPrescription(RCMRMT030101UK04Authorise supplyAuthorise) {

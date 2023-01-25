@@ -9356,7 +9356,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "Medication Course Ended"
+                  "text": "No information available"
                 }
               }
             ]
