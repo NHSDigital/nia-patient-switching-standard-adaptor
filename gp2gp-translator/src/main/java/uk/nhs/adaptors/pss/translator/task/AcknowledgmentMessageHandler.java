@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.FINAL_ACK_SENT;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,13 +30,20 @@ public class AcknowledgmentMessageHandler {
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws SAXException {
         Document document = xPathService.parseDocumentFromXml(inboundMessage.getPayload());
         String ackTypeCode = xPathService.getNodeValue(document, ACK_TYPE_CODE_XPATH);
-        MigrationStatus migrationStatus = getMigrationStatus(ackTypeCode);
+        MigrationStatus newMigrationStatus = getMigrationStatus(ackTypeCode);
+        MigrationStatus currentMigrationStatus = migrationStatusLogService.getLatestMigrationStatusLog(conversationId).getMigrationStatus();
 
-        if (migrationStatus != null) {
-            migrationStatusLogService.addMigrationStatusLog(migrationStatus, conversationId, null);
-        } else {
+        if (newMigrationStatus == null) {
             LOGGER.info("Unknown acknowledgement typeCode [{}]", ackTypeCode);
+            return;
         }
+
+        if (currentMigrationStatus.equals(FINAL_ACK_SENT)) {
+            LOGGER.info("Received an ack with type code {}, but the migration is complete and the EHR has been accepted", ackTypeCode);
+            return;
+        }
+
+        migrationStatusLogService.addMigrationStatusLog(newMigrationStatus, conversationId, null);
     }
 
     private MigrationStatus getMigrationStatus(String ackTypeCode) {
