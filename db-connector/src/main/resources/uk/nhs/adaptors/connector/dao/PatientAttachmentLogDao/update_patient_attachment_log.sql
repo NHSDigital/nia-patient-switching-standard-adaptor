@@ -8,6 +8,7 @@ SET
     skeleton = COALESCE(:skeleton, PAL.skeleton),
     uploaded = COALESCE(:uploaded, PAL.uploaded),
     length_num = COALESCE(:lengthNum, PAL.length_num),
-    order_num = COALESCE(:orderNum, PAL.order_num)
+    order_num = COALESCE(:orderNum, PAL.order_num),
+    post_processed_length_num = COALESCE(:postProcessedLengthNum, PAL.post_processed_length_num)
 FROM patient_migration_request AS PMR
 WHERE PMR.conversation_id = :conversationId AND PAL.mid = :mid

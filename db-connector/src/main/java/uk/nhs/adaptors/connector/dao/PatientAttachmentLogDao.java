@@ -27,7 +27,7 @@ public interface PatientAttachmentLogDao {
         @Bind() Boolean uploaded,
         @Bind() Integer orderNum,
         @Bind() Integer lengthNum,
-        @Bind() Integer postProcessLengthNum
+        @Bind() Integer postProcessedLengthNum
     );
 
     @SqlUpdate("delete_patient_attachment_log")

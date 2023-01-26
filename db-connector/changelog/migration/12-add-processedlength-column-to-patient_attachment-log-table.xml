@@ -11,9 +11,7 @@
 	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
     <changeSet id="12" author="mwheeler">
         <addColumn schemaName="public" tableName="patient_attachment_log">
-            <column name="post_processed_length_num" type="int4" defaultValue="0">
-                <constraints nullable="false" unique="true"/>
-            </column>
+            <column name="post_processed_length_num" type="int4" defaultValue="0" />
         </addColumn>
     </changeSet>
 </databaseChangeLog>
