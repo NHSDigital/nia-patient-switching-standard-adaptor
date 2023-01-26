@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.COMPLETED;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.STOPPED;
 
@@ -225,7 +226,7 @@ public class MedicationRequestPlanMapper {
             && COMPLETE.equals(supplyAuthorise.getStatusCode().getCode())) {
             return COMPLETED;
         } else {
-            return MedicationRequest.MedicationRequestStatus.ACTIVE;
+            return ACTIVE;
         }
     }
 
