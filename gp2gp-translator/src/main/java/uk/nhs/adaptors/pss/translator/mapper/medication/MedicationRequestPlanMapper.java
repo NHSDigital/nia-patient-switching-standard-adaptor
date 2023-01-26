@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.STOPPED;
 
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDispenseRequestPeriodEnd;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
@@ -12,6 +13,7 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -79,7 +81,6 @@ public class MedicationRequestPlanMapper {
             MedicationRequest medicationRequest = createMedicationRequestSkeleton(ehrSupplyAuthoriseId);
 
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, practiseCode));
-            medicationRequest.setStatus(buildMedicationRequestStatus(supplyAuthorise));
             medicationRequest.setIntent(PLAN);
             medicationRequest.addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()));
             medicationRequest.setDispenseRequest(buildDispenseRequestForAuthorise(supplyAuthorise, medicationStatement));
@@ -92,15 +93,12 @@ public class MedicationRequestPlanMapper {
             buildCondensedExtensions(REPEAT_INFORMATION_URL, repeatInformationExtensions)
                 .ifPresent(medicationRequest::addExtension);
 
-            List<Extension> statusChangeExtensions = new ArrayList<>();
-            discontinue
-                .map(this::buildStatusChangeDateExtension)
-                .ifPresent(statusChangeExtensions::add);
+            List<Extension> statusChangeExtensions = discontinue
+                .map(this::getStatusChangedExtensions)
+                .orElse(Collections.emptyList());
 
-            discontinue
-                .map(this::extractTermText)
-                .map(this::buildStatusReasonCodeableConceptExtension)
-                .ifPresent(statusChangeExtensions::add);
+            var status = statusChangeExtensions.isEmpty() ? buildMedicationRequestStatus(supplyAuthorise) : STOPPED;
+            medicationRequest.setStatus(status);
 
             buildCondensedExtensions(STATUS_CHANGE_URL, statusChangeExtensions)
                 .ifPresent(medicationRequest::addExtension);
@@ -113,6 +111,20 @@ public class MedicationRequestPlanMapper {
             return medicationRequest;
         }
         return null;
+    }
+
+    private List<Extension> getStatusChangedExtensions(RCMRMT030101UK04Discontinue discontinue) {
+        List<Extension> statusChangeExtensions = new ArrayList<>();
+        var dateExt = buildStatusChangeDateExtension(discontinue);
+
+        if (dateExt.isPresent()) {
+            var reasonText = extractTermText(discontinue);
+
+            statusChangeExtensions.add(dateExt.orElseThrow());
+            statusChangeExtensions.add(buildStatusReasonCodeableConceptExtension(reasonText));
+        }
+
+        return statusChangeExtensions;
     }
 
     private Optional<RCMRMT030101UK04Discontinue> extractMatchingDiscontinue(String supplyAuthoriseId,
@@ -236,12 +248,14 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private Extension buildStatusChangeDateExtension(RCMRMT030101UK04Discontinue discontinue) {
+    private Optional<Extension> buildStatusChangeDateExtension(RCMRMT030101UK04Discontinue discontinue) {
         if (discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasValue()) {
-            return new Extension(STATUS_CHANGE_DATE_URL,
-                DateFormatUtil.parseToDateTimeType(discontinue.getAvailabilityTime().getValue()));
+            return Optional.of(
+                new Extension(STATUS_CHANGE_DATE_URL,
+                    DateFormatUtil.parseToDateTimeType(discontinue.getAvailabilityTime().getValue()))
+            );
         }
-        return null;
+        return Optional.empty();
     }
 
     private Extension buildStatusReasonCodeableConceptExtension(String statusReason) {
