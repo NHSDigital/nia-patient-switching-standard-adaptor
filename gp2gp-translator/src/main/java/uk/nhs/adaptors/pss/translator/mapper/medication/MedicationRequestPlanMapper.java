@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.COMPLETED;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.STOPPED;
 
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDispenseRequestPeriodEnd;
@@ -97,7 +98,9 @@ public class MedicationRequestPlanMapper {
                 .map(this::getStatusChangedExtensions)
                 .orElse(Collections.emptyList());
 
-            var status = statusChangeExtensions.isEmpty() ? buildMedicationRequestStatus(supplyAuthorise) : STOPPED;
+            var status = discontinue.isPresent()
+                ? buildMedicationRequestStatus(statusChangeExtensions)
+                : buildMedicationRequestStatus(supplyAuthorise);
             medicationRequest.setStatus(status);
 
             buildCondensedExtensions(STATUS_CHANGE_URL, statusChangeExtensions)
@@ -220,10 +223,19 @@ public class MedicationRequestPlanMapper {
     private MedicationRequest.MedicationRequestStatus buildMedicationRequestStatus(RCMRMT030101UK04Authorise supplyAuthorise) {
         if (supplyAuthorise.hasStatusCode() && supplyAuthorise.getStatusCode().hasCode()
             && COMPLETE.equals(supplyAuthorise.getStatusCode().getCode())) {
-            return MedicationRequest.MedicationRequestStatus.COMPLETED;
+            return COMPLETED;
         } else {
             return MedicationRequest.MedicationRequestStatus.ACTIVE;
         }
+    }
+
+    private MedicationRequest.MedicationRequestStatus buildMedicationRequestStatus(List<Extension> statusChangedExt) {
+
+        if (statusChangedExt.isEmpty()) {
+            return COMPLETED;
+        }
+
+        return STOPPED;
     }
 
     private MedicationRequest.MedicationRequestDispenseRequestComponent buildDispenseRequestForAuthorise(

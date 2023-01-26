@@ -35,7 +35,7 @@
                                     <id root="TEST_ID"/>
                                     <code code="9bG0.00" codeSystem="2.16.840.1.113883.2.1.6.2"
                                           displayName="NHS prescription"/>
-                                    <statusCode code="COMPLETE"/>
+                                    <statusCode code="ACTIVE"/>
                                     <effectiveTime>
                                         <high value="20060427"/>
                                         <center nullFlavor="NI"/>
