@@ -145,7 +145,7 @@ public class BundleMapperServiceTest {
     @Test
     public void testAllMappersHaveBeenUsed() throws BundleMappingException {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
-        Bundle bundle = bundleMapperService.mapToBundle(xml, LOSING_ODS_CODE);
+        Bundle bundle = bundleMapperService.mapToBundle(xml, LOSING_ODS_CODE, new ArrayList<>());
 
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(organizationMapper).mapAuthorOrganization(anyString());
@@ -176,7 +176,7 @@ public class BundleMapperServiceTest {
             .mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
         verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
         verify(documentReferenceMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
-            any(Organization.class));
+            any(Organization.class), anyList());
         verify(templateMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
             anyString());
         verify(allergyIntoleranceMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
