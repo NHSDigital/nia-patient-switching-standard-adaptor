@@ -65,7 +65,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "registrationStatement",
     "requestStatement"
 })
-public class RCMRMT030101UK04Component4 {
+public class RCMRMT030101UK04Component4 implements LinkableComponent {
 
     @XmlElement(name = "CompoundStatement")
     protected RCMRMT030101UK04CompoundStatement compoundStatement;
