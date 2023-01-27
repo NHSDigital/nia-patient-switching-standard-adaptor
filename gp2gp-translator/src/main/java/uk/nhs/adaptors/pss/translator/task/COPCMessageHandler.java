@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
@@ -279,9 +278,8 @@ public class COPCMessageHandler {
                 conversationId
             );
 
-          attachmentHandlerService.storeAttachments(attachment, conversationId);
+            attachmentHandlerService.storeAttachments(attachment, conversationId);
         }
-
     }
 
     private boolean checkIfFileTypeSupported(String fileType) {

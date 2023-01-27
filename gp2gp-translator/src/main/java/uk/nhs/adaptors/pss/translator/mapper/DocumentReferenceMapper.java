@@ -170,7 +170,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
                 attachment.setUrl(referenceToExternalDocument.getText().getReference().getValue());
                 attachment.setTitle(buildFileName(referenceToExternalDocument.getText().getReference().getValue()));
 
-                if(attachmentSize != null) {
+                if (attachmentSize != null) {
                     attachment.setSize(attachmentSize);
                 }
 
@@ -211,13 +211,13 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     private Integer getAttachmentSize(List<PatientAttachmentLog> patientAttachmentLogs, String filename) {
 
-        if(patientAttachmentLogs != null && !patientAttachmentLogs.isEmpty()) {
+        if (patientAttachmentLogs != null && !patientAttachmentLogs.isEmpty()) {
             var attachmentSize = patientAttachmentLogs.stream()
                     .filter(patientAttachmentLog -> filename.contains(patientAttachmentLog.getFilename()))
                     .findFirst()
                     .map(PatientAttachmentLog::getPostProcessedLengthNum);
 
-            if(attachmentSize.isPresent()) {
+            if (attachmentSize.isPresent()) {
                 return attachmentSize.get();
             }
         }

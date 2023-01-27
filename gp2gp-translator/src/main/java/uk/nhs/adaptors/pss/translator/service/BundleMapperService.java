@@ -84,8 +84,8 @@ public class BundleMapperService {
     private final SpecimenMapper specimenMapper;
     private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
-    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage, String losingPracticeOdsCode, List<PatientAttachmentLog> attachments) throws BundleMappingException {
-
+    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage, String losingPracticeOdsCode,
+                              List<PatientAttachmentLog> attachments) throws BundleMappingException {
         try {
 
             Bundle bundle = generator.generateBundle();
