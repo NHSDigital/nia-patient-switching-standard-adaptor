@@ -2726,7 +2726,6 @@
         "attachment": {
           "contentType": "text/plain",
           "url": "file://localhost/0FA498E2-DBC9-4A45-92BF-03A31844F490_Test_att_txt.txt",
-          "size": 0,
           "title": "0FA498E2-DBC9-4A45-92BF-03A31844F490_Test_att_txt.txt"
         }
       } ],
@@ -2772,7 +2771,6 @@
         "attachment": {
           "contentType": "application/msword",
           "url": "file://localhost/95B3D82A-BA16-4771-B2A4-03F9C0CCF87F_Test_att_doc.doc",
-          "size": 0,
           "title": "95B3D82A-BA16-4771-B2A4-03F9C0CCF87F_Test_att_doc.doc"
         }
       } ],
@@ -2818,7 +2816,6 @@
         "attachment": {
           "contentType": "GP2GP generated placeholder. Original document not available. See notes for details",
           "url": "file://localhost/3E12AB25-9A18-4239-93A6-2592F6DA9289_Test_att_bmp.bmp",
-          "size": 0,
           "title": "3E12AB25-9A18-4239-93A6-2592F6DA9289_Test_att_bmp.bmp"
         }
       } ],
@@ -2864,7 +2861,6 @@
         "attachment": {
           "contentType": "GP2GP generated placeholder. Original document not available. See notes for details",
           "url": "file://localhost/3AE27487-78D3-43CF-8356-3BF156F9B479_Test_att_gif.GIF",
-          "size": 0,
           "title": "3AE27487-78D3-43CF-8356-3BF156F9B479_Test_att_gif.GIF"
         }
       } ],
@@ -2910,7 +2906,6 @@
         "attachment": {
           "contentType": "GP2GP generated placeholder. Original document not available. See notes for details",
           "url": "file://localhost/F4AC3D0F-06D5-4A2C-8686-17B23A46F0A7_Test_att_jpg.JPG",
-          "size": 0,
           "title": "F4AC3D0F-06D5-4A2C-8686-17B23A46F0A7_Test_att_jpg.JPG"
         }
       } ],
@@ -2956,7 +2951,6 @@
         "attachment": {
           "contentType": "text/plain",
           "url": "file://localhost/997CDD95-120C-4B48-99FF-D73170F275AB_Fix%20for%20Consultation%20Place%20of%20Procedure.txt",
-          "size": 0,
           "title": "997CDD95-120C-4B48-99FF-D73170F275AB_Fix%20for%20Consultation%20Place%20of%20Procedure.txt"
         }
       } ],
@@ -3002,7 +2996,6 @@
         "attachment": {
           "contentType": "text/rtf",
           "url": "file://localhost/2AD22965-C1CE-4AC0-A013-64806E23AEFD_tmpATT_1.rtf",
-          "size": 0,
           "title": "2AD22965-C1CE-4AC0-A013-64806E23AEFD_tmpATT_1.rtf"
         }
       } ],
