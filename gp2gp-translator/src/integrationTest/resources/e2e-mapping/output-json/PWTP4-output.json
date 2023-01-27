@@ -4343,7 +4343,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true Patient no longer requires these "
+                  "text": "Patient no longer requires these"
                 }
               }
             ]
@@ -4367,7 +4367,7 @@
             "value": "057C98BF-CE2C-4F14-AF6B-EA7099088F0B"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "intent": "plan",
         "medicationReference": {
           "reference": "Medication/1cb87799-4298-43c0-b526-104ff7b4d7cd"
@@ -4959,7 +4959,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true zzzzzss "
+                  "text": "zzzzzss"
                 }
               }
             ]
@@ -4983,7 +4983,7 @@
             "value": "44771183-640A-4363-A14F-3096E8FAEED4"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "intent": "plan",
         "medicationReference": {
           "reference": "Medication/014b5b50-718f-4b6e-92ef-0f997a9dda4d"
@@ -5278,7 +5278,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true allergy "
+                  "text": "allergy"
                 }
               }
             ]
@@ -5302,7 +5302,7 @@
             "value": "8627572C-BAE5-4325-897E-F346C0B1F91B"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "intent": "plan",
         "medicationReference": {
           "reference": "Medication/510efe79-fe85-4c29-a608-22396af3cd96"
@@ -7445,7 +7445,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true Allergy "
+                  "text": "Allergy"
                 }
               }
             ]
@@ -7469,7 +7469,7 @@
             "value": "54BE52A7-6C07-4402-A57F-024B3C6A391E"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "intent": "plan",
         "medicationReference": {
           "reference": "Medication/a0c09dc7-eafb-4b5e-9a3a-332c0cc745bb"
@@ -7754,7 +7754,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true Alergy "
+                  "text": "Alergy"
                 }
               }
             ]
@@ -7778,7 +7778,7 @@
             "value": "60F73E74-25C6-4614-9507-B52134733085"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "intent": "plan",
         "medicationReference": {
           "reference": "Medication/6fe495da-1920-4551-ae08-be19d3b83084"
@@ -8145,7 +8145,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true John said "
+                  "text": "John said"
                 }
               }
             ]
@@ -8169,7 +8169,7 @@
             "value": "C3DE337C-18BE-4379-9EE8-38683327B53A"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "intent": "plan",
         "medicationReference": {
           "reference": "Medication/4a362b9b-6d58-45a4-b5d0-63b3dd4c873c"
@@ -9052,7 +9052,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true kjhkjkjhjkjkj "
+                  "text": "kjhkjkjhjkjkj"
                 }
               }
             ]
@@ -9076,7 +9076,7 @@
             "value": "BA6AA3F4-100F-4994-A12E-F96E7C931917"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "intent": "plan",
         "medicationReference": {
           "reference": "Medication/7e4a75e6-21d1-4b9d-88e9-581cc514d486"
@@ -9356,7 +9356,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true "
+                  "text": "No information available"
                 }
               }
             ]
@@ -9380,7 +9380,7 @@
             "value": "B8EFEECF-A365-4C69-AB6E-6C5EFB0F71BD"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "intent": "plan",
         "medicationReference": {
           "reference": "Medication/899ea7fe-366d-4a9e-8806-c0bafac12b17"
@@ -13301,7 +13301,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true some reason "
+                  "text": "some reason"
                 }
               }
             ]
@@ -13325,7 +13325,7 @@
             "value": "8ACB6933-1543-47CF-B166-9938ABFCFDEE"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "intent": "plan",
         "medicationReference": {
           "reference": "Medication/6fe495da-1920-4551-ae08-be19d3b83084"
@@ -13616,7 +13616,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true Recreate 22047 "
+                  "text": "Recreate 22047"
                 }
               }
             ]
@@ -13640,7 +13640,7 @@
             "value": "AB0A4AA9-79BB-4663-84E5-AD10DA05D50F"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "intent": "plan",
         "medicationReference": {
           "reference": "Medication/2cbe3115-5f61-495a-8267-b42be82f3d9c"
@@ -13770,7 +13770,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "true End course for acute post G -> T switch for 22047 "
+                  "text": "End course for acute post G -> T switch for 22047"
                 }
               }
             ]
@@ -13794,7 +13794,7 @@
             "value": "1458EF9E-D0EA-4745-BB46-C38668E0EC0C"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "intent": "plan",
         "medicationReference": {
           "reference": "Medication/27ced5eb-791c-4766-900b-b6486ca9639f"
