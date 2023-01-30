@@ -5934,13 +5934,13 @@
             "reference": "MedicationRequest/87102979-C329-4194-819B-D057AAEA625B"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/810fca00-091b-48be-80e0-343e20cac7b6"
         },
         "effectivePeriod": {
           "start": "2010-01-14",
-          "end": "2010-02-10"
+          "end": "2010-02-10T13:15:26+00:00"
         },
         "dateAsserted": "2010-01-14",
         "subject": {
@@ -6316,13 +6316,13 @@
             "reference": "MedicationRequest/EA0D236C-2CD7-49EB-80D2-9AD58C3969F4"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/ebfad4df-a985-409b-a474-789390b02cd4"
         },
         "effectivePeriod": {
           "start": "2010-01-14",
-          "end": "2010-01-14"
+          "end": "2010-01-14T10:38:27+00:00"
         },
         "dateAsserted": "2010-01-14",
         "subject": {
@@ -6861,13 +6861,13 @@
             "reference": "MedicationRequest/E2E527ED-E7FB-4161-9D3C-04FF121BF267"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/e8255910-06da-4bd0-80f5-f3fceecc3be7"
         },
         "effectivePeriod": {
           "start": "2010-01-14",
-          "end": "2010-01-15"
+          "end": "2010-01-15T09:58:37+00:00"
         },
         "dateAsserted": "2010-01-14",
         "subject": {
@@ -7326,13 +7326,13 @@
             "reference": "MedicationRequest/5B72BB13-10A8-4AB3-8E13-B2C8428677BB"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/b6f82a45-3e3f-46d7-bb98-0d45dcef1413"
         },
         "effectivePeriod": {
           "start": "2010-01-14",
-          "end": "2010-01-18"
+          "end": "2010-01-18T14:33:16+00:00"
         },
         "dateAsserted": "2010-01-14",
         "subject": {
@@ -12191,13 +12191,13 @@
             "reference": "MedicationRequest/9A11E815-9320-4952-96BA-CC83BECF62A3"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/1c97181f-4dac-4a37-b5bb-82b76c02b417"
         },
         "effectivePeriod": {
           "start": "2010-01-18",
-          "end": "2010-01-18"
+          "end": "2010-01-18T14:37:22+00:00"
         },
         "dateAsserted": "2010-01-18",
         "subject": {
@@ -12576,13 +12576,13 @@
             "reference": "MedicationRequest/EF7BFB69-2694-46AE-8845-A49B83A88F16"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/10dd5ffe-9586-4b64-80ef-9f95a77cbecb"
         },
         "effectivePeriod": {
           "start": "2010-01-18",
-          "end": "2011-09-28"
+          "end": "2011-09-28T09:22:32+00:00"
         },
         "dateAsserted": "2010-01-18",
         "subject": {
@@ -13041,13 +13041,13 @@
             "reference": "MedicationRequest/6F3E8A7A-7C40-4ACF-AD97-43A2E5DA6B29"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/d9271371-6470-4fe6-9222-95c4c90f222d"
         },
         "effectivePeriod": {
           "start": "2010-02-10",
-          "end": "2010-08-09"
+          "end": "2010-08-09T13:27:43+00:00"
         },
         "dateAsserted": "2010-02-10",
         "subject": {
@@ -13962,13 +13962,13 @@
             "reference": "MedicationRequest/BCF39DFD-A6ED-43F7-A9BE-5A25EB970C8B"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/1f05b691-e16a-4a51-a6a6-71f732695635"
         },
         "effectivePeriod": {
           "start": "2010-03-23",
-          "end": "2010-03-23"
+          "end": "2010-03-23T16:41:06+00:00"
         },
         "dateAsserted": "2010-03-23",
         "subject": {
@@ -14485,13 +14485,13 @@
             "reference": "MedicationRequest/64D224E0-DE90-49BB-AF2D-ECA90BA2CE0D"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/df926634-ac87-4c85-af22-143bfd7fe40e"
         },
         "effectivePeriod": {
           "start": "2010-03-23",
-          "end": "2010-08-09"
+          "end": "2010-08-09T13:27:58+00:00"
         },
         "dateAsserted": "2010-03-23",
         "subject": {
@@ -20869,13 +20869,13 @@
             "reference": "MedicationRequest/E96B55C1-7C8E-40CA-A6C0-A2951CFEE860"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/5eee072e-ae4b-479d-98a1-42bf30e21089"
         },
         "effectivePeriod": {
           "start": "2010-08-12",
-          "end": "2010-08-17"
+          "end": "2010-08-16T23:00:00+00:00"
         },
         "dateAsserted": "2010-08-12",
         "subject": {
@@ -23548,13 +23548,13 @@
             "reference": "MedicationRequest/2810EE1B-93EE-4417-B70B-C692AD0B2A17"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/5eee072e-ae4b-479d-98a1-42bf30e21089"
         },
         "effectivePeriod": {
           "start": "2010-08-17",
-          "end": "2010-08-17"
+          "end": "2010-08-17T10:03:37+00:00"
         },
         "dateAsserted": "2010-08-17",
         "subject": {
@@ -24998,13 +24998,13 @@
             "reference": "MedicationRequest/447AE7B0-FA1A-4BEA-A90F-68C35240C5F9"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/0c5b1cbb-63b7-418d-9415-c5a0ba0c5cc6"
         },
         "effectivePeriod": {
           "start": "2010-10-01",
-          "end": "2010-10-01"
+          "end": "2010-10-01T11:08:19+00:00"
         },
         "dateAsserted": "2010-10-01",
         "subject": {
@@ -25433,13 +25433,13 @@
             "reference": "MedicationRequest/77730A08-B78F-448A-8810-D6CBBF86420E"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/d9271371-6470-4fe6-9222-95c4c90f222d"
         },
         "effectivePeriod": {
           "start": "2011-01-20",
-          "end": "2011-01-20"
+          "end": "2011-01-20T14:38:23+00:00"
         },
         "dateAsserted": "2011-01-20",
         "subject": {
@@ -26415,13 +26415,13 @@
             "reference": "MedicationRequest/047E10B7-9A38-46A4-B34C-CEBD35C8A4B7"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/39c7ef46-628c-46e0-9963-da229270a000"
         },
         "effectivePeriod": {
           "start": "2011-11-15",
-          "end": "2011-11-15"
+          "end": "2011-11-15T14:52:00+00:00"
         },
         "dateAsserted": "2011-11-15",
         "subject": {
@@ -26792,13 +26792,13 @@
             "reference": "MedicationRequest/1751F68E-56EA-4DAE-904B-A1028952B01F"
           }
         ],
-        "status": "completed",
+        "status": "stopped",
         "medicationReference": {
           "reference": "Medication/44123956-bb4e-4417-a3ff-cf7e3c1dbb8f"
         },
         "effectivePeriod": {
           "start": "2011-11-15",
-          "end": "2011-11-15"
+          "end": "2011-11-15T15:02:50+00:00"
         },
         "dateAsserted": "2011-11-15",
         "subject": {
