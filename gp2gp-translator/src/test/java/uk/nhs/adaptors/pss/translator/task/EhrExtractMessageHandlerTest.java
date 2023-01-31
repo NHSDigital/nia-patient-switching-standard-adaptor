@@ -176,7 +176,7 @@ public class EhrExtractMessageHandlerTest {
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         // mapped item is private to the class, so we cannot test an exact object
-        verify(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any());
+        verify(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), any());
     }
 
     @Test
@@ -339,7 +339,7 @@ public class EhrExtractMessageHandlerTest {
                 .thenReturn(inboundMessage.getPayload());
 
         doThrow(new BundleMappingException("Test Exception"))
-            .when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any());
+            .when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), any());
 
         assertThrows(BundleMappingException.class, () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
     }
@@ -360,7 +360,7 @@ public class EhrExtractMessageHandlerTest {
                 .winningPracticeOdsCode(WINNING_ODE_CODE)
                 .build();
 
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE), any())).thenReturn(bundle);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(attachmentReferenceUpdaterService
                 .updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()))
@@ -477,7 +477,7 @@ public class EhrExtractMessageHandlerTest {
         prepareMigrationRequestAndMigrationStatusMocks();
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-        verify(bundleMapperService, times(0)).mapToBundle(any(), any());
+        verify(bundleMapperService, times(0)).mapToBundle(any(), any(), any());
     }
 
     @Test
@@ -704,7 +704,7 @@ public class EhrExtractMessageHandlerTest {
         // imported from main on merge
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE), any())).thenReturn(bundle);
         when(attachmentReferenceUpdaterService
                 .updateReferenceToAttachment(
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()

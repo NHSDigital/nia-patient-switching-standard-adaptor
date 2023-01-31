@@ -7,7 +7,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallSt
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -94,6 +94,12 @@ public class COPCMessageHandler {
                 } else {
                     storeCOPCAttachment(patientAttachmentLog, inboundMessage, conversationId);
                     patientAttachmentLog.setUploaded(true);
+
+                    var size = (Integer) inboundMessage.getAttachments()
+                            .stream()
+                            .mapToInt(a -> a.getPayload().length()).sum();
+
+                    patientAttachmentLog.setPostProcessedLengthNum(size);
                     patientAttachmentLogService.updateAttachmentLog(patientAttachmentLog, conversationId);
                 }
             }
@@ -132,7 +138,7 @@ public class COPCMessageHandler {
         }
 
         var conversationAttachmentLogs = patientAttachmentLogService.findAttachmentLogs(conversationId);
-        // if a message has arrived early, it will not have a parent ID so we can cancel early.
+        // if a message has arrived early, it will not have a parent ID, so we can cancel early.
         // However, an index created by the ehr message will also have no parent id
         // Logic below manages that case to make sure index COPC messages trigger the merge check
         var indexMidReference = currentAttachmentLog.getMid();
@@ -146,7 +152,7 @@ public class COPCMessageHandler {
             if (childFragments.isEmpty()) {
                 return;
             } else {
-                // otherwise lets select the first child fragment to run the process as normal
+                // otherwise let's select the first child fragment to run the process as normal
                 currentAttachmentLog = childFragments.get(0);
             }
         }
@@ -181,10 +187,15 @@ public class COPCMessageHandler {
 
             // if we have been given a file length, validate it
             var canCheckAttachmentLength = parentLogFile.getLengthNum() > 0;
+
             if (canCheckAttachmentLength) {
                 if (payload.length() != parentLogFile.getLengthNum()) {
                     throw new ExternalAttachmentProcessingException("Illegal file length detected");
                 }
+            }
+
+            if (payload != null) {
+                parentLogFile.setPostProcessedLengthNum(payload.length());
             }
 
             var mergedLargeAttachment = createNewLargeAttachmentInList(parentLogFile, payload);
@@ -193,7 +204,9 @@ public class COPCMessageHandler {
             var updatedLog = PatientAttachmentLog.builder()
                 .mid(parentLogFile.getMid())
                 .uploaded(true)
+                .postProcessedLengthNum(parentLogFile.getPostProcessedLengthNum())
                 .build();
+
             patientAttachmentLogService.updateAttachmentLog(updatedLog, conversationId);
 
             attachmentLogFragments.forEach((PatientAttachmentLog log) -> {
@@ -213,15 +226,15 @@ public class COPCMessageHandler {
                 + "OriginalBase64=" + largeFileLog.getBase64().toString() + " "
                 + "Length=" + largeFileLog.getLengthNum();
 
-        return Arrays.asList(
-            InboundMessage.Attachment.builder()
-                .payload(payload)
-                .isBase64(largeFileLog
-                    .getBase64()
-                    .toString())
-                .contentType(largeFileLog.getContentType())
-                .description(fileDescription)
-                .build()
+        return Collections.singletonList(
+                InboundMessage.Attachment.builder()
+                        .payload(payload)
+                        .isBase64(largeFileLog
+                                .getBase64()
+                                .toString())
+                        .contentType(largeFileLog.getContentType())
+                        .description(fileDescription)
+                        .build()
         );
     }
 
@@ -234,9 +247,12 @@ public class COPCMessageHandler {
         UnsupportedFileTypeException {
         String fragmentMid = getFragmentMidId(ebXmlDocument);
         String fileName = getFileNameForFragment(inboundMessage, payload);
+        var attachment = inboundMessage.getAttachments().get(0);
+        var postProcessedLength = inboundMessage.getAttachments().get(0).getPayload().length();
 
-        PatientAttachmentLog fragmentAttachmentLog
-            = buildFragmentAttachmentLog(fragmentMid, fileName, inboundMessage.getAttachments().get(0).getContentType(), patientId);
+        PatientAttachmentLog fragmentAttachmentLog = buildFragmentAttachmentLog(fragmentMid, fileName,
+                attachment.getContentType(), patientId, postProcessedLength);
+
         storeCOPCAttachment(fragmentAttachmentLog, inboundMessage, conversationId);
         fragmentAttachmentLog.setUploaded(true);
 
@@ -261,9 +277,9 @@ public class COPCMessageHandler {
                 List.of(inboundMessage.getAttachments().get(0).getPayload()),
                 conversationId
             );
+
             attachmentHandlerService.storeAttachments(attachment, conversationId);
         }
-
     }
 
     private boolean checkIfFileTypeSupported(String fileType) {
@@ -289,12 +305,14 @@ public class COPCMessageHandler {
         }
     }
 
-    private PatientAttachmentLog buildFragmentAttachmentLog(String fragmentMid, String fileName, String contentType, int patientId) {
+    private PatientAttachmentLog buildFragmentAttachmentLog(
+            String fragmentMid, String fileName, String contentType, int patientId, int postProcessedLength) {
         return PatientAttachmentLog.builder()
             .mid(fragmentMid)
             .filename(fileName)
             .contentType(contentType)
             .patientMigrationReqId(patientId)
+            .postProcessedLengthNum(postProcessedLength)
             .build();
     }
 
@@ -318,8 +336,8 @@ public class COPCMessageHandler {
         PatientAttachmentLog parentAttachmentLog, String conversationId, InboundMessage message) throws ParseException, SAXException,
         ValidationException, InlineAttachmentProcessingException {
 
-        List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
-        attachmentReferenceDescription.addAll(xmlParseUtilService.getEbxmlAttachmentsData(message));
+        List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>(
+                xmlParseUtilService.getEbxmlAttachmentsData(message));
 
         // first item is always the message payload reference so skip it
         for (var index = 1; index < attachmentReferenceDescription.size(); index++) {

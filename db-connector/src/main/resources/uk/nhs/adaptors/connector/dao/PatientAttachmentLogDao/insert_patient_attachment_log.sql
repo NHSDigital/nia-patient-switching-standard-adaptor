@@ -10,7 +10,8 @@ INSERT INTO patient_attachment_log(
                                    skeleton,
                                    uploaded,
                                    order_num,
-                                   length_num
+                                   length_num,
+                                   post_processed_length_num
                                    )
 VALUES (
         :mid,
@@ -24,5 +25,6 @@ VALUES (
         :skeleton,
         COALESCE(:uploaded, false),
         COALESCE(:orderNum, 0),
-        :lengthNum
+        :lengthNum,
+        :postProcessedLengthNum
         );
