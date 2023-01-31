@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
@@ -369,7 +370,7 @@ public class InboundMessageMergingServiceTests {
         when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn(inboundMessage.getPayload());
         when(skeletonProcessingService.updateInboundMessageWithSkeleton(any(), any(), any())).thenReturn(inboundMessage);
 
-        doThrow(BundleMappingException.class).when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any());
+        doThrow(BundleMappingException.class).when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), anyList());
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
