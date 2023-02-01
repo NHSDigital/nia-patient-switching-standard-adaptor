@@ -89,10 +89,10 @@ public class CodeableConceptMapper {
             if (preferredAndDescriptionValuesPresent(preferredTerm, description)) {
                 if (isDescriptionPreferredTerm(description, preferredTerm)) {
                     return createCodeableConcept(conceptId, SNOMED_SYSTEM, displayName, determineTextFieldValue(originalText, displayName),
-                        createExtension(null, null, isMedicationResource));
+                        createExtension(preferredTerm.getId(), preferredTerm.getTerm(), isMedicationResource));
                 } else {
                     return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(), determineTextFieldValue(originalText, displayName),
-                            createExtensionIfTextAndTermMatches(originalText, displayName, description, isMedicationResource));
+                            createExtension(null, description.getTerm(), isMedicationResource));
                 }
             }
         } else {
@@ -107,7 +107,7 @@ public class CodeableConceptMapper {
                 }
 
                 return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(), text,
-                    createExtension(null, null, isMedicationResource));
+                    createExtension(description.getId(), null, isMedicationResource));
             }
         }
 
@@ -205,15 +205,6 @@ public class CodeableConceptMapper {
         }
 
         return extension;
-    }
-
-    private Extension createExtensionIfTextAndTermMatches(String originalText, String displayName,
-                                                          SnomedCTDescription description,
-                                                          boolean isMedicationResource) {
-
-        return determineTextFieldValue(originalText, displayName).equals(description.getTerm()) ?
-                createExtension(description.getId(), description.getTerm(), isMedicationResource) :
-                createExtension(null, null, false);
     }
 
     private CD getSnomedTranslationElement(CD codedData) {
