@@ -174,7 +174,7 @@ public class DocumentReferenceTest {
     }
 
     private void assertAttachmentData(DocumentReference documentReference) {
-        assertThat(documentReference.getContent().get(0).getAttachment().getTitle()).isEqualTo(FILENAME);
+        assertThat(documentReference.getContent().get(0).getAttachment().getTitle()).isNull();
         assertThat(documentReference.getContent().get(0).getAttachment().getUrl()).isEqualTo(URL);
         assertThat(documentReference.getContent().get(0).getAttachment().getContentType()).isEqualTo(CONTENT_TYPE);
         assertThat(documentReference.getContent().get(0).getAttachment().getSize()).isEqualTo(ATTACHMENT_SIZE);

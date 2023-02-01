@@ -168,7 +168,6 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
             if (!isAbsentAttachment(narrativeStatement)) {
                 attachment.setUrl(referenceToExternalDocument.getText().getReference().getValue());
-                attachment.setTitle(buildFileName(referenceToExternalDocument.getText().getReference().getValue()));
 
                 if (attachmentSize != null) {
                     attachment.setSize(attachmentSize);
