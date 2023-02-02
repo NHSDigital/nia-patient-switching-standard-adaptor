@@ -2,11 +2,15 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.COMPLETED;
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.STOPPED;
 import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementTaken.UNK;
 
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDispenseRequestPeriodEnd;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildMedicationStatementEffectivePeriodEnd;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractDispenseRequestPeriodStart;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractMatchingDiscontinue;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -21,12 +25,14 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
+import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
+import org.hl7.v3.RCMRMT030101UK04Discontinue;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
@@ -62,6 +68,9 @@ public class MedicationStatementMapper {
         RCMRMT030101UK04Authorise supplyAuthorise, String practiseCode, DateTimeType authoredOn) {
         var ehrSupplyAuthoriseIdExtract = extractEhrSupplyAuthoriseId(supplyAuthorise);
         if (ehrSupplyAuthoriseIdExtract.isPresent()) {
+            var discontinue =
+                extractMatchingDiscontinue(ehrSupplyAuthoriseIdExtract.orElseThrow(), ehrExtract);
+
             String ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
             MedicationStatement medicationStatement1 = new MedicationStatement();
 
@@ -75,7 +84,6 @@ public class MedicationStatementMapper {
             ));
             medicationStatement1.addExtension(generatePrescribingAgencyExtension());
 
-            medicationStatement1.setStatus(buildMedicationStatementStatus(supplyAuthorise));
             medicationStatement1.addDosage(buildDosage(medicationStatement.getPertinentInformation()));
 
             extractHighestSupplyPrescribeTime(ehrExtract, ehrSupplyAuthoriseId)
@@ -85,27 +93,65 @@ public class MedicationStatementMapper {
             medicationMapper.extractMedicationReference(medicationStatement)
                 .ifPresent(medicationStatement1::setMedication);
 
-            MedicationMapperUtils.extractDispenseRequestPeriodStart(supplyAuthorise)
-                .ifPresentOrElse(dateTimeType -> {
-                    medicationStatement1.setEffective(
-                        buildDispenseRequestPeriodEnd(supplyAuthorise, medicationStatement).setStartElement(dateTimeType));
-                }, () -> {
-                    medicationStatement1.setEffective(buildDispenseRequestPeriodEnd(supplyAuthorise, medicationStatement)
-                        .setStartElement(authoredOn));
-                });
+            var status = discontinue
+                .map(this::buildMedicationStatementStatus)
+                .orElse(buildMedicationStatementStatus(supplyAuthorise));
+
+            var effectivePeriod = discontinue
+                .map(discontinue1 -> mapEffectiveTime(supplyAuthorise, discontinue1, medicationStatement, authoredOn))
+                .orElse(mapEffectiveTime(supplyAuthorise, medicationStatement, authoredOn));
+
+            if (status != ACTIVE && !effectivePeriod.hasEndElement()) {
+                effectivePeriod.setEndElement(effectivePeriod.getStartElement());
+            }
+
+            medicationStatement1.setEffective(effectivePeriod);
+            medicationStatement1.setStatus(status);
 
             return medicationStatement1;
         }
         return null;
     }
 
+    private Period mapEffectiveTime(RCMRMT030101UK04Authorise authorise, RCMRMT030101UK04Discontinue discontinue,
+        RCMRMT030101UK04MedicationStatement medicationStatement, DateTimeType authoredOn) {
+        Optional<Period> discontinuePeriod = buildMedicationStatementEffectivePeriodEnd(discontinue);
+
+        if (discontinuePeriod.isEmpty()) {
+            return mapEffectiveTime(authorise, medicationStatement, authoredOn);
+        }
+
+        return extractDispenseRequestPeriodStart(authorise)
+            .map(startDateTime -> discontinuePeriod.orElseThrow().copy().setStartElement(startDateTime))
+            .orElse(discontinuePeriod.orElseThrow().setStartElement(authoredOn));
+    }
+
+    private Period mapEffectiveTime(RCMRMT030101UK04Authorise authorise, RCMRMT030101UK04MedicationStatement medicationStatement,
+        DateTimeType authoredOn) {
+
+        Period endPeriod = buildDispenseRequestPeriodEnd(authorise, medicationStatement);
+
+        return extractDispenseRequestPeriodStart(authorise)
+            .map(startDateTime -> endPeriod.copy().setStartElement(startDateTime))
+            .orElse(endPeriod.setStartElement(authoredOn));
+    }
+
     private MedicationStatement.MedicationStatementStatus buildMedicationStatementStatus(RCMRMT030101UK04Authorise supplyAuthorise) {
         if (supplyAuthorise.hasStatusCode() && supplyAuthorise.getStatusCode().hasCode()
             && COMPLETE.equals(supplyAuthorise.getStatusCode().getCode())) {
             return COMPLETED;
-        } else {
-            return ACTIVE;
         }
+
+        return ACTIVE;
+
+    }
+
+    private MedicationStatement.MedicationStatementStatus buildMedicationStatementStatus(RCMRMT030101UK04Discontinue supplyDiscontinue) {
+        if (supplyDiscontinue.hasAvailabilityTime() && supplyDiscontinue.getAvailabilityTime().hasValue()) {
+            return STOPPED;
+        }
+
+        return COMPLETED;
     }
 
     private Optional<DateTimeType> extractHighestSupplyPrescribeTime(RCMRMT030101UK04EhrExtract ehrExtract, String id) {

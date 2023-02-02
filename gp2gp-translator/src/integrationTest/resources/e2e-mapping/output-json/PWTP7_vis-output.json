@@ -2911,7 +2911,8 @@
           "reference": "Medication/f017b4ef-e453-49d8-a606-ae223b008b6d"
         },
         "effectivePeriod": {
-          "start": "2010-03-24"
+          "start": "2010-03-24",
+          "end": "2010-03-24"
         },
         "dateAsserted": "2010-03-24T08:43:11+00:00",
         "subject": {

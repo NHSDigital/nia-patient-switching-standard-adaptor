@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+    <availabilityTime value="20100115"/>
+    <component typeCode="COMP">
+        <ehrFolder classCode="FOLDER" moodCode="EVN">
+            <component typeCode="COMP">
+                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                    <component typeCode="COMP">
+                        <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="ORD">
+                            <id root="36E3381F-3B1C-45DC-B8E7-EEC37A224AF3"/>
+                            <statusCode code="COMPLETE"/>
+                            <effectiveTime>
+                                <low value="20060426"/>
+                                <high value="20100626"/>
+                            </effectiveTime>
+                            <availabilityTime value="20060426"/>
+                            <component typeCode="COMP">
+                                <ehrSupplyAuthorise xmlns="urn:hl7-org:v3" classCode="SPLY" moodCode="INT">
+                                    <id root="TEST_ID"/>
+                                    <code code="9bG0.00" codeSystem="2.16.840.1.113883.2.1.6.2"
+                                          displayName="NHS prescription"/>
+                                    <statusCode code="COMPLETE"/>
+                                    <effectiveTime>
+                                        <center nullFlavor="NI"/>
+                                    </effectiveTime>
+                                    <availabilityTime value="20100114"/>
+                                    <repeatNumber value="6"/>
+                                    <quantity value="28" unit="1">
+                                        <translation value="28">
+                                            <originalText>capsule</originalText>
+                                        </translation>
+                                    </quantity>
+                                    <pertinentInformation typeCode="PERT">
+                                        <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
+                                            <text>1</text>
+                                        </pertinentSupplyAnnotation>
+                                    </pertinentInformation>
+                                    <pertinentInformation typeCode="PERT">
+                                        <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
+                                            <text>2</text>
+                                        </pertinentSupplyAnnotation>
+                                    </pertinentInformation>
+                                    <pertinentInformation typeCode="PERT">
+                                        <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
+                                            <text>3</text>
+                                        </pertinentSupplyAnnotation>
+                                    </pertinentInformation>
+                                </ehrSupplyAuthorise>
+                            </component>
+                            <pertinentInformation typeCode="PERT">
+                                <pertinentMedicationDosage classCode="SBADM" moodCode="RMD">
+                                    <text>TAKE ONE DAILY</text>
+                                </pertinentMedicationDosage>
+                            </pertinentInformation>
+                        </MedicationStatement>
+                    </component>
+                </ehrComposition>
+            </component>
+        </ehrFolder>
+    </component>
+</EhrExtract>

@@ -18,6 +18,7 @@ import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.SimpleQuantity;
 import org.hl7.fhir.dstu3.model.StringType;
+import org.hl7.v3.II;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04Component;
@@ -25,13 +26,16 @@ import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
+import org.hl7.v3.RCMRMT030101UK04Discontinue;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04MedicationDosage;
+import org.hl7.v3.RCMRMT030101UK04MedicationRef;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation2;
+import org.hl7.v3.RCMRMT030101UK04ReversalOf;
 import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
 
 import lombok.extern.slf4j.Slf4j;
@@ -133,13 +137,15 @@ public class MedicationMapperUtils {
     }
 
     public static Optional<DateTimeType> extractDispenseRequestPeriodStart(RCMRMT030101UK04Authorise supplyAuthorise) {
-        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasCenter()) {
+        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasCenter()
+            && supplyAuthorise.getEffectiveTime().getCenter().hasValue()) {
             return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getCenter().getValue()));
         }
-        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasLow()) {
+        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasLow()
+            && supplyAuthorise.getEffectiveTime().getLow().hasValue()) {
             return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getLow().getValue()));
         }
-        if (supplyAuthorise.hasAvailabilityTime() && !supplyAuthorise.getAvailabilityTime().hasNullFlavor()) {
+        if (supplyAuthorise.hasAvailabilityTime() && supplyAuthorise.getAvailabilityTime().hasValue()) {
             return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getAvailabilityTime().getValue()));
         }
         return Optional.empty();
@@ -165,6 +171,46 @@ public class MedicationMapperUtils {
                 DateFormatUtil.parseToDateTimeType(medicationStatement.getEffectiveTime().getHigh().getValue()));
         }
         return new Period();
+    }
+
+    public static Optional<Period> buildMedicationStatementEffectivePeriodEnd(RCMRMT030101UK04Discontinue supplyDiscontinue) {
+        if (supplyDiscontinue.hasAvailabilityTime() && supplyDiscontinue.getAvailabilityTime().hasValue()) {
+            return Optional.of(new Period().setEndElement(
+               DateFormatUtil.parseToDateTimeType(supplyDiscontinue.getAvailabilityTime().getValue())
+            ));
+        }
+
+        return Optional.empty();
+    }
+
+    public static Optional<RCMRMT030101UK04Discontinue> extractMatchingDiscontinue(String supplyAuthoriseId,
+        RCMRMT030101UK04EhrExtract ehrExtract) {
+        return ehrExtract.getComponent()
+            .stream()
+            .filter(RCMRMT030101UK04Component::hasEhrFolder)
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .filter(RCMRMT030101UK04Component3::hasEhrComposition)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .map(RCMRMT030101UK04EhrComposition::getComponent)
+            .flatMap(List::stream)
+            .filter(RCMRMT030101UK04Component4::hasMedicationStatement)
+            .map(RCMRMT030101UK04Component4::getMedicationStatement)
+            .map(RCMRMT030101UK04MedicationStatement::getComponent)
+            .flatMap(List::stream)
+            .filter(RCMRMT030101UK04Component2::hasEhrSupplyDiscontinue)
+            .map(RCMRMT030101UK04Component2::getEhrSupplyDiscontinue)
+            .filter(discontinue1 -> hasReversalIdMatchingAuthorise(discontinue1.getReversalOf(), supplyAuthoriseId))
+            .findFirst();
+    }
+
+    private static boolean hasReversalIdMatchingAuthorise(List<RCMRMT030101UK04ReversalOf> reversalOf, String supplyAuthoriseId) {
+        return reversalOf.stream()
+            .map(RCMRMT030101UK04ReversalOf::getPriorMedicationRef)
+            .map(RCMRMT030101UK04MedicationRef::getId)
+            .map(II::getRoot)
+            .anyMatch(supplyAuthoriseId::equals);
     }
 
     private static Stream<RCMRMT030101UK04MedicationStatement> extractNestedMedications(RCMRMT030101UK04Component4 component4) {
