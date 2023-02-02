@@ -2748,7 +2748,8 @@
           "reference": "Medication/39c1ab73-42aa-4f0c-8a9c-824afd695776"
         },
         "effectivePeriod": {
-          "start": "2010-02-10"
+          "start": "2010-02-10",
+          "end": "2010-02-10"
         },
         "dateAsserted": "2010-02-10T08:31:19+00:00",
         "subject": {
@@ -2883,7 +2884,8 @@
           "reference": "Medication/e7476d73-d88b-4340-b716-69058e71fbaf"
         },
         "effectivePeriod": {
-          "start": "2010-03-23"
+          "start": "2010-03-23",
+          "end": "2010-03-23"
         },
         "dateAsserted": "2010-03-23T15:02:45+00:00",
         "subject": {
@@ -3018,7 +3020,8 @@
           "reference": "Medication/f777d7a1-1b01-469f-90c9-c746e272868d"
         },
         "effectivePeriod": {
-          "start": "2010-03-24"
+          "start": "2010-03-24",
+          "end": "2010-03-24"
         },
         "dateAsserted": "2010-03-24T08:51:13+00:00",
         "subject": {

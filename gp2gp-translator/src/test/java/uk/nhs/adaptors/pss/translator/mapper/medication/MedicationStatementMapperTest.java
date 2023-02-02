@@ -1,22 +1,32 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.ACTIVE;
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.COMPLETED;
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.STOPPED;
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementTaken.UNK;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
-import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.ACTIVE;
-import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementTaken.UNK;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.IdType;
+import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.v3.RCMRMT030101UK04Authorise;
+import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
+import org.hl7.v3.RCMRMT030101UK04Component3;
+import org.hl7.v3.RCMRMT030101UK04Component4;
+import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -104,6 +114,99 @@ public class MedicationStatementMapperTest {
         assertThat(medicationStatement1.getDosageFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
     }
 
+    @Test
+    public void When_MapToMedicationStatement_WithDiscontinue_WithAvailabilityTime_Expect_PeriodEndMappedAndStatusStopped() {
+        var expectedStartDate = "2010-01-14";
+        var expectedEndDate = "2010-04-26";
+
+        var result =
+            mapMedicationStatementFromEhrFile("ehrExtract_discontinue.xml", new DateTimeType());
+        var effectivePeriod = result.getEffectivePeriod();
+
+        assertThat(effectivePeriod.getStartElement().toHumanDisplay()).isEqualTo(expectedStartDate);
+        assertThat(effectivePeriod.getEndElement().toHumanDisplay()).isEqualTo(expectedEndDate);
+        assertThat(result.getStatus()).isEqualTo(STOPPED);
+    }
+
+    @Test
+    public void When_MapToMedicationStatement_WithDiscontinue_WithMissingAvailabilityTime_Expect_PeriodEndMappedAndStatusCompleted() {
+        var expectedStartDate = "2010-01-14";
+
+        var result =
+            mapMedicationStatementFromEhrFile("ehrExtract_discontinueMissingAvailabilityTime.xml", new DateTimeType());
+        var effectivePeriod = result.getEffectivePeriod();
+
+        assertThat(effectivePeriod.getStartElement().toHumanDisplay()).isEqualTo(expectedStartDate);
+        assertThat(effectivePeriod.getEndElement().toHumanDisplay()).isEqualTo(expectedStartDate);
+        assertThat(result.getStatus()).isEqualTo(COMPLETED);
+    }
+
+    @Test
+    public void When_MapToMedicationStatement_WithCompletedStatus_WithAuthoriseEffectiveTimeHigh_Expect_PeriodEndMapped() {
+        var expectedStartDate = "2010-04-27";
+        var expectedEndDate = "2010-06-27";
+
+        var result =
+            mapMedicationStatementFromEhrFile("ehrExtract_authorise_effectiveTimeHigh.xml", new DateTimeType());
+        var effectivePeriod = result.getEffectivePeriod();
+
+        assertThat(effectivePeriod.getStartElement().toHumanDisplay()).isEqualTo(expectedStartDate);
+        assertThat(effectivePeriod.getEndElement().toHumanDisplay()).isEqualTo(expectedEndDate);
+        assertThat(result.getStatus()).isEqualTo(COMPLETED);
+
+    }
+
+    @Test
+    public void When_MapToMedicationStatement_WithCompletedStatus_WithStatementEffectiveTimeHigh_Expect_PeriodEndMapped() {
+        var expectedStartDate = "2010-01-14";
+        var expectedEndDate = "2010-06-26";
+
+        var result = mapMedicationStatementFromEhrFile("ehrExtract_effectiveTimeHigh.xml", new DateTimeType());
+        var effectivePeriod = result.getEffectivePeriod();
+
+        assertThat(effectivePeriod.getStartElement().toHumanDisplay()).isEqualTo(expectedStartDate);
+        assertThat(effectivePeriod.getEndElement().toHumanDisplay()).isEqualTo(expectedEndDate);
+        assertThat(result.getStatus()).isEqualTo(COMPLETED);
+    }
+
+    @Test
+    public void When_MapToMedicationStatement_WithCompletedStatus_WithNoValidTimes_Expect_StartAndEndTimesEqualAuthoredOn() {
+        var authoredOn = new DateTimeType("2023-01-27");
+
+        var result = mapMedicationStatementFromEhrFile("ehrExtract_noValidTimes.xml", authoredOn);
+        var effectivePeriod = result.getEffectivePeriod();
+
+        assertThat(effectivePeriod.getStartElement()).isEqualTo(authoredOn);
+        assertThat(effectivePeriod.getEndElement()).isEqualTo(authoredOn);
+        assertThat(result.getStatus()).isEqualTo(COMPLETED);
+    }
+
+    @Test
+    public void When_MapToMedicationStatement_WithDiscontinue_WithNoValidTimes_Expect_StartAndEndTimesEqualAuthoredOn() {
+        var authoredOn = new DateTimeType("2023-01-27");
+
+        var result =
+            mapMedicationStatementFromEhrFile("ehrExtract_discontinue_noValidTimes.xml", authoredOn);
+        var effectivePeriod = result.getEffectivePeriod();
+
+        assertThat(effectivePeriod.getStartElement()).isEqualTo(authoredOn);
+        assertThat(effectivePeriod.getEndElement()).isEqualTo(authoredOn);
+        assertThat(result.getStatus()).isEqualTo(COMPLETED);
+    }
+
+    @Test
+    public void When_MapToMedicationStatement_WithActiveStatement_Expect_StartDateIsNotMappedToEndDate() {
+        var authoredOn = new DateTimeType("2023-01-27");
+        var expectedStartDate = "2010-01-14";
+
+        var result = mapMedicationStatementFromEhrFile("ehrExtract4.xml", authoredOn);
+        var effectivePeriod = result.getEffectivePeriod();
+
+        assertThat(result.getStatus()).isEqualTo(ACTIVE);
+        assertThat(effectivePeriod.getStartElement().toHumanDisplay()).isEqualTo(expectedStartDate);
+        assertThat(effectivePeriod.hasEndElement()).isFalse();
+    }
+
     @SneakyThrows
     private RCMRMT030101UK04MedicationStatement unmarshallMedicationStatement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName),
@@ -113,5 +216,43 @@ public class MedicationStatementMapperTest {
     @SneakyThrows
     private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName), RCMRMT030101UK04EhrExtract.class);
+    }
+
+
+    private MedicationStatement mapMedicationStatementFromEhrFile(String filename, DateTimeType authoredOn) {
+        var ehrExtract = unmarshallEhrExtract(filename);
+        var medicationStatement = extractMedicationStatement(ehrExtract);
+        assertThat(medicationStatement.isPresent()).isTrue();
+
+        var authorise = extractAuthorise(medicationStatement.orElseThrow());
+        assertThat(authorise.isPresent()).isTrue();
+
+        when(medicationMapper.extractMedicationReference(any()))
+            .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
+
+        return medicationStatementMapper.mapToMedicationStatement(
+            ehrExtract, medicationStatement.orElseThrow(), authorise.orElseThrow(), PRACTISE_CODE, authoredOn);
+    }
+
+    private Optional<RCMRMT030101UK04MedicationStatement> extractMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+        return ehrExtract
+            .getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .map(RCMRMT030101UK04EhrComposition::getComponent)
+            .flatMap(List::stream)
+            .map(RCMRMT030101UK04Component4::getMedicationStatement)
+            .findFirst();
+    }
+
+    private Optional<RCMRMT030101UK04Authorise> extractAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement) {
+        return medicationStatement.getComponent()
+            .stream()
+            .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
+            .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+            .findFirst();
     }
 }

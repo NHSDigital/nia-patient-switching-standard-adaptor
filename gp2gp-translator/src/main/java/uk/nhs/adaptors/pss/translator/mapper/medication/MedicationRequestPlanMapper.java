@@ -12,6 +12,7 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildPrescriptionTypeExtension;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.createMedicationRequestSkeleton;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractMatchingDiscontinue;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 import java.util.ArrayList;
@@ -31,20 +32,16 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
-import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04Discontinue;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-import org.hl7.v3.RCMRMT030101UK04MedicationRef;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation2;
-import org.hl7.v3.RCMRMT030101UK04ReversalOf;
 import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
 import org.springframework.stereotype.Service;
 
@@ -129,28 +126,6 @@ public class MedicationRequestPlanMapper {
         }
 
         return statusChangeExtensions;
-    }
-
-    private Optional<RCMRMT030101UK04Discontinue> extractMatchingDiscontinue(String supplyAuthoriseId,
-        RCMRMT030101UK04EhrExtract ehrExtract) {
-        return ehrExtract.getComponent()
-            .stream()
-            .filter(RCMRMT030101UK04Component::hasEhrFolder)
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .filter(RCMRMT030101UK04Component3::hasEhrComposition)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .map(RCMRMT030101UK04EhrComposition::getComponent)
-            .flatMap(List::stream)
-            .filter(RCMRMT030101UK04Component4::hasMedicationStatement)
-            .map(RCMRMT030101UK04Component4::getMedicationStatement)
-            .map(RCMRMT030101UK04MedicationStatement::getComponent)
-            .flatMap(List::stream)
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyDiscontinue)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyDiscontinue)
-            .filter(discontinue1 -> hasReversalIdMatchingAuthorise(discontinue1.getReversalOf(), supplyAuthoriseId))
-            .findFirst();
     }
 
     private Optional<Extension> extractSupplyAuthoriseRepeatInformation(RCMRMT030101UK04Authorise supplyAuthorise) {
@@ -284,14 +259,6 @@ public class MedicationRequestPlanMapper {
             ));
         }
         return notes;
-    }
-
-    private boolean hasReversalIdMatchingAuthorise(List<RCMRMT030101UK04ReversalOf> reversalOf, String supplyAuthoriseId) {
-        return reversalOf.stream()
-            .map(RCMRMT030101UK04ReversalOf::getPriorMedicationRef)
-            .map(RCMRMT030101UK04MedicationRef::getId)
-            .map(II::getRoot)
-            .anyMatch(supplyAuthoriseId::equals);
     }
 
     private boolean hasInFulfillmentOfReference(RCMRMT030101UK04Component2 component, String id) {
