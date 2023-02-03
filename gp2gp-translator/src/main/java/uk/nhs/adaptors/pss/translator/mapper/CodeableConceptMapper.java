@@ -83,7 +83,7 @@ public class CodeableConceptMapper {
 
             if (preferredValuePresentNoDescriptionValue(preferredTerm, description)) {
                 return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(),
-                    determineTextFieldValue(originalText, displayName), createExtension(null, null, isMedicationResource));
+                    determineTextFieldValue(originalText, displayName), createExtension(null, displayName, isMedicationResource));
             }
 
             if (preferredAndDescriptionValuesPresent(preferredTerm, description)) {
@@ -92,7 +92,7 @@ public class CodeableConceptMapper {
                         createExtension(preferredTerm.getId(), preferredTerm.getTerm(), isMedicationResource));
                 } else {
                     return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(), determineTextFieldValue(originalText, displayName),
-                            createExtension(null, description.getTerm(), isMedicationResource));
+                            createExtension(description.getId(), description.getTerm(), isMedicationResource));
                 }
             }
         } else {
