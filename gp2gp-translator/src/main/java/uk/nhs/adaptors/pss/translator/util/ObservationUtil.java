@@ -41,6 +41,8 @@ public class ObservationUtil {
             } else {
                 valueQuantity = QUANTITY_MAPPER.mapQuantity((IVLPQ) value);
             }
+            
+            valueQuantity.setComparator(null);
 
             if (uncertaintyCode != null) {
                 valueQuantity.getExtension().add(new Extension()
