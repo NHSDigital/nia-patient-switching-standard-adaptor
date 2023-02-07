@@ -2691,7 +2691,6 @@
             }
           ],
           "text": "Medication review"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -2749,7 +2748,6 @@
             }
           ],
           "text": "Asthma"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -3368,7 +3366,6 @@
             }
           ],
           "text": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
-          ]
         }
       }
     },
@@ -7685,7 +7682,6 @@
             }
           ],
           "text": "Levonorgestrel 150microgram / Ethinylestradiol 30microgram tablets"
-          ]
         }
       }
     },
@@ -8265,7 +8261,6 @@
             }
           ],
           "text": "Heart attack"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8322,7 +8317,6 @@
             }
           ],
           "text": "Systolic blood pressure"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8383,7 +8377,6 @@
             }
           ],
           "text": "Diastolic blood pressure"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8444,7 +8437,6 @@
             }
           ],
           "text": "O/E - weight"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8505,7 +8497,6 @@
             }
           ],
           "text": "O/E - height"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8566,7 +8557,6 @@
             }
           ],
           "text": "Body mass index"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8629,7 +8619,6 @@
             }
           ],
           "text": "FH: Cardiovascular disease"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8713,8 +8702,6 @@
                     {
                       "url": "descriptionDisplay",
                       "valueString": "Peak exp. flow rate: PEFR/PFR"
-                      "url": "descriptionId",
-                      "valueId": "50032014"
                     }
                   ]
                 }
@@ -8785,7 +8772,6 @@
             }
           ],
           "text": "Best ever peak flow rate"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8902,7 +8888,6 @@
             }
           ],
           "text": "Peak flow meter at home"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8959,7 +8944,6 @@
             }
           ],
           "text": "Inhaler technique - good"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9016,7 +9000,6 @@
             }
           ],
           "text": "Asthma never disturbs sleep"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9073,7 +9056,6 @@
             }
           ],
           "text": "Asthma sometimes restricts exercise"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9130,7 +9112,6 @@
             }
           ],
           "text": "Endometriosis of uterus"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9187,7 +9168,6 @@
             }
           ],
           "text": "Abdominal pain"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9244,7 +9224,6 @@
             }
           ],
           "text": "Irregular menstrual cycle"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9302,7 +9281,6 @@
             }
           ],
           "text": "H/O: menstrual disorder"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9359,7 +9337,6 @@
             }
           ],
           "text": "FH: Menstrual disorder"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9417,7 +9394,6 @@
             }
           ],
           "text": "FH: Menstrual disorder"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9475,7 +9451,6 @@
             }
           ],
           "text": "Systolic blood pressure"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9536,7 +9511,6 @@
             }
           ],
           "text": "Diastolic blood pressure"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9650,7 +9624,6 @@
             }
           ],
           "text": "Etcher/engraver"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9705,7 +9678,6 @@
             }
           ],
           "text": "Allergic rhinitis due to pollens"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9759,7 +9731,6 @@
             }
           ],
           "text": "Happy puppet syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9814,7 +9785,6 @@
             }
           ],
           "text": "Heart attack"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9869,7 +9839,6 @@
             }
           ],
           "text": "Consent given for upload to local shared electronic record"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9923,7 +9892,6 @@
             }
           ],
           "text": "Systolic blood pressure"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9981,7 +9949,6 @@
             }
           ],
           "text": "Diastolic blood pressure"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10039,7 +10006,6 @@
             }
           ],
           "text": "Tired all the time"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10094,7 +10060,6 @@
             }
           ],
           "text": "Monkeypox"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10172,7 +10137,6 @@
             }
           ],
           "text": "Heart attack"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10255,7 +10219,6 @@
             }
           ],
           "text": "Endometriosis of uterus"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10338,7 +10301,6 @@
             }
           ],
           "text": "Allergic rhinitis due to pollens"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10424,7 +10386,6 @@
             }
           ],
           "text": "H/O: aspirin allergy"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10589,7 +10550,6 @@
             }
           ],
           "text": "H/O: warfarin allergy"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10672,7 +10632,6 @@
             }
           ],
           "text": "Happy puppet syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10755,7 +10714,6 @@
             }
           ],
           "text": "Heart attack"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10838,7 +10796,6 @@
             }
           ],
           "text": "Monkeypox"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -11264,7 +11221,6 @@
             }
           ],
           "text": "O/E - blood pressure reading"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -11321,7 +11277,6 @@
             }
           ],
           "text": "O/E - blood pressure reading"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -11378,7 +11333,6 @@
             }
           ],
           "text": "O/E - blood pressure reading"
-          ]
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -11495,7 +11449,6 @@
             }
           ],
           "text": "H/O: aspirin allergy"
-          ]
         },
         "patient": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -11618,7 +11571,6 @@
             }
           ],
           "text": "H/O: warfarin allergy"
-          ]
         },
         "patient": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"

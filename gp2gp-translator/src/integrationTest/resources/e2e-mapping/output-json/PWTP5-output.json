@@ -2497,7 +2497,6 @@
             }
           ],
           "text": "Glaucoma"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2555,7 +2554,6 @@
             }
           ],
           "text": "Systolic blood pressure"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2616,7 +2614,6 @@
             }
           ],
           "text": "Diastolic blood pressure"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2677,7 +2674,6 @@
             }
           ],
           "text": "Happy puppet syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2735,7 +2731,6 @@
             }
           ],
           "text": "Patient too late"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2793,7 +2788,6 @@
             }
           ],
           "text": "Happy puppet syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2851,7 +2845,6 @@
             }
           ],
           "text": "Tired all the time"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2962,7 +2955,6 @@
             }
           ],
           "text": "Total prosthetic replacement of hip joint using cement"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3020,7 +3012,6 @@
             }
           ],
           "text": "Total prosthetic replacement of knee joint using cement"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3130,7 +3121,6 @@
             }
           ],
           "text": "Very heavy drinker"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3187,7 +3177,6 @@
             }
           ],
           "text": "Systolic blood pressure"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3248,7 +3237,6 @@
             }
           ],
           "text": "Diastolic blood pressure"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3340,7 +3328,6 @@
             }
           ],
           "text": "Divorced"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3394,7 +3381,6 @@
             }
           ],
           "text": "Consent given for upload to local shared electronic record"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3448,7 +3434,6 @@
             }
           ],
           "text": "Nairobi sheep disease"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3698,7 +3683,6 @@
             }
           ],
           "text": "Nairobi sheep disease"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -4492,7 +4476,6 @@
             }
           ],
           "text": "O/E - blood pressure reading"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -4583,7 +4566,6 @@
             }
           ],
           "text": "Happy puppet syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -4640,7 +4622,6 @@
             }
           ],
           "text": "O/E - blood pressure reading"
-          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -4750,7 +4731,6 @@
             }
           ],
           "text": "H/O: penicillin allergy"
-          ]
         },
         "patient": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"

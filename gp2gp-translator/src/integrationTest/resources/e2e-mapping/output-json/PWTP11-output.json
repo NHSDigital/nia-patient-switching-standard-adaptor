@@ -2606,7 +2606,6 @@
             }
           ],
           "text": "Chronic sinusitis"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -2787,7 +2786,6 @@
             }
           ],
           "text": "Salbutamol 100micrograms/dose inhaler CFC free"
-          ]
         }
       }
     },
@@ -2925,7 +2923,6 @@
             }
           ],
           "text": "Ibuprofen 400mg tablets"
-          ]
         }
       }
     },
@@ -3085,7 +3082,6 @@
             }
           ],
           "text": "Macular hole"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3182,7 +3178,6 @@
             }
           ],
           "text": "Visual field defects"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3239,7 +3234,6 @@
             }
           ],
           "text": "O/E - visual acuity R-eye=6/36"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3296,7 +3290,6 @@
             }
           ],
           "text": "FH: Glaucoma"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3354,7 +3347,6 @@
             }
           ],
           "text": "No FH: diabetes"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3411,7 +3403,6 @@
             }
           ],
           "text": "Gout"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3469,7 +3460,6 @@
             }
           ],
           "text": "Tiredness symptom"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3527,7 +3517,6 @@
             }
           ],
           "text": "O/E - weight"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3589,7 +3578,6 @@
             }
           ],
           "text": "Chronic sinusitis"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3699,7 +3687,6 @@
             }
           ],
           "text": "Rheumatoid arthritis"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3757,7 +3744,6 @@
             }
           ],
           "text": "O/E - height"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3818,7 +3804,6 @@
             }
           ],
           "text": "FH: Asthma"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3876,7 +3861,6 @@
             }
           ],
           "text": "Chronic renal failure"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3934,7 +3918,6 @@
             }
           ],
           "text": "Gout"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -3992,7 +3975,6 @@
             }
           ],
           "text": "Chronic sinusitis"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4050,7 +4032,6 @@
             }
           ],
           "text": "Gout"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4148,7 +4129,6 @@
             }
           ],
           "text": "Gout"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4206,7 +4186,6 @@
             }
           ],
           "text": "FH: Hypertension"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4264,7 +4243,6 @@
             }
           ],
           "text": "Gout"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4322,7 +4300,6 @@
             }
           ],
           "text": "Angelman syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4376,7 +4353,6 @@
             }
           ],
           "text": "Foot pain"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4430,7 +4406,6 @@
             }
           ],
           "text": "Nairobi sheep disease"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4485,7 +4460,6 @@
             }
           ],
           "text": "Angelman syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4664,7 +4638,6 @@
             }
           ],
           "text": "Dribbling from mouth"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4768,7 +4741,6 @@
             }
           ],
           "text": "Generalised obesity"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4823,7 +4795,6 @@
             }
           ],
           "text": "Foot pain"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4878,7 +4849,6 @@
             }
           ],
           "text": "Chronic renal failure"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -4956,7 +4926,6 @@
             }
           ],
           "text": "Macular hole"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -5063,7 +5032,6 @@
             }
           ],
           "text": "Gout"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -5156,7 +5124,6 @@
             }
           ],
           "text": "Chronic sinusitis"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -5242,7 +5209,6 @@
             }
           ],
           "text": "Rheumatoid arthritis"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -5349,7 +5315,6 @@
             }
           ],
           "text": "Angelman syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -5435,7 +5400,6 @@
             }
           ],
           "text": "Foot pain"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -5516,7 +5480,6 @@
             }
           ],
           "text": "Nairobi sheep disease"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -5828,7 +5791,6 @@
             }
           ],
           "text": "Dribbling from mouth"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
@@ -6002,7 +5964,6 @@
             }
           ],
           "text": "Chronic renal failure"
-          ]
         },
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"

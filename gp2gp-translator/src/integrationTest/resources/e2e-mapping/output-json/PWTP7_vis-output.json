@@ -2530,7 +2530,6 @@
               }
             ],
             "text": "Referral to private doctor"
-            ]
           }
         ],
         "note": [
@@ -2598,7 +2597,6 @@
               }
             ],
             "text": "Referral to G.P."
-            ]
           }
         ],
         "note": [
@@ -2666,7 +2664,6 @@
               }
             ],
             "text": "Orthopaedic referral"
-            ]
           }
         ],
         "note": [
@@ -2734,7 +2731,6 @@
               }
             ],
             "text": "Neurosurgical referral"
-            ]
           }
         ],
         "note": [
@@ -2799,7 +2795,6 @@
               }
             ],
             "text": "Non-urgent hospital admission"
-            ]
           }
         ],
         "note": [
@@ -2830,7 +2825,6 @@
             }
           ],
           "text": "Allopurinol 300mg tablets"
-          ]
         }
       }
     },
@@ -3077,7 +3071,6 @@
             }
           ],
           "text": "Dry eyes"
-          ]
         },
         "subject": {
           "reference": "Patient/456ede6b-b3c4-45b4-aeb4-2baedc501de8"
@@ -3131,7 +3124,6 @@
             }
           ],
           "text": "Dry eyes"
-          ]
         },
         "subject": {
           "reference": "Patient/456ede6b-b3c4-45b4-aeb4-2baedc501de8"
@@ -3185,7 +3177,6 @@
             }
           ],
           "text": "Dry eye syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/456ede6b-b3c4-45b4-aeb4-2baedc501de8"
@@ -3512,7 +3503,6 @@
             }
           ],
           "text": "Dry eye syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/456ede6b-b3c4-45b4-aeb4-2baedc501de8"

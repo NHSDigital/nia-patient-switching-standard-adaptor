@@ -2242,7 +2242,6 @@
             }
           ],
           "text": "Medication review"
-          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -2300,7 +2299,6 @@
             }
           ],
           "text": "Medication review"
-          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -2335,7 +2333,6 @@
             }
           ],
           "text": "Allopurinol 300mg tablets"
-          ]
         }
       }
     },
@@ -2427,7 +2424,6 @@
             }
           ],
           "text": "Prednisolone 5mg gastro-resistant tablets"
-          ]
         }
       }
     },
@@ -2519,7 +2515,6 @@
             }
           ],
           "text": "Doxycycline 100mg capsules"
-          ]
         }
       }
     },
@@ -2611,7 +2606,6 @@
             }
           ],
           "text": "Aspirin 75mg dispersible tablets"
-          ]
         }
       }
     },
@@ -2798,7 +2792,6 @@
             }
           ],
           "text": "Aspirin 300mg gastro-resistant tablets"
-          ]
         }
       }
     },
@@ -3035,7 +3028,6 @@
             }
           ],
           "text": "Metformin 500mg tablets"
-          ]
         }
       }
     },
@@ -3182,7 +3174,6 @@
             }
           ],
           "text": "Amlodipine 10mg tablets"
-          ]
         }
       }
     },
@@ -3324,7 +3315,6 @@
             }
           ],
           "text": "Ferrous sulphate 200mg tablets"
-          ]
         }
       }
     },
@@ -3466,7 +3456,6 @@
             }
           ],
           "text": "Amitriptyline 10mg tablets"
-          ]
         }
       }
     },
@@ -3613,7 +3602,6 @@
             }
           ],
           "text": "Furosemide 20mg tablets"
-          ]
         }
       }
     },
@@ -3895,7 +3883,6 @@
             }
           ],
           "text": "Atenolol 100mg tablets"
-          ]
         }
       }
     },
@@ -4033,7 +4020,6 @@
             }
           ],
           "text": "Diazepam 5mg tablets"
-          ]
         }
       }
     },
@@ -4482,7 +4468,6 @@
             }
           ],
           "text": "Ramipril 10mg capsules"
-          ]
         }
       }
     },
@@ -4641,7 +4626,6 @@
             }
           ],
           "text": "Co-codamol 30mg/500mg capsules"
-          ]
         }
       }
     },
@@ -4795,7 +4779,6 @@
             }
           ],
           "text": "Co-dydramol 10mg/500mg tablets"
-          ]
         }
       }
     },
@@ -5101,7 +5084,6 @@
             }
           ],
           "text": "Folic acid 5mg tablets"
-          ]
         }
       }
     },
@@ -5255,7 +5237,6 @@
             }
           ],
           "text": "Citalopram 10mg tablets"
-          ]
         }
       }
     },
@@ -5561,7 +5542,6 @@
             }
           ],
           "text": "Tamsulosin 400microgram modified-release capsules"
-          ]
         }
       }
     },
@@ -6009,7 +5989,6 @@
             }
           ],
           "text": "Doxazosin 4mg tablets"
-          ]
         }
       }
     },
@@ -6312,7 +6291,6 @@
             }
           ],
           "text": "Insulin glargine 100units/ml solution for injection 3ml pre-filled disposable devices"
-          ]
         }
       }
     },
@@ -7146,7 +7124,6 @@
             }
           ],
           "text": "Cilazapril 5mg tablets"
-          ]
         }
       }
     },
@@ -7293,7 +7270,6 @@
             }
           ],
           "text": "Methylphenidate 5mg tablets"
-          ]
         }
       }
     },
@@ -7440,7 +7416,6 @@
             }
           ],
           "text": "Cetirizine 10mg tablets"
-          ]
         }
       }
     },
@@ -7752,7 +7727,6 @@
             }
           ],
           "text": "Salbutamol 100micrograms/dose inhaler CFC free"
-          ]
         }
       }
     },
@@ -8447,7 +8421,6 @@
             }
           ],
           "text": "Propranolol 160mg modified-release capsules"
-          ]
         }
       }
     },
@@ -8753,7 +8726,6 @@
             }
           ],
           "text": "Chloramphenicol 1% eye ointment"
-          ]
         }
       }
     },
@@ -9364,7 +9336,6 @@
             }
           ],
           "text": "Mebeverine 135mg tablets"
-          ]
         }
       }
     },
@@ -9812,7 +9783,6 @@
             }
           ],
           "text": "Beclometasone 100micrograms/dose inhaler"
-          ]
         }
       }
     },
@@ -9966,7 +9936,6 @@
             }
           ],
           "text": "Perindopril erbumine 8mg tablets"
-          ]
         }
       }
     },
@@ -10125,7 +10094,6 @@
             }
           ],
           "text": "Propiverine 15mg tablets"
-          ]
         }
       }
     },
@@ -10267,7 +10235,6 @@
             }
           ],
           "text": "Diclofenac sodium 75mg modified-release tablets"
-          ]
         }
       }
     },
@@ -10414,7 +10381,6 @@
             }
           ],
           "text": "Amoxicillin 500mg capsules"
-          ]
         }
       }
     },
@@ -10956,7 +10922,6 @@
             }
           ],
           "text": "Fluoxetine 20mg capsules"
-          ]
         }
       }
     },
@@ -11106,7 +11071,6 @@
             }
           ],
           "text": "Prednisolone 5mg soluble tablets"
-          ]
         }
       }
     },
@@ -11260,7 +11224,6 @@
             }
           ],
           "text": "Dihydrocodeine 60mg modified-release tablets"
-          ]
         }
       }
     },
@@ -11414,7 +11377,6 @@
             }
           ],
           "text": "Tamoxifen 20mg tablets"
-          ]
         }
       }
     },
@@ -11568,7 +11530,6 @@
             }
           ],
           "text": "Levothyroxine sodium 100microgram tablets"
-          ]
         }
       }
     },
@@ -11710,7 +11671,6 @@
             }
           ],
           "text": "Gliclazide 80mg tablets"
-          ]
         }
       }
     },
@@ -11852,7 +11812,6 @@
             }
           ],
           "text": "Omeprazole 20mg gastro-resistant capsules"
-          ]
         }
       }
     },
@@ -11994,7 +11953,6 @@
             }
           ],
           "text": "Ranitidine 150mg tablets"
-          ]
         }
       }
     },
@@ -12136,7 +12094,6 @@
             }
           ],
           "text": "Temazepam 10mg tablets"
-          ]
         }
       }
     },
@@ -12274,7 +12231,6 @@
             }
           ],
           "text": "Clopidogrel 75mg tablets"
-          ]
         }
       }
     },
@@ -12416,7 +12372,6 @@
             }
           ],
           "text": "Digoxin 125microgram tablets"
-          ]
         }
       }
     },
@@ -12698,7 +12653,6 @@
             }
           ],
           "text": "Tramadol 50mg capsules"
-          ]
         }
       }
     },
@@ -12840,7 +12794,6 @@
             }
           ],
           "text": "Lisinopril 10mg tablets"
-          ]
         }
       }
     },
@@ -12982,7 +12935,6 @@
             }
           ],
           "text": "Co-amilofruse 5mg/40mg tablets"
-          ]
         }
       }
     },
@@ -13240,7 +13192,6 @@
             }
           ],
           "text": "Simvastatin 80mg tablets"
-          ]
         }
       }
     },
@@ -13534,7 +13485,6 @@
             }
           ],
           "text": "Fluvastatin 40mg capsules"
-          ]
         }
       }
     },
@@ -13688,7 +13638,6 @@
             }
           ],
           "text": "Propranolol 80mg modified-release capsules"
-          ]
         }
       }
     },
@@ -14013,7 +13962,6 @@
             }
           ],
           "text": "Ciprofloxacin 250mg tablets"
-          ]
         }
       }
     },
@@ -15220,7 +15168,6 @@
             }
           ],
           "text": "Zopiclone 3.75mg tablets"
-          ]
         }
       }
     },
@@ -22785,7 +22732,6 @@
             }
           ],
           "text": "Medication review"
-          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22842,7 +22788,6 @@
             }
           ],
           "text": "Gout"
-          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22900,7 +22845,6 @@
             }
           ],
           "text": "Gout"
-          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22957,7 +22901,6 @@
             }
           ],
           "text": "Haemorrhage of parathyroid"
-          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -23015,7 +22958,6 @@
             }
           ],
           "text": "Civil state unknown"
-          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -23110,7 +23052,6 @@
             }
           ],
           "text": "Gout"
-          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"

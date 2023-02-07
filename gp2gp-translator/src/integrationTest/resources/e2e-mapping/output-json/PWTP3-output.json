@@ -632,7 +632,6 @@
             }
           ],
           "text": "Ciprofloxacin 250mg tablets"
-          ]
         }
       }
     },
@@ -965,7 +964,6 @@
             }
           ],
           "text": "Cohabiting"
-          ]
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1056,7 +1054,6 @@
             }
           ],
           "text": "Roman Catholic"
-          ]
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1110,7 +1107,6 @@
             }
           ],
           "text": "Main spoken language Gaelic"
-          ]
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1164,7 +1160,6 @@
             }
           ],
           "text": "Ankylosis of the elbow joint"
-          ]
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1251,7 +1246,6 @@
             }
           ],
           "text": "Happy puppet syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1263,7 +1257,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "hhh \€"
+        "comment": "hhh €"
       }
     },
     {
@@ -1770,7 +1764,6 @@
             }
           ],
           "text": "H/O: combined calcium and vitamin D3 preparation allergy"
-          ]
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1851,7 +1844,6 @@
             }
           ],
           "text": "Ankylosis of the elbow joint"
-          ]
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -2000,7 +1992,6 @@
             }
           ],
           "text": "Happy puppet syndrome"
-          ]
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -2012,7 +2003,7 @@
         },
         "note": [
           {
-            "text": "hhh \€"
+            "text": "hhh €"
           },
           {
             "text": "Active Problem, Significant"
@@ -2556,7 +2547,6 @@
             }
           ],
           "text": "Allergic reaction to wasp sting"
-          ]
         },
         "patient": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -2704,7 +2694,6 @@
             }
           ],
           "text": "H/O: combined calcium and vitamin D3 preparation allergy"
-          ]
         },
         "patient": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -2804,7 +2793,6 @@
             }
           ],
           "text": "H/O: erythromycin allergy"
-          ]
         },
         "patient": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
