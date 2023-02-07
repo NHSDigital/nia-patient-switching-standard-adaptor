@@ -1961,7 +1961,7 @@
         },
         "status": "current",
         "mode": "snapshot",
-        "title": "Patient referral",
+        "title": "Referral",
         "code": {
           "coding": [
             {
@@ -2007,7 +2007,7 @@
         },
         "status": "current",
         "mode": "snapshot",
-        "title": "Patient referral",
+        "title": "Referral",
         "code": {
           "coding": [
             {
@@ -2375,7 +2375,7 @@
         },
         "status": "current",
         "mode": "snapshot",
-        "title": "Patient referral",
+        "title": "Referral",
         "code": {
           "coding": [
             {
@@ -2421,7 +2421,7 @@
         },
         "status": "current",
         "mode": "snapshot",
-        "title": "Patient referral",
+        "title": "Referral",
         "code": {
           "coding": [
             {
