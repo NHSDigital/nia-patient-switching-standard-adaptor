@@ -65,7 +65,7 @@ public class CodeableConceptMapper {
 
         var displayName = (String) null;
 
-        if (codedData.getDisplayName() == null && mainCodeFromTranslation != null){
+        if (codedData.getDisplayName() == null && mainCodeFromTranslation != null) {
             displayName = mainCodeFromTranslation.getDisplayName();
         } else {
             displayName = codedData.getDisplayName();
@@ -91,7 +91,8 @@ public class CodeableConceptMapper {
                     return createCodeableConcept(conceptId, SNOMED_SYSTEM, displayName, determineTextFieldValue(originalText, displayName),
                         createExtension(preferredTerm.getId(), preferredTerm.getTerm(), isMedicationResource));
                 } else {
-                    return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(), determineTextFieldValue(originalText, displayName),
+                    return createCodeableConcept(conceptId, SNOMED_SYSTEM, preferredTerm.getTerm(),
+                            determineTextFieldValue(originalText, displayName),
                             createExtension(description.getId(), description.getTerm(), isMedicationResource));
                 }
             }
