@@ -2497,6 +2497,7 @@
             }
           ],
           "text": "Glaucoma"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2554,6 +2555,7 @@
             }
           ],
           "text": "Systolic blood pressure"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2614,6 +2616,7 @@
             }
           ],
           "text": "Diastolic blood pressure"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2674,6 +2677,7 @@
             }
           ],
           "text": "Happy puppet syndrome"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2731,6 +2735,7 @@
             }
           ],
           "text": "Patient too late"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2788,6 +2793,7 @@
             }
           ],
           "text": "Happy puppet syndrome"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2845,6 +2851,7 @@
             }
           ],
           "text": "Tired all the time"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2955,6 +2962,7 @@
             }
           ],
           "text": "Total prosthetic replacement of hip joint using cement"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3012,6 +3020,7 @@
             }
           ],
           "text": "Total prosthetic replacement of knee joint using cement"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3121,6 +3130,7 @@
             }
           ],
           "text": "Very heavy drinker"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3177,6 +3187,7 @@
             }
           ],
           "text": "Systolic blood pressure"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3237,6 +3248,7 @@
             }
           ],
           "text": "Diastolic blood pressure"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3328,6 +3340,7 @@
             }
           ],
           "text": "Divorced"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3381,6 +3394,7 @@
             }
           ],
           "text": "Consent given for upload to local shared electronic record"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3434,6 +3448,7 @@
             }
           ],
           "text": "Nairobi sheep disease"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3683,6 +3698,7 @@
             }
           ],
           "text": "Nairobi sheep disease"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3818,7 +3834,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a single line quick note."
+        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a single line quick note."
       }
     },
     {
@@ -3900,7 +3916,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment                                                            This line end with a LB/CR followed by a blank line with a LB/CR                                                            This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is the END of the long paragraph.                                                            ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ENDofLONGline...                                                            There are 4 blank lines (with LB/CR above this one)                                                            This is the last line of this note."
+        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This line end with a LB/CR followed by a blank line with a LB/CR\n\n                                                            This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is the END of the long paragraph.\n\n                                                            ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ENDofLONGline...\n\n\n\n\n                                                            There are 4 blank lines (with LB/CR above this one)\n\n                                                            This is the last line of this note."
       }
     },
     {
@@ -3941,7 +3957,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment                                                            ANSI Characters:                                                            Regular: a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0                                                            Miscellaneous: \" ( ) [ ] { } ~ : ; , . ? ¿ ! ¡ @ # £ $ ¢ ¤ ° ¯ ¶ © ® ™ ¦ † ‡ & * _ ' \\ « ‹ › » §                                                            Mathematical: ± + - × ÷ ¼ ½ ¾ ² ³ ¬ %<> / | µ                                                            Other Languages: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë"
+        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            ANSI Characters:\n\n                                                            Regular: a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0\n\n                                                            Miscellaneous: \" ( ) [ ] { } ~ : ; , . ? ¿ ! ¡ @ # £ $ ¢ ¤ ° ¯ ¶ © ® ™ ¦ † ‡ & * _ ' \\ « ‹ › » §\n\n                                                            Mathematical: ± + - × ÷ ¼ ½ ¾ ² ³ ¬ %<> / | µ\n\n                                                            Other Languages: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë"
       }
     },
     {
@@ -3982,7 +3998,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a fairly standard quick note with some random words is one paragraph. The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog."
+        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a fairly standard quick note with some random words is one paragraph. The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog."
       }
     },
     {
@@ -4023,7 +4039,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in a problem heading"
+        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in a problem heading"
       }
     },
     {
@@ -4064,7 +4080,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in a History heading"
+        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in a History heading"
       }
     },
     {
@@ -4105,7 +4121,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in an Examination heading"
+        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in an Examination heading"
       }
     },
     {
@@ -4146,7 +4162,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in a Family History heading"
+        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in a Family History heading"
       }
     },
     {
@@ -4187,7 +4203,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in a Social heading"
+        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in a Social heading"
       }
     },
     {
@@ -4228,7 +4244,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in a Comment heading"
+        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in a Comment heading"
       }
     },
     {
@@ -4476,6 +4492,7 @@
             }
           ],
           "text": "O/E - blood pressure reading"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -4566,6 +4583,7 @@
             }
           ],
           "text": "Happy puppet syndrome"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -4622,6 +4640,7 @@
             }
           ],
           "text": "O/E - blood pressure reading"
+          ]
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -4731,6 +4750,7 @@
             }
           ],
           "text": "H/O: penicillin allergy"
+          ]
         },
         "patient": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"

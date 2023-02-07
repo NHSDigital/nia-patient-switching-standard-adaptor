@@ -1252,7 +1252,7 @@
           "coding": [
             {
               "system": "http://hl7.org/fhir/list-order",
-              "code": "system",
+              "code": "system",https://github.com/NHSDigital/nia-patient-switching-standard-adaptor/pull/229/conflicts
               "display": "Sorted by System"
             }
           ]
@@ -2628,6 +2628,7 @@
             }
           ],
           "text": "Malignant essential hypertension"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -2708,6 +2709,7 @@
             }
           ],
           "text": "Aspirin 75mg tablets"
+          ]
         }
       }
     },
@@ -2845,6 +2847,7 @@
             }
           ],
           "text": "Doxazosin 4mg tablets"
+          ]
         }
       }
     },
@@ -2909,7 +2912,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: These are some pharmacy notes."
+            "text": "Pharmacy Text: These are some pharmacy notes.\n"
           }
         ],
         "dosageInstruction": [
@@ -3021,6 +3024,7 @@
             }
           ],
           "text": "Angina pectoris"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3111,6 +3115,7 @@
             }
           ],
           "text": "High blood pressure"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3167,6 +3172,7 @@
             }
           ],
           "text": "History of foreign travel"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3223,6 +3229,7 @@
             }
           ],
           "text": "Poor historian"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3279,6 +3286,7 @@
             }
           ],
           "text": "Allergic rhinitis"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3335,6 +3343,7 @@
             }
           ],
           "text": "Systolic blood pressure"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3395,6 +3404,7 @@
             }
           ],
           "text": "Diastolic blood pressure"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3455,6 +3465,7 @@
             }
           ],
           "text": "O/E - height"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3515,6 +3526,7 @@
             }
           ],
           "text": "O/E - weight"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3575,6 +3587,7 @@
             }
           ],
           "text": "FH: Hypertension"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3632,6 +3645,7 @@
             }
           ],
           "text": "FH: Asthma"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3688,6 +3702,7 @@
             }
           ],
           "text": "No FH: Glaucoma"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3796,6 +3811,7 @@
             }
           ],
           "text": "Light drinker - 1-2u/day"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3852,6 +3868,7 @@
             }
           ],
           "text": "Spirit drinker"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3909,6 +3926,7 @@
             }
           ],
           "text": "Wants to lose weight"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -3965,6 +3983,7 @@
             }
           ],
           "text": "Low back pain"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -4021,6 +4040,7 @@
             }
           ],
           "text": "C/O - low back pain"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -4117,6 +4137,7 @@
             }
           ],
           "text": "FH: Huntington's chorea"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -4197,6 +4218,7 @@
             }
           ],
           "text": "High blood pressure"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -4279,6 +4301,7 @@
             }
           ],
           "text": "Low back pain"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -4667,7 +4690,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a quick note consultation (reason entered as \"Assessment\")"
+        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a quick note consultation (reason entered as \"Assessment\")"
       }
     },
     {
@@ -4710,6 +4733,7 @@
             }
           ],
           "text": "O/E - blood pressure reading"
+          ]
         },
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -4778,6 +4802,7 @@
             }
           ],
           "text": "Adverse reaction to diazepam"
+          ]
         },
         "patient": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
@@ -4844,6 +4869,7 @@
             }
           ],
           "text": "Latex allergy"
+          ]
         },
         "patient": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"

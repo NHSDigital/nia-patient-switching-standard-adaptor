@@ -71,7 +71,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "registrationStatement",
     "requestStatement"
 })
-public class RCMRMT030101UK04Component02 {
+public class RCMRMT030101UK04Component02 implements LinkableComponent {
 
     protected INT sequenceNumber;
     protected BL seperatableInd;

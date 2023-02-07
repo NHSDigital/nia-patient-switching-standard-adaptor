@@ -103,7 +103,9 @@ public class InboundMessageMergingService {
             inboundMessage.setPayload(newPayloadStr);
             payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
 
-            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
+            var attachments = patientAttachmentLogService.findAttachmentLogs(conversationId);
+
+            var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode(), attachments);
             migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
                     conversationId,
                     fhirParser.encodeToJson(bundle),

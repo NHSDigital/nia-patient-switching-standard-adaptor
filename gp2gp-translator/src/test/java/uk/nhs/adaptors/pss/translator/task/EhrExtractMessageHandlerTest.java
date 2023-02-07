@@ -62,6 +62,7 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
+import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.SkeletonProcessingService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -120,6 +121,8 @@ public class EhrExtractMessageHandlerTest {
 
     @Mock
     private PatientAttachmentLog patientAttachmentLog;
+    @Mock
+    private FailedProcessHandlingService failedProcessHandlingService;
 
     @Test
     public void  When_HandleMessageWithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
@@ -173,7 +176,7 @@ public class EhrExtractMessageHandlerTest {
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         // mapped item is private to the class, so we cannot test an exact object
-        verify(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any());
+        verify(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), any());
     }
 
     @Test
@@ -336,7 +339,7 @@ public class EhrExtractMessageHandlerTest {
                 .thenReturn(inboundMessage.getPayload());
 
         doThrow(new BundleMappingException("Test Exception"))
-            .when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any());
+            .when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), any());
 
         assertThrows(BundleMappingException.class, () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
     }
@@ -357,7 +360,7 @@ public class EhrExtractMessageHandlerTest {
                 .winningPracticeOdsCode(WINNING_ODE_CODE)
                 .build();
 
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE), any())).thenReturn(bundle);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(attachmentReferenceUpdaterService
                 .updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()))
@@ -474,7 +477,7 @@ public class EhrExtractMessageHandlerTest {
         prepareMigrationRequestAndMigrationStatusMocks();
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-        verify(bundleMapperService, times(0)).mapToBundle(any(), any());
+        verify(bundleMapperService, times(0)).mapToBundle(any(), any(), any());
     }
 
     @Test
@@ -667,6 +670,24 @@ public class EhrExtractMessageHandlerTest {
         verify(patientAttachmentLogService, times(1)).addAttachmentLog(any());
     }
 
+    @Test
+    @SneakyThrows
+    public void When_HandleMessage_With_ProcessHasFailed_Expect_FailureHandled() {
+        when(failedProcessHandlingService.hasProcessFailed(CONVERSATION_ID))
+            .thenReturn(true);
+
+        InboundMessage inboundMessage = new InboundMessage();
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(failedProcessHandlingService, times(1))
+            .handleFailedProcess(any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID));
+
+        verify(migrationStatusLogService, times(0))
+            .addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID, null);
+    }
+
     @SneakyThrows
     private void prepareMocks(InboundMessage inboundMessage) {
         inboundMessage.setPayload("payload");
@@ -683,7 +704,7 @@ public class EhrExtractMessageHandlerTest {
         // imported from main on merge
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE))).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE), any())).thenReturn(bundle);
         when(attachmentReferenceUpdaterService
                 .updateReferenceToAttachment(
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()

@@ -3734,7 +3734,6 @@
       } ],
       "valueQuantity": {
         "value": 0.5,
-        "comparator": "<=",
         "unit": "g/L"
       },
       "specimen": {
@@ -3788,7 +3787,6 @@
       } ],
       "valueQuantity": {
         "value": 1000,
-        "comparator": ">=",
         "unit": "ng/L"
       },
       "specimen": {
@@ -3936,7 +3934,6 @@
       } ],
       "valueQuantity": {
         "value": 200,
-        "comparator": ">",
         "unit": "mg/L"
       },
       "specimen": {
@@ -11870,7 +11867,6 @@
       } ],
       "valueQuantity": {
         "value": 0.1000000000000000055511151231257827021181583404541015625,
-        "comparator": "<",
         "unit": "10*9/L"
       },
       "referenceRange": [ {

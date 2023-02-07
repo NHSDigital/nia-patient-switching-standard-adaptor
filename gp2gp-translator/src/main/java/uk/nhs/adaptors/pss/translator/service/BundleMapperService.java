@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
 import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
@@ -83,8 +84,8 @@ public class BundleMapperService {
     private final SpecimenMapper specimenMapper;
     private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
-    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage, String losingPracticeOdsCode) throws BundleMappingException {
-
+    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage, String losingPracticeOdsCode,
+                              List<PatientAttachmentLog> attachments) throws BundleMappingException {
         try {
 
             Bundle bundle = generator.generateBundle();
@@ -131,7 +132,7 @@ public class BundleMapperService {
             var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
             addEntries(bundle, observationComments);
 
-            var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg);
+            var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg, attachments);
             addEntries(bundle, documentReferences);
 
             var templates = templateMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
