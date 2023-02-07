@@ -1252,7 +1252,7 @@
           "coding": [
             {
               "system": "http://hl7.org/fhir/list-order",
-              "code": "system",https://github.com/NHSDigital/nia-patient-switching-standard-adaptor/pull/229/conflicts
+              "code": "system",
               "display": "Sorted by System"
             }
           ]
