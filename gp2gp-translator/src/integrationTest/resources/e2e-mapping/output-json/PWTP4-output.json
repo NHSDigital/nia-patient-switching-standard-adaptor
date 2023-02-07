@@ -2242,6 +2242,7 @@
             }
           ],
           "text": "Medication review"
+          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -2299,6 +2300,7 @@
             }
           ],
           "text": "Medication review"
+          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -2333,6 +2335,7 @@
             }
           ],
           "text": "Allopurinol 300mg tablets"
+          ]
         }
       }
     },
@@ -2424,6 +2427,7 @@
             }
           ],
           "text": "Prednisolone 5mg gastro-resistant tablets"
+          ]
         }
       }
     },
@@ -2515,6 +2519,7 @@
             }
           ],
           "text": "Doxycycline 100mg capsules"
+          ]
         }
       }
     },
@@ -2606,6 +2611,7 @@
             }
           ],
           "text": "Aspirin 75mg dispersible tablets"
+          ]
         }
       }
     },
@@ -2755,7 +2761,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: This is the 22047 repeat."
+            "text": "Pharmacy Message: This is the 22047 repeat.\n"
           }
         ],
         "dosageInstruction": [
@@ -2792,6 +2798,7 @@
             }
           ],
           "text": "Aspirin 300mg gastro-resistant tablets"
+          ]
         }
       }
     },
@@ -2851,7 +2858,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: This is the generic acute for 22047."
+            "text": "Pharmacy Message: This is the generic acute for 22047.\n"
           }
         ],
         "dosageInstruction": [
@@ -3028,6 +3035,7 @@
             }
           ],
           "text": "Metformin 500mg tablets"
+          ]
         }
       }
     },
@@ -3079,7 +3087,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: This is some pharmacy Information."
+            "text": "Pharmacy Text: This is some pharmacy Information.\n"
           }
         ],
         "dosageInstruction": [
@@ -3174,6 +3182,7 @@
             }
           ],
           "text": "Amlodipine 10mg tablets"
+          ]
         }
       }
     },
@@ -3315,6 +3324,7 @@
             }
           ],
           "text": "Ferrous sulphate 200mg tablets"
+          ]
         }
       }
     },
@@ -3456,6 +3466,7 @@
             }
           ],
           "text": "Amitriptyline 10mg tablets"
+          ]
         }
       }
     },
@@ -3507,7 +3518,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: This is some more pharmacy information."
+            "text": "Pharmacy Text: This is some more pharmacy information.\n"
           }
         ],
         "dosageInstruction": [
@@ -3602,6 +3613,7 @@
             }
           ],
           "text": "Furosemide 20mg tablets"
+          ]
         }
       }
     },
@@ -3883,6 +3895,7 @@
             }
           ],
           "text": "Atenolol 100mg tablets"
+          ]
         }
       }
     },
@@ -4020,6 +4033,7 @@
             }
           ],
           "text": "Diazepam 5mg tablets"
+          ]
         }
       }
     },
@@ -4330,7 +4344,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "Patient no longer requires these "
+                  "text": "Patient no longer requires these"
                 }
               }
             ]
@@ -4373,7 +4387,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: These are some pharmacy notes."
+            "text": "Pharmacy Text: These are some pharmacy notes.\n"
           }
         ],
         "dosageInstruction": [
@@ -4468,6 +4482,7 @@
             }
           ],
           "text": "Ramipril 10mg capsules"
+          ]
         }
       }
     },
@@ -4532,7 +4547,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -4626,6 +4641,7 @@
             }
           ],
           "text": "Co-codamol 30mg/500mg capsules"
+          ]
         }
       }
     },
@@ -4779,6 +4795,7 @@
             }
           ],
           "text": "Co-dydramol 10mg/500mg tablets"
+          ]
         }
       }
     },
@@ -4951,7 +4968,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "zzzzzss "
+                  "text": "zzzzzss"
                 }
               }
             ]
@@ -5084,6 +5101,7 @@
             }
           ],
           "text": "Folic acid 5mg tablets"
+          ]
         }
       }
     },
@@ -5237,6 +5255,7 @@
             }
           ],
           "text": "Citalopram 10mg tablets"
+          ]
         }
       }
     },
@@ -5273,7 +5292,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "allergy "
+                  "text": "allergy"
                 }
               }
             ]
@@ -5542,6 +5561,7 @@
             }
           ],
           "text": "Tamsulosin 400microgram modified-release capsules"
+          ]
         }
       }
     },
@@ -5989,6 +6009,7 @@
             }
           ],
           "text": "Doxazosin 4mg tablets"
+          ]
         }
       }
     },
@@ -6291,6 +6312,7 @@
             }
           ],
           "text": "Insulin glargine 100units/ml solution for injection 3ml pre-filled disposable devices"
+          ]
         }
       }
     },
@@ -7124,6 +7146,7 @@
             }
           ],
           "text": "Cilazapril 5mg tablets"
+          ]
         }
       }
     },
@@ -7175,7 +7198,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: This is a pharmacy information note for Cilazapril."
+            "text": "Pharmacy Text: This is a pharmacy information note for Cilazapril.\n"
           }
         ],
         "dosageInstruction": [
@@ -7270,6 +7293,7 @@
             }
           ],
           "text": "Methylphenidate 5mg tablets"
+          ]
         }
       }
     },
@@ -7321,7 +7345,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: These are some pharmacy notes for Methylphenidate. Patient Text: yutyuhyfhf."
+            "text": "Pharmacy Text: These are some pharmacy notes for Methylphenidate. Patient Text: yutyuhyfhf.\n"
           }
         ],
         "dosageInstruction": [
@@ -7416,6 +7440,7 @@
             }
           ],
           "text": "Cetirizine 10mg tablets"
+          ]
         }
       }
     },
@@ -7452,7 +7477,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "Allergy "
+                  "text": "Allergy"
                 }
               }
             ]
@@ -7727,6 +7752,7 @@
             }
           ],
           "text": "Salbutamol 100micrograms/dose inhaler CFC free"
+          ]
         }
       }
     },
@@ -7763,7 +7789,7 @@
               {
                 "url": "statusReason",
                 "valueCodeableConcept": {
-                  "text": "Alergy "
+                  "text": "Alergy"
                 }
               }
             ]
@@ -8421,6 +8447,7 @@
             }
           ],
           "text": "Propranolol 160mg modified-release capsules"
+          ]
         }
       }
     },
@@ -8726,6 +8753,7 @@
             }
           ],
           "text": "Chloramphenicol 1% eye ointment"
+          ]
         }
       }
     },
@@ -9242,7 +9270,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: This is the restart."
+            "text": "Pharmacy Text: This is the restart.\n"
           }
         ],
         "dosageInstruction": [
@@ -9336,6 +9364,7 @@
             }
           ],
           "text": "Mebeverine 135mg tablets"
+          ]
         }
       }
     },
@@ -9783,6 +9812,7 @@
             }
           ],
           "text": "Beclometasone 100micrograms/dose inhaler"
+          ]
         }
       }
     },
@@ -9936,6 +9966,7 @@
             }
           ],
           "text": "Perindopril erbumine 8mg tablets"
+          ]
         }
       }
     },
@@ -10000,7 +10031,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: This is PT. Patient Text: This is PI."
+            "text": "Pharmacy Text: This is PT. Patient Text: This is PI.\n"
           }
         ],
         "dosageInstruction": [
@@ -10094,6 +10125,7 @@
             }
           ],
           "text": "Propiverine 15mg tablets"
+          ]
         }
       }
     },
@@ -10235,6 +10267,7 @@
             }
           ],
           "text": "Diclofenac sodium 75mg modified-release tablets"
+          ]
         }
       }
     },
@@ -10286,7 +10319,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Acute Ph I. Patient Text: Acute Pa I."
+            "text": "Pharmacy Text: Acute Ph I. Patient Text: Acute Pa I.\n"
           }
         ],
         "dosageInstruction": [
@@ -10381,6 +10414,7 @@
             }
           ],
           "text": "Amoxicillin 500mg capsules"
+          ]
         }
       }
     },
@@ -10922,6 +10956,7 @@
             }
           ],
           "text": "Fluoxetine 20mg capsules"
+          ]
         }
       }
     },
@@ -11071,6 +11106,7 @@
             }
           ],
           "text": "Prednisolone 5mg soluble tablets"
+          ]
         }
       }
     },
@@ -11224,6 +11260,7 @@
             }
           ],
           "text": "Dihydrocodeine 60mg modified-release tablets"
+          ]
         }
       }
     },
@@ -11377,6 +11414,7 @@
             }
           ],
           "text": "Tamoxifen 20mg tablets"
+          ]
         }
       }
     },
@@ -11530,6 +11568,7 @@
             }
           ],
           "text": "Levothyroxine sodium 100microgram tablets"
+          ]
         }
       }
     },
@@ -11671,6 +11710,7 @@
             }
           ],
           "text": "Gliclazide 80mg tablets"
+          ]
         }
       }
     },
@@ -11812,6 +11852,7 @@
             }
           ],
           "text": "Omeprazole 20mg gastro-resistant capsules"
+          ]
         }
       }
     },
@@ -11953,6 +11994,7 @@
             }
           ],
           "text": "Ranitidine 150mg tablets"
+          ]
         }
       }
     },
@@ -12094,6 +12136,7 @@
             }
           ],
           "text": "Temazepam 10mg tablets"
+          ]
         }
       }
     },
@@ -12231,6 +12274,7 @@
             }
           ],
           "text": "Clopidogrel 75mg tablets"
+          ]
         }
       }
     },
@@ -12372,6 +12416,7 @@
             }
           ],
           "text": "Digoxin 125microgram tablets"
+          ]
         }
       }
     },
@@ -12653,6 +12698,7 @@
             }
           ],
           "text": "Tramadol 50mg capsules"
+          ]
         }
       }
     },
@@ -12794,6 +12840,7 @@
             }
           ],
           "text": "Lisinopril 10mg tablets"
+          ]
         }
       }
     },
@@ -12935,6 +12982,7 @@
             }
           ],
           "text": "Co-amilofruse 5mg/40mg tablets"
+          ]
         }
       }
     },
@@ -13192,6 +13240,7 @@
             }
           ],
           "text": "Simvastatin 80mg tablets"
+          ]
         }
       }
     },
@@ -13485,6 +13534,7 @@
             }
           ],
           "text": "Fluvastatin 40mg capsules"
+          ]
         }
       }
     },
@@ -13638,6 +13688,7 @@
             }
           ],
           "text": "Propranolol 80mg modified-release capsules"
+          ]
         }
       }
     },
@@ -13962,6 +14013,7 @@
             }
           ],
           "text": "Ciprofloxacin 250mg tablets"
+          ]
         }
       }
     },
@@ -14138,7 +14190,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -14210,7 +14262,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -14282,7 +14334,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -14354,7 +14406,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -14426,7 +14478,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -14498,7 +14550,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -14570,7 +14622,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -14642,7 +14694,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -14714,7 +14766,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -14786,7 +14838,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -14925,7 +14977,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: This is some pharmacy Information."
+            "text": "Pharmacy Text: This is some pharmacy Information.\n"
           }
         ],
         "dosageInstruction": [
@@ -14997,7 +15049,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: This is some more pharmacy information."
+            "text": "Pharmacy Text: This is some more pharmacy information.\n"
           }
         ],
         "dosageInstruction": [
@@ -15168,6 +15220,7 @@
             }
           ],
           "text": "Zopiclone 3.75mg tablets"
+          ]
         }
       }
     },
@@ -15291,7 +15344,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: These are some pharmacy notes."
+            "text": "Pharmacy Text: These are some pharmacy notes.\n"
           }
         ],
         "dosageInstruction": [
@@ -15363,7 +15416,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -15435,7 +15488,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -15507,7 +15560,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -15579,7 +15632,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -15651,7 +15704,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -15723,7 +15776,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note."
+            "text": "Pharmacy Text: Repeat Dispensing Pharmacy Note.\n"
           }
         ],
         "dosageInstruction": [
@@ -16687,7 +16740,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: This is a pharmacy information note for Cilazapril."
+            "text": "Pharmacy Text: This is a pharmacy information note for Cilazapril.\n"
           }
         ],
         "dosageInstruction": [
@@ -16759,7 +16812,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: These are some pharmacy notes for Methylphenidate."
+            "text": "Pharmacy Text: These are some pharmacy notes for Methylphenidate.\n"
           }
         ],
         "dosageInstruction": [
@@ -17367,7 +17420,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: This is the pharmacy message on print. Patient Message: This is the patient message on print."
+            "text": "Pharmacy Message: This is the pharmacy message on print. Patient Message: This is the patient message on print.\n"
           }
         ],
         "dosageInstruction": [
@@ -18197,7 +18250,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: This is the restart."
+            "text": "Pharmacy Text: This is the restart.\n"
           }
         ],
         "dosageInstruction": [
@@ -18403,7 +18456,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: This is PT. Patient Text: This is PI."
+            "text": "Pharmacy Text: This is PT. Patient Text: This is PI.\n"
           }
         ],
         "dosageInstruction": [
@@ -18475,7 +18528,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: These are some pharmacy notes for Methylphenidate. Patient Text: yutyuhyfhf."
+            "text": "Pharmacy Text: These are some pharmacy notes for Methylphenidate. Patient Text: yutyuhyfhf.\n"
           }
         ],
         "dosageInstruction": [
@@ -18614,7 +18667,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: Acute Ph I. Patient Text: Acute Pa I."
+            "text": "Pharmacy Text: Acute Ph I. Patient Text: Acute Pa I.\n"
           }
         ],
         "dosageInstruction": [
@@ -18820,7 +18873,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: This is Out of Hours."
+            "text": "Pharmacy Message: This is Out of Hours.\n"
           }
         ],
         "dosageInstruction": [
@@ -20098,7 +20151,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: This is Hospital Issued medication."
+            "text": "Pharmacy Message: This is Hospital Issued medication.\n"
           }
         ],
         "dosageInstruction": [
@@ -21242,7 +21295,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: This is 'Handwritten'."
+            "text": "Pharmacy Message: This is 'Handwritten'.\n"
           }
         ],
         "dosageInstruction": [
@@ -21314,7 +21367,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: This is the OTC."
+            "text": "Pharmacy Message: This is the OTC.\n"
           }
         ],
         "dosageInstruction": [
@@ -21386,7 +21439,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: Private PrintedScript Non EPS."
+            "text": "Pharmacy Message: Private PrintedScript Non EPS.\n"
           }
         ],
         "dosageInstruction": [
@@ -21458,7 +21511,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: Private Handwritten."
+            "text": "Pharmacy Message: Private Handwritten.\n"
           }
         ],
         "dosageInstruction": [
@@ -21530,7 +21583,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: Private record for notes."
+            "text": "Pharmacy Message: Private record for notes.\n"
           },
           {
             "text": "Prescription type: Prescription by another organisation"
@@ -21605,7 +21658,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: Private and 'Hospital'."
+            "text": "Pharmacy Message: Private and 'Hospital'.\n"
           }
         ],
         "dosageInstruction": [
@@ -21677,7 +21730,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: This was set to 'Private' in application rather than at issue time."
+            "text": "Pharmacy Message: This was set to 'Private' in application rather than at issue time.\n"
           }
         ],
         "dosageInstruction": [
@@ -21749,7 +21802,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: This is the 'Record for Notes' case."
+            "text": "Pharmacy Message: This is the 'Record for Notes' case.\n"
           },
           {
             "text": "Prescription type: Prescription by another organisation"
@@ -22427,7 +22480,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: This is the 22047 issue after switch to generic."
+            "text": "Pharmacy Message: This is the 22047 issue after switch to generic.\n"
           }
         ],
         "dosageInstruction": [
@@ -22499,7 +22552,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Message: THis is the acute issue post generic -> proprietary switch for 22047."
+            "text": "Pharmacy Message: THis is the acute issue post generic -> proprietary switch for 22047.\n"
           }
         ],
         "dosageInstruction": [
@@ -22732,6 +22785,7 @@
             }
           ],
           "text": "Medication review"
+          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22788,6 +22842,7 @@
             }
           ],
           "text": "Gout"
+          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22845,6 +22900,7 @@
             }
           ],
           "text": "Gout"
+          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22901,6 +22957,7 @@
             }
           ],
           "text": "Haemorrhage of parathyroid"
+          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22958,6 +23015,7 @@
             }
           ],
           "text": "Civil state unknown"
+          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -23052,6 +23110,7 @@
             }
           ],
           "text": "Gout"
+          ]
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"

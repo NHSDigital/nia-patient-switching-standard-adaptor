@@ -17,6 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
@@ -62,6 +63,7 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
+import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -78,7 +80,11 @@ class COPCMessageHandlerTest {
     private static final String MESSAGE_ID = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
     private static final String NHS_NUMBER = "123456";
     private static final Integer DATA_AMOUNT = 3;
-    private static final Integer ATTACH_LENGTH = 9;
+
+    private static final String ATTACH = "RESPONSE";
+    private static final Integer INVALID_ATTACH_LENGTH = 9;
+
+    private static final Integer ATTACH_LENGTH = 8;
 
     @Mock
     private PatientMigrationRequestDao migrationRequestDao;
@@ -98,6 +104,8 @@ class COPCMessageHandlerTest {
     private XmlParseUtilService xmlParseUtilService;
     @Mock
     private SupportedFileTypes supportedFileTypesMock;
+    @Mock
+    private FailedProcessHandlingService failedProcessHandlingService;
 
     private Document ebXmlDocument;
 
@@ -852,6 +860,37 @@ class COPCMessageHandlerTest {
     }
 
     @Test
+    public void When_ParentCOPCMessageIncomingAfterFragments_Expect_CorrectPostProcessedLength()
+            throws ValidationException, SAXException, AttachmentLogException,
+            InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+
+        var inboundMessage = new InboundMessage();
+        inboundMessage.setPayload(readInboundMessageFromFile());
+        inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
+        var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
+
+        when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
+                .thenReturn(PatientAttachmentLog.builder()
+                        .filename("test_main.txt")
+                        .mid("1")
+                        .parentMid("0")
+                        .patientMigrationReqId(1)
+                        .build());
+
+        when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
+                .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
+
+        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any(), any())).thenReturn(ATTACH);
+
+        copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
+        verify(attachmentHandlerService, times(1)).buildSingleFileStringFromPatientAttachmentLogs(any(), any());
+
+        var argument = ArgumentCaptor.forClass(PatientAttachmentLog.class);
+        verify(patientAttachmentLogService, times(1)).updateAttachmentLog(argument.capture(), eq(CONVERSATION_ID));
+        assertEquals(ATTACH_LENGTH, argument.getValue().getPostProcessedLengthNum());
+    }
+
+    @Test
     public void When_MergedAttachmentsBase64LengthsMismatchs_Expect_ThrowsExternalAttachmentException()
         throws ValidationException, SAXException, AttachmentLogException,
         InlineAttachmentProcessingException {
@@ -881,7 +920,7 @@ class COPCMessageHandlerTest {
                         .base64(true)
                         .compressed(false)
                         .contentType("text/plain")
-                        .lengthNum(ATTACH_LENGTH)
+                        .lengthNum(INVALID_ATTACH_LENGTH)
                         .skeleton(false)
                         .patientMigrationReqId(1).build(),
                     PatientAttachmentLog.builder().filename("test_frag_1.txt")
@@ -911,7 +950,7 @@ class COPCMessageHandlerTest {
                 )));
 
 
-        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any(), any())).thenReturn("RESPONSE");
+        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any(), any())).thenReturn(ATTACH);
 
         assertThrows(ExternalAttachmentProcessingException.class, () ->
             copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID));
@@ -964,6 +1003,24 @@ class COPCMessageHandlerTest {
 
         verify(nackAckPreparationServiceMock, times(1))
             .sendNackMessage(eq(LARGE_MESSAGE_GENERAL_FAILURE), any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID));
+    }
+
+    @Test
+    @SneakyThrows
+    public void When_HandleMessage_With_ProcessHasFailed_Expect_FailureHandled() {
+        when(failedProcessHandlingService.hasProcessFailed(CONVERSATION_ID))
+            .thenReturn(true);
+
+        var inboundMessage = new InboundMessage();
+        inboundMessage.setPayload(readCopcInboundMessageFromFile());
+
+        copcMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(failedProcessHandlingService, times(1))
+            .handleFailedProcess(any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID));
+
+        verify(migrationStatusLogService, times(0))
+            .addMigrationStatusLog(COPC_MESSAGE_RECEIVED, CONVERSATION_ID, null);
     }
 
     private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid, int orderNum,
@@ -1116,7 +1173,7 @@ class COPCMessageHandlerTest {
 
     @SneakyThrows
     private String readCopcInboundMessageFromFile() {
-        return readResourceAsString("/xml/COPC_IN000001UK01_CONTINUE/payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
+        return readResourceAsString("/xml/COPC_IN000001UK01_subsequent_message/payload.xml").replace("{{nhsNumber}}", NHS_NUMBER);
     }
 
     @SneakyThrows

@@ -1,6 +1,9 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.COMPLETED;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.STOPPED;
 
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDispenseRequestPeriodEnd;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
@@ -9,12 +12,15 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildPrescriptionTypeExtension;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.createMedicationRequestSkeleton;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractMatchingDiscontinue;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
@@ -26,20 +32,16 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
-import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04Discontinue;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-import org.hl7.v3.RCMRMT030101UK04MedicationRef;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation2;
-import org.hl7.v3.RCMRMT030101UK04ReversalOf;
 import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +65,7 @@ public class MedicationRequestPlanMapper {
     private static final String COMPLETE = "COMPLETE";
     private static final String NHS_PRESCRIPTION = "NHS prescription";
     private static final String PRESCRIPTION_TYPE = "Prescription type: ";
+    private static final String MISSING_REASON_STRING = "No information available";
 
     private final MedicationMapper medicationMapper;
 
@@ -77,7 +80,6 @@ public class MedicationRequestPlanMapper {
             MedicationRequest medicationRequest = createMedicationRequestSkeleton(ehrSupplyAuthoriseId);
 
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, practiseCode));
-            medicationRequest.setStatus(buildMedicationRequestStatus(supplyAuthorise));
             medicationRequest.setIntent(PLAN);
             medicationRequest.addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()));
             medicationRequest.setDispenseRequest(buildDispenseRequestForAuthorise(supplyAuthorise, medicationStatement));
@@ -90,15 +92,14 @@ public class MedicationRequestPlanMapper {
             buildCondensedExtensions(REPEAT_INFORMATION_URL, repeatInformationExtensions)
                 .ifPresent(medicationRequest::addExtension);
 
-            List<Extension> statusChangeExtensions = new ArrayList<>();
-            discontinue
-                .map(this::buildStatusChangeDateExtension)
-                .ifPresent(statusChangeExtensions::add);
+            List<Extension> statusChangeExtensions = discontinue
+                .map(this::getStatusChangedExtensions)
+                .orElse(Collections.emptyList());
 
-            discontinue
-                .map(this::extractTermText)
-                .map(this::buildStatusReasonCodeableConceptExtension)
-                .ifPresent(statusChangeExtensions::add);
+            var status = discontinue.isPresent()
+                ? buildMedicationRequestStatus(statusChangeExtensions)
+                : buildMedicationRequestStatus(supplyAuthorise);
+            medicationRequest.setStatus(status);
 
             buildCondensedExtensions(STATUS_CHANGE_URL, statusChangeExtensions)
                 .ifPresent(medicationRequest::addExtension);
@@ -113,26 +114,18 @@ public class MedicationRequestPlanMapper {
         return null;
     }
 
-    private Optional<RCMRMT030101UK04Discontinue> extractMatchingDiscontinue(String supplyAuthoriseId,
-        RCMRMT030101UK04EhrExtract ehrExtract) {
-        return ehrExtract.getComponent()
-            .stream()
-            .filter(RCMRMT030101UK04Component::hasEhrFolder)
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
-            .flatMap(List::stream)
-            .filter(RCMRMT030101UK04Component3::hasEhrComposition)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .map(RCMRMT030101UK04EhrComposition::getComponent)
-            .flatMap(List::stream)
-            .filter(RCMRMT030101UK04Component4::hasMedicationStatement)
-            .map(RCMRMT030101UK04Component4::getMedicationStatement)
-            .map(RCMRMT030101UK04MedicationStatement::getComponent)
-            .flatMap(List::stream)
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyDiscontinue)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyDiscontinue)
-            .filter(discontinue1 -> hasReversalIdMatchingAuthorise(discontinue1.getReversalOf(), supplyAuthoriseId))
-            .findFirst();
+    private List<Extension> getStatusChangedExtensions(RCMRMT030101UK04Discontinue discontinue) {
+        List<Extension> statusChangeExtensions = new ArrayList<>();
+        var dateExt = buildStatusChangeDateExtension(discontinue);
+
+        if (dateExt.isPresent()) {
+            var reasonText = extractTermText(discontinue);
+
+            statusChangeExtensions.add(dateExt.orElseThrow());
+            statusChangeExtensions.add(buildStatusReasonCodeableConceptExtension(reasonText));
+        }
+
+        return statusChangeExtensions;
     }
 
     private Optional<Extension> extractSupplyAuthoriseRepeatInformation(RCMRMT030101UK04Authorise supplyAuthorise) {
@@ -180,33 +173,15 @@ public class MedicationRequestPlanMapper {
     }
 
     private String extractTermText(RCMRMT030101UK04Discontinue discontinue) {
-        StringBuilder statusReasonStringBuilder = new StringBuilder();
-        if (discontinue.hasCode() && discontinue.getCode().hasOriginalText()) {
-            statusReasonStringBuilder.append(discontinue.getCode().getOriginalText())
-                .append(StringUtils.SPACE);
-        }
 
-        if (discontinue.hasCode() && !discontinue.getCode().hasOriginalText() && discontinue.getCode().hasDisplayName()) {
-            statusReasonStringBuilder.append(discontinue.getCode().hasDisplayName())
-                .append(StringUtils.SPACE);
-        }
-
-        discontinue.getPertinentInformation()
+        var pertinentInfo = discontinue.getPertinentInformation()
             .stream()
             .map(RCMRMT030101UK04PertinentInformation2::getPertinentSupplyAnnotation)
             .map(RCMRMT030101UK04SupplyAnnotation::getText)
             .filter(StringUtils::isNotBlank)
-            .forEach(text -> {
-                statusReasonStringBuilder.append(text)
-                    .append(StringUtils.SPACE);
-            });
+            .collect(Collectors.joining(", "));
 
-        if (discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasNullFlavor()
-            && discontinue.getAvailabilityTime().getNullFlavor().value().equals("UNK")) {
-            statusReasonStringBuilder.append("Unknown date");
-        }
-
-        return statusReasonStringBuilder.toString();
+        return pertinentInfo.isEmpty() ? MISSING_REASON_STRING : pertinentInfo;
     }
 
     private Optional<Reference> extractPriorPrescription(RCMRMT030101UK04Authorise supplyAuthorise) {
@@ -224,10 +199,19 @@ public class MedicationRequestPlanMapper {
     private MedicationRequest.MedicationRequestStatus buildMedicationRequestStatus(RCMRMT030101UK04Authorise supplyAuthorise) {
         if (supplyAuthorise.hasStatusCode() && supplyAuthorise.getStatusCode().hasCode()
             && COMPLETE.equals(supplyAuthorise.getStatusCode().getCode())) {
-            return MedicationRequest.MedicationRequestStatus.COMPLETED;
+            return COMPLETED;
         } else {
-            return MedicationRequest.MedicationRequestStatus.ACTIVE;
+            return ACTIVE;
         }
+    }
+
+    private MedicationRequest.MedicationRequestStatus buildMedicationRequestStatus(List<Extension> statusChangedExt) {
+
+        if (statusChangedExt.isEmpty()) {
+            return COMPLETED;
+        }
+
+        return STOPPED;
     }
 
     private MedicationRequest.MedicationRequestDispenseRequestComponent buildDispenseRequestForAuthorise(
@@ -252,12 +236,14 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private Extension buildStatusChangeDateExtension(RCMRMT030101UK04Discontinue discontinue) {
+    private Optional<Extension> buildStatusChangeDateExtension(RCMRMT030101UK04Discontinue discontinue) {
         if (discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasValue()) {
-            return new Extension(STATUS_CHANGE_DATE_URL,
-                DateFormatUtil.parseToDateTimeType(discontinue.getAvailabilityTime().getValue()));
+            return Optional.of(
+                new Extension(STATUS_CHANGE_DATE_URL,
+                    DateFormatUtil.parseToDateTimeType(discontinue.getAvailabilityTime().getValue()))
+            );
         }
-        return null;
+        return Optional.empty();
     }
 
     private Extension buildStatusReasonCodeableConceptExtension(String statusReason) {
@@ -273,14 +259,6 @@ public class MedicationRequestPlanMapper {
             ));
         }
         return notes;
-    }
-
-    private boolean hasReversalIdMatchingAuthorise(List<RCMRMT030101UK04ReversalOf> reversalOf, String supplyAuthoriseId) {
-        return reversalOf.stream()
-            .map(RCMRMT030101UK04ReversalOf::getPriorMedicationRef)
-            .map(RCMRMT030101UK04MedicationRef::getId)
-            .map(II::getRoot)
-            .anyMatch(supplyAuthoriseId::equals);
     }
 
     private boolean hasInFulfillmentOfReference(RCMRMT030101UK04Component2 component, String id) {

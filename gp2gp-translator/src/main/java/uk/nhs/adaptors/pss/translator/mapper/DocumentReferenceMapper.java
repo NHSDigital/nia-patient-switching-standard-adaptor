@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
@@ -46,20 +47,20 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     private CodeableConceptMapper codeableConceptMapper;
 
     public List<DocumentReference> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        List<Encounter> encounterList, Organization organization) {
+        List<Encounter> encounterList, Organization organization, List<PatientAttachmentLog> attachments) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllNarrativeStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isDocumentReference)
-                .map(narrativeStatement -> mapDocumentReference(narrativeStatement, composition, patient, extract, encounterList,
-                    organization)))
+                .map(narrativeStatement -> mapDocumentReference(narrativeStatement, composition, patient, encounterList,
+                    organization, attachments)))
             .toList();
     }
 
     private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement,
-        RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, RCMRMT030101UK04EhrExtract ehrExtract,
-        List<Encounter> encounterList, Organization organization) {
+        RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, List<Encounter> encounterList,
+                                                   Organization organization, List<PatientAttachmentLog> attachments) {
 
         DocumentReference documentReference = new DocumentReference();
 
@@ -74,10 +75,10 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         documentReference.setStatus(DocumentReferenceStatus.CURRENT);
         documentReference.setType(getType(narrativeStatement));
         documentReference.setSubject(new Reference(patient));
-        documentReference.setIndexedElement(getIndexed(ehrExtract));
         documentReference.setDescription(buildDescription(narrativeStatement));
+        documentReference.setIndexedElement(getIndexed(ehrComposition));
         documentReference.setCustodian(new Reference(organization));
-        documentReference.setCreatedElement(getCreatedTime(ehrExtract));
+        documentReference.setCreatedElement(getCreatedTime(ehrComposition));
         getAuthor(narrativeStatement, ehrComposition).ifPresent(documentReference::addAuthor);
 
         var encounterReference = encounterList.stream()
@@ -92,15 +93,22 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
             documentReference.setContext(documentReferenceContextComponent);
         }
 
-        setContentAttachments(documentReference, narrativeStatement);
+        setContentAttachments(documentReference, narrativeStatement, attachments);
 
         return documentReference;
     }
 
-    private DateTimeType getCreatedTime(RCMRMT030101UK04EhrExtract ehrExtract) {
-        if (ehrExtract.hasAuthor() && ehrExtract.getAuthor().hasTime()
-            && ehrExtract.getAuthor().getTime().hasValue()) {
-            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAuthor().getTime().getValue());
+    private DateTimeType getCreatedTime(RCMRMT030101UK04EhrComposition ehrComposition) {
+        if (ehrComposition.hasAvailabilityTime()) {
+            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
+        }
+        return null;
+    }
+
+    private InstantType getIndexed(RCMRMT030101UK04EhrComposition ehrComposition) {
+        if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime()
+                && ehrComposition.getAuthor().getTime().hasValue()) {
+            return DateFormatUtil.parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
         }
         return null;
     }
@@ -119,10 +127,6 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         }
 
         return null;
-    }
-
-    private InstantType getIndexed(RCMRMT030101UK04EhrExtract ehrExtract) {
-        return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
     }
 
     private Optional<Reference> getAuthor(RCMRMT030101UK04NarrativeStatement narrativeStatement,
@@ -152,15 +156,23 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
             .getReferredToExternalDocument().getText().getReference().getValue().contains(ABSENT_ATTACHMENT);
     }
 
-    private void setContentAttachments(DocumentReference documentReference, RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+    private void setContentAttachments(DocumentReference documentReference,
+            RCMRMT030101UK04NarrativeStatement narrativeStatement, List<PatientAttachmentLog> patientAttachmentLogs) {
+
         var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
         var attachment = new Attachment();
         if (referenceToExternalDocument.hasText()) {
             var mediaType = referenceToExternalDocument.getText().getMediaType();
+            var filenameReference = referenceToExternalDocument.getText().getReference().getValue();
+            var attachmentSize = getAttachmentSize(patientAttachmentLogs, filenameReference);
 
             if (!isAbsentAttachment(narrativeStatement)) {
                 attachment.setUrl(referenceToExternalDocument.getText().getReference().getValue());
-                attachment.setTitle(buildFileName(referenceToExternalDocument.getText().getReference().getValue()));
+
+                if (attachmentSize != null) {
+                    attachment.setSize(attachmentSize);
+                }
+
             } else {
                 attachment.setTitle(PLACEHOLDER_VALUE);
             }
@@ -194,6 +206,22 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     private boolean isContentTypeValid(String mediaType) {
         String validContentTypeFormat = ".*/.*";
         return Pattern.matches(validContentTypeFormat, mediaType);
+    }
+
+    private Integer getAttachmentSize(List<PatientAttachmentLog> patientAttachmentLogs, String filename) {
+
+        if (patientAttachmentLogs != null && !patientAttachmentLogs.isEmpty()) {
+            var attachmentSize = patientAttachmentLogs.stream()
+                    .filter(patientAttachmentLog -> filename.contains(patientAttachmentLog.getFilename()))
+                    .findFirst()
+                    .map(PatientAttachmentLog::getPostProcessedLengthNum);
+
+            if (attachmentSize.isPresent()) {
+                return attachmentSize.get();
+            }
+        }
+
+        return null;
     }
 
     // stubbed method for abstract class

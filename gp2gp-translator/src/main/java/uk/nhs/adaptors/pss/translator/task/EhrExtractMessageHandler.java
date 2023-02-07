@@ -29,6 +29,7 @@ import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
+import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.SkeletonProcessingService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -68,6 +69,7 @@ public class EhrExtractMessageHandler {
     private final XPathService xPathService;
     private final NackAckPreparationService nackAckPreparationService;
     private final SkeletonProcessingService skeletonProcessingService;
+    private final FailedProcessHandlingService failedProcessHandlingService;
 
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
 
@@ -84,6 +86,11 @@ public class EhrExtractMessageHandler {
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
         MigrationStatusLog migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
+
+        if (failedProcessHandlingService.hasProcessFailed(conversationId)) {
+            failedProcessHandlingService.handleFailedProcess(payload, conversationId);
+            return;
+        }
 
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId, null);
 
@@ -137,10 +144,9 @@ public class EhrExtractMessageHandler {
 
             attachmentHandlerService.storeAttachments(attachments, conversationId);
 
-            for (var i = 0; i < attachments.size(); i++) {
-                var attachment = attachments.get(i);
+            for (InboundMessage.Attachment attachment : attachments) {
                 PatientAttachmentLog newAttachmentLog =
-                    buildPatientAttachmentLogFromAttachment(messageId, migrationRequest, attachment);
+                        buildPatientAttachmentLogFromAttachment(messageId, migrationRequest, attachment);
 
                 // in the instance that we have a CID skeleton message, set our flag to process
                 if (newAttachmentLog.getSkeleton()) {
@@ -175,9 +181,11 @@ public class EhrExtractMessageHandler {
         // update the inbound message with the new payload
         inboundMessage.setPayload(fileUpdatedPayload);
 
+        var attachments = patientAttachmentLogService.findAttachmentLogs(conversationId);
+
         // now we have the transformed payload, lets create our bundle
         var payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
-        var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode());
+        var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode(), attachments);
 
         // update the db migration request
         migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
@@ -242,6 +250,7 @@ public class EhrExtractMessageHandler {
             .skeleton(XmlParseUtilService.parseIsSkeleton(attachment.getDescription()))
             .uploaded(true)
             .lengthNum(XmlParseUtilService.parseFileLength(attachment.getDescription()))
+            .postProcessedLengthNum(attachment.getPayload().length())
             .orderNum(0)
             .build();
     }

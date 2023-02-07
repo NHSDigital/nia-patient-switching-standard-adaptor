@@ -63,7 +63,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         RCMRMT030101UK04CompoundStatement compoundStatement, String practiseCode, List<Encounter> encounters, Patient patient) {
         AllergyIntolerance allergyIntolerance = new AllergyIntolerance();
 
-        var id = compoundStatement.getId().get(0).getRoot();
+        var id = compoundStatement.getComponent().get(0).getObservationStatement().getId().getRoot();
 
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))

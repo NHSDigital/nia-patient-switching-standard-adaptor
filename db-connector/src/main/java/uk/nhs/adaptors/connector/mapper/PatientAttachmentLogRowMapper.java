@@ -28,6 +28,7 @@ public class PatientAttachmentLogRowMapper implements RowMapper<PatientAttachmen
             .lengthNum(rs.getInt("length_num"))
             .orderNum(rs.getInt("order_num"))
             .deleted((rs.getBoolean("deleted")))
+            .postProcessedLengthNum(rs.getInt("post_processed_length_num"))
             .build();
     }
 }
