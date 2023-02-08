@@ -2240,7 +2240,8 @@
               "code": "182836005",
               "display": "Review of medication"
             }
-          ]
+          ],
+          "text": "Medication review"
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -2296,7 +2297,8 @@
               "code": "182836005",
               "display": "Review of medication"
             }
-          ]
+          ],
+          "text": "Medication review"
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -2329,7 +2331,8 @@
               "code": "330062008",
               "display": "Allopurinol 300mg tablets"
             }
-          ]
+          ],
+          "text": "Allopurinol 300mg tablets"
         }
       }
     },
@@ -2419,7 +2422,8 @@
               "code": "325443009",
               "display": "Prednisolone 5mg gastro-resistant tablets"
             }
-          ]
+          ],
+          "text": "Prednisolone 5mg gastro-resistant tablets"
         }
       }
     },
@@ -2509,7 +2513,8 @@
               "code": "324059006",
               "display": "Doxycycline 100mg capsules"
             }
-          ]
+          ],
+          "text": "Doxycycline 100mg capsules"
         }
       }
     },
@@ -2599,7 +2604,8 @@
               "code": "319773006",
               "display": "Aspirin 75mg dispersible tablets"
             }
-          ]
+          ],
+          "text": "Aspirin 75mg dispersible tablets"
         }
       }
     },
@@ -2784,7 +2790,8 @@
               "code": "322225002",
               "display": "Aspirin 300mg gastro-resistant tablets"
             }
-          ]
+          ],
+          "text": "Aspirin 300mg gastro-resistant tablets"
         }
       }
     },
@@ -3019,7 +3026,8 @@
               "code": "325278007",
               "display": "Metformin 500mg tablets"
             }
-          ]
+          ],
+          "text": "Metformin 500mg tablets"
         }
       }
     },
@@ -3164,7 +3172,8 @@
               "code": "319284000",
               "display": "Amlodipine 10mg tablets"
             }
-          ]
+          ],
+          "text": "Amlodipine 10mg tablets"
         }
       }
     },
@@ -3304,7 +3313,8 @@
               "code": "327438003",
               "display": "Ferrous sulfate 200mg tablets"
             }
-          ]
+          ],
+          "text": "Ferrous sulphate 200mg tablets"
         }
       }
     },
@@ -3444,7 +3454,8 @@
               "code": "321745007",
               "display": "Amitriptyline 10mg tablets"
             }
-          ]
+          ],
+          "text": "Amitriptyline 10mg tablets"
         }
       }
     },
@@ -3589,7 +3600,8 @@
               "code": "317971007",
               "display": "Furosemide 20mg tablets"
             }
-          ]
+          ],
+          "text": "Furosemide 20mg tablets"
         }
       }
     },
@@ -3869,7 +3881,8 @@
               "code": "318421004",
               "display": "Atenolol 100mg tablets"
             }
-          ]
+          ],
+          "text": "Atenolol 100mg tablets"
         }
       }
     },
@@ -4005,7 +4018,8 @@
               "code": "321197008",
               "display": "Diazepam 5mg tablets"
             }
-          ]
+          ],
+          "text": "Diazepam 5mg tablets"
         }
       }
     },
@@ -4452,7 +4466,8 @@
               "code": "318906001",
               "display": "Ramipril 10mg capsules"
             }
-          ]
+          ],
+          "text": "Ramipril 10mg capsules"
         }
       }
     },
@@ -4609,7 +4624,8 @@
               "code": "322366004",
               "display": "Co-codamol 30mg/500mg capsules"
             }
-          ]
+          ],
+          "text": "Co-codamol 30mg/500mg capsules"
         }
       }
     },
@@ -4761,7 +4777,8 @@
               "code": "322311000",
               "display": "Co-dydramol 10mg/500mg tablets"
             }
-          ]
+          ],
+          "text": "Co-dydramol 10mg/500mg tablets"
         }
       }
     },
@@ -5065,7 +5082,8 @@
               "code": "327550006",
               "display": "Folic acid 5mg tablets"
             }
-          ]
+          ],
+          "text": "Folic acid 5mg tablets"
         }
       }
     },
@@ -5217,7 +5235,8 @@
               "code": "321989000",
               "display": "Citalopram 10mg tablets"
             }
-          ]
+          ],
+          "text": "Citalopram 10mg tablets"
         }
       }
     },
@@ -5521,7 +5540,8 @@
               "code": "326524001",
               "display": "Tamsulosin 400microgram modified-release capsules"
             }
-          ]
+          ],
+          "text": "Tamsulosin 400microgram modified-release capsules"
         }
       }
     },
@@ -5967,7 +5987,8 @@
               "code": "318783003",
               "display": "Doxazosin 4mg tablets"
             }
-          ]
+          ],
+          "text": "Doxazosin 4mg tablets"
         }
       }
     },
@@ -6268,7 +6289,8 @@
               "code": "400877001",
               "display": "Insulin glargine 100units/ml solution for injection 3ml pre-filled disposable devices"
             }
-          ]
+          ],
+          "text": "Insulin glargine 100units/ml solution for injection 3ml pre-filled disposable devices"
         }
       }
     },
@@ -7100,7 +7122,8 @@
               "code": "318923005",
               "display": "Cilazapril 5mg tablets"
             }
-          ]
+          ],
+          "text": "Cilazapril 5mg tablets"
         }
       }
     },
@@ -7245,7 +7268,8 @@
               "code": "323358004",
               "display": "Methylphenidate 5mg tablets"
             }
-          ]
+          ],
+          "text": "Methylphenidate 5mg tablets"
         }
       }
     },
@@ -7390,7 +7414,8 @@
               "code": "320818006",
               "display": "Cetirizine 10mg tablets"
             }
-          ]
+          ],
+          "text": "Cetirizine 10mg tablets"
         }
       }
     },
@@ -7700,7 +7725,8 @@
               "code": "320139002",
               "display": "Salbutamol 100micrograms/dose inhaler CFC free"
             }
-          ]
+          ],
+          "text": "Salbutamol 100micrograms/dose inhaler CFC free"
         }
       }
     },
@@ -8393,7 +8419,8 @@
               "code": "318406005",
               "display": "Propranolol 160mg modified-release capsules"
             }
-          ]
+          ],
+          "text": "Propranolol 160mg modified-release capsules"
         }
       }
     },
@@ -8697,7 +8724,8 @@
               "code": "330295009",
               "display": "Chloramphenicol 1% eye ointment"
             }
-          ]
+          ],
+          "text": "Chloramphenicol 1% eye ointment"
         }
       }
     },
@@ -9306,7 +9334,8 @@
               "code": "317161009",
               "display": "Mebeverine 135mg tablets"
             }
-          ]
+          ],
+          "text": "Mebeverine 135mg tablets"
         }
       }
     },
@@ -9752,7 +9781,8 @@
               "code": "320537007",
               "display": "Beclometasone dipropionate 100 microgram/actuation pressurised solution for inhalation"
             }
-          ]
+          ],
+          "text": "Beclometasone 100micrograms/dose inhaler"
         }
       }
     },
@@ -9904,7 +9934,8 @@
               "code": "374667004",
               "display": "Perindopril erbumine 8mg tablets"
             }
-          ]
+          ],
+          "text": "Perindopril erbumine 8mg tablets"
         }
       }
     },
@@ -10061,7 +10092,8 @@
               "code": "326583009",
               "display": "Propiverine 15mg tablets"
             }
-          ]
+          ],
+          "text": "Propiverine 15mg tablets"
         }
       }
     },
@@ -10201,7 +10233,8 @@
               "code": "329607001",
               "display": "Diclofenac sodium 75mg modified-release tablets"
             }
-          ]
+          ],
+          "text": "Diclofenac sodium 75mg modified-release tablets"
         }
       }
     },
@@ -10346,7 +10379,8 @@
               "code": "323510009",
               "display": "Amoxicillin 500mg capsules"
             }
-          ]
+          ],
+          "text": "Amoxicillin 500mg capsules"
         }
       }
     },
@@ -10886,7 +10920,8 @@
               "code": "321949006",
               "display": "Fluoxetine 20mg capsules"
             }
-          ]
+          ],
+          "text": "Fluoxetine 20mg capsules"
         }
       }
     },
@@ -11034,7 +11069,8 @@
               "code": "325444003",
               "display": "Prednisolone 5mg soluble tablets"
             }
-          ]
+          ],
+          "text": "Prednisolone 5mg soluble tablets"
         }
       }
     },
@@ -11186,7 +11222,8 @@
               "code": "322546007",
               "display": "Dihydrocodeine 60mg modified-release tablets"
             }
-          ]
+          ],
+          "text": "Dihydrocodeine 60mg modified-release tablets"
         }
       }
     },
@@ -11338,7 +11375,8 @@
               "code": "327313009",
               "display": "Tamoxifen 20mg tablets"
             }
-          ]
+          ],
+          "text": "Tamoxifen 20mg tablets"
         }
       }
     },
@@ -11490,7 +11528,8 @@
               "code": "374296008",
               "display": "Levothyroxine sodium 100microgram tablets"
             }
-          ]
+          ],
+          "text": "Levothyroxine sodium 100microgram tablets"
         }
       }
     },
@@ -11630,7 +11669,8 @@
               "code": "325242002",
               "display": "Gliclazide 80mg tablets"
             }
-          ]
+          ],
+          "text": "Gliclazide 80mg tablets"
         }
       }
     },
@@ -11770,7 +11810,8 @@
               "code": "317291008",
               "display": "Omeprazole 20mg gastro-resistant capsules"
             }
-          ]
+          ],
+          "text": "Omeprazole 20mg gastro-resistant capsules"
         }
       }
     },
@@ -11910,7 +11951,8 @@
               "code": "317249006",
               "display": "Ranitidine 150mg tablets"
             }
-          ]
+          ],
+          "text": "Ranitidine 150mg tablets"
         }
       }
     },
@@ -12050,7 +12092,8 @@
               "code": "321152004",
               "display": "Temazepam 10mg tablets"
             }
-          ]
+          ],
+          "text": "Temazepam 10mg tablets"
         }
       }
     },
@@ -12186,7 +12229,8 @@
               "code": "319799004",
               "display": "Clopidogrel 75mg tablets"
             }
-          ]
+          ],
+          "text": "Clopidogrel 75mg tablets"
         }
       }
     },
@@ -12326,7 +12370,8 @@
               "code": "317896006",
               "display": "Digoxin 125microgram tablets"
             }
-          ]
+          ],
+          "text": "Digoxin 125microgram tablets"
         }
       }
     },
@@ -12606,7 +12651,8 @@
               "code": "322623000",
               "display": "Tramadol 50mg capsules"
             }
-          ]
+          ],
+          "text": "Tramadol 50mg capsules"
         }
       }
     },
@@ -12746,7 +12792,8 @@
               "code": "318859000",
               "display": "Lisinopril 10mg tablets"
             }
-          ]
+          ],
+          "text": "Lisinopril 10mg tablets"
         }
       }
     },
@@ -12886,7 +12933,8 @@
               "code": "318136009",
               "display": "Co-amilofruse 5mg/40mg tablets"
             }
-          ]
+          ],
+          "text": "Co-amilofruse 5mg/40mg tablets"
         }
       }
     },
@@ -13142,7 +13190,8 @@
               "code": "320006003",
               "display": "Simvastatin 80mg tablets"
             }
-          ]
+          ],
+          "text": "Simvastatin 80mg tablets"
         }
       }
     },
@@ -13434,7 +13483,8 @@
               "code": "320023007",
               "display": "Fluvastatin 40mg capsules"
             }
-          ]
+          ],
+          "text": "Fluvastatin 40mg capsules"
         }
       }
     },
@@ -13586,7 +13636,8 @@
               "code": "318407001",
               "display": "Propranolol 80mg modified-release capsules"
             }
-          ]
+          ],
+          "text": "Propranolol 80mg modified-release capsules"
         }
       }
     },
@@ -13909,7 +13960,8 @@
               "code": "324607004",
               "display": "Ciprofloxacin 250mg tablets"
             }
-          ]
+          ],
+          "text": "Ciprofloxacin 250mg tablets"
         }
       }
     },
@@ -15114,7 +15166,8 @@
               "code": "321177003",
               "display": "Zopiclone 3.75mg tablets"
             }
-          ]
+          ],
+          "text": "Zopiclone 3.75mg tablets"
         }
       }
     },
@@ -22677,7 +22730,8 @@
               "code": "182836005",
               "display": "Review of medication"
             }
-          ]
+          ],
+          "text": "Medication review"
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22720,6 +22774,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "150085018"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Gout"
                     }
                   ]
                 }
@@ -22728,7 +22786,8 @@
               "code": "90560007",
               "display": "Gout"
             }
-          ]
+          ],
+          "text": "Gout"
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22772,6 +22831,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "150085018"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Gout"
                     }
                   ]
                 }
@@ -22780,7 +22843,8 @@
               "code": "90560007",
               "display": "Gout"
             }
-          ]
+          ],
+          "text": "Gout"
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22823,6 +22887,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "292686019"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Haemorrhage of parathyroid"
                     }
                   ]
                 }
@@ -22831,7 +22899,8 @@
               "code": "190460008",
               "display": "Haemorrhage of parathyroid"
             }
-          ]
+          ],
+          "text": "Haemorrhage of parathyroid"
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22887,7 +22956,8 @@
               "code": "160504008",
               "display": "Marital state unknown"
             }
-          ]
+          ],
+          "text": "Civil state unknown"
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
@@ -22968,6 +23038,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "150085018"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Gout"
                     }
                   ]
                 }
@@ -22976,7 +23050,8 @@
               "code": "90560007",
               "display": "Gout"
             }
-          ]
+          ],
+          "text": "Gout"
         },
         "subject": {
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"

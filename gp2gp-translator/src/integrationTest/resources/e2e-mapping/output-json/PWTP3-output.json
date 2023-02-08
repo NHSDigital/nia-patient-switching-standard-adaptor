@@ -630,7 +630,8 @@
               "code": "324607004",
               "display": "Ciprofloxacin 250mg tablets"
             }
-          ]
+          ],
+          "text": "Ciprofloxacin 250mg tablets"
         }
       }
     },
@@ -949,6 +950,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "487634016"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Cohabiting"
                     }
                   ]
                 }
@@ -957,7 +962,8 @@
               "code": "38070000",
               "display": "Cohabiting"
             }
-          ]
+          ],
+          "text": "Cohabiting"
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1046,7 +1052,8 @@
               "code": "160540005",
               "display": "Roman Catholic, follower of religion"
             }
-          ]
+          ],
+          "text": "Roman Catholic"
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1086,6 +1093,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "2160072013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Main spoken language Gaelic"
                     }
                   ]
                 }
@@ -1094,7 +1105,8 @@
               "code": "408522002",
               "display": "Main spoken language Gaelic"
             }
-          ]
+          ],
+          "text": "Main spoken language Gaelic"
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1134,6 +1146,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "310539013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Ankylosis of the elbow joint"
                     }
                   ]
                 }
@@ -1142,7 +1158,8 @@
               "code": "202307002",
               "display": "Ankylosis of the elbow joint"
             }
-          ]
+          ],
+          "text": "Ankylosis of the elbow joint"
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1227,7 +1244,8 @@
               "code": "76880004",
               "display": "Angelman syndrome"
             }
-          ]
+          ],
+          "text": "Happy puppet syndrome"
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1239,7 +1257,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "hhh \€"
+        "comment": "hhh €"
       }
     },
     {
@@ -1295,8 +1313,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "433133014"
+                      "url": "descriptionDisplay",
+                      "valueString": "Adverse reaction to amoxycillin"
                     }
                   ]
                 }
@@ -1516,8 +1534,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "3743556014"
+                      "url": "descriptionDisplay",
+                      "valueString": "Egg allergy"
                     }
                   ]
                 }
@@ -1744,7 +1762,8 @@
               "code": "417424008",
               "display": "History of - combined calcium and vitamin D3 preparation allergy"
             }
-          ]
+          ],
+          "text": "H/O: combined calcium and vitamin D3 preparation allergy"
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1811,6 +1830,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "310539013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Ankylosis of the elbow joint"
                     }
                   ]
                 }
@@ -1819,7 +1842,8 @@
               "code": "202307002",
               "display": "Ankylosis of the elbow joint"
             }
-          ]
+          ],
+          "text": "Ankylosis of the elbow joint"
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1966,7 +1990,8 @@
               "code": "76880004",
               "display": "Angelman syndrome"
             }
-          ]
+          ],
+          "text": "Happy puppet syndrome"
         },
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -1978,7 +2003,7 @@
         },
         "note": [
           {
-            "text": "hhh \€"
+            "text": "hhh €"
           },
           {
             "text": "Active Problem, Significant"
@@ -2071,8 +2096,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "432677013"
+                      "url": "descriptionDisplay",
+                      "valueString": "Adverse reaction to atropine"
                     }
                   ]
                 }
@@ -2130,8 +2155,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "433133014"
+                      "url": "descriptionDisplay",
+                      "valueString": "Adverse reaction to amoxycillin"
                     }
                   ]
                 }
@@ -2184,8 +2209,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "433133014"
+                      "url": "descriptionDisplay",
+                      "valueString": "Adverse reaction to amoxycillin"
                     }
                   ]
                 }
@@ -2363,8 +2388,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "3743556014"
+                      "url": "descriptionDisplay",
+                      "valueString": "Egg allergy"
                     }
                   ]
                 }
@@ -2508,6 +2533,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "442105017"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Allergic reaction to wasp sting"
                     }
                   ]
                 }
@@ -2516,7 +2545,8 @@
               "code": "300909004",
               "display": "Allergic reaction to wasp sting"
             }
-          ]
+          ],
+          "text": "Allergic reaction to wasp sting"
         },
         "patient": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -2662,7 +2692,8 @@
               "code": "417424008",
               "display": "History of - combined calcium and vitamin D3 preparation allergy"
             }
-          ]
+          ],
+          "text": "H/O: combined calcium and vitamin D3 preparation allergy"
         },
         "patient": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
@@ -2748,6 +2779,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "251834017"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "H/O: erythromycin allergy"
                     }
                   ]
                 }
@@ -2756,7 +2791,8 @@
               "code": "161600004",
               "display": "H/O: erythromycin allergy"
             }
-          ]
+          ],
+          "text": "H/O: erythromycin allergy"
         },
         "patient": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"

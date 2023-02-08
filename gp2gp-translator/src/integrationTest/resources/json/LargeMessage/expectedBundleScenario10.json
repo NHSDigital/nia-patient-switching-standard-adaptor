@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "85974014-f923-4ea6-b903-1e5402d0a089",
+  "id": "3d58daf1-f4e0-4135-81a8-4f9db6d5ca33",
   "meta": {
     "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
   },
@@ -8,7 +8,7 @@
   "entry": [ {
     "resource": {
       "resourceType": "Patient",
-      "id": "ff75fdcd-e57b-42f9-9062-baed561bdcd2",
+      "id": "9650d864-f999-41b2-a63e-7b2e04314ca2",
       "meta": {
         "versionId": "1521806400000",
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -21,7 +21,7 @@
   }, {
     "resource": {
       "resourceType": "Organization",
-      "id": "9ff67e29-15af-4bb8-a2a8-3c1a2c75aaf5",
+      "id": "cd202de4-18c1-4403-b5c6-e3c0d3a5f804",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
       },
@@ -107,7 +107,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "participant": [ {
         "type": [ {
@@ -157,7 +157,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "participant": [ {
         "type": [ {
@@ -204,7 +204,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "encounter": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -241,7 +241,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "encounter": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -278,7 +278,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "encounter": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -315,7 +315,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "encounter": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -352,7 +352,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "encounter": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -785,7 +785,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "encounter": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -1203,7 +1203,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "12d3a9fd-a942-4a72-91cb-f5049fefaeb0",
+      "id": "64199d89-38cb-4d40-929d-5b7b5c2485fa",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -1243,10 +1243,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/12d3a9fd-a942-4a72-91cb-f5049fefaeb0"
+        "reference": "Medication/64199d89-38cb-4d40-929d-5b7b5c2485fa"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "authoredOn": "2017-05-18T08:12:07+00:00",
       "requester": {
@@ -1297,10 +1297,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/12d3a9fd-a942-4a72-91cb-f5049fefaeb0"
+        "reference": "Medication/64199d89-38cb-4d40-929d-5b7b5c2485fa"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "authoredOn": "2017-05-18T08:12:07+00:00",
       "requester": {
@@ -1351,10 +1351,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/12d3a9fd-a942-4a72-91cb-f5049fefaeb0"
+        "reference": "Medication/64199d89-38cb-4d40-929d-5b7b5c2485fa"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "authoredOn": "2017-05-18T08:12:07+00:00",
       "requester": {
@@ -1405,10 +1405,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/12d3a9fd-a942-4a72-91cb-f5049fefaeb0"
+        "reference": "Medication/64199d89-38cb-4d40-929d-5b7b5c2485fa"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "authoredOn": "2017-05-18T08:12:07+00:00",
       "requester": {
@@ -1435,7 +1435,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "aaedc437-226c-408f-a42c-3ef48e917669",
+      "id": "23c72c24-33ed-4ac8-9b77-6dc10f2e6cb7",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -1475,10 +1475,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/aaedc437-226c-408f-a42c-3ef48e917669"
+        "reference": "Medication/23c72c24-33ed-4ac8-9b77-6dc10f2e6cb7"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "authoredOn": "2017-05-18T08:12:07+00:00",
       "requester": {
@@ -1519,8 +1519,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269232013"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic sclerotherapy to lesion upper GI tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1530,7 +1530,7 @@
         "text": "Fibreoptic endoscopic sclerotherapy to lesion upper GI tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1559,8 +1559,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269223011"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic destruction lesion upper GI tract NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1570,7 +1570,7 @@
         "text": "Fibreoptic endoscopic destruction lesion upper GI tract NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1601,6 +1601,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "459010010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Endoscopic injection haemostasis of duodenal ulcer"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1610,7 +1613,7 @@
         "text": "Endoscopic injection haemostasis of duodenal ulcer"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1641,6 +1644,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "459013012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Endoscopic injection haemostasis of gastric ulcer"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1650,7 +1656,7 @@
         "text": "Endoscopic injection haemostasis of gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1679,8 +1685,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269223011"
+              "url": "descriptionDisplay",
+              "valueString": "Fibre endosc injec therapy les upper gastrointest tract NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1690,7 +1696,7 @@
         "text": "Fibre endosc injec therapy les upper gastrointest tract NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1719,8 +1725,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662179018"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreopt endoscop rubber band ligation of upper GIT varices"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1730,7 +1736,7 @@
         "text": "Fibreopt endoscop rubber band ligation of upper GIT varices"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1759,8 +1765,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269223011"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic extirpation lesion upper GI tract OS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1770,7 +1776,7 @@
         "text": "Fibreoptic endoscopic extirpation lesion upper GI tract OS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1799,8 +1805,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269223011"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic extirpation lesion upper GI tract NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1810,7 +1816,7 @@
         "text": "Fibreoptic endoscopic extirpation lesion upper GI tract NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1839,8 +1845,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2213911000000115"
+              "url": "descriptionDisplay",
+              "valueString": "Other therapeutic fibreoptic endoscopy on upper GI tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1850,7 +1856,7 @@
         "text": "Other therapeutic fibreoptic endoscopy on upper GI tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1879,8 +1885,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2213911000000115"
+              "url": "descriptionDisplay",
+              "valueString": "Other therapeutic gastroscopy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1890,7 +1896,7 @@
         "text": "Other therapeutic gastroscopy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1919,8 +1925,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269245012"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic insertion prosthesis in upper GI tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1930,7 +1936,7 @@
         "text": "Fibreoptic endoscopic insertion prosthesis in upper GI tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1959,8 +1965,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269249018"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic removal of FB from upper GI tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -1970,7 +1976,7 @@
         "text": "Fibreoptic endoscopic removal of FB from upper GI tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1999,8 +2005,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "394141018"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic dilation of upper GI tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2010,7 +2016,7 @@
         "text": "Fibreoptic endoscopic dilation of upper GI tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2039,8 +2045,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "352519016"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic dilation of oesophagus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2050,7 +2056,7 @@
         "text": "Fibreoptic dilation of oesophagus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2081,6 +2087,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "456041012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Temporary percutaneous endoscopic gastrostomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2090,7 +2099,7 @@
         "text": "Temporary percutaneous endoscopic gastrostomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2121,6 +2130,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "456042017"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Permanent percutaneous endoscopic gastrostomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2130,7 +2142,7 @@
         "text": "Permanent percutaneous endoscopic gastrostomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2159,8 +2171,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662177016"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreop endoscop reduction intussusception gastroenterostomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2170,7 +2182,7 @@
         "text": "Fibreop endoscop reduction intussusception gastroenterostomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2199,8 +2211,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662103016"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic percutaneous insert gastrostomy (PEG)"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2210,7 +2222,7 @@
         "text": "Fibreoptic endoscopic percutaneous insert gastrostomy (PEG)"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2239,8 +2251,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662104010"
+              "url": "descriptionDisplay",
+              "valueString": "Fib end pressure-controlled balloon dilat low oesoph sphinc"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2250,7 +2262,7 @@
         "text": "Fib end pressure-controlled balloon dilat low oesoph sphinc"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2279,8 +2291,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "394141018"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic dilation of upper GI tract NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2290,7 +2302,7 @@
         "text": "Fibreoptic endoscopic dilation of upper GI tract NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2320,7 +2332,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "2662388015"
+              "valueId": "2676317015"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic removal of gastrostomy tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2330,7 +2345,7 @@
         "text": "Fibreoptic endoscopic removal of gastrostomy tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2360,7 +2375,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "2662103016"
+              "valueId": "2676194017"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic percutaneous insertion of gastrostomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2370,7 +2388,7 @@
         "text": "Fibreoptic endoscopic percutaneous insertion of gastrostomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2399,8 +2417,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1461009013"
+              "url": "descriptionDisplay",
+              "valueString": "Other fibreoptic therapeutic endoscopy on upper GI tract OS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2410,7 +2428,7 @@
         "text": "Other fibreoptic therapeutic endoscopy on upper GI tract OS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2439,8 +2457,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1461009013"
+              "url": "descriptionDisplay",
+              "valueString": "Other fibreoptic therapeutic endoscopy on upper GI tract NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2450,7 +2468,7 @@
         "text": "Other fibreoptic therapeutic endoscopy on upper GI tract NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2479,8 +2497,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "394143015"
+              "url": "descriptionDisplay",
+              "valueString": "Diagnostic fibreoptic endoscopic exam of upper GI tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2490,7 +2508,7 @@
         "text": "Diagnostic fibreoptic endoscopic exam of upper GI tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2519,8 +2537,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "394143015"
+              "url": "descriptionDisplay",
+              "valueString": "Diagnostic fibreoptic gastroscopy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2530,7 +2548,7 @@
         "text": "Diagnostic fibreoptic gastroscopy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2559,8 +2577,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269269011"
+              "url": "descriptionDisplay",
+              "valueString": "Diagnostic fibreoptic endoscopy & biopsy of upper GI tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2570,7 +2588,7 @@
         "text": "Diagnostic fibreoptic endoscopy & biopsy of upper GI tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2599,8 +2617,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1461009013"
+              "url": "descriptionDisplay",
+              "valueString": "Diagnostic gastroscopy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2610,7 +2628,7 @@
         "text": "Diagnostic gastroscopy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2641,6 +2659,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269272016"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Diagnostic gastroscopy via stoma"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2650,7 +2671,7 @@
         "text": "Diagnostic gastroscopy via stoma"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2681,6 +2702,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269273014"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Gastroesophagoscopy via gastrotomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2690,7 +2714,7 @@
         "text": "Gastroesophagoscopy via gastrotomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2719,8 +2743,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "262707014"
+              "url": "descriptionDisplay",
+              "valueString": "Endoscopic upper gastrointestinal ultrasound"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2730,7 +2754,7 @@
         "text": "Endoscopic upper gastrointestinal ultrasound"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2759,8 +2783,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "262707014"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic ultrasound examination of upper GIT"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2770,7 +2794,7 @@
         "text": "Fibreoptic endoscopic ultrasound examination of upper GIT"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2799,8 +2823,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "3687682014"
+              "url": "descriptionDisplay",
+              "valueString": "Diag fibre endos insert Bravo pH caps upper gastroint tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2810,7 +2834,7 @@
         "text": "Diag fibre endos insert Bravo pH caps upper gastroint tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2839,8 +2863,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662389011"
+              "url": "descriptionDisplay",
+              "valueString": "Fibr endos exam upp gastrointest tract stain gastric mucosa"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2850,7 +2874,7 @@
         "text": "Fibr endos exam upp gastrointest tract stain gastric mucosa"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2879,8 +2903,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "394143015"
+              "url": "descriptionDisplay",
+              "valueString": "Diagnostic fibreoptic endoscopic exam upper GI tract OS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2890,7 +2914,7 @@
         "text": "Diagnostic fibreoptic endoscopic exam upper GI tract OS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2919,8 +2943,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "394143015"
+              "url": "descriptionDisplay",
+              "valueString": "Diagnostic fibreoptic endoscopic exam upper GI tract NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2930,7 +2954,7 @@
         "text": "Diagnostic fibreoptic endoscopic exam upper GI tract NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2959,8 +2983,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1461009013"
+              "url": "descriptionDisplay",
+              "valueString": "Gastroscopy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -2970,7 +2994,7 @@
         "text": "Gastroscopy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3000,7 +3024,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "2376311000000110"
+              "valueId": "126250019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Upper gastrointestinal endoscopy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3010,7 +3037,7 @@
         "text": "Upper Gastrointestinal endoscopy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3041,6 +3068,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "55269018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Intubation of stomach"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3050,7 +3080,7 @@
         "text": "Intubation of stomach"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3081,6 +3111,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269288016"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Intubation of stomach for ph manometry"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3090,7 +3123,7 @@
         "text": "Intubation of stomach for ph manometry"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3121,6 +3154,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269289012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Intubation of stomach for pressure manometry"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3130,7 +3166,7 @@
         "text": "Intubation of stomach for pressure manometry"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3161,6 +3197,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269290015"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Irrigation of stomach"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3170,7 +3209,7 @@
         "text": "Irrigation of stomach"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3199,8 +3238,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269290015"
+              "url": "descriptionDisplay",
+              "valueString": "Lavage of stomach"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3210,7 +3249,7 @@
         "text": "Lavage of stomach"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3239,8 +3278,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269290015"
+              "url": "descriptionDisplay",
+              "valueString": "Washout of stomach"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3250,7 +3289,7 @@
         "text": "Washout of stomach"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3281,6 +3320,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269297017"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Intubation of stomach for study of gastric secretion"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3290,7 +3332,7 @@
         "text": "Intubation of stomach for study of gastric secretion"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3319,8 +3361,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "55269018"
+              "url": "descriptionDisplay",
+              "valueString": "Intubation of stomach NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3330,7 +3372,7 @@
         "text": "Intubation of stomach NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3359,8 +3401,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "55269018"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified intubation of stomach"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3370,7 +3412,7 @@
         "text": "Other specified intubation of stomach"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3399,8 +3441,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "55269018"
+              "url": "descriptionDisplay",
+              "valueString": "Intubation of stomach NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3410,7 +3452,7 @@
         "text": "Intubation of stomach NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3439,8 +3481,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "27843017"
+              "url": "descriptionDisplay",
+              "valueString": "Other operations on stomach"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3450,7 +3492,7 @@
         "text": "Other operations on stomach"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3480,7 +3522,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "34985018"
+              "valueId": "1222563019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Insertion of gastric bubble"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3490,7 +3535,7 @@
         "text": "Insertion of gastric bubble"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3521,6 +3566,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "34985018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Insertion of gastric balloon"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3530,7 +3578,7 @@
         "text": "Insertion of gastric balloon"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3560,7 +3608,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "1739381000000113"
+              "valueId": "269304018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Attention to gastric bubble"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3570,7 +3621,7 @@
         "text": "Attention to gastric bubble"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3600,7 +3651,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "213613019"
+              "valueId": "213614013"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Induction of emesis"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3610,7 +3664,7 @@
         "text": "Induction of emesis"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3642,7 +3696,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3671,8 +3725,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "102677012"
+              "url": "descriptionDisplay",
+              "valueString": "Removal of gastric bubble"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3682,7 +3736,7 @@
         "text": "Removal of gastric bubble"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3713,6 +3767,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "102677012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Removal of gastric balloon"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3722,7 +3779,7 @@
         "text": "Removal of gastric balloon"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3753,6 +3810,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "34985018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Insertion of gastric balloon"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3762,7 +3822,7 @@
         "text": "Insertion of gastric balloon"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3793,6 +3853,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "1739381000000113"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Attention to gastric balloon"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3802,7 +3865,7 @@
         "text": "Attention to gastric balloon"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3831,8 +3894,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "27843017"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified other operation on stomach"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3842,7 +3905,7 @@
         "text": "Other specified other operation on stomach"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3871,8 +3934,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "27843017"
+              "url": "descriptionDisplay",
+              "valueString": "Other operation on stomach NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3882,7 +3945,7 @@
         "text": "Other operation on stomach NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3912,7 +3975,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "269307013"
+              "valueId": "269309011"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Operations on gastric ulcer"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3922,7 +3988,7 @@
         "text": "Operations on gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3952,7 +4018,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "269307013"
+              "valueId": "269308015"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Stomach ulcer operations"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3962,7 +4031,7 @@
         "text": "Stomach ulcer operations"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3993,6 +4062,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269310018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Closure of perforated gastric ulcer"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4002,7 +4074,7 @@
         "text": "Closure of perforated gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4031,8 +4103,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269307013"
+              "url": "descriptionDisplay",
+              "valueString": "Closure of gastric ulcer NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4042,7 +4114,7 @@
         "text": "Closure of gastric ulcer NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4071,8 +4143,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "450476012"
+              "url": "descriptionDisplay",
+              "valueString": "Suture of ulcer of stomach NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4082,7 +4154,7 @@
         "text": "Suture of ulcer of stomach NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4111,8 +4183,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269307013"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified operation on gastric ulcer"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4122,7 +4194,7 @@
         "text": "Other specified operation on gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4151,8 +4223,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269307013"
+              "url": "descriptionDisplay",
+              "valueString": "Operation on gastric ulcer NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4162,7 +4234,7 @@
         "text": "Operation on gastric ulcer NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4192,7 +4264,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "2662105011"
+              "valueId": "2676198019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic extirpation of lesion of stomach"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4202,7 +4277,7 @@
         "text": "Fibreoptic endoscopic extirpation of lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4231,8 +4306,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662440019"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic submucosal resection lesion of stomach"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4242,7 +4317,7 @@
         "text": "Fibreoptic endoscopic submucosal resection lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4271,8 +4346,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662280013"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic photodynamic therapy lesion of stomach"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4282,7 +4357,7 @@
         "text": "Fibreoptic endoscopic photodynamic therapy lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4311,8 +4386,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662105011"
+              "url": "descriptionDisplay",
+              "valueString": "OS fibreoptic endoscopic extirpation of lesion of stomach"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4322,7 +4397,7 @@
         "text": "OS fibreoptic endoscopic extirpation of lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4351,8 +4426,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662105011"
+              "url": "descriptionDisplay",
+              "valueString": "Fibreoptic endoscopic extirpation of lesion of stomach NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4362,7 +4437,7 @@
         "text": "Fibreoptic endoscopic extirpation of lesion of stomach NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4391,8 +4466,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2376311000000110"
+              "url": "descriptionDisplay",
+              "valueString": "Therap fibr endos operations on upper gastrointestinal tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4402,7 +4477,7 @@
         "text": "Therap fibr endos operations on upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4431,8 +4506,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662390019"
+              "url": "descriptionDisplay",
+              "valueString": "Fibr endos endoluminal plication gastro-oesophageal junction"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4442,7 +4517,7 @@
         "text": "Fibr endos endoluminal plication gastro-oesophageal junction"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4471,8 +4546,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1459602017"
+              "url": "descriptionDisplay",
+              "valueString": "OS ther fibr endoscopic ops on upper gastrointestinal tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4482,7 +4557,7 @@
         "text": "OS ther fibr endoscopic ops on upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4511,8 +4586,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1459602017"
+              "url": "descriptionDisplay",
+              "valueString": "Ther fibr endoscopic ops on upper gastrointestinal tract NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4522,7 +4597,7 @@
         "text": "Ther fibr endoscopic ops on upper gastrointestinal tract NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4551,8 +4626,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269223011"
+              "url": "descriptionDisplay",
+              "valueString": "Other fibre endos extirp lesion upper gastrointestinal tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4562,7 +4637,7 @@
         "text": "Other fibre endos extirp lesion upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4591,8 +4666,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662486017"
+              "url": "descriptionDisplay",
+              "valueString": "Fibr end submucosal resect les upper gastrointestinal tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4602,7 +4677,7 @@
         "text": "Fibr end submucosal resect les upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4631,8 +4706,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2662487014"
+              "url": "descriptionDisplay",
+              "valueString": "Fibr end photodynamic thera les upper gastrointestinal tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4642,7 +4717,7 @@
         "text": "Fibr end photodynamic thera les upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4671,8 +4746,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269223011"
+              "url": "descriptionDisplay",
+              "valueString": "OS other fibre endos extirp les upper gastrointestinal tract"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4682,7 +4757,7 @@
         "text": "OS other fibre endos extirp les upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4711,8 +4786,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269223011"
+              "url": "descriptionDisplay",
+              "valueString": "Oth fib endos extirp lesion upper gastrointestinal tract NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4722,7 +4797,7 @@
         "text": "Oth fib endos extirp lesion upper gastrointestinal tract NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4751,8 +4826,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269079018"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified operations on stomach or pylorus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4762,7 +4837,7 @@
         "text": "Other specified operations on stomach or pylorus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4791,8 +4866,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269079018"
+              "url": "descriptionDisplay",
+              "valueString": "Stomach and pylorus operations NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4802,7 +4877,7 @@
         "text": "Stomach and pylorus operations NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4831,8 +4906,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "137298014"
+              "url": "descriptionDisplay",
+              "valueString": "Duodenum operations"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4842,7 +4917,7 @@
         "text": "Duodenum operations"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4873,6 +4948,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "122488018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Duodenectomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4882,7 +4960,7 @@
         "text": "Duodenectomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4911,8 +4989,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "122488018"
+              "url": "descriptionDisplay",
+              "valueString": "Excision of duodenum"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4922,7 +5000,7 @@
         "text": "Excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4953,6 +5031,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "139054014"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Gastroduodenectomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4962,7 +5043,7 @@
         "text": "Gastroduodenectomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4993,6 +5074,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269318013"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Total excision of duodenum"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5002,7 +5086,7 @@
         "text": "Total excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5032,7 +5116,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "269320011"
+              "valueId": "269321010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Partial excision of duodenum"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5042,7 +5129,7 @@
         "text": "Partial excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5071,8 +5158,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "122488018"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified excision of duodenum"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5082,7 +5169,7 @@
         "text": "Other specified excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5111,8 +5198,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "122488018"
+              "url": "descriptionDisplay",
+              "valueString": "Duodenectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5122,7 +5209,7 @@
         "text": "Duodenectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5151,8 +5238,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "122488018"
+              "url": "descriptionDisplay",
+              "valueString": "Excision of duodenum NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5162,7 +5249,7 @@
         "text": "Excision of duodenum NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5193,6 +5280,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269326017"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open extirpation of lesion of duodenum"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5202,7 +5292,7 @@
         "text": "Open extirpation of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5233,6 +5323,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "147384018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Excision of lesion of duodenum"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5242,7 +5335,7 @@
         "text": "Excision of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5273,6 +5366,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269327014"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open destruction of lesion of duodenum"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5282,7 +5378,7 @@
         "text": "Open destruction of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5311,8 +5407,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269326017"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified open extirpation of lesion of duodenum"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5322,7 +5418,7 @@
         "text": "Other specified open extirpation of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5351,8 +5447,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "269326017"
+              "url": "descriptionDisplay",
+              "valueString": "Open extirpation of lesion of duodenum NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5362,7 +5458,7 @@
         "text": "Open extirpation of lesion of duodenum NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5393,6 +5489,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269330019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Bypass of duodenum"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5402,7 +5501,7 @@
         "text": "Bypass of duodenum"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5433,6 +5532,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269331015"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Bypass of duodenum by anastomosis of stomach to jejunum"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5442,7 +5544,7 @@
         "text": "Bypass of duodenum by anastomosis of stomach to jejunum"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5473,6 +5575,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "269332010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Bypass of duodenum by anastomosis of duodenum to duodenum"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5482,7 +5587,7 @@
         "text": "Bypass of duodenum by anastomosis of duodenum to duodenum"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5511,8 +5616,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2897641011"
+              "url": "descriptionDisplay",
+              "valueString": "Focused ultrasound to lesion of uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5522,7 +5627,7 @@
         "text": "Focused ultrasound to lesion of uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5551,8 +5656,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273866017"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified operation on uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5562,7 +5667,7 @@
         "text": "Other specified operation on uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5591,8 +5696,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273866017"
+              "url": "descriptionDisplay",
+              "valueString": "Operation on uterus NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5602,7 +5707,7 @@
         "text": "Operation on uterus NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5631,8 +5736,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273866017"
+              "url": "descriptionDisplay",
+              "valueString": "Other vaginal operations on uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5642,7 +5747,7 @@
         "text": "Other vaginal operations on uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5673,6 +5778,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273880012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Vaginal excision of lesion of uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5682,7 +5790,7 @@
         "text": "Vaginal excision of lesion of uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5713,6 +5821,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "457043017"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Endometrial balloon ablation"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5722,7 +5833,7 @@
         "text": "Endometrial balloon ablation"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5751,8 +5862,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1659741000000113"
+              "url": "descriptionDisplay",
+              "valueString": "Microwave ablation of endometrium NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5762,7 +5873,7 @@
         "text": "Microwave ablation of endometrium NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5793,6 +5904,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "2399191000000117"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Free circulating saline ablation of endometrium"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5802,7 +5916,7 @@
         "text": "Free circulating saline ablation of endometrium"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5833,6 +5947,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "355073014"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Radiofrequency endometrial ablation"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5842,7 +5959,7 @@
         "text": "Radiofrequency endometrial ablation"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5872,7 +5989,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "2689594018"
+              "valueId": "2694342019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Photodynamic ablation of endometrium"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5882,7 +6002,7 @@
         "text": "Photodynamic ablation of endometrium"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5911,8 +6031,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273866017"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified other vaginal operation on uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5922,7 +6042,7 @@
         "text": "Other specified other vaginal operation on uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5951,8 +6071,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273866017"
+              "url": "descriptionDisplay",
+              "valueString": "Other vaginal operation on uterus NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5962,7 +6082,7 @@
         "text": "Other vaginal operation on uterus NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -5994,7 +6114,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6026,7 +6146,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6058,7 +6178,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6090,7 +6210,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6119,8 +6239,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273803011"
+              "url": "descriptionDisplay",
+              "valueString": "Other introduction of gamete into uterine cavity"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6130,7 +6250,7 @@
         "text": "Other introduction of gamete into uterine cavity"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6160,7 +6280,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "2897732013"
+              "valueId": "2899371019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Transmyometrial transfer of embryo to uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6170,7 +6293,7 @@
         "text": "Transmyometrial transfer of embryo to uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6199,8 +6322,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273866017"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified operations on uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6210,7 +6333,7 @@
         "text": "Other specified operations on uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6239,8 +6362,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "132517012"
+              "url": "descriptionDisplay",
+              "valueString": "Uterus operations NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6250,7 +6373,7 @@
         "text": "Uterus operations NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6281,6 +6404,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "220431000000117"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Fallopian tube operations"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6290,7 +6416,7 @@
         "text": "Fallopian tube operations"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6320,7 +6446,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "220431000000117"
+              "valueId": "1493944011"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Tubal operations - fallopian"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6330,7 +6459,7 @@
         "text": "Tubal operations - fallopian"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6361,6 +6490,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273886018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Bilateral excision of adnexa of uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6370,7 +6502,7 @@
         "text": "Bilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6399,8 +6531,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "49909010"
+              "url": "descriptionDisplay",
+              "valueString": "Bilateral salpingoophorectomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6410,7 +6542,7 @@
         "text": "Bilateral salpingoophorectomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6439,8 +6571,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "43248011"
+              "url": "descriptionDisplay",
+              "valueString": "Bilateral salpingectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6450,7 +6582,7 @@
         "text": "Bilateral salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6479,8 +6611,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "127631019"
+              "url": "descriptionDisplay",
+              "valueString": "Bilateral oophorectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6490,7 +6622,7 @@
         "text": "Bilateral oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6519,8 +6651,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273886018"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified bilateral excision of adnexa of uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6530,7 +6662,7 @@
         "text": "Other specified bilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6559,8 +6691,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273886018"
+              "url": "descriptionDisplay",
+              "valueString": "Bilateral excision of adnexa of uterus NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6570,7 +6702,7 @@
         "text": "Bilateral excision of adnexa of uterus NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6601,6 +6733,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273893019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Unilateral excision of adnexa of uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6610,7 +6745,7 @@
         "text": "Unilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6639,8 +6774,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "184484014"
+              "url": "descriptionDisplay",
+              "valueString": "Unilateral salpingoophorectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6650,7 +6785,7 @@
         "text": "Unilateral salpingoophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6679,8 +6814,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "184484014"
+              "url": "descriptionDisplay",
+              "valueString": "Salpingoophorectomy remaining solitary fallop tube and ovary"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6690,7 +6825,7 @@
         "text": "Salpingoophorectomy remaining solitary fallop tube and ovary"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6719,8 +6854,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "184478011"
+              "url": "descriptionDisplay",
+              "valueString": "Unilateral salpingectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6730,7 +6865,7 @@
         "text": "Unilateral salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6759,8 +6894,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "184478011"
+              "url": "descriptionDisplay",
+              "valueString": "Salpingectomy of remaining solitary fallopian tube NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6770,7 +6905,7 @@
         "text": "Salpingectomy of remaining solitary fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6799,8 +6934,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "55338015"
+              "url": "descriptionDisplay",
+              "valueString": "Unilateral oophorectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6810,7 +6945,7 @@
         "text": "Unilateral oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6839,8 +6974,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "444029011"
+              "url": "descriptionDisplay",
+              "valueString": "Oophorectomy of remaining solitary ovary NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6850,7 +6985,7 @@
         "text": "Oophorectomy of remaining solitary ovary NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6879,8 +7014,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273900013"
+              "url": "descriptionDisplay",
+              "valueString": "Right salpingoophorectomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6890,7 +7025,7 @@
         "text": "Right salpingoophorectomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6919,8 +7054,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273902017"
+              "url": "descriptionDisplay",
+              "valueString": "Left salpingoophorectomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6930,7 +7065,7 @@
         "text": "Left salpingoophorectomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6961,6 +7096,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273904016"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Right salpingectomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6970,7 +7108,7 @@
         "text": "Right salpingectomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7001,6 +7139,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273905015"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Left salpingectomy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7010,7 +7151,7 @@
         "text": "Left salpingectomy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7039,8 +7180,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273656010"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified unilateral excision of adnexa of uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7050,7 +7191,7 @@
         "text": "Other specified unilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7079,8 +7220,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273893019"
+              "url": "descriptionDisplay",
+              "valueString": "Unilateral excision of adnexa of uterus NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7090,7 +7231,7 @@
         "text": "Unilateral excision of adnexa of uterus NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7119,8 +7260,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273656010"
+              "url": "descriptionDisplay",
+              "valueString": "Other excision of adnexa of uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7130,7 +7271,7 @@
         "text": "Other excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7159,8 +7300,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "184484014"
+              "url": "descriptionDisplay",
+              "valueString": "Salpingoophorectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7170,7 +7311,7 @@
         "text": "Salpingoophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7199,8 +7340,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "184478011"
+              "url": "descriptionDisplay",
+              "valueString": "Salpingectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7210,7 +7351,7 @@
         "text": "Salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7239,8 +7380,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "137917014"
+              "url": "descriptionDisplay",
+              "valueString": "Oophorectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7250,7 +7391,7 @@
         "text": "Oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7279,8 +7420,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "444029011"
+              "url": "descriptionDisplay",
+              "valueString": "Right oophorectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7290,7 +7431,7 @@
         "text": "Right oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7319,8 +7460,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "444030018"
+              "url": "descriptionDisplay",
+              "valueString": "Left oophorectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7330,7 +7471,7 @@
         "text": "Left oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7359,8 +7500,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273656010"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified other excision of adnexa of uterus"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7370,7 +7511,7 @@
         "text": "Other specified other excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7399,8 +7540,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273656010"
+              "url": "descriptionDisplay",
+              "valueString": "Other excision of adnexa of uterus NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7410,7 +7551,7 @@
         "text": "Other excision of adnexa of uterus NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7440,7 +7581,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "104187013"
+              "valueId": "1232377012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Partial excision of fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7450,7 +7594,7 @@
         "text": "Partial excision of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7481,6 +7625,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "74733015"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Excision of lesion of fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7490,7 +7637,7 @@
         "text": "Excision of lesion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7521,6 +7668,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273916010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Excision of ectopic ovarian pregnancy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7530,7 +7680,7 @@
         "text": "Excision of ectopic ovarian pregnancy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7561,6 +7711,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273917018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Excision of ruptured ectopic tubal pregnancy"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7570,7 +7723,7 @@
         "text": "Excision of ruptured ectopic tubal pregnancy"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7599,8 +7752,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "104187013"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified partial excision of fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7610,7 +7763,7 @@
         "text": "Other specified partial excision of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7639,8 +7792,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "104187013"
+              "url": "descriptionDisplay",
+              "valueString": "Partial salpingectomy NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7650,7 +7803,7 @@
         "text": "Partial salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7679,8 +7832,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "104187013"
+              "url": "descriptionDisplay",
+              "valueString": "Partial excision of fallopian tube NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7690,7 +7843,7 @@
         "text": "Partial excision of fallopian tube NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7719,8 +7872,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "64602013"
+              "url": "descriptionDisplay",
+              "valueString": "Placement of prosthesis in fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7730,7 +7883,7 @@
         "text": "Placement of prosthesis in fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7759,8 +7912,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "64602013"
+              "url": "descriptionDisplay",
+              "valueString": "Insertion of tubal prosthesis into fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7770,7 +7923,7 @@
         "text": "Insertion of tubal prosthesis into fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7799,8 +7952,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273924017"
+              "url": "descriptionDisplay",
+              "valueString": "Revision of tubal prosthesis in fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7810,7 +7963,7 @@
         "text": "Revision of tubal prosthesis in fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7839,8 +7992,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "10118010"
+              "url": "descriptionDisplay",
+              "valueString": "Removal of tubal prosthesis from fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7850,7 +8003,7 @@
         "text": "Removal of tubal prosthesis from fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7879,8 +8032,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "406186015"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified placement of prosthesis in fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7890,7 +8043,7 @@
         "text": "Other specified placement of prosthesis in fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7919,8 +8072,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "406186015"
+              "url": "descriptionDisplay",
+              "valueString": "Placement of prosthesis in fallopian tube NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7930,7 +8083,7 @@
         "text": "Placement of prosthesis in fallopian tube NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7961,6 +8114,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273927012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open bilateral occlusion of fallopian tubes"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7970,7 +8126,7 @@
         "text": "Open bilateral occlusion of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8000,7 +8156,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "273927012"
+              "valueId": "273929010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open bilateral female sterilisation"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8010,7 +8169,7 @@
         "text": "Open bilateral female sterilisation"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8041,6 +8200,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273930017"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open bilateral ligation of fallopian tubes"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8050,7 +8212,7 @@
         "text": "Open bilateral ligation of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8080,7 +8242,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "273930017"
+              "valueId": "273931018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Pomeroy open bilateral ligation of fallopian tubes"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8090,7 +8255,7 @@
         "text": "Pomeroy open bilateral ligation of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8121,6 +8286,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "393645016"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open bilateral clipping of fallopian tubes"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8130,7 +8298,7 @@
         "text": "Open bilateral clipping of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8161,6 +8329,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "410892013"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open bilateral ringing of fallopian tubes"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8170,7 +8341,7 @@
         "text": "Open bilateral ringing of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8199,8 +8370,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273927012"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified open bilateral occlusion of fallopian tubes"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8210,7 +8381,7 @@
         "text": "Other specified open bilateral occlusion of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8239,8 +8410,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "273927012"
+              "url": "descriptionDisplay",
+              "valueString": "Open bilateral occlusion of fallopian tubes NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8250,7 +8421,7 @@
         "text": "Open bilateral occlusion of fallopian tubes NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8279,8 +8450,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "442087014"
+              "url": "descriptionDisplay",
+              "valueString": "Other open occlusion of fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8290,7 +8461,7 @@
         "text": "Other open occlusion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8319,8 +8490,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "432112011"
+              "url": "descriptionDisplay",
+              "valueString": "Other open female sterilisation"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8330,7 +8501,7 @@
         "text": "Other open female sterilisation"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8361,6 +8532,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "410894014"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Unilateral occlusion of fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8370,7 +8544,7 @@
         "text": "Unilateral occlusion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8401,6 +8575,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273942010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open ligation of remaining solitary fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8410,7 +8587,7 @@
         "text": "Open ligation of remaining solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8439,8 +8616,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "442087014"
+              "url": "descriptionDisplay",
+              "valueString": "Open ligation of fallopian tube NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8450,7 +8627,7 @@
         "text": "Open ligation of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8481,6 +8658,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "393647012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open clipping of remaining solitary fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8490,7 +8670,7 @@
         "text": "Open clipping of remaining solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8520,7 +8700,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "393647012"
+              "valueId": "393648019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open clipping of residual solitary fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8530,7 +8713,7 @@
         "text": "Open clipping of residual solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8561,6 +8744,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "450527015"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open ringing of remaining solitary fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8570,7 +8756,7 @@
         "text": "Open ringing of remaining solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8599,8 +8785,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "442087014"
+              "url": "descriptionDisplay",
+              "valueString": "Open clipping of fallopian tube NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8610,7 +8796,7 @@
         "text": "Open clipping of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8639,8 +8825,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "442087014"
+              "url": "descriptionDisplay",
+              "valueString": "Open ringing of fallopian tube NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8650,7 +8836,7 @@
         "text": "Open ringing of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8681,6 +8867,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "393650010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open clipping of right fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8690,7 +8879,7 @@
         "text": "Open clipping of right fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8721,6 +8910,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "410896011"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open ringing of right fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8730,7 +8922,7 @@
         "text": "Open ringing of right fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8761,6 +8953,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "393651014"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open clipping of left fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8770,7 +8965,7 @@
         "text": "Open clipping of left fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8801,6 +8996,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "410897019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open ringing of left fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8810,7 +9008,7 @@
         "text": "Open ringing of left fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8841,6 +9039,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273957015"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open ligation of right fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8850,7 +9051,7 @@
         "text": "Open ligation of right fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8881,6 +9082,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273958013"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open ligation of left fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8890,7 +9094,7 @@
         "text": "Open ligation of left fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8919,8 +9123,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "442087014"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified other open occlusion of fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8930,7 +9134,7 @@
         "text": "Other specified other open occlusion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8959,8 +9163,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "442087014"
+              "url": "descriptionDisplay",
+              "valueString": "Other open occlusion of fallopian tube NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8970,7 +9174,7 @@
         "text": "Other open occlusion of fallopian tube NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9000,7 +9204,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "273961014"
+              "valueId": "273963012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open reversal of female sterilisation"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9010,7 +9217,7 @@
         "text": "Open reversal of female sterilisation"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9040,7 +9247,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "273961014"
+              "valueId": "273963012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open reversal of female sterilisation"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9050,7 +9260,7 @@
         "text": "Open reversal of female sterilisation"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9081,6 +9291,9 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "273961014"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Open reversal of tubal ligation"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9090,7 +9303,7 @@
         "text": "Open reversal of tubal ligation"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9119,8 +9332,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1466173011"
+              "url": "descriptionDisplay",
+              "valueString": "Reanastomosis of fallopian tube NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9130,7 +9343,7 @@
         "text": "Reanastomosis of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9159,8 +9372,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "355112014"
+              "url": "descriptionDisplay",
+              "valueString": "Open removal of clip from fallopian tube NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9170,7 +9383,7 @@
         "text": "Open removal of clip from fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9199,8 +9412,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "355113016"
+              "url": "descriptionDisplay",
+              "valueString": "Open removal of ring from fallopian tube NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9210,7 +9423,7 @@
         "text": "Open removal of ring from fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9239,8 +9452,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "206597011"
+              "url": "descriptionDisplay",
+              "valueString": "Other specified open reversal of female sterilisation"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9250,7 +9463,7 @@
         "text": "Other specified open reversal of female sterilisation"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9279,8 +9492,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "206597011"
+              "url": "descriptionDisplay",
+              "valueString": "Open reversal of female sterilisation NOS"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9290,7 +9503,7 @@
         "text": "Open reversal of female sterilisation NOS"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9319,8 +9532,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "220431000000117"
+              "url": "descriptionDisplay",
+              "valueString": "Other repair of fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9330,7 +9543,7 @@
         "text": "Other repair of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9360,7 +9573,10 @@
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
               "url": "descriptionId",
-              "valueId": "184493010"
+              "valueId": "1495611018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Reconstruction of fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9370,7 +9586,7 @@
         "text": "Reconstruction of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9399,8 +9615,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1767078017"
+              "url": "descriptionDisplay",
+              "valueString": "Replantation of fallopian tube"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9410,7 +9626,7 @@
         "text": "Replantation of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9439,8 +9655,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "1466173011"
+              "url": "descriptionDisplay",
+              "valueString": "Anastomosis of fallopian tube NEC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9450,7 +9666,7 @@
         "text": "Anastomosis of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/ff75fdcd-e57b-42f9-9062-baed561bdcd2"
+        "reference": "Patient/9650d864-f999-41b2-a63e-7b2e04314ca2"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"

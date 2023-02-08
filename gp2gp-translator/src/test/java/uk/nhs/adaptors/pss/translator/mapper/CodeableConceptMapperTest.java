@@ -57,7 +57,6 @@ public class CodeableConceptMapperTest {
 
         assertThat(codeableConcept.getCoding().get(0).getCode()).isEqualTo(CONCEPT_ID);
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(SNOMED_PREFERRED.getTerm());
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
             .isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
@@ -95,9 +94,9 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getCode()).isEqualTo(CONCEPT_ID);
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(DISPLAY_NAME_1);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
-            .isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_DISPLAY);
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue().toString())
+            .isEqualTo((SNOMED_PREFERRED.getTerm()));
         assertThat(codeableConcept.getText()).isEqualTo(ORIGINAL_TEXT);
     }
 
@@ -112,9 +111,9 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getCode()).isEqualTo(CONCEPT_ID);
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(DISPLAY_NAME_1);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
-            .isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_DISPLAY);
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue().toString())
+            .isEqualTo((SNOMED_PREFERRED.getTerm()));
         assertThat(codeableConcept.getText()).isEqualTo(DISPLAY_NAME_1);
     }
 
@@ -136,7 +135,6 @@ public class CodeableConceptMapperTest {
 
     @Test
     public void mapSnomedCodeWithConceptIdDisplayNameInTranslationMainCode() {
-        when(snomedCTDao.getSnomedDescriptionUsingConceptId(any())).thenReturn(SNOMED_DESCRIPTION);
         when(snomedCTDao.getSnomedDescriptionPreferredTermUsingConceptId(any())).thenReturn(SNOMED_PREFERRED);
         var codedData = unmarshallCodeElement("translation-concept-id-no-display-code-example.xml");
 
@@ -145,15 +143,14 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getCode()).isEqualTo(CONCEPT_ID);
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(DISPLAY_NAME_1);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
-            .isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_DISPLAY);
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue().toString())
+            .isEqualTo((SNOMED_DESCRIPTION.getTerm()));
         assertThat(codeableConcept.getText()).isEqualTo(ORIGINAL_TEXT);
     }
 
     @Test
     public void mapSnomedCodeWithConceptIdDisplayNameInTranslationMainCodeNoOriginalText() {
-        when(snomedCTDao.getSnomedDescriptionUsingConceptId(any())).thenReturn(SNOMED_DESCRIPTION);
         when(snomedCTDao.getSnomedDescriptionPreferredTermUsingConceptId(any())).thenReturn(SNOMED_PREFERRED);
         var codedData = unmarshallCodeElement("translation-concept-id-no-display-code-no-original-text-example.xml");
 
@@ -162,9 +159,9 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCoding().get(0).getCode()).isEqualTo(CONCEPT_ID);
         assertThat(codeableConcept.getCoding().get(0).getDisplay()).isEqualTo(DISPLAY_NAME_1);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1).isTrue();
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_ID);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
-            .isEqualTo(new IdType(SNOMED_DESCRIPTION.getId()));
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl()).isEqualTo(DESCRIPTION_DISPLAY);
+        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue().toString())
+            .isEqualTo((SNOMED_DESCRIPTION.getTerm()));
         assertThat(codeableConcept.getText()).isEqualTo(DISPLAY_NAME_2);
     }
 
@@ -198,7 +195,6 @@ public class CodeableConceptMapperTest {
 
     @Test
     public void mapSnomedCodeWithConceptIdNoMatchingDescriptionNoDisplayInTranslationNoOriginalText() {
-        when(snomedCTDao.getSnomedDescriptionUsingConceptId(any())).thenReturn(null);
         when(snomedCTDao.getSnomedDescriptionPreferredTermUsingConceptId(any())).thenReturn(null);
         var codedData = unmarshallCodeElement("translation-concept-id-no-display-code-no-original-text-example.xml");
 
