@@ -44,10 +44,12 @@ public class BloodPressureMapperTest {
     private static final String COMMENT_EXAMPLE_2 = "Systolic Note: Test systolic pressure text";
     private static final String COMMENT_EXAMPLE_3 = "Diastolic Note: Test diastolic pressure text";
     private static final String COMMENT_EXAMPLE_4 = "BP Note: Systolic Measurement Absent: Unknown";
-    private static final BigDecimal COMPONENT_1_VALUE_QUANTITY_VALUE = new BigDecimal(80);
+    private static final BigDecimal COMPONENT_1_VALUE_QUANTITY_VALUE_BASE = new BigDecimal(80);
+    private static final BigDecimal COMPONENT_1_VALUE_QUANTITY_VALUE = COMPONENT_1_VALUE_QUANTITY_VALUE_BASE.setScale(3);
     private static final String COMPONENT_1_INTERPRETATION_TEXT = "High Text";
     private static final String COMPONENT_1_REFERENCE_RANGE_TEXT = "Test Range 1";
-    private static final BigDecimal COMPONENT_2_VALUE_QUANTITY_VALUE = new BigDecimal(90);
+    private static final BigDecimal COMPONENT_2_VALUE_QUANTITY_VALUE_BASE = new BigDecimal(90);
+    private static final BigDecimal COMPONENT_2_VALUE_QUANTITY_VALUE = COMPONENT_2_VALUE_QUANTITY_VALUE_BASE.setScale(3);
     private static final String COMPONENT_2_INTERPRETATION_TEXT = "Low Text";
     private static final String COMPONENT_2_REFERENCE_RANGE_TEXT = "Test Range 2";
 

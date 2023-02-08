@@ -30,7 +30,8 @@ public class ObservationUtilTest {
     private static final String QUANTITY_UNIT = "ml";
     private static final String QUANTITY_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ValueApproximation-1";
-    private static final BigDecimal PQ_QUANTITY_VALUE = new BigDecimal(100);
+    private static final BigDecimal PQ_QUANTITY_VALUE_BASE = new BigDecimal(100);
+    private static final BigDecimal PQ_QUANTITY_VALUE = PQ_QUANTITY_VALUE_BASE.setScale(3);
     private static final BigDecimal IVL_PQ_QUANTITY_VALUE = new BigDecimal(200);
     private static final BigDecimal REFERENCE_RANGE_LOW_VALUE_1 = new BigDecimal(10);
     private static final BigDecimal REFERENCE_RANGE_LOW_VALUE_2 = new BigDecimal(20);

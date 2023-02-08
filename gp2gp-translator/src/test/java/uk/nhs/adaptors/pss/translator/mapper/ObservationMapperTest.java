@@ -44,7 +44,8 @@ public class ObservationMapperTest {
     private static final String PPRF_PARTICIPANT_ID = "Practitioner/1230F602-6BB1-47E0-B2EC-39912A59787D";
     private static final String NEGATIVE_VALUE = "Negative";
     private static final String TEST_DISPLAY_VALUE = "Test display name";
-    private static final BigDecimal QUANTITY_VALUE = new BigDecimal(27);
+    private static final BigDecimal QUANTITY_VALUE_BASE = new BigDecimal(27);
+    private static final BigDecimal QUANTITY_VALUE = QUANTITY_VALUE_BASE.setScale(3);
     private static final BigDecimal REFERENCE_RANGE_LOW_VALUE = new BigDecimal(20);
     private static final BigDecimal REFERENCE_RANGE_HIGH_VALUE = new BigDecimal(22);
 

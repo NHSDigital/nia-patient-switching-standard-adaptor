@@ -74,7 +74,7 @@ public class QuantityMapper {
         var decimalPlaceIndex = value.indexOf(".");
         var decimalPlaceCount = 0;
         if (decimalPlaceIndex != -1) {
-            decimalPlaceCount = value.substring(decimalPlaceIndex).length()-1;
+            decimalPlaceCount = value.substring(decimalPlaceIndex).length() - 1;
         }
         quantity.setValue(new BigDecimal((value)).setScale(decimalPlaceCount, RoundingMode.CEILING));
     }
