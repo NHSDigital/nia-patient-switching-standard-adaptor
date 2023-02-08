@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "84dac48e-b34d-4973-9263-7e19fd09c0fe",
+  "id": "89832e39-f0f2-4b76-8ab5-46039b4b295b",
   "meta": {
     "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
   },
@@ -8,7 +8,7 @@
   "entry": [ {
     "resource": {
       "resourceType": "Patient",
-      "id": "784f7dca-0a97-4bfc-bab6-108c5e1c9060",
+      "id": "981d7007-21d9-414a-80b1-dd9dd7cdd8ba",
       "meta": {
         "versionId": "1521806400000",
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -21,7 +21,7 @@
   }, {
     "resource": {
       "resourceType": "Organization",
-      "id": "22966480-f615-4d97-aeed-b946835c7dd7",
+      "id": "a54a551b-4c29-42cd-8cdd-f104809500c1",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1" ]
       },
@@ -93,7 +93,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -143,7 +143,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -193,7 +193,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -243,7 +243,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -293,7 +293,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -343,7 +343,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -393,7 +393,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -443,7 +443,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -493,7 +493,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -543,7 +543,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -593,7 +593,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -643,7 +643,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -693,7 +693,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -743,7 +743,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -793,7 +793,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -843,7 +843,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -893,7 +893,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -943,7 +943,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -993,7 +993,7 @@
         "text": "Externally entered"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -1043,7 +1043,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -1098,7 +1098,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "participant": [ {
         "type": [ {
@@ -1150,7 +1150,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/97AD4F69-49C5-4B0F-B8E4-AFEF4B9D39B2"
@@ -1187,7 +1187,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/D0E4D145-F0A7-463C-BEF6-A768CAE0D735"
@@ -1224,7 +1224,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/B5691BFC-4601-4EB2-9CE7-6A040B5E1D65"
@@ -1261,7 +1261,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6244FA36-A8BC-43BE-A845-A6E7368EA578"
@@ -1298,7 +1298,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/7040CC1C-A6A6-4B38-A73A-77D5C474F539"
@@ -1335,7 +1335,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/429510F6-B561-417E-B002-24F979C05AB3"
@@ -1372,7 +1372,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/71CE665D-D113-4359-B640-73CE6ACBE6AB"
@@ -1409,7 +1409,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/C5323AB7-2CA9-4E85-85E4-8FA896E45628"
@@ -1446,7 +1446,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6F7401EE-5139-4F98-8982-70BDD33D4189"
@@ -1483,7 +1483,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -1520,7 +1520,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -1557,7 +1557,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -1594,7 +1594,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -1631,7 +1631,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -1668,7 +1668,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -1705,7 +1705,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/A076B5DA-4B2F-42C4-8807-4A71A26ECD25"
@@ -1742,7 +1742,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -1779,7 +1779,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -1816,7 +1816,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -1853,7 +1853,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -1890,7 +1890,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/F3CC75D0-299A-4014-AB63-E354AE15AEAA"
@@ -1927,7 +1927,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/97AD4F69-49C5-4B0F-B8E4-AFEF4B9D39B2"
@@ -1968,7 +1968,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/D0E4D145-F0A7-463C-BEF6-A768CAE0D735"
@@ -2005,7 +2005,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/B5691BFC-4601-4EB2-9CE7-6A040B5E1D65"
@@ -2042,7 +2042,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6244FA36-A8BC-43BE-A845-A6E7368EA578"
@@ -2079,7 +2079,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/7040CC1C-A6A6-4B38-A73A-77D5C474F539"
@@ -2116,7 +2116,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/429510F6-B561-417E-B002-24F979C05AB3"
@@ -2153,7 +2153,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/71CE665D-D113-4359-B640-73CE6ACBE6AB"
@@ -2190,7 +2190,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/C5323AB7-2CA9-4E85-85E4-8FA896E45628"
@@ -2227,7 +2227,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6F7401EE-5139-4F98-8982-70BDD33D4189"
@@ -2264,7 +2264,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -2301,7 +2301,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -2338,7 +2338,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -2375,7 +2375,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -2412,7 +2412,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -2449,7 +2449,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -2486,7 +2486,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/A076B5DA-4B2F-42C4-8807-4A71A26ECD25"
@@ -2523,7 +2523,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -2560,7 +2560,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -2597,7 +2597,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -2634,7 +2634,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -2671,7 +2671,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/F3CC75D0-299A-4014-AB63-E354AE15AEAA"
@@ -2708,7 +2708,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/97AD4F69-49C5-4B0F-B8E4-AFEF4B9D39B2"
@@ -2745,7 +2745,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/97AD4F69-49C5-4B0F-B8E4-AFEF4B9D39B2"
@@ -2782,7 +2782,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/D0E4D145-F0A7-463C-BEF6-A768CAE0D735"
@@ -2819,7 +2819,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/B5691BFC-4601-4EB2-9CE7-6A040B5E1D65"
@@ -2856,7 +2856,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6244FA36-A8BC-43BE-A845-A6E7368EA578"
@@ -2893,7 +2893,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/7040CC1C-A6A6-4B38-A73A-77D5C474F539"
@@ -2930,7 +2930,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/429510F6-B561-417E-B002-24F979C05AB3"
@@ -2967,7 +2967,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/71CE665D-D113-4359-B640-73CE6ACBE6AB"
@@ -3004,7 +3004,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/C5323AB7-2CA9-4E85-85E4-8FA896E45628"
@@ -3041,7 +3041,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6F7401EE-5139-4F98-8982-70BDD33D4189"
@@ -3078,7 +3078,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -3115,7 +3115,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -3152,7 +3152,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -3189,7 +3189,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -3226,7 +3226,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -3263,7 +3263,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -3300,7 +3300,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/A076B5DA-4B2F-42C4-8807-4A71A26ECD25"
@@ -3337,7 +3337,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -3374,7 +3374,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -3411,7 +3411,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -3448,7 +3448,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -3545,7 +3545,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "encounter": {
         "reference": "Encounter/F3CC75D0-299A-4014-AB63-E354AE15AEAA"
@@ -3605,10 +3605,11 @@
           "system": "http://snomed.info/sct",
           "code": "76880004",
           "display": "Angelman syndrome"
-        } ]
+        } ],
+        "text": "Happy puppet syndrome"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/97AD4F69-49C5-4B0F-B8E4-AFEF4B9D39B2"
@@ -3654,10 +3655,11 @@
           "system": "http://snomed.info/sct",
           "code": "165581004",
           "display": "INR - international normalised ratio"
-        } ]
+        } ],
+        "text": "International normalised ratio"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/7040CC1C-A6A6-4B38-A73A-77D5C474F539"
@@ -3716,10 +3718,11 @@
           "system": "http://snomed.info/sct",
           "code": "19518008",
           "display": "Protein measurement, urine, quantitative 24 hour"
-        } ]
+        } ],
+        "text": "24 hour urine protein output"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/71CE665D-D113-4359-B640-73CE6ACBE6AB"
@@ -3761,8 +3764,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405911014"
+              "url": "descriptionDisplay",
+              "valueString": "Serum vitamin B12"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3772,7 +3775,7 @@
         "text": "Serum vitamin B12"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/C5323AB7-2CA9-4E85-85E4-8FA896E45628"
@@ -3842,8 +3845,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "114862010"
+              "url": "descriptionDisplay",
+              "valueString": "Red blood cell folate"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -3853,7 +3856,7 @@
         "text": "Red blood cell folate"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/C5323AB7-2CA9-4E85-85E4-8FA896E45628"
@@ -3915,10 +3918,11 @@
           "system": "http://snomed.info/sct",
           "code": "269874008",
           "display": "Serum paracetamol measurement"
-        } ]
+        } ],
+        "text": "Serum paracetamol level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6F7401EE-5139-4F98-8982-70BDD33D4189"
@@ -3971,7 +3975,7 @@
         "text": "FT1"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -4027,7 +4031,7 @@
         "text": "FT2"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -4083,7 +4087,7 @@
         "text": "FTX3"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -4139,7 +4143,7 @@
         "text": "FTX4"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -4195,7 +4199,7 @@
         "text": "FT1"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -4251,7 +4255,7 @@
         "text": "FT2"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -4307,7 +4311,7 @@
         "text": "FTX3"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -4363,7 +4367,7 @@
         "text": "FTX4"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -4419,7 +4423,7 @@
         "text": "FT1"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -4475,7 +4479,7 @@
         "text": "FT2"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -4531,7 +4535,7 @@
         "text": "FTX3"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -4587,7 +4591,7 @@
         "text": "FTX4"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -4648,10 +4652,11 @@
           "system": "http://snomed.info/sct",
           "code": "104934005",
           "display": "Sodium measurement, serum"
-        } ]
+        } ],
+        "text": "Serum sodium"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -4708,7 +4713,7 @@
         "text": "Serum potassium"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -4776,10 +4781,11 @@
           "system": "http://snomed.info/sct",
           "code": "113075003",
           "display": "Creatinine measurement, serum"
-        } ]
+        } ],
+        "text": "Serum creatinine"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -4837,8 +4843,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405526019"
+              "url": "descriptionDisplay",
+              "valueString": "Serum cholesterol"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -4848,7 +4854,7 @@
         "text": "Serum cholesterol"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -4913,7 +4919,7 @@
         "text": "Serum triglycerides"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -4981,10 +4987,11 @@
           "system": "http://snomed.info/sct",
           "code": "166832000",
           "display": "Serum HDL cholesterol measurement"
-        } ]
+        } ],
+        "text": "Serum HDL cholesterol level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5058,10 +5065,11 @@
           "system": "http://snomed.info/sct",
           "code": "166833005",
           "display": "Serum LDL cholesterol measurement"
-        } ]
+        } ],
+        "text": "Serum LDL cholesterol level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5138,10 +5146,11 @@
           "system": "http://snomed.info/sct",
           "code": "271062006",
           "display": "Fasting blood glucose measurement"
-        } ]
+        } ],
+        "text": "Fasting blood glucose level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5193,8 +5202,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "411758010"
+              "url": "descriptionDisplay",
+              "valueString": "Haemoglobin estimation"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5204,7 +5213,7 @@
         "text": "Haemoglobin estimation"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5262,8 +5271,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2342011"
+              "url": "descriptionDisplay",
+              "valueString": "Total white cell count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5273,7 +5282,7 @@
         "text": "Total white cell count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5333,15 +5342,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "102928018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Platelet count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "61928009",
           "display": "Platelet count"
-        } ]
+        } ],
+        "text": "Platelet count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5407,8 +5420,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "167981014"
+              "url": "descriptionDisplay",
+              "valueString": "Mean corpuscular volume (MCV)"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5418,7 +5431,7 @@
         "text": "Mean corpuscular volume (MCV)"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5476,8 +5489,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "23984019"
+              "url": "descriptionDisplay",
+              "valueString": "Red blood cell (RBC) count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5487,7 +5500,7 @@
         "text": "Red blood cell (RBC) count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5555,10 +5568,11 @@
           "system": "http://snomed.info/sct",
           "code": "250231008",
           "display": "Packed cell volume measurement"
-        } ]
+        } ],
+        "text": "Packed cell volume"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5616,8 +5630,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "198546012"
+              "url": "descriptionDisplay",
+              "valueString": "Mean corpusc. haemoglobin(MCH)"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -5627,7 +5641,7 @@
         "text": "Mean corpusc. haemoglobin(MCH)"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5684,7 +5698,7 @@
         "text": "Neutrophil count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5744,15 +5758,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "124165010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Lymphocyte count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "74765001",
           "display": "Lymphocyte count"
-        } ]
+        } ],
+        "text": "Lymphocyte count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5809,7 +5827,7 @@
         "text": "Monocyte count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5869,15 +5887,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "119575019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Eosinophil count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "71960002",
           "display": "Eosinophil count"
-        } ]
+        } ],
+        "text": "Eosinophil count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -5937,15 +5959,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "70669012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Basophil count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "42351005",
           "display": "Basophil count"
-        } ]
+        } ],
+        "text": "Basophil count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -6003,8 +6029,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405521012"
+              "url": "descriptionDisplay",
+              "valueString": "Serum total protein"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6014,7 +6040,7 @@
         "text": "Serum total protein"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6087,10 +6113,11 @@
           "system": "http://snomed.info/sct",
           "code": "104485008",
           "display": "Albumin measurement, serum"
-        } ]
+        } ],
+        "text": "Serum albumin"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6153,8 +6180,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405946018"
+              "url": "descriptionDisplay",
+              "valueString": "Serum calcium"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6164,7 +6191,7 @@
         "text": "Serum calcium"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6237,10 +6264,11 @@
           "system": "http://snomed.info/sct",
           "code": "166708003",
           "display": "Corrected serum calcium measurement"
-        } ]
+        } ],
+        "text": "Corrected serum calcium level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6309,8 +6337,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405949013"
+              "url": "descriptionDisplay",
+              "valueString": "Serum inorganic phosphate"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6320,7 +6348,7 @@
         "text": "Serum inorganic phosphate"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6373,8 +6401,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405937012"
+              "url": "descriptionDisplay",
+              "valueString": "Serum alkaline phosphatase"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6384,7 +6412,7 @@
         "text": "Serum alkaline phosphatase"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6457,10 +6485,11 @@
           "system": "http://snomed.info/sct",
           "code": "273967009",
           "display": "Serum urea measurement"
-        } ]
+        } ],
+        "text": "Serum urea level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6533,10 +6562,11 @@
           "system": "http://snomed.info/sct",
           "code": "104934005",
           "display": "Sodium measurement, serum"
-        } ]
+        } ],
+        "text": "Serum sodium"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6605,8 +6635,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405941011"
+              "url": "descriptionDisplay",
+              "valueString": "Serum potassium"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -6616,7 +6646,7 @@
         "text": "Serum potassium"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6671,10 +6701,11 @@
           "system": "http://snomed.info/sct",
           "code": "113075003",
           "display": "Creatinine measurement, serum"
-        } ]
+        } ],
+        "text": "Serum creatinine"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6739,15 +6770,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "216602012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Serum C reactive protein level"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "135842001",
           "display": "Serum C reactive protein level"
-        } ]
+        } ],
+        "text": "Serum C reactive protein level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6823,10 +6858,11 @@
           "system": "http://snomed.info/sct",
           "code": "250216004",
           "display": "Serum iron measurement"
-        } ]
+        } ],
+        "text": "Serum iron level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6902,10 +6938,11 @@
           "system": "http://snomed.info/sct",
           "code": "271027001",
           "display": "Serum TIBC measurement"
-        } ]
+        } ],
+        "text": "Serum TIBC"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -6973,15 +7010,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "1484991014"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Plasma alkaline phosphatase level"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "390962007",
           "display": "Plasma alkaline phosphatase level"
-        } ]
+        } ],
+        "text": "Plasma alkaline phosphatase level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -7046,15 +7087,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "1484984011"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Plasma albumin level"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "390955003",
           "display": "Plasma albumin level"
-        } ]
+        } ],
+        "text": "Plasma albumin level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -7117,8 +7162,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405525015"
+              "url": "descriptionDisplay",
+              "valueString": "Plasma total protein"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7128,7 +7173,7 @@
         "text": "Plasma total protein"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -7193,15 +7238,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "1484990010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Plasma alanine aminotransferase level"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "390961000",
           "display": "Plasma alanine aminotransferase level"
-        } ]
+        } ],
+        "text": "Plasma alanine aminotransferase level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -7282,10 +7331,11 @@
           "system": "http://snomed.info/sct",
           "code": "313951004",
           "display": "Plasma total bilirubin measurement"
-        } ]
+        } ],
+        "text": "Plasma total bilirubin level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -7358,10 +7408,11 @@
           "system": "http://snomed.info/sct",
           "code": "313850004",
           "display": "Plasma gamma-glutamyl transferase measurement"
-        } ]
+        } ],
+        "text": "Plasma gamma-glutamyl transferase level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -7427,8 +7478,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405499015"
+              "url": "descriptionDisplay",
+              "valueString": "Plasma C reactive protein"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7438,7 +7489,7 @@
         "text": "Plasma C reactive protein"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -7495,7 +7546,7 @@
         "text": "Comment"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -7550,10 +7601,11 @@
           "system": "http://snomed.info/sct",
           "code": "313838005",
           "display": "Plasma free T4 measurement"
-        } ]
+        } ],
+        "text": "Plasma free T4 level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/A076B5DA-4B2F-42C4-8807-4A71A26ECD25"
@@ -7615,10 +7667,11 @@
           "system": "http://snomed.info/sct",
           "code": "313441007",
           "display": "Plasma TSH measurement"
-        } ]
+        } ],
+        "text": "Plasma TSH level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/A076B5DA-4B2F-42C4-8807-4A71A26ECD25"
@@ -7670,8 +7723,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "411758010"
+              "url": "descriptionDisplay",
+              "valueString": "Haemoglobin estimation"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7681,7 +7734,7 @@
         "text": "Haemoglobin estimation"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -7744,8 +7797,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2342011"
+              "url": "descriptionDisplay",
+              "valueString": "Total white cell count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7755,7 +7808,7 @@
         "text": "Total white cell count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -7820,15 +7873,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "102928018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Platelet count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "61928009",
           "display": "Platelet count"
-        } ]
+        } ],
+        "text": "Platelet count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -7891,8 +7948,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "167981014"
+              "url": "descriptionDisplay",
+              "valueString": "Mean corpuscular volume (MCV)"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -7902,7 +7959,7 @@
         "text": "Mean corpuscular volume (MCV)"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -7964,7 +8021,7 @@
         "text": "Packed cell volume"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8029,8 +8086,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "23984019"
+              "url": "descriptionDisplay",
+              "valueString": "Red blood cell (RBC) count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8040,7 +8097,7 @@
         "text": "Red blood cell (RBC) count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8103,8 +8160,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "198546012"
+              "url": "descriptionDisplay",
+              "valueString": "Mean corpusc. haemoglobin(MCH)"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8114,7 +8171,7 @@
         "text": "Mean corpusc. haemoglobin(MCH)"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8177,8 +8234,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "197258014"
+              "url": "descriptionDisplay",
+              "valueString": "Mean corpusc. Hb. conc. (MCHC)"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8188,7 +8245,7 @@
         "text": "Mean corpusc. Hb. conc. (MCHC)"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8261,10 +8318,11 @@
           "system": "http://snomed.info/sct",
           "code": "66842004",
           "display": "Red cell distribution width determination"
-        } ]
+        } ],
+        "text": "Red blood cell distribution width"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8328,7 +8386,7 @@
         "text": "Neutrophil count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8393,15 +8451,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "124165010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Lymphocyte count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "74765001",
           "display": "Lymphocyte count"
-        } ]
+        } ],
+        "text": "Lymphocyte count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8466,15 +8528,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "112567012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Monocyte count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "67776007",
           "display": "Monocyte count"
-        } ]
+        } ],
+        "text": "Monocyte count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8539,15 +8605,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "119575019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Eosinophil count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "71960002",
           "display": "Eosinophil count"
-        } ]
+        } ],
+        "text": "Eosinophil count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8609,7 +8679,7 @@
         "text": "Basophil count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8678,10 +8748,11 @@
           "system": "http://snomed.info/sct",
           "code": "165426009",
           "display": "Nucleated red blood cell count procedure"
-        } ]
+        } ],
+        "text": "Nucleated red blood cell count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8736,15 +8807,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "404458019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Infectious mononucleosis test"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "269831005",
           "display": "Infectious mononucleosis test"
-        } ]
+        } ],
+        "text": "Infectious mononucleosis test"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8795,8 +8870,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "257378014"
+              "url": "descriptionDisplay",
+              "valueString": "Differential white cell count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8806,7 +8881,7 @@
         "text": "Differential white cell count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -8857,8 +8932,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "75911017"
+              "url": "descriptionDisplay",
+              "valueString": "Anti-nuclear factor"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8868,7 +8943,7 @@
         "text": "Anti-nuclear factor"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -8919,8 +8994,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "91293013"
+              "url": "descriptionDisplay",
+              "valueString": "Rheumatoid factor"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -8930,7 +9005,7 @@
         "text": "Rheumatoid factor"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -8985,10 +9060,11 @@
           "system": "http://snomed.info/sct",
           "code": "87978006",
           "display": "Antibody to double stranded DNA measurement"
-        } ]
+        } ],
+        "text": "dsDNA binding autoantibody level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -9029,15 +9105,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "457729017"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Mitochondrial antibody level"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "313710005",
           "display": "Mitochondrial antibody level"
-        } ]
+        } ],
+        "text": "Mitochondrial antibody level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -9078,15 +9158,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "2159786013"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Liver autoantibody level"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "408217001",
           "display": "Liver autoantibody level"
-        } ]
+        } ],
+        "text": "Liver autoantibody level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -9125,8 +9209,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "84572010"
+              "url": "descriptionDisplay",
+              "valueString": "Anti smooth muscle autoantibod"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9136,7 +9220,7 @@
         "text": "Anti smooth muscle autoantibod"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -9185,10 +9269,11 @@
           "system": "http://snomed.info/sct",
           "code": "33303007",
           "display": "Antibody to adrenal antigen measurement"
-        } ]
+        } ],
+        "text": "Adrenal autoantibodies"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -9226,7 +9311,7 @@
         "text": "IgA Reticulin Abs"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -9264,7 +9349,7 @@
         "text": "IgG Reticulin Abs"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -9313,10 +9398,11 @@
           "system": "http://snomed.info/sct",
           "code": "30521008",
           "display": "Antibody to gastric parietal cell measurement"
-        } ]
+        } ],
+        "text": "Parietal cell autoantibodies"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -9354,7 +9440,7 @@
         "text": "Ovarian Antibodies"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -9392,7 +9478,7 @@
         "text": "Skeletal Muscle Abs"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -9441,10 +9527,11 @@
           "system": "http://snomed.info/sct",
           "code": "104934005",
           "display": "Sodium measurement, serum"
-        } ]
+        } ],
+        "text": "Serum sodium"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -9502,8 +9589,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405941011"
+              "url": "descriptionDisplay",
+              "valueString": "Serum potassium"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9513,7 +9600,7 @@
         "text": "Serum potassium"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -9581,10 +9668,11 @@
           "system": "http://snomed.info/sct",
           "code": "273967009",
           "display": "Serum urea measurement"
-        } ]
+        } ],
+        "text": "Serum urea level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -9652,10 +9740,11 @@
           "system": "http://snomed.info/sct",
           "code": "113075003",
           "display": "Creatinine measurement, serum"
-        } ]
+        } ],
+        "text": "Serum creatinine"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -9713,8 +9802,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405526019"
+              "url": "descriptionDisplay",
+              "valueString": "Serum cholesterol"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -9724,7 +9813,7 @@
         "text": "Serum cholesterol"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -9783,10 +9872,11 @@
           "system": "http://snomed.info/sct",
           "code": "166832000",
           "display": "Serum HDL cholesterol measurement"
-        } ]
+        } ],
+        "text": "Serum HDL cholesterol level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -9851,10 +9941,11 @@
           "system": "http://snomed.info/sct",
           "code": "166842003",
           "display": "Total cholesterol:HDL ratio measurement"
-        } ]
+        } ],
+        "text": "Total cholesterol:HDL ratio"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -9915,10 +10006,11 @@
           "system": "http://snomed.info/sct",
           "code": "313440008",
           "display": "Serum TSH measurement"
-        } ]
+        } ],
+        "text": "Serum TSH level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -9966,15 +10058,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "259518014"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Bone profile"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "167036008",
           "display": "Bone profile"
-        } ]
+        } ],
+        "text": "Bone profile"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10003,8 +10099,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405521012"
+              "url": "descriptionDisplay",
+              "valueString": "Serum total protein"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -10014,7 +10110,7 @@
         "text": "Serum total protein"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10056,10 +10152,11 @@
           "system": "http://snomed.info/sct",
           "code": "104485008",
           "display": "Albumin measurement, serum"
-        } ]
+        } ],
+        "text": "Serum albumin"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10091,8 +10188,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405946018"
+              "url": "descriptionDisplay",
+              "valueString": "Serum calcium"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -10102,7 +10199,7 @@
         "text": "Serum calcium"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10144,10 +10241,11 @@
           "system": "http://snomed.info/sct",
           "code": "166708003",
           "display": "Corrected serum calcium measurement"
-        } ]
+        } ],
+        "text": "Corrected serum calcium level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10179,8 +10277,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405949013"
+              "url": "descriptionDisplay",
+              "valueString": "Serum inorganic phosphate"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -10190,7 +10288,7 @@
         "text": "Serum inorganic phosphate"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10223,8 +10321,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405937012"
+              "url": "descriptionDisplay",
+              "valueString": "Serum alkaline phosphatase"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -10234,7 +10332,7 @@
         "text": "Serum alkaline phosphatase"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10276,10 +10374,11 @@
           "system": "http://snomed.info/sct",
           "code": "166627004",
           "display": "Serum alkaline phosphatase raised"
-        } ]
+        } ],
+        "text": "Serum alk. phos. raised"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10309,15 +10408,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "375550011"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Urea and electrolytes"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "252167001",
           "display": "Urea and electrolytes"
-        } ]
+        } ],
+        "text": "Urea and electrolytes"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10356,10 +10459,11 @@
           "system": "http://snomed.info/sct",
           "code": "273967009",
           "display": "Serum urea measurement"
-        } ]
+        } ],
+        "text": "Serum urea level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10401,10 +10505,11 @@
           "system": "http://snomed.info/sct",
           "code": "104934005",
           "display": "Sodium measurement, serum"
-        } ]
+        } ],
+        "text": "Serum sodium"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10436,8 +10541,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405941011"
+              "url": "descriptionDisplay",
+              "valueString": "Serum potassium"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -10447,7 +10552,7 @@
         "text": "Serum potassium"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10490,10 +10595,11 @@
           "system": "http://snomed.info/sct",
           "code": "113075003",
           "display": "Creatinine measurement, serum"
-        } ]
+        } ],
+        "text": "Serum creatinine"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10527,15 +10633,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "216602012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Serum C reactive protein level"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "135842001",
           "display": "Serum C reactive protein level"
-        } ]
+        } ],
+        "text": "Serum C reactive protein level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10577,10 +10687,11 @@
           "system": "http://snomed.info/sct",
           "code": "250216004",
           "display": "Serum iron measurement"
-        } ]
+        } ],
+        "text": "Serum iron level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10622,10 +10733,11 @@
           "system": "http://snomed.info/sct",
           "code": "271027001",
           "display": "Serum TIBC measurement"
-        } ]
+        } ],
+        "text": "Serum TIBC"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ED5590B-146D-4B42-939E-2C35646ED7C1"
@@ -10667,10 +10779,11 @@
           "system": "http://snomed.info/sct",
           "code": "34608000",
           "display": "Alanine aminotransferase measurement"
-        } ]
+        } ],
+        "text": "ALT/SGPT serum level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/F3CC75D0-299A-4014-AB63-E354AE15AEAA"
@@ -10702,8 +10815,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405526019"
+              "url": "descriptionDisplay",
+              "valueString": "Serum cholesterol"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -10713,7 +10826,7 @@
         "text": "Serum cholesterol"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:31:51.000+00:00",
@@ -10742,8 +10855,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405954016"
+              "url": "descriptionDisplay",
+              "valueString": "Serum triglycerides"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -10753,7 +10866,7 @@
         "text": "Serum triglycerides"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:31:51.000+00:00",
@@ -10792,10 +10905,11 @@
           "system": "http://snomed.info/sct",
           "code": "166610007",
           "display": "Serum bilirubin measurement"
-        } ]
+        } ],
+        "text": "Serum bilirubin level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:31:51.000+00:00",
@@ -10834,8 +10948,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405937012"
+              "url": "descriptionDisplay",
+              "valueString": "Serum alkaline phosphatase"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -10845,7 +10959,7 @@
         "text": "Serum alkaline phosphatase"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:31:51.000+00:00",
@@ -10894,10 +11008,11 @@
           "system": "http://snomed.info/sct",
           "code": "34608000",
           "display": "Alanine aminotransferase measurement"
-        } ]
+        } ],
+        "text": "ALT/SGPT serum level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:31:51.000+00:00",
@@ -10946,10 +11061,11 @@
           "system": "http://snomed.info/sct",
           "code": "104485008",
           "display": "Albumin measurement, serum"
-        } ]
+        } ],
+        "text": "Serum albumin"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:31:51.000+00:00",
@@ -10988,8 +11104,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405911014"
+              "url": "descriptionDisplay",
+              "valueString": "Serum vitamin B12"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -10999,7 +11115,7 @@
         "text": "Serum vitamin B12"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:05:16.000+00:00",
@@ -11048,10 +11164,11 @@
           "system": "http://snomed.info/sct",
           "code": "250212002",
           "display": "Plasma folate measurement"
-        } ]
+        } ],
+        "text": "Plasma folate level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:05:16.000+00:00",
@@ -11092,15 +11209,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "261124014"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Microscopy, culture and sensitivities"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "168132005",
           "display": "Microscopy, culture and sensitivities"
-        } ]
+        } ],
+        "text": "Microscopy, culture and sensitivities"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-22",
       "issued": "2010-06-24T11:30:47.000+00:00",
@@ -11126,8 +11247,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "2342011"
+              "url": "descriptionDisplay",
+              "valueString": "Total white cell count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -11137,7 +11258,7 @@
         "text": "Total white cell count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11176,8 +11297,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "23984019"
+              "url": "descriptionDisplay",
+              "valueString": "Red blood cell (RBC) count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -11187,7 +11308,7 @@
         "text": "Red blood cell (RBC) count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11234,8 +11355,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "411758010"
+              "url": "descriptionDisplay",
+              "valueString": "Haemoglobin estimation"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -11245,7 +11366,7 @@
         "text": "Haemoglobin estimation"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11294,10 +11415,11 @@
           "system": "http://snomed.info/sct",
           "code": "28317006",
           "display": "Haematocrit determination"
-        } ]
+        } ],
+        "text": "Haematocrit"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11344,8 +11466,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "167981014"
+              "url": "descriptionDisplay",
+              "valueString": "Mean corpuscular volume (MCV)"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -11355,7 +11477,7 @@
         "text": "Mean corpuscular volume (MCV)"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11402,8 +11524,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "198546012"
+              "url": "descriptionDisplay",
+              "valueString": "Mean corpusc. haemoglobin(MCH)"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -11413,7 +11535,7 @@
         "text": "Mean corpusc. haemoglobin(MCH)"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11460,8 +11582,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "197258014"
+              "url": "descriptionDisplay",
+              "valueString": "Mean corpusc. Hb. conc. (MCHC)"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -11471,7 +11593,7 @@
         "text": "Mean corpusc. Hb. conc. (MCHC)"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11512,15 +11634,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "102928018"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Platelet count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "61928009",
           "display": "Platelet count"
-        } ]
+        } ],
+        "text": "Platelet count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11561,15 +11687,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "51268016"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Neutrophil count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "30630007",
           "display": "Neutrophil count"
-        } ]
+        } ],
+        "text": "Neutrophil count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11610,15 +11740,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "124165010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Lymphocyte count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "74765001",
           "display": "Lymphocyte count"
-        } ]
+        } ],
+        "text": "Lymphocyte count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11659,15 +11793,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "112567012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Monocyte count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "67776007",
           "display": "Monocyte count"
-        } ]
+        } ],
+        "text": "Monocyte count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11708,15 +11846,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "119575019"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Eosinophil count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "71960002",
           "display": "Eosinophil count"
-        } ]
+        } ],
+        "text": "Eosinophil count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11757,15 +11899,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "70669012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Basophil count"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "42351005",
           "display": "Basophil count"
-        } ]
+        } ],
+        "text": "Basophil count"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -11814,10 +11960,11 @@
           "system": "http://snomed.info/sct",
           "code": "166610007",
           "display": "Serum bilirubin measurement"
-        } ]
+        } ],
+        "text": "Serum bilirubin level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2010-03-23",
       "issued": "2010-03-23T14:29:35.000+00:00",
@@ -11855,15 +12002,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "1484993012"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Plasma potassium level"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "390964008",
           "display": "Plasma potassium level"
-        } ]
+        } ],
+        "text": "Plasma potassium level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2010-03-23",
       "issued": "2010-03-23T14:29:58.000+00:00",
@@ -11913,10 +12064,11 @@
           "system": "http://snomed.info/sct",
           "code": "271214007",
           "display": "Plasma viscosity measurement"
-        } ]
+        } ],
+        "text": "Plasma viscosity"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2010-03-23",
       "issued": "2010-03-23T14:33:26.000+00:00",
@@ -11956,8 +12108,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405634019"
+              "url": "descriptionDisplay",
+              "valueString": "Fasting blood sugar"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -11967,7 +12119,7 @@
         "text": "Fasting blood sugar"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2010-03-23",
       "issued": "2010-03-23T14:33:48.000+00:00",
@@ -12023,10 +12175,11 @@
           "system": "http://snomed.info/sct",
           "code": "34608000",
           "display": "Alanine aminotransferase measurement"
-        } ]
+        } ],
+        "text": "ALT/SGPT serum level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2010-03-23",
       "issued": "2010-03-23T14:34:09.000+00:00",
@@ -12064,15 +12217,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "1484990010"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Plasma alanine aminotransferase level"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "390961000",
           "display": "Plasma alanine aminotransferase level"
-        } ]
+        } ],
+        "text": "Plasma alanine aminotransferase level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2010-03-23",
       "issued": "2010-03-23T14:37:32.000+00:00",
@@ -12118,10 +12275,11 @@
           "system": "http://snomed.info/sct",
           "code": "314035000",
           "display": "Plasma HDL cholesterol measurement"
-        } ]
+        } ],
+        "text": "Plasma HDL cholesterol level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2010-03-23",
       "issued": "2010-03-23T14:37:41.000+00:00",
@@ -12167,10 +12325,11 @@
           "system": "http://snomed.info/sct",
           "code": "167082000",
           "display": "Plasma triglyceride measurement"
-        } ]
+        } ],
+        "text": "Plasma triglyceride level"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2010-03-23",
       "issued": "2010-03-23T14:38:02.000+00:00",
@@ -12215,7 +12374,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/97AD4F69-49C5-4B0F-B8E4-AFEF4B9D39B2"
@@ -12246,7 +12405,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/97AD4F69-49C5-4B0F-B8E4-AFEF4B9D39B2"
@@ -12278,7 +12437,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/D0E4D145-F0A7-463C-BEF6-A768CAE0D735"
@@ -12309,7 +12468,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/D0E4D145-F0A7-463C-BEF6-A768CAE0D735"
@@ -12341,7 +12500,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B5691BFC-4601-4EB2-9CE7-6A040B5E1D65"
@@ -12372,7 +12531,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B5691BFC-4601-4EB2-9CE7-6A040B5E1D65"
@@ -12404,7 +12563,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6244FA36-A8BC-43BE-A845-A6E7368EA578"
@@ -12436,7 +12595,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/7040CC1C-A6A6-4B38-A73A-77D5C474F539"
@@ -12467,7 +12626,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/7040CC1C-A6A6-4B38-A73A-77D5C474F539"
@@ -12477,7 +12636,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100624113401\n\n                                                                                    DVT Prophylaxis - INR 2.0-2.5\n                                                                                    Treatment of DVT,PE,AF,TIA - INR 2.0-3.0\n                                                                                    Recurrent DVT or PE                )\n                                                                                    Arterial Disease                   )INR 3.0-4.5\n                                                                                    Mechanical Prosthetic Heart Valves )"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100624113401                                                                                    DVT Prophylaxis - INR 2.0-2.5                                                                                    Treatment of DVT,PE,AF,TIA - INR 2.0-3.0                                                                                    Recurrent DVT or PE                )                                                                                    Arterial Disease                   )INR 3.0-4.5                                                                                    Mechanical Prosthetic Heart Valves )"
     }
   }, {
     "resource": {
@@ -12499,7 +12658,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/429510F6-B561-417E-B002-24F979C05AB3"
@@ -12530,7 +12689,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/429510F6-B561-417E-B002-24F979C05AB3"
@@ -12562,7 +12721,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -12572,7 +12731,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120162719\n\n                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00\n                                                                                    Dr. N.O'Connell"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120162719                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00                                                                                    Dr. N.O'Connell"
     }
   }, {
     "resource": {
@@ -12594,7 +12753,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -12604,7 +12763,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162719\n\n                                                                                            Oral dose: 75g anhydrous glucose given as\n                                                                                            113ml Polycal liquid\n                                                                                            Plasma Glucose           Urine Results\n                                                                                            Time        (mmol/l)         Ketones         Glucose"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162719                                                                                            Oral dose: 75g anhydrous glucose given as                                                                                            113ml Polycal liquid                                                                                            Plasma Glucose           Urine Results                                                                                            Time        (mmol/l)         Ketones         Glucose"
     }
   }, {
     "resource": {
@@ -12626,7 +12785,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -12636,7 +12795,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162719\n\n                                                                                            Fasting       4.3            negative        negative\n                                                                                            2 hours       7.6            negative        negative\n                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7\n                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162719                                                                                            Fasting       4.3            negative        negative                                                                                            2 hours       7.6            negative        negative                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7"
     }
   }, {
     "resource": {
@@ -12658,7 +12817,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -12668,7 +12827,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162719\n\n                                                                                            GLYCAEMIA\n                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0\n                                                                                            TOLERANCE\n                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162719                                                                                            GLYCAEMIA                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0                                                                                            TOLERANCE                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or"
     }
   }, {
     "resource": {
@@ -12690,7 +12849,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -12700,7 +12859,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162719\n\n                                                                                            2 hr 11.1 or above\n                                                                                            *(must also have symptoms - polyuria, polydipsia,\n                                                                                            unexplained weight loss)"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162719                                                                                            2 hr 11.1 or above                                                                                            *(must also have symptoms - polyuria, polydipsia,                                                                                            unexplained weight loss)"
     }
   }, {
     "resource": {
@@ -12722,7 +12881,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -12732,7 +12891,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120162720\n\n                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00\n                                                                                    Dr. N.O'Connell"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120162720                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00                                                                                    Dr. N.O'Connell"
     }
   }, {
     "resource": {
@@ -12754,7 +12913,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -12764,7 +12923,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162720\n\n                                                                                            Oral dose: 75g anhydrous glucose given as\n                                                                                            113ml Polycal liquid\n                                                                                            Plasma Glucose           Urine Results\n                                                                                            Time        (mmol/l)         Ketones         Glucose"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162720                                                                                            Oral dose: 75g anhydrous glucose given as                                                                                            113ml Polycal liquid                                                                                            Plasma Glucose           Urine Results                                                                                            Time        (mmol/l)         Ketones         Glucose"
     }
   }, {
     "resource": {
@@ -12786,7 +12945,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -12796,7 +12955,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162720\n\n                                                                                            Fasting       4.3            negative        negative\n                                                                                            2 hours       7.6            negative        negative\n                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7\n                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162720                                                                                            Fasting       4.3            negative        negative                                                                                            2 hours       7.6            negative        negative                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7"
     }
   }, {
     "resource": {
@@ -12818,7 +12977,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -12828,7 +12987,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162720\n\n                                                                                            GLYCAEMIA\n                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0\n                                                                                            TOLERANCE\n                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162720                                                                                            GLYCAEMIA                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0                                                                                            TOLERANCE                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or"
     }
   }, {
     "resource": {
@@ -12850,7 +13009,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -12860,7 +13019,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162720\n\n                                                                                            2 hr 11.1 or above\n                                                                                            *(must also have symptoms - polyuria, polydipsia,\n                                                                                            unexplained weight loss)"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162720                                                                                            2 hr 11.1 or above                                                                                            *(must also have symptoms - polyuria, polydipsia,                                                                                            unexplained weight loss)"
     }
   }, {
     "resource": {
@@ -12882,7 +13041,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -12920,7 +13079,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -12930,7 +13089,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120162723\n\n                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00\n                                                                                    Dr. N.O'Connell"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120162723                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00                                                                                    Dr. N.O'Connell"
     }
   }, {
     "resource": {
@@ -12952,7 +13111,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -12962,7 +13121,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162723\n\n                                                                                            Oral dose: 75g anhydrous glucose given as\n                                                                                            113ml Polycal liquid\n                                                                                            Plasma Glucose           Urine Results\n                                                                                            Time        (mmol/l)         Ketones         Glucose"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162723                                                                                            Oral dose: 75g anhydrous glucose given as                                                                                            113ml Polycal liquid                                                                                            Plasma Glucose           Urine Results                                                                                            Time        (mmol/l)         Ketones         Glucose"
     }
   }, {
     "resource": {
@@ -12984,7 +13143,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -12994,7 +13153,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162723\n\n                                                                                            Fasting       4.3            negative        negative\n                                                                                            2 hours       7.6            negative        negative\n                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7\n                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162723                                                                                            Fasting       4.3            negative        negative                                                                                            2 hours       7.6            negative        negative                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7"
     }
   }, {
     "resource": {
@@ -13016,7 +13175,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -13026,7 +13185,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162723\n\n                                                                                            GLYCAEMIA\n                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0\n                                                                                            TOLERANCE\n                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162723                                                                                            GLYCAEMIA                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0                                                                                            TOLERANCE                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or"
     }
   }, {
     "resource": {
@@ -13048,7 +13207,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -13058,7 +13217,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120162723\n\n                                                                                            2 hr 11.1 or above\n                                                                                            *(must also have symptoms - polyuria, polydipsia,\n                                                                                            unexplained weight loss)"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120162723                                                                                            2 hr 11.1 or above                                                                                            *(must also have symptoms - polyuria, polydipsia,                                                                                            unexplained weight loss)"
     }
   }, {
     "resource": {
@@ -13080,7 +13239,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -13090,7 +13249,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "CommentType:LAB SPECIMEN COMMENT(E271)\n                                                                            CommentDate:20100120104622\n\n                                                                            Some Test Specimen Comment"
+      "comment": "CommentType:LAB SPECIMEN COMMENT(E271)                                                                            CommentDate:20100120104622                                                                            Some Test Specimen Comment"
     }
   }, {
     "resource": {
@@ -13112,7 +13271,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -13122,7 +13281,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120104622\n\n                                                                                            Cholesterol 6.5 - 7.8 Moderate Risk of CHD\n                                                                                            Cholesterol     > 7.8 Marked Risk of CHD"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120104622                                                                                            Cholesterol 6.5 - 7.8 Moderate Risk of CHD                                                                                            Cholesterol     > 7.8 Marked Risk of CHD"
     }
   }, {
     "resource": {
@@ -13144,7 +13303,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -13154,7 +13313,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "CommentType:LAB SPECIMEN COMMENT(E271)\n                                                                            CommentDate:20100120104622\n\n                                                                            Another\n                                                                            Specimen\n                                                                            Comment"
+      "comment": "CommentType:LAB SPECIMEN COMMENT(E271)                                                                            CommentDate:20100120104622                                                                            Another                                                                            Specimen                                                                            Comment"
     }
   }, {
     "resource": {
@@ -13176,7 +13335,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -13207,7 +13366,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -13269,7 +13428,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -13279,7 +13438,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120104622\n\n                                                                                            U=Unsuitable for analysis"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120104622                                                                                            U=Unsuitable for analysis"
     }
   }, {
     "resource": {
@@ -13301,7 +13460,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -13353,7 +13512,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -13363,7 +13522,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120104622\n\n                                                                                            U=Unsuitable for analysis\n                                                                                            U=Unsuitable,due to delay in delivery."
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120104622                                                                                            U=Unsuitable for analysis                                                                                            U=Unsuitable,due to delay in delivery."
     }
   }, {
     "resource": {
@@ -13385,7 +13544,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -13422,7 +13581,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -13459,7 +13618,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -13496,7 +13655,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -13558,7 +13717,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -13595,7 +13754,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -13632,7 +13791,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -13669,7 +13828,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -13679,7 +13838,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    Non fasting specimen."
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    Non fasting specimen."
     }
   }, {
     "resource": {
@@ -13701,7 +13860,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/A076B5DA-4B2F-42C4-8807-4A71A26ECD25"
@@ -13732,7 +13891,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -13763,7 +13922,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -13875,7 +14034,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -13912,7 +14071,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -13922,7 +14081,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120162723\n\n                                                                                    Negative\n                                                                                    I.M.Screen"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120162723                                                                                    Negative                                                                                    I.M.Screen"
     }
   }, {
     "resource": {
@@ -13944,7 +14103,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -13981,7 +14140,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -13991,7 +14150,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120162723\n\n                                                                                    WBC MORPHOLOGY NORMAL\n                                                                                    RBC MORPHOLOGY NORMAL"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120162723                                                                                    WBC MORPHOLOGY NORMAL                                                                                    RBC MORPHOLOGY NORMAL"
     }
   }, {
     "resource": {
@@ -14013,7 +14172,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14023,7 +14182,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    These LTG comments only apply to the Anti-nuclear factor and the\n                                                                                    rheumatoid factor tests."
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    These LTG comments only apply to the Anti-nuclear factor and the                                                                                    rheumatoid factor tests."
     }
   }, {
     "resource": {
@@ -14045,7 +14204,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14055,7 +14214,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120104622\n\n                                                                                            NEGATIVE"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120104622                                                                                            NEGATIVE"
     }
   }, {
     "resource": {
@@ -14077,7 +14236,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14087,7 +14246,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                            CommentDate:20100120104622\n\n                                                                                            NEGATIVE"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                            CommentDate:20100120104622                                                                                            NEGATIVE"
     }
   }, {
     "resource": {
@@ -14109,7 +14268,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14119,7 +14278,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    Oligoclonals detected in both sera and CSF"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    Oligoclonals detected in both sera and CSF"
     }
   }, {
     "resource": {
@@ -14141,7 +14300,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14151,7 +14310,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    NEGATIVE"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    NEGATIVE"
     }
   }, {
     "resource": {
@@ -14173,7 +14332,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14183,7 +14342,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    NEGATIVE"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    NEGATIVE"
     }
   }, {
     "resource": {
@@ -14205,7 +14364,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14215,7 +14374,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    NEGATIVE"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    NEGATIVE"
     }
   }, {
     "resource": {
@@ -14237,7 +14396,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14247,7 +14406,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    NEGATIVE"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    NEGATIVE"
     }
   }, {
     "resource": {
@@ -14269,7 +14428,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14279,7 +14438,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    NEGATIVE"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    NEGATIVE"
     }
   }, {
     "resource": {
@@ -14301,7 +14460,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14311,7 +14470,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    NEGATIVE"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    NEGATIVE"
     }
   }, {
     "resource": {
@@ -14333,7 +14492,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14343,7 +14502,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    NEGATIVE"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    NEGATIVE"
     }
   }, {
     "resource": {
@@ -14365,7 +14524,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14375,7 +14534,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    NEGATIVE"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    NEGATIVE"
     }
   }, {
     "resource": {
@@ -14397,7 +14556,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -14407,7 +14566,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    Equivocal Result"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    Equivocal Result"
     }
   }, {
     "resource": {
@@ -14429,7 +14588,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -14460,7 +14619,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -14470,7 +14629,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    See FATS/Healthy Hearts guidelines for interpretation of lipids"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    See FATS/Healthy Hearts guidelines for interpretation of lipids"
     }
   }, {
     "resource": {
@@ -14492,7 +14651,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -14502,7 +14661,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "CommentType:AGGREGATE COMMENT SET\n                                                                                    CommentDate:20100120104622\n\n                                                                                    Euthyroid picture (including satisfactory thyroxine replacement)"
+      "comment": "CommentType:AGGREGATE COMMENT SET                                                                                    CommentDate:20100120104622                                                                                    Euthyroid picture (including satisfactory thyroxine replacement)"
     }
   }, {
     "resource": {
@@ -14524,7 +14683,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:31:51.000+00:00",
@@ -14553,7 +14712,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:31:51.000+00:00",
@@ -14582,7 +14741,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:31:51.000+00:00",
@@ -14611,7 +14770,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T10:54:39.000+00:00",
@@ -14640,7 +14799,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -14669,7 +14828,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2010-01-20T10:46:22+00:00",
       "issued": "2010-02-09T14:50:03.000+00:00",
@@ -14695,8 +14854,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405953010"
+              "url": "descriptionDisplay",
+              "valueString": "Serum lipids"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -14706,7 +14865,7 @@
         "text": "(EMISTest) - No Action,Interpretation      Desirable  Borderline  Increased Risk,Total cholesterol     <5.2       5.2-6.5     >6.5   mmol/l,Triglyceride reference range, Fasting 0.5-1.8 mmol/l, Non-fasting usually <4.0 mmol/l"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:31:51.000+00:00",
@@ -14741,10 +14900,11 @@
           "system": "http://snomed.info/sct",
           "code": "26958001",
           "display": "Hepatic function panel"
-        } ]
+        } ],
+        "text": "(EMISTest) - Abnormal - Contact Patient"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:31:51.000+00:00",
@@ -14768,7 +14928,7 @@
         "text": "Results repeated,Low plasma Folate"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2001-03-30",
       "issued": "2010-02-09T12:05:16.000+00:00",
@@ -14793,8 +14953,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "127561000000111"
+              "url": "descriptionDisplay",
+              "valueString": "Full blood count - FBC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -14804,7 +14964,7 @@
         "text": "(EMISTest) - No Action"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "effectiveDateTime": "2002-03-30",
       "issued": "2010-06-24T11:52:01.000+00:00",
@@ -14835,7 +14995,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/97AD4F69-49C5-4B0F-B8E4-AFEF4B9D39B2"
@@ -14871,7 +15031,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/D0E4D145-F0A7-463C-BEF6-A768CAE0D735"
@@ -14907,7 +15067,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B5691BFC-4601-4EB2-9CE7-6A040B5E1D65"
@@ -14943,7 +15103,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6244FA36-A8BC-43BE-A845-A6E7368EA578"
@@ -14976,7 +15136,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/7040CC1C-A6A6-4B38-A73A-77D5C474F539"
@@ -15014,7 +15174,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/429510F6-B561-417E-B002-24F979C05AB3"
@@ -15050,7 +15210,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/71CE665D-D113-4359-B640-73CE6ACBE6AB"
@@ -15086,7 +15246,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/C5323AB7-2CA9-4E85-85E4-8FA896E45628"
@@ -15124,7 +15284,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6F7401EE-5139-4F98-8982-70BDD33D4189"
@@ -15160,7 +15320,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -15204,7 +15364,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -15248,7 +15408,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -15292,7 +15452,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -15376,7 +15536,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -15442,7 +15602,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -15494,7 +15654,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/A076B5DA-4B2F-42C4-8807-4A71A26ECD25"
@@ -15534,7 +15694,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -15606,7 +15766,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -15666,7 +15826,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -15722,7 +15882,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "issued": "2010-01-20T10:46:22.000+00:00",
       "specimen": [ {
@@ -15747,7 +15907,7 @@
         "text": "SERUM"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2001-03-30"
@@ -15774,7 +15934,7 @@
         "text": "VENOUS BLOOD"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "note": [ {
         "text": "PMIP Specimen with no investigation"
@@ -15798,7 +15958,7 @@
         "text": "Left ear swab"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2002-03-22"
@@ -15825,7 +15985,7 @@
         "text": "SERUM"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2002-03-30"
@@ -15849,7 +16009,7 @@
         "text": "VENOUS BLOOD"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2002-03-30"
@@ -15873,7 +16033,7 @@
         "text": "VENOUS BLOOD"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2002-03-30"
@@ -15900,7 +16060,7 @@
         "text": "24 HOUR URINE"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2002-03-30T09:21:00+00:00"
@@ -15924,7 +16084,7 @@
         "text": "VENOUS BLOOD"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       }
     }
   }, {
@@ -15942,7 +16102,7 @@
         "text": "SERUM"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       }
     }
   }, {
@@ -15963,7 +16123,7 @@
         "text": "Blood"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2003-01-09"
@@ -15987,7 +16147,7 @@
         "text": "Blood"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2003-01-09"
@@ -16011,7 +16171,7 @@
         "text": "Blood"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2003-01-09"
@@ -16035,7 +16195,7 @@
         "text": "Serum"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2003-06-02"
@@ -16062,7 +16222,7 @@
         "text": "Fluor"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2003-06-02"
@@ -16089,7 +16249,7 @@
         "text": "EDTA"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2003-06-02"
@@ -16113,7 +16273,7 @@
         "text": "SE:RUM"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2003-06-16"
@@ -16137,7 +16297,7 @@
         "text": "Plasma"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2003-06-27"
@@ -16161,7 +16321,7 @@
         "text": "Plasma"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2003-06-30T08:20:00+00:00"
@@ -16185,7 +16345,7 @@
         "text": "Blood"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2003-07-03T14:14:00+00:00"
@@ -16209,7 +16369,7 @@
         "text": "PLASMA/SERUM"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2005-02-25"
@@ -16233,7 +16393,7 @@
         "text": "FASTING BLOOD"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2005-03-15"
@@ -16257,7 +16417,7 @@
         "text": "Blood"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "collection": {
         "collectedDateTime": "2003-01-09"
@@ -16292,15 +16452,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "186131017"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Glucose tolerance test"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "113076002",
           "display": "Glucose tolerance test"
-        } ]
+        } ],
+        "text": "Glucose tolerance test"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9A47C85C-7A97-4656-8CAF-572B29B3A591"
@@ -16362,15 +16526,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "186131017"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Glucose tolerance test"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "113076002",
           "display": "Glucose tolerance test"
-        } ]
+        } ],
+        "text": "Glucose tolerance test"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B2410617-E36D-4B94-8DAF-24449E3A0297"
@@ -16432,15 +16600,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "186131017"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Glucose tolerance test"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "113076002",
           "display": "Glucose tolerance test"
-        } ]
+        } ],
+        "text": "Glucose tolerance test"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/DD64A383-7DC5-4E15-A0FF-20F2C4D195A5"
@@ -16515,10 +16687,11 @@
           "system": "http://snomed.info/sct",
           "code": "44277000",
           "display": "Renal function study"
-        } ]
+        } ],
+        "text": "Renal function tests"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -16572,8 +16745,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "405953010"
+              "url": "descriptionDisplay",
+              "valueString": "Serum lipids"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -16583,7 +16756,7 @@
         "text": "Serum lipids"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -16642,8 +16815,8 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
-              "url": "descriptionId",
-              "valueId": "127561000000111"
+              "url": "descriptionDisplay",
+              "valueString": "Full blood count - FBC"
             } ]
           } ],
           "system": "http://snomed.info/sct",
@@ -16653,7 +16826,7 @@
         "text": "Full blood count - FBC"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6ACDA770-F676-4ECB-AE41-3BECCE24D02C"
@@ -16754,15 +16927,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "259518014"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Bone profile"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "167036008",
           "display": "Bone profile"
-        } ]
+        } ],
+        "text": "Bone profile"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -16838,15 +17015,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "375550011"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Urea and electrolytes"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "252167001",
           "display": "Urea and electrolytes"
-        } ]
+        } ],
+        "text": "Urea and electrolytes"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/9096889B-4D56-4668-86F7-1E1C63011A46"
@@ -16920,10 +17101,11 @@
           "system": "http://snomed.info/sct",
           "code": "26958001",
           "display": "Hepatic function panel"
-        } ]
+        } ],
+        "text": "Liver function test"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/730C507B-32CE-4270-80BA-42F4B62BA064"
@@ -16991,7 +17173,7 @@
         "text": "Full blood count - FBC"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/B0696913-F11D-4EAA-8BB7-41350B296F3F"
@@ -17120,10 +17302,11 @@
           "system": "http://snomed.info/sct",
           "code": "165877005",
           "display": "Autoimmunity profile"
-        } ]
+        } ],
+        "text": "Autoimmune profile"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/6AF1549E-55BC-481D-A498-19B213312DB7"
@@ -17175,15 +17358,19 @@
             "extension": [ {
               "url": "descriptionId",
               "valueId": "375550011"
+            }, {
+              "url": "descriptionDisplay",
+              "valueString": "Urea and electrolytes"
             } ]
           } ],
           "system": "http://snomed.info/sct",
           "code": "252167001",
           "display": "Urea and electrolytes"
-        } ]
+        } ],
+        "text": "Urea and electrolytes"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"
@@ -17241,7 +17428,7 @@
         "text": "CHOL/HDL RATIO"
       },
       "subject": {
-        "reference": "Patient/784f7dca-0a97-4bfc-bab6-108c5e1c9060"
+        "reference": "Patient/981d7007-21d9-414a-80b1-dd9dd7cdd8ba"
       },
       "context": {
         "reference": "Encounter/1449860E-3953-4D71-A867-3E1E79D2E11B"

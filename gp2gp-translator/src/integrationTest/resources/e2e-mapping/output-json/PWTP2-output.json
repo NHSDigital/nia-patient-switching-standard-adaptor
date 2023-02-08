@@ -2689,7 +2689,8 @@
               "code": "182836005",
               "display": "Review of medication"
             }
-          ]
+          ],
+          "text": "Medication review"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -2733,6 +2734,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "301485011"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Asthma"
                     }
                   ]
                 }
@@ -2741,7 +2746,8 @@
               "code": "195967001",
               "display": "Asthma"
             }
-          ]
+          ],
+          "text": "Asthma"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -3358,7 +3364,8 @@
               "code": "326324002",
               "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
             }
-          ]
+          ],
+          "text": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
         }
       }
     },
@@ -7673,7 +7680,8 @@
               "code": "326324002",
               "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
             }
-          ]
+          ],
+          "text": "Levonorgestrel 150microgram / Ethinylestradiol 30microgram tablets"
         }
       }
     },
@@ -8251,7 +8259,8 @@
               "code": "22298006",
               "display": "Myocardial infarction"
             }
-          ]
+          ],
+          "text": "Heart attack"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8294,6 +8303,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254075012"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - Systolic BP reading"
                     }
                   ]
                 }
@@ -8302,7 +8315,8 @@
               "code": "163030003",
               "display": "O/E - Systolic BP reading"
             }
-          ]
+          ],
+          "text": "Systolic blood pressure"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8349,6 +8363,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254076013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - Diastolic BP reading"
                     }
                   ]
                 }
@@ -8357,7 +8375,8 @@
               "code": "163031004",
               "display": "O/E - Diastolic BP reading"
             }
-          ]
+          ],
+          "text": "Diastolic blood pressure"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8404,6 +8423,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "253677014"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - weight"
                     }
                   ]
                 }
@@ -8412,7 +8435,8 @@
               "code": "162763007",
               "display": "O/E - weight"
             }
-          ]
+          ],
+          "text": "O/E - weight"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8459,6 +8483,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "253669010"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - height"
                     }
                   ]
                 }
@@ -8467,7 +8495,8 @@
               "code": "162755006",
               "display": "O/E - height"
             }
-          ]
+          ],
+          "text": "O/E - height"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8514,6 +8543,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "100716012"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Body mass index"
                     }
                   ]
                 }
@@ -8522,7 +8555,8 @@
               "code": "60621009",
               "display": "Body mass index"
             }
-          ]
+          ],
+          "text": "Body mass index"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8571,6 +8605,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "397693011"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "FH: Cardiovascular disease"
                     }
                   ]
                 }
@@ -8579,7 +8617,8 @@
               "code": "266894000",
               "display": "FH: Cardiovascular disease"
             }
-          ]
+          ],
+          "text": "FH: Cardiovascular disease"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8661,8 +8700,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "50032014"
+                      "url": "descriptionDisplay",
+                      "valueString": "Peak exp. flow rate: PEFR/PFR"
                     }
                   ]
                 }
@@ -8731,7 +8770,8 @@
               "code": "271306003",
               "display": "Best ever peak flow rate (respiratory)"
             }
-          ]
+          ],
+          "text": "Best ever peak flow rate"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8776,8 +8816,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "406311013"
+                      "url": "descriptionDisplay",
+                      "valueString": "Predicted peak flow"
                     }
                   ]
                 }
@@ -8834,6 +8874,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "264548013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Peak flow meter at home"
                     }
                   ]
                 }
@@ -8842,7 +8886,8 @@
               "code": "170639000",
               "display": "Peak flow meter at home"
             }
-          ]
+          ],
+          "text": "Peak flow meter at home"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8885,6 +8930,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "264534013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Inhaler technique - good"
                     }
                   ]
                 }
@@ -8893,7 +8942,8 @@
               "code": "170625000",
               "display": "Inhaler technique - good"
             }
-          ]
+          ],
+          "text": "Inhaler technique - good"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8936,6 +8986,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "264545011"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Asthma never disturbs sleep"
                     }
                   ]
                 }
@@ -8944,7 +8998,8 @@
               "code": "170636007",
               "display": "Asthma never disturbs sleep"
             }
-          ]
+          ],
+          "text": "Asthma never disturbs sleep"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -8987,6 +9042,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "264567012"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Asthma sometimes restricts exercise"
                     }
                   ]
                 }
@@ -8995,7 +9054,8 @@
               "code": "170656008",
               "display": "Asthma sometimes restricts exercise"
             }
-          ]
+          ],
+          "text": "Asthma sometimes restricts exercise"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9038,6 +9098,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "126835018"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Endometriosis of uterus"
                     }
                   ]
                 }
@@ -9046,7 +9110,8 @@
               "code": "76376003",
               "display": "Endometriosis of uterus"
             }
-          ]
+          ],
+          "text": "Endometriosis of uterus"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9089,6 +9154,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "36112013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Abdominal pain"
                     }
                   ]
                 }
@@ -9097,7 +9166,8 @@
               "code": "21522001",
               "display": "Abdominal pain"
             }
-          ]
+          ],
+          "text": "Abdominal pain"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9152,7 +9222,8 @@
               "code": "80182007",
               "display": "Irregular periods"
             }
-          ]
+          ],
+          "text": "Irregular menstrual cycle"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9196,6 +9267,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "252082012"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "H/O: menstrual disorder"
                     }
                   ]
                 }
@@ -9204,7 +9279,8 @@
               "code": "161779006",
               "display": "H/O: menstrual disorder"
             }
-          ]
+          ],
+          "text": "H/O: menstrual disorder"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9247,6 +9323,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "250049017"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "FH: Menstrual disorder"
                     }
                   ]
                 }
@@ -9255,7 +9335,8 @@
               "code": "160393005",
               "display": "FH: Menstrual disorder"
             }
-          ]
+          ],
+          "text": "FH: Menstrual disorder"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9299,6 +9380,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "250049017"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "FH: Menstrual disorder"
                     }
                   ]
                 }
@@ -9307,7 +9392,8 @@
               "code": "160393005",
               "display": "FH: Menstrual disorder"
             }
-          ]
+          ],
+          "text": "FH: Menstrual disorder"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9351,6 +9437,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254075012"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - Systolic BP reading"
                     }
                   ]
                 }
@@ -9359,7 +9449,8 @@
               "code": "163030003",
               "display": "O/E - Systolic BP reading"
             }
-          ]
+          ],
+          "text": "Systolic blood pressure"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9406,6 +9497,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254076013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - Diastolic BP reading"
                     }
                   ]
                 }
@@ -9414,7 +9509,8 @@
               "code": "163031004",
               "display": "O/E - Diastolic BP reading"
             }
-          ]
+          ],
+          "text": "Diastolic blood pressure"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9459,8 +9555,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "304838011"
+                      "url": "descriptionDisplay",
+                      "valueString": "Anxiety states"
                     }
                   ]
                 }
@@ -9514,6 +9610,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "395173015"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Etcher/engraver"
                     }
                   ]
                 }
@@ -9522,7 +9622,8 @@
               "code": "265943003",
               "display": "Etcher/engraver"
             }
-          ]
+          ],
+          "text": "Etcher/engraver"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9575,7 +9676,8 @@
               "code": "21719001",
               "display": "Allergic rhinitis due to pollen"
             }
-          ]
+          ],
+          "text": "Allergic rhinitis due to pollens"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9627,7 +9729,8 @@
               "code": "76880004",
               "display": "Angelman syndrome"
             }
-          ]
+          ],
+          "text": "Happy puppet syndrome"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9680,7 +9783,8 @@
               "code": "22298006",
               "display": "Myocardial infarction"
             }
-          ]
+          ],
+          "text": "Heart attack"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9721,6 +9825,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "2548578015"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Consent given for upload to local shared electronic record"
                     }
                   ]
                 }
@@ -9729,7 +9837,8 @@
               "code": "417528008",
               "display": "Consent given for upload to local shared electronic record"
             }
-          ]
+          ],
+          "text": "Consent given for upload to local shared electronic record"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9769,6 +9878,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254075012"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - Systolic BP reading"
                     }
                   ]
                 }
@@ -9777,7 +9890,8 @@
               "code": "163030003",
               "display": "O/E - Systolic BP reading"
             }
-          ]
+          ],
+          "text": "Systolic blood pressure"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9821,6 +9935,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254076013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - Diastolic BP reading"
                     }
                   ]
                 }
@@ -9829,7 +9947,8 @@
               "code": "163031004",
               "display": "O/E - Diastolic BP reading"
             }
-          ]
+          ],
+          "text": "Diastolic blood pressure"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9873,6 +9992,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "397879018"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Tired all the time"
                     }
                   ]
                 }
@@ -9881,7 +10004,8 @@
               "code": "267032009",
               "display": "Tired all the time"
             }
-          ]
+          ],
+          "text": "Tired all the time"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -9922,6 +10046,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "475210013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Monkeypox"
                     }
                   ]
                 }
@@ -9930,7 +10058,8 @@
               "code": "359814004",
               "display": "Monkeypox"
             }
-          ]
+          ],
+          "text": "Monkeypox"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10006,7 +10135,8 @@
               "code": "22298006",
               "display": "Myocardial infarction"
             }
-          ]
+          ],
+          "text": "Heart attack"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10075,6 +10205,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "126835018"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Endometriosis of uterus"
                     }
                   ]
                 }
@@ -10083,7 +10217,8 @@
               "code": "76376003",
               "display": "Endometriosis of uterus"
             }
-          ]
+          ],
+          "text": "Endometriosis of uterus"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10164,7 +10299,8 @@
               "code": "21719001",
               "display": "Allergic rhinitis due to pollen"
             }
-          ]
+          ],
+          "text": "Allergic rhinitis due to pollens"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10236,6 +10372,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "1488801013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "H/O: aspirin allergy"
                     }
                   ]
                 }
@@ -10244,7 +10384,8 @@
               "code": "395102008",
               "display": "H/O: aspirin allergy"
             }
-          ]
+          ],
+          "text": "H/O: aspirin allergy"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10314,8 +10455,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "3743500010"
+                      "url": "descriptionDisplay",
+                      "valueString": "Peanut allergy"
                     }
                   ]
                 }
@@ -10395,6 +10536,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "2159181010"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "H/O: warfarin allergy"
                     }
                   ]
                 }
@@ -10403,7 +10548,8 @@
               "code": "407580005",
               "display": "H/O: warfarin allergy"
             }
-          ]
+          ],
+          "text": "H/O: warfarin allergy"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10484,7 +10630,8 @@
               "code": "76880004",
               "display": "Angelman syndrome"
             }
-          ]
+          ],
+          "text": "Happy puppet syndrome"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10565,7 +10712,8 @@
               "code": "22298006",
               "display": "Myocardial infarction"
             }
-          ]
+          ],
+          "text": "Heart attack"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -10634,6 +10782,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "475210013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Monkeypox"
                     }
                   ]
                 }
@@ -10642,7 +10794,8 @@
               "code": "359814004",
               "display": "Monkeypox"
             }
-          ]
+          ],
+          "text": "Monkeypox"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -11054,6 +11207,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254063019"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - blood pressure reading"
                     }
                   ]
                 }
@@ -11062,7 +11219,8 @@
               "code": "163020007",
               "display": "O/E - blood pressure reading"
             }
-          ]
+          ],
+          "text": "O/E - blood pressure reading"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -11105,6 +11263,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254063019"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - blood pressure reading"
                     }
                   ]
                 }
@@ -11113,7 +11275,8 @@
               "code": "163020007",
               "display": "O/E - blood pressure reading"
             }
-          ]
+          ],
+          "text": "O/E - blood pressure reading"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -11156,6 +11319,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254063019"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - blood pressure reading"
                     }
                   ]
                 }
@@ -11164,7 +11331,8 @@
               "code": "163020007",
               "display": "O/E - blood pressure reading"
             }
-          ]
+          ],
+          "text": "O/E - blood pressure reading"
         },
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -11206,8 +11374,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "3743500010"
+                      "url": "descriptionDisplay",
+                      "valueString": "Peanut allergy"
                     }
                   ]
                 }
@@ -11267,6 +11435,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "1488801013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "H/O: aspirin allergy"
                     }
                   ]
                 }
@@ -11275,7 +11447,8 @@
               "code": "395102008",
               "display": "H/O: aspirin allergy"
             }
-          ]
+          ],
+          "text": "H/O: aspirin allergy"
         },
         "patient": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
@@ -11323,8 +11496,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "3743500010"
+                      "url": "descriptionDisplay",
+                      "valueString": "Peanut allergy"
                     }
                   ]
                 }
@@ -11384,6 +11557,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "2159181010"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "H/O: warfarin allergy"
                     }
                   ]
                 }
@@ -11392,7 +11569,8 @@
               "code": "407580005",
               "display": "H/O: warfarin allergy"
             }
-          ]
+          ],
+          "text": "H/O: warfarin allergy"
         },
         "patient": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"

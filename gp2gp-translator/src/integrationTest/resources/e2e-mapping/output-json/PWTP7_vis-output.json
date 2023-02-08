@@ -1961,7 +1961,7 @@
         },
         "status": "current",
         "mode": "snapshot",
-        "title": "Patient referral",
+        "title": "Referral",
         "code": {
           "coding": [
             {
@@ -2007,7 +2007,7 @@
         },
         "status": "current",
         "mode": "snapshot",
-        "title": "Patient referral",
+        "title": "Referral",
         "code": {
           "coding": [
             {
@@ -2375,7 +2375,7 @@
         },
         "status": "current",
         "mode": "snapshot",
-        "title": "Patient referral",
+        "title": "Referral",
         "code": {
           "coding": [
             {
@@ -2421,7 +2421,7 @@
         },
         "status": "current",
         "mode": "snapshot",
-        "title": "Patient referral",
+        "title": "Referral",
         "code": {
           "coding": [
             {
@@ -2516,6 +2516,10 @@
                       {
                         "url": "descriptionId",
                         "valueId": "397210015"
+                      },
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Referral to private doctor"
                       }
                     ]
                   }
@@ -2524,7 +2528,8 @@
                 "code": "266747000",
                 "display": "Referral to private doctor"
               }
-            ]
+            ],
+            "text": "Referral to private doctor"
           }
         ],
         "note": [
@@ -2590,7 +2595,8 @@
                 "code": "183561008",
                 "display": "Referral to GP"
               }
-            ]
+            ],
+            "text": "Referral to G.P."
           }
         ],
         "note": [
@@ -2656,7 +2662,8 @@
                 "code": "183545006",
                 "display": "Referral to orthopaedic service"
               }
-            ]
+            ],
+            "text": "Orthopaedic referral"
           }
         ],
         "note": [
@@ -2710,6 +2717,10 @@
                       {
                         "url": "descriptionId",
                         "valueId": "448978012"
+                      },
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Self-referral"
                       }
                     ]
                   }
@@ -2718,7 +2729,8 @@
                 "code": "306098008",
                 "display": "Self-referral"
               }
-            ]
+            ],
+            "text": "Neurosurgical referral"
           }
         ],
         "note": [
@@ -2769,6 +2781,10 @@
                       {
                         "url": "descriptionId",
                         "valueId": "283553018"
+                      },
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Non-urgent hospital admission"
                       }
                     ]
                   }
@@ -2777,7 +2793,8 @@
                 "code": "183481006",
                 "display": "Non-urgent hospital admission"
               }
-            ]
+            ],
+            "text": "Non-urgent hospital admission"
           }
         ],
         "note": [
@@ -2806,7 +2823,8 @@
               "code": "330062008",
               "display": "Allopurinol 300mg tablets"
             }
-          ]
+          ],
+          "text": "Allopurinol 300mg tablets"
         }
       }
     },
@@ -2950,8 +2968,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "36446019"
+                      "url": "descriptionDisplay",
+                      "valueString": "Hay fever - pollens"
                     }
                   ]
                 }
@@ -3039,6 +3057,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "253092014"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Dry eyes"
                     }
                   ]
                 }
@@ -3047,7 +3069,8 @@
               "code": "162290004",
               "display": "Dry eyes"
             }
-          ]
+          ],
+          "text": "Dry eyes"
         },
         "subject": {
           "reference": "Patient/456ede6b-b3c4-45b4-aeb4-2baedc501de8"
@@ -3087,6 +3110,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "253092014"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Dry eyes"
                     }
                   ]
                 }
@@ -3095,7 +3122,8 @@
               "code": "162290004",
               "display": "Dry eyes"
             }
-          ]
+          ],
+          "text": "Dry eyes"
         },
         "subject": {
           "reference": "Patient/456ede6b-b3c4-45b4-aeb4-2baedc501de8"
@@ -3147,7 +3175,8 @@
               "code": "46152009",
               "display": "Tear film insufficiency"
             }
-          ]
+          ],
+          "text": "Dry eye syndrome"
         },
         "subject": {
           "reference": "Patient/456ede6b-b3c4-45b4-aeb4-2baedc501de8"
@@ -3287,8 +3316,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "36446019"
+                      "url": "descriptionDisplay",
+                      "valueString": "Hay fever - pollens"
                     }
                   ]
                 }
@@ -3472,7 +3501,8 @@
               "code": "46152009",
               "display": "Tear film insufficiency"
             }
-          ]
+          ],
+          "text": "Dry eye syndrome"
         },
         "subject": {
           "reference": "Patient/456ede6b-b3c4-45b4-aeb4-2baedc501de8"

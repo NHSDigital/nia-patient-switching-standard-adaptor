@@ -2483,6 +2483,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "40268016"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Glaucoma"
                     }
                   ]
                 }
@@ -2491,7 +2495,8 @@
               "code": "23986001",
               "display": "Glaucoma"
             }
-          ]
+          ],
+          "text": "Glaucoma"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2535,6 +2540,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254075012"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - Systolic BP reading"
                     }
                   ]
                 }
@@ -2543,7 +2552,8 @@
               "code": "163030003",
               "display": "O/E - Systolic BP reading"
             }
-          ]
+          ],
+          "text": "Systolic blood pressure"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2590,6 +2600,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254076013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - Diastolic BP reading"
                     }
                   ]
                 }
@@ -2598,7 +2612,8 @@
               "code": "163031004",
               "display": "O/E - Diastolic BP reading"
             }
-          ]
+          ],
+          "text": "Diastolic blood pressure"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2657,7 +2672,8 @@
               "code": "76880004",
               "display": "Angelman syndrome"
             }
-          ]
+          ],
+          "text": "Happy puppet syndrome"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2701,6 +2717,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "285343017"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Patient too late"
                     }
                   ]
                 }
@@ -2709,7 +2729,8 @@
               "code": "185328004",
               "display": "Patient too late"
             }
-          ]
+          ],
+          "text": "Patient too late"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2765,7 +2786,8 @@
               "code": "76880004",
               "display": "Angelman syndrome"
             }
-          ]
+          ],
+          "text": "Happy puppet syndrome"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2809,6 +2831,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "397879018"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Tired all the time"
                     }
                   ]
                 }
@@ -2817,7 +2843,8 @@
               "code": "267032009",
               "display": "Tired all the time"
             }
-          ]
+          ],
+          "text": "Tired all the time"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2859,8 +2886,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "393801018"
+                      "url": "descriptionDisplay",
+                      "valueString": "Total prosthetic replacement of hip joint using cement OS"
                     }
                   ]
                 }
@@ -2914,6 +2941,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "393801018"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Total prosthetic replacement of hip joint using cement"
                     }
                   ]
                 }
@@ -2922,7 +2953,8 @@
               "code": "265157000",
               "display": "Total prosthetic replacement of hip joint using cement"
             }
-          ]
+          ],
+          "text": "Total prosthetic replacement of hip joint using cement"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -2966,6 +2998,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "393818019"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Total prosthetic replacement of knee joint using cement"
                     }
                   ]
                 }
@@ -2974,7 +3010,8 @@
               "code": "265170009",
               "display": "Total prosthetic replacement of knee joint using cement"
             }
-          ]
+          ],
+          "text": "Total prosthetic replacement of knee joint using cement"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3016,8 +3053,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "167453013"
+                      "url": "descriptionDisplay",
+                      "valueString": "Diagnostic procedures"
                     }
                   ]
                 }
@@ -3070,6 +3107,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "342322012"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Very heavy drinker"
                     }
                   ]
                 }
@@ -3078,7 +3119,8 @@
               "code": "228279004",
               "display": "Very heavy drinker"
             }
-          ]
+          ],
+          "text": "Very heavy drinker"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3121,6 +3163,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254075012"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - Systolic BP reading"
                     }
                   ]
                 }
@@ -3129,7 +3175,8 @@
               "code": "163030003",
               "display": "O/E - Systolic BP reading"
             }
-          ]
+          ],
+          "text": "Systolic blood pressure"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3176,6 +3223,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254076013"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - Diastolic BP reading"
                     }
                   ]
                 }
@@ -3184,7 +3235,8 @@
               "code": "163031004",
               "display": "O/E - Diastolic BP reading"
             }
-          ]
+          ],
+          "text": "Diastolic blood pressure"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3262,6 +3314,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "191517011"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Divorced"
                     }
                   ]
                 }
@@ -3270,7 +3326,8 @@
               "code": "20295000",
               "display": "Divorced"
             }
-          ]
+          ],
+          "text": "Divorced"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3310,6 +3367,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "2548578015"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Consent given for upload to local shared electronic record"
                     }
                   ]
                 }
@@ -3318,7 +3379,8 @@
               "code": "417528008",
               "display": "Consent given for upload to local shared electronic record"
             }
-          ]
+          ],
+          "text": "Consent given for upload to local shared electronic record"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3370,7 +3432,8 @@
               "code": "24069003",
               "display": "Nairobi sheep virus disease"
             }
-          ]
+          ],
+          "text": "Nairobi sheep disease"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3409,8 +3472,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "1206042017"
+                      "url": "descriptionDisplay",
+                      "valueString": "Forced landing on takeoff - occupant of spacecraft injured"
                     }
                   ]
                 }
@@ -3459,8 +3522,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "453345018"
+                      "url": "descriptionDisplay",
+                      "valueString": "Cystostomy bag fitting"
                     }
                   ]
                 }
@@ -3507,8 +3570,8 @@
                         "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                         "extension": [
                           {
-                            "url": "descriptionId",
-                            "valueId": "65004017"
+                            "url": "descriptionDisplay",
+                            "valueString": "Measles/mumps/rubella vaccn."
                           }
                         ]
                       }
@@ -3618,7 +3681,8 @@
               "code": "24069003",
               "display": "Nairobi sheep virus disease"
             }
-          ]
+          ],
+          "text": "Nairobi sheep disease"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -3685,8 +3749,8 @@
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
                   "extension": [
                     {
-                      "url": "descriptionId",
-                      "valueId": "1206042017"
+                      "url": "descriptionDisplay",
+                      "valueString": "Forced landing on takeoff - occupant of spacecraft injured"
                     }
                   ]
                 }
@@ -4398,6 +4462,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254063019"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - blood pressure reading"
                     }
                   ]
                 }
@@ -4406,7 +4474,8 @@
               "code": "163020007",
               "display": "O/E - blood pressure reading"
             }
-          ]
+          ],
+          "text": "O/E - blood pressure reading"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -4495,7 +4564,8 @@
               "code": "76880004",
               "display": "Angelman syndrome"
             }
-          ]
+          ],
+          "text": "Happy puppet syndrome"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -4538,6 +4608,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "254063019"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - blood pressure reading"
                     }
                   ]
                 }
@@ -4546,7 +4620,8 @@
               "code": "163020007",
               "display": "O/E - blood pressure reading"
             }
-          ]
+          ],
+          "text": "O/E - blood pressure reading"
         },
         "subject": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
@@ -4642,6 +4717,10 @@
                     {
                       "url": "descriptionId",
                       "valueId": "251824014"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "H/O: penicillin allergy"
                     }
                   ]
                 }
@@ -4650,7 +4729,8 @@
               "code": "161591004",
               "display": "H/O: penicillin allergy"
             }
-          ]
+          ],
+          "text": "H/O: penicillin allergy"
         },
         "patient": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
