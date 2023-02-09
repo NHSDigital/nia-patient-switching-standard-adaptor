@@ -1,0 +1,5 @@
+CommentType:LABORATORY RESULT COMMENT(E141)
+CommentDate:20100120104622
+
+Clinical Details:
+NOTE:Specimen date

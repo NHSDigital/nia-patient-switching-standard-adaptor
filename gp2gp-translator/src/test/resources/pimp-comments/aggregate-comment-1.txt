@@ -1,0 +1,7 @@
+CommentType:AGGREGATE COMMENT SET
+CommentDate:20100120162719
+
+ Fasting       4.3            negative        negative
+ 2 hours       7.6            negative        negative
+ NORMAL              : Fasting up to 6.0 &amp; 2 hr up to 7.7
+ IMPAIRED FASTING    : Fasting 6.1-6.9 &amp; 2 hr up to 7.7
