@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatementsWithoutAllergies;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getInterpretation;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
@@ -13,9 +14,11 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObser
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -27,14 +30,7 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.v3.CD;
-import org.hl7.v3.CV;
-import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
-import org.hl7.v3.RCMRMT030101UK04Subject;
+import org.hl7.v3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,20 +43,35 @@ import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 public class ObservationMapper extends AbstractMapper<Observation> {
     private static final String META_PROFILE = "Observation-1";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
+    private static final String SELF_REFERRAL = "SelfReferral";
+
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final DatabaseImmunizationChecker immunizationChecker;
 
     public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
-            extractAllObservationStatementsWithoutAllergies(component)
+
+        List<Observation> selfReferralObservations =
+                mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+                extractAllRequestStatements(component)
+                        .filter(Objects::nonNull)
+                        .filter(this::isSelfReferral)
+                        .map(observationStatement
+                                -> mapObservationFromRequestStatement(extract, composition, observationStatement, patient, encounters, practiseCode)))
+                .toList();
+
+        List<Observation> observations =
+                mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+                extractAllObservationStatementsWithoutAllergies(component)
                 .filter(Objects::nonNull)
                 .filter(this::isNotBloodPressure)
                 .filter(this::isNotImmunization)
                 .map(observationStatement
                     -> mapObservation(extract, composition, observationStatement, patient, encounters, practiseCode)))
             .toList();
+
+        return Stream.concat(selfReferralObservations.stream(), observations.stream()).collect(Collectors.toList());
     }
 
     private Observation mapObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
@@ -90,6 +101,35 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return observation;
     }
 
+    private Observation mapObservationFromRequestStatement(RCMRMT030101UK04EhrExtract ehrExtract,
+                                                           RCMRMT030101UK04EhrComposition ehrComposition,
+                                                           RCMRMT030101UK04RequestStatement requestStatement, Patient patient,
+                                                           List<Encounter> encounters, String practiseCode) {
+        var id = requestStatement.getId().get(0).getRoot();
+
+        Observation observation = new Observation()
+                .setStatus(FINAL)
+                .addIdentifier(buildIdentifier(id, practiseCode))
+                .setCode(getCode(requestStatement.getCode()))
+                .setIssuedElement(getIssued(ehrExtract, ehrComposition))
+                .addPerformer(getParticipantReference(requestStatement.getParticipant(), ehrComposition))
+//                .setInterpretation(getInterpretation(requestStatement.getInterpretationCode()))
+                .setComment(SELF_REFERRAL)
+//                .setReferenceRange(getReferenceRange(requestStatement.getReferenceRange()))
+                .setSubject(new Reference(patient));
+
+        observation.setId(id);
+        observation.setMeta(generateMeta(META_PROFILE));
+
+        addContextToObservation(observation, encounters, ehrComposition);
+//        addValue(observation, getValueQuantity(requestStatement.getValue(), requestStatement.getUncertaintyCode()),
+//                getValueString(requestStatement.getValue()));
+        addEffective(observation,
+                getEffective(requestStatement.getEffectiveTime(), requestStatement.getAvailabilityTime()));
+
+        return observation;
+    }
+
     private boolean isNotBloodPressure(RCMRMT030101UK04ObservationStatement observationStatement) {
         if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
             return !BloodPressureValidatorUtil.isSystolicBloodPressure(observationStatement.getCode().getCode())
@@ -103,6 +143,15 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             return !immunizationChecker.isImmunization(observationStatement);
         }
         return true;
+    }
+
+    private boolean isSelfReferral(RCMRMT030101UK04RequestStatement requestStatement) {
+        for (CR qualifier : requestStatement.getCode().getQualifier()) {
+            if (qualifier.getValue().getCode().equals(SELF_REFERRAL)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void addEffective(Observation observation, Object effective) {
