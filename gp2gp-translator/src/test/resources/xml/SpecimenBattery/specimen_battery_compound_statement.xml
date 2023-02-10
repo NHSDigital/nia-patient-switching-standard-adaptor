@@ -88,10 +88,10 @@
                                                 <NarrativeStatement classCode="OBS" moodCode="EVN">
                                                     <id root="BATTERY_DIRECT_CHILD_NARRATIVE_STATEMENT_ID"/>
                                                     <text mediaType="text/x-h7uk-pmip">CommentType:SUPER COMMENT
-                                                        CommentDate:20220321163025
+CommentDate:20220321163025
 
-                                                        Looks like Covid
-                                                    </text>
+Looks like Covid
+</text>
                                                     <statusCode code="COMPLETE"/>
                                                     <availabilityTime value="20100223000000"/>
                                                 </NarrativeStatement>
@@ -130,10 +130,10 @@
                                                         <NarrativeStatement classCode="OBS" moodCode="EVN">
                                                             <id root="OTHER_COMMENT_NARRATIVE_STATEMENT_ID"/>
                                                             <text mediaType="text/x-h7uk-pmip">CommentType:OTHER COMMENT
-                                                                CommentDate:20220321162705
+CommentDate:20220321162705
 
-                                                                Or maybe not?
-                                                            </text>
+Or maybe not?
+</text>
                                                             <statusCode code="COMPLETE"/>
                                                             <availabilityTime value="20100223000000"/>
                                                         </NarrativeStatement>
@@ -142,10 +142,10 @@
                                                         <NarrativeStatement classCode="OBS" moodCode="EVN">
                                                             <id root="USER_COMMENT_NARRATIVE_STATEMENT_ID"/>
                                                             <text mediaType="text/x-h7uk-pmip">CommentType:USER COMMENT
-                                                                CommentDate:20100223000000
+CommentDate:20100223000000
 
-                                                                This should not be a part of Battery Observation.comment
-                                                            </text>
+This should not be a part of Battery Observation.comment
+</text>
                                                             <statusCode code="COMPLETE"/>
                                                             <availabilityTime value="20100223000000"/>
                                                         </NarrativeStatement>

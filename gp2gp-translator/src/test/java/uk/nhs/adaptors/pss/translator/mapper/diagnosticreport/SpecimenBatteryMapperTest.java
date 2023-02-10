@@ -8,6 +8,7 @@ import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTime
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
@@ -46,7 +47,7 @@ public class SpecimenBatteryMapperTest {
     private static final String PATIENT_ID = "TEST_PATIENT_ID";
     private static final String SPECIMEN_ID = "TEST_SPECIMEN_ID_1";
     private static final String META_PROFILE_SUFFIX = "Observation-1";
-    private static final String EXPECTED_COMMENT = "Looks like Covid";
+    private static final String EXPECTED_COMMENT = "Looks like Covid\n";
     private static final Patient PATIENT = (Patient) new Patient().setId(PATIENT_ID);
     private static final DiagnosticReport DIAGNOSTIC_REPORT = (DiagnosticReport) new DiagnosticReport().setId(DIAGNOSTIC_REPORT_ID);
     private static final InstantType OBSERVATION_ISSUED = parseToInstantType("202203021160700");
@@ -66,6 +67,7 @@ public class SpecimenBatteryMapperTest {
         var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
 
         final List<Observation> observations = getObservations();
+        final List<Observation> observationComments = getObservationComments();
 
         var batteryParameters = SpecimenBatteryParameters.builder()
             .ehrExtract(ehrExtract)
@@ -77,6 +79,7 @@ public class SpecimenBatteryMapperTest {
             .encounters(encounters)
             .practiseCode(PRACTISE_CODE)
             .observations(observations)
+            .observationComments(observationComments)
             .build();
 
         final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
@@ -98,6 +101,53 @@ public class SpecimenBatteryMapperTest {
 
         assertSubject(observation);
         assertRelated(observation);
+
+        assertThat(observationComments.size()).isEqualTo(2);
+
+        var observationCommentIds = observationComments.stream()
+            .map(Observation::getId)
+            .toList();
+
+        assertThat(observationCommentIds.contains("BATTERY_DIRECT_CHILD_NARRATIVE_STATEMENT_ID")).isFalse();
+    }
+
+    private List<Observation> getObservationComments() {
+        List<Observation> observationComments = new ArrayList<>();
+        var batteryObservationComment = new Observation()
+            .setComment("""
+                           CommentType:SUPER COMMENT
+                           CommentDate:20220321163025
+                           
+                           Looks like Covid
+                           """);
+
+        batteryObservationComment.setId("BATTERY_DIRECT_CHILD_NARRATIVE_STATEMENT_ID");
+
+        var otherClusterObservationComment = new Observation()
+            .setComment("""
+                CommentType:OTHER COMMENT
+                CommentDate:20220321162705
+                                
+                Or maybe not?
+                """);
+
+        otherClusterObservationComment.setId("OTHER_COMMENT_NARRATIVE_STATEMENT_ID");
+
+        var userObservationComment = new Observation()
+            .setComment("""
+                CommentType:USER COMMENT
+                CommentDate:20100223000000
+                                
+                This should not be a part of Battery Observation.comment
+                """);
+
+        userObservationComment.setId("USER_COMMENT_NARRATIVE_STATEMENT_ID");
+
+        observationComments.add(batteryObservationComment);
+        observationComments.add(otherClusterObservationComment);
+        observationComments.add(userObservationComment);
+
+        return observationComments;
     }
 
     private void assertRelated(Observation observation) {

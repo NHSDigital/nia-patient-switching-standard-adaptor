@@ -3,7 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 import static org.hl7.fhir.dstu3.model.ResourceType.Specimen;
 
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.addLine;
-import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPimpComment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,41 +48,52 @@ public class SpecimenCompoundsMapper {
         List<Observation> observationComments, List<DiagnosticReport> diagnosticReports,
         Patient patient, List<Encounter> encounters, String practiseCode) {
         final List<Observation> batteryObservations = new ArrayList<>();
-        diagnosticReports.forEach(diagnosticReport ->
-            getCompoundStatementByDRId(ehrExtract, diagnosticReport.getId()).ifPresent(parentCompoundStatement ->
-                getSpecimenCompoundStatements(parentCompoundStatement).forEach(specimenCompoundStatement -> {
-                    getObservationStatementsInCompound(specimenCompoundStatement).forEach(
-                        specimenObservationStatement -> getObservationById(observations, specimenObservationStatement.getId().getRoot())
-                            .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation, diagnosticReport))
-                    );
-                    getCompoundStatementsInSpecimenCompound(specimenCompoundStatement, CLUSTER_CLASSCODE).forEach(
-                        clusterCompoundStatement -> handleClusterCompoundStatement(
+
+        for (var diagnosticReport : diagnosticReports) {
+
+            var diagnosticReportCompoundStatement = getCompoundStatementByDRId(ehrExtract, diagnosticReport.getId());
+
+            if (diagnosticReportCompoundStatement.isPresent()) {
+
+                for (var specimenCompoundStatement : getSpecimenCompoundStatements(diagnosticReportCompoundStatement.orElseThrow())) {
+
+                    for (var specimenObservationStatement : getObservationStatementsInCompound(specimenCompoundStatement)) {
+                        getObservationById(observations, specimenObservationStatement.getId().getRoot())
+                            .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation, diagnosticReport));
+                    }
+
+                    for (var clusterCompoundStatement : getCompoundStatementsInSpecimenCompound(specimenCompoundStatement,
+                        CLUSTER_CLASSCODE)) {
+                        handleClusterCompoundStatement(
                             specimenCompoundStatement, clusterCompoundStatement, observations, observationComments, diagnosticReport
-                        )
-                    );
-                    getCompoundStatementsInSpecimenCompound(specimenCompoundStatement, BATTERY_CLASSCODE).forEach(
-                        batteryCompoundStatement -> {
-                            handleBatteryCompoundStatement(
-                                specimenCompoundStatement, batteryCompoundStatement, observations, observationComments, diagnosticReport
-                            );
+                        );
+                    }
 
-                            final SpecimenBatteryParameters batteryParameters = SpecimenBatteryParameters.builder()
-                                .ehrExtract(ehrExtract)
-                                .batteryCompoundStatement(batteryCompoundStatement)
-                                .specimenCompoundStatement(specimenCompoundStatement)
-                                .ehrComposition(getCurrentEhrComposition(ehrExtract, parentCompoundStatement))
-                                .diagnosticReport(diagnosticReport)
-                                .patient(patient)
-                                .encounters(encounters)
-                                .observations(observations)
-                                .observationComments(observationComments)
-                                .practiseCode(practiseCode)
-                                .build();
+                    for (var batteryCompoundStatement : getCompoundStatementsInSpecimenCompound(specimenCompoundStatement,
+                        BATTERY_CLASSCODE)) {
+                        handleBatteryCompoundStatement(
+                            specimenCompoundStatement, batteryCompoundStatement, observations, observationComments, diagnosticReport
+                        );
 
-                            batteryObservations.add(batteryMapper.mapBatteryObservation(batteryParameters));
-                        }
-                    );
-                })));
+                        final SpecimenBatteryParameters batteryParameters = SpecimenBatteryParameters.builder()
+                            .ehrExtract(ehrExtract)
+                            .batteryCompoundStatement(batteryCompoundStatement)
+                            .specimenCompoundStatement(specimenCompoundStatement)
+                            .ehrComposition(getCurrentEhrComposition(ehrExtract, diagnosticReportCompoundStatement.orElseThrow()))
+                            .diagnosticReport(diagnosticReport)
+                            .patient(patient)
+                            .encounters(encounters)
+                            .observations(observations)
+                            .observationComments(observationComments)
+                            .practiseCode(practiseCode)
+                            .build();
+
+                        batteryObservations.add(batteryMapper.mapBatteryObservation(batteryParameters));
+                    }
+                }
+            }
+        }
+
         return batteryObservations;
     }
 
@@ -102,18 +113,26 @@ public class SpecimenCompoundsMapper {
 
     private void handleNarrativeStatements(RCMRMT030101UK04CompoundStatement compoundStatement,
         List<Observation> observationComments, Observation observation) {
+
+        List<Observation> surplusObservationComments = new ArrayList<>();
+
         getNarrativeStatementsInCompound(compoundStatement).forEach(childNarrativeStatement -> {
+
             if (childNarrativeStatement.getText().contains(USER_COMMENT_HEADER)) {
                 getObservationById(observationComments, childNarrativeStatement.getId().getRoot())
                     .ifPresent(observationComment -> {
                         observationComment.setEffective(null);
-                        observationComment.setComment(getLastLine(observationComment.getComment()));
+                        observationComment.setComment(extractPimpComment(observationComment.getComment()));
                         createRelationship(observation, observationComment);
                     });
             } else if (observation != null) {
-                observation.setComment(addLine(observation.getComment(), getLastLine(childNarrativeStatement.getText())));
+                observation.setComment(addLine(observation.getComment(), extractPimpComment(childNarrativeStatement.getText())));
+
+                getObservationById(observationComments, childNarrativeStatement.getId().getRoot())
+                    .ifPresent(surplusObservationComments::add);
             }
         });
+        observationComments.removeAll(surplusObservationComments);
     }
 
     private void createRelationship(Observation observation, Observation observationComment) {
@@ -134,28 +153,36 @@ public class SpecimenCompoundsMapper {
     private void handleClusterCompoundStatement(RCMRMT030101UK04CompoundStatement specimenCompoundStatement,
         RCMRMT030101UK04CompoundStatement clusterCompoundStatement,
         List<Observation> observations, List<Observation> observationComments, DiagnosticReport diagnosticReport) {
-        clusterCompoundStatement.getComponent().stream()
+        var nestedObservationStatements = clusterCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UK04Component02::hasObservationStatement)
             .map(RCMRMT030101UK04Component02::getObservationStatement)
-            .forEach(observationStatement -> {
-                var observationOpt = getObservationById(observations, observationStatement.getId().getRoot());
-                observationOpt.ifPresent(observation -> handleObservationStatement(
-                    specimenCompoundStatement, observation, diagnosticReport)
-                );
-                handleNarrativeStatements(clusterCompoundStatement, observationComments, observationOpt.orElse(null));
-            });
+            .toList();
+
+        for (var observationStatement : nestedObservationStatements) {
+            var observationOpt = getObservationById(observations, observationStatement.getId().getRoot());
+            observationOpt.ifPresent(observation -> handleObservationStatement(
+                specimenCompoundStatement, observation, diagnosticReport)
+            );
+            handleNarrativeStatements(clusterCompoundStatement, observationComments, observationOpt.orElse(null));
+        }
     }
 
     private void handleBatteryCompoundStatement(RCMRMT030101UK04CompoundStatement specimenCompoundStatement,
         RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
+
         List<Observation> observations, List<Observation> observationComments, DiagnosticReport diagnosticReport) {
-        batteryCompoundStatement.getComponent().stream()
+
+        var compoundStatements = batteryCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
             .map(RCMRMT030101UK04Component02::getCompoundStatement)
             .filter(compoundStatement -> CLUSTER_CLASSCODE.equals(compoundStatement.getClassCode().get(0)))
-            .forEach(compoundStatement -> handleClusterCompoundStatement(
+            .toList();
+
+        for (var compoundStatement : compoundStatements) {
+            handleClusterCompoundStatement(
                 specimenCompoundStatement, compoundStatement, observations, observationComments, diagnosticReport
-            ));
+            );
+        }
 
         batteryCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
@@ -169,14 +196,20 @@ public class SpecimenCompoundsMapper {
                     specimenCompoundStatement, observation, diagnosticReport)
                 ));
 
-        batteryCompoundStatement.getComponent().stream()
+        var observationStatements = batteryCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UK04Component02::hasObservationStatement)
             .map(RCMRMT030101UK04Component02::getObservationStatement)
-            .forEach(observationStatement ->
-                getObservationById(observations, observationStatement.getId().getRoot()).ifPresent(observation -> {
-                    handleObservationStatement(specimenCompoundStatement, observation, diagnosticReport);
-                    handleNarrativeStatements(batteryCompoundStatement, observationComments, observation);
-                }));
+            .toList();
+
+        for (var observationStatement : observationStatements) {
+
+            var observation = getObservationById(observations, observationStatement.getId().getRoot());
+
+            if (observation.isPresent()) {
+                handleObservationStatement(specimenCompoundStatement, observation.orElseThrow(), diagnosticReport);
+                handleNarrativeStatements(batteryCompoundStatement, observationComments, observation.orElseThrow());
+            }
+        }
     }
 
     private Optional<RCMRMT030101UK04CompoundStatement> getCompoundStatementByDRId(RCMRMT030101UK04EhrExtract ehrExtract, String id) {

@@ -130,7 +130,6 @@ public class BundleMapperService {
             addEntries(bundle, conditions);
 
             var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, observationComments);
 
             var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg, attachments);
             addEntries(bundle, documentReferences);
@@ -150,6 +149,7 @@ public class BundleMapperService {
 
             return bundle;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BundleMappingException(e.getMessage());
         }
     }
@@ -157,12 +157,17 @@ public class BundleMapperService {
     private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         List<Observation> observations, List<Observation> observationComments, String practiceCode) {
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, patient, encounters, practiceCode);
+
         diagnosticReportMapper.handleChildObservationComments(ehrExtract, observationComments);
+
         var specimen = specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
         addEntries(bundle, diagnosticReports);
         addEntries(bundle, specimen);
+
         var batteryObservations = specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments,
             diagnosticReports, patient, encounters, practiceCode);
+
+        addEntries(bundle, observationComments);
         addEntries(bundle, batteryObservations);
     }
 

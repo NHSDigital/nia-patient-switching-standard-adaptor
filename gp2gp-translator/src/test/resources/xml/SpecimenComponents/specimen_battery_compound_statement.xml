@@ -118,10 +118,10 @@
                                                         <NarrativeStatement classCode="OBS" moodCode="EVN">
                                                             <id root="NARRATIVE_STATEMENT_ID"/>
                                                             <text mediaType="text/x-h7uk-pmip">CommentType:USER COMMENT
-                                                                CommentDate:20100223000000
+CommentDate:20100223000000
 
-                                                                Test Comment
-                                                            </text>
+Test Comment
+</text>
                                                             <statusCode code="COMPLETE"/>
                                                             <availabilityTime value="20100223000000"/>
                                                         </NarrativeStatement>
