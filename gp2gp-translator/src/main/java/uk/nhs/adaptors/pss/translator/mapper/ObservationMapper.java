@@ -14,6 +14,7 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObser
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -21,15 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.DateTimeType;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.Quantity;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.StringType;
+import org.hl7.fhir.dstu3.model.*;
 import org.hl7.v3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -113,17 +106,14 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                 .setCode(getCode(requestStatement.getCode()))
                 .setIssuedElement(getIssued(ehrExtract, ehrComposition))
                 .addPerformer(getParticipantReference(requestStatement.getParticipant(), ehrComposition))
-//                .setInterpretation(getInterpretation(requestStatement.getInterpretationCode()))
                 .setComment(SELF_REFERRAL)
-//                .setReferenceRange(getReferenceRange(requestStatement.getReferenceRange()))
-                .setSubject(new Reference(patient));
+                .setSubject(new Reference(patient))
+                .setComponent(createComponentList(requestStatement));
 
         observation.setId(id);
         observation.setMeta(generateMeta(META_PROFILE));
 
         addContextToObservation(observation, encounters, ehrComposition);
-//        addValue(observation, getValueQuantity(requestStatement.getValue(), requestStatement.getUncertaintyCode()),
-//                getValueString(requestStatement.getValue()));
         addEffective(observation,
                 getEffective(requestStatement.getEffectiveTime(), requestStatement.getAvailabilityTime()));
 
@@ -215,5 +205,23 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private boolean subjectHasDisplayName(RCMRMT030101UK04Subject subject) {
         return subject != null && subject.getPersonalRelationship() != null
             && subject.getPersonalRelationship().getCode() != null && subject.getPersonalRelationship().getCode().getDisplayName() != null;
+    }
+    private List<Observation.ObservationComponentComponent> createComponentList(RCMRMT030101UK04RequestStatement
+                                                                                        requestStatement) {
+        List<Observation.ObservationComponentComponent> componentList = new ArrayList<>();
+
+        Observation.ObservationComponentComponent urgency =
+                new Observation.ObservationComponentComponent(
+                        new CodeableConcept().setTextElement(new StringType("urgency")));
+        urgency.setProperty("value[x]", new StringType(requestStatement.getPriorityCode().getOriginalText()));
+        componentList.add(urgency);
+
+        Observation.ObservationComponentComponent text =
+                new Observation.ObservationComponentComponent(
+                        new CodeableConcept().setTextElement(new StringType("text")));
+        text.setProperty("value[x]", new StringType(requestStatement.getText()));
+        componentList.add(text);
+
+        return componentList;
     }
 }
