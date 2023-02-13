@@ -187,6 +187,15 @@ public class ResourceReferenceUtil {
     private static void addRequestStatementEntry(RCMRMT030101UK04RequestStatement requestStatement,
                                                  List<Reference> entryReferences) {
         if (requestStatement != null) {
+
+            //Qualifier null then add ReferralRequest as normal.
+            if(requestStatement.getCode().getQualifier() == null ||
+                requestStatement.getCode().getQualifier().isEmpty()) {
+                entryReferences.add(createResourceReference(
+                        ResourceType.ReferralRequest.name(), requestStatement.getId().get(0).getRoot()));
+            }
+
+            //If qualifier present then add Observation or ReferralRequest depending on Value.
             for (CR qualifier : requestStatement.getCode().getQualifier()) {
                 if (qualifier.getValue().getCode().equals(SELF_REFERRAL)) {
                     entryReferences.add(createResourceReference(
@@ -195,6 +204,19 @@ public class ResourceReferenceUtil {
                     entryReferences.add(createResourceReference(
                             ResourceType.ReferralRequest.name(), requestStatement.getId().get(0).getRoot()));
                 }
+            }
+        }
+    }
+
+    private static void ass(RCMRMT030101UK04RequestStatement requestStatement,
+                            List<Reference> entryReferences) {
+        for (CR qualifier : requestStatement.getCode().getQualifier()) {
+            if (qualifier.getValue().getCode().equals(SELF_REFERRAL)) {
+                entryReferences.add(createResourceReference(
+                        ResourceType.Observation.name(), requestStatement.getId().get(0).getRoot()));
+            } else {
+                entryReferences.add(createResourceReference(
+                        ResourceType.ReferralRequest.name(), requestStatement.getId().get(0).getRoot()));
             }
         }
     }
