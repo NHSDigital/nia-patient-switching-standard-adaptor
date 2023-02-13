@@ -189,8 +189,8 @@ public class ResourceReferenceUtil {
         if (requestStatement != null) {
 
             //Qualifier null then add ReferralRequest as normal.
-            if(requestStatement.getCode().getQualifier() == null ||
-                requestStatement.getCode().getQualifier().isEmpty()) {
+            if (requestStatement.getCode().getQualifier() == null
+                    || requestStatement.getCode().getQualifier().isEmpty()) {
                 entryReferences.add(createResourceReference(
                         ResourceType.ReferralRequest.name(), requestStatement.getId().get(0).getRoot()));
             }
