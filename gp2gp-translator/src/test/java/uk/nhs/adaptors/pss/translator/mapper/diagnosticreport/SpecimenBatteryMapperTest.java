@@ -117,7 +117,7 @@ public class SpecimenBatteryMapperTest {
             .setComment("""
                            CommentType:SUPER COMMENT
                            CommentDate:20220321163025
-                           
+
                            Looks like Covid
                            """);
 
@@ -127,7 +127,7 @@ public class SpecimenBatteryMapperTest {
             .setComment("""
                 CommentType:OTHER COMMENT
                 CommentDate:20220321162705
-                                
+
                 Or maybe not?
                 """);
 
@@ -137,7 +137,7 @@ public class SpecimenBatteryMapperTest {
             .setComment("""
                 CommentType:USER COMMENT
                 CommentDate:20100223000000
-                                
+
                 This should not be a part of Battery Observation.comment
                 """);
 

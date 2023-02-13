@@ -38,8 +38,8 @@ public class DiagnosticReportMapperTest {
     private static final String ENCOUNTER_ID = "EHR_COMPOSITION_ID_1";
     private static final InstantType ISSUED_ELEMENT = parseToInstantType("20100225154100");
     private static final Patient PATIENT = (Patient) new Patient().setId("PATIENT_TEST_ID");
-    private static final String CONCLUSION_FIELD_TEXT = "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_1\n" +
-        "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_2";
+    private static final String CONCLUSION_FIELD_TEXT = "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_1\n"
+        + "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_2";
 
     @SuppressWarnings("RegexpSingleline")
     private static final String NARRATIVE_STATEMENT_COMMENT_BLOCK = """

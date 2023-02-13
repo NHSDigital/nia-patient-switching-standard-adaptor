@@ -109,7 +109,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     }
 
     private String getConclusion(RCMRMT030101UK04CompoundStatement compoundStatement) {
-         return compoundStatement.getComponent()
+        return compoundStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
