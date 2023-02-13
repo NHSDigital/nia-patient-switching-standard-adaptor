@@ -164,6 +164,8 @@ public class BundleMapperService {
         addEntries(bundle, diagnosticReports);
         addEntries(bundle, specimen);
 
+        observationComments = specimenMapper.removeSurplusObservationComments(ehrExtract, observationComments);
+
         var batteryObservations = specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments,
             diagnosticReports, patient, encounters, practiceCode);
 

@@ -2,7 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPimpComment;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +14,7 @@ import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Specimen;
@@ -35,6 +36,7 @@ public class SpecimenMapper {
 
     private static final String SPECIMEN_META_PROFILE_SUFFIX = "Specimen-1";
     private static final String REFERENCE_PREFIX = "Specimen/";
+    private static final String SPECIMEN_CODE = "123038009";
 
     private final DateTimeMapper dateTimeMapper;
 
@@ -51,6 +53,27 @@ public class SpecimenMapper {
             .distinct()
             .map(childCompoundStatement -> createSpecimen(childCompoundStatement, patient, practiceCode))
             .toList();
+    }
+
+    public List<Observation> removeSurplusObservationComments(RCMRMT030101UK04EhrExtract ehrExtract,
+        List<Observation> observationComments) {
+
+        var specimenCompoundStatements = findAllSpecimenCompoundStatements(ehrExtract);
+
+        var observationCommentIds = specimenCompoundStatements.stream()
+            .flatMap(compoundStatement -> compoundStatement.getComponent().stream())
+            .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
+            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .map(narrativeStatement -> narrativeStatement.getId().getRoot())
+            .toList();
+
+        var surplusObservationComments = observationComments.stream()
+            .filter(observation -> observationCommentIds.contains(observation.getId()))
+            .toList();
+
+        observationComments.removeAll(surplusObservationComments);
+
+        return observationComments;
     }
 
     private Specimen createSpecimen(RCMRMT030101UK04CompoundStatement specimenCompoundStatement, Patient patient, String practiceCode) {
@@ -85,7 +108,7 @@ public class SpecimenMapper {
             .stream()
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
             .filter(Objects::nonNull)
-            .map(narrativeStatement -> getLastLine(narrativeStatement.getText()))
+            .map(narrativeStatement -> extractPimpComment(narrativeStatement.getText()))
             .collect(Collectors.joining(StringUtils.LF));
 
         return List.of(new Annotation().setText(text));
@@ -133,5 +156,19 @@ public class SpecimenMapper {
                 .filter(Objects::nonNull)
                 .anyMatch(e -> id.equals(e.getId().get(0).getRoot()))
             ).findFirst();
+    }
+
+    private List<RCMRMT030101UK04CompoundStatement> findAllSpecimenCompoundStatements(RCMRMT030101UK04EhrExtract ehrExtract) {
+        var topLevelComponents = ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
+            .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
+            .toList();
+
+        return topLevelComponents.stream()
+            .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
+            .filter(Objects::nonNull)
+            .filter(compoundStatement -> compoundStatement.hasCode()
+                && compoundStatement.getCode().hasCode()
+                && compoundStatement.getCode().getCode().equals(SPECIMEN_CODE)
+            ).toList();
     }
 }

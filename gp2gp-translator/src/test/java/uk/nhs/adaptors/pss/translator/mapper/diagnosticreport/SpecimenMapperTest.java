@@ -8,10 +8,13 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Specimen;
@@ -42,6 +45,8 @@ public class SpecimenMapperTest {
     private static final String DR_ID = "DIAGNOSTIC_REPORT_ID";
     private static final DiagnosticReport DIAGNOSTIC_REPORT_WITH_SPECIMEN = generateDiagnosticReportWithSpecimenReference();
     private static final DiagnosticReport DIAGNOSTIC_REPORT_WITHOUT_SPECIMEN = generateDiagnosticReportWithNoSpecimenReference();
+
+    private static final String NARRATIVE_STATEMENT_ID = "9326C01E-488B-4EDF-B9C9-529E69EE0361";
 
     @Mock
     private DateTimeMapper dateTimeMapper;
@@ -97,6 +102,52 @@ public class SpecimenMapperTest {
         );
 
         assertThat(specimenList).isEmpty();
+    }
+
+    @Test
+    public void When_RemoveSurplusObservationComments_With_ChildNarrativeStatements_Expect_CommentsRemoved() {
+        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid.xml");
+
+        var outputList = specimenMapper
+            .removeSurplusObservationComments(ehrExtract, getObservationComments());
+
+        assertThat(outputList.size()).isEqualTo(2);
+
+        List<String> ids = outputList.stream()
+            .map(Observation::getId)
+            .toList();
+
+        assertThat(ids.contains(NARRATIVE_STATEMENT_ID)).isFalse();
+    }
+
+    @Test
+    public void When_RemoveSurplusObservationComments_Without_NoChildNarrativeStatements_Expect_CommentsUnchanged() {
+        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid_without_comment.xml");
+
+        List<Observation> observationComments = getObservationComments();
+
+        var outputList = specimenMapper
+            .removeSurplusObservationComments(ehrExtract, observationComments);
+
+        assertThat(outputList).isEqualTo(observationComments);
+    }
+
+    private List<Observation> getObservationComments() {
+        List<Observation> observationComments = new ArrayList<>();
+
+        var comment = new Observation();
+        comment.setId(NARRATIVE_STATEMENT_ID);
+        observationComments.add(comment);
+
+        var comment2 = new Observation();
+        comment2.setId(UUID.randomUUID().toString());
+        observationComments.add(comment2);
+
+        var comment3 = new Observation();
+        comment3.setId(UUID.randomUUID().toString());
+        observationComments.add(comment3);
+
+        return observationComments;
     }
 
     private static DiagnosticReport generateDiagnosticReportWithSpecimenReference() {
