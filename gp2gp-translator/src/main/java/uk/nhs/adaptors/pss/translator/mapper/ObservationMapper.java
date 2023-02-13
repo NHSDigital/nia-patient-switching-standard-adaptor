@@ -37,6 +37,8 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private static final String META_PROFILE = "Observation-1";
     private static final String SUBJECT_COMMENT = "Subject: %s ";
     private static final String SELF_REFERRAL = "SelfReferral";
+    private static final String URGENCY = "Urgency";
+    private static final String TEXT = "Text";
 
 
     private final CodeableConceptMapper codeableConceptMapper;
@@ -212,13 +214,13 @@ public class ObservationMapper extends AbstractMapper<Observation> {
 
         Observation.ObservationComponentComponent urgency =
                 new Observation.ObservationComponentComponent(
-                        new CodeableConcept().setTextElement(new StringType("urgency")));
+                        new CodeableConcept().setTextElement(new StringType(URGENCY)));
         urgency.setProperty("value[x]", new StringType(requestStatement.getPriorityCode().getOriginalText()));
         componentList.add(urgency);
 
         Observation.ObservationComponentComponent text =
                 new Observation.ObservationComponentComponent(
-                        new CodeableConcept().setTextElement(new StringType("text")));
+                        new CodeableConcept().setTextElement(new StringType(TEXT)));
         text.setProperty("value[x]", new StringType(requestStatement.getText()));
         componentList.add(text);
 
