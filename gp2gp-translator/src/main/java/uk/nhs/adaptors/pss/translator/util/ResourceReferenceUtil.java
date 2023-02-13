@@ -24,6 +24,7 @@ public class ResourceReferenceUtil {
     private static final String QUESTIONNAIRE_ID = "%s-QRSP";
     private static final String OBSERVATION_REFERENCE = "Observation/%s";
     private static final String QUESTIONNAIRE_REFERENCE = "QuestionnaireResponse/%s";
+    private static final String SELF_REFERRAL = "SelfReferral";
 
     private final DatabaseImmunizationChecker immunizationChecker;
 
@@ -167,7 +168,7 @@ public class ResourceReferenceUtil {
     private static void addRequestStatementEntry(RCMRMT030101UK04RequestStatement requestStatement, List<Reference> entryReferences) {
         if (requestStatement != null) {
             for (CR qualifier : requestStatement.getCode().getQualifier()) {
-                if (qualifier.getValue().getCode().equals("SelfReferral")) {
+                if (qualifier.getValue().getCode().equals(SELF_REFERRAL)) {
                     entryReferences.add(createResourceReference(ResourceType.Observation.name(), requestStatement.getId().get(0).getRoot()));
                 } else {
                     entryReferences.add(createResourceReference(ResourceType.ReferralRequest.name(), requestStatement.getId().get(0).getRoot()));
