@@ -11,14 +11,7 @@ import java.util.List;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04LinkSet;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PlanStatement;
-import org.hl7.v3.RCMRMT030101UK04RequestStatement;
+import org.hl7.v3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -173,7 +166,13 @@ public class ResourceReferenceUtil {
 
     private static void addRequestStatementEntry(RCMRMT030101UK04RequestStatement requestStatement, List<Reference> entryReferences) {
         if (requestStatement != null) {
-            entryReferences.add(createResourceReference(ResourceType.ReferralRequest.name(), requestStatement.getId().get(0).getRoot()));
+            for (CR qualifier : requestStatement.getCode().getQualifier()) {
+                if (qualifier.getValue().getCode().equals("SelfReferral")) {
+                    entryReferences.add(createResourceReference(ResourceType.Observation.name(), requestStatement.getId().get(0).getRoot()));
+                } else {
+                    entryReferences.add(createResourceReference(ResourceType.ReferralRequest.name(), requestStatement.getId().get(0).getRoot()));
+                }
+            }
         }
     }
 
