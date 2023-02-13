@@ -1,7 +1,21 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.dstu3.model.*;
+import org.hl7.v3.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
+import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatementsWithoutAllergies;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
@@ -10,26 +24,9 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRange;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.StringUtils;
-import org.hl7.fhir.dstu3.model.*;
-import org.hl7.v3.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
-import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -53,7 +50,8 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                         .filter(Objects::nonNull)
                         .filter(this::isSelfReferral)
                         .map(observationStatement
-                                -> mapObservationFromRequestStatement(extract, composition, observationStatement, patient, encounters, practiseCode)))
+                                -> mapObservationFromRequestStatement(extract, composition, observationStatement,
+                                patient, encounters, practiseCode)))
                 .toList();
 
         List<Observation> observations =
