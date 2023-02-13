@@ -47,7 +47,7 @@ public class SpecimenBatteryMapperTest {
     private static final String PATIENT_ID = "TEST_PATIENT_ID";
     private static final String SPECIMEN_ID = "TEST_SPECIMEN_ID_1";
     private static final String META_PROFILE_SUFFIX = "Observation-1";
-    private static final String EXPECTED_COMMENT = "Looks like Covid\n";
+    private static final String EXPECTED_COMMENT = "Looks like Covid";
     private static final Patient PATIENT = (Patient) new Patient().setId(PATIENT_ID);
     private static final DiagnosticReport DIAGNOSTIC_REPORT = (DiagnosticReport) new DiagnosticReport().setId(DIAGNOSTIC_REPORT_ID);
     private static final InstantType OBSERVATION_ISSUED = parseToInstantType("202203021160700");

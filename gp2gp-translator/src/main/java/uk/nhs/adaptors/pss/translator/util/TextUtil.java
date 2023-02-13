@@ -35,6 +35,6 @@ public class TextUtil {
             return text;
         }
 
-        return matcher.group(1);
+        return matcher.group(1).stripTrailing();
     }
 }

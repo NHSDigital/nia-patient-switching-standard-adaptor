@@ -36,7 +36,7 @@ public class SpecimenCompoundsMapperTest {
     private static final String DIAGNOSTIC_REPORT_ID = "DR_TEST_ID";
     private static final String SPECIMEN_ID = "TEST_SPECIMEN_ID";
     private static final String TEST_COMMENT_LINE = "First comment Line";
-    private static final String TEST_COMMENT_LINE_1 = "Test Comment\n";
+    private static final String TEST_COMMENT_LINE_1 = "Test Comment";
 
     private static final Patient PATIENT = (Patient) new Patient().setId("TEST_PATIENT_ID");
 

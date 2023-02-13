@@ -38,6 +38,8 @@ public class DiagnosticReportMapperTest {
     private static final String ENCOUNTER_ID = "EHR_COMPOSITION_ID_1";
     private static final InstantType ISSUED_ELEMENT = parseToInstantType("20100225154100");
     private static final Patient PATIENT = (Patient) new Patient().setId("PATIENT_TEST_ID");
+    private static final String CONCLUSION_FIELD_TEXT = "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_1\n" +
+        "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_2";
 
     @SuppressWarnings("RegexpSingleline")
     private static final String NARRATIVE_STATEMENT_COMMENT_BLOCK = """
@@ -113,6 +115,17 @@ public class DiagnosticReportMapperTest {
         assertThat(diagnosticReports.get(0).hasContext()).isTrue();
         assertThat(diagnosticReports.get(0).getContext().getResource()).isNotNull();
         assertThat(diagnosticReports.get(0).getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
+    }
+
+    @Test
+    public void testMappingNarrativeStatementToConclusion() {
+        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_observations.xml");
+        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapResources(
+            ehrExtract, PATIENT, createEncounterList(), PRACTISE_CODE
+        );
+
+        assertThat(diagnosticReports.get(0).hasConclusion()).isTrue();
+        assertThat(diagnosticReports.get(0).getConclusion()).isEqualTo(CONCLUSION_FIELD_TEXT);
     }
 
     private List<Observation> createObservationCommentList() {

@@ -26,10 +26,10 @@
                                 <NarrativeStatement classCode="OBS" moodCode="EVN">
                                     <id root="NARRATIVE_STATEMENT_ID_1"/>
                                     <text mediaType="text/x-h7uk-pmip">CommentType:LABORATORY RESULT COMMENT(E141)
-                                        CommentDate:20220308170025
+CommentDate:20220308170025
 
-                                        TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_1
-                                    </text>
+TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_1
+</text>
                                     <statusCode code="COMPLETE"/>
                                     <availabilityTime value="20220308170025"/>
                                 </NarrativeStatement>
@@ -38,10 +38,10 @@
                                 <NarrativeStatement classCode="OBS" moodCode="EVN">
                                     <id root="NARRATIVE_STATEMENT_ID_2"/>
                                     <text mediaType="text/x-h7uk-pmip">CommentType:LABORATORY RESULT COMMENT(E141)
-                                        CommentDate:20220308170025
+CommentDate:20220308170025
 
-                                        TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_2
-                                    </text>
+TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_2
+</text>
                                     <statusCode code="COMPLETE"/>
                                     <availabilityTime value="20220308170025"/>
                                 </NarrativeStatement>
