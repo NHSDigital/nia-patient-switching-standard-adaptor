@@ -59,6 +59,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private static final String META_PROFILE = "ProblemHeader-Condition-1";
     private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-RelatedClinicalContent-1";
+    
+    private static final String PROBLEM_HEADER_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect" 
+            + "-RelatedProblemHeader-1";
     private static final String ACTUAL_PROBLEM_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ActualProblem-1";
     private static final String PROBLEM_SIGNIFICANCE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
@@ -70,7 +73,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private static final String DEFAULT_ANNOTATION = "Unspecified Significance: Defaulted to Minor";
     private static final String MAJOR_CODE_NAME = "major";
     private static final String MINOR_CODE_NAME = "minor";
-
+    private static final String HIERARCHY_TYPE_PARENT = "parent";
+    private static final String HIERARCHY_TYPE_CHILD = "child";
+    
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
@@ -107,7 +112,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             });
 
         condition.setSubject(new Reference(patient));
-
+        
         condition.addExtension(buildProblemSignificance(linkSet.getCode()));
         generateAnnotationToMinor(linkSet.getCode()).ifPresent(condition::addNote);
 
@@ -130,37 +135,72 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         return condition;
     }
 
+    public void addHierarchyReferencesToConditions(List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
+        var allLinkSets = getCompositionsContainingLinkSets(ehrExtract).stream()
+                .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
+                .map(RCMRMT030101UK04Component4::getLinkSet)
+                .filter(Objects::nonNull)
+                .toList();
+        
+        allLinkSets.forEach(linkSet -> {
+            var condition = conditions.stream()
+                    .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
+                    .findFirst();
+
+            condition.ifPresent(value -> linkSet.getComponent()
+                    .stream()
+                    .map(RCMRMT030101UK04Component6::getStatementRef)
+                    .forEach(ref -> {
+                        var childLinkSet = allLinkSets
+                                .stream()
+                                .filter(ls -> ls.getId().getRoot().equals(ref.getId().getRoot()))
+                                .findFirst();
+
+                        if (childLinkSet.isPresent()) {
+                            value.addExtension(
+                                    buildConditionReferenceExtension(ref.getId().getRoot(), HIERARCHY_TYPE_CHILD));
+
+                            conditions.stream()
+                                    .filter(condition2 -> condition2.getId().equals(ref.getId().getRoot()))
+                                    .findFirst()
+                                    .ifPresent(parentCondition ->
+                                            parentCondition.addExtension(buildConditionReferenceExtension(
+                                                    value.getId(), HIERARCHY_TYPE_PARENT)));
+                        }
+                    }));
+        });
+    }
+    
     public void addReferences(Bundle bundle, List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
         getCompositionsContainingLinkSets(ehrExtract).stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UK04Component4::getLinkSet)
             .filter(Objects::nonNull)
-            .forEach(linkSet ->
-                conditions.stream()
+            .forEach(linkSet -> conditions.stream()
                     .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
                     .findFirst().ifPresent(condition -> {
                         var namedStatementRef = linkSet.getConditionNamed().getNamedStatementRef();
                         buildActualProblem(bundle, namedStatementRef).ifPresent(condition::addExtension);
 
                         var referencedObservationStatement = getObservationStatementById(
-                            ehrExtract,
-                            namedStatementRef.getId().getRoot()
+                                ehrExtract,
+                                namedStatementRef.getId().getRoot()
                         );
 
                         buildNotes(
-                            referencedObservationStatement,
-                            linkSet
+                                referencedObservationStatement,
+                                linkSet
                         ).forEach(condition::addNote);
 
                         referencedObservationStatement.ifPresent(
-                            observationStatement -> condition.setCode(
-                                codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
-                        );
+                                observationStatement -> {
+                                    condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
+                                });
 
                         var statementRefs = linkSet.getComponent()
-                            .stream()
-                            .map(RCMRMT030101UK04Component6::getStatementRef)
-                            .toList();
+                                .stream()
+                                .map(RCMRMT030101UK04Component6::getStatementRef)
+                                .toList();
 
                         buildRelatedClinicalContent(bundle, statementRefs).forEach(condition::addExtension);
                     }));
@@ -223,6 +263,20 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
     private boolean hasMajorCode(CD linkSetCode) {
         return hasCode(linkSetCode) && MAJOR_CODE.equals(linkSetCode.getQualifier().get(0).getName().getCode());
+    }
+    
+    private Extension buildConditionReferenceExtension(String id, String heirarchyType) {
+        Extension extension = new Extension()
+                .setUrl(PROBLEM_HEADER_URL);
+
+        extension.addExtension(new Extension()
+                .setUrl("type")
+                .setValue(new CodeType(heirarchyType)));
+        extension.addExtension(new Extension()
+                .setUrl("target")
+                .setValue(new Reference("Condition/" + id)));
+
+        return extension;
     }
 
     private Extension buildProblemSignificance(CD linkSetCode) {

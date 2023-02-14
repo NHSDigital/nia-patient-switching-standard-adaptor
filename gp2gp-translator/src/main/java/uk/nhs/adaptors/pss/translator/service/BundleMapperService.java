@@ -144,6 +144,7 @@ public class BundleMapperService {
             mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, losingPracticeOdsCode);
 
             conditionMapper.addReferences(bundle, conditions, ehrExtract);
+            conditionMapper.addHierarchyReferencesToConditions(conditions, ehrExtract);
             unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
 
             LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
