@@ -23076,88 +23076,6 @@
     },
     {
       "resource": {
-        "resourceType": "Observation",
-        "id": "2E7E5DC5-03F2-436C-89CF-A5C8A5833103",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "2E7E5DC5-03F2-436C-89CF-A5C8A5833103"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
-        },
-        "context": {
-          "reference": "Encounter/825B1B60-525E-4D0A-B813-F3AE3E18EB5D"
-        },
-        "effectiveDateTime": "2010-03-23T15:42:00+00:00",
-        "issued": "2010-03-23T16:07:49.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ],
-        "comment": "This is just a consultation to test issue of previous courses via consultations"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "27FD5735-8B9A-4851-979D-E85D75078624",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "27FD5735-8B9A-4851-979D-E85D75078624"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
-        },
-        "context": {
-          "reference": "Encounter/18ADB528-260B-41D8-ACA5-77529A4A4F59"
-        },
-        "effectiveDateTime": "2010-08-10T12:17:00+00:00",
-        "issued": "2010-08-10T12:22:33.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-          }
-        ],
-        "comment": "Fluoxetine 20mg capsules One To Be Taken Each Day"
-      }
-    },
-    {
-      "resource": {
         "resourceType": "AllergyIntolerance",
         "id": "1767A5D0-0D14-4266-B8EC-728248628342",
         "meta": {
@@ -23339,6 +23257,88 @@
         "asserter": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "2E7E5DC5-03F2-436C-89CF-A5C8A5833103",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "2E7E5DC5-03F2-436C-89CF-A5C8A5833103"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
+        },
+        "context": {
+          "reference": "Encounter/825B1B60-525E-4D0A-B813-F3AE3E18EB5D"
+        },
+        "effectiveDateTime": "2010-03-23T15:42:00+00:00",
+        "issued": "2010-03-23T16:07:49.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "This is just a consultation to test issue of previous courses via consultations"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "27FD5735-8B9A-4851-979D-E85D75078624",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "27FD5735-8B9A-4851-979D-E85D75078624"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
+        },
+        "context": {
+          "reference": "Encounter/18ADB528-260B-41D8-ACA5-77529A4A4F59"
+        },
+        "effectiveDateTime": "2010-08-10T12:17:00+00:00",
+        "issued": "2010-08-10T12:22:33.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+          }
+        ],
+        "comment": "Fluoxetine 20mg capsules One To Be Taken Each Day"
       }
     }
   ]
