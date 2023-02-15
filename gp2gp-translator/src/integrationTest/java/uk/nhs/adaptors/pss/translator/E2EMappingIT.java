@@ -246,7 +246,7 @@ public class E2EMappingIT extends BaseEhrHandler {
 
         executeTest(inputFileName, ignoredFields);
     }
-    
+
     @Test
     public void handlePWTP11EhrExtractFromQueue() throws JSONException, JAXBException {
         String inputFileName = "PWTP11";
@@ -332,7 +332,7 @@ public class E2EMappingIT extends BaseEhrHandler {
 
         expectedBundle = expectedBundle.replaceAll(odsCodeToBeReplaced, this.getLosingODSCode()).replaceAll(SPECIAL_CHARS, "");
         var actualBundle = patientMigrationRequest.getBundleResource().replaceAll(SPECIAL_CHARS, "");
-        
+
         assertBundleContent(
                 actualBundle,
                 expectedBundle,
