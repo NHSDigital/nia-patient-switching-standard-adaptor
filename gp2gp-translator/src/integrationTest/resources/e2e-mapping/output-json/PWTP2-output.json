@@ -10342,6 +10342,21 @@
             "valueReference": {
               "reference": "Condition/0A8290DF-1060-4C61-99FC-D0542B8A8693"
             }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+            "extension": [ 
+              {
+                "url": "type",
+                "valueCode": "child"
+              }, 
+              {
+                "url": "target",
+                "valueReference": {
+                  "reference": "Condition/0A8290DF-1060-4C61-99FC-D0542B8A8693"
+                }
+              } 
+            ]
           }
         ],
         "identifier": [
@@ -10427,6 +10442,21 @@
             "valueReference": {
               "reference": "AllergyIntolerance/C2759F00-D036-4BA9-A038-93252ADAEC62"
             }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+            "extension": [
+              {
+                "url": "type",
+                "valueCode": "parent"
+              },
+              {
+                "url": "target",
+                "valueReference": {
+                  "reference": "Condition/BF627285-8E57-46C7-BBAF-27AFBC7C23B8"
+                }
+              }
+            ]
           }
         ],
         "identifier": [
