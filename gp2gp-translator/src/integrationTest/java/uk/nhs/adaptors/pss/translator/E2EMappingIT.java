@@ -246,25 +246,6 @@ public class E2EMappingIT extends BaseEhrHandler {
 
         executeTest(inputFileName, ignoredFields);
     }
-
-    @Test
-    public void handleMartinTest() throws JSONException, JAXBException {
-        String inputFileName = "PWTP11";
-
-        List<String> ignoredFields = List.of(
-                "entry[3].resource.location[0].location.reference",
-                "entry[4].resource.location[0].location.reference",
-                "entry[5].resource.location[0].location.reference",
-                "entry[6].resource.location[0].location.reference",
-                "entry[7].resource.location[0].location.reference",
-                "entry[8].resource.location[0].location.reference",
-                "entry[9].resource.location[0].location.reference",
-                "entry[49].resource.id",
-                "entry[49].resource.identifier[0].value"
-        );
-
-        executeTest(inputFileName, ignoredFields);
-    }
     
     @Test
     public void handlePWTP11EhrExtractFromQueue() throws JSONException, JAXBException {
