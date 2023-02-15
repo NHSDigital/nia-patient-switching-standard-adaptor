@@ -66,6 +66,9 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     }
 
     public void handleChildObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observationComments) {
+
+        List<Observation> conclusionComments = new ArrayList<>();
+
         ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
             .stream()
             .flatMap(e -> e.getEhrComposition().getComponent().stream())
@@ -78,9 +81,16 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .map(narrativeStatement -> getObservationCommentById(observationComments, narrativeStatement.getId().getRoot()))
             .flatMap(Optional::stream)
             .forEach(observationComment -> {
+
+                if (observationComment.getComment().contains(LAB_REPORT_COMMENT_TYPE)) {
+                    conclusionComments.add(observationComment);
+                }
+
                 observationComment.setEffective(null);
                 observationComment.setComment(extractPimpComment(observationComment.getComment()));
             });
+
+        observationComments.removeAll(conclusionComments);
     }
 
     private DiagnosticReport createDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient,
@@ -134,6 +144,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .stream()
             .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .filter(narrativeStatement -> !narrativeStatement.getText().contains(LAB_REPORT_COMMENT_TYPE))
             .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
             .collect(toCollection(ArrayList::new));
 

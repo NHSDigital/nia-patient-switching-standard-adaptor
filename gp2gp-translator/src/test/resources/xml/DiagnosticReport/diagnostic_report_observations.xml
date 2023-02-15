@@ -46,6 +46,17 @@ TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_2
                                     <availabilityTime value="20220308170025"/>
                                 </NarrativeStatement>
                             </component>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                    <id root="NARRATIVE_STATEMENT_ID_2"/>
+                                    <text mediaType="text/x-h7uk-pmip">CommentType:UNKNOWN TYPE
+CommentDate:20220308170025
+TEST COMMENT
+</text>
+                                    <statusCode code="COMPLETE"/>
+                                    <availabilityTime value="20220308170025"/>
+                                </NarrativeStatement>
+                            </component>
                         </CompoundStatement>
                     </component>
                 </ehrComposition>
