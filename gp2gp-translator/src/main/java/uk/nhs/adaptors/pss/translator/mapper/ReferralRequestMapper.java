@@ -18,10 +18,11 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralCategory;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
-import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.CD;
+import org.hl7.v3.CR;
 import org.hl7.v3.CV;
 import org.hl7.v3.IVLTS;
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
@@ -41,6 +42,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     private static final String ACTION_DATE_PREFIX = "Action Date: ";
     private static final String PRACTITIONER_REFERENCE = "Practitioner/%s";
     private static final String RESP_PARTY_TYPE_CODE = "RESP";
+    private static final String SELF_REFERRAL = "SelfReferral";
 
     private static Map<String, String> priorityCodes = Map.of(
             "394848005", "routine",
@@ -49,12 +51,15 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     );
 
     private CodeableConceptMapper codeableConceptMapper;
+    private ObservationMapper observationMapper;
 
     public List<ReferralRequest> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
+
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllRequestStatements(component)
                 .filter(Objects::nonNull)
+                .filter(this::isNotSelfReferral)
                 .map(requestStatement -> mapToReferralRequest(composition, requestStatement, patient, encounters, practiseCode)))
             .toList();
     }
@@ -126,6 +131,15 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             && responsibleParty.getTypeCode().stream().anyMatch(RESP_PARTY_TYPE_CODE::equals)
             && responsibleParty.getAgentRef() != null
             && responsibleParty.getAgentRef().getId() != null;
+    }
+
+    private boolean isNotSelfReferral(RCMRMT030101UK04RequestStatement requestStatement) {
+        for (CR qualifier : requestStatement.getCode().getQualifier()) {
+            if (qualifier.getValue().getCode().equals(SELF_REFERRAL)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private List<Annotation> getNotes(RCMRMT030101UK04RequestStatement requestStatement) {
