@@ -6,13 +6,15 @@ import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtra
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportStatus;
@@ -30,18 +32,21 @@ import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
+import uk.nhs.adaptors.pss.translator.util.TextUtil;
 
 @Service
 public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
 
     private static final String EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
     private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
+    private static final String LAB_REPORT_COMMENT_TYPE = "CommentType:LABORATORY RESULT COMMENT(E141)";
 
     @Override
     public List<DiagnosticReport> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
@@ -61,6 +66,9 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     }
 
     public void handleChildObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observationComments) {
+
+        List<Observation> conclusionComments = new ArrayList<>();
+
         ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
             .stream()
             .flatMap(e -> e.getEhrComposition().getComponent().stream())
@@ -73,9 +81,16 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .map(narrativeStatement -> getObservationCommentById(observationComments, narrativeStatement.getId().getRoot()))
             .flatMap(Optional::stream)
             .forEach(observationComment -> {
+
+                if (observationComment.getComment().contains(LAB_REPORT_COMMENT_TYPE)) {
+                    conclusionComments.add(observationComment);
+                }
+
                 observationComment.setEffective(null);
-                observationComment.setComment(getLastLine(observationComment.getComment()));
+                observationComment.setComment(extractPmipComment(observationComment.getComment()));
             });
+
+        observationComments.removeAll(conclusionComments);
     }
 
     private DiagnosticReport createDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient,
@@ -94,7 +109,24 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         buildContext(composition, encounters).ifPresent(diagnosticReport::setContext);
         setResultReferences(compoundStatement, diagnosticReport);
 
+        var conclusion = getConclusion(compoundStatement);
+
+        if (!conclusion.isEmpty()) {
+            diagnosticReport.setConclusion(conclusion);
+        }
+
         return diagnosticReport;
+    }
+
+    private String getConclusion(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return compoundStatement.getComponent()
+            .stream()
+            .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
+            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .map(RCMRMT030101UK04NarrativeStatement::getText)
+            .filter(comment -> comment.contains(LAB_REPORT_COMMENT_TYPE))
+            .map(TextUtil::extractPmipComment)
+            .collect(Collectors.joining(StringUtils.LF));
     }
 
     private List<Reference> getSpecimenReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
@@ -112,6 +144,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .stream()
             .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .filter(narrativeStatement -> !narrativeStatement.getText().contains(LAB_REPORT_COMMENT_TYPE))
             .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
             .collect(toCollection(ArrayList::new));
 

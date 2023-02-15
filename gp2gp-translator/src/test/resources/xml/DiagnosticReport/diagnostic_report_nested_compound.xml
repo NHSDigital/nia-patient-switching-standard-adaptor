@@ -87,14 +87,13 @@
                                             <component typeCode="COMP" contextConductionInd="true">
                                                 <NarrativeStatement classCode="OBS" moodCode="EVN">
                                                     <id root="6035E061-FD34-444B-8171-DBDD153FDE1D"/>
-                                                    <text mediaType="text/x-h7uk-pmip">CommentType:LABORATORY RESULT
-                                                        COMMENT(E141)
-                                                        CommentDate:20100223000000
+                                                    <text mediaType="text/x-h7uk-pmip">CommentType:LABORATORY RESULT COMMENT(E141)
+CommentDate:20100223000000
 
-                                                        NEGATIVE
-                                                        In normal pregnancies the test will usually be positive from the
-                                                        second day after the expected menstruation.
-                                                    </text>
+NEGATIVE
+In normal pregnancies the test will usually be positive from the
+second day after the expected menstruation.
+</text>
                                                     <statusCode code="COMPLETE"/>
                                                     <availabilityTime value="20100223000000"/>
                                                 </NarrativeStatement>
@@ -103,10 +102,10 @@
                                                 <NarrativeStatement classCode="OBS" moodCode="EVN">
                                                     <id root="6035E061-FD34-444B-8171-DBDD153FDE1D"/>
                                                     <text mediaType="text/x-h7uk-pmip">CommentType:USER COMMENT
-                                                        CommentDate:20201215151704
+CommentDate:20201215151704
 
-                                                        (q) - Normal - No Action
-                                                    </text>
+(q) - Normal - No Action
+</text>
                                                     <statusCode code="COMPLETE"/>
                                                     <availabilityTime value="20201215151704"/>
                                                 </NarrativeStatement>
@@ -180,10 +179,10 @@
                                                 <NarrativeStatement classCode="OBS" moodCode="EVN">
                                                     <id root="6035E061-FD34-444B-8171-DBDD243FDE1D"/>
                                                     <text mediaType="text/x-h7uk-pmip">CommentType:USER COMMENT
-                                                        CommentDate:20201215151713
+CommentDate:20201215151713
 
-                                                        (q) - Normal - No Action
-                                                    </text>
+(q) - Normal - No Action
+</text>
                                                     <statusCode code="COMPLETE"/>
                                                     <availabilityTime value="20201215151713"/>
                                                 </NarrativeStatement>
@@ -261,10 +260,10 @@
                                                 <NarrativeStatement classCode="OBS" moodCode="EVN">
                                                     <id root="6035E061-FD34-444B-8171-DBDD243FDE1D"/>
                                                     <text mediaType="text/x-h7uk-pmip">CommentType:USER COMMENT
-                                                        CommentDate:20201215151713
+CommentDate:20201215151713
 
-                                                        (q) - Normal - No Action
-                                                    </text>
+(q) - Normal - No Action
+</text>
                                                     <statusCode code="COMPLETE"/>
                                                     <availabilityTime value="20201215151713"/>
                                                 </NarrativeStatement>

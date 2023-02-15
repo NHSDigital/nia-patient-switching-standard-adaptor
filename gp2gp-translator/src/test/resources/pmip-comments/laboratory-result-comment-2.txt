@@ -1,0 +1,4 @@
+CommentType:LABORATORY RESULT COMMENT(E141)
+CommentDate:20100120162723
+
+Infection

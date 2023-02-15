@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
@@ -85,9 +86,12 @@ public class SpecimenCompoundsMapperTest {
         );
 
         final Observation observation = observations.get(0);
+
         final Observation observationComment = observationComments.get(0);
+
         assertParentSpecimenIsReferenced(observation);
 
+        assertThat(observationComments.size()).isEqualTo(2);
         assertThat(observationComment.getComment()).isEqualTo(TEST_COMMENT_LINE_1);
         assertThat(observationComment.getRelated()).isNotEmpty();
         assertThat(observationComment.getRelatedFirstRep().getTarget().getResource()).isNotNull();
@@ -109,6 +113,7 @@ public class SpecimenCompoundsMapperTest {
 
         assertParentSpecimenIsReferenced(observations.get(0));
         assertParentSpecimenIsReferenced(observations.get(1));
+        assertThat(observationComments.size()).isEqualTo(2);
         assertThat(observationComments.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE_1);
     }
 
@@ -121,6 +126,7 @@ public class SpecimenCompoundsMapperTest {
 
         assertParentSpecimenIsReferenced(observations.get(0));
         assertThat(observations.get(0).getRelated()).isNotEmpty();
+        assertThat(observationComments.size()).isEqualTo(2);
         assertThat(observations.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE);
     }
 
@@ -132,6 +138,7 @@ public class SpecimenCompoundsMapperTest {
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
+        assertThat(observationComments.size()).isOne();
         assertThat(observations.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE + "\n" + TEST_COMMENT_LINE_1);
     }
 
@@ -159,7 +166,8 @@ public class SpecimenCompoundsMapperTest {
                 CommentType:USER COMMENT
                 CommentDate:20100223000000
 
-                Test Comment""")
+                Test Comment
+                """)
             .setId(NARRATIVE_STATEMENT_ID);
 
         Observation observationCommentNonUser = (Observation) new Observation()
@@ -167,9 +175,15 @@ public class SpecimenCompoundsMapperTest {
                 CommentType:LAB COMMENT
                 CommentDate:20100223000000
 
-                Test Comment""")
+                Test Comment
+                """)
             .setId(NARRATIVE_STATEMENT_ID_1);
-        return List.of(observationCommentUser, observationCommentNonUser);
+
+        List<Observation> observationComments = new ArrayList<>();
+        observationComments.add(observationCommentUser);
+        observationComments.add(observationCommentNonUser);
+
+        return observationComments;
     }
 
     @SneakyThrows

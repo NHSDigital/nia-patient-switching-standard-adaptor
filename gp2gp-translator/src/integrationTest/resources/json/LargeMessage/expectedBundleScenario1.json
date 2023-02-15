@@ -380,7 +380,51 @@
         }
       } ]
     }
-  }, {
+  },
+    {
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "5703D932-5A3F-42FD-BA9E-4C7CDDFF0656",
+        "meta": {
+          "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1" ]
+        },
+        "identifier": [ {
+          "system": "https://PSSAdaptor/D5445",
+          "value": "5703D932-5A3F-42FD-BA9E-4C7CDDFF0656"
+        } ],
+        "status": "current",
+        "type": {
+          "coding": [ {
+            "system": "http://snomed.info/sct",
+            "code": "37251000000104",
+            "display": "Other digital signal"
+          } ],
+          "text": "Other Attachment"
+        },
+        "subject": {
+          "reference": "Patient/b4d48187-79b8-48a8-8f3d-16c4066bc1fb"
+        },
+        "created": "2013-10-25T15:53:28+00:00",
+        "indexed": "2013-10-25T15:53:28.000+00:00",
+        "custodian": {
+          "reference": "Organization/364fda08-aef3-414a-abdd-cb64152ee2d5"
+        },
+        "description": "text/plain",
+        "content": [ {
+          "attachment": {
+            "contentType": "text/plain",
+            "url": "b6ae6bbd-53b8-4d76-b611-fdbad81eb3c6_277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt",
+            "size": 15416
+          }
+        } ],
+        "context": {
+          "encounter": {
+            "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
+          }
+        }
+      }
+    },
+    {
     "resource": {
       "resourceType": "Observation",
       "id": "FDD5D332-0468-414A-84E5-AFDAD5B37BCE",
@@ -476,49 +520,8 @@
       } ],
       "comment": "video/mpeg"
     }
-  }, {
-    "resource": {
-      "resourceType": "DocumentReference",
-      "id": "5703D932-5A3F-42FD-BA9E-4C7CDDFF0656",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1" ]
-      },
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "5703D932-5A3F-42FD-BA9E-4C7CDDFF0656"
-      } ],
-      "status": "current",
-      "type": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "37251000000104",
-          "display": "Other digital signal"
-        } ],
-        "text": "Other Attachment"
-      },
-      "subject": {
-        "reference": "Patient/b4d48187-79b8-48a8-8f3d-16c4066bc1fb"
-      },
-      "created": "2013-10-25T15:53:28+00:00",
-      "indexed": "2013-10-25T15:53:28.000+00:00",
-      "custodian": {
-        "reference": "Organization/364fda08-aef3-414a-abdd-cb64152ee2d5"
-      },
-      "description": "text/plain",
-      "content": [ {
-        "attachment": {
-          "contentType": "text/plain",
-          "url": "b6ae6bbd-53b8-4d76-b611-fdbad81eb3c6_277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt",
-          "size": 15416
-        }
-      } ],
-      "context": {
-        "encounter": {
-          "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
-        }
-      }
-    }
-  }, {
+  },
+    {
     "resource": {
       "resourceType": "Practitioner",
       "id": "af8e6262-6c1e-4354-9b1c-f89244590893",

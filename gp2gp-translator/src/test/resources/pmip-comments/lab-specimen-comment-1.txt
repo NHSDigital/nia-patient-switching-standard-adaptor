@@ -1,0 +1,6 @@
+CommentType:LAB SPECIMEN COMMENT(E271)
+CommentDate:20100120104622
+
+Another
+Specimen
+Comment
