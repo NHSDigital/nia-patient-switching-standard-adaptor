@@ -3,7 +3,7 @@ package uk.nhs.adaptors.pss.translator.util;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.addLine;
-import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPimpComment;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ import lombok.SneakyThrows;
 
 public class TextUtilTest {
 
-    private static final String PIMP_COMMENTS_DIR = "pimp-comments/";
+    private static final String PMIP_COMMENTS_DIR = "pmip-comments/";
 
     private static final String THREE_LINER = """
         HELLO
@@ -57,29 +57,29 @@ public class TextUtilTest {
     }
 
     @ParameterizedTest
-    @MethodSource("pimpComments")
+    @MethodSource("pmipComments")
     @SneakyThrows
-    public void When_ExtractPimpComment_WithValidComment_Expect_CommentExtracted(String inputFile, String outputFile) {
-        var input = readFileAsString(PIMP_COMMENTS_DIR + inputFile);
-        var expectedOutput = readFileAsString(PIMP_COMMENTS_DIR + outputFile);
+    public void When_ExtractPmipComment_WithValidComment_Expect_CommentExtracted(String inputFile, String outputFile) {
+        var input = readFileAsString(PMIP_COMMENTS_DIR + inputFile);
+        var expectedOutput = readFileAsString(PMIP_COMMENTS_DIR + outputFile);
 
-        var output = extractPimpComment(input);
+        var output = extractPmipComment(input);
 
         assertThat(output).isEqualTo(expectedOutput);
     }
 
     @ParameterizedTest
-    @MethodSource("invalidPimpComments")
+    @MethodSource("invalidPmipComments")
     @SneakyThrows
-    public void When_ExtractPimpComment_WithInvalidComment_Expect_InputReturned(String inputFile) {
-        var input = readFileAsString(PIMP_COMMENTS_DIR + inputFile);
+    public void When_ExtractPmipComment_WithInvalidComment_Expect_InputReturned(String inputFile) {
+        var input = readFileAsString(PMIP_COMMENTS_DIR + inputFile);
 
-        var output = extractPimpComment(input);
+        var output = extractPmipComment(input);
 
         assertThat(output).isEqualTo(input);
     }
 
-    private static Stream<Arguments> pimpComments() {
+    private static Stream<Arguments> pmipComments() {
         return Stream.of(
             Arguments.of("aggregate-comment-1.txt", "aggregate-comment-1-output.txt"),
             Arguments.of("aggregate-comment-2.txt", "aggregate-comment-2-output.txt"),
@@ -90,9 +90,9 @@ public class TextUtilTest {
             );
     }
 
-    private static Stream<Arguments> invalidPimpComments() {
+    private static Stream<Arguments> invalidPmipComments() {
         return Stream.of(
-            Arguments.of("invalid-pimp-comment-1.txt"));
+            Arguments.of("invalid-pmip-comment-1.txt"));
     }
 
     private static Stream<Arguments> testInputs() {

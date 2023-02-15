@@ -2,7 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPimpComment;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
 
 import java.util.List;
 import java.util.Objects;
@@ -108,7 +108,7 @@ public class SpecimenMapper {
             .stream()
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
             .filter(Objects::nonNull)
-            .map(narrativeStatement -> extractPimpComment(narrativeStatement.getText()))
+            .map(narrativeStatement -> extractPmipComment(narrativeStatement.getText()))
             .collect(Collectors.joining(StringUtils.LF));
 
         return List.of(new Annotation().setText(text));

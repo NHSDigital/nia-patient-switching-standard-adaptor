@@ -3,7 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 import static org.hl7.fhir.dstu3.model.ResourceType.Specimen;
 
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.addLine;
-import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPimpComment;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,11 +122,11 @@ public class SpecimenCompoundsMapper {
                 getObservationById(observationComments, childNarrativeStatement.getId().getRoot())
                     .ifPresent(observationComment -> {
                         observationComment.setEffective(null);
-                        observationComment.setComment(extractPimpComment(observationComment.getComment()));
+                        observationComment.setComment(extractPmipComment(observationComment.getComment()));
                         createRelationship(observation, observationComment);
                     });
             } else if (observation != null) {
-                observation.setComment(addLine(observation.getComment(), extractPimpComment(childNarrativeStatement.getText())));
+                observation.setComment(addLine(observation.getComment(), extractPmipComment(childNarrativeStatement.getText())));
 
                 getObservationById(observationComments, childNarrativeStatement.getId().getRoot())
                     .ifPresent(surplusObservationComments::add);

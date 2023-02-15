@@ -6,7 +6,7 @@ import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtra
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPimpComment;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +87,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
                 }
 
                 observationComment.setEffective(null);
-                observationComment.setComment(extractPimpComment(observationComment.getComment()));
+                observationComment.setComment(extractPmipComment(observationComment.getComment()));
             });
 
         observationComments.removeAll(conclusionComments);
@@ -125,7 +125,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
             .map(RCMRMT030101UK04NarrativeStatement::getText)
             .filter(comment -> comment.contains(LAB_REPORT_COMMENT_TYPE))
-            .map(TextUtil::extractPimpComment)
+            .map(TextUtil::extractPmipComment)
             .collect(Collectors.joining(StringUtils.LF));
     }
 

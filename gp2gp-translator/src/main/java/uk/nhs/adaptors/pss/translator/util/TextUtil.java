@@ -8,7 +8,7 @@ import org.intellij.lang.annotations.RegExp;
 public class TextUtil {
 
     @RegExp
-    private static final String PIMP_COMMENT_REGEX = "^CommentType:[A-Za-z0-9() ]+[\\s\\n]+CommentDate:[0-9]+\\s*\\n+([\\S\\s]*)$";
+    private static final String PMIP_COMMENT_REGEX = "^CommentType:[A-Za-z0-9() ]+[\\s\\n]+CommentDate:[0-9]+\\s*\\n+([\\S\\s]*)$";
 
     public static String getLastLine(String text) {
         if (text == null) {
@@ -27,8 +27,8 @@ public class TextUtil {
         return text == null ? line : text.concat(StringUtils.LF).concat(line);
     }
 
-    public static String extractPimpComment(String text) {
-        var pattern = Pattern.compile(PIMP_COMMENT_REGEX);
+    public static String extractPmipComment(String text) {
+        var pattern = Pattern.compile(PMIP_COMMENT_REGEX);
         var matcher = pattern.matcher(text);
 
         if (!matcher.find()) {

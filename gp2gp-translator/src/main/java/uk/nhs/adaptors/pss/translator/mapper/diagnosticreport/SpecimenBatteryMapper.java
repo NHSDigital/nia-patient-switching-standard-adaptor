@@ -7,7 +7,7 @@ import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantT
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPimpComment;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
 
 import java.util.List;
 import java.util.Objects;
@@ -120,7 +120,7 @@ public class SpecimenBatteryMapper {
             .filter(narrativeStatement -> narrativeStatement.getText().contains(USER_COMMENT_HEADER))
             .forEach(narrativeStatement -> getObservationById(observationComments, narrativeStatement.getId().getRoot())
                 .ifPresent(observationComment -> {
-                    observationComment.setComment(extractPimpComment(observationComment.getComment()));
+                    observationComment.setComment(extractPmipComment(observationComment.getComment()));
                     observationComment.addRelated(new ObservationRelatedComponent(new Reference(batteryObservation))
                         .setType(ObservationRelationshipType.DERIVEDFROM));
                 }));
@@ -145,7 +145,7 @@ public class SpecimenBatteryMapper {
         return narrativeStatements.stream()
             .map(RCMRMT030101UK04NarrativeStatement::getText)
             .filter(text -> !text.contains(USER_COMMENT_HEADER))
-            .map(TextUtil::extractPimpComment)
+            .map(TextUtil::extractPmipComment)
             .collect(Collectors.joining(StringUtils.LF));
     }
 
