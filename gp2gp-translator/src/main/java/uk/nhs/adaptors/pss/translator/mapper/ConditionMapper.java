@@ -59,9 +59,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private static final String META_PROFILE = "ProblemHeader-Condition-1";
     private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-RelatedClinicalContent-1";
-    
-    private static final String PROBLEM_HEADER_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect" 
-            + "-RelatedProblemHeader-1";
+    private static final String PROBLEM_HEADER_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
+        + "-RelatedProblemHeader-1";
     private static final String ACTUAL_PROBLEM_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ActualProblem-1";
     private static final String PROBLEM_SIGNIFICANCE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
@@ -75,7 +74,6 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private static final String MINOR_CODE_NAME = "minor";
     private static final String HIERARCHY_TYPE_PARENT = "parent";
     private static final String HIERARCHY_TYPE_CHILD = "child";
-    
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
@@ -112,7 +110,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             });
 
         condition.setSubject(new Reference(patient));
-        
+
         condition.addExtension(buildProblemSignificance(linkSet.getCode()));
         generateAnnotationToMinor(linkSet.getCode()).ifPresent(condition::addNote);
 
@@ -141,7 +139,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 .map(RCMRMT030101UK04Component4::getLinkSet)
                 .filter(Objects::nonNull)
                 .toList();
-        
+
         allLinkSets.forEach(linkSet -> {
             var condition = conditions.stream()
                     .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
@@ -170,7 +168,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                     }));
         });
     }
-    
+
     public void addReferences(Bundle bundle, List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
         getCompositionsContainingLinkSets(ehrExtract).stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
@@ -264,7 +262,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private boolean hasMajorCode(CD linkSetCode) {
         return hasCode(linkSetCode) && MAJOR_CODE.equals(linkSetCode.getQualifier().get(0).getName().getCode());
     }
-    
+
     private Extension buildConditionReferenceExtension(String id, String heirarchyType) {
         Extension extension = new Extension()
                 .setUrl(PROBLEM_HEADER_URL);
