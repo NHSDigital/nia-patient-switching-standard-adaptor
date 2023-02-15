@@ -201,15 +201,8 @@ public class SpecimenCompoundsMapper {
             .map(RCMRMT030101UK04Component02::getObservationStatement)
             .toList();
 
-        for (var observationStatement : observationStatements) {
-
-            var observation = getObservationById(observations, observationStatement.getId().getRoot());
-
-            if (observation.isPresent()) {
-                handleObservationStatement(specimenCompoundStatement, observation.orElseThrow(), diagnosticReport);
-                handleNarrativeStatements(batteryCompoundStatement, observationComments, observation.orElseThrow());
-            }
-        }
+        observationStatements.forEach(observationStatement -> getObservationById(observations, observationStatement.getId().getRoot())
+            .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation, diagnosticReport)));
     }
 
     private Optional<RCMRMT030101UK04CompoundStatement> getCompoundStatementByDRId(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
