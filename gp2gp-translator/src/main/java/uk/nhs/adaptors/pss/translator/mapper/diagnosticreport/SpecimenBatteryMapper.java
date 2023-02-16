@@ -7,7 +7,7 @@ import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantT
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-import static uk.nhs.adaptors.pss.translator.util.TextUtil.getLastLine;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
 
 import java.util.List;
 import java.util.Objects;
@@ -75,7 +75,8 @@ public class SpecimenBatteryMapper {
         observation.setStatus(Observation.ObservationStatus.FINAL);
         observation.addCategory(createCategory());
         observation.setCode(createCode(batteryCompoundStatement));
-        observation.setComment(getDirectChildNarrativeStatementComments(batteryParameters.getBatteryCompoundStatement()));
+        observation.setComment(getDirectChildNarrativeStatementComments(
+            batteryParameters.getBatteryCompoundStatement(), batteryParameters.getObservationComments()));
         getContext(batteryParameters.getEncounters(), ehrComposition).ifPresent(observation::setContext);
         addEffective(batteryCompoundStatement, observation);
         getIssued(ehrExtract, ehrComposition).ifPresent(observation::setIssuedElement);
@@ -119,17 +120,32 @@ public class SpecimenBatteryMapper {
             .filter(narrativeStatement -> narrativeStatement.getText().contains(USER_COMMENT_HEADER))
             .forEach(narrativeStatement -> getObservationById(observationComments, narrativeStatement.getId().getRoot())
                 .ifPresent(observationComment -> {
-                    observationComment.setComment(getLastLine(observationComment.getComment()));
+                    observationComment.setComment(extractPmipComment(observationComment.getComment()));
                     observationComment.addRelated(new ObservationRelatedComponent(new Reference(batteryObservation))
                         .setType(ObservationRelationshipType.DERIVEDFROM));
                 }));
     }
 
-    private String getDirectChildNarrativeStatementComments(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
-        return getDirectNarrativeStatements(batteryCompoundStatement)
+    private String getDirectChildNarrativeStatementComments(RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
+        List<Observation> observationComments) {
+
+        var narrativeStatements = getDirectNarrativeStatements(batteryCompoundStatement)
+            .filter(statement -> !statement.getText().contains(USER_COMMENT_HEADER))
+            .toList();
+
+        var surplusObservationComments = observationComments.stream()
+            .filter(
+                observation -> narrativeStatements.stream()
+                    .map(narrativeStatement -> narrativeStatement.getId().getRoot())
+                    .anyMatch(id -> id.equals(observation.getId()))
+            ).toList();
+
+        observationComments.removeAll(surplusObservationComments);
+
+        return narrativeStatements.stream()
             .map(RCMRMT030101UK04NarrativeStatement::getText)
             .filter(text -> !text.contains(USER_COMMENT_HEADER))
-            .map(TextUtil::getLastLine)
+            .map(TextUtil::extractPmipComment)
             .collect(Collectors.joining(StringUtils.LF));
     }
 

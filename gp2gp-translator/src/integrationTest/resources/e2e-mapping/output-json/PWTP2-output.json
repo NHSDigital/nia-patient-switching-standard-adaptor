@@ -10848,372 +10848,6 @@
     {
       "resource": {
         "resourceType": "Observation",
-        "id": "6D45ED4A-61E8-401A-BF0E-D014F42545D2",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "6D45ED4A-61E8-401A-BF0E-D014F42545D2"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
-        },
-        "context": {
-          "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
-        },
-        "effectiveDateTime": "2009-11-02",
-        "issued": "2010-01-13T15:13:32.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-          }
-        ],
-        "comment": "This is the BP reading with a comment"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "4EE64243-4F53-4EAC-8FF4-93D038CCF734",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "4EE64243-4F53-4EAC-8FF4-93D038CCF734"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
-        },
-        "context": {
-          "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
-        },
-        "effectiveDateTime": "2010-01-13T11:44:00+00:00",
-        "issued": "2010-01-13T11:37:33.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ],
-        "comment": "This consultation has Dr only confidentiality"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "231BE809-3D7C-4C4C-8F78-D9D25A635C9D",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "231BE809-3D7C-4C4C-8F78-D9D25A635C9D"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
-        },
-        "context": {
-          "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
-        },
-        "effectiveDateTime": "2010-01-13T11:48:00+00:00",
-        "issued": "2010-01-13T11:42:01.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ],
-        "comment": "This consultation has Clinician Only Confidentiality"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "3377543D-5B1B-4C4F-BFF6-9F7BC3A1C3B8",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "3377543D-5B1B-4C4F-BFF6-9F7BC3A1C3B8"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
-        },
-        "context": {
-          "reference": "Encounter/F550CC56-EF65-4934-A7B1-3DC2E02243C3"
-        },
-        "effectiveDateTime": "2010-01-13T15:20:00+00:00",
-        "issued": "2010-01-13T15:29:50.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ],
-        "comment": "Quick Note Clinical Purpose: Discussion with Patient / Relative\n                                                            1.This is a line of text with a line break at the end.\n                                                            2.This is a line of text with a line break at the end.\n                                                            3.This is a line of text with a line break at the end.\n                                                            4.This is a line of text with a line break at the end.\n\n                                                            The Line above this one was blank (with a line break)\n\n                                                            This is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line,  this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line,and this is the end of the long line.\n\n                                                            ThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesENDOFTEXT\n\n                                                            The line below contains special characters...\n                                                            ¬`1234567890!\"£$%^&*()_+=-{}][~@#':;<>?,./|\\"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "549EA74D-C2C1-498E-8E67-DF660977A6A1",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "549EA74D-C2C1-498E-8E67-DF660977A6A1"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
-        },
-        "context": {
-          "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
-        },
-        "effectiveDateTime": "2010-01-23T13:48:00+00:00",
-        "issued": "2010-01-23T14:03:54.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ],
-        "comment": "This is some random free text"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "9FE606B5-2A63-4D66-B132-DED52014A0EA",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "9FE606B5-2A63-4D66-B132-DED52014A0EA"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
-        },
-        "context": {
-          "reference": "Encounter/D81C5E8F-CB3A-4A78-92EA-51EC3665648E"
-        },
-        "effectiveDateTime": "2010-06-09",
-        "issued": "2010-06-09T16:51:21.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ],
-        "comment": "Quick Note Clinical Purpose: Child Health\n                                                            hhhhhhhhh"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "FBC7039B-FA0E-4598-9C29-FF2E4C38D197",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "FBC7039B-FA0E-4598-9C29-FF2E4C38D197"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
-        },
-        "context": {
-          "reference": "Encounter/8FEB11AA-5785-43D3-99A9-E9D49EAF2161"
-        },
-        "effectiveDateTime": "2010-06-10T07:22:00+00:00",
-        "issued": "2010-06-10T07:19:25.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ],
-        "comment": "This is kjkjkjkjkjkjkjkjkj"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "A405C758-B5DF-4793-AEE8-040B2406B164",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "A405C758-B5DF-4793-AEE8-040B2406B164"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
-        },
-        "context": {
-          "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
-        },
-        "effectiveDateTime": "2010-07-14T16:55:00+00:00",
-        "issued": "2010-07-14T15:28:13.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ],
-        "comment": "This is the BP reading in a consultation with a note"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "E5DC2C05-7DCE-4E95-8E09-5605277B0B85",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "E5DC2C05-7DCE-4E95-8E09-5605277B0B85"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
-        },
-        "effectiveDateTime": "2010-07-14",
-        "issued": "2010-07-14T15:27:49.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ],
-        "comment": "This is the standalone BP"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
         "id": "CEF9E22C-9EA2-4610-9B53-4595781D525D",
         "meta": {
           "profile": [
@@ -11618,6 +11252,372 @@
             "text": "This is text for a warfarin allergy"
           }
         ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "6D45ED4A-61E8-401A-BF0E-D014F42545D2",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "6D45ED4A-61E8-401A-BF0E-D014F42545D2"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
+        },
+        "context": {
+          "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
+        },
+        "effectiveDateTime": "2009-11-02",
+        "issued": "2010-01-13T15:13:32.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+          }
+        ],
+        "comment": "This is the BP reading with a comment"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4EE64243-4F53-4EAC-8FF4-93D038CCF734",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "4EE64243-4F53-4EAC-8FF4-93D038CCF734"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
+        },
+        "context": {
+          "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
+        },
+        "effectiveDateTime": "2010-01-13T11:44:00+00:00",
+        "issued": "2010-01-13T11:37:33.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "This consultation has Dr only confidentiality"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "231BE809-3D7C-4C4C-8F78-D9D25A635C9D",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "231BE809-3D7C-4C4C-8F78-D9D25A635C9D"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
+        },
+        "context": {
+          "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
+        },
+        "effectiveDateTime": "2010-01-13T11:48:00+00:00",
+        "issued": "2010-01-13T11:42:01.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "This consultation has Clinician Only Confidentiality"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "3377543D-5B1B-4C4F-BFF6-9F7BC3A1C3B8",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "3377543D-5B1B-4C4F-BFF6-9F7BC3A1C3B8"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
+        },
+        "context": {
+          "reference": "Encounter/F550CC56-EF65-4934-A7B1-3DC2E02243C3"
+        },
+        "effectiveDateTime": "2010-01-13T15:20:00+00:00",
+        "issued": "2010-01-13T15:29:50.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "Quick Note Clinical Purpose: Discussion with Patient / Relative\n                                                            1.This is a line of text with a line break at the end.\n                                                            2.This is a line of text with a line break at the end.\n                                                            3.This is a line of text with a line break at the end.\n                                                            4.This is a line of text with a line break at the end.\n\n                                                            The Line above this one was blank (with a line break)\n\n                                                            This is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line,  this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line, this is a long line,and this is the end of the long line.\n\n                                                            ThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesThisIsALongLineWithoutSpacesENDOFTEXT\n\n                                                            The line below contains special characters...\n                                                            ¬`1234567890!\"£$%^&*()_+=-{}][~@#':;<>?,./|\\"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "549EA74D-C2C1-498E-8E67-DF660977A6A1",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "549EA74D-C2C1-498E-8E67-DF660977A6A1"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
+        },
+        "context": {
+          "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
+        },
+        "effectiveDateTime": "2010-01-23T13:48:00+00:00",
+        "issued": "2010-01-23T14:03:54.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "This is some random free text"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "9FE606B5-2A63-4D66-B132-DED52014A0EA",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "9FE606B5-2A63-4D66-B132-DED52014A0EA"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
+        },
+        "context": {
+          "reference": "Encounter/D81C5E8F-CB3A-4A78-92EA-51EC3665648E"
+        },
+        "effectiveDateTime": "2010-06-09",
+        "issued": "2010-06-09T16:51:21.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "Quick Note Clinical Purpose: Child Health\n                                                            hhhhhhhhh"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "FBC7039B-FA0E-4598-9C29-FF2E4C38D197",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "FBC7039B-FA0E-4598-9C29-FF2E4C38D197"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
+        },
+        "context": {
+          "reference": "Encounter/8FEB11AA-5785-43D3-99A9-E9D49EAF2161"
+        },
+        "effectiveDateTime": "2010-06-10T07:22:00+00:00",
+        "issued": "2010-06-10T07:19:25.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "This is kjkjkjkjkjkjkjkjkj"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "A405C758-B5DF-4793-AEE8-040B2406B164",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "A405C758-B5DF-4793-AEE8-040B2406B164"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
+        },
+        "context": {
+          "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
+        },
+        "effectiveDateTime": "2010-07-14T16:55:00+00:00",
+        "issued": "2010-07-14T15:28:13.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "This is the BP reading in a consultation with a note"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "E5DC2C05-7DCE-4E95-8E09-5605277B0B85",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "E5DC2C05-7DCE-4E95-8E09-5605277B0B85"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
+        },
+        "effectiveDateTime": "2010-07-14",
+        "issued": "2010-07-14T15:27:49.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "comment": "This is the standalone BP"
       }
     }
   ]

@@ -3783,6 +3783,320 @@
     {
       "resource": {
         "resourceType": "Observation",
+        "id": "FA2B9D2E-B5FE-4960-9B44-870EC47C340A",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "FA2B9D2E-B5FE-4960-9B44-870EC47C340A"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "254063019"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - blood pressure reading"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "163020007",
+              "display": "O/E - blood pressure reading"
+            }
+          ],
+          "text": "O/E - blood pressure reading"
+        },
+        "subject": {
+          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+        },
+        "context": {
+          "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
+        },
+        "effectiveDateTime": "2010-06-30T04:59:00+00:00",
+        "issued": "2010-06-30T04:48:04.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "B43CC274-A773-402D-931D-D66A1806F55A",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "B43CC274-A773-402D-931D-D66A1806F55A"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "text": "Banana"
+        },
+        "subject": {
+          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+        },
+        "context": {
+          "reference": "Encounter/CF355E94-C4BB-44A8-A346-785A993F37F0"
+        },
+        "effectiveDateTime": "2011-02-11T13:46:00+00:00",
+        "issued": "2011-02-11T13:51:36.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "87C817BA-ADFF-49FC-A4ED-8D455E821008",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "87C817BA-ADFF-49FC-A4ED-8D455E821008"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "127639017"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Happy puppet syndrome"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "76880004",
+              "display": "Angelman syndrome"
+            }
+          ],
+          "text": "Happy puppet syndrome"
+        },
+        "subject": {
+          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+        },
+        "context": {
+          "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
+        },
+        "effectiveDateTime": "2011-02-11T13:53:00+00:00",
+        "issued": "2011-02-11T14:02:43.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "343D4E34-2B31-4F06-AAC0-07102CC82917",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "343D4E34-2B31-4F06-AAC0-07102CC82917"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "254063019"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - blood pressure reading"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "163020007",
+              "display": "O/E - blood pressure reading"
+            }
+          ],
+          "text": "O/E - blood pressure reading"
+        },
+        "subject": {
+          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+        },
+        "context": {
+          "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
+        },
+        "effectiveDateTime": "2011-02-11T13:53:00+00:00",
+        "issued": "2011-02-11T14:02:43.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "1E1EEC52-5D1E-40DE-8790-23DE3D0B1491",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
+            "valueReference": {
+              "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "1E1EEC52-5D1E-40DE-8790-23DE3D0B1491"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "text": "Adverse reaction to Paracetamol And Dihydrocodeine"
+        },
+        "patient": {
+          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+        },
+        "onsetDateTime": "2010-06-30T04:59:00+00:00",
+        "assertedDate": "2010-06-30T04:48:04+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Other Language text attached to adverse reaction: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "86F043E0-5787-42E0-8ADD-635CF2E76B79",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "86F043E0-5787-42E0-8ADD-635CF2E76B79"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "251824014"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "H/O: penicillin allergy"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "161591004",
+              "display": "H/O: penicillin allergy"
+            }
+          ],
+          "text": "H/O: penicillin allergy"
+        },
+        "patient": {
+          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+        },
+        "onsetDateTime": "2010-06-30",
+        "assertedDate": "2010-06-30T04:52:03+00:00",
+        "recorder": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "asserter": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        },
+        "note": [
+          {
+            "text": "Other Languages Characters: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
         "id": "091D7A17-82D7-4AB1-A6BF-E5BCCE374603",
         "meta": {
           "profile": [
@@ -4434,320 +4748,6 @@
           }
         ],
         "comment": "Some freetext - some random freetext notes blah blah"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "FA2B9D2E-B5FE-4960-9B44-870EC47C340A",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "FA2B9D2E-B5FE-4960-9B44-870EC47C340A"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "extension": [
-                {
-                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                  "extension": [
-                    {
-                      "url": "descriptionId",
-                      "valueId": "254063019"
-                    },
-                    {
-                      "url": "descriptionDisplay",
-                      "valueString": "O/E - blood pressure reading"
-                    }
-                  ]
-                }
-              ],
-              "system": "http://snomed.info/sct",
-              "code": "163020007",
-              "display": "O/E - blood pressure reading"
-            }
-          ],
-          "text": "O/E - blood pressure reading"
-        },
-        "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
-        },
-        "context": {
-          "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
-        },
-        "effectiveDateTime": "2010-06-30T04:59:00+00:00",
-        "issued": "2010-06-30T04:48:04.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ]
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "B43CC274-A773-402D-931D-D66A1806F55A",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "B43CC274-A773-402D-931D-D66A1806F55A"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "text": "Banana"
-        },
-        "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
-        },
-        "context": {
-          "reference": "Encounter/CF355E94-C4BB-44A8-A346-785A993F37F0"
-        },
-        "effectiveDateTime": "2011-02-11T13:46:00+00:00",
-        "issued": "2011-02-11T13:51:36.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ]
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "87C817BA-ADFF-49FC-A4ED-8D455E821008",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "87C817BA-ADFF-49FC-A4ED-8D455E821008"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "extension": [
-                {
-                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                  "extension": [
-                    {
-                      "url": "descriptionId",
-                      "valueId": "127639017"
-                    },
-                    {
-                      "url": "descriptionDisplay",
-                      "valueString": "Happy puppet syndrome"
-                    }
-                  ]
-                }
-              ],
-              "system": "http://snomed.info/sct",
-              "code": "76880004",
-              "display": "Angelman syndrome"
-            }
-          ],
-          "text": "Happy puppet syndrome"
-        },
-        "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
-        },
-        "context": {
-          "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
-        },
-        "effectiveDateTime": "2011-02-11T13:53:00+00:00",
-        "issued": "2011-02-11T14:02:43.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ]
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "343D4E34-2B31-4F06-AAC0-07102CC82917",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "343D4E34-2B31-4F06-AAC0-07102CC82917"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "extension": [
-                {
-                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                  "extension": [
-                    {
-                      "url": "descriptionId",
-                      "valueId": "254063019"
-                    },
-                    {
-                      "url": "descriptionDisplay",
-                      "valueString": "O/E - blood pressure reading"
-                    }
-                  ]
-                }
-              ],
-              "system": "http://snomed.info/sct",
-              "code": "163020007",
-              "display": "O/E - blood pressure reading"
-            }
-          ],
-          "text": "O/E - blood pressure reading"
-        },
-        "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
-        },
-        "context": {
-          "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
-        },
-        "effectiveDateTime": "2011-02-11T13:53:00+00:00",
-        "issued": "2011-02-11T14:02:43.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ]
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "AllergyIntolerance",
-        "id": "1E1EEC52-5D1E-40DE-8790-23DE3D0B1491",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
-          ]
-        },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
-            "valueReference": {
-              "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
-            }
-          }
-        ],
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "1E1EEC52-5D1E-40DE-8790-23DE3D0B1491"
-          }
-        ],
-        "clinicalStatus": "active",
-        "verificationStatus": "unconfirmed",
-        "category": [
-          "medication"
-        ],
-        "code": {
-          "text": "Adverse reaction to Paracetamol And Dihydrocodeine"
-        },
-        "patient": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
-        },
-        "onsetDateTime": "2010-06-30T04:59:00+00:00",
-        "assertedDate": "2010-06-30T04:48:04+00:00",
-        "recorder": {
-          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        },
-        "asserter": {
-          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        },
-        "note": [
-          {
-            "text": "Other Language text attached to adverse reaction: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë"
-          }
-        ]
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "AllergyIntolerance",
-        "id": "86F043E0-5787-42E0-8ADD-635CF2E76B79",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "86F043E0-5787-42E0-8ADD-635CF2E76B79"
-          }
-        ],
-        "clinicalStatus": "active",
-        "verificationStatus": "unconfirmed",
-        "category": [
-          "medication"
-        ],
-        "code": {
-          "coding": [
-            {
-              "extension": [
-                {
-                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                  "extension": [
-                    {
-                      "url": "descriptionId",
-                      "valueId": "251824014"
-                    },
-                    {
-                      "url": "descriptionDisplay",
-                      "valueString": "H/O: penicillin allergy"
-                    }
-                  ]
-                }
-              ],
-              "system": "http://snomed.info/sct",
-              "code": "161591004",
-              "display": "H/O: penicillin allergy"
-            }
-          ],
-          "text": "H/O: penicillin allergy"
-        },
-        "patient": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
-        },
-        "onsetDateTime": "2010-06-30",
-        "assertedDate": "2010-06-30T04:52:03+00:00",
-        "recorder": {
-          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        },
-        "asserter": {
-          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        },
-        "note": [
-          {
-            "text": "Other Languages Characters: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë"
-          }
-        ]
       }
     }
   ]

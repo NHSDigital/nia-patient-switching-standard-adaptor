@@ -7,6 +7,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
@@ -33,11 +34,14 @@ public class DiagnosticReportMapperTest {
     private static final String PRACTISE_CODE = "TEST_PRACTISE_CODE";
     private static final String DIAGNOSTIC_REPORT_ID = "DIAGNOSTIC_REPORT_ID";
     private static final String NARRATIVE_STATEMENT_ID = "NARRATIVE_STATEMENT_ID_1";
-    private static final String NARRATIVE_STATEMENT_TEXT = "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT";
+    private static final String NARRATIVE_STATEMENT_ID_2 = "NARRATIVE_STATEMENT_ID_2";
+    private static final String NARRATIVE_STATEMENT_2_TEXT = "TEST COMMENT";
     private static final String COMPOUND_STATEMENT_CHILD_ID = "COMPOUND_STATEMENT_CHILD_ID";
     private static final String ENCOUNTER_ID = "EHR_COMPOSITION_ID_1";
     private static final InstantType ISSUED_ELEMENT = parseToInstantType("20100225154100");
     private static final Patient PATIENT = (Patient) new Patient().setId("PATIENT_TEST_ID");
+    private static final String CONCLUSION_FIELD_TEXT = "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_1\n"
+        + "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_2";
 
     @SuppressWarnings("RegexpSingleline")
     private static final String NARRATIVE_STATEMENT_COMMENT_BLOCK = """
@@ -45,6 +49,12 @@ public class DiagnosticReportMapperTest {
         CommentDate:20220308170025
         
         TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT""";
+
+    private static final String NARRATIVE_STATEMENT_COMMENT_BLOCK_2 = """
+        CommentType:UNKNOWN TYPE
+        CommentDate:20220308170025
+        TEST COMMENT
+        """;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -90,8 +100,8 @@ public class DiagnosticReportMapperTest {
             ehrExtract, PATIENT, List.of(), PRACTISE_CODE
         );
         assertThat(diagnosticReports).isNotEmpty();
-        assertThat(diagnosticReports.get(0).getResult().size()).isEqualTo(2);
-        assertThat(diagnosticReports.get(0).getResultFirstRep().getReference()).contains(NARRATIVE_STATEMENT_ID);
+        assertThat(diagnosticReports.get(0).getResult().size()).isEqualTo(1);
+        assertThat(diagnosticReports.get(0).getResultFirstRep().getReference()).contains(NARRATIVE_STATEMENT_ID_2);
     }
 
     @Test
@@ -99,8 +109,10 @@ public class DiagnosticReportMapperTest {
         RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_observations.xml");
         List<Observation> observationComments = createObservationCommentList();
         diagnosticReportMapper.handleChildObservationComments(ehrExtract, observationComments);
+
+        assertThat(observationComments.size()).isOne();
         assertThat(observationComments.get(0).hasEffective()).isFalse();
-        assertThat(observationComments.get(0).getComment()).isEqualTo(NARRATIVE_STATEMENT_TEXT);
+        assertThat(observationComments.get(0).getComment()).isEqualTo(NARRATIVE_STATEMENT_2_TEXT);
     }
 
     @Test
@@ -115,12 +127,33 @@ public class DiagnosticReportMapperTest {
         assertThat(diagnosticReports.get(0).getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 
+    @Test
+    public void testMappingNarrativeStatementToConclusion() {
+        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("diagnostic_report_observations.xml");
+        List<DiagnosticReport> diagnosticReports = diagnosticReportMapper.mapResources(
+            ehrExtract, PATIENT, createEncounterList(), PRACTISE_CODE
+        );
+
+        assertThat(diagnosticReports.get(0).hasConclusion()).isTrue();
+        assertThat(diagnosticReports.get(0).getConclusion()).isEqualTo(CONCLUSION_FIELD_TEXT);
+    }
+
     private List<Observation> createObservationCommentList() {
         Observation observationComment1 = (Observation) new Observation()
             .setEffective(new DateTimeType())
             .setComment(NARRATIVE_STATEMENT_COMMENT_BLOCK)
-            .setId("NARRATIVE_STATEMENT_ID_1");
-        return List.of(observationComment1);
+            .setId(NARRATIVE_STATEMENT_ID);
+
+        Observation observationComment2 = (Observation) new Observation()
+            .setEffective(new DateTimeType())
+            .setComment(NARRATIVE_STATEMENT_COMMENT_BLOCK_2)
+            .setId(NARRATIVE_STATEMENT_ID_2);
+
+        ArrayList<Observation> observationComments = new ArrayList<>();
+        observationComments.add(observationComment1);
+        observationComments.add(observationComment2);
+
+        return observationComments;
     }
 
     private List<Encounter> createEncounterList() {

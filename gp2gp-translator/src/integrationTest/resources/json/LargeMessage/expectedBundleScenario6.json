@@ -814,129 +814,6 @@
     },
     {
       "resource": {
-        "resourceType": "Observation",
-        "id": "15FF7FA4-DBD9-4C37-A479-7A86A890B7A8",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/D5445",
-            "value": "15FF7FA4-DBD9-4C37-A479-7A86A890B7A8"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/1f46859e-937d-44c3-b6cc-03ad9f0b4ab8"
-        },
-        "context": {
-          "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
-        },
-        "effectiveDateTime": "2018-06-12",
-        "issued": "2018-06-12T08:24:07.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
-          }
-        ],
-        "comment": "Drinking status on eventdate: Current drinker"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "2D0329E8-42EA-4579-B6CF-FB86557094FF",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/D5445",
-            "value": "2D0329E8-42EA-4579-B6CF-FB86557094FF"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/1f46859e-937d-44c3-b6cc-03ad9f0b4ab8"
-        },
-        "context": {
-          "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
-        },
-        "effectiveDateTime": "2018-06-12",
-        "issued": "2018-06-12T08:24:07.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
-          }
-        ],
-        "comment": "Smoking status on date of event: Ex-smoker"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "8D5D514B-28C6-47B0-B0FA-60446F4B9FFA",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/D5445",
-            "value": "8D5D514B-28C6-47B0-B0FA-60446F4B9FFA"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/1f46859e-937d-44c3-b6cc-03ad9f0b4ab8"
-        },
-        "context": {
-          "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
-        },
-        "effectiveDateTime": "2018-06-12",
-        "issued": "2018-06-12T08:24:07.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
-          }
-        ],
-        "comment": "Posture for BP recording: Sitting, Cuff size used: Standard"
-      }
-    },
-    {
-      "resource": {
         "resourceType": "DocumentReference",
         "id": "AD4C1E46-04FF-4E45-B65E-FCD7AA081490",
         "meta": {
@@ -1152,6 +1029,129 @@
             "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
           }
         ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "15FF7FA4-DBD9-4C37-A479-7A86A890B7A8",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/D5445",
+            "value": "15FF7FA4-DBD9-4C37-A479-7A86A890B7A8"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/4a091de8-8e20-4685-9b2d-770730a42d0f"
+        },
+        "context": {
+          "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
+        },
+        "effectiveDateTime": "2018-06-12",
+        "issued": "2018-06-12T08:24:07.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
+          }
+        ],
+        "comment": "Drinking status on eventdate: Current drinker"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "2D0329E8-42EA-4579-B6CF-FB86557094FF",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/D5445",
+            "value": "2D0329E8-42EA-4579-B6CF-FB86557094FF"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/4a091de8-8e20-4685-9b2d-770730a42d0f"
+        },
+        "context": {
+          "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
+        },
+        "effectiveDateTime": "2018-06-12",
+        "issued": "2018-06-12T08:24:07.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
+          }
+        ],
+        "comment": "Smoking status on date of event: Ex-smoker"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "8D5D514B-28C6-47B0-B0FA-60446F4B9FFA",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/D5445",
+            "value": "8D5D514B-28C6-47B0-B0FA-60446F4B9FFA"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "37331000000100",
+              "display": "Comment note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/4a091de8-8e20-4685-9b2d-770730a42d0f"
+        },
+        "context": {
+          "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
+        },
+        "effectiveDateTime": "2018-06-12",
+        "issued": "2018-06-12T08:24:07.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
+          }
+        ],
+        "comment": "Posture for BP recording: Sitting, Cuff size used: Standard"
       }
     }
   ]

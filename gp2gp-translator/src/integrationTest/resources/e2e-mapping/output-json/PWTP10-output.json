@@ -2922,7 +2922,7 @@
         },
         "note": [
           {
-            "text": "Pharmacy Text: These are some pharmacy notes.\n"
+            "text": "Pharmacy Text: These are some pharmacy notes.\r\n"
           }
         ],
         "dosageInstruction": [
@@ -4317,6 +4317,194 @@
     {
       "resource": {
         "resourceType": "Observation",
+        "id": "F25C1328-B6D2-412F-9C56-A8F21182F100",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "F25C1328-B6D2-412F-9C56-A8F21182F100"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "254063019"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "O/E - blood pressure reading"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "163020007",
+              "display": "O/E - blood pressure reading"
+            }
+          ],
+          "text": "O/E - blood pressure reading"
+        },
+        "subject": {
+          "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
+        },
+        "context": {
+          "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
+        },
+        "effectiveDateTime": "2010-02-06T12:41:00+00:00",
+        "issued": "2010-02-06T12:44:53.000+00:00",
+        "performer": [
+          {
+            "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "8B19880D-E154-4A02-A133-167BAACBE34A",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
+            "valueReference": {
+              "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "8B19880D-E154-4A02-A133-167BAACBE34A"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "medication"
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "2164392015"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Adverse reaction to diazepam"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "292360004",
+              "display": "Diazepam adverse reaction"
+            }
+          ],
+          "text": "Adverse reaction to diazepam"
+        },
+        "patient": {
+          "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
+        },
+        "onsetDateTime": "2010-02-06T12:41:00+00:00",
+        "assertedDate": "2010-02-06T12:44:53+00:00",
+        "recorder": {
+          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+        },
+        "asserter": {
+          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "51D3D924-287E-4FC4-997C-BE70492EE48F",
+        "meta": {
+          "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
+            "valueReference": {
+              "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/2167888433",
+            "value": "51D3D924-287E-4FC4-997C-BE70492EE48F"
+          }
+        ],
+        "clinicalStatus": "active",
+        "verificationStatus": "unconfirmed",
+        "category": [
+          "environment"
+        ],
+        "code": {
+          "coding": [
+            {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "442112014"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Latex allergy"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "300916003",
+              "display": "Allergy to latex"
+            }
+          ],
+          "text": "Latex allergy"
+        },
+        "patient": {
+          "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
+        },
+        "onsetDateTime": "2010-02-06T12:41:00+00:00",
+        "assertedDate": "2010-02-06T12:44:53+00:00",
+        "recorder": {
+          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+        },
+        "asserter": {
+          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
         "id": "3054BF24-0705-4BFB-A76E-A24E3F8F8483",
         "meta": {
           "profile": [
@@ -4681,194 +4869,6 @@
           }
         ],
         "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a quick note consultation (reason entered as \"Assessment\")"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "F25C1328-B6D2-412F-9C56-A8F21182F100",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "F25C1328-B6D2-412F-9C56-A8F21182F100"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "extension": [
-                {
-                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                  "extension": [
-                    {
-                      "url": "descriptionId",
-                      "valueId": "254063019"
-                    },
-                    {
-                      "url": "descriptionDisplay",
-                      "valueString": "O/E - blood pressure reading"
-                    }
-                  ]
-                }
-              ],
-              "system": "http://snomed.info/sct",
-              "code": "163020007",
-              "display": "O/E - blood pressure reading"
-            }
-          ],
-          "text": "O/E - blood pressure reading"
-        },
-        "subject": {
-          "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
-        },
-        "context": {
-          "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
-        },
-        "effectiveDateTime": "2010-02-06T12:41:00+00:00",
-        "issued": "2010-02-06T12:44:53.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-          }
-        ]
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "AllergyIntolerance",
-        "id": "8B19880D-E154-4A02-A133-167BAACBE34A",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
-          ]
-        },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
-            "valueReference": {
-              "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
-            }
-          }
-        ],
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "8B19880D-E154-4A02-A133-167BAACBE34A"
-          }
-        ],
-        "clinicalStatus": "active",
-        "verificationStatus": "unconfirmed",
-        "category": [
-          "medication"
-        ],
-        "code": {
-          "coding": [
-            {
-              "extension": [
-                {
-                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                  "extension": [
-                    {
-                      "url": "descriptionId",
-                      "valueId": "2164392015"
-                    },
-                    {
-                      "url": "descriptionDisplay",
-                      "valueString": "Adverse reaction to diazepam"
-                    }
-                  ]
-                }
-              ],
-              "system": "http://snomed.info/sct",
-              "code": "292360004",
-              "display": "Diazepam adverse reaction"
-            }
-          ],
-          "text": "Adverse reaction to diazepam"
-        },
-        "patient": {
-          "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
-        },
-        "onsetDateTime": "2010-02-06T12:41:00+00:00",
-        "assertedDate": "2010-02-06T12:44:53+00:00",
-        "recorder": {
-          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-        },
-        "asserter": {
-          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-        }
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "AllergyIntolerance",
-        "id": "51D3D924-287E-4FC4-997C-BE70492EE48F",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
-          ]
-        },
-        "extension": [
-          {
-            "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
-            "valueReference": {
-              "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
-            }
-          }
-        ],
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "51D3D924-287E-4FC4-997C-BE70492EE48F"
-          }
-        ],
-        "clinicalStatus": "active",
-        "verificationStatus": "unconfirmed",
-        "category": [
-          "environment"
-        ],
-        "code": {
-          "coding": [
-            {
-              "extension": [
-                {
-                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                  "extension": [
-                    {
-                      "url": "descriptionId",
-                      "valueId": "442112014"
-                    },
-                    {
-                      "url": "descriptionDisplay",
-                      "valueString": "Latex allergy"
-                    }
-                  ]
-                }
-              ],
-              "system": "http://snomed.info/sct",
-              "code": "300916003",
-              "display": "Allergy to latex"
-            }
-          ],
-          "text": "Latex allergy"
-        },
-        "patient": {
-          "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
-        },
-        "onsetDateTime": "2010-02-06T12:41:00+00:00",
-        "assertedDate": "2010-02-06T12:44:53+00:00",
-        "recorder": {
-          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-        },
-        "asserter": {
-          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
-        }
       }
     }
   ]

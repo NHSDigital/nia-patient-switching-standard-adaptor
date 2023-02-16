@@ -11,6 +11,7 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
@@ -46,7 +47,7 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
                 .filter(Objects::nonNull)
                 .filter(narrativeStatement -> !isDocumentReference(narrativeStatement))
                 .map(narrativeStatement -> mapObservation(ehrExtract, composition, narrativeStatement, patient, encounters, practiseCode)))
-            .toList();
+            .collect(Collectors.toList());
     }
 
     private Observation mapObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
