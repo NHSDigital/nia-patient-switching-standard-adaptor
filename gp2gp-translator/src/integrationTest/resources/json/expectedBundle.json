@@ -28503,7 +28503,15 @@
             "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
           }
         ],
-        "comment": "Notes on the tired all the time entry"
+        "comment": "Notes on the tired all the time entry",
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/questionnaire-response-id"
+            }
+          }
+        ]
       }
     },
     {
@@ -29106,7 +29114,15 @@
             "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
           }
         ],
-        "comment": "Notes on the tired all the time entry"
+        "comment": "Notes on the tired all the time entry",
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E215C637-CD2E-4D1D-B890-84D77F236CF3"
+            }
+          }
+        ]
       }
     },
     {
@@ -29714,6 +29730,14 @@
           {
             "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
           }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/questionnaire-observation-statement-id"
+            }
+          }
         ]
       }
     },
@@ -29769,6 +29793,14 @@
         "performer": [
           {
             "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
+          }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/44ABC72D-74E7-468E-8B92-5B7032E89203"
+            }
           }
         ]
       }

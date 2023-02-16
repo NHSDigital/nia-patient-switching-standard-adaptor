@@ -13945,7 +13945,15 @@
         "valueQuantity": {
           "value": 6.1,
           "unit": "mmol/L"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/31465FC9-15B2-4391-A5EF-8F70C2154AAF"
+            }
+          }
+        ]
       }
     },
     {
@@ -13998,7 +14006,15 @@
         "valueQuantity": {
           "value": 0.8,
           "unit": "mmol/L"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/31465FC9-15B2-4391-A5EF-8F70C2154AAF"
+            }
+          }
+        ]
       }
     },
     {
@@ -14067,6 +14083,14 @@
               "comparator": "<="
             }
           }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/FA2DE43F-F401-4BAF-9E61-BD99466F7A6C"
+            }
+          }
         ]
       }
     },
@@ -14130,6 +14154,14 @@
             "high": {
               "value": 110,
               "comparator": "<="
+            }
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/FA2DE43F-F401-4BAF-9E61-BD99466F7A6C"
             }
           }
         ]
@@ -14201,6 +14233,14 @@
               "comparator": "<="
             }
           }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/FA2DE43F-F401-4BAF-9E61-BD99466F7A6C"
+            }
+          }
         ]
       }
     },
@@ -14270,6 +14310,14 @@
               "comparator": "<="
             }
           }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/FA2DE43F-F401-4BAF-9E61-BD99466F7A6C"
+            }
+          }
         ]
       }
     },
@@ -14333,6 +14381,14 @@
             "high": {
               "value": 700,
               "comparator": "<="
+            }
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/53A0E453-AF2A-4873-B486-F9E898D998DE"
             }
           }
         ]
@@ -14402,6 +14458,14 @@
             "high": {
               "value": 20,
               "comparator": "<="
+            }
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/53A0E453-AF2A-4873-B486-F9E898D998DE"
             }
           }
         ]
@@ -14523,6 +14587,14 @@
               "comparator": "<="
             }
           }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
+            }
+          }
         ]
       }
     },
@@ -14598,6 +14670,14 @@
               "comparator": "<="
             }
           }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
+            }
+          }
         ]
       }
     },
@@ -14661,6 +14741,14 @@
             "high": {
               "value": 15,
               "comparator": "<="
+            }
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
             }
           }
         ]
@@ -14742,6 +14830,14 @@
               "comparator": "<="
             }
           }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
+            }
+          }
         ]
       }
     },
@@ -14815,6 +14911,14 @@
             "high": {
               "value": 100,
               "comparator": "<="
+            }
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
             }
           }
         ]
@@ -14892,6 +14996,14 @@
               "comparator": "<="
             }
           }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
+            }
+          }
         ]
       }
     },
@@ -14955,6 +15067,14 @@
             "high": {
               "value": 37,
               "comparator": "<="
+            }
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
             }
           }
         ]
@@ -15026,6 +15146,14 @@
               "comparator": "<="
             }
           }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
+            }
+          }
         ]
       }
     },
@@ -15093,6 +15221,14 @@
             "high": {
               "value": 7.5,
               "comparator": "<="
+            }
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
             }
           }
         ]
@@ -15164,6 +15300,14 @@
               "comparator": "<="
             }
           }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
+            }
+          }
         ]
       }
     },
@@ -15231,6 +15375,14 @@
             "high": {
               "value": 1,
               "comparator": "<="
+            }
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
             }
           }
         ]
@@ -15302,6 +15454,14 @@
               "comparator": "<="
             }
           }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
+            }
+          }
         ]
       }
     },
@@ -15369,6 +15529,14 @@
             "high": {
               "value": 0.3,
               "comparator": "<="
+            }
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/E5A4B9BC-879A-424D-BBC8-54A632843EFC"
             }
           }
         ]
@@ -15972,6 +16140,20 @@
           {
             "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
           }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/C45E3DA5-D7BC-4FDF-B4E0-6CCECCE60D24"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/3BC7ABC9-ABCB-4C01-A519-35CE664C3543"
+            }
+          }
         ]
       }
     },
@@ -16025,6 +16207,32 @@
           {
             "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
           }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/7C8D2445-18AC-4AD0-99FE-02E1715D6319"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/FB74DF0D-BD0B-4FBF-B74C-D984DDACE08D"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/B8BF2173-50D8-4768-B430-A22267D347A5"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/D0BA10F0-49F8-46B0-94B6-FEA2ECF08D97"
+            }
+          }
         ]
       }
     },
@@ -16055,6 +16263,20 @@
         "performer": [
           {
             "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+          }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/01EC53CF-38F8-464D-BB6D-84EEF227646C"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/6BAD3CC7-6730-4B3E-9A7F-0EBF01F49FA4"
+            }
           }
         ]
       }
@@ -16104,6 +16326,86 @@
         "performer": [
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/8FCF859A-ACCB-4BFC-8660-EB058DC16BD6"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/E05FA1CA-28B7-4552-A906-66CD83A0A865"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/DDCD392B-6D1E-47DA-B86E-149F28B7DACA"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/DA7DDDBF-21A5-465E-ABC4-7EFA2212A26F"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/0903F354-CFC9-482C-B7B8-0A96EBDA1C55"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/5DA05D66-A602-49FD-AADD-5B06F7976BE4"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/426878DF-1651-4B18-81E3-59504D594FC6"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/1ED0E1C8-F26A-4B03-8548-B3136CD028FC"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/BF41AED9-EA7C-44AE-A15F-CBBCECCCE911"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/5AC610C0-C650-464B-923C-3876C62D98CA"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/932687E7-1013-4BA8-AF6B-CE2E7E067CEE"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/B6EE8FE1-F006-485A-9872-83A11897B205"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/343FBE3E-0F23-442D-BB6C-16860EEFC08B"
+            }
           }
         ]
       }

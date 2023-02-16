@@ -629,7 +629,15 @@
           "unit": "/wk",
           "system": "http://unitsofmeasure.org",
           "code": "/wk"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/1D41AB30-1FF4-42C2-ABAD-EDAB7B8CF489"
+            }
+          }
+        ]
       }
     },
     {
@@ -684,6 +692,14 @@
         "performer": [
           {
             "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/D772E5E9-75D2-4354-8E74-439ABE9C0D76"
+            }
           }
         ]
       }
@@ -747,7 +763,15 @@
           "unit": "mm[Hg]",
           "system": "http://unitsofmeasure.org",
           "code": "mm[Hg]"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/7AF0B4DA-4DBC-458F-9EA3-6844C3B3B70C"
+            }
+          }
+        ]
       }
     },
     {
@@ -809,7 +833,15 @@
           "unit": "mm[Hg]",
           "system": "http://unitsofmeasure.org",
           "code": "mm[Hg]"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/7AF0B4DA-4DBC-458F-9EA3-6844C3B3B70C"
+            }
+          }
+        ]
       }
     },
     {
@@ -920,6 +952,14 @@
           {
             "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
           }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/551D5AD3-4CAD-4197-B749-385B08DB321E"
+            }
+          }
         ]
       }
     },
@@ -971,6 +1011,14 @@
         "performer": [
           {
             "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
+          }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/946272CA-DA17-4D32-945E-D19B6D11A7F7"
+            }
           }
         ]
       }
@@ -1027,6 +1075,20 @@
         "performer": [
           {
             "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
+          }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/2255F3D2-A7D9-4795-9BBF-6A4547994197"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/C0653C8C-99A5-4ABB-9188-390950339DAD"
+            }
           }
         ]
       }
