@@ -48,6 +48,12 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
     private static final String LAB_REPORT_COMMENT_TYPE = "CommentType:LABORATORY RESULT COMMENT(E141)";
 
+    public static void addResultToDiagnosticReport(Observation observation, DiagnosticReport diagnosticReport) {
+        if (!containsReference(diagnosticReport.getResult(), observation.getId())) {
+            diagnosticReport.addResult(new Reference(observation));
+        }
+    }
+
     @Override
     public List<DiagnosticReport> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
@@ -219,5 +225,21 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .setSystem("http://snomed.info/sct")
             .setDisplay("Diagnostic studies report");
         return codeableConcept;
+    }
+
+    private static boolean containsReference(List<Reference> references, String id) {
+        if (!references.isEmpty()) {
+            return references.stream()
+                .map(reference -> {
+                    if (reference.hasReference()) {
+                        return reference.getReference();
+                    }
+                    if (reference.getResource() != null) {
+                        return reference.getResource().getIdElement().getValue();
+                    }
+                    return StringUtils.EMPTY;
+                }).anyMatch(referenceId -> referenceId.contains(id));
+        }
+        return false;
     }
 }
