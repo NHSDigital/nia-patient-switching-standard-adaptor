@@ -137,7 +137,7 @@ public class TemplateMapperTest {
             (Observation) new Observation().setId("CHILD_OBSERVATION_ID_2")
         );
 
-        var ehrExtract = unmarshallEhrExtractElement("unnested_obervations_template.xml");
+        var ehrExtract = unmarshallEhrExtractElement("unnested_observations_template.xml");
 
         templateMapper.addReferences(templates, observations, ehrExtract);
 
