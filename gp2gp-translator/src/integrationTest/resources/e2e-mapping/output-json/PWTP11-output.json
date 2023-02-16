@@ -5271,6 +5271,36 @@
             "valueReference": {
               "reference": "Condition/E94DF680-DB62-4952-9755-15CBC93A6970"
             }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+            "extension": [ 
+              {
+                "url": "type",
+                "valueCode": "child"
+              }, 
+              {
+                "url": "target",
+                "valueReference": {
+                  "reference": "Condition/8B73F75C-DD28-4A73-96C2-18D28826E18D"
+                }
+              } 
+            ]
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+            "extension": [ 
+              {
+                "url": "type",
+                "valueCode": "child"
+              }, 
+              {
+                "url": "target",
+                "valueReference": {
+                  "reference": "Condition/E94DF680-DB62-4952-9755-15CBC93A6970"
+                }
+              }
+            ]
           }
         ],
         "identifier": [
@@ -5518,6 +5548,21 @@
             "valueReference": {
               "reference": "Observation/CB7D3808-7373-425E-BAFA-A7710A946B16"
             }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+            "extension": [ 
+              {
+                "url": "type",
+                "valueCode": "parent"
+              }, 
+              {
+                "url": "target",
+                "valueReference": {
+                  "reference": "Condition/8498DDE4-3786-4E3C-9055-27287B385833"
+                }
+              }
+            ]
           }
         ],
         "identifier": [
@@ -5605,6 +5650,36 @@
             "valueReference": {
               "reference": "Condition/A539F1C9-1DCC-44DB-B2C4-A175E8E13F75"
             }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+            "extension": [ 
+              {
+                "url": "type",
+                "valueCode": "parent"
+              },
+              {
+                "url": "target",
+                "valueReference": {
+                  "reference": "Condition/8498DDE4-3786-4E3C-9055-27287B385833"
+                }
+              }
+            ]
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+            "extension": [ 
+              {
+                "url": "type",
+                "valueCode": "child"
+              }, 
+              {
+                "url": "target",
+                "valueReference": {
+                  "reference": "Condition/A539F1C9-1DCC-44DB-B2C4-A175E8E13F75"
+                }
+              } 
+            ]
           }
         ],
         "identifier": [
@@ -5678,6 +5753,21 @@
             "valueReference": {
               "reference": "Condition/E51B8E5C-9A86-421E-A226-2017A03E3D9D"
             }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+            "extension": [
+              {
+                "url": "type",
+                "valueCode": "child"
+              },
+              {
+                "url": "target",
+                "valueReference": {
+                  "reference": "Condition/E51B8E5C-9A86-421E-A226-2017A03E3D9D"
+                }
+              }
+            ]
           }
         ],
         "identifier": [
@@ -5747,6 +5837,21 @@
             "valueReference": {
               "reference": "Observation/F714B712-A4D8-472E-8690-36118EF398C8"
             }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+            "extension": [ 
+              {
+                "url": "type",
+                "valueCode": "parent"
+              },
+              {
+                "url": "target",
+                "valueReference": {
+                  "reference": "Condition/EA1A5FC8-A911-4A00-80BE-4DFBA01B9A54"
+                }
+              }
+            ]
           }
         ],
         "identifier": [
@@ -5835,6 +5940,21 @@
             "valueReference": {
               "reference": "Observation/5E682510-44DD-4384-9143-F8F37D1ADDFF"
             }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1",
+            "extension": [ 
+              {
+                "url": "type",
+                "valueCode": "parent"
+              },
+              {
+                "url": "target",
+                "valueReference": {
+                  "reference": "Condition/E94DF680-DB62-4952-9755-15CBC93A6970"
+                }
+              }
+            ]
           }
         ],
         "identifier": [
