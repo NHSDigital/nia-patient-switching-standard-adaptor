@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -59,13 +58,17 @@ public class SpecimenCompoundsMapper {
 
                     for (var specimenObservationStatement : getObservationStatementsInCompound(specimenCompoundStatement)) {
                         getObservationById(observations, specimenObservationStatement.getId().getRoot())
-                            .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation, diagnosticReport));
+                            .ifPresent(observation -> {
+                                handleObservationStatement(specimenCompoundStatement, observation);
+                                DiagnosticReportMapper.addResultToDiagnosticReport(observation, diagnosticReport);
+                            });
                     }
 
                     for (var clusterCompoundStatement : getCompoundStatementsInSpecimenCompound(specimenCompoundStatement,
                         CLUSTER_CLASSCODE)) {
                         handleClusterCompoundStatement(
-                            specimenCompoundStatement, clusterCompoundStatement, observations, observationComments, diagnosticReport
+                            specimenCompoundStatement, clusterCompoundStatement, observations, observationComments, diagnosticReport,
+                            false
                         );
                     }
 
@@ -98,17 +101,13 @@ public class SpecimenCompoundsMapper {
     }
 
     private void handleObservationStatement(RCMRMT030101UK04CompoundStatement specimenCompoundStatement,
-        Observation observation, DiagnosticReport diagnosticReport) {
+        Observation observation) {
         final Reference specimenReference = new Reference(new IdType(
             Specimen.name(),
             specimenCompoundStatement.getId().get(0).getRoot()
         ));
         observation.setSpecimen(specimenReference);
         observation.addCategory(createCategory());
-
-        if (!containsReference(diagnosticReport.getResult(), observation.getId())) {
-            diagnosticReport.addResult(new Reference(observation));
-        }
     }
 
     private void handleNarrativeStatements(RCMRMT030101UK04CompoundStatement compoundStatement,
@@ -152,7 +151,7 @@ public class SpecimenCompoundsMapper {
 
     private void handleClusterCompoundStatement(RCMRMT030101UK04CompoundStatement specimenCompoundStatement,
         RCMRMT030101UK04CompoundStatement clusterCompoundStatement,
-        List<Observation> observations, List<Observation> observationComments, DiagnosticReport diagnosticReport) {
+        List<Observation> observations, List<Observation> observationComments, DiagnosticReport diagnosticReport, boolean isNestedCluster) {
         var nestedObservationStatements = clusterCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UK04Component02::hasObservationStatement)
             .map(RCMRMT030101UK04Component02::getObservationStatement)
@@ -160,9 +159,14 @@ public class SpecimenCompoundsMapper {
 
         for (var observationStatement : nestedObservationStatements) {
             var observationOpt = getObservationById(observations, observationStatement.getId().getRoot());
-            observationOpt.ifPresent(observation -> handleObservationStatement(
-                specimenCompoundStatement, observation, diagnosticReport)
-            );
+
+            observationOpt.ifPresent(observation -> {
+                if (!isNestedCluster) {
+                    DiagnosticReportMapper.addResultToDiagnosticReport(observation, diagnosticReport);
+                }
+                handleObservationStatement(specimenCompoundStatement, observation);
+            });
+
             handleNarrativeStatements(clusterCompoundStatement, observationComments, observationOpt.orElse(null));
         }
     }
@@ -180,7 +184,7 @@ public class SpecimenCompoundsMapper {
 
         for (var compoundStatement : compoundStatements) {
             handleClusterCompoundStatement(
-                specimenCompoundStatement, compoundStatement, observations, observationComments, diagnosticReport
+                specimenCompoundStatement, compoundStatement, observations, observationComments, diagnosticReport, true
             );
         }
 
@@ -192,8 +196,7 @@ public class SpecimenCompoundsMapper {
                 .map(RCMRMT030101UK04Component02::getObservationStatement)
                 .findFirst()
                 .flatMap(observationStatement -> getObservationById(observations, observationStatement.getId().getRoot()))
-                .ifPresent(observation -> handleObservationStatement(
-                    specimenCompoundStatement, observation, diagnosticReport)
+                .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation)
                 ));
 
         var observationStatements = batteryCompoundStatement.getComponent().stream()
@@ -202,7 +205,7 @@ public class SpecimenCompoundsMapper {
             .toList();
 
         observationStatements.forEach(observationStatement -> getObservationById(observations, observationStatement.getId().getRoot())
-            .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation, diagnosticReport)));
+            .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation)));
     }
 
     private Optional<RCMRMT030101UK04CompoundStatement> getCompoundStatementByDRId(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
@@ -219,22 +222,6 @@ public class SpecimenCompoundsMapper {
         return observations.stream()
             .filter(e -> id.equals(e.getId()))
             .findFirst();
-    }
-
-    private boolean containsReference(List<Reference> references, String id) {
-        if (!references.isEmpty()) {
-            return references.stream()
-                .map(reference -> {
-                    if (reference.hasReference()) {
-                        return reference.getReference();
-                    }
-                    if (reference.getResource() != null) {
-                        return reference.getResource().getIdElement().getValue();
-                    }
-                    return StringUtils.EMPTY;
-                }).anyMatch(referenceId -> referenceId.contains(id));
-        }
-        return false;
     }
 
     private boolean containsRelatedComponent(Observation observation, String id) {

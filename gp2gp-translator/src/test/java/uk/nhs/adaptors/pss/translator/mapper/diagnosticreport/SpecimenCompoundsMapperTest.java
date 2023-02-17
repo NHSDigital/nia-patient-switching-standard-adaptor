@@ -1,6 +1,9 @@
 package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
@@ -102,6 +105,8 @@ public class SpecimenCompoundsMapperTest {
         assertThat(observation.getRelatedFirstRep().getTarget().getResource()).isNotNull();
         assertThat(observation.getRelatedFirstRep().getTarget().getResource().getIdElement().getValue())
             .isEqualTo(NARRATIVE_STATEMENT_ID);
+
+        assertThat(diagnosticReports.get(0).getResult().size()).isOne();
     }
 
     @Test
@@ -115,6 +120,9 @@ public class SpecimenCompoundsMapperTest {
         assertParentSpecimenIsReferenced(observations.get(1));
         assertThat(observationComments.size()).isEqualTo(2);
         assertThat(observationComments.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE_1);
+
+        assertThat(diagnosticReports.get(0).getResult().isEmpty()).isTrue();
+        verify(specimenBatteryMapper, times(1)).mapBatteryObservation(any());
     }
 
     @Test

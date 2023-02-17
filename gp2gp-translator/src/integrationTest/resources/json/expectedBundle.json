@@ -30387,12 +30387,6 @@
             "reference": "Observation/O277BE3-481B-4254-AA8E-17B2529244B6"
           },
           {
-            "reference": "Observation/OBSERVATION_STATEMENT_ID"
-          },
-          {
-            "reference": "Observation/BATTERY_DIRECT_CHILD_OBSERVATION_STATEMENT"
-          },
-          {
             "reference": "Observation/SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1"
           }
         ],
