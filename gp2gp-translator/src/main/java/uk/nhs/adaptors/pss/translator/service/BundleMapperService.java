@@ -145,6 +145,8 @@ public class BundleMapperService {
             conditionMapper.addReferences(bundle, conditions, ehrExtract);
             conditionMapper.addHierarchyReferencesToConditions(conditions, ehrExtract);
             unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
+            templateMapper.addReferences(templates, observations, ehrExtract);
+
 
             LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
 

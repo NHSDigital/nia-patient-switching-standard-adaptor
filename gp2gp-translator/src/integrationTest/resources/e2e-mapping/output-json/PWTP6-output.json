@@ -6593,7 +6593,15 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Notes on the tired all the time entry"
+        "comment": "Notes on the tired all the time entry",
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/C8B1BEAF-FB71-45D1-89DA-298148C00CE1"
+            }
+          }
+        ]
       }
     },
     {
@@ -6650,7 +6658,15 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "cementing the agreement"
+        "comment": "cementing the agreement",
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/C8B1BEAF-FB71-45D1-89DA-298148C00CE1"
+            }
+          }
+        ]
       }
     },
     {
@@ -6706,6 +6722,14 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/C8B1BEAF-FB71-45D1-89DA-298148C00CE1"
+            }
+          }
         ]
       }
     },
@@ -6757,6 +6781,14 @@
         "performer": [
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/C8B1BEAF-FB71-45D1-89DA-298148C00CE1"
+            }
           }
         ]
       }
@@ -6813,6 +6845,14 @@
         "performer": [
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/C8B1BEAF-FB71-45D1-89DA-298148C00CE1"
+            }
           }
         ]
       }
@@ -6874,7 +6914,15 @@
         "valueQuantity": {
           "value": 120,
           "unit": "mmHg"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/12041BEF-DF85-4DAB-9F1C-64DEEA0DCCDE"
+            }
+          }
+        ]
       }
     },
     {
@@ -6934,7 +6982,15 @@
         "valueQuantity": {
           "value": 50,
           "unit": "mmHg"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/12041BEF-DF85-4DAB-9F1C-64DEEA0DCCDE"
+            }
+          }
+        ]
       }
     },
     {
@@ -7434,6 +7490,38 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/6418F5A3-C427-4292-ABCF-F53E71B43F15"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/58E20D47-F007-47F4-811E-992AE160BECC"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/C6D2153A-7EF6-4B1F-8F79-850372BFF67D"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/A77C238E-F630-48C0-B2EA-26F1B126DC1D"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/E0DD7160-64CA-48F3-AB00-B21C39D3FB23"
+            }
+          }
         ]
       }
     },
@@ -7489,6 +7577,20 @@
         "performer": [
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/5F4ED545-C4C1-4142-A38E-E649C9CB4C84"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/9B14D8D9-5A25-4C5B-A058-6D1145F7757C"
+            }
           }
         ]
       }

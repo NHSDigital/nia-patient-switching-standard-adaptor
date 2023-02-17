@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.DERIVEDFROM;
+import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.HASMEMBER;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 import static org.hl7.fhir.dstu3.model.QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED;
 
@@ -19,19 +21,25 @@ import java.util.Optional;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.QuestionnaireResponse;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
@@ -59,6 +67,54 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
                 .flatMap(List::stream)
         ).toList();
         return mappings;
+    }
+
+    public void addReferences(List<DomainResource> templates, List<Observation> observations, RCMRMT030101UK04EhrExtract ehrExtract) {
+        List<Observation> parentObservations = templates.stream()
+            .filter(template -> template instanceof Observation)
+            .map(Observation.class::cast)
+            .toList();
+
+        List<String> parentObservationIds = parentObservations.stream()
+            .map(Observation::getId)
+            .toList();
+
+        var parentCompoundStatements = getCompoundStatementsByIds(ehrExtract, parentObservationIds);
+
+        parentCompoundStatements.forEach(parentCompoundStatement -> {
+
+            if (isObservationStatementTemplateParent(parentCompoundStatement)) {
+                Observation parentObservation = parentObservations.stream()
+                    .filter(observation -> observation.getId().equals(parentCompoundStatement.getId().get(0).getRoot()))
+                    .findFirst()
+                    .orElseThrow();
+
+                List<String> childObservationIds = CompoundStatementUtil
+                    .extractResourcesFromCompound(parentCompoundStatement,
+                        RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement)
+                    .stream()
+                    .map(RCMRMT030101UK04ObservationStatement.class::cast)
+                    .map(observationStatement -> observationStatement.getId().getRoot())
+                    .toList();
+
+                List<Observation> childObservations = observations.stream()
+                    .filter(observation -> childObservationIds.contains(observation.getId()))
+                    .toList();
+
+                childObservations.forEach(childObservation -> {
+                    parentObservation.addRelated(new Observation.ObservationRelatedComponent()
+                        .setType(HASMEMBER)
+                        .setTarget(new Reference(new IdType(ResourceType.Observation.name(), childObservation.getId())))
+                    );
+
+                    childObservation.addRelated(new Observation.ObservationRelatedComponent()
+                        .setType(DERIVEDFROM)
+                        .setTarget(new Reference(new IdType(ResourceType.Observation.name(), parentObservation.getId())))
+                    );
+                });
+            }
+        });
+
     }
 
     private List<DomainResource> mapTemplate(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
@@ -164,5 +220,25 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
         return ehrComposition.getAuthor().getTime().hasValue()
             ? DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue())
             : DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
+    }
+
+    private List<RCMRMT030101UK04CompoundStatement> getCompoundStatementsByIds(RCMRMT030101UK04EhrExtract ehrExtract, List<String> ids) {
+        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
+            .stream()
+            .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
+            .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
+            .filter(Objects::nonNull)
+            .filter(compoundStatement -> ids.contains(compoundStatement.getId().get(0).getRoot()))
+            .toList();
+    }
+
+    private boolean isObservationStatementTemplateParent(RCMRMT030101UK04CompoundStatement compoundStatement) {
+        var hasObservationStatement = compoundStatement.getComponent().stream()
+            .anyMatch(RCMRMT030101UK04Component02::hasObservationStatement);
+
+        var onlyHasObservationOrNarrative = compoundStatement.getComponent().stream()
+            .allMatch(component -> component.hasObservationStatement() || component.hasNarrativeStatement());
+
+        return hasObservationStatement && onlyHasObservationOrNarrative;
     }
 }

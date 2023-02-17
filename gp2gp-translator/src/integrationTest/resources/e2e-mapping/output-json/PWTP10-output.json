@@ -3365,7 +3365,15 @@
         "valueQuantity": {
           "value": 170,
           "unit": "mmHg"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/F25C1328-B6D2-412F-9C56-A8F21182F100"
+            }
+          }
+        ]
       }
     },
     {
@@ -3425,7 +3433,15 @@
         "valueQuantity": {
           "value": 130,
           "unit": "mmHg"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/F25C1328-B6D2-412F-9C56-A8F21182F100"
+            }
+          }
+        ]
       }
     },
     {
@@ -4366,6 +4382,20 @@
         "performer": [
           {
             "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+          }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/E796DB35-E4EF-4594-8D8D-84BD033457DE"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/11DD4FB9-4EBB-492E-A309-109FCA290493"
+            }
           }
         ]
       }

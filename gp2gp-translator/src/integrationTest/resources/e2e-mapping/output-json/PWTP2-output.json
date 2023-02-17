@@ -8334,7 +8334,15 @@
         "valueQuantity": {
           "value": 120,
           "unit": "mmHg"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/CEF9E22C-9EA2-4610-9B53-4595781D525D"
+            }
+          }
+        ]
       }
     },
     {
@@ -8394,7 +8402,15 @@
         "valueQuantity": {
           "value": 90,
           "unit": "mmHg"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/CEF9E22C-9EA2-4610-9B53-4595781D525D"
+            }
+          }
+        ]
       }
     },
     {
@@ -9468,7 +9484,15 @@
         "valueQuantity": {
           "value": 120,
           "unit": "mmHg"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/9BEFB146-B729-4EB8-908C-539B279FFEB5"
+            }
+          }
+        ]
       }
     },
     {
@@ -9528,7 +9552,15 @@
         "valueQuantity": {
           "value": 75,
           "unit": "mmHg"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/9BEFB146-B729-4EB8-908C-539B279FFEB5"
+            }
+          }
+        ]
       }
     },
     {
@@ -9906,7 +9938,15 @@
         "valueQuantity": {
           "value": 134,
           "unit": "mmHg"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/34638ABC-DCBB-4DF1-A1CB-AE4E49B7B36A"
+            }
+          }
+        ]
       }
     },
     {
@@ -9963,7 +10003,15 @@
         "valueQuantity": {
           "value": 90,
           "unit": "mmHg"
-        }
+        },
+        "related": [
+          {
+            "type": "derived-from",
+            "target": {
+              "reference": "Observation/34638ABC-DCBB-4DF1-A1CB-AE4E49B7B36A"
+            }
+          }
+        ]
       }
     },
     {
@@ -10898,6 +10946,20 @@
           {
             "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
           }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/B242CABB-572B-4701-B524-3DFC5C9428CE"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/8BB5AF44-EF56-4816-8B78-71BA6BCF0ED5"
+            }
+          }
         ]
       }
     },
@@ -10954,6 +11016,20 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/BC85400F-8EB1-4B37-AB13-3F2AF48700EC"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/01DADA1A-B466-4EEC-A980-D3D7FD3DFE06"
+            }
+          }
         ]
       }
     },
@@ -11006,6 +11082,20 @@
         "performer": [
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        ],
+        "related": [
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/CF1DF20D-BA11-44ED-BB97-EF375237B993"
+            }
+          },
+          {
+            "type": "has-member",
+            "target": {
+              "reference": "Observation/A355971C-94EB-434A-B212-C194DE3A9D5F"
+            }
           }
         ]
       }

@@ -1,6 +1,8 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.DERIVEDFROM;
+import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.HASMEMBER;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -11,6 +13,7 @@ import java.util.List;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
+import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
@@ -121,6 +124,40 @@ public class TemplateMapperTest {
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(mappedResources.size()).isZero();
+    }
+
+    @Test
+    public void When_AddReferences_With_ValidTemplate_Expect_ReferencesAdded() {
+        List<DomainResource> templates = List.of(
+            (Observation) new Observation().setId("PARENT_OBSERVATION_ID")
+        );
+
+        var observations = List.of(
+            (Observation) new Observation().setId("CHILD_OBSERVATION_ID_1"),
+            (Observation) new Observation().setId("CHILD_OBSERVATION_ID_2")
+        );
+
+        var ehrExtract = unmarshallEhrExtractElement("unnested_observations_template.xml");
+
+        templateMapper.addReferences(templates, observations, ehrExtract);
+
+        var parentRelations = ((Observation) templates.get(0)).getRelated();
+        var fistChildRelations = observations.get(0).getRelated();
+        var secondChildRelations = observations.get(1).getRelated();
+
+        assertThat(parentRelations.size()).isEqualTo(2);
+        assertThat(parentRelations.get(0).getTarget().getReferenceElement().getIdPart()).isEqualTo("CHILD_OBSERVATION_ID_1");
+        assertThat(parentRelations.get(0).getType()).isEqualTo(HASMEMBER);
+        assertThat(parentRelations.get(1).getTarget().getReferenceElement().getIdPart()).isEqualTo("CHILD_OBSERVATION_ID_2");
+        assertThat(parentRelations.get(1).getType()).isEqualTo(HASMEMBER);
+
+        assertThat(fistChildRelations.size()).isOne();
+        assertThat(fistChildRelations.get(0).getTarget().getReferenceElement().getIdPart()).isEqualTo("PARENT_OBSERVATION_ID");
+        assertThat(fistChildRelations.get(0).getType()).isEqualTo(DERIVEDFROM);
+
+        assertThat(secondChildRelations.size()).isOne();
+        assertThat(secondChildRelations.get(0).getTarget().getReferenceElement().getIdPart()).isEqualTo("PARENT_OBSERVATION_ID");
+        assertThat(secondChildRelations.get(0).getType()).isEqualTo(DERIVEDFROM);
     }
 
     private void assertQuestionnaireResponse(QuestionnaireResponse questionnaireResponse, String encounter, String linkId,
