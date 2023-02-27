@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
-    <availabilityTime value="20100118" />
+    <availabilityTime value="2010018" />
     <component typeCode="COMP">
         <ehrFolder classCode="FOLDER" moodCode="EVN">
             <component typeCode="COMP">

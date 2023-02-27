@@ -127,7 +127,7 @@ public class E2EMappingIT extends BaseEhrHandler {
 
         executeTest(inputFileName, ignoredFields);
     }
-
+    
     @Test
     public void handlePWTP4EhrExtractFromQueue() throws JSONException, JAXBException {
         String inputFileName = "PWTP4";
