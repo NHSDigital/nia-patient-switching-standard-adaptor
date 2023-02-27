@@ -2834,7 +2834,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:31+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -2973,7 +2973,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:31+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -3126,7 +3126,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:31+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -3265,7 +3265,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:31+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -3406,7 +3406,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:31+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -3531,7 +3531,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -3598,7 +3598,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -3686,7 +3686,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -3753,7 +3753,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -3820,7 +3820,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -3887,7 +3887,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -3954,7 +3954,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4021,7 +4021,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4088,7 +4088,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4155,7 +4155,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4222,7 +4222,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4289,7 +4289,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4356,7 +4356,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4423,7 +4423,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4490,7 +4490,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4557,7 +4557,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-02-10T11:06:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4624,7 +4624,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4691,7 +4691,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4758,7 +4758,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4825,7 +4825,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4892,7 +4892,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -4959,7 +4959,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5026,7 +5026,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5093,7 +5093,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5160,7 +5160,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5227,7 +5227,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5294,7 +5294,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5361,7 +5361,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5428,7 +5428,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5495,7 +5495,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5562,7 +5562,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5629,7 +5629,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-17T15:34:51+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5696,7 +5696,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5763,7 +5763,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5830,7 +5830,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5897,7 +5897,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -5964,7 +5964,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6031,7 +6031,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6098,7 +6098,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6165,7 +6165,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6232,7 +6232,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6299,7 +6299,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6366,7 +6366,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6433,7 +6433,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6500,7 +6500,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6567,7 +6567,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6634,7 +6634,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6701,7 +6701,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2011-06-20T12:36:16+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A"
@@ -6768,7 +6768,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -6835,7 +6835,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -6902,7 +6902,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -6969,7 +6969,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7036,7 +7036,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7103,7 +7103,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7170,7 +7170,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7237,7 +7237,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7304,7 +7304,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7371,7 +7371,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7438,7 +7438,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7505,7 +7505,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7572,7 +7572,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7639,7 +7639,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7727,7 +7727,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7794,7 +7794,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7861,7 +7861,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7928,7 +7928,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -7995,7 +7995,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -8062,7 +8062,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -8129,7 +8129,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-01-13T11:37:34+00:00",
+        "authoredOn": "2010-01-13",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -8196,7 +8196,7 @@
         "subject": {
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
-        "authoredOn": "2010-02-26T14:24:01+00:00",
+        "authoredOn": "2010-02-26",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"

@@ -672,7 +672,7 @@
         "subject": {
           "reference": "Patient/9c38dc7b-28d2-4210-8347-52cdf112d2d8"
         },
-        "authoredOn": "2010-02-26T11:08:17+00:00",
+        "authoredOn": "2010-02-26",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"

@@ -3199,7 +3199,7 @@
         "context": {
           "reference": "Encounter/8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3"
         },
-        "authoredOn": "2010-03-23T15:51:27+00:00",
+        "authoredOn": "2010-03-23",
         "requester": {
           "agent": {
             "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
@@ -3295,7 +3295,7 @@
         "context": {
           "reference": "Encounter/9326C01E-488B-4EDF-B9C9-529E69EE0361"
         },
-        "authoredOn": "2010-03-23T15:59:35+00:00",
+        "authoredOn": "2010-03-23",
         "requester": {
           "agent": {
             "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
@@ -3391,7 +3391,7 @@
         "context": {
           "reference": "Encounter/4E95E2AF-BF10-45BB-AAA5-2547BD42C806"
         },
-        "authoredOn": "2010-03-23T16:07:49+00:00",
+        "authoredOn": "2010-03-23",
         "requester": {
           "agent": {
             "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
@@ -3487,7 +3487,7 @@
         "context": {
           "reference": "Encounter/DF71EC06-9453-4AE7-9C3C-E42871252772"
         },
-        "authoredOn": "2010-08-10T12:22:33+00:00",
+        "authoredOn": "2010-08-10",
         "requester": {
           "agent": {
             "reference": "Practitioner/72DB5398-C825-4498-88CA-899A3653EC04"
@@ -3582,7 +3582,7 @@
         "context": {
           "reference": "Encounter/BDED2793-F5B5-43AC-B8DB-7EA04620CA86"
         },
-        "authoredOn": "2011-11-15T14:47:50+00:00",
+        "authoredOn": "2011-11-15",
         "requester": {
           "agent": {
             "reference": "Practitioner/884E7627-796C-4C70-870A-D61B88AD2E57"
@@ -3678,7 +3678,7 @@
         "context": {
           "reference": "Encounter/797F53B7-4D96-4BBE-84CC-3110DB040D90"
         },
-        "authoredOn": "2011-11-15T14:59:10+00:00",
+        "authoredOn": "2011-11-15",
         "requester": {
           "agent": {
             "reference": "Practitioner/884E7627-796C-4C70-870A-D61B88AD2E57"
@@ -22330,7 +22330,7 @@
         "context": {
           "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
         },
-        "authoredOn": "2010-01-13T15:13:32+00:00",
+        "authoredOn": "2006-04-26",
         "requester": {
           "agent": {
             "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
@@ -22405,7 +22405,7 @@
         "context": {
           "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
         },
-        "authoredOn": "2010-01-13T15:13:32+00:00",
+        "authoredOn": "2006-04-26",
         "requester": {
           "agent": {
             "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
@@ -27423,7 +27423,7 @@
         "context": {
           "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
         },
-        "authoredOn": "2010-01-13T15:13:32+00:00",
+        "authoredOn": "2006-04-26",
         "requester": {
           "agent": {
             "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
@@ -27498,7 +27498,7 @@
         "context": {
           "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
         },
-        "authoredOn": "2010-01-13T15:13:32+00:00",
+        "authoredOn": "2006-04-26",
         "requester": {
           "agent": {
             "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
