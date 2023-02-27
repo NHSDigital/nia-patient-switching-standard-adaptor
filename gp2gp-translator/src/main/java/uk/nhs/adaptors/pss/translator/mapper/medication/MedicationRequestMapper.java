@@ -60,8 +60,8 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         var context = encounters.stream()
             .filter(encounter1 -> encounter1.getId().equals(ehrComposition.getId().getRoot())).findFirst();
         var authoredOn = getAuthoredOn(medicationStatement.getAvailabilityTime(), ehrExtract, ehrComposition);
-        var dateAsserted = extractDateAsserted(ehrComposition, 
-                DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue()));
+        var dateAsserted = extractDateAsserted(ehrComposition,
+            DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue()));
         var requester = extractRequester(ehrComposition, medicationStatement);
         var recorder = extractRecorder(ehrComposition, medicationStatement);
 
@@ -119,7 +119,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             return ehrExtractAvailabilityTime;
         }
     }
-    
+
     private List<Medication> mapMedications(RCMRMT030101UK04MedicationStatement medicationStatement) {
         return medicationStatement.getConsumable()
             .stream()
@@ -169,7 +169,6 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             })
             .toList();
     }
-    
 
     private Optional<Reference> extractRequester(RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04MedicationStatement medicationStatement) {
