@@ -29862,7 +29862,7 @@
           "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
         "onsetDateTime": "2010-01-13",
-        "assertedDate": "2010-01-13T15:13:32+00:00",
+        "assertedDate": "2010-01-13",
         "recorder": {
           "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
         },
@@ -30201,7 +30201,7 @@
           "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
         "onsetDateTime": "2010-01-13",
-        "assertedDate": "2010-01-13T15:13:32+00:00",
+        "assertedDate": "2010-01-13",
         "recorder": {
           "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
         },

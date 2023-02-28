@@ -4179,7 +4179,7 @@
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
         },
         "onsetDateTime": "2010-06-30T04:59:00+00:00",
-        "assertedDate": "2010-06-30T04:48:04+00:00",
+        "assertedDate": "2010-06-30T04:59:00+00:00",
         "recorder": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
@@ -4242,7 +4242,7 @@
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
         },
         "onsetDateTime": "2010-06-30",
-        "assertedDate": "2010-06-30T04:52:03+00:00",
+        "assertedDate": "2010-06-30",
         "recorder": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
