@@ -23101,7 +23101,7 @@
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
         },
         "onsetDateTime": "2010-01-18",
-        "assertedDate": "2010-01-18T14:37:22+00:00",
+        "assertedDate": "2010-01-18",
         "recorder": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
@@ -23137,7 +23137,7 @@
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
         },
         "onsetDateTime": "2010-03-23",
-        "assertedDate": "2010-03-23T16:41:06+00:00",
+        "assertedDate": "2010-03-23",
         "recorder": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
@@ -23173,7 +23173,7 @@
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
         },
         "onsetDateTime": "2010-03-23",
-        "assertedDate": "2010-03-23T16:45:11+00:00",
+        "assertedDate": "2010-03-23",
         "recorder": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
@@ -23209,7 +23209,7 @@
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
         },
         "onsetDateTime": "2010-08-09",
-        "assertedDate": "2010-08-09T13:27:58+00:00",
+        "assertedDate": "2010-08-09",
         "recorder": {
           "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
         },
@@ -23250,7 +23250,7 @@
           "reference": "Patient/f37a1127-52bd-44b9-a989-ed8c884ae920"
         },
         "onsetDateTime": "2011-09-28",
-        "assertedDate": "2011-09-28T09:22:32+00:00",
+        "assertedDate": "2011-09-28",
         "recorder": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },

@@ -27,6 +27,7 @@ import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,7 +68,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
 
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))
-            .setAssertedDateElement(getAssertedDateElement(ehrExtract, ehrComposition))
+            .setAssertedDateElement(getAssertedDateElement(compoundStatement.getAvailabilityTime(), ehrExtract, ehrComposition))
             .setPatient(new Reference(patient))
             .setClinicalStatus(ACTIVE)
             .setVerificationStatus(UNCONFIRMED)
@@ -150,10 +151,19 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         }
     }
 
-    private DateTimeType getAssertedDateElement(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition) {
-        return ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime()
-            ? parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue())
-            : parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
+    private DateTimeType getAssertedDateElement(TS availabilityTime, RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UK04EhrComposition ehrComposition) {
+        if (availabilityTime != null && availabilityTime.hasValue()) {
+            return parseToDateTimeType(availabilityTime.getValue());
+        } else {
+            if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
+                return parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
+            } else if (ehrExtract.getAvailabilityTime() != null && ehrExtract.getAvailabilityTime().hasValue()) {
+                return parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
+            }
+        }
+
+        return null;
     }
 
     private void buildNote(AllergyIntolerance allergyIntolerance, RCMRMT030101UK04CompoundStatement compoundStatement) {

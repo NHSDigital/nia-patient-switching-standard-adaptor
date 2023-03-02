@@ -71,7 +71,7 @@ public class AllergyIntoleranceMapperTest {
 
         assertExtension(allergyIntolerance);
         assertThat(allergyIntolerance.getCategory().get(0).getValue()).isEqualTo(MEDICATION);
-        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
+        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("1978-12-31");
         assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue())
             .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
@@ -97,7 +97,7 @@ public class AllergyIntoleranceMapperTest {
 
         assertExtension(allergyIntolerance);
         assertThat(allergyIntolerance.getCategory().get(0).getValue()).isEqualTo(ENVIRONMENT);
-        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
+        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("1978-12-31");
         assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getOnsetDateTimeType()
             .asStringValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
@@ -119,7 +119,7 @@ public class AllergyIntoleranceMapperTest {
         assertFixedValues(allergyIntolerance);
 
         assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_1);
-        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
+        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2019-07-08T13:35:00+00:00");
         assertThat(allergyIntolerance.getRecorder().getReference()).isNull(); // this is added later in the UnknownPractitionerHandler
         assertThat(allergyIntolerance.getAsserter().getReference()).isNull();
         assertThat(allergyIntolerance.getOnset()).isNull();
@@ -161,7 +161,7 @@ public class AllergyIntoleranceMapperTest {
 
         assertExtension(allergyIntolerance);
         assertThat(allergyIntolerance.getCategory().get(0).getValue()).isEqualTo(MEDICATION);
-        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
+        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("1978-12-31");
         assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue())
             .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
@@ -187,7 +187,7 @@ public class AllergyIntoleranceMapperTest {
 
         assertExtension(allergyIntolerance);
         assertThat(allergyIntolerance.getCategory().get(0).getValue()).isEqualTo(MEDICATION);
-        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2020-01-01T01:01:01+00:00");
+        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("1978-12-31");
         assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue())
             .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());

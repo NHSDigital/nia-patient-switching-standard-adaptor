@@ -11145,7 +11145,7 @@
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
         "onsetDateTime": "2010-01-13",
-        "assertedDate": "2010-01-13T11:37:56+00:00",
+        "assertedDate": "2010-01-13",
         "recorder": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
@@ -11208,7 +11208,7 @@
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
         "onsetDateTime": "2010-01-13",
-        "assertedDate": "2010-01-13T11:41:26+00:00",
+        "assertedDate": "2010-01-13",
         "recorder": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
@@ -11267,7 +11267,7 @@
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
         "onsetDateTime": "2010-01-13",
-        "assertedDate": "2010-01-13T14:04:45+00:00",
+        "assertedDate": "2010-01-13",
         "recorder": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
@@ -11330,7 +11330,7 @@
           "reference": "Patient/c25d69c5-3e36-40fc-9a67-1d3e99b64452"
         },
         "onsetDateTime": "2010-01-13",
-        "assertedDate": "2010-01-13T14:57:10+00:00",
+        "assertedDate": "2010-01-13",
         "recorder": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
