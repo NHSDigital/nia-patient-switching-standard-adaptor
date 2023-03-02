@@ -48,6 +48,8 @@ public class AllergyIntoleranceMapperTest {
     private static final String NOTE_TEXT = "Reason Ended: Patient reports no subsequent recurrence on same medication Status:"
         + " Resolved Type: Allergy Criticality: Low Risk Last Occurred: 1978-12-31 Example note text";
     private static final int THREE = 3;
+    
+    private static final String ORIGINAL_TEXT_IN_CODE = "OriginalText from Code Test";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -104,6 +106,25 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
         assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_1);
+    }
+
+
+    @Test
+    public void testMapAllergyWithOriginalTextInObservationCode() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+            .thenReturn(defaultCodeableConcept())
+            .thenReturn(secondaryCodeableConcept());
+
+        var ehrExtract = unmarshallEhrExtract("allergy-structure-with-original-text-in-code.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(), 
+            getEncounterList(), PRACTISE_CODE);
+
+        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertFixedValues(allergyIntolerance);
+        
+        assertThat(allergyIntolerance.getCode().getText()).isEqualTo(ORIGINAL_TEXT_IN_CODE);
     }
 
     @Test
@@ -196,6 +217,9 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_3);
         assertThat(allergyIntolerance.getNote().size()).isOne();
     }
+    
+    
+    
 
     private void assertFixedValues(AllergyIntolerance allergyIntolerance) {
         assertThat(allergyIntolerance.getId()).isEqualTo(COMPOUND_STATEMENT_ROOT_ID);

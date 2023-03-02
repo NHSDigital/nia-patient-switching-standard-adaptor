@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.DateTimeType;
@@ -134,6 +135,13 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 }
             } else {
                 allergyIntolerance.setCode(codeableConceptFromCode);
+            }
+        }
+
+        if(allergyIntolerance.getCode() != null) {
+            var originalTextFromCode = observationStatement.getCode().getOriginalText();
+            if(!StringUtils.isEmpty(originalTextFromCode)) {
+                allergyIntolerance.getCode().setText(originalTextFromCode);
             }
         }
     }
