@@ -93,6 +93,81 @@ public class MedicationRequestMapperTest {
             });
     }
 
+    @Test
+    public void When_MappingMedicationRequestWithAvailabilityTimeInMedicationStatement_Expect_UseThatAvailabilityTime() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract_AvailabilityTimeSetInMedicationStatement.xml");
+        var expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20100116");
+
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
+        when(medicationMapper.createMedication(any())).thenReturn(new Medication());
+
+        var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
+                PRACTISE_CODE);
+
+        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+
+        var medicationRequest = resources
+                .stream()
+                .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
+                .map(MedicationRequest.class::cast)
+                .findFirst()
+                .get();
+
+        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAvailabilityTime.getValue());
+    }
+
+    @Test
+    public void When_MappingMedicationRequestWithAvailabilityTimeNotInMedicationStatement_Expect_UseEhrCompositionAvailabilityTime() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract_AvailabilityTimeNotInMedicationStatement.xml");
+        var expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20100117");
+
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
+        when(medicationMapper.createMedication(any())).thenReturn(new Medication());
+
+        var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
+                PRACTISE_CODE);
+
+        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+
+        var medicationRequest = resources
+                .stream()
+                .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
+                .map(MedicationRequest.class::cast)
+                .findFirst()
+                .get();
+
+        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAvailabilityTime.getValue());
+    }
+
+    @Test
+    public void When_MappingMedicationRequestWithAvailabilityTimeOnlyInEhrExtract_Expect_UseEhrExtractAvailabilityTime() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract_AvailabilityTimeNotInMedicationStatementOrEhrComposition.xml");
+        var expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20100118");
+
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
+        when(medicationMapper.createMedication(any())).thenReturn(new Medication());
+
+        var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
+                PRACTISE_CODE);
+
+        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+
+        var medicationRequest = resources
+                .stream()
+                .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
+                .map(MedicationRequest.class::cast)
+                .findFirst()
+                .get();
+
+        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAvailabilityTime.getValue());
+    }
+
     @SneakyThrows
     private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);

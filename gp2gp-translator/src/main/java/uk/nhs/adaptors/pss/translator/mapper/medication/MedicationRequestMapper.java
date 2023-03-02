@@ -21,6 +21,7 @@ import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -58,7 +59,8 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
         var context = encounters.stream()
             .filter(encounter1 -> encounter1.getId().equals(ehrComposition.getId().getRoot())).findFirst();
-        var authoredOn = extractAuthoredOn(ehrComposition,
+        var authoredOn = getAuthoredOn(medicationStatement.getAvailabilityTime(), ehrExtract, ehrComposition);
+        var dateAsserted = extractDateAsserted(ehrComposition,
             DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue()));
         var requester = extractRequester(ehrComposition, medicationStatement);
         var recorder = extractRecorder(ehrComposition, medicationStatement);
@@ -70,7 +72,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         List<MedicationRequest> medicationRequestsPlan = mapMedicationRequestsPlan(ehrExtract, medicationStatement, practiseCode);
 
         List<MedicationStatement> medicationStatements = mapMedicationStatements(ehrExtract, medicationStatement, context, subject,
-            authoredOn, practiseCode);
+            authoredOn, practiseCode, dateAsserted);
 
         return Stream.of(medications, medicationRequestsOrder, medicationRequestsPlan, medicationStatements)
             .flatMap(List::stream)
@@ -93,6 +95,29 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         }
 
         return resource;
+    }
+
+    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UK04EhrExtract ehrExtract,
+                                       RCMRMT030101UK04EhrComposition ehrComposition) {
+        if (availabilityTime != null && availabilityTime.hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
+        } else {
+            if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
+                return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
+            } else if (ehrExtract.getAvailabilityTime() != null && ehrExtract.getAvailabilityTime().hasValue()) {
+                return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
+            }
+        }
+
+        return null;
+    }
+
+    private DateTimeType extractDateAsserted(RCMRMT030101UK04EhrComposition ehrComposition, DateTimeType ehrExtractAvailabilityTime) {
+        if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
+        } else {
+            return ehrExtractAvailabilityTime;
+        }
     }
 
     private List<Medication> mapMedications(RCMRMT030101UK04MedicationStatement medicationStatement) {
@@ -129,7 +154,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
     private List<MedicationStatement> mapMedicationStatements(RCMRMT030101UK04EhrExtract ehrExtract,
         RCMRMT030101UK04MedicationStatement medicationStatement, Optional<Encounter> context, Patient subject,
-        DateTimeType authoredOn, String practiseCode) {
+        DateTimeType authoredOn, String practiseCode, DateTimeType dateAsserted) {
         return medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
@@ -140,17 +165,9 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             .peek(medicationStatement1 -> {
                 context.ifPresent(context1 -> medicationStatement1.setContext(new Reference(context1)));
                 medicationStatement1.setSubject(new Reference(subject));
-                medicationStatement1.setDateAssertedElement(authoredOn);
+                medicationStatement1.setDateAssertedElement(dateAsserted);
             })
             .toList();
-    }
-
-    private DateTimeType extractAuthoredOn(RCMRMT030101UK04EhrComposition ehrComposition, DateTimeType ehrExtractAvailabilityTime) {
-        if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
-            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
-        } else {
-            return ehrExtractAvailabilityTime;
-        }
     }
 
     private Optional<Reference> extractRequester(RCMRMT030101UK04EhrComposition ehrComposition,

@@ -2684,7 +2684,7 @@
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
         },
-        "authoredOn": "2010-02-10T08:31:19+00:00",
+        "authoredOn": "2010-02-10",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -2826,7 +2826,7 @@
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
         },
-        "authoredOn": "2010-03-23T15:02:45+00:00",
+        "authoredOn": "2010-03-23",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -2963,7 +2963,7 @@
         "subject": {
           "reference": "Patient/0b79990f-7c98-4898-9caa-d3d6cd91cd6f"
         },
-        "authoredOn": "2010-03-24T08:51:13+00:00",
+        "authoredOn": "2010-03-24",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"

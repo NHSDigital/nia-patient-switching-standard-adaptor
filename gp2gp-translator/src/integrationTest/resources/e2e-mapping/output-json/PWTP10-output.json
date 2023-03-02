@@ -2761,7 +2761,7 @@
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
         },
-        "authoredOn": "2010-02-06T12:41:29+00:00",
+        "authoredOn": "2010-02-06",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -2911,7 +2911,7 @@
         "subject": {
           "reference": "Patient/e1f3207f-d9da-44bb-9a75-58ece36733ee"
         },
-        "authoredOn": "2010-02-06T12:41:29+00:00",
+        "authoredOn": "2010-02-06",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"

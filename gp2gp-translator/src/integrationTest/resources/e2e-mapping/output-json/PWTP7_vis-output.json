@@ -2798,7 +2798,7 @@
         "subject": {
           "reference": "Patient/09f5d512-bcd0-48ec-9bfe-af303053c9b3"
         },
-        "authoredOn": "2010-03-24T08:43:11+00:00",
+        "authoredOn": "2010-03-24",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
