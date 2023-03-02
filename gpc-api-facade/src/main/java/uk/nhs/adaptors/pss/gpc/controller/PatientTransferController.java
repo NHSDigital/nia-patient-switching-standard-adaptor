@@ -32,7 +32,7 @@ import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,10 +86,10 @@ public class PatientTransferController {
     )
     public ResponseEntity<String> migratePatientStructuredRecord(
         @RequestBody @PatientTransferRequest Parameters body,
-        @RequestHeader(TO_ASID) @NotNull String toAsid,
-        @RequestHeader(FROM_ASID) @NotNull String fromAsid,
-        @RequestHeader(TO_ODS) @NotNull String toOds,
-        @RequestHeader(FROM_ODS) @NotNull String fromOds) {
+        @RequestHeader(TO_ASID) @NotBlank String toAsid,
+        @RequestHeader(FROM_ASID) @NotBlank String fromAsid,
+        @RequestHeader(TO_ODS) @NotBlank String toOds,
+        @RequestHeader(FROM_ODS) @NotBlank String fromOds) {
         LOGGER.info("Received patient transfer request");
         Map<String, String> headers = Map.of(
             TO_ASID, toAsid,
