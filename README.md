@@ -214,7 +214,7 @@ messages with an unrecognised conversation ID on a dead letter queue.
 
 - `PS_DAISY_CHAINING_ACTIVE`: set to `true` to enable daisy-chaining - default = `false`
 - `GP2GP_AMQP_BROKERS`: the location of the GP2GP Adaptors inbound queue. This should be set to the url of a single JMS broker 
-- (the PS Adaptor does not support concurrent GP2GP Adaptor brokers) - default = `amqp://localhost:5672`
+(the PS Adaptor does not support concurrent GP2GP Adaptor brokers) - default = `amqp://localhost:5672`
 
 **Optional environment variables:**
 
