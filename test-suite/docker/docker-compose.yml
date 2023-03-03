@@ -11,7 +11,7 @@ services:
   ############### MHS specific   ###################
 
   inbound:
-    image: nhsdev/nia-mhs-inbound:1.2.2
+    image: ${MHS_INBOUND_VERSION}
     networks:
       - nia-ps
     ports:
@@ -38,9 +38,10 @@ services:
       - MHS_INBOUND_USE_SSL
       - TCP_PORTS=${MHS_INBOUND_PORT}
       - SERVICE_PORTS=${MHS_INBOUND_SERVICE_PORTS}
+      - SUPPORTED_FILE_TYPES
 
   outbound:
-    image: nhsdev/nia-mhs-outbound:1.2.2
+    image: ${MHS_OUTBOUND_VERSION}
     networks:
       - nia-ps
     ports:
@@ -67,6 +68,7 @@ services:
       - MHS_OUTBOUND_ROUTING_LOOKUP_METHOD
       - MHS_SDS_API_URL
       - MHS_SDS_API_KEY
+      - SUPPORTED_FILE_TYPES
 
   route:
     image: nhsdev/nia-mhs-route:1.2.2
