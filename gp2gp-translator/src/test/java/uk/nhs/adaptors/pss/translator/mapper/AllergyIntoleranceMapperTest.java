@@ -49,7 +49,7 @@ public class AllergyIntoleranceMapperTest {
         + " Resolved Type: Allergy Criticality: Low Risk Last Occurred: 1978-12-31 Example note text";
     private static final int THREE = 3;
     
-    private static final String ORIGINAL_TEXT_IN_CODE = "OriginalText from Code Test";
+    private static final String ORIGINAL_TEXT_IN_CODE = "OriginalText from Code";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -217,9 +217,6 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_3);
         assertThat(allergyIntolerance.getNote().size()).isOne();
     }
-    
-    
-    
 
     private void assertFixedValues(AllergyIntolerance allergyIntolerance) {
         assertThat(allergyIntolerance.getId()).isEqualTo(COMPOUND_STATEMENT_ROOT_ID);
