@@ -170,10 +170,11 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         return null;
     }
 
-    private void buildAllergyIntoleranceText(RCMRMT030101UK04ObservationStatement observationStatement, AllergyIntolerance allergyIntolerance) {
-        if(allergyIntolerance.getCode() != null) {
+    private void buildAllergyIntoleranceText(RCMRMT030101UK04ObservationStatement observationStatement,
+        AllergyIntolerance allergyIntolerance) {
+        if (allergyIntolerance.getCode() != null) {
             var originalTextFromCode = observationStatement.getCode().getOriginalText();
-            if(!StringUtils.isEmpty(originalTextFromCode)) {
+            if (!StringUtils.isEmpty(originalTextFromCode)) {
                 allergyIntolerance.getCode().setText(originalTextFromCode);
             }
         }

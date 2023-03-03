@@ -48,7 +48,7 @@ public class AllergyIntoleranceMapperTest {
     private static final String NOTE_TEXT = "Reason Ended: Patient reports no subsequent recurrence on same medication Status:"
         + " Resolved Type: Allergy Criticality: Low Risk Last Occurred: 1978-12-31 Example note text";
     private static final int THREE = 3;
-    
+
     private static final String ORIGINAL_TEXT_IN_CODE = "OriginalText from Code";
 
     @Mock
@@ -116,14 +116,14 @@ public class AllergyIntoleranceMapperTest {
             .thenReturn(secondaryCodeableConcept());
 
         var ehrExtract = unmarshallEhrExtract("allergy-structure-with-original-text-in-code.xml");
-        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(), 
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
         assertThat(allergyIntolerances.size()).isEqualTo(1);
         var allergyIntolerance = allergyIntolerances.get(0);
 
         assertFixedValues(allergyIntolerance);
-        
+
         assertThat(allergyIntolerance.getCode().getText()).isEqualTo(ORIGINAL_TEXT_IN_CODE);
     }
 
