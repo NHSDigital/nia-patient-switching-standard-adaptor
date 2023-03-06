@@ -129,6 +129,16 @@ public class DocumentReferenceTest {
         assertDocumentReferenceMappedFromNestedNarrativeStatement(documentReference);
     }
 
+    @Test
+    public void mapNarrativeStatementToDocumentReferenceWithNullFlavors() {
+        var ehrExtract = unmarshallEhrExtract("narrative_statement_null_flavors.xml");
+        List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
+            getEncounterList(), AUTHOR_ORG, createAttachmentList());
+        var documentReference = documentReferences.get(0);
+
+        assertThat(documentReference.getCreatedElement().asStringValue()).isNull();
+    }
+
     private void assertDocumentReferenceMappedFromNestedNarrativeStatement(DocumentReference documentReference) {
         assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
         assertThat(documentReference.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
