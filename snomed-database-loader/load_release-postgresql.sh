@@ -52,7 +52,7 @@ fileTypes=(Snapshot)
 unzip -j ${releasePath} "*Snapshot*" -d ${localExtract}
 
 #Determine the release date from the filenames
-if [ $isMonolith ]; then
+if [[ $isMonolith == true ]]; then
 	releaseDateMonoGb=`ls -1 ${localExtract}/*MONOSnapshot*.txt | head -1 | egrep -o '[0-9]{8}'`
 else
 	releaseDateINT=`ls -1 ${localExtract}/*INT*.txt | head -1 | egrep -o '[0-9]{8}'`
@@ -80,7 +80,7 @@ echo "#!/bin/bash" >> ${generatedLoadScript}
 echo "# Generated Loader Script" >  ${generatedLoadScript}
 chmod +x ${generatedLoadScript}
 
-if [ $isMonolith ]; then
+if [[ $isMonolith == true ]]; then
 	addLoadScript sct2_Description_TYPE-en_GB_DATE.txt MONOSnapshot description $releaseDateMonoGb
 	addLoadScript der2_cRefset_LanguageTYPE-en_GB_DATE.txt MONOSnapshot langrefset $releaseDateMonoGb
 else
