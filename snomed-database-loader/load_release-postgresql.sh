@@ -5,6 +5,7 @@ basedir="$(pwd)"
 dbName=patient_switching
 releasePath=$1
 snomedCtSchema=snomedct
+isMonolith=false
 
 if [ -z ${releasePath} ]
 then
@@ -36,6 +37,10 @@ then
 	exit -1
 fi
 
+if [[ $1 == *uk_sct2mo* ]]; then
+	isMonolith=true
+fi
+
 databaseUri="postgresql://${PS_DB_OWNER_NAME}:${POSTGRES_PASSWORD}@${PS_DB_HOST}:${PS_DB_PORT}/${dbName}"
 
 #Unzip the files here, junking the structure
@@ -47,8 +52,12 @@ fileTypes=(Snapshot)
 unzip -j ${releasePath} "*Snapshot*" -d ${localExtract}
 
 #Determine the release date from the filenames
-releaseDateINT=`ls -1 ${localExtract}/*INT*.txt | head -1 | egrep -o '[0-9]{8}'`
-releaseDateUK=`ls -1 ${localExtract}/*UKEDSnapshot*.txt | head -1 | egrep -o '[0-9]{8}'`
+if [[ $isMonolith == true ]]; then
+	releaseDateMonoGb=`ls -1 ${localExtract}/*MONOSnapshot*.txt | head -1 | egrep -o '[0-9]{8}'`
+else
+	releaseDateINT=`ls -1 ${localExtract}/*INT*.txt | head -1 | egrep -o '[0-9]{8}'`
+	releaseDateUK=`ls -1 ${localExtract}/*UKEDSnapshot*.txt | head -1 | egrep -o '[0-9]{8}'`
+fi
 
 function addLoadScript() {
 	fileName=${1/TYPE/${2}}
@@ -66,14 +75,19 @@ function addLoadScript() {
 	echo -e "psql ${databaseUri} -c \"\\\copy ${snomedCtSchema}.${tableName} FROM '${basedir}/${localExtract}/${fileName}' DELIMITER E'	' CSV HEADER QUOTE E'\b'\"\n" >> ${generatedLoadScript}
 }
 
-echo -e "\nGenerating loading script for releaseDateINT"
+echo -e "\nGenerating loading script"
 echo "#!/bin/bash" >> ${generatedLoadScript}
 echo "# Generated Loader Script" >  ${generatedLoadScript}
 chmod +x ${generatedLoadScript}
 
-addLoadScript sct2_Description_TYPE-en_GB_DATE.txt UKEDSnapshot description $releaseDateUK
-addLoadScript sct2_Description_TYPE-en_INT_DATE.txt Snapshot description $releaseDateINT
-addLoadScript der2_cRefset_LanguageTYPE-en_GB_DATE.txt UKEDSnapshot langrefset $releaseDateUK
+if [[ $isMonolith == true ]]; then
+	addLoadScript sct2_Description_TYPE-en_GB_DATE.txt MONOSnapshot description $releaseDateMonoGb
+	addLoadScript der2_cRefset_LanguageTYPE-en_GB_DATE.txt MONOSnapshot langrefset $releaseDateMonoGb
+else
+	addLoadScript sct2_Description_TYPE-en_GB_DATE.txt UKEDSnapshot description $releaseDateUK
+	addLoadScript sct2_Description_TYPE-en_INT_DATE.txt Snapshot description $releaseDateINT
+	addLoadScript der2_cRefset_LanguageTYPE-en_GB_DATE.txt UKEDSnapshot langrefset $releaseDateUK
+fi
 
 #create schema, tables, indexes
 psql ${databaseUri} << EOF
