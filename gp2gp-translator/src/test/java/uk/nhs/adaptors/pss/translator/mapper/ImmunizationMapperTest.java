@@ -169,7 +169,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
         assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
         assertThat(immunization.getStatus()).isEqualTo(Immunization.ImmunizationStatus.COMPLETED);
-        assertThat(immunization.getPrimarySource()).isEqualTo(false);
+        assertThat(immunization.getPrimarySource()).isEqualTo(true);
         assertThat(immunization.getDateElement().getValue()).isEqualTo(
             DateFormatUtil.parseToDateTimeType("20100118114100000").getValue());
         assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
@@ -186,7 +186,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
         assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
         assertThat(immunization.getStatus()).isEqualTo(Immunization.ImmunizationStatus.COMPLETED);
-        assertThat(immunization.getPrimarySource()).isEqualTo(false);
+        assertThat(immunization.getPrimarySource()).isEqualTo(true);
         assertThat(immunization.getDate()).isNull();
         assertThat(immunization.getNote()).isEmpty();
         assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
