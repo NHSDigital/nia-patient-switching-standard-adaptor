@@ -4,11 +4,15 @@ import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtra
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.checkerframework.checker.units.qual.C;
 import org.hl7.fhir.dstu3.model.Annotation;
+import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Immunization;
@@ -85,8 +89,15 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
             .setPrimarySource(false)
             .setPatient(new Reference(patientResource))
             .setId(id);
+
         buildNote(observationStatement).forEach(immunization::addNote);
         setDateFields(immunization, observationStatement);
+
+        // we never receive a vaccine code but we have to include a unk code to make it FHIR compliant
+        var UNKCoding = new Coding().setCode("UNK").setSystem("http://hl7.org/fhir/v3/NullFlavor");
+        var codingList = new ArrayList<Coding>();
+        codingList.add(UNKCoding);
+        immunization.setVaccineCode(new CodeableConcept().setCoding(codingList));
 
         return immunization;
     }

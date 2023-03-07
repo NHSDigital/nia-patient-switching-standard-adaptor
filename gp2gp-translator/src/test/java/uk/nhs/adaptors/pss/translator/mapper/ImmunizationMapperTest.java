@@ -138,6 +138,16 @@ public class ImmunizationMapperTest {
         assertImmunizationWithHighEffectiveTime(immunization);
     }
 
+    @Test
+    public void mapObservationToImmunizationWithUNKVaccineCode() {
+        var ehrExtract = unmarshallEhrExtract("immunization_with_only_high_effective_time.xml");
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(),
+            PRACTISE_CODE);
+
+        var immunization = (Immunization) immunizationList.get(0);
+        assertImmunizationWithDefaultVaccineCode(immunization);
+    }
+
     private void assertImmunizationWithHighAndLowEffectiveTime(Immunization immunization) {
         assertThat(immunization.getDateElement().getValue()).isEqualTo(
             DateFormatUtil.parseToDateTimeType("20110118114100000").getValue());
@@ -155,6 +165,12 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getDate()).isNull();
         assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
         assertThat(immunization.getNote().get(1).getText()).isEqualTo("End Date: 2010-01-18T11:41:00+00:00");
+    }
+
+    private void assertImmunizationWithDefaultVaccineCode(Immunization immunization) {
+        assertThat(immunization.getVaccineCode()).isNotNull();
+        assertThat(immunization.getVaccineCode().getCoding().get(0).getCode()).isEqualTo("UNK");
+        assertThat(immunization.getVaccineCode().getCoding().get(0).getSystem()).isEqualTo("http://hl7.org/fhir/v3/NullFlavor");
     }
 
     private void assertImmunizationWithHighEffectiveTimeCenter(Immunization immunization) {
