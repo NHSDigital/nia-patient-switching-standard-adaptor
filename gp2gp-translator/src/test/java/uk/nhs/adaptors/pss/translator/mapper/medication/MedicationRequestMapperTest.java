@@ -144,6 +144,58 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
+    public void When_MappingMedicationRequestWithAvailabilityTimeInEhrCompositionAuthor_Expect_UseThatAvailabilityTime() {
+        final int expectedResourcesMapped = 6;
+        final DateTimeType expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20220101010101");
+
+        var ehrExtract = unmarshallEhrExtract("ehrExtract_HasAuthorTime.xml");
+
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
+        when(medicationMapper.createMedication(any())).thenReturn(new Medication());
+
+        var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
+                PRACTISE_CODE);
+
+        assertThat(resources.size()).isEqualTo(expectedResourcesMapped);
+
+        resources
+                .stream()
+                .filter(resource -> ResourceType.MedicationStatement.equals(resource.getResourceType()))
+                .map(MedicationStatement.class::cast)
+                .forEach(medicationStatement -> {
+                    assertThat(medicationStatement.getDateAssertedElement().getValue()).isEqualTo(expectedAvailabilityTime.getValue());
+                });
+    }
+
+    @Test
+    public void When_MappingMedicationRequestWithNoEhrCompositionAuthorTime_Expect_UseEhrExtractAvailabilityTime() {
+        final int expectedResourcesMapped = 6;
+        final DateTimeType expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20100115");
+
+        var ehrExtract = unmarshallEhrExtract("ehrExtract_HasNoAuthorTime.xml");
+
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
+        when(medicationMapper.createMedication(any())).thenReturn(new Medication());
+
+        var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
+                PRACTISE_CODE);
+
+        assertThat(resources.size()).isEqualTo(expectedResourcesMapped);
+
+        resources
+                .stream()
+                .filter(resource -> ResourceType.MedicationStatement.equals(resource.getResourceType()))
+                .map(MedicationStatement.class::cast)
+                .forEach(medicationStatement -> {
+                    assertThat(medicationStatement.getDateAssertedElement().getValue()).isEqualTo(expectedAvailabilityTime.getValue());
+                });
+    }
+
+    @Test
     public void When_MappingMedicationRequestWithAvailabilityTimeOnlyInEhrExtract_Expect_UseEhrExtractAvailabilityTime() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_AvailabilityTimeNotInMedicationStatementOrEhrComposition.xml");
         var expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20100118");
