@@ -148,7 +148,7 @@ public class MedicationRequestMapperTest {
         final int expectedResourcesMapped = 6;
         final DateTimeType expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20220101010101");
 
-        var ehrExtract = unmarshallEhrExtract("ehrExtract_HasAuthorTime.xml");
+        var ehrExtract = unmarshallEhrExtract("ehrExtract_hasAuthorTime.xml");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
         when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
@@ -174,7 +174,7 @@ public class MedicationRequestMapperTest {
         final int expectedResourcesMapped = 6;
         final DateTimeType expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20100115");
 
-        var ehrExtract = unmarshallEhrExtract("ehrExtract_HasNoAuthorTime.xml");
+        var ehrExtract = unmarshallEhrExtract("ehrExtract_hasNoAuthorTime.xml");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
         when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
