@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.DateTimeType;
@@ -27,6 +28,7 @@ import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,6 +138,8 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 allergyIntolerance.setCode(codeableConceptFromCode);
             }
         }
+
+        buildAllergyIntoleranceText(observationStatement, allergyIntolerance);
     }
 
     private void buildOnset(RCMRMT030101UK04CompoundStatement compoundStatement, AllergyIntolerance allergyIntolerance) {
@@ -164,6 +168,16 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         }
 
         return null;
+    }
+
+    private void buildAllergyIntoleranceText(RCMRMT030101UK04ObservationStatement observationStatement,
+        AllergyIntolerance allergyIntolerance) {
+        if (allergyIntolerance.getCode() != null) {
+            var originalTextFromCode = observationStatement.getCode().getOriginalText();
+            if (!StringUtils.isEmpty(originalTextFromCode)) {
+                allergyIntolerance.getCode().setText(originalTextFromCode);
+            }
+        }
     }
 
     private void buildNote(AllergyIntolerance allergyIntolerance, RCMRMT030101UK04CompoundStatement compoundStatement) {
