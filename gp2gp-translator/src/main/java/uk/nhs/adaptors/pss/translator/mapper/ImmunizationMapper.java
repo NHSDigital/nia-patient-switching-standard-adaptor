@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.checkerframework.checker.units.qual.C;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
@@ -30,8 +29,8 @@ import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
@@ -94,9 +93,9 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         setDateFields(immunization, observationStatement);
 
         // we never receive a vaccine code but we have to include a unk code to make it FHIR compliant
-        var UNKCoding = new Coding().setCode("UNK").setSystem("http://hl7.org/fhir/v3/NullFlavor");
+        var unkCoding = new Coding().setCode("UNK").setSystem("http://hl7.org/fhir/v3/NullFlavor");
         var codingList = new ArrayList<Coding>();
-        codingList.add(UNKCoding);
+        codingList.add(unkCoding);
         immunization.setVaccineCode(new CodeableConcept().setCoding(codingList));
 
         return immunization;
