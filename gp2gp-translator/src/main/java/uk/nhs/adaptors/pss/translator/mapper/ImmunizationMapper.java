@@ -82,7 +82,7 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
             .addPractitioner(new ImmunizationPractitionerComponent(practitioner))
             .setStatus(ImmunizationStatus.COMPLETED)
             .setNotGiven(false)
-            .setPrimarySource(false)
+            .setPrimarySource(true)
             .setPatient(new Reference(patientResource))
             .setId(id);
         buildNote(observationStatement).forEach(immunization::addNote);
