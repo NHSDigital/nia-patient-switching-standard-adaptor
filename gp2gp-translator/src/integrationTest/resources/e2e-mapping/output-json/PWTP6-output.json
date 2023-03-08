@@ -7058,7 +7058,7 @@
           "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
         },
         "date": "2010-01-18T11:41:00+00:00",
-        "primarySource": false,
+        "primarySource": true,
         "practitioner": [
           {
             "actor": {
@@ -7138,7 +7138,7 @@
           "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
         },
         "date": "2010-01-18T11:41:00+00:00",
-        "primarySource": false,
+        "primarySource": true,
         "practitioner": [
           {
             "actor": {
@@ -7222,7 +7222,7 @@
           "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
         },
         "date": "2010-01-18T11:41:00+00:00",
-        "primarySource": false,
+        "primarySource": true,
         "practitioner": [
           {
             "actor": {
@@ -7302,7 +7302,7 @@
           "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
         },
         "date": "2010-01-18T11:41:00+00:00",
-        "primarySource": false,
+        "primarySource": true,
         "practitioner": [
           {
             "actor": {
@@ -7386,7 +7386,7 @@
           "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
         },
         "date": "2010-01-18T11:41:00+00:00",
-        "primarySource": false,
+        "primarySource": true,
         "practitioner": [
           {
             "actor": {
@@ -7470,7 +7470,7 @@
           "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
         },
         "date": "2010-01-18T11:41:00+00:00",
-        "primarySource": false,
+        "primarySource": true,
         "practitioner": [
           {
             "actor": {
