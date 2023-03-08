@@ -29164,7 +29164,7 @@
           "reference": "Encounter/CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF"
         },
         "date": "2010-01-15",
-        "primarySource": false,
+        "primarySource": true,
         "practitioner": [
           {
             "actor": {
@@ -29213,7 +29213,7 @@
           "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
         },
         "date": "2010-01-18T11:41:00+00:00",
-        "primarySource": false,
+        "primarySource": true,
         "practitioner": [
           {
             "actor": {
@@ -29270,7 +29270,7 @@
           "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
         },
         "date": "2010-01-18T11:41:00+00:00",
-        "primarySource": false,
+        "primarySource": true,
         "practitioner": [
           {
             "actor": {
