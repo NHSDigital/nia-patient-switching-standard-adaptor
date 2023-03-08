@@ -203,7 +203,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                         referencedObservationStatement.ifPresent(
                                 observationStatement ->
                                     condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
-                                );
+                        );
 
                         var statementRefs = linkSet.getComponent()
                                 .stream()
