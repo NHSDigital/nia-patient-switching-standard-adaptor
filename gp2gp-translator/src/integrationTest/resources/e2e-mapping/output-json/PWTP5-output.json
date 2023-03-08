@@ -3686,6 +3686,14 @@
         ],
         "status": "completed",
         "notGiven": false,
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/NullFlavor",
+              "code": "UNK"
+            }
+          ]
+        },
         "patient": {
           "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
         },
