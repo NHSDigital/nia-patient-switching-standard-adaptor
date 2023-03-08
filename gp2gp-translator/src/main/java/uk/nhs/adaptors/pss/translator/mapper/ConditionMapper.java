@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.partitioningBy;
 import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIVE;
 
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.getMedicationStatements;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllLinkSets;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -13,9 +14,12 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -38,12 +42,14 @@ import org.hl7.v3.CD;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
 import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04Component6;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
+import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.RCMRMT030101UK04StatementRef;
@@ -51,10 +57,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class ConditionMapper extends AbstractMapper<Condition> {
     private static final String META_PROFILE = "ProblemHeader-Condition-1";
     private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
@@ -74,6 +82,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private static final String MINOR_CODE_NAME = "minor";
     private static final String HIERARCHY_TYPE_PARENT = "parent";
     private static final String HIERARCHY_TYPE_CHILD = "child";
+    private static final String MEDICATION_MOOD_ORDER = "ORD";
+    private static final String MEDICATION_MOOD_INTENTION = "INT";
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
@@ -191,16 +201,16 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                         ).forEach(condition::addNote);
 
                         referencedObservationStatement.ifPresent(
-                                observationStatement -> {
-                                    condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
-                                });
+                                observationStatement ->
+                                    condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
+                                );
 
                         var statementRefs = linkSet.getComponent()
                                 .stream()
                                 .map(RCMRMT030101UK04Component6::getStatementRef)
                                 .toList();
 
-                        buildRelatedClinicalContent(bundle, statementRefs).forEach(condition::addExtension);
+                        buildRelatedClinicalContent(bundle, statementRefs, ehrExtract).forEach(condition::addExtension);
                     }));
     }
 
@@ -317,7 +327,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private List<Extension> buildRelatedClinicalContent(Bundle bundle,
-        List<RCMRMT030101UK04StatementRef> relatedClinicalStatementReferences) {
+        List<RCMRMT030101UK04StatementRef> relatedClinicalStatementReferences, RCMRMT030101UK04EhrExtract ehrExtract) {
 
         // Filter for bundle entries where entry ID exists in both streams
         var bundleIds = bundle.getEntry()
@@ -326,8 +336,10 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
         var referenceIds = relatedClinicalStatementReferences
             .stream()
-            .filter(entry -> Arrays.stream(bundleIds).anyMatch(entry.getId().getRoot()::equals))
-            .map(entry -> entry.getId().getRoot()).toList();
+            .filter(entry -> Arrays.asList(bundleIds).contains(entry.getId().getRoot()))
+            .map(entry -> entry.getId().getRoot()).collect(Collectors.toList());
+
+        referenceIds.addAll(getMedicationRequestIds(ehrExtract, relatedClinicalStatementReferences));
 
         var clinicalReferences = bundle.getEntry()
             .stream()
@@ -346,6 +358,58 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             }).toList();
 
         return conditionExtensions;
+    }
+
+    private List<String> getMedicationRequestIds(RCMRMT030101UK04EhrExtract ehrExtract, List<RCMRMT030101UK04StatementRef> statementRefs) {
+        var medicationStatements = getMedicationStatements(ehrExtract);
+        Map<String, String> medicationStatementIdMapping = getMedicationStatementIdMapping(medicationStatements);
+        List<String> medicationRequestIds = new ArrayList<>();
+
+        statementRefs.forEach(statementRef -> {
+            String referenceId = statementRef.getId().getRoot();
+
+            if (medicationStatementIdMapping.containsKey(referenceId)) {
+                medicationRequestIds.add(medicationStatementIdMapping.get(referenceId));
+            }
+        });
+
+        return medicationRequestIds;
+    }
+
+    private Map<String, String> getMedicationStatementIdMapping(List<RCMRMT030101UK04MedicationStatement> medicationStatements) {
+
+        Map<String, String> statementToRequestMap = new HashMap<>();
+
+        medicationStatements.forEach(medicationStatement -> {
+            var medicationStatementId = medicationStatement.getId().getRoot();
+            var moodCode = medicationStatement.getMoodCode().get(0);
+
+            switch (moodCode) {
+                case MEDICATION_MOOD_ORDER -> {
+                    var medicationRequestOrderId = medicationStatement.getComponent().stream()
+                        .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
+                        .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
+                        .map(prescribe -> prescribe.getId().getRoot())
+                        .findFirst();
+
+                    medicationRequestOrderId.ifPresent(orderId -> statementToRequestMap.put(medicationStatementId, orderId));
+                }
+                case MEDICATION_MOOD_INTENTION -> {
+                    var medicationRequestPlanId = medicationStatement.getComponent().stream()
+                        .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
+                        .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+                        .map(authorise -> authorise.getId().getRoot())
+                        .findFirst();
+
+                    medicationRequestPlanId.ifPresent(planId -> statementToRequestMap.put(medicationStatementId, planId));
+                }
+                default ->
+                    LOGGER.debug("Unexpected mood code [{}] in medication statement [{}] when mapping related content of condition",
+                        moodCode, medicationStatement.getId().getRoot());
+            }
+        });
+
+        return statementToRequestMap;
     }
 
     private List<Annotation> buildNotes(Optional<RCMRMT030101UK04ObservationStatement> observationStatement,
