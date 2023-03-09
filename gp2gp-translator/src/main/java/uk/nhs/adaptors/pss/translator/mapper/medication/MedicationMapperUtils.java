@@ -213,6 +213,20 @@ public class MedicationMapperUtils {
             .anyMatch(supplyAuthoriseId::equals);
     }
 
+    public static List<RCMRMT030101UK04MedicationStatement> getMedicationStatements(RCMRMT030101UK04EhrExtract ehrExtract) {
+        return ehrExtract.getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(List::stream)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .map(RCMRMT030101UK04EhrComposition::getComponent)
+            .flatMap(List::stream)
+            .flatMap(MedicationMapperUtils::extractAllMedications)
+            .filter(Objects::nonNull)
+            .toList();
+    }
+
     private static Stream<RCMRMT030101UK04MedicationStatement> extractNestedMedications(RCMRMT030101UK04Component4 component4) {
         return component4.hasCompoundStatement()
             ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),

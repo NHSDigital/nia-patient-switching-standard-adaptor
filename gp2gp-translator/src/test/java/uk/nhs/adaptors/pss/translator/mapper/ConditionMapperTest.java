@@ -1,5 +1,13 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.util.ResourceUtils.getFile;
+
+import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -9,26 +17,28 @@ import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Extension;
+import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.v3.II;
+import org.hl7.v3.RCMRMT030101UK04Authorise;
+import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UK04Prescribe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.util.ResourceUtils.getFile;
-
-import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
-
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class ConditionMapperTest {
@@ -48,9 +58,14 @@ public class ConditionMapperTest {
         + "-ProblemSignificance-1";
     private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-RelatedClinicalContent-1";
+    private static final String MEDICATION_STATEMENT_PLAN_ID = "PLAN_REF_ID";
+    private static final String AUTHORISE_ID = "AUTHORISE_ID";
+    private static final String MEDICATION_STATEMENT_ORDER_ID = "ORDER_REF_ID";
+    private static final String PRESCRIBE_ID = "PRESCRIBE_ID";
     public static final String NAMED_STATEMENT_REF_ID = "NAMED_STATEMENT_REF_ID";
     public static final String STATEMENT_REF_ID = "STATEMENT_REF_ID";
     public static final String STATEMENT_REF_ID_1 = "STATEMENT_REF_ID_1";
+    public static final int EXPECTED_NUMBER_OF_EXTENSIONS = 4;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -167,6 +182,94 @@ public class ConditionMapperTest {
 
         assertThat(conditions.get(0).getAbatementDateTimeType()).isNull();
         assertThat(conditions.get(0).getAssertedDateElement().getValue()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME.getValue());
+    }
+
+    @Test
+    public void testConditionWithMedicationRequestsIsMappedCorrectly() {
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_medication_refs.xml");
+
+        MockedStatic<MedicationMapperUtils> mockedMedicationMapperUtils = Mockito.mockStatic(MedicationMapperUtils.class);
+
+        // spotbugs doesn't allow try with resources due to de-referenced null check
+        try {
+            mockedMedicationMapperUtils.when(() -> MedicationMapperUtils.getMedicationStatements(ehrExtract))
+                .thenReturn(getMedicationStatements());
+
+            final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
+
+            assertThat(conditions.size()).isOne();
+
+            var bundle = new Bundle();
+            bundle.addEntry(new BundleEntryComponent().setResource(conditions.get(0)));
+            addMedicationRequestsToBundle(bundle);
+
+            conditionMapper.addReferences(bundle, conditions, ehrExtract);
+
+            var extensions = conditions.get(0).getExtension();
+
+            assertThat(extensions.size()).isEqualTo(EXPECTED_NUMBER_OF_EXTENSIONS);
+            var relatedClinicalContentExtensions = extensions.stream()
+                .filter(extension -> extension.getUrl().equals(RELATED_CLINICAL_CONTENT_URL))
+                .toList();
+
+            assertThat(relatedClinicalContentExtensions.size()).isEqualTo(2);
+
+            List<String> clinicalContextReferences = relatedClinicalContentExtensions.stream()
+                .map(Extension::getValue)
+                .map(Reference.class::cast)
+                .map(reference -> reference.getReferenceElement().getValue())
+                .toList();
+
+            assertThat(clinicalContextReferences.contains(AUTHORISE_ID)).isTrue();
+            assertThat(clinicalContextReferences.contains(PRESCRIBE_ID)).isTrue();
+        } finally {
+            mockedMedicationMapperUtils.close();
+        }
+
+    }
+
+    private void addMedicationRequestsToBundle(Bundle bundle) {
+        var planMedicationRequest = new MedicationRequest().setId(AUTHORISE_ID);
+        var orderMedicationRequest = new MedicationRequest().setId(PRESCRIBE_ID);
+
+        bundle.addEntry(new BundleEntryComponent().setResource(planMedicationRequest));
+        bundle.addEntry(new BundleEntryComponent().setResource(orderMedicationRequest));
+    }
+
+    private List<RCMRMT030101UK04MedicationStatement> getMedicationStatements() {
+
+        var planMedicationStatement = new RCMRMT030101UK04MedicationStatement();
+        planMedicationStatement.setId(createIdWithRoot(MEDICATION_STATEMENT_PLAN_ID));
+        planMedicationStatement.getMoodCode().add("INT");
+
+        var authorise = new RCMRMT030101UK04Authorise();
+        authorise.setId(createIdWithRoot(AUTHORISE_ID));
+
+        var planComponent = new RCMRMT030101UK04Component2();
+        planComponent.setEhrSupplyAuthorise(authorise);
+
+        planMedicationStatement.getComponent().add(planComponent);
+
+        var orderMedicationStatement = new RCMRMT030101UK04MedicationStatement();
+        orderMedicationStatement.setId(createIdWithRoot(MEDICATION_STATEMENT_ORDER_ID));
+        orderMedicationStatement.getMoodCode().add("ORD");
+
+        var prescribe = new RCMRMT030101UK04Prescribe();
+        prescribe.setId(createIdWithRoot(PRESCRIBE_ID));
+
+        var orderComponent = new RCMRMT030101UK04Component2();
+        orderComponent.setEhrSupplyPrescribe(prescribe);
+
+        orderMedicationStatement.getComponent().add(orderComponent);
+
+        return List.of(planMedicationStatement, orderMedicationStatement);
+    }
+
+    private II createIdWithRoot(String rootValue) {
+        var id = new II();
+        id.setRoot(rootValue);
+
+        return id;
     }
 
     private void assertActualProblemExtension(Condition condition) {
