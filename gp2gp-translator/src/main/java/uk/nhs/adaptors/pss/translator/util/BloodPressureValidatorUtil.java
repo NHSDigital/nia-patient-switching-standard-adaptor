@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.pss.translator.util;
 
+import static uk.nhs.adaptors.pss.translator.util.CodeUtil.extractSnomedCode;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -77,8 +79,16 @@ public class BloodPressureValidatorUtil {
             .toList();
 
         if (observationStatements.size() == 2) {
-            return BloodPressureValidatorUtil.validateBloodPressureTriple(compoundStatement.getCode().getCode(),
-                observationStatements.get(0).getCode().getCode(), observationStatements.get(1).getCode().getCode());
+            var compoundStatementCode = extractSnomedCode(compoundStatement.getCode());
+            var obsStatementCode1 = extractSnomedCode(observationStatements.get(0).getCode());
+            var obsStatementCode2 = extractSnomedCode(observationStatements.get(1).getCode());
+
+            if (compoundStatementCode.isEmpty() || obsStatementCode1.isEmpty() || obsStatementCode2.isEmpty()) {
+                return false;
+            }
+
+            return BloodPressureValidatorUtil.validateBloodPressureTriple(compoundStatementCode.get(), obsStatementCode1.get(),
+                obsStatementCode2.get());
         }
 
         return false;
