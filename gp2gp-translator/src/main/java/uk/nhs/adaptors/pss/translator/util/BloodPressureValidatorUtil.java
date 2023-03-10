@@ -1,10 +1,11 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import static uk.nhs.adaptors.pss.translator.util.CodeUtil.extractSnomedCode;
+import static uk.nhs.adaptors.pss.translator.util.CDUtil.extractSnomedCode;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
@@ -79,9 +80,9 @@ public class BloodPressureValidatorUtil {
             .toList();
 
         if (observationStatements.size() == 2) {
-            var compoundStatementCode = extractSnomedCode(compoundStatement.getCode());
-            var obsStatementCode1 = extractSnomedCode(observationStatements.get(0).getCode());
-            var obsStatementCode2 = extractSnomedCode(observationStatements.get(1).getCode());
+            Optional<String> compoundStatementCode = extractSnomedCode(compoundStatement.getCode());
+            Optional<String> obsStatementCode1 = extractSnomedCode(observationStatements.get(0).getCode());
+            Optional<String> obsStatementCode2 = extractSnomedCode(observationStatements.get(1).getCode());
 
             if (compoundStatementCode.isEmpty() || obsStatementCode1.isEmpty() || obsStatementCode2.isEmpty()) {
                 return false;

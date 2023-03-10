@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.hl7.v3.CD;
 
-public class CodeUtil {
+public class CDUtil {
 
     private final static String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";
 
