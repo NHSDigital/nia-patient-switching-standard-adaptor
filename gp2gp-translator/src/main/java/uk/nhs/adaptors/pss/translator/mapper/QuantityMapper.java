@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class QuantityMapper {
     private static final String UNIT_SYSTEM = "http://unitsofmeasure.org";
 
-    public Quantity mapQuantity(IVLPQ value) {
+    public Quantity mapValueQuantity(IVLPQ value) {
         Quantity quantity = new Quantity();
 
         if (value.getHigh() != null) {
@@ -29,10 +29,22 @@ public class QuantityMapper {
         return quantity;
     }
 
-    public Quantity mapQuantity(PQ value) {
+    public Quantity mapValueQuantity(PQ value) {
         Quantity quantity = new Quantity();
 
         setQuantityValueAndUnit(quantity, value.getValue(), value.getUnit(), value.getTranslation());
+
+        return quantity;
+    }
+
+    public Quantity mapReferenceRangeQuantity(IVLPQ value) {
+        Quantity quantity = new Quantity();
+
+        if (value.getHigh() != null) {
+            setQuantityWithNoComparator(quantity, value.getHigh().getValue());
+        } else if (value.getLow() != null) {
+            setQuantityWithNoComparator(quantity, value.getLow().getValue());
+        }
 
         return quantity;
     }
@@ -71,6 +83,15 @@ public class QuantityMapper {
 
     private void setQuantityValueAndUnit(Quantity quantity, String value, String unit, List<PQR> translation) {
         setUnit(quantity, unit, translation);
+        var decimalPlaceIndex = value.indexOf(".");
+        var decimalPlaceCount = 0;
+        if (decimalPlaceIndex != -1) {
+            decimalPlaceCount = value.substring(decimalPlaceIndex).length() - 1;
+        }
+        quantity.setValue(new BigDecimal((value)).setScale(decimalPlaceCount, RoundingMode.CEILING));
+    }
+
+    private void setQuantityWithNoComparator(Quantity quantity, String value) {
         var decimalPlaceIndex = value.indexOf(".");
         var decimalPlaceCount = 0;
         if (decimalPlaceIndex != -1) {

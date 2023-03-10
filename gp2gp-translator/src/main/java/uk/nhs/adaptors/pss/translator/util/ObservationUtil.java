@@ -37,11 +37,10 @@ public class ObservationUtil {
         if (isValidValueQuantity(value)) {
             Quantity valueQuantity;
             if (value instanceof PQ) {
-                valueQuantity = QUANTITY_MAPPER.mapQuantity((PQ) value);
+                valueQuantity = QUANTITY_MAPPER.mapValueQuantity((PQ) value);
             } else {
-                valueQuantity = QUANTITY_MAPPER.mapQuantity((IVLPQ) value);
+                valueQuantity = QUANTITY_MAPPER.mapValueQuantity((IVLPQ) value);
             }
-            valueQuantity.setComparator(null);
 
             if (uncertaintyCode != null) {
                 valueQuantity.getExtension().add(new Extension()
@@ -82,7 +81,8 @@ public class ObservationUtil {
             var referenceRangeComponent = new Observation.ObservationReferenceRangeComponent();
             referenceRangeComponent.setText(referenceRange.getReferenceInterpretationRange().getText());
 
-            var quantity = QUANTITY_MAPPER.mapQuantity(referenceRange.getReferenceInterpretationRange().getValue());
+            var quantity = QUANTITY_MAPPER.mapReferenceRangeQuantity(
+                                                    referenceRange.getReferenceInterpretationRange().getValue());
 
             var referenceInterpretationRange = referenceRange.getReferenceInterpretationRange();
             if (referenceInterpretationRangeHasValue(referenceInterpretationRange)) {
