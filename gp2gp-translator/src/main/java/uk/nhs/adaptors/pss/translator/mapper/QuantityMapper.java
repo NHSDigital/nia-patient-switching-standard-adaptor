@@ -1,14 +1,17 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
-import org.hl7.v3.*;
+import org.hl7.v3.IVLPQ;
+import org.hl7.v3.PQ;
+import org.hl7.v3.PQInc;
+import org.hl7.v3.PQR;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
 
 @Service
 public class QuantityMapper {
@@ -39,10 +42,10 @@ public class QuantityMapper {
 
         if (value.getHigh() != null) {
             setQuantityValueAndUnit(quantity, value.getHigh().getValue(),
-                                        value.getHigh().getUnit(), value.getHigh().getTranslation());
+                    value.getHigh().getUnit(), value.getHigh().getTranslation());
         } else if (value.getLow() != null) {
             setQuantityValueAndUnit(quantity, value.getLow().getValue(),
-                                        value.getLow().getUnit(), value.getLow().getTranslation());
+                    value.getLow().getUnit(), value.getLow().getTranslation());
         }
 
         return quantity;
