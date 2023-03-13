@@ -7,10 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
-import org.hl7.v3.IVLPQ;
-import org.hl7.v3.PQ;
-import org.hl7.v3.PQInc;
-import org.hl7.v3.PQR;
+import org.hl7.v3.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,9 +38,11 @@ public class QuantityMapper {
         Quantity quantity = new Quantity();
 
         if (value.getHigh() != null) {
-            setQuantityWithNoComparator(quantity, value.getHigh().getValue());
+            setQuantityValueAndUnit(quantity, value.getHigh().getValue(),
+                                        value.getHigh().getUnit(), value.getHigh().getTranslation());
         } else if (value.getLow() != null) {
-            setQuantityWithNoComparator(quantity, value.getLow().getValue());
+            setQuantityValueAndUnit(quantity, value.getLow().getValue(),
+                                        value.getLow().getUnit(), value.getLow().getTranslation());
         }
 
         return quantity;
@@ -83,15 +82,6 @@ public class QuantityMapper {
 
     private void setQuantityValueAndUnit(Quantity quantity, String value, String unit, List<PQR> translation) {
         setUnit(quantity, unit, translation);
-        var decimalPlaceIndex = value.indexOf(".");
-        var decimalPlaceCount = 0;
-        if (decimalPlaceIndex != -1) {
-            decimalPlaceCount = value.substring(decimalPlaceIndex).length() - 1;
-        }
-        quantity.setValue(new BigDecimal((value)).setScale(decimalPlaceCount, RoundingMode.CEILING));
-    }
-
-    private void setQuantityWithNoComparator(Quantity quantity, String value) {
         var decimalPlaceIndex = value.indexOf(".");
         var decimalPlaceCount = 0;
         if (decimalPlaceIndex != -1) {
