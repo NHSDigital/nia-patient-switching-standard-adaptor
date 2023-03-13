@@ -22,7 +22,7 @@ public class ValueAdapter extends XmlAdapter<Object, Object> {
 
     @Override
     public Object unmarshal(Object v) {
-        if (v instanceof PQ || v instanceof IVLPQ || v instanceof CV) {
+        if (v instanceof PQ || v instanceof IVLPQ || v instanceof CD) {
             return v;
         }
 
@@ -39,7 +39,7 @@ public class ValueAdapter extends XmlAdapter<Object, Object> {
         if (element.hasAttribute(TYPE_ATTRIBUTE) && TYPE_CD.equals(element.getAttribute(TYPE_ATTRIBUTE))) {
             CD valueCD = buildCD(element);
 
-            if (element.getFirstChild().hasAttributes()) {
+            if (element.hasChildNodes()) {
                 buildTranslationElements(element.getFirstChild(), valueCD);
             }
 
