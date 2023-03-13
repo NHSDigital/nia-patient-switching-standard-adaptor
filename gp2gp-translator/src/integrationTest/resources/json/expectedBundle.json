@@ -29157,6 +29157,14 @@
         ],
         "status": "completed",
         "notGiven": false,
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/NullFlavor",
+              "code": "UNK"
+            }
+          ]
+        },
         "patient": {
           "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
@@ -29206,6 +29214,14 @@
         ],
         "status": "completed",
         "notGiven": false,
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/NullFlavor",
+              "code": "UNK"
+            }
+          ]
+        },
         "patient": {
           "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
@@ -29263,6 +29279,14 @@
         ],
         "status": "completed",
         "notGiven": false,
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/NullFlavor",
+              "code": "UNK"
+            }
+          ]
+        },
         "patient": {
           "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
