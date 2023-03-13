@@ -29382,6 +29382,36 @@
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
             "valueReference": {
+              "reference": "MedicationRequest/A4678E5E-4C76-4C27-91B8-AD7B5B0480AE"
+            }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
+            "valueReference": {
+              "reference": "MedicationRequest/51463066-3087-424C-9265-EAAC461AFADE"
+            }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
+            "valueReference": {
+              "reference": "MedicationRequest/F9EA7B08-5C2D-4F7E-852D-C753F9E8059B"
+            }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
+            "valueReference": {
+              "reference": "MedicationRequest/B2ED47C4-5737-491E-9136-87314E47E907"
+            }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
+            "valueReference": {
+              "reference": "MedicationRequest/2921E7F0-7DBD-4B6A-A3F5-527E616C80EF"
+            }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedClinicalContent-1",
+            "valueReference": {
               "reference": "Observation/FE85DB22-274E-4B1D-9698-5C4809E9CD42"
             }
           }
