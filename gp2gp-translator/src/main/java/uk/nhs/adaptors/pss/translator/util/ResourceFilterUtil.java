@@ -1,7 +1,10 @@
 package uk.nhs.adaptors.pss.translator.util;
 
+import static uk.nhs.adaptors.pss.translator.util.CDUtil.extractSnomedCode;
+
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -37,10 +40,13 @@ public class ResourceFilterUtil {
     }
 
     public static boolean isDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return compoundStatement != null
-            && hasCode(compoundStatement)
-            && compoundStatement.getClassCode().stream().anyMatch(CLUSTER_VALUE::equals)
-            && PATHOLOGY_CODE.equals(compoundStatement.getCode().getCode());
+        if (compoundStatement != null && hasCode(compoundStatement)
+            && compoundStatement.getClassCode().stream().anyMatch(CLUSTER_VALUE::equals)) {
+
+            Optional<String> code = extractSnomedCode(compoundStatement.getCode());
+            return code.map(PATHOLOGY_CODE::equals).orElse(false);
+        }
+        return false;
     }
 
     public static boolean hasDiagnosticReportParent(RCMRMT030101UK04EhrExtract ehrExtract,
@@ -56,9 +62,12 @@ public class ResourceFilterUtil {
     }
 
     public static boolean isSpecimen(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return compoundStatement != null
-            && hasCode(compoundStatement)
-            && SPECIMEN_CODE.equals(compoundStatement.getCode().getCode());
+        if (compoundStatement != null && hasCode(compoundStatement)) {
+            Optional<String> code = extractSnomedCode(compoundStatement.getCode());
+            return code.map(SPECIMEN_CODE::equals).orElse(false);
+        }
+
+        return false;
     }
 
     public static boolean isTemplate(RCMRMT030101UK04CompoundStatement compoundStatement) {

@@ -33,6 +33,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
+
+import static uk.nhs.adaptors.pss.translator.util.CDUtil.extractSnomedCode;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatementsWithoutAllergies;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
@@ -138,9 +140,13 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     }
 
     private boolean isNotBloodPressure(RCMRMT030101UK04ObservationStatement observationStatement) {
-        if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
-            return !BloodPressureValidatorUtil.isSystolicBloodPressure(observationStatement.getCode().getCode())
-                && !BloodPressureValidatorUtil.isDiastolicBloodPressure(observationStatement.getCode().getCode());
+        if (observationStatement.hasCode()) {
+            var code = extractSnomedCode(observationStatement.getCode());
+
+            if (code.isPresent()) {
+                return !BloodPressureValidatorUtil.isSystolicBloodPressure(code.orElseThrow())
+                    && !BloodPressureValidatorUtil.isDiastolicBloodPressure(code.orElseThrow());
+            }
         }
         return true;
     }
