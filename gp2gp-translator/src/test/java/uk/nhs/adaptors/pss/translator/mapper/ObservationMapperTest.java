@@ -88,8 +88,8 @@ public class ObservationMapperTest {
         assertInterpretation(observation.getInterpretation(), "High", "H", "High");
         assertThat(observation.getComment()).isEqualTo("Subject: Uncle Test text 1");
         assertThat(observation.getReferenceRange().get(0).getText()).isEqualTo("Age and sex based");
-        assertQuantity(observation.getReferenceRange().get(0).getLow(), REFERENCE_RANGE_LOW_VALUE, null);
-        assertQuantity(observation.getReferenceRange().get(0).getHigh(), REFERENCE_RANGE_HIGH_VALUE, null);
+        assertQuantity(observation.getReferenceRange().get(0).getLow(), REFERENCE_RANGE_LOW_VALUE, "L");
+        assertQuantity(observation.getReferenceRange().get(0).getHigh(), REFERENCE_RANGE_HIGH_VALUE, "L");
         assertThat(observation.hasSubject()).isTrue();
     }
 
