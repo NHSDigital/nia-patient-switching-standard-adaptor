@@ -7369,62 +7369,39 @@
         "validityPeriod": {
           "start": "2010-01-14"
         },
-        "quantity": {
-          "value": 28.0,
-          "unit": "capsule"
-        }
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "MedicationRequest",
-      "id": "3D1CF6C4-8BF0-4698-BB02-F0864EBDC8AB",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
-        "valueCodeableConcept": {
-          "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1",
-            "code": "repeat",
-            "display": "Repeat"
-          } ]
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "3D1CF6C4-8BF0-4698-BB02-F0864EBDC8AB"
-      } ],
-      "basedOn": [ {
-        "reference": "MedicationRequest/2B13FB1D-0FE8-44E2-876B-6AF70F61883C"
-      } ],
-      "status": "completed",
-      "intent": "order",
-      "medicationReference": {
-        "reference": "Medication/ccbf14d8-755f-4c0e-b7b9-366516b8c8d9"
-      },
-      "subject": {
-        "reference": "Patient/41609320-3df7-4f7c-af21-21852a04243d"
-      },
-      "authoredOn": "2010-01-14",
-      "requester": {
-        "agent": {
-          "reference": "Practitioner/5F8BBC0E-0FB7-4828-84AA-817F5243A12E"
-        }
-      },
-      "recorder": {
-        "reference": "Practitioner/5F8BBC0E-0FB7-4828-84AA-817F5243A12E"
-      },
-      "note": [ {
-        "text": "Expected Supply Duration: 28 day Notes: Prescriber Notes:Issue number 5 Repeat Dispensing Pharmacy Note."
-      } ],
-      "dosageInstruction": [ {
-        "text": "One To Be Taken Each Day"
-      } ],
-      "dispenseRequest": {
-        "validityPeriod": {
-          "start": "2010-01-14"
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
+            "valueExtension": {
+              "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+              "valueCodeableConcept": {
+                "text": "Medication review with patient"
+              }
+            }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
+            "valueString": "20100114103430"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/D5445",
+            "value": "263B2A9F-0B1D-4697-943A-328F70E068DE"
+          }
+        ],
+        "status": "completed",
+        "notGiven": false,
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/NullFlavor",
+              "code": "UNK"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
         "quantity": {
           "value": 28.0,
@@ -7540,62 +7517,39 @@
         "validityPeriod": {
           "start": "2010-01-14"
         },
-        "quantity": {
-          "value": 28.0,
-          "unit": "capsule"
-        }
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "MedicationRequest",
-      "id": "C86076C5-C69D-45EB-BEC4-1F1B310E80FC",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
-        "valueCodeableConcept": {
-          "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1",
-            "code": "repeat",
-            "display": "Repeat"
-          } ]
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "C86076C5-C69D-45EB-BEC4-1F1B310E80FC"
-      } ],
-      "basedOn": [ {
-        "reference": "MedicationRequest/2B13FB1D-0FE8-44E2-876B-6AF70F61883C"
-      } ],
-      "status": "completed",
-      "intent": "order",
-      "medicationReference": {
-        "reference": "Medication/ccbf14d8-755f-4c0e-b7b9-366516b8c8d9"
-      },
-      "subject": {
-        "reference": "Patient/41609320-3df7-4f7c-af21-21852a04243d"
-      },
-      "authoredOn": "2010-01-14",
-      "requester": {
-        "agent": {
-          "reference": "Practitioner/5F8BBC0E-0FB7-4828-84AA-817F5243A12E"
-        }
-      },
-      "recorder": {
-        "reference": "Practitioner/5F8BBC0E-0FB7-4828-84AA-817F5243A12E"
-      },
-      "note": [ {
-        "text": "Expected Supply Duration: 28 day Notes: Prescriber Notes:Issue number 8 Repeat Dispensing Pharmacy Note."
-      } ],
-      "dosageInstruction": [ {
-        "text": "One To Be Taken Each Day"
-      } ],
-      "dispenseRequest": {
-        "validityPeriod": {
-          "start": "2010-01-14"
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
+            "valueExtension": {
+              "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+              "valueCodeableConcept": {
+                "text": "Haemophilus influenzae type B and meningitis C vaccination"
+              }
+            }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
+            "valueString": "20100113151332"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/D5445",
+            "value": "immunization-id"
+          }
+        ],
+        "status": "completed",
+        "notGiven": false,
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/NullFlavor",
+              "code": "UNK"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
         "quantity": {
           "value": 28.0,
@@ -7711,82 +7665,39 @@
         "validityPeriod": {
           "start": "2010-01-14"
         },
-        "quantity": {
-          "value": 28.0,
-          "unit": "capsule"
-        }
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "Medication",
-      "id": "69015502-75f3-4b4a-b271-6bf85bcc7494",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
-      },
-      "code": {
-        "coding": [ {
-          "system": "http://snomed.info/sct",
-          "code": "321177003",
-          "display": "Zopiclone 3.75mg tablets"
-        } ],
-        "text": "Zopiclone 3.75mg tablets"
-      }
-    }
-  }, {
-    "resource": {
-      "resourceType": "MedicationRequest",
-      "id": "7DDEDA9F-3CFD-4A7D-8504-5026617B408C",
-      "meta": {
-        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1" ]
-      },
-      "extension": [ {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1",
-        "extension": [ {
-          "url": "authorisationExpiryDate",
-          "valueDateTime": "2010-06-13"
-        } ]
-      }, {
-        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
-        "valueCodeableConcept": {
-          "coding": [ {
-            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1",
-            "code": "acute",
-            "display": "Acute"
-          } ]
-        }
-      } ],
-      "identifier": [ {
-        "system": "https://PSSAdaptor/D5445",
-        "value": "7DDEDA9F-3CFD-4A7D-8504-5026617B408C"
-      } ],
-      "status": "completed",
-      "intent": "plan",
-      "medicationReference": {
-        "reference": "Medication/69015502-75f3-4b4a-b271-6bf85bcc7494"
-      },
-      "subject": {
-        "reference": "Patient/41609320-3df7-4f7c-af21-21852a04243d"
-      },
-      "authoredOn": "2010-01-14",
-      "requester": {
-        "agent": {
-          "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
-        }
-      },
-      "recorder": {
-        "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
-      },
-      "note": [ {
-        "text": "Expected Supply Duration: 150 day"
-      } ],
-      "dosageInstruction": [ {
-        "text": "One To Be Taken At Night"
-      } ],
-      "dispenseRequest": {
-        "validityPeriod": {
-          "start": "2010-01-14",
-          "end": "2010-06-13"
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
+            "valueExtension": {
+              "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+              "valueCodeableConcept": {
+                "text": "Haemophilus influenzae type B and meningitis C vaccination"
+              }
+            }
+          },
+          {
+            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
+            "valueString": "20100113151332"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://PSSAdaptor/D5445",
+            "value": "4DE2BFC0-459F-461A-B359-3BBA574F6F2E"
+          }
+        ],
+        "status": "completed",
+        "notGiven": false,
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/NullFlavor",
+              "code": "UNK"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/98c2d1cf-58db-4850-bcd5-431f027e79b3"
         },
         "quantity": {
           "value": 150.0,
