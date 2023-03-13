@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.containsValidBloodPressureTriple;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isDiastolicBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isSystolicBloodPressure;
+import static uk.nhs.adaptors.pss.translator.util.CDUtil.extractSnomedCode;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getInterpretation;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
@@ -129,11 +130,16 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
                 .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
                 .map(RCMRMT030101UK04Annotation::getText)
                 .map(text -> {
-                    if (isSystolicBloodPressure(observationStatement.getCode().getCode())) {
-                        return SYSTOLIC_NOTE + text + StringUtils.SPACE;
-                    }
-                    if (isDiastolicBloodPressure(observationStatement.getCode().getCode())) {
-                        return DIASTOLIC_NOTE + text + StringUtils.SPACE;
+
+                    var code = extractSnomedCode(observationStatement.getCode());
+
+                    if (code.isPresent()) {
+                        if (isSystolicBloodPressure(code.orElseThrow())) {
+                            return SYSTOLIC_NOTE + text + StringUtils.SPACE;
+                        }
+                        if (isDiastolicBloodPressure(code.orElseThrow())) {
+                            return DIASTOLIC_NOTE + text + StringUtils.SPACE;
+                        }
                     }
                     return StringUtils.EMPTY;
                 })
