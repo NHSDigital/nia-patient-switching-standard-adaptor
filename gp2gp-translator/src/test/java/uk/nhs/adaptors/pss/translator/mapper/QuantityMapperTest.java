@@ -25,7 +25,7 @@ public class QuantityMapperTest {
         var observationStatement = unmarshallObservationStatement("no_type_standard_unit.xml");
         var value = observationStatement.getValue();
 
-        Quantity quantity = quantityMapper.mapQuantity((PQ) value);
+        Quantity quantity = quantityMapper.mapValueQuantity((PQ) value);
 
         assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", null);
     }
@@ -35,7 +35,7 @@ public class QuantityMapperTest {
         var observationStatement = unmarshallObservationStatement("no_type_arbitrary_unit.xml");
         var value = observationStatement.getValue();
 
-        Quantity quantity = quantityMapper.mapQuantity((PQ) value);
+        Quantity quantity = quantityMapper.mapValueQuantity((PQ) value);
 
         assertQuantity(quantity, "100", "kua/L", null, null, null);
     }
@@ -44,7 +44,7 @@ public class QuantityMapperTest {
     public void mapQuantityPqStandardUnit() {
         var value = unmarshallValueElementForPQ("pq_standard_unit.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", null);
     }
@@ -53,7 +53,7 @@ public class QuantityMapperTest {
     public void mapQuantityPqArbitraryUnit() {
         var value = unmarshallValueElementForPQ("pq_arbitrary_unit.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "kua/L", null, null, null);
     }
@@ -62,7 +62,7 @@ public class QuantityMapperTest {
     public void mapQuantityIvlPqHighStandardUnit() {
         var value = unmarshallValueElementForIVLPQ("ivlpq_high_standard_unit.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_THAN);
     }
@@ -71,7 +71,7 @@ public class QuantityMapperTest {
     public void mapQuantityIvlPqHighArbitraryUnit() {
         var value = unmarshallValueElementForIVLPQ("ivlpq_high_arbitrary_unit.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "kua/L", null, null, QuantityComparator.LESS_THAN);
     }
@@ -80,7 +80,7 @@ public class QuantityMapperTest {
     public void mapQuantityIvlPqLowStandardUnit() {
         var value = unmarshallValueElementForIVLPQ("ivlpq_low_standard_unit.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_THAN);
     }
@@ -89,7 +89,7 @@ public class QuantityMapperTest {
     public void mapQuantityIvlPqLowArbitraryUnit() {
         var value = unmarshallValueElementForIVLPQ("ivlpq_low_arbitrary_unit.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "kua/L", null, null, QuantityComparator.GREATER_THAN);
     }
@@ -98,7 +98,7 @@ public class QuantityMapperTest {
     public void mapQuantityIvlPqHighInclusive() {
         var value = unmarshallValueElementForIVLPQ("ivlpq_high_inclusive.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_OR_EQUAL);
     }
@@ -107,7 +107,7 @@ public class QuantityMapperTest {
     public void mapQuantityIvlPqHighExclusive() {
         var value = unmarshallValueElementForIVLPQ("ivlpq_high_exclusive.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_THAN);
     }
@@ -116,7 +116,7 @@ public class QuantityMapperTest {
     public void mapQuantityIvlPqLowInclusive() {
         var value = unmarshallValueElementForIVLPQ("ivlpq_low_inclusive.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_OR_EQUAL);
     }
@@ -125,7 +125,7 @@ public class QuantityMapperTest {
     public void mapQuantityIvlPqLowExclusive() {
         var value = unmarshallValueElementForIVLPQ("ivlpq_low_exclusive.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_THAN);
     }
@@ -135,7 +135,7 @@ public class QuantityMapperTest {
         var observationStatement = unmarshallObservationStatement("no_type_no_unit.xml");
         var value = observationStatement.getValue();
 
-        Quantity quantity = quantityMapper.mapQuantity((PQ) value);
+        Quantity quantity = quantityMapper.mapValueQuantity((PQ) value);
 
         assertQuantity(quantity, "100", "1", UNIT_SYSTEM, "1", null);
     }
@@ -144,7 +144,7 @@ public class QuantityMapperTest {
     public void mapQuantityPqNoUnit() {
         var value = unmarshallValueElementForPQ("pq_no_unit.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "1", UNIT_SYSTEM, "1", null);
     }
@@ -153,7 +153,7 @@ public class QuantityMapperTest {
     public void mapQuantityIvlPqNoUnit() {
         var value = unmarshallValueElementForIVLPQ("ivlpq_no_unit.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", null, null, null, QuantityComparator.LESS_THAN);
     }
@@ -162,7 +162,7 @@ public class QuantityMapperTest {
     public void mapQuantityUnitIsUnity() {
         var value = unmarshallValueElementForPQ("unit_is_unity.xml");
 
-        Quantity quantity = quantityMapper.mapQuantity(value);
+        Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "1", UNIT_SYSTEM, "1", null);
     }
