@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
@@ -162,8 +163,14 @@ public class MedicationMapperUtils {
         RCMRMT030101UK04MedicationStatement medicationStatement) {
         if (supplyAuthorise.hasEffectiveTime()) {
             if (supplyAuthorise.getEffectiveTime().hasHigh()) {
+
+                String effectiveTimeEnd =
+                        supplyAuthorise.getEffectiveTime().getHigh().getValue().endsWith("000000") ?
+                                supplyAuthorise.getEffectiveTime().getHigh().getValue().substring(0,8) :
+                                            supplyAuthorise.getEffectiveTime().getHigh().getValue();
+
                 return new Period().setEndElement(
-                    DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getHigh().getValue()));
+                    DateFormatUtil.parseToDateTimeType(effectiveTimeEnd));
             }
         }
         if (medicationStatement.hasEffectiveTime() && medicationStatement.getEffectiveTime().hasHigh()) {
