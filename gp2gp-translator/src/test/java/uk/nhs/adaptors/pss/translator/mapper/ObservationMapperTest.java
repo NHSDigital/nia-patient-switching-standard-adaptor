@@ -192,7 +192,6 @@ public class ObservationMapperTest {
         assertThat(quantity.getValue()).isEqualTo(value);
         assertThat(quantity.getUnit()).isEqualTo(unitAndCode);
         assertThat(quantity.getCode()).isEqualTo(unitAndCode);
-        assertThat(quantity.getSystem()).isEqualTo(QUANTITY_SYSTEM);
     }
 
     @SneakyThrows

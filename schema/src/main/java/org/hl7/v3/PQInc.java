@@ -222,7 +222,7 @@ public class PQInc {
      */
     public boolean isInclusive() {
         if (inclusive == null) {
-            return true;
+            return false;
         } else {
             return inclusive;
         }

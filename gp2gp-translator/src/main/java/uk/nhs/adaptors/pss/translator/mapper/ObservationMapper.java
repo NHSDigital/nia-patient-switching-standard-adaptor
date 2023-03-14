@@ -100,7 +100,6 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject()))
             .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
             .setSubject(new Reference(patient));
-
         observation.setId(id);
         observation.setMeta(generateMeta(META_PROFILE));
 
