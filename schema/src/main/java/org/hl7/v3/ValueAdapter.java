@@ -68,7 +68,9 @@ public class ValueAdapter extends XmlAdapter<Object, Object> {
             valueCD.getTranslation().add(buildCD((Element) childElement));
         }
 
-        if (childElement.getNextSibling().hasAttributes()) {
+        var nextSibling = childElement.getNextSibling();
+
+        if (nextSibling != null && nextSibling.hasAttributes()) {
             buildTranslationElements(childElement.getNextSibling(), valueCD);
         }
     }
