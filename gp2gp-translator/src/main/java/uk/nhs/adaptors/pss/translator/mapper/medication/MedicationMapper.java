@@ -41,7 +41,7 @@ public class MedicationMapper {
                     medication.getCode()
                             .setCoding(List.of(DegradedCodeableConcepts.DEGRADED_MEDICATION));
                 }
-                
+
                 return medication;
             }
         }
