@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.IdType;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @Service
 @AllArgsConstructor
@@ -34,6 +36,11 @@ public class MedicationMapper {
                 medication.setId(medicationMapperContext.getMedicationId(code));
                 medication.setMeta(generateMeta(MEDICATION_URL));
                 medication.setCode(codeableConceptMapper.mapToCodeableConceptForMedication(code));
+
+                if (medication.getCode() != null && !medication.getCode().hasCoding()) {
+                    medication.getCode()
+                        .setCoding(List.of(DegradedCodeableConcepts.DEGRADED_MEDICATION));
+                }
                 return medication;
             }
         }
