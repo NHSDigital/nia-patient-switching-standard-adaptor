@@ -68,7 +68,7 @@ public class UnknownPractitionerHandlerTest {
         BundleEntryComponent entry = bundle.getEntry().get(entriesCount - 1);
         assertThat(entry.getResource()).isInstanceOf(Practitioner.class);
         Practitioner unknown = (Practitioner) entry.getResource();
-        assertThat(unknown.getNameFirstRep().getText()).isEqualTo(UNKNOWN_PRACTITIONER_NAME);
+        assertThat(unknown.getNameFirstRep().getFamily()).isEqualTo(UNKNOWN_PRACTITIONER_NAME);
         assertThat(unknown.getId()).isEqualTo(UNKNOWN_PRACTITIONER_ID);
     }
 
