@@ -105,6 +105,6 @@ public class UnknownPractitionerHandler {
     private Practitioner createUnknownPractitioner() {
         Practitioner unknown = new Practitioner();
         unknown.setId(idGeneratorService.generateUuid());
-        return unknown.addName(new HumanName().setText(UNKNOWN_USER));
+        return unknown.addName(new HumanName().setFamily(UNKNOWN_USER));
     }
 }
