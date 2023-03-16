@@ -58,6 +58,15 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
             .toList();
     }
 
+    public boolean hasDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract) {
+       return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllNarrativeStatements(component)
+                .filter(Objects::nonNull)
+                .filter(ResourceFilterUtil::isDocumentReference)
+                .map(narrativeStatement -> new DocumentReference())
+        ).toList().size() > 0;
+    }
+
     private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement,
         RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, List<Encounter> encounterList,
                                                    Organization organization, List<PatientAttachmentLog> attachments) {
