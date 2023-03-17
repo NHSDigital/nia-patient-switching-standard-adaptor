@@ -23,15 +23,18 @@ import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
 import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
 import org.hl7.v3.TS;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.mapper.QuantityMapper;
 
+@Component
 public class ObservationUtil {
     private static final String VALUE_QUANTITY_EXTENSION = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ValueApproximation-1";
     private static final String CODING_SYSTEM = "http://hl7.org/fhir/v2/0078";
 
-    private static final QuantityMapper QUANTITY_MAPPER = new QuantityMapper();
+    private static final QuantityMapper QUANTITY_MAPPER = QuantityMapper.get();
 
     public static Quantity getValueQuantity(Object value, CV uncertaintyCode) {
         if (isValidValueQuantity(value)) {
