@@ -23,7 +23,6 @@ import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
 import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
 import org.hl7.v3.TS;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.mapper.QuantityMapper;
