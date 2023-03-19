@@ -62,8 +62,8 @@ public class QuantityMapper {
             } else {
 //                Map<String, String> map = MeasurementUnitsUtil.getMeasurementUnitsMap();
 //                quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().getOrDefault(unit, unit));
-                if(!findMeasurementMatch(unit).equals(Boolean.FALSE.toString())) { //If match found then use mapped value.
-                    quantity.setUnit(findMeasurementMatch(unit));
+                if(foundMeasurementMatch(unit)) { //If match found then use mapped value.
+                    quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().get(unit));
                 } else {
                     quantity.setUnit(unit);
                 }
@@ -73,20 +73,11 @@ public class QuantityMapper {
         }
     }
 
-    private String findMeasurementMatch(String unit) {
+    private boolean foundMeasurementMatch(String unit) {
         if(MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit)) {
-            return MeasurementUnitsUtil.getMeasurementUnitsMap().get(unit);
+            return MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit);
         }
-
-        if(MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit.toLowerCase())) {
-            return MeasurementUnitsUtil.getMeasurementUnitsMap().get(unit.toLowerCase());
-        }
-
-        if(MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit.toUpperCase())) {
-            return MeasurementUnitsUtil.getMeasurementUnitsMap().get(unit.toUpperCase());
-        }
-
-        return Boolean.FALSE.toString();
+        return false;
     }
 
     private void setQuantityWithHighComparator(Quantity quantity, PQInc high) {

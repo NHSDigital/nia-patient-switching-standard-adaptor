@@ -6,11 +6,12 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Component
 public class MeasurementUnitsUtil {
 
-    private static final Map<String, String> units = new HashMap<>();
+    private static final Map<String, String> units = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     @PostConstruct
     private void createMeasurementUnits() {
