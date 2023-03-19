@@ -34,7 +34,7 @@ public class ObservationUtil {
         + "-ValueApproximation-1";
     private static final String CODING_SYSTEM = "http://hl7.org/fhir/v2/0078";
 
-    private static final QuantityMapper QUANTITY_MAPPER = QuantityMapper.get();
+    private static final QuantityMapper QUANTITY_MAPPER = new QuantityMapper();
 
     public static Quantity getValueQuantity(Object value, CV uncertaintyCode) {
         if (isValidValueQuantity(value)) {

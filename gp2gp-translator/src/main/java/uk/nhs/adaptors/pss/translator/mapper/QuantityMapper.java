@@ -8,23 +8,19 @@ import org.hl7.v3.IVLPQ;
 import org.hl7.v3.PQ;
 import org.hl7.v3.PQInc;
 import org.hl7.v3.PQR;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.nhs.adaptors.pss.translator.model.MeasurementUnit;
 import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class QuantityMapper implements InitializingBean {
+public class QuantityMapper {
     private static final String UNIT_SYSTEM = "http://unitsofmeasure.org";
-    private static QuantityMapper instance;
-    private final MeasurementUnitsUtil measurementUnitsUtil;
 
     public Quantity mapValueQuantity(IVLPQ value) {
         Quantity quantity = new Quantity();
@@ -65,21 +61,33 @@ public class QuantityMapper implements InitializingBean {
             if (translation != null && !translation.isEmpty()) {
                 quantity.setUnit(translation.get(0).getOriginalText());
             } else {
-
-                List<MeasurementUnit> filteredUnitList = measurementUnitsUtil.getMeasurementUnits().stream()
-                                                        .filter(u -> u.getMeasurementUnit().equals(unit))
-                                                        .toList();
-
-                if(filteredUnitList.isEmpty()) {
-                    quantity.setUnit(unit);
+//                Map<String, String> map = MeasurementUnitsUtil.getMeasurementUnitsMap();
+//                quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().getOrDefault(unit, unit));
+                if(!findMeasurementMatch(unit).equals(Boolean.FALSE.toString())) { //If match found then use mapped value.
+                    quantity.setUnit(findMeasurementMatch(unit));
                 } else {
-                    quantity.setUnit(filteredUnitList.get(0).getMeasurementDescription());
+                    quantity.setUnit(unit);
                 }
-
                 quantity.setSystem(UNIT_SYSTEM);
                 quantity.setCode(unit);
             }
         }
+    }
+
+    private String findMeasurementMatch(String unit) {
+        if(MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit)) {
+            return MeasurementUnitsUtil.getMeasurementUnitsMap().get(unit);
+        }
+
+        if(MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit.toLowerCase())) {
+            return MeasurementUnitsUtil.getMeasurementUnitsMap().get(unit.toLowerCase());
+        }
+
+        if(MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit.toUpperCase())) {
+            return MeasurementUnitsUtil.getMeasurementUnitsMap().get(unit.toUpperCase());
+        }
+
+        return Boolean.FALSE.toString();
     }
 
     private void setQuantityWithHighComparator(Quantity quantity, PQInc high) {
@@ -112,12 +120,4 @@ public class QuantityMapper implements InitializingBean {
         quantity.setValue(new BigDecimal((value)).setScale(decimalPlaceCount, RoundingMode.CEILING));
     }
 
-    @Override
-    public void afterPropertiesSet() {
-        instance = this;
-    }
-
-    public static QuantityMapper get() {
-        return instance;
-    }
 }

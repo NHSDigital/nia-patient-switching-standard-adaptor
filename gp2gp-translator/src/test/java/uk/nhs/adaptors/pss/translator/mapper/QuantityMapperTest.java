@@ -10,15 +10,30 @@ import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
 import org.hl7.v3.IVLPQ;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import lombok.SneakyThrows;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
 
 public class QuantityMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/Quantity/";
     private static final String UNIT_SYSTEM = "http://unitsofmeasure.org";
 
     private final QuantityMapper quantityMapper = new QuantityMapper();
+
+    private static final MeasurementUnitsUtil measurementUnitsUtil = new MeasurementUnitsUtil();
+
+    @BeforeAll
+    public static void createUnits() {
+        measurementUnitsUtil.createUnits();
+    }
 
     @Test
     public void mapQuantityNoTypeStandardUnit() {
@@ -27,7 +42,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity((PQ) value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", null);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", null);
     }
 
     @Test
@@ -46,7 +61,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", null);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", null);
     }
 
     @Test
@@ -64,7 +79,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_THAN);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_THAN);
     }
 
     @Test
@@ -82,7 +97,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_THAN);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_THAN);
     }
 
     @Test
@@ -100,7 +115,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_OR_EQUAL);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_OR_EQUAL);
     }
 
     @Test
@@ -109,7 +124,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_THAN);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_THAN);
     }
 
     @Test
@@ -118,7 +133,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_OR_EQUAL);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_OR_EQUAL);
     }
 
     @Test
@@ -127,7 +142,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "Kg/m2", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_THAN);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_THAN);
     }
 
     @Test
