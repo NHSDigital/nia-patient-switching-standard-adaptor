@@ -13,7 +13,7 @@ public class MeasurementUnitsUtil {
     private static final Map<String, String> units = new HashMap<>();
 
     @PostConstruct
-    public void createUnits() {
+    public void createMeasurementUnits() {
         units.put("10.L/min","10 liter per minute");
         units.put("10.L/(min.m2)","10 liter per minute per square meter");
         units.put("10.uN.s/(cm5.m2)","10 micronewton second per centimeter to the fifth power per square meter");

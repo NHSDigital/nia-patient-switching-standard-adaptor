@@ -11,15 +11,9 @@ import org.hl7.v3.IVLPQ;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import lombok.SneakyThrows;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
 
 public class QuantityMapperTest {
@@ -32,7 +26,7 @@ public class QuantityMapperTest {
 
     @BeforeAll
     public static void createUnits() {
-        measurementUnitsUtil.createUnits();
+        measurementUnitsUtil.createMeasurementUnits();
     }
 
     @Test
