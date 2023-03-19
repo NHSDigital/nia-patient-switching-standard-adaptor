@@ -14,8 +14,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import lombok.SneakyThrows;
+import org.junit.jupiter.api.TestInstance;
 import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class QuantityMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/Quantity/";
     private static final String UNIT_SYSTEM = "http://unitsofmeasure.org";
@@ -24,9 +29,15 @@ public class QuantityMapperTest {
 
     private static final MeasurementUnitsUtil measurementUnitsUtil = new MeasurementUnitsUtil();
 
+    private Method getCreateMeasurementUnitsMethod() throws NoSuchMethodException {
+        Method method = MeasurementUnitsUtil.class.getDeclaredMethod("createMeasurementUnits");
+        method.setAccessible(true);
+        return method;
+    }
+
     @BeforeAll
-    public static void createUnits() {
-        measurementUnitsUtil.createMeasurementUnits();
+    public void createMeasurementUnits() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        getCreateMeasurementUnitsMethod().invoke(measurementUnitsUtil);
     }
 
     @Test
