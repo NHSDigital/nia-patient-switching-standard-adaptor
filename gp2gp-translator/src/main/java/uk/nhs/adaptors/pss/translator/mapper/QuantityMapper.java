@@ -60,7 +60,7 @@ public class QuantityMapper {
             if (translation != null && !translation.isEmpty()) {
                 //If the translation is found in the MeasurementUnitsMap then add unit using this.
                 // Also add code as translation text.
-                if(foundMeasurementMatch(translation.get(0).getOriginalText())) {
+                if (foundMeasurementMatch(translation.get(0).getOriginalText())) {
                     quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().get(translation.get(0).getOriginalText()));
                     quantity.setCode(translation.get(0).getOriginalText());
                 } else {
