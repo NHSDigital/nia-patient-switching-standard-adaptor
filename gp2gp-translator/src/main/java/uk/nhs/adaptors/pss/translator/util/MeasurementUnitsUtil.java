@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @Component
-public class MeasurementUnitsUtil {
+public final class MeasurementUnitsUtil {
 
     private static final Map<String, String> UNITS = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
