@@ -95,6 +95,7 @@ public class E2EMappingIT extends BaseEhrHandler {
 
 
         List<String> ignoredFields = List.of(
+                "entry[4].resource.location[0].location.reference",
                 "entry[5].resource.location[0].location.reference",
                 "entry[6].resource.location[0].location.reference",
                 "entry[7].resource.location[0].location.reference",
@@ -103,11 +104,10 @@ public class E2EMappingIT extends BaseEhrHandler {
                 "entry[10].resource.location[0].location.reference",
                 "entry[11].resource.location[0].location.reference",
                 "entry[12].resource.location[0].location.reference",
-                "entry[13].resource.location[0].location.reference",
+                "entry[49].resource.id",
+                "entry[49].resource.identifier[0].value",
                 "entry[50].resource.id",
-                "entry[50].resource.identifier[0].value",
-                "entry[51].resource.id",
-                "entry[51].resource.identifier[0].value"
+                "entry[50].resource.identifier[0].value"
 
         );
 
@@ -120,9 +120,9 @@ public class E2EMappingIT extends BaseEhrHandler {
         String inputFileName = "PWTP3";
 
         List<String> ignoredFields = List.of(
-                "entry[4].resource.location[0].location.reference",
-                "entry[12].resource.id",
-                "entry[12].resource.identifier[0].value"
+                "entry[3].resource.location[0].location.reference",
+                "entry[11].resource.id",
+                "entry[11].resource.identifier[0].value"
         );
 
         executeTest(inputFileName, ignoredFields);
@@ -133,14 +133,14 @@ public class E2EMappingIT extends BaseEhrHandler {
         String inputFileName = "PWTP4";
 
         List<String> ignoredFields = List.of(
+            "entry[6].resource.location[0].location.reference",
             "entry[7].resource.location[0].location.reference",
             "entry[8].resource.location[0].location.reference",
             "entry[9].resource.location[0].location.reference",
             "entry[10].resource.location[0].location.reference",
             "entry[11].resource.location[0].location.reference",
-            "entry[12].resource.location[0].location.reference",
-            "entry[45].resource.id",
-            "entry[45].resource.identifier[0].value"
+            "entry[44].resource.id",
+            "entry[44].resource.identifier[0].value"
         );
 
         executeTest(inputFileName, ignoredFields);
@@ -151,6 +151,7 @@ public class E2EMappingIT extends BaseEhrHandler {
         String inputFileName = "PWTP5";
 
         List<String> ignoredFields = List.of(
+                "entry[2].resource.location[0].location.reference",
                 "entry[3].resource.location[0].location.reference",
                 "entry[4].resource.location[0].location.reference",
                 "entry[5].resource.location[0].location.reference",
@@ -159,9 +160,8 @@ public class E2EMappingIT extends BaseEhrHandler {
                 "entry[8].resource.location[0].location.reference",
                 "entry[9].resource.location[0].location.reference",
                 "entry[10].resource.location[0].location.reference",
-                "entry[11].resource.location[0].location.reference",
-                "entry[46].resource.id",
-                "entry[46].resource.identifier[0].value"
+                "entry[45].resource.id",
+                "entry[45].resource.identifier[0].value"
 
         );
 
@@ -173,16 +173,16 @@ public class E2EMappingIT extends BaseEhrHandler {
         String inputFileName = "PWTP6";
 
         List<String> ignoredFields = List.of(
+                "entry[3].resource.location[0].location.reference",
                 "entry[4].resource.location[0].location.reference",
                 "entry[5].resource.location[0].location.reference",
                 "entry[6].resource.location[0].location.reference",
                 "entry[7].resource.location[0].location.reference",
                 "entry[8].resource.location[0].location.reference",
-                "entry[9].resource.location[0].location.reference",
+                "entry[35].resource.id",
+                "entry[35].resource.identifier[0].value",
                 "entry[36].resource.id",
-                "entry[36].resource.identifier[0].value",
-                "entry[37].resource.id",
-                "entry[37].resource.identifier[0].value"
+                "entry[36].resource.identifier[0].value"
         );
 
         executeTest(inputFileName, ignoredFields);
@@ -216,10 +216,10 @@ public class E2EMappingIT extends BaseEhrHandler {
         String inputFileName = "PWTP9";
 
         List<String> ignoredFields = List.of(
+                "entry[23].resource.location[0].location.reference",
                 "entry[24].resource.location[0].location.reference",
-                "entry[25].resource.location[0].location.reference",
-                "entry[90].resource.id",
-                "entry[90].resource.identifier[0].value"
+                "entry[89].resource.id",
+                "entry[89].resource.identifier[0].value"
                 );
 
         executeTest(inputFileName, ignoredFields);
@@ -230,6 +230,7 @@ public class E2EMappingIT extends BaseEhrHandler {
         String inputFileName = "PWTP10";
 
         List<String> ignoredFields = List.of(
+                "entry[3].resource.location[0].location.reference",
                 "entry[4].resource.location[0].location.reference",
                 "entry[5].resource.location[0].location.reference",
                 "entry[6].resource.location[0].location.reference",
@@ -237,11 +238,10 @@ public class E2EMappingIT extends BaseEhrHandler {
                 "entry[8].resource.location[0].location.reference",
                 "entry[9].resource.location[0].location.reference",
                 "entry[10].resource.location[0].location.reference",
-                "entry[11].resource.location[0].location.reference",
+                "entry[48].resource.id",
+                "entry[48].resource.identifier[0].value",
                 "entry[49].resource.id",
-                "entry[49].resource.identifier[0].value",
-                "entry[50].resource.id",
-                "entry[50].resource.identifier[0].value"
+                "entry[49].resource.identifier[0].value"
         );
 
         executeTest(inputFileName, ignoredFields);
@@ -252,15 +252,15 @@ public class E2EMappingIT extends BaseEhrHandler {
         String inputFileName = "PWTP11";
 
         List<String> ignoredFields = List.of(
+                "entry[2].resource.location[0].location.reference",
                 "entry[3].resource.location[0].location.reference",
                 "entry[4].resource.location[0].location.reference",
                 "entry[5].resource.location[0].location.reference",
                 "entry[6].resource.location[0].location.reference",
                 "entry[7].resource.location[0].location.reference",
                 "entry[8].resource.location[0].location.reference",
-                "entry[9].resource.location[0].location.reference",
-                "entry[49].resource.id",
-                "entry[49].resource.identifier[0].value"
+                "entry[48].resource.id",
+                "entry[48].resource.identifier[0].value"
 
         );
 

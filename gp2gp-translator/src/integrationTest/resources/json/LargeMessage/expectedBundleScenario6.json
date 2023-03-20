@@ -101,31 +101,6 @@
     },
     {
       "resource": {
-        "resourceType": "Organization",
-        "id": "FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC-ORG",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://fhir.nhs.uk/Id/ods-organization-code",
-            "value": "A28009"
-          }
-        ],
-        "name": "NHS Digital Assurance GP2GP 1",
-        "telecom": [
-          {
-            "system": "phone",
-            "use": "work",
-            "rank": 1
-          }
-        ]
-      }
-    },
-    {
-      "resource": {
         "resourceType": "PractitionerRole",
         "id": "FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC-PR",
         "meta": {
@@ -137,7 +112,7 @@
           "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
         },
         "organization": {
-          "reference": "Organization/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC-ORG"
+          "reference": "Organization/0B98DC27-535D-4BC1-A99F-AA5880A446E1"
         },
         "code": [
           {

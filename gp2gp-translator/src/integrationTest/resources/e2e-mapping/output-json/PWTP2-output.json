@@ -28,23 +28,6 @@
     },
     {
       "resource": {
-        "resourceType": "Organization",
-        "id": "2f0a2396-8b5c-4853-918d-a029dd46cc98",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://fhir.nhs.uk/Id/ods-organization-code",
-            "value": "2167888433"
-          }
-        ]
-      }
-    },
-    {
-      "resource": {
         "resourceType": "Practitioner",
         "id": "C5DEFBF3-0174-BC6F-182C-B777B9C6FF43",
         "meta": {
