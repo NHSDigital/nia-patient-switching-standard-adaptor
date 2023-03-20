@@ -1,8 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -102,7 +100,7 @@ public class ObservationMapperTest {
         assertThat(observation.getIssuedElement().asStringValue()).isEqualTo(ISSUED_EHR_COMPOSITION_EXAMPLE);
         assertThat(observation.getPerformer().get(0).getReference()).isEqualTo(PPRF_PARTICIPANT_ID);
         assertThat(observation.getValue() instanceof Quantity).isTrue();
-        assertQuantity(observation.getValueQuantity(), QUANTITY_VALUE, "kilogram per square meter" , "kg/m2");
+        assertQuantity(observation.getValueQuantity(), QUANTITY_VALUE, "kilogram per square meter", "kg/m2");
         assertInterpretation(observation.getInterpretation(), "High", "H", "High");
         assertThat(observation.getComment()).isEqualTo("Subject: Uncle Test text 1");
         assertThat(observation.getReferenceRange().get(0).getText()).isEqualTo("Age and sex based");
