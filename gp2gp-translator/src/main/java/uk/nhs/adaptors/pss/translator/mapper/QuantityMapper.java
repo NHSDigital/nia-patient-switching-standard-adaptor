@@ -60,8 +60,6 @@ public class QuantityMapper {
             if (translation != null && !translation.isEmpty()) {
                 quantity.setUnit(translation.get(0).getOriginalText());
             } else {
-//                Map<String, String> map = MeasurementUnitsUtil.getMeasurementUnitsMap();
-//                quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().getOrDefault(unit, unit));
                 if(foundMeasurementMatch(unit)) { //If match found then use mapped value.
                     quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().get(unit));
                 } else {
