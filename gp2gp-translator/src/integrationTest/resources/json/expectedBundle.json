@@ -3856,6 +3856,13 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "196421000000109",
+            "display": "Transfer-degraded medication entry"
+          }
+        ],
         "text": "Oxygen Composite cylinder with integral headset 1360 litres"
       }
     }
@@ -5166,6 +5173,13 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "196421000000109",
+            "display": "Transfer-degraded medication entry"
+          }
+        ],
         "text": "Paracetamol Caplets 500 mg"
       }
     }
@@ -9054,6 +9068,13 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "196421000000109",
+            "display": "Transfer-degraded medication entry"
+          }
+        ],
         "text": "Benzoyl Peroxide Aquagel 5 %"
       }
     }
@@ -9891,6 +9912,13 @@
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "196421000000109",
+            "display": "Transfer-degraded medication entry"
+          }
+        ],
         "text": "Berkolol Tablets 10 mg"
       }
     }

@@ -20,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @ExtendWith(MockitoExtension.class)
 public class MedicationMapperTest {
@@ -53,6 +54,19 @@ public class MedicationMapperTest {
 
         assertThat(medication.getMeta()).isNotNull();
         assertThat(medication.getCode()).isNotNull();
+    }
+
+    @Test
+    public void When_MappingConsumableWithCodeNotFound_Expect_CorrectFieldsMappedWithDegraded() {
+        var consumable = unmarshallConsumable("degraded_consumable.xml");
+        var medication = medicationMapper.createMedication(consumable);
+
+        verify(codeableConceptMapper, times(1)).mapToCodeableConceptForMedication(any());
+
+        assertThat(medication.getMeta()).isNotNull();
+        assertThat(medication.getCode()).isNotNull();
+        assertThat(medication.getCode().getCoding()).isNotNull();
+        assertThat(medication.getCode().getCoding().get(0)).isEqualTo(DegradedCodeableConcepts.DEGRADED_MEDICATION);
     }
 
     @SneakyThrows

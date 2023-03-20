@@ -4276,6 +4276,13 @@
           ]
         },
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196421000000109",
+              "display": "Transfer-degraded medication entry"
+            }
+          ],
           "text": "Paracetamol  Caplets  500 mg"
         }
       }
@@ -5666,6 +5673,13 @@
           ]
         },
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196421000000109",
+              "display": "Transfer-degraded medication entry"
+            }
+          ],
           "text": "Oxygen  Composite cylinder with integral headset  1360 litres"
         }
       }
@@ -7556,6 +7570,13 @@
           ]
         },
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196421000000109",
+              "display": "Transfer-degraded medication entry"
+            }
+          ],
           "text": "Benzoyl Peroxide  Aquagel  5 %"
         }
       }
@@ -7867,6 +7888,13 @@
           ]
         },
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196421000000109",
+              "display": "Transfer-degraded medication entry"
+            }
+          ],
           "text": "Berkolol  Tablets  10 mg"
         }
       }
