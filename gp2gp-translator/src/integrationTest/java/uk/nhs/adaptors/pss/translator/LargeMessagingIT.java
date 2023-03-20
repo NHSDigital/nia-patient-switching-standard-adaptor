@@ -7,9 +7,7 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 
-import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import org.json.JSONException;
@@ -129,16 +127,16 @@ public final class LargeMessagingIT extends BaseEhrHandler {
 
     private static Stream<Arguments> ehrAndCopcMessageResourceFiles() {
         return Stream.of(
-//            Arguments.of("handleUk06WithFragmentedMids", "/json/LargeMessage/Scenario_4/",
-//                "/json/LargeMessage/expectedBundleScenario4.json"),
+            Arguments.of("handleUk06WithFragmentedMids", "/json/LargeMessage/Scenario_4/",
+                "/json/LargeMessage/expectedBundleScenario4.json"),
             Arguments.of("handleUk06WithMidAttachmentsWithCidAndMidCombo", "/json/LargeMessage/Scenario_6/",
-                "/json/LargeMessage/expectedBundleScenario6.json")
-//            Arguments.of("handleUk06WithSkeletonFragments", "/json/LargeMessage/Scenario_7/",
-//                "/json/LargeMessage/expectedBundleScenario7.json"),
-//            Arguments.of("handleUk06WithFragmentedMidCidCombo", "/json/LargeMessage/Scenario_8/",
-//                "/json/LargeMessage/expectedBundleScenario8.json"),
-//            Arguments.of("handleUk06WithOneMidAttachmentCheck", "/json/LargeMessage/Scenario_9/",
-//                "/json/LargeMessage/expectedBundleScenario9.json")
+                "/json/LargeMessage/expectedBundleScenario6.json"),
+            Arguments.of("handleUk06WithSkeletonFragments", "/json/LargeMessage/Scenario_7/",
+                "/json/LargeMessage/expectedBundleScenario7.json"),
+            Arguments.of("handleUk06WithFragmentedMidCidCombo", "/json/LargeMessage/Scenario_8/",
+                "/json/LargeMessage/expectedBundleScenario8.json"),
+            Arguments.of("handleUk06WithOneMidAttachmentCheck", "/json/LargeMessage/Scenario_9/",
+                "/json/LargeMessage/expectedBundleScenario9.json")
         );
     }
 
