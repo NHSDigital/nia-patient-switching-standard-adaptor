@@ -58,13 +58,19 @@ public class QuantityMapper {
     private void setUnit(Quantity quantity, String unit, List<PQR> translation) {
         if (StringUtils.isNotBlank(unit)) {
             if (translation != null && !translation.isEmpty()) {
-                quantity.setUnit(translation.get(0).getOriginalText());
-            } else {
-                if (foundMeasurementMatch(unit)) { //If match found then use mapped value.
-                    quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().get(unit));
+                //If the translation is found in the MeasurementUnitsMap then add unit using this.
+                // Also add code as translation text.
+                if(foundMeasurementMatch(translation.get(0).getOriginalText())) {
+                    quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().get(translation.get(0).getOriginalText()));
+                    quantity.setCode(translation.get(0).getOriginalText());
                 } else {
-                    quantity.setUnit(unit);
+                //If not found then just set the unit as the translation text.
+                    quantity.setUnit(translation.get(0).getOriginalText());
                 }
+            } else {
+                //Set the unit to its corresponding unit in the map if found.
+                //If not found then just set the unit normally.
+                quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().getOrDefault(unit, unit));
                 quantity.setSystem(UNIT_SYSTEM);
                 quantity.setCode(unit);
             }
@@ -72,10 +78,7 @@ public class QuantityMapper {
     }
 
     private boolean foundMeasurementMatch(String unit) {
-        if (MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit)) {
-            return MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit);
-        }
-        return false;
+        return MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit);
     }
 
     private void setQuantityWithHighComparator(Quantity quantity, PQInc high) {
