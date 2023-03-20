@@ -84,18 +84,10 @@ public class AgentDirectoryMapper {
             } else {
                 agentResourceList.add(createPractitionerRole(resourceId, agent.getCode(), duplicateOrganisation.orElseThrow().getId()));
             }
-
         } else if (agentPerson != null && agentOrganization == null) {
             agentResourceList.add(createPractitioner(agentPerson, resourceId));
-
         } else if (agentPerson == null && agentOrganization != null) {
-            var agentOrganisation = createAgentOrganization(agentOrganization, resourceId, agent.getCode());
-
-            Optional<Organization> duplicateOrganisation = findDuplicateOrganisation(agentOrganisation, agentResourceList);
-
-            if (duplicateOrganisation.isEmpty()) {
-                agentResourceList.add(agentOrganisation);
-            }
+            agentResourceList.add(createAgentOrganization(agentOrganization, resourceId, agent.getCode()));
         }
     }
 

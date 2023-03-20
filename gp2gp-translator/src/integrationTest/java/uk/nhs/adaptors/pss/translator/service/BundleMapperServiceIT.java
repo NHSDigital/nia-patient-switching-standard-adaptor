@@ -84,7 +84,7 @@ public class BundleMapperServiceIT {
     }
 
     @Test
-    public void When_MappingBundle_With_Documents_Expect_Organisation_Added() throws BundleMappingException {
+    public void When_MappingBundle_With_Documents_Expect_OrganisationAdded() throws BundleMappingException {
         var ehrMessage = unmarshallEhrExtractFromFile("ehr-document-and-no-organisations.xml");
 
         var bundle = bundleMapperService.mapToBundle(ehrMessage, LOSING_PRACTICE_ODS_CODE, new ArrayList<>());
@@ -95,7 +95,7 @@ public class BundleMapperServiceIT {
 
         assertThat(organisations.size()).isOne();
         assertThat(practitioners.size()).isOne();
-        assertThat(practitionerRoles.isEmpty()).isTrue();
+        assertThat(practitionerRoles.size()).isZero();
         assertThat(documentReferences.size()).isOne();
 
         var organisationId = organisations.get(0)
@@ -121,10 +121,10 @@ public class BundleMapperServiceIT {
         var practitionerRoles = extractPractitionerRolesFromBundle(bundle);
         var documentReferences = extractDocumentReferencesFromBundle(bundle);
 
-        assertThat(organisations.isEmpty()).isTrue();
+        assertThat(organisations.size()).isZero();
         assertThat(practitioners.size()).isOne();
-        assertThat(practitionerRoles.isEmpty()).isTrue();
-        assertThat(documentReferences.isEmpty()).isTrue();
+        assertThat(practitionerRoles.size()).isZero();
+        assertThat(documentReferences.size()).isZero();
     }
 
     @Test
