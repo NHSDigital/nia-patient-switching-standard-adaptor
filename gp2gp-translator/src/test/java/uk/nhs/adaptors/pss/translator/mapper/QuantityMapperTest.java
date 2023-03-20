@@ -27,7 +27,7 @@ public class QuantityMapperTest {
 
     private final QuantityMapper quantityMapper = new QuantityMapper();
 
-    private static final MeasurementUnitsUtil measurementUnitsUtil = new MeasurementUnitsUtil();
+    private static final MeasurementUnitsUtil MEASUREMENT_UNITS_UTIL = new MeasurementUnitsUtil();
 
     private Method getCreateMeasurementUnitsMethod() throws NoSuchMethodException {
         Method method = MeasurementUnitsUtil.class.getDeclaredMethod("createMeasurementUnits");
@@ -37,7 +37,7 @@ public class QuantityMapperTest {
 
     @BeforeAll
     public void createMeasurementUnits() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        getCreateMeasurementUnitsMethod().invoke(measurementUnitsUtil);
+        getCreateMeasurementUnitsMethod().invoke(MEASUREMENT_UNITS_UTIL);
     }
 
     @Test
