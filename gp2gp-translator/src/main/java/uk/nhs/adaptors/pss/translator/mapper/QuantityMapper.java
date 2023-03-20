@@ -60,7 +60,7 @@ public class QuantityMapper {
             if (translation != null && !translation.isEmpty()) {
                 quantity.setUnit(translation.get(0).getOriginalText());
             } else {
-                if(foundMeasurementMatch(unit)) { //If match found then use mapped value.
+                if (foundMeasurementMatch(unit)) { //If match found then use mapped value.
                     quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().get(unit));
                 } else {
                     quantity.setUnit(unit);
@@ -72,7 +72,7 @@ public class QuantityMapper {
     }
 
     private boolean foundMeasurementMatch(String unit) {
-        if(MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit)) {
+        if (MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit)) {
             return MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit);
         }
         return false;
