@@ -12,7 +12,8 @@ public class OrganizationUtil {
 
     private static final String ORG_IDENTIFIER_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
 
-    public static Optional<Organization> findDuplicateOrganisation(Organization newOrganisation, List<? extends DomainResource> agentResources) {
+    public static Optional<Organization> findDuplicateOrganisation(Organization newOrganisation,
+        List<? extends DomainResource> agentResources) {
         var newOdsCode = getOdsCode(newOrganisation);
 
         if (newOdsCode.isEmpty()) {

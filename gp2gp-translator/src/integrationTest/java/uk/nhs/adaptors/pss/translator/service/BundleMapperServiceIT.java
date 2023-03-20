@@ -38,7 +38,7 @@ public class BundleMapperServiceIT {
     private static final String LOSING_PRACTICE_ODS_CODE = "A12345";
 
     @Autowired
-    BundleMapperService bundleMapperService;
+    private BundleMapperService bundleMapperService;
 
     @Test
     public void When_MappingBundle_With_RepresentedOrganisation_Expect_OrganisationMapped() throws BundleMappingException {
