@@ -1096,7 +1096,6 @@ public class MeasurementUnitsUtil {
         UNITS.put("{TSI_index}", "thyroid-stimulating immunoglobulin index");
         UNITS.put("Wb", "Weber");
         UNITS.put("{WBCs}", "white blood cells");
-        UNITS.put("1", "1*");
         UNITS.put("'", "minute");
         UNITS.put("''", "second");
         UNITS.put("%[slope]", "percent of slope");
