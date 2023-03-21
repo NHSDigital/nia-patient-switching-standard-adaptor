@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
@@ -7,13 +8,16 @@ import org.hl7.v3.IVLPQ;
 import org.hl7.v3.PQ;
 import org.hl7.v3.PQInc;
 import org.hl7.v3.PQR;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class QuantityMapper {
     private static final String UNIT_SYSTEM = "http://unitsofmeasure.org";
 
@@ -54,13 +58,27 @@ public class QuantityMapper {
     private void setUnit(Quantity quantity, String unit, List<PQR> translation) {
         if (StringUtils.isNotBlank(unit)) {
             if (translation != null && !translation.isEmpty()) {
-                quantity.setUnit(translation.get(0).getOriginalText());
+                //If the translation is found in the MeasurementUnitsMap then add unit using this.
+                // Also add code as translation text.
+                if (foundMeasurementMatch(translation.get(0).getOriginalText())) {
+                    quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().get(translation.get(0).getOriginalText()));
+                    quantity.setCode(translation.get(0).getOriginalText());
+                } else {
+                //If not found then just set the unit as the translation text.
+                    quantity.setUnit(translation.get(0).getOriginalText());
+                }
             } else {
-                quantity.setUnit(unit);
+                //Set the unit to its corresponding unit in the map if found.
+                //If not found then just set the unit normally.
+                quantity.setUnit(MeasurementUnitsUtil.getMeasurementUnitsMap().getOrDefault(unit, unit));
                 quantity.setSystem(UNIT_SYSTEM);
                 quantity.setCode(unit);
             }
         }
+    }
+
+    private boolean foundMeasurementMatch(String unit) {
+        return MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit);
     }
 
     private void setQuantityWithHighComparator(Quantity quantity, PQInc high) {
@@ -92,4 +110,5 @@ public class QuantityMapper {
         }
         quantity.setValue(new BigDecimal((value)).setScale(decimalPlaceCount, RoundingMode.CEILING));
     }
+
 }

@@ -477,7 +477,7 @@
         ],
         "valueQuantity": {
           "value": 2,
-          "unit": "m",
+          "unit": "meter",
           "system": "http://unitsofmeasure.org",
           "code": "m"
         }
@@ -539,7 +539,7 @@
         ],
         "valueQuantity": {
           "value": 82,
-          "unit": "kg",
+          "unit": "kilogram",
           "system": "http://unitsofmeasure.org",
           "code": "kg"
         }
@@ -601,7 +601,7 @@
         ],
         "valueQuantity": {
           "value": 20,
-          "unit": "/wk",
+          "unit": "per week",
           "system": "http://unitsofmeasure.org",
           "code": "/wk"
         },
@@ -735,7 +735,7 @@
         ],
         "valueQuantity": {
           "value": 120,
-          "unit": "mm[Hg]",
+          "unit": "millimeter of mercury",
           "system": "http://unitsofmeasure.org",
           "code": "mm[Hg]"
         },
@@ -805,7 +805,7 @@
         ],
         "valueQuantity": {
           "value": 80,
-          "unit": "mm[Hg]",
+          "unit": "millimeter of mercury",
           "system": "http://unitsofmeasure.org",
           "code": "mm[Hg]"
         },
