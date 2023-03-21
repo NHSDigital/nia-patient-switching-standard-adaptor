@@ -1,0 +1,271 @@
+<RCMR_IN030000UK06 xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="urn:hl7-org:v3 ..\Schemas\RCMR_IN030000UK06.xsd">
+    <id root="5EFB1942-A0C1-11ED-808B-AC162D1F16F0"/>
+    <creationTime value="20230130171310"/>
+    <versionCode code="V3NPfIT3.1.10"/>
+    <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="RCMR_IN030000UK06"/>
+    <processingCode code="P"/>
+    <processingModeCode code="T"/>
+    <acceptAckCode code="NE"/>
+    <communicationFunctionRcv typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id root="1.2.826.0.1285.0.2.0.107" extension="321321321321"/>
+        </device>
+    </communicationFunctionRcv>
+    <communicationFunctionSnd typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id root="1.2.826.0.1285.0.2.0.107" extension="123123123123"/>
+        </device>
+    </communicationFunctionSnd>
+    <ControlActEvent classCode="CACT" moodCode="EVN">
+        <author1 typeCode="AUT">
+            <AgentSystemSDS classCode="AGNT">
+                <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
+                    <id root="1.2.826.0.1285.0.2.0.107" extension="SYSTMONEASID"/>
+                </agentSystemSDS>
+            </AgentSystemSDS>
+        </author1>
+        <subject typeCode="SUBJ" contextConductionInd="false">
+            <EhrExtract classCode="EXTRACT" moodCode="EVN">
+                <id root="5EFB1943-A0C1-11ED-808B-AC162D1F16F0"/>
+                <statusCode code="COMPLETE"/>
+                <availabilityTime value="20230130171310"/>
+                <recordTarget typeCode="RCT">
+                    <patient classCode="PAT">
+                        <id root="2.16.840.1.113883.2.1.4.1" extension="9727864066"/>
+                    </patient>
+                </recordTarget>
+                <author typeCode="AUT">
+                    <time value="20230130171310"/>
+                    <AgentOrgSDS classCode="AGNT">
+                        <agentOrganizationSDS classCode="ORG" determinerCode="INSTANCE">
+                            <id root="1.2.826.0.1285.0.1.10" extension="A86005"/>
+                        </agentOrganizationSDS>
+                    </AgentOrgSDS>
+                </author>
+                <destination typeCode="DST">
+                    <AgentOrgSDS classCode="AGNT">
+                        <agentOrganizationSDS classCode="ORG" determinerCode="INSTANCE">
+                            <id root="1.2.826.0.1285.0.1.10" extension="A86005"/>
+                        </agentOrganizationSDS>
+                    </AgentOrgSDS>
+                </destination>
+                <component typeCode="COMP">
+                    <ehrFolder classCode="FOLDER" moodCode="EVN">
+                        <id root="5EFFD46B-A0C1-11ED-808B-AC162D1F16F0"/>
+                        <statusCode code="COMPLETE"/>
+                        <effectiveTime>
+                            <low value="2008"/>
+                            <high value="20230130144355"/>
+                        </effectiveTime>
+                        <availabilityTime value="20230130171310"/>
+                        <author typeCode="AUT">
+                            <time value="20230130171310"/>
+                            <AgentOrgSDS classCode="AGNT">
+                                <agentOrganizationSDS classCode="ORG" determinerCode="INSTANCE">
+                                    <id root="1.2.826.0.1285.0.1.10" extension="A86005"/>
+                                </agentOrganizationSDS>
+                            </AgentOrgSDS>
+                        </author>
+                        <responsibleParty typeCode="RESP">
+                            <agentDirectory classCode="AGNT">
+                                <part typeCode="PART">
+                                    <Agent classCode="AGNT">
+                                        <id root="5EFB1946-A0C1-11ED-808B-AC162D1F16F0"/>
+                                        <code code="704951000000106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                              displayName="Other person"/>
+                                        <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                            <name use="L">
+                                                <prefix>Mr</prefix>
+                                                <given>Andrew</given>
+                                                <family>Guiseley</family>
+                                            </name>
+                                            <administrativeGenderCode code="1"/>
+                                        </agentPerson>
+                                        <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                                            <id root="2.16.840.1.113883.2.1.4.3" extension="A86005"/>
+                                            <code code="600"/>
+                                            <name>West Farm Surgery</name>
+                                            <telecom use="WP" value="tel:01132050080">
+                                                <useablePeriod>
+                                                    <low value="20230130"/>
+                                                </useablePeriod>
+                                            </telecom>
+                                            <addr use="WP">
+                                                <streetAddressLine>31 West Farm Avenue</streetAddressLine>
+                                                <streetAddressLine>Newcastle Upon Tyne</streetAddressLine>
+                                                <streetAddressLine>Tyne and Wear</streetAddressLine>
+                                                <postalCode>NE12 8LS</postalCode>
+                                                <useablePeriod>
+                                                    <low value="20230130"/>
+                                                </useablePeriod>
+                                            </addr>
+                                        </representedOrganization>
+                                    </Agent>
+                                </part>
+                                <part typeCode="PART">
+                                    <Agent classCode="AGNT">
+                                        <id root="5EFFD468-A0C1-11ED-808B-AC162D1F16F0"/>
+                                        <id root="2.16.840.1.113883.2.1.4.2" extension="8992788"/>
+                                        <code code="704951000000106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                              displayName="Other person"/>
+                                        <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                            <name use="L">
+                                                <prefix>Mr</prefix>
+                                                <given>Peter</given>
+                                                <family>Salisbury</family>
+                                            </name>
+                                        </agentPerson>
+                                        <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                                            <id root="2.16.840.1.113883.2.1.4.3" extension="A86005"/>
+                                            <code code="600"/>
+                                            <name>West Farm Surgery</name>
+                                            <telecom use="WP" value="tel:01132050080">
+                                                <useablePeriod>
+                                                    <low value="20230130"/>
+                                                </useablePeriod>
+                                            </telecom>
+                                            <addr use="WP">
+                                                <streetAddressLine>31 West Farm Avenue</streetAddressLine>
+                                                <streetAddressLine>Newcastle Upon Tyne</streetAddressLine>
+                                                <streetAddressLine>Tyne and Wear</streetAddressLine>
+                                                <postalCode>NE12 8LS</postalCode>
+                                                <useablePeriod>
+                                                    <low value="20230130"/>
+                                                </useablePeriod>
+                                            </addr>
+                                        </representedOrganization>
+                                    </Agent>
+                                </part>
+                            </agentDirectory>
+                        </responsibleParty>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="5EFB1944-A0C1-11ED-808B-AC162D1F16F0"/>
+                                <code code="37351000000107" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                      displayName="Administration Note"/>
+                                <statusCode code="COMPLETE"/>
+                                <effectiveTime>
+                                    <center nullFlavor="NI"/>
+                                </effectiveTime>
+                                <availabilityTime nullFlavor="UNK"/>
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20230130144356"/>
+                                    <agentRef classCode="AGNT">
+                                        <id root="5EFB1946-A0C1-11ED-808B-AC162D1F16F0"/>
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>Testvale Surgery, GP2GPTEST</name>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <Participant2 typeCode="PRF" contextControlCode="OP">
+                                    <agentRef classCode="AGNT">
+                                        <id root="5EFB1945-A0C1-11ED-808B-AC162D1F16F0"/>
+                                    </agentRef>
+                                </Participant2>
+                                <component typeCode="COMP">
+                                    <ObservationStatement classCode="OBS" moodCode="EVN">
+                                        <id root="5EFFD430-A0C1-11ED-808B-AC162D1F16F0"/>
+                                        <code code="65I3." codeSystem="2.16.840.1.113883.2.1.3.2.4.14"
+                                              displayName="3rd diphtheria, pertussis &amp; tetanus triple &amp; polio vaccinatn">
+                                            <originalText>DTP + Polio 3</originalText>
+                                            <translation code="170402006" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                                         displayName="Third diphtheria, pertussis and tetanus triple and polio vaccination"/>
+                                            <translation code="65I3.00" codeSystem="2.16.840.1.113883.2.1.6.2"
+                                                         displayName="Third DTP (triple)+polio vacc."/>
+                                        </code>
+                                        <statusCode code="COMPLETE"/>
+                                        <effectiveTime>
+                                            <center nullFlavor="NI"/>
+                                        </effectiveTime>
+                                        <availabilityTime nullFlavor="UNK"/>
+                                        <pertinentInformation typeCode="PERT">
+                                            <sequenceNumber value="+1"/>
+                                            <pertinentAnnotation classCode="OBS" moodCode="EVN">
+                                                <text>Batch No: hhhh:yyyy</text>
+                                            </pertinentAnnotation>
+                                        </pertinentInformation>
+                                    </ObservationStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                        <component typeCode="COMP">
+                            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                <id root="5EFFD466-A0C1-11ED-808B-AC162D1F16F0"/>
+                                <code code="37351000000107" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                      displayName="Administration Note"/>
+                                <statusCode code="COMPLETE"/>
+                                <effectiveTime>
+                                    <center value="20230130"/>
+                                </effectiveTime>
+                                <availabilityTime value="20230130"/>
+                                <author typeCode="AUT" contextControlCode="OP">
+                                    <time value="20230130"/>
+                                    <agentRef classCode="AGNT">
+                                        <id root="5EFFD465-A0C1-11ED-808B-AC162D1F16F0"/>
+                                    </agentRef>
+                                </author>
+                                <location typeCode="LOC">
+                                    <locatedEntity classCode="LOCE">
+                                        <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                                            <name>West Farm Surgery</name>
+                                            <telecom use="WP" value="tel:01132050080">
+                                                <useablePeriod>
+                                                    <low value="20230130"/>
+                                                </useablePeriod>
+                                            </telecom>
+                                            <addr use="WP">
+                                                <streetAddressLine>31 West Farm Avenue</streetAddressLine>
+                                                <streetAddressLine>Newcastle Upon Tyne</streetAddressLine>
+                                                <streetAddressLine>Tyne and Wear</streetAddressLine>
+                                                <postalCode>NE12 8LS</postalCode>
+                                                <useablePeriod>
+                                                    <low value="20230130"/>
+                                                </useablePeriod>
+                                            </addr>
+                                        </locatedPlace>
+                                    </locatedEntity>
+                                </location>
+                                <component typeCode="COMP">
+                                    <RegistrationStatement classCode="OBS" moodCode="EVN">
+                                        <id root="5EFFD467-A0C1-11ED-808B-AC162D1F16F0"/>
+                                        <code code="25891000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                              displayName="GMS - Provisional">
+                                            <originalText>Applied</originalText>
+                                        </code>
+                                        <statusCode code="COMPLETE"/>
+                                        <effectiveTime>
+                                            <low value="20230130"/>
+                                        </effectiveTime>
+                                        <availabilityTime value="20230130"/>
+                                        <responsibleParty typeCode="RESP">
+                                            <agentRef classCode="AGNT">
+                                                <id root="5EFFD468-A0C1-11ED-808B-AC162D1F16F0"/>
+                                            </agentRef>
+                                        </responsibleParty>
+                                    </RegistrationStatement>
+                                </component>
+                            </ehrComposition>
+                        </component>
+                    </ehrFolder>
+                </component>
+                <inFulfillmentOf typeCode="FLFS">
+                    <priorEhrRequest classCode="EXTRACT" moodCode="RQO">
+                        <id root="5EFB1941-A0C1-11ED-808B-AC162D1F16F0"/>
+                    </priorEhrRequest>
+                </inFulfillmentOf>
+                <limitation typeCode="LIMIT" inversionInd="true">
+                    <limitingEhrExtractSpecification classCode="OBS" moodCode="DEF">
+                        <id root="5EFFD46C-A0C1-11ED-808B-AC162D1F16F0"/>
+                        <code code="37241000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                              displayName="Entire record available to originator (administrative concept)"/>
+                    </limitingEhrExtractSpecification>
+                </limitation>
+            </EhrExtract>
+        </subject>
+    </ControlActEvent>
+</RCMR_IN030000UK06>

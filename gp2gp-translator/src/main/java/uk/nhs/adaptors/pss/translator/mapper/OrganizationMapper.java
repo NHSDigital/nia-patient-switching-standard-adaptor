@@ -1,9 +1,16 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.OrganizationUtil.getOdsCode;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Organization;
+import org.hl7.fhir.dstu3.model.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +25,14 @@ public class OrganizationMapper {
 
     private final IdGeneratorService idGenerator;
 
-    public Organization mapAuthorOrganization(String odsCode) {
+    public Organization mapAuthorOrganization(String odsCode, List<? extends DomainResource> agents) {
+
+        Map<String, Organization> organisations = getMappedOrganisationsByOdsCode(agents);
+
+        if (organisations.containsKey(odsCode)) {
+            return organisations.get(odsCode);
+        }
+
         Organization organization = new Organization();
         organization.setId(idGenerator.generateUuid());
         organization.addIdentifier(new Identifier()
@@ -27,5 +41,19 @@ public class OrganizationMapper {
         organization.setMeta(generateMeta(ORG_META_PROFILE));
 
         return organization;
+    }
+
+    private Map<String, Organization> getMappedOrganisationsByOdsCode(List<? extends DomainResource> agents) {
+        return agents.stream()
+            .filter(resource -> resource.getResourceType().equals(ResourceType.Organization))
+            .map(Organization.class::cast)
+            .filter(Organization::hasIdentifier)
+            .filter(organization -> organization.getIdentifier()
+                .stream()
+                .anyMatch(identifier -> identifier.getSystem().equals(ORG_IDENTIFIER_SYSTEM) && identifier.hasValue())
+            ).collect(Collectors.toMap(
+                organization -> getOdsCode(organization).orElseThrow(),
+                organization -> organization
+            ));
     }
 }
