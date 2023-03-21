@@ -1,6 +1,9 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.util.ResourceUtils.getFile;
+
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,10 +11,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import lombok.SneakyThrows;
 
 public class BloodPressureValidatorUtilTest {
     private static final List<String> HEADER_1 = Arrays.asList("163020007", "254063019", "254065014", "254064013", "2667419011");
@@ -34,6 +40,10 @@ public class BloodPressureValidatorUtilTest {
     private static final List<String> DIASTOLIC_5 = Arrays.asList("407557002", "2159158013");
 
     private static final String INVALID_CODE = "123456789";
+    private static final String BLOOD_PRESSURE_DIRECTORY = "xml/BloodPressure/";
+    private static final String TRIPLE_WITHOUT_SNOMED = "triple_without_snomed.xml";
+    private static final String TRIPLE_WITH_SNOMED = "triple_with_snomed.xml";
+    private static final String TRIPLE_WITH_SNOMED_TRANSLATION = "triple_with_snomed_translation.xml";
 
     @ParameterizedTest(name = "validBloodPressureTriple")
     @MethodSource("validBloodPressureTriples")
@@ -67,6 +77,27 @@ public class BloodPressureValidatorUtilTest {
     @Test
     public void invalidDiastolicBloodPressureCodeReturnsFalse() {
         assertThat(BloodPressureValidatorUtil.isDiastolicBloodPressure(INVALID_CODE)).isFalse();
+    }
+
+    @Test
+    public void When_ContainsBloodPressureTriple_With_SnomedCode_Expect_True() {
+        var compoundStatement = unmarshallCompoundStatement(TRIPLE_WITH_SNOMED);
+
+        assertThat(BloodPressureValidatorUtil.containsValidBloodPressureTriple(compoundStatement)).isTrue();
+    }
+
+    @Test
+    public void When_ContainedBloodPressureTriple_With_SnomedTranslation_Expect_True() {
+        var compoundStatement = unmarshallCompoundStatement(TRIPLE_WITH_SNOMED_TRANSLATION);
+
+        assertThat(BloodPressureValidatorUtil.containsValidBloodPressureTriple(compoundStatement)).isTrue();
+    }
+
+    @Test
+    public void When_ContainsBloodPressureTriple_With_MissingSnomed_Expect_False() {
+        var compoundStatement = unmarshallCompoundStatement(TRIPLE_WITHOUT_SNOMED);
+
+        assertThat(BloodPressureValidatorUtil.containsValidBloodPressureTriple(compoundStatement)).isFalse();
     }
 
     private static Stream<Arguments> validBloodPressureTriples() {
@@ -123,5 +154,11 @@ public class BloodPressureValidatorUtilTest {
         }
 
         return testCases;
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UK04CompoundStatement unmarshallCompoundStatement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + BLOOD_PRESSURE_DIRECTORY + fileName),
+            RCMRMT030101UK04CompoundStatement.class);
     }
 }

@@ -4,11 +4,14 @@ import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtra
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.hl7.fhir.dstu3.model.Annotation;
+import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Immunization;
@@ -26,8 +29,8 @@ import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
@@ -85,8 +88,15 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
             .setPrimarySource(true)
             .setPatient(new Reference(patientResource))
             .setId(id);
+
         buildNote(observationStatement).forEach(immunization::addNote);
         setDateFields(immunization, observationStatement);
+
+        // we never receive a vaccine code but we have to include a unk code to make it FHIR compliant
+        var unkCoding = new Coding().setCode("UNK").setSystem("http://hl7.org/fhir/v3/NullFlavor");
+        var codingList = new ArrayList<Coding>();
+        codingList.add(unkCoding);
+        immunization.setVaccineCode(new CodeableConcept().setCoding(codingList));
 
         return immunization;
     }

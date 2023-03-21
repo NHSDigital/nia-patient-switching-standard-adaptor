@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
+import static uk.nhs.adaptors.pss.translator.util.CDUtil.extractSnomedCode;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
@@ -166,9 +167,11 @@ public class SpecimenMapper {
         return topLevelComponents.stream()
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
             .filter(Objects::nonNull)
-            .filter(compoundStatement -> compoundStatement.hasCode()
-                && compoundStatement.getCode().hasCode()
-                && compoundStatement.getCode().getCode().equals(SPECIMEN_CODE)
-            ).toList();
+            .filter(RCMRMT030101UK04CompoundStatement::hasCode)
+            .filter(compoundStatement -> {
+                Optional<String> code = extractSnomedCode(compoundStatement.getCode());
+                return code.map(SPECIMEN_CODE::equals).orElse(false);
+            })
+            .toList();
     }
 }

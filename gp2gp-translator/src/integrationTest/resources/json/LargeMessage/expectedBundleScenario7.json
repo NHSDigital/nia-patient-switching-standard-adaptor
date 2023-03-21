@@ -525,7 +525,7 @@
       "resourceType": "Practitioner",
       "id": "6d756c3c-d9a7-4cf8-8690-e2fa11043274",
       "name": [ {
-        "text": "Unknown User"
+        "family": "Unknown User"
       } ]
     }
   } ]

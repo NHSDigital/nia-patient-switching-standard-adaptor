@@ -6,12 +6,15 @@ import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCate
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -25,6 +28,11 @@ import org.hl7.v3.CD;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -50,9 +58,16 @@ public class AllergyIntoleranceMapperTest {
     private static final int THREE = 3;
 
     private static final String ORIGINAL_TEXT_IN_CODE = "OriginalText from Code";
+    private static final String MULTILEX_CODE_SYSTEM = "2.16.840.1.113883.2.1.6.4";
+    private static final String MULTILEX_COCONUT_OIL = "01142009";
+    private static final String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";
+    private static final String SNOMED_COCONUT_OIL = "14613911000001107";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
+
+    @Captor
+    private ArgumentCaptor<CD> cdCaptor;
 
     @InjectMocks
     private AllergyIntoleranceMapper allergyIntoleranceMapper;
@@ -218,6 +233,39 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getNote().size()).isOne();
     }
 
+    @ParameterizedTest
+    @MethodSource("allergyStructuresWithTranslations")
+    public void testTppNamedSchemaInValue(String filename) {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+            .thenReturn(tertiaryCodeableConcept());
+
+        var ehrExtract = unmarshallEhrExtract(filename);
+
+        allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
+
+        verify(codeableConceptMapper, times(2)).mapToCodeableConcept(cdCaptor.capture());
+
+        CD cd = cdCaptor.getAllValues().get(1);
+
+        assertThat(cd.getCode()).isEqualTo(MULTILEX_COCONUT_OIL);
+        assertThat(cd.getCodeSystem()).isEqualTo(MULTILEX_CODE_SYSTEM);
+        assertThat(cd.getDisplayName()).isEqualTo("Coconut oil");
+        assertThat(cd.getTranslation().size()).isOne();
+
+        var translation = cd.getTranslation().get(0);
+
+        assertThat(translation.getCodeSystem()).isEqualTo(SNOMED_CODE_SYSTEM);
+        assertThat(translation.getCode()).isEqualTo(SNOMED_COCONUT_OIL);
+        assertThat(translation.getDisplayName()).isEqualTo("Coconut oil");
+    }
+
+    private static Stream<Arguments> allergyStructuresWithTranslations() {
+        return Stream.of(
+            Arguments.of("allergy-structure-tpp-named-schema.xml"),
+            Arguments.of("allergy-structure-with-translations.xml")
+        );
+    }
+
     private void assertFixedValues(AllergyIntolerance allergyIntolerance) {
         assertThat(allergyIntolerance.getId()).isEqualTo(COMPOUND_STATEMENT_ROOT_ID);
         assertThat(allergyIntolerance.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
@@ -234,7 +282,7 @@ public class AllergyIntoleranceMapperTest {
             .map(Reference::getResource)
             .map(encounter -> encounter.getIdElement().getValue())
             .findFirst()
-            .get();
+            .orElseThrow();
 
         assertThat(encounterID).isEqualTo(ENCOUNTER_ID);
     }
