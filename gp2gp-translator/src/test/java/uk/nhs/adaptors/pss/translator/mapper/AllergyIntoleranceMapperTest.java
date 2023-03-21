@@ -39,6 +39,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @ExtendWith(MockitoExtension.class)
 public class AllergyIntoleranceMapperTest {
@@ -123,6 +124,37 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_1);
     }
 
+    @Test
+    public void testMapDegradedNonDrugAllergy() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+                .thenReturn(new CodeableConcept());
+
+        var ehrExtract = unmarshallEhrExtract("degraded-non-drug-allergy-structure.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+            getEncounterList(), PRACTISE_CODE);
+
+        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_NON_DRUG_ALLERGY);
+    }
+
+    @Test
+    public void testMapDegradedDrugAllergy() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+                .thenReturn(new CodeableConcept());
+
+        var ehrExtract = unmarshallEhrExtract("degraded-drug-allergy-structure.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+                getEncounterList(), PRACTISE_CODE);
+
+        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep())
+                .isEqualTo(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
+    }
 
     @Test
     public void testMapAllergyWithOriginalTextInObservationCode() {
@@ -258,6 +290,8 @@ public class AllergyIntoleranceMapperTest {
         assertThat(translation.getCode()).isEqualTo(SNOMED_COCONUT_OIL);
         assertThat(translation.getDisplayName()).isEqualTo("Coconut oil");
     }
+
+   
 
     private static Stream<Arguments> allergyStructuresWithTranslations() {
         return Stream.of(
