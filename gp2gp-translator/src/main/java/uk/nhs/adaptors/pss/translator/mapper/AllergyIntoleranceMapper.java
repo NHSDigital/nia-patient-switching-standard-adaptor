@@ -84,11 +84,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         buildExtension(ehrComposition, encounters, allergyIntolerance);
         buildNote(allergyIntolerance, compoundStatement);
         buildCode(allergyIntolerance, compoundStatement);
-        
-        if (allergyIntolerance.hasCode() && !allergyIntolerance.getCode().hasCoding()) {
-            allergyIntolerance.getCode().setCoding(List.of(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY));
-        }
-        
+
         return allergyIntolerance;
     }
 
