@@ -1,37 +1,8 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
-import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
-import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
-import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.COMPLETED;
-import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.STOPPED;
-
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDispenseRequestPeriodEnd;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosage;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildPrescriptionTypeExtension;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.createMedicationRequestSkeleton;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractMatchingDiscontinue;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.hl7.fhir.dstu3.model.Annotation;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.fhir.dstu3.model.UnsignedIntType;
+import org.hl7.fhir.dstu3.model.*;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
@@ -44,9 +15,19 @@ import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation2;
 import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
 import org.springframework.stereotype.Service;
-
-import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.*;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.*;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 @Service
 @AllArgsConstructor
@@ -173,15 +154,28 @@ public class MedicationRequestPlanMapper {
     }
 
     private String extractTermText(RCMRMT030101UK04Discontinue discontinue) {
+        
+        var stringBuilder = new StringBuilder();
+        if (discontinue.hasCode() && discontinue.getCode().hasOriginalText()) {
+            var originalText = discontinue.getCode().getOriginalText();
+            if (StringUtils.isNotEmpty(originalText)) {
+                stringBuilder
+                        .append('(')
+                        .append(originalText)
+                        .append(") ");
+            }
+        }
 
         var pertinentInfo = discontinue.getPertinentInformation()
-            .stream()
-            .map(RCMRMT030101UK04PertinentInformation2::getPertinentSupplyAnnotation)
-            .map(RCMRMT030101UK04SupplyAnnotation::getText)
-            .filter(StringUtils::isNotBlank)
-            .collect(Collectors.joining(", "));
-
-        return pertinentInfo.isEmpty() ? MISSING_REASON_STRING : pertinentInfo;
+                .stream()
+                .map(RCMRMT030101UK04PertinentInformation2::getPertinentSupplyAnnotation)
+                .map(RCMRMT030101UK04SupplyAnnotation::getText)
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.joining(", "));
+        
+        stringBuilder.append(pertinentInfo.isEmpty() ? MISSING_REASON_STRING : pertinentInfo);
+        
+        return stringBuilder.toString();
     }
 
     private Optional<Reference> extractPriorPrescription(RCMRMT030101UK04Authorise supplyAuthorise) {
