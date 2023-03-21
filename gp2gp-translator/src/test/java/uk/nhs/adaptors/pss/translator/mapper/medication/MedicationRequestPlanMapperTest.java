@@ -199,7 +199,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingDiscontinue_With_MissingPertinentInformationAndCodeDisplay_Expect_DefaultTextAddedAsReason() {
+    public void When_MappingDiscontinue_With_NoPertinentInformationAndHasCodeOriginalText_Expect_CorrectText() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract8.xml");
         Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UK04Authorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
@@ -215,7 +215,7 @@ public class MedicationRequestPlanMapperTest {
         assertThat(statusReasonExt.size()).isEqualTo(1);
 
         var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-        assertThat(statusReason.getText()).isEqualTo(DEFAULT_STATUS_REASON);
+        assertThat(statusReason.getText()).isEqualTo("(Ended) " + DEFAULT_STATUS_REASON);
     }
 
     @Test
@@ -292,7 +292,27 @@ public class MedicationRequestPlanMapperTest {
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
         assertThat(statusExt.isEmpty()).isTrue();
     }
+    
+    @Test void When_MappingDiscontinue_With_CodingOriginalTextAndPertinentInformation_Expect_CorrectText() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract13.xml");
+        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UK04Authorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
 
+        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract, medicationStatement.get(), supplyAuthorise.orElseThrow(), PRACTISE_CODE);
+
+        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+        assertThat(statusExt.size()).isEqualTo(1);
+
+        var statusReasonExt = statusExt.get(0).getExtensionsByUrl("statusReason");
+        assertThat(statusReasonExt.size()).isEqualTo(1);
+
+        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
+        assertThat(statusReason.getText()).isEqualTo("(Ended) Patient no longer requires these");
+    }
+
+   
+    
     private Optional<RCMRMT030101UK04Authorise> extractSupplyAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement) {
         return medicationStatement
             .getComponent()
