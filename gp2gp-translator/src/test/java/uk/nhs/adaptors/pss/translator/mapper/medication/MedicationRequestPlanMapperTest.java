@@ -292,7 +292,7 @@ public class MedicationRequestPlanMapperTest {
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
         assertThat(statusExt.isEmpty()).isTrue();
     }
-    
+
     @Test void When_MappingDiscontinue_With_CodingOriginalTextAndPertinentInformation_Expect_CorrectText() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract13.xml");
         Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
@@ -311,8 +311,6 @@ public class MedicationRequestPlanMapperTest {
         assertThat(statusReason.getText()).isEqualTo("(Ended) Patient no longer requires these");
     }
 
-   
-    
     private Optional<RCMRMT030101UK04Authorise> extractSupplyAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement) {
         return medicationStatement
             .getComponent()
