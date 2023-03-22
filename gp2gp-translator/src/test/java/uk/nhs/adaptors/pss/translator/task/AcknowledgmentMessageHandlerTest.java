@@ -31,7 +31,9 @@ import uk.nhs.adaptors.pss.translator.service.XPathService;
 @ExtendWith(MockitoExtension.class)
 public class AcknowledgmentMessageHandlerTest {
     private static final String ACK_TYPE_CODE_XPATH = "//MCCI_IN010000UK13/acknowledgement/@typeCode";
-    private static final String ERROR_REASON_CODE_XPATH = "//MCCI_IN010000UK13/ControlActEvent/reason/justifyingDetectedIssueEvent/code/@code";
+    private static final String ERROR_REASON_CODE_XPATH =
+        "//MCCI_IN010000UK13/ControlActEvent/reason/justifyingDetectedIssueEvent/code/@code";
+
     private static final String CONVERSATION_ID = randomUUID().toString();
     private static final String ACK_TYPE_CODE = "AA";
     private static final String NACK_TYPE_CODE = "AE";
@@ -60,7 +62,8 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACKNOWLEDGED, CONVERSATION_ID, null);
+        verify(migrationStatusLogService)
+            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACKNOWLEDGED, CONVERSATION_ID, null);
     }
 
     @Test
@@ -82,7 +85,8 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED, CONVERSATION_ID, null);
+        verify(migrationStatusLogService)
+            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED, CONVERSATION_ID, null);
     }
 
     @Test
@@ -124,7 +128,8 @@ public class AcknowledgmentMessageHandlerTest {
         when(xPathService.parseDocumentFromXml(inboundMessage.getPayload())).thenReturn(ebXmlDocument);
         when(xPathService.getNodeValue(ebXmlDocument, ACK_TYPE_CODE_XPATH)).thenReturn(typeCode);
 
-        if (NACK_TYPE_CODE == typeCode) {
+        // Required to prevent unnecessary stubs error
+        if (NACK_TYPE_CODE.equals(typeCode)) {
             when(xPathService.getNodeValue(ebXmlDocument, ERROR_REASON_CODE_XPATH)).thenReturn(errorReasonCode);
         }
     }

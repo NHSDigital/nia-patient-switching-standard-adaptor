@@ -2,8 +2,6 @@ package uk.nhs.adaptors.pss.gpc.controller;
 
 import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueSeverity.ERROR;
 import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueType.EXCEPTION;
-import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueType.NOTSUPPORTED;
-import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueType.NULL;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
@@ -42,7 +40,6 @@ import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 import static uk.nhs.adaptors.pss.gpc.util.fhir.OperationOutcomeUtils.createOperationOutcome;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -79,12 +76,6 @@ public class PatientTransferController {
     private FhirParser fhirParser;
 
     private static final String ISSUE_SYSTEM = "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1";
-
-    private static final String OperationOutcomeReasonCodePlaceholder = "{{operation-outcome-code}}";
-    private static final String OperationOutcomeReasonMessagePlaceholder = "{{operation-outcome-message}}";
-    private static final String OperationOutcomeTemplate =
-        String.valueOf(Paths.get(String.valueOf(PatientTransferController.class.getClassLoader()
-            .getResource("operationOutcome.json"))));
 
     private static final List<MigrationStatus> IN_PROGRESS_STATUSES = List.of(
         REQUEST_RECEIVED,
@@ -157,37 +148,36 @@ public class PatientTransferController {
             return new ResponseEntity<>(patientTransferService.getBundleResource(), OK);
         } else {
 
-            var operationOutcome = CreateErrorBodyFromMigrationStatus(request.getMigrationStatus());
+            OperationOutcome operationOutcome = createErrorBodyFromMigrationStatus(request.getMigrationStatus());
             String errorBody = fhirParser.encodeToJson(operationOutcome);
+            MigrationStatus currentMigrationStatus = request.getMigrationStatus();
 
             // This is where we handle errors
-            if (LRG_MESSAGE_ERRORS.contains(request.getMigrationStatus())
-                || EHR_GENERAL_PROCESSING_ERROR == request.getMigrationStatus()
-                || EHR_EXTRACT_REQUEST_NEGATIVE_ACK == request.getMigrationStatus()) {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            if (GPG2PG_NACK_500_ERROR_STATUSES.contains(currentMigrationStatus)
+                || LRG_MESSAGE_ERRORS.contains(currentMigrationStatus)
+                || EHR_GENERAL_PROCESSING_ERROR == currentMigrationStatus
+                || EHR_EXTRACT_REQUEST_NEGATIVE_ACK == currentMigrationStatus) {
+                return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
-            if (GPG2PG_NACK_400_ERROR_STATUSES.contains(request.getMigrationStatus())){
-                return new ResponseEntity<>(errorBody,HttpStatus.BAD_REQUEST);
+            if (GPG2PG_NACK_400_ERROR_STATUSES.contains(currentMigrationStatus)) {
+                return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
             }
 
-            if (GPG2PG_NACK_404_ERROR_STATUSES.contains(request.getMigrationStatus())){
-                return new ResponseEntity<>(errorBody,HttpStatus.NOT_FOUND);
+            if (GPG2PG_NACK_404_ERROR_STATUSES.contains(currentMigrationStatus)) {
+                return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
             }
 
-            if (GPG2PG_NACK_500_ERROR_STATUSES.contains(request.getMigrationStatus())){
-                return new ResponseEntity<>(errorBody,HttpStatus.INTERNAL_SERVER_ERROR);
-            }
 
-            if (GPG2PG_NACK_501_ERROR_STATUSES.contains(request.getMigrationStatus())){
+            if (GPG2PG_NACK_501_ERROR_STATUSES.contains(currentMigrationStatus)) {
                 return new ResponseEntity<>(errorBody, HttpStatus.NOT_IMPLEMENTED);
             }
 
-            throw new IllegalStateException("Unsupported transfer status: " + request.getMigrationStatus());
+            throw new IllegalStateException("Unsupported transfer status: " + currentMigrationStatus);
         }
     }
 
-    private OperationOutcome CreateErrorBodyFromMigrationStatus(MigrationStatus migrationStatus) throws IOException {
+    private OperationOutcome createErrorBodyFromMigrationStatus(MigrationStatus migrationStatus) throws IOException {
 
         String operationErrorCode = "";
         String operationErrorMessage = "";
@@ -203,8 +193,8 @@ public class PatientTransferController {
                 break;
             case EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_NOT_PRIMARY_HEALTHCARE_PROVIDER:
                 operationErrorCode = "PATIENT_NOT_FOUND";
-                operationErrorMessage = "GP2GP - PDS indicates Requesting practice is " +
-                    "not the patient’s current primary healthcare provider";
+                operationErrorMessage = "GP2GP - PDS indicates Requesting practice is "
+                    + "not the patient’s current primary healthcare provider";
                 break;
             case EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
@@ -216,8 +206,8 @@ public class PatientTransferController {
                 break;
             case EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
-                operationErrorMessage = "GP2GP - This is a code that should only be used in circumstances where no other codes can" +
-                    " be used to accurately describe the condition.";
+                operationErrorMessage = "GP2GP - This is a code that should only be used in circumstances where no other codes can"
+                    + " be used to accurately describe the condition.";
                 break;
             case EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED:
                 operationErrorCode = "NOT_IMPLEMENTED";

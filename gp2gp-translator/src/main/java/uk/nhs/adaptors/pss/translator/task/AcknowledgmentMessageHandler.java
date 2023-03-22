@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.task;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES;
@@ -28,8 +27,8 @@ import uk.nhs.adaptors.pss.translator.service.XPathService;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AcknowledgmentMessageHandler {
     private static final String ACK_TYPE_CODE_XPATH = "//MCCI_IN010000UK13/acknowledgement/@typeCode";
-    private static final String NACK_REASON_CODE_PATH = "//MCCI_IN010000UK13/ControlActEvent/reason/justifyingDetectedIssueEvent/code/@code";
-    private static final String NACK_REASON_MESSAGE_PATH = "//MCCI_IN010000UK13/ControlActEvent/reason/justifyingDetectedIssueEvent/code/@displayName";
+    private static final String NACK_REASON_CODE_PATH =
+        "//MCCI_IN010000UK13/ControlActEvent/reason/justifyingDetectedIssueEvent/code/@code";
     private static final String ACK_TYPE_CODE = "AA";
     private static final String NACK_TYPE_CODE = "AE";
 
@@ -42,9 +41,8 @@ public class AcknowledgmentMessageHandler {
         String nackReasonCode = null;
         String nackReasonMessage = null;
 
-        if (ackTypeCode.equals(NACK_TYPE_CODE)){
+        if (ackTypeCode.equals(NACK_TYPE_CODE)) {
             nackReasonCode = xPathService.getNodeValue(document, NACK_REASON_CODE_PATH);
-            nackReasonMessage = xPathService.getNodeValue(document, NACK_REASON_MESSAGE_PATH);
             if (nackReasonCode == null) {
                 nackReasonCode = "";
             }
@@ -69,17 +67,16 @@ public class AcknowledgmentMessageHandler {
     private MigrationStatus getMigrationStatus(String ackTypeCode, String reasonCode) {
         return switch (ackTypeCode) {
             case ACK_TYPE_CODE -> EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
-            case NACK_TYPE_CODE ->
-                switch (reasonCode) {
-                    case "6" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED;
-                    case "7" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED;
-                    case "10" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR;
-                    case "18" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST;
-                    case "19" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_NOT_PRIMARY_HEALTHCARE_PROVIDER;
-                    case "24" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES;
-                    case "99" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
-                    default -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
-                };
+            case NACK_TYPE_CODE -> switch (reasonCode) {
+                case "6" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED;
+                case "7" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED;
+                case "10" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR;
+                case "18" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST;
+                case "19" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_NOT_PRIMARY_HEALTHCARE_PROVIDER;
+                case "24" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES;
+                case "99" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
+                default -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
+            };
             default -> null;
         };
     }

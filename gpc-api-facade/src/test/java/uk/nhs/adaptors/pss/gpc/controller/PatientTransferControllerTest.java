@@ -14,6 +14,7 @@ import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.Map;
 
@@ -52,7 +53,7 @@ public class PatientTransferControllerTest {
     private PatientTransferController controller;
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsNew() {
+    public void migratePatientStructuredRecordWhenTransferStatusIsNew() throws IOException {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS)).thenReturn(null);
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
@@ -62,7 +63,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsReceived() {
+    public void migratePatientStructuredRecordWhenTransferStatusIsReceived() throws IOException {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(REQUEST_RECEIVED));
 
@@ -73,7 +74,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsInProgress() {
+    public void migratePatientStructuredRecordWhenTransferStatusIsInProgress() throws IOException {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED));
 
@@ -84,7 +85,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsCompleted() {
+    public void migratePatientStructuredRecordWhenTransferStatusIsCompleted() throws IOException {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(MIGRATION_COMPLETED));
         when(patientTransferService.getBundleResource()).thenReturn(RESPONSE_BODY);
@@ -106,7 +107,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsEhrExtractNegativeAck() {
+    public void migratePatientStructuredRecordWhenTransferStatusIsEhrExtractNegativeAck() throws IOException {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK));
 
