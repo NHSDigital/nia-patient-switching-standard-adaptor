@@ -1,9 +1,12 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static uk.nhs.adaptors.pss.translator.util.OrganizationUtil.findDuplicateOrganisation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.Address;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -50,18 +53,20 @@ public class AgentDirectoryMapper {
     public List<? extends DomainResource> mapAgentDirectory(RCMRMT030101UK04AgentDirectory agentDirectory) {
         var partList = agentDirectory.getPart();
         if (!CollectionUtils.isEmpty(partList)) {
-            return partList.stream()
+
+            List<DomainResource> agentResources = Collections.synchronizedList(new ArrayList<>());
+
+            partList.stream()
                 .map(RCMRMT030101UK04Part::getAgent)
-                .map(this::mapAgent)
-                .flatMap(List::stream)
-                .toList();
+                .forEach(agent -> mapAgent(agent, agentResources));
+
+            return agentResources;
         }
 
         return null;
     }
 
-    private List<? extends DomainResource> mapAgent(RCCTMT120101UK01Agent agent) {
-        var agentResourceList = new ArrayList<DomainResource>();
+    private void mapAgent(RCCTMT120101UK01Agent agent, List<DomainResource> agentResourceList) {
         var agentPerson = agent.getAgentPerson();
         var agentOrganization = agent.getAgentOrganization();
         var representedOrganization = agent.getRepresentedOrganization();
@@ -69,15 +74,21 @@ public class AgentDirectoryMapper {
 
         if (agentPerson != null && representedOrganization != null) {
             agentResourceList.add(createPractitioner(agentPerson, resourceId));
-            agentResourceList.add(createRepresentedOrganization(representedOrganization, resourceId));
-            agentResourceList.add(createPractitionerRole(resourceId, agent.getCode()));
+
+            var representedOrganisation = createRepresentedOrganization(representedOrganization, resourceId);
+            Optional<Organization> duplicateOrganisation = findDuplicateOrganisation(representedOrganisation, agentResourceList);
+
+            if (duplicateOrganisation.isEmpty()) {
+                agentResourceList.add(representedOrganisation);
+                agentResourceList.add(createPractitionerRole(resourceId, agent.getCode(), representedOrganisation.getId()));
+            } else {
+                agentResourceList.add(createPractitionerRole(resourceId, agent.getCode(), duplicateOrganisation.orElseThrow().getId()));
+            }
         } else if (agentPerson != null && agentOrganization == null) {
             agentResourceList.add(createPractitioner(agentPerson, resourceId));
         } else if (agentPerson == null && agentOrganization != null) {
             agentResourceList.add(createAgentOrganization(agentOrganization, resourceId, agent.getCode()));
         }
-
-        return agentResourceList;
     }
 
     private Practitioner createPractitioner(RCCTMT120101UK01Person agentPerson, String id) {
@@ -132,7 +143,10 @@ public class AgentDirectoryMapper {
             .setName(getOrganizationName(representedOrg.getName()))
             .setId(id + ORG_ID_SUFFIX);
         organization.setMeta(generateMeta(ORG_META_PROFILE));
-        organization.getIdentifier().add(getOrganizationIdentifier(representedOrg.getId()));
+        var identifier = getOrganizationIdentifier(representedOrg.getId());
+        if (identifier.isPresent()) {
+            organization.getIdentifier().add(identifier.orElseThrow());
+        }
 
         var address = getOrganizationAddress(representedOrg.getAddr());
         if (address != null) {
@@ -155,8 +169,8 @@ public class AgentDirectoryMapper {
         organization.setMeta(generateMeta(ORG_META_PROFILE));
 
         var identifier = getOrganizationIdentifier(agentOrg.getId());
-        if (identifier != null) {
-            organization.getIdentifier().add(identifier);
+        if (identifier.isPresent()) {
+            organization.getIdentifier().add(identifier.orElseThrow());
         }
 
         var text = getText(code);
@@ -210,28 +224,29 @@ public class AgentDirectoryMapper {
         return null;
     }
 
-    private Identifier getOrganizationIdentifier(II id) {
+    private Optional<Identifier> getOrganizationIdentifier(II id) {
         var identifier = new Identifier();
         if (isValidIdentifier(id)) {
-            return identifier
+            return Optional.of(identifier
                 .setSystem(ORG_IDENTIFIER_SYSTEM)
-                .setValue(id.getExtension());
+                .setValue(id.getExtension())
+            );
         }
 
-        return null;
+        return Optional.empty();
     }
 
     private boolean isValidIdentifier(II id) {
         return id != null && id.getRoot() != null && id.getExtension() != null && ORG_ROOT.equals(id.getRoot());
     }
 
-    private PractitionerRole createPractitionerRole(String id, CV code) {
+    private PractitionerRole createPractitionerRole(String id, CV code, String organisationId) {
         var practitionerRole = new PractitionerRole();
 
         practitionerRole.setId(id + PRACT_ROLE_SUFFIX);
         practitionerRole.setMeta(generateMeta(PRACT_ROLE_META_PROFILE));
         practitionerRole.setPractitioner(new Reference(PRACT_PREFIX + id));
-        practitionerRole.setOrganization(new Reference(ORG_PREFIX + id + ORG_ID_SUFFIX));
+        practitionerRole.setOrganization(new Reference(ORG_PREFIX + organisationId));
 
         var text = getText(code);
         if (text != null) {

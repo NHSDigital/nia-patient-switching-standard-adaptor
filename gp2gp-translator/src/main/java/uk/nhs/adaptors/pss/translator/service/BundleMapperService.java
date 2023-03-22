@@ -1,5 +1,8 @@
 package uk.nhs.adaptors.pss.translator.service;
 
+
+import static uk.nhs.adaptors.pss.translator.util.OrganizationUtil.organisationIsNotDuplicate;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -98,9 +101,10 @@ public class BundleMapperService {
             var patient = mapPatient(getEhrExtract(xmlMessage), getPatientOrganization(agents));
             addEntry(bundle, patient);
 
-            Organization authorOrg = organizationMapper.mapAuthorOrganization(losingPracticeOdsCode);
-            addEntry(bundle, authorOrg);
-
+            Organization authorOrg = organizationMapper.mapAuthorOrganization(losingPracticeOdsCode, agents);
+            if (documentReferenceMapper.hasDocumentReferences(ehrExtract) && organisationIsNotDuplicate(authorOrg, agents)) {
+                addEntry(bundle, authorOrg);
+            }
             addEntries(bundle, agents);
 
             var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, losingPracticeOdsCode, locations);
