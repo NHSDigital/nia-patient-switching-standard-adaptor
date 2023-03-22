@@ -1,12 +1,21 @@
 package uk.nhs.adaptors.pss.translator;
 
 import static org.awaitility.Awaitility.await;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ERROR;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_NOT_PRIMARY_HEALTHCARE_PROVIDER;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
 
 import java.util.UUID;
 
@@ -38,8 +47,11 @@ public class AcknowledgeMessageHandlingIT {
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/MCCI_IN010000UK13/ebxml_part.xml";
     private static final String PAYLOAD_PART_PATH = "/xml/MCCI_IN010000UK13/payload_part.xml";
+    private static final String PAYLOAD_PART_PATH_WITH_ERROR_REASON = "/xml/MCCI_IN010000UK13/payload_part_with_reason.xml";
     private static final String TYPE_CODE_PLACEHOLDER = "{{typeCode}}";
     private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
+    private static final String ERROR_REASON_CODE_PLACEHOLDER = "{{reasonCode}}";
+    private static final String ERROR_REASON_MESSAGE_PLACEHOLDER = "{{reasonMessage}}";
     private static final String LOSING_ODS_CODE = "K547";
     private static final String WINNING_ODS_CODE = "ABC";
 
@@ -67,7 +79,7 @@ public class AcknowledgeMessageHandlingIT {
 
     @Test
     public void handlePositiveAcknowledgeMessageFromQueue() {
-        sendAcknowledgementMessageToQueue("AA");
+        sendAcknowledgementMessageToQueue("AA", null, null);
 
         // verify if correct status is set in the DB
         await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
@@ -75,10 +87,74 @@ public class AcknowledgeMessageHandlingIT {
 
     @Test
     public void handleNegativeAcknowledgeMessageFromQueue() {
-        sendAcknowledgementMessageToQueue("AE");
+        sendAcknowledgementMessageToQueue("AE", null, null);
 
         // verify if correct status is set in the DB
-        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK));
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+    }
+
+    @Test
+    public void handleNegativeAcknowledgeMessageWithUndeclairedErrorReasonFromQueue() {
+        sendAcknowledgementMessageToQueue("AE", "101", "Test Error Message");
+
+        // verify if correct status is set in the DB
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+    }
+
+    @Test
+    public void handleNegativeAcknowledgeMessageWithUnknownErrorReasonFromQueue() {
+        sendAcknowledgementMessageToQueue("AE", "99", "Test Error Message");
+
+        // verify if correct status is set in the DB
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+    }
+
+    @Test
+    public void handleNegativeAcknowledgeMessageWithPatientNotRegisteredErrorReasonFromQueue() {
+        sendAcknowledgementMessageToQueue("AE", "6", "Test Error Message");
+
+        // verify if correct status is set in the DB
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED));
+    }
+
+    @Test
+    public void handleNegativeAcknowledgeMessageWithSENDERNOTCONFIGUREDErrorReasonFromQueue() {
+        sendAcknowledgementMessageToQueue("AE", "7", "Test Error Message");
+
+        // verify if correct status is set in the DB
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED));
+    }
+
+    @Test
+    public void handleNegativeAcknowledgeMessageWithEHRGENERATIONErrorReasonFromQueue() {
+        sendAcknowledgementMessageToQueue("AE", "10", "Test Error Message");
+
+        // verify if correct status is set in the DB
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR));
+    }
+
+    @Test
+    public void handleNegativeAcknowledgeMessageWithMISFORMEDREQUESTErrorReasonFromQueue() {
+        sendAcknowledgementMessageToQueue("AE", "18", "Test Error Message");
+
+        // verify if correct status is set in the DB
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST));
+    }
+
+    @Test
+    public void handleNegativeAcknowledgeMessageWithNOTPRIMARYHEALTHCAREPROVIDERErrorReasonFromQueue() {
+        sendAcknowledgementMessageToQueue("AE", "19", "Test Error Message");
+
+        // verify if correct status is set in the DB
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_NOT_PRIMARY_HEALTHCARE_PROVIDER));
+    }
+
+    @Test
+    public void handleNegativeAcknowledgeMessageWithMULTIORNORESPONSESErrorReasonFromQueue() {
+        sendAcknowledgementMessageToQueue("AE", "24", "Test Error Message");
+
+        // verify if correct status is set in the DB
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES));
     }
 
     private String generatePatientNhsNumber() {
@@ -89,14 +165,25 @@ public class AcknowledgeMessageHandlingIT {
         return UUID.randomUUID().toString();
     }
 
-    private void sendAcknowledgementMessageToQueue(String typeCode) {
-        var inboundMessage = createInboundMessage(typeCode);
+    private void sendAcknowledgementMessageToQueue(String typeCode, String reasonCode, String reasonMessage) {
+
+        var inboundMessage = createInboundMessage(typeCode, reasonCode, reasonMessage);
         mhsJmsTemplate.send(session -> session.createTextMessage(parseMessageToString(inboundMessage)));
     }
 
-    private InboundMessage createInboundMessage(String typeCode) {
+    private InboundMessage createInboundMessage(String typeCode, String reasonCode, String reasonMessage) {
         var inboundMessage = new InboundMessage();
-        var payload = readResourceAsString(PAYLOAD_PART_PATH).replace(TYPE_CODE_PLACEHOLDER, typeCode);
+
+        String payload = null;
+        if(reasonCode == null || reasonCode.length() == 0) {
+            payload = readResourceAsString(PAYLOAD_PART_PATH);
+        } else {
+            payload = readResourceAsString(PAYLOAD_PART_PATH_WITH_ERROR_REASON);
+            payload = payload.replace(ERROR_REASON_CODE_PLACEHOLDER, reasonCode);
+            payload = payload.replace(ERROR_REASON_MESSAGE_PLACEHOLDER, reasonMessage);
+        }
+
+        payload = payload.replace(TYPE_CODE_PLACEHOLDER, typeCode);
         var ebXml = readResourceAsString(EBXML_PART_PATH).replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
         inboundMessage.setPayload(payload);
         inboundMessage.setEbXML(ebXml);
