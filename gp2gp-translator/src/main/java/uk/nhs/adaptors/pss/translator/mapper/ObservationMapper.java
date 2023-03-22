@@ -1,5 +1,8 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.ZERO;
+
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -26,9 +29,12 @@ import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -51,10 +57,11 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObser
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ObservationMapper extends AbstractMapper<Observation> {
     private static final String META_PROFILE = "Observation-1";
-    private static final String SUBJECT_COMMENT = "Subject: %s ";
+    private static final String SUBJECT_COMMENT = "Subject: %s";
     private static final String SELF_REFERRAL = "SelfReferral";
     private static final String URGENCY = "Urgency";
     private static final String TEXT = "Text";
+    private static final BigInteger MINUS_ONE = new BigInteger("-1");
 
 
     private final CodeableConceptMapper codeableConceptMapper;
@@ -97,7 +104,8 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             .setIssuedElement(getIssued(ehrExtract, ehrComposition))
             .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
             .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
-            .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject()))
+            .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject(),
+                observationStatement.getCode()))
             .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
             .setSubject(new Reference(patient));
         observation.setId(id);
@@ -195,23 +203,57 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return null;
     }
 
-    private String getComment(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation, RCMRMT030101UK04Subject subject) {
-        StringBuilder stringBuilder = new StringBuilder();
+    private String getComment(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation, RCMRMT030101UK04Subject subject, CD code) {
+        StringJoiner stringJoiner = new StringJoiner(StringUtils.SPACE);
 
         if (subjectHasOriginalText(subject)) {
-            stringBuilder.append(String.format(SUBJECT_COMMENT, subject.getPersonalRelationship().getCode().getOriginalText()));
+            stringJoiner.add(String.format(SUBJECT_COMMENT, subject.getPersonalRelationship().getCode().getOriginalText()));
         } else if (subjectHasDisplayName(subject)) {
-            stringBuilder.append(String.format(SUBJECT_COMMENT, subject.getPersonalRelationship().getCode().getDisplayName()));
+            stringJoiner.add(String.format(SUBJECT_COMMENT, subject.getPersonalRelationship().getCode().getDisplayName()));
         }
 
-        stringBuilder.append(pertinentInformation.stream()
+        Optional<String> minusOneSequenceComment = extractSequenceCommentOfValue(MINUS_ONE, pertinentInformation);
+        Optional<String> zeroSequenceComment = extractSequenceCommentOfValue(ZERO, pertinentInformation);
+        Optional<String> postFixedSequenceComments = extractAllPostFixedSequenceComments(pertinentInformation);
+
+        if (minusOneSequenceComment.isPresent()) {
+            stringJoiner.add(minusOneSequenceComment.orElseThrow());
+
+            if (code.hasOriginalText()) {
+                stringJoiner.add(code.getOriginalText());
+            }
+        }
+
+        zeroSequenceComment.ifPresent(stringJoiner::add);
+        postFixedSequenceComments.ifPresent(stringJoiner::add);
+
+        return stringJoiner.toString();
+    }
+
+    private Optional<String> extractSequenceCommentOfValue(BigInteger value, List<RCMRMT030101UK04PertinentInformation02> pertinentInformation) {
+        return pertinentInformation.stream()
             .filter(this::pertinentInformationHasOriginalText)
-            .map(RCMRMT030101UK04PertinentInformation02.class::cast)
+            .filter(pertinentInfo -> !pertinentInfo.getSequenceNumber().hasNullFlavor())
+            .filter(pertinentInfo -> pertinentInfo.getSequenceNumber().getValue().equals(value))
             .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
             .map(RCMRMT030101UK04Annotation::getText)
-            .collect(Collectors.joining(StringUtils.SPACE)));
+            .findFirst();
+    }
 
-        return stringBuilder.toString();
+    private Optional<String> extractAllPostFixedSequenceComments(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation) {
+        String postFixedSequenceComments = pertinentInformation.stream()
+            .filter(this::pertinentInformationHasOriginalText)
+            .filter(pertinentInfo -> pertinentInfo.getSequenceNumber().hasNullFlavor()
+                || pertinentInfo.getSequenceNumber().getValue().equals(ONE))
+            .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
+            .map(RCMRMT030101UK04Annotation::getText)
+            .collect(Collectors.joining(StringUtils.SPACE));
+
+        if (StringUtils.isEmpty(postFixedSequenceComments)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(postFixedSequenceComments);
     }
 
     private boolean pertinentInformationHasOriginalText(RCMRMT030101UK04PertinentInformation02 pertinentInformation) {
