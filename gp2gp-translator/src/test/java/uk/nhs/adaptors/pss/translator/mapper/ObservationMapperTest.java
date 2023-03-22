@@ -65,7 +65,7 @@ public class ObservationMapperTest {
     private static final String MINUS_ONE_ANNOTATION_TEXT = "minus 1 sequence comment";
     private static final String ZERO_ANNOTATION_TEXT = "zero sequence comment";
     private static final String PLUS_ONE_ANNOTATION_TEXT = "plus 1 sequence comment";
-    private static final String NULL_FLAVOR_ANNOTATION_TEXT ="nullFlavor sequence comment";
+    private static final String NULL_FLAVOR_ANNOTATION_TEXT = "nullFlavor sequence comment";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;

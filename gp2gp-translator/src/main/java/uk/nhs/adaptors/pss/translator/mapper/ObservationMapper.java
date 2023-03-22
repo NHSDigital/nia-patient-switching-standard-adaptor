@@ -230,7 +230,8 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return stringJoiner.toString();
     }
 
-    private Optional<String> extractSequenceCommentOfValue(BigInteger value, List<RCMRMT030101UK04PertinentInformation02> pertinentInformation) {
+    private Optional<String> extractSequenceCommentOfValue(BigInteger value,
+        List<RCMRMT030101UK04PertinentInformation02> pertinentInformation) {
         return pertinentInformation.stream()
             .filter(this::pertinentInformationHasOriginalText)
             .filter(pertinentInfo -> !pertinentInfo.getSequenceNumber().hasNullFlavor())
