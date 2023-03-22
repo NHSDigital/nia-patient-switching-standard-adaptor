@@ -102,32 +102,6 @@
     },
     {
       "resource": {
-        "resourceType": "Organization",
-        "id": "14CA7344-7460-4C96-BABC-AA0A2C8E96D6 -ORG",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://fhir.nhs.uk/Id/ods-organization-code",
-            "value": "B83002"
-          }
-        ],
-        "name": "Ilkley and Wharfedale Medical Practice",
-        "telecom": [
-          {
-            "system": "phone",
-            "value": "01234567890",
-            "use": "work",
-            "rank": 1
-          }
-        ]
-      }
-    },
-    {
-      "resource": {
         "resourceType": "PractitionerRole",
         "id": "14CA7344-7460-4C96-BABC-AA0A2C8E96D6 -PR",
         "meta": {
@@ -139,7 +113,7 @@
           "reference": "Practitioner/14CA7344-7460-4C96-BABC-AA0A2C8E96D6 "
         },
         "organization": {
-          "reference": "Organization/14CA7344-7460-4C96-BABC-AA0A2C8E96D6 -ORG"
+          "reference": "Organization/9C3AB881-FCDE-48EC-8028-37B20E0AE893"
         },
         "code": [
           {
@@ -173,32 +147,6 @@
     },
     {
       "resource": {
-        "resourceType": "Organization",
-        "id": "791185CE-FF04-4D50-83EC-AA02A8BABB02-ORG",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://fhir.nhs.uk/Id/ods-organization-code",
-            "value": "B83002"
-          }
-        ],
-        "name": "Ilkley and Wharfedale Medical Practice",
-        "telecom": [
-          {
-            "system": "phone",
-            "value": "01234567890",
-            "use": "work",
-            "rank": 1
-          }
-        ]
-      }
-    },
-    {
-      "resource": {
         "resourceType": "PractitionerRole",
         "id": "791185CE-FF04-4D50-83EC-AA02A8BABB02-PR",
         "meta": {
@@ -210,7 +158,7 @@
           "reference": "Practitioner/791185CE-FF04-4D50-83EC-AA02A8BABB02"
         },
         "organization": {
-          "reference": "Organization/791185CE-FF04-4D50-83EC-AA02A8BABB02-ORG"
+          "reference": "Organization/9C3AB881-FCDE-48EC-8028-37B20E0AE893"
         },
         "code": [
           {
@@ -267,32 +215,6 @@
     },
     {
       "resource": {
-        "resourceType": "Organization",
-        "id": "D1575DF5-E445-4521-AF6E-14C2D1E61265-ORG",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://fhir.nhs.uk/Id/ods-organization-code",
-            "value": "B83002"
-          }
-        ],
-        "name": "Ilkley and Wharfedale Medical Practice",
-        "telecom": [
-          {
-            "system": "phone",
-            "value": "01234567890",
-            "use": "work",
-            "rank": 1
-          }
-        ]
-      }
-    },
-    {
-      "resource": {
         "resourceType": "PractitionerRole",
         "id": "D1575DF5-E445-4521-AF6E-14C2D1E61265-PR",
         "meta": {
@@ -304,7 +226,7 @@
           "reference": "Practitioner/D1575DF5-E445-4521-AF6E-14C2D1E61265"
         },
         "organization": {
-          "reference": "Organization/D1575DF5-E445-4521-AF6E-14C2D1E61265-ORG"
+          "reference": "Organization/9C3AB881-FCDE-48EC-8028-37B20E0AE893"
         },
         "code": [
           {

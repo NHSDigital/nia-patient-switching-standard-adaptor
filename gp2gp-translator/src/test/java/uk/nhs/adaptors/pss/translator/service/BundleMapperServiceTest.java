@@ -139,7 +139,7 @@ public class BundleMapperServiceTest {
         when(patientMapper.mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class))).thenReturn(new Patient());
         when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class), any(List.class)))
             .thenReturn(encounterResources);
-        when(organizationMapper.mapAuthorOrganization(anyString())).thenReturn(new Organization());
+        when(organizationMapper.mapAuthorOrganization(anyString(), anyList())).thenReturn(new Organization());
     }
 
     @Test
@@ -148,7 +148,7 @@ public class BundleMapperServiceTest {
         Bundle bundle = bundleMapperService.mapToBundle(xml, LOSING_ODS_CODE, new ArrayList<>());
 
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
-        verify(organizationMapper).mapAuthorOrganization(anyString());
+        verify(organizationMapper).mapAuthorOrganization(anyString(), anyList());
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
         verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), anyString());
         verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyString(), anyList());
