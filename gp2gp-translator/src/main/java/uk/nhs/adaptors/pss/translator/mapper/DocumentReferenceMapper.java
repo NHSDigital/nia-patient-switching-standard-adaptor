@@ -58,9 +58,18 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
             .toList();
     }
 
+    public boolean hasDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract) {
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllNarrativeStatements(component)
+                .filter(Objects::nonNull)
+                .filter(ResourceFilterUtil::isDocumentReference)
+                .map(narrativeStatement -> new DocumentReference())
+        ).toList().size() > 0;
+    }
+
     private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement,
         RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, List<Encounter> encounterList,
-                                                   Organization organization, List<PatientAttachmentLog> attachments) {
+        Organization organization, List<PatientAttachmentLog> attachments) {
 
         DocumentReference documentReference = new DocumentReference();
 
@@ -107,7 +116,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     private InstantType getIndexed(RCMRMT030101UK04EhrComposition ehrComposition) {
         if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime()
-                && ehrComposition.getAuthor().getTime().hasValue()) {
+            && ehrComposition.getAuthor().getTime().hasValue()) {
             return DateFormatUtil.parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
         }
         return null;
@@ -147,7 +156,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
             return PLACEHOLDER_VALUE;
         } else {
             return buildFileName(narrativeStatement.getReference().get(0)
-                    .getReferredToExternalDocument().getText().getReference().getValue());
+                .getReferredToExternalDocument().getText().getReference().getValue());
         }
     }
 
@@ -157,7 +166,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     }
 
     private void setContentAttachments(DocumentReference documentReference,
-            RCMRMT030101UK04NarrativeStatement narrativeStatement, List<PatientAttachmentLog> patientAttachmentLogs) {
+        RCMRMT030101UK04NarrativeStatement narrativeStatement, List<PatientAttachmentLog> patientAttachmentLogs) {
 
         var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
         var attachment = new Attachment();
@@ -172,7 +181,6 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
                 if (attachmentSize != null) {
                     attachment.setSize(attachmentSize);
                 }
-
             } else {
                 attachment.setTitle(PLACEHOLDER_VALUE);
             }
@@ -212,9 +220,9 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
         if (patientAttachmentLogs != null && !patientAttachmentLogs.isEmpty()) {
             var attachmentSize = patientAttachmentLogs.stream()
-                    .filter(patientAttachmentLog -> filename.contains(patientAttachmentLog.getFilename()))
-                    .findFirst()
-                    .map(PatientAttachmentLog::getPostProcessedLengthNum);
+                .filter(patientAttachmentLog -> filename.contains(patientAttachmentLog.getFilename()))
+                .findFirst()
+                .map(PatientAttachmentLog::getPostProcessedLengthNum);
 
             if (attachmentSize.isPresent()) {
                 return attachmentSize.get();

@@ -4475,7 +4475,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "zzzzzss"
+            "text": "(zzzzzss) zzzzzss"
           }
         } ]
       }, {
@@ -4778,7 +4778,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "Prescribing Error"
+            "text": "(Prescribing Error) Prescribing Error"
           }
         } ]
       }, {
@@ -5206,7 +5206,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "Patient no longer requires these"
+            "text": "(Patient no longer requires these) Patient no longer requires these"
           }
         } ]
       }, {
@@ -5573,7 +5573,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "Clinical Contra-indication"
+            "text": "(Clinical Contra-indication) Clinical Contra-indication"
           }
         } ]
       }, {
@@ -9392,7 +9392,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "Allergy"
+            "text": "(Allergy) Allergy"
           }
         } ]
       }, {
@@ -9689,7 +9689,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "Adverse reaction to Central Nervous System Drugs (allergy)"
+            "text": "(Adverse reaction to Central Nervous System Drugs (allergy)) Adverse reaction to Central Nervous System Drugs (allergy)"
           }
         } ]
       }, {
@@ -10059,7 +10059,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "Alergy"
+            "text": "(Alergy) Alergy"
           }
         } ]
       }, {
@@ -10772,7 +10772,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "kjhkjkjhjkjkj"
+            "text": "(kjhkjkjhjkjkj) kjhkjkjhjkjkj"
           }
         } ]
       }, {
@@ -11181,7 +11181,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "Adverse reaction to Prednisolone (Fat, John said)"
+            "text": "(Adverse reaction to Prednisolone (Fat, John said)) Adverse reaction to Prednisolone (Fat, John said)"
           }
         } ]
       }, {
@@ -16177,7 +16177,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "Clinical Grounds"
+            "text": "(Clinical Grounds) Clinical Grounds"
           }
         } ]
       }, {
@@ -18271,7 +18271,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "Prescribing Error"
+            "text": "(Prescribing Error) Prescribing Error"
           }
         } ]
       }, {
@@ -19415,7 +19415,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "Change to Medication Treatment Regime"
+            "text": "(Change to Medication Treatment Regime) Change to Medication Treatment Regime"
           }
         } ]
       }, {
@@ -19754,7 +19754,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "some reason"
+            "text": "(some reason) some reason"
           }
         } ]
       }, {
@@ -20520,7 +20520,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "Recreate 22047"
+            "text": "(Recreate 22047) Recreate 22047"
           }
         } ]
       }, {
@@ -20813,7 +20813,7 @@
         }, {
           "url": "statusReason",
           "valueCodeableConcept": {
-            "text": "End course for acute post G -> T switch for 22047"
+            "text": "(End course for acute post G -> T switch for 22047) End course for acute post G -> T switch for 22047"
           }
         } ]
       }, {

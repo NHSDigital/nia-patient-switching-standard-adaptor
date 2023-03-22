@@ -1,386 +1,1246 @@
-﻿Concept Id,Description,Safety Code
-33879002,Active immunisation,"	33879002"
-866186002,"Administration diphtheria, poliomyelitis, and tetanus vaccine","	866186002"
-571511000000000,Administration of adult hepatitis A vaccine,"	571511000119102"
-49598002,Administration of anthrax vaccine,"	49598002"
-312872008,Administration of bacterial and viral vaccine,"	312872008"
-312871001,Administration of bacterial vaccine,"	312871001"
-170342002,Administration of booster dose of anthrax vaccine,"	170342002"
-170313005,Administration of booster dose of cholera vaccine,"	170313005"
-390865008,Administration of booster dose of diphtheria and acellular pertussis and poliomyelitis and tetanus vaccine,"	390865008"
-390846000,Administration of booster dose of diphtheria and acellular pertussis and tetanus vaccine,"	390846000"
-866161006,Administration of booster dose of diphtheria and tetanus vaccine,"	866161006"
-170323001,Administration of booster dose of diphtheria vaccine,"	170323001"
-866227002,"Administration of booster dose of diphtheria, poliomyelitis, and tetanus vaccine","	866227002"
-16292200000000000,Administration of booster dose of Haemophilus influenzae type B capsular polysaccharide polyribosylribitol phosphate conjugated to Clostridium tetani toxoid vaccine,"	16292241000119109"
-170346004,Administration of booster dose of Haemophilus influenzae type B vaccine,"	170346004"
-170437009,Administration of booster dose of hepatitis A and B vaccine,"	170437009"
-394691002,Administration of booster dose of hepatitis A and typhoid vaccine,"	394691002"
-170381002,Administration of booster dose of hepatitis A vaccine,"	170381002"
-170373003,Administration of booster dose of hepatitis B vaccine,"	170373003"
-315335004,Administration of booster dose of Japanese encephalitis vaccine,"	315335004"
-395181003,Administration of booster dose of low dose diphtheria and tetanus vaccine,"	395181003"
-170431005,Administration of booster dose of measles and mumps and rubella vaccine,"	170431005"
-720544006,Administration of booster dose of meningitis B vaccine,"	720544006"
-700358002,Administration of booster dose of meningitis C vaccine,"	700358002"
-871754003,Administration of booster dose of paediatric hepatitis A vaccine,"	871754003"
-300038004,Administration of booster dose of pertussis vaccine,"	300038004"
-394678003,Administration of booster dose of pneumococcal vaccine,"	394678003"
-170421003,Administration of booster dose of poliomyelitis and tetanus vaccine,"	170421003"
-170356000,Administration of booster dose of poliomyelitis vaccine,"	170356000"
-416059007,Administration of booster dose of rabies vaccine,"	416059007"
-170333009,Administration of booster dose of tetanus vaccine,"	170333009"
-170318001,Administration of booster dose of typhoid vaccine,"	170318001"
-28877009,Administration of cholera vaccine,"	28877009"
-827179001,Administration of dengue vaccine,"	827179001"
-16290700000000000,Administration of diphtheria and acellular pertussis and inactivated poliomyelitis and tetanus vaccine,"	16290681000119103"
-571571000000000,Administration of diphtheria and acellular pertussis and tetanus vaccine,"	571571000119105"
-414001002,Administration of diphtheria and Haemophilus influenza B and five component acellular pertussis and inactivated poliomyelitis and tetanus vaccine,"	414001002"
-770608009,Administration of diphtheria and Haemophilus influenzae type B and hepatitis B and pertussis and tetanus vaccine,"	770608009"
-312870000,Administration of diphtheria and Haemophilus influenzae type B and pertussis and poliomyelitis and tetanus vaccine,"	312870000"
-787436003,Administration of diphtheria and Haemophilus influenzae type B and pertussis and tetanus vaccine,"	787436003"
-312869001,Administration of diphtheria and Haemophilus influenzae type B and poliomyelitis and tetanus vaccine,"	312869001"
-572561000000000,Administration of diphtheria and hepatitis B and acellular pertussis and inactivated poliomyelitis and tetanus vaccine,"	572561000119108"
-396456003,Administration of diphtheria and hepatitis B and inactivated poliomyelitis and acellular pertussis vaccine,"	396456003"
-868273007,Administration of diphtheria and pertussis and poliomyelitis and tetanus vaccine,"	868273007"
-73152006,Administration of diphtheria and tetanus vaccine,"	73152006"
-632481000000000,"Administration of diphtheria and tetanus vaccine, less than 7 years of age","	632481000119106"
-76668005,Administration of diphtheria vaccine,"	76668005"
-399014008,"Administration of diphtheria, pertussis, and tetanus vaccine","	399014008"
-170375005,Administration of fifth dose of hepatitis B vaccine,"	170375005"
-1363830000000000,Administration of fifth dose of SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine,"	1363831000000108"
-170334003,Administration of final dose of tetanus vaccine,"	170334003"
-417211006,Administration of first booster of low dose diphtheria and inactivated poliomyelitis and tetanus vaccine,"	417211006"
-170338000,Administration of first dose of anthrax vaccine,"	170338000"
-170311007,Administration of first dose of cholera vaccine,"	170311007"
-412762002,Administration of first dose of diphtheria and acellular pertussis and poliomyelitis and tetanus vaccine,"	412762002"
-412755006,Administration of first dose of diphtheria and acellular pertussis and tetanus vaccine,"	412755006"
-414259000,Administration of first dose of diphtheria and Haemophilus influenza B and five component acellular pertussis and inactivated poliomyelitis and tetanus vaccine,"	414259000"
-770616000,Administration of first dose of diphtheria and Haemophilus influenzae type B and hepatitis B and pertussis and tetanus vaccine,"	770616000"
-310306005,Administration of first dose of diphtheria and Haemophilus influenzae type B and pertussis and poliomyelitis and tetanus vaccine,"	310306005"
-868277008,Administration of first dose of diphtheria and pertussis and poliomyelitis and tetanus vaccine,"	868277008"
-866185003,Administration of first dose of diphtheria and tetanus vaccine,"	866185003"
-170320003,Administration of first dose of diphtheria vaccine,"	170320003"
-866158005,"Administration of first dose of diphtheria, pertussis, and tetanus vaccine","	866158005"
-868267006,"Administration of first dose of diphtheria, poliomyelitis, and tetanus vaccine","	868267006"
-712834006,Administration of first dose of Haemophilus influenzae type B and meningitis C vaccine,"	712834006"
-170343007,Administration of first dose of Haemophilus influenzae type B vaccine,"	170343007"
-170434002,Administration of first dose of hepatitis A and B vaccine,"	170434002"
-314178008,Administration of first dose of hepatitis A and typhoid vaccine,"	314178008"
-170370000,Administration of first dose of hepatitis B vaccine,"	170370000"
-428741008,Administration of first dose of human papilloma virus vaccine,"	428741008"
-314761009,Administration of first dose of Japanese encephalitis vaccine,"	314761009"
-416591003,Administration of first dose of low dose diphtheria and inactivated poliomyelitis and tetanus vaccine,"	416591003"
-395178008,Administration of first dose of low dose diphtheria and tetanus vaccine,"	395178008"
-871909005,Administration of first dose of measles and mumps and rubella and varicella virus vaccine,"	871909005"
-720539004,Administration of first dose of meningitis B vaccine,"	720539004"
-314414007,Administration of first dose of meningitis C vaccine,"	314414007"
-170378007,Administration of first dose of paediatric hepatitis A vaccine,"	170378007"
-170326009,Administration of first dose of pertussis vaccine,"	170326009"
-170418000,Administration of first dose of poliomyelitis and tetanus vaccine,"	170418000"
-170353008,Administration of first dose of poliomyelitis vaccine,"	170353008"
-170365007,Administration of first dose of rabies vaccine,"	170365007"
-1324680000000000,Administration of first dose of SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine,"	1324681000000101"
-1144997007,Administration of first dose of SARS-CoV-2 mRNA vaccine,"	1144997007"
-307416007,Administration of first dose of smallpox vaccine,"	307416007"
-170330007,Administration of first dose of tetanus vaccine,"	170330007"
-170316002,Administration of first dose of typhoid vaccine,"	170316002"
-425897001,Administration of first dose of Varicella-zoster vaccine for chickenpox,"	425897001"
-1326100000000000,Administration of first dose of Varicella-zoster vaccine for shingles,"	1326101000000105"
-985151000000000,Administration of first inactivated seasonal influenza vaccination,"	985151000000100"
-871751000000000,Administration of first intranasal influenza vaccination,"	871751000000104"
-884821000000000,Administration of first intranasal pandemic influenza vaccination,"	884821000000108"
-884861000000000,Administration of first intranasal seasonal influenza vaccination,"	884861000000100"
-170341009,Administration of fourth dose of anthrax vaccine,"	170341009"
-313383003,Administration of fourth dose of diphtheria and Haemophilus influenzae type B and pertussis and poliomyelitis and tetanus vaccine,"	313383003"
-170374009,Administration of fourth dose of hepatitis B vaccine,"	170374009"
-1363790000000000,Administration of fourth dose of SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine,"	1363791000000101"
-786846001,Administration of Haemophilus influenzae type b and hepatitis B vaccine,"	786846001"
-1119364007,Administration of Haemophilus influenzae type B and meningitis C and Y vaccine,"	1119364007"
-428975001,Administration of Haemophilus influenzae type B and meningitis C vaccine,"	428975001"
-127787002,Administration of Haemophilus influenzae type B vaccine,"	127787002"
-312868009,Administration of hepatitis A and B vaccine,"	312868009"
-314177003,Administration of hepatitis A and typhoid vaccine,"	314177003"
-243789007,Administration of hepatitis A vaccine,"	243789007"
-16584000,Administration of hepatitis B vaccine,"	16584000"
-761841000,Administration of human papilloma virus vaccine,"	761841000"
-717953009,Administration of Human papillomavirus 16 and 18 vaccine,"	717953009"
-724332002,Administration of Human papillomavirus 9 vaccine,"	724332002"
-16292700000000000,Administration of inactivated Japanese encephalitis virus adsorbed vaccine via intramuscular route,"	16292731000119106"
-16292800000000000,Administration of inactivated poliomyelitis vaccine,"	16292771000119109"
-442333005,Administration of Influenza A virus subtype H1N1 antigen only vaccine product,"	442333005"
-786847005,Administration of influenza H5N1 vaccine,"	786847005"
-86198006,Administration of influenza vaccine,"	86198006"
-787016008,Administration of influenza vaccine via nasal route,"	787016008"
-16292700000000000,Administration of intramuscular inactivated Japanese encephalitis vaccine,"	16292691000119104"
-314759000,Administration of Japanese encephalitis vaccine,"	314759000"
-871898007,Administration of live attenuated Human alphaherpesvirus 3 vaccine,"	871898007"
-871899004,Administration of live attenuated Human alphaherpesvirus 3 vaccine via subcutaneous route,"	871899004"
-572511000000000,Administration of live attenuated measles and mumps and rubella and varicella-zoster vaccine,"	572511000119105"
-572481000000000,Administration of live attenuated measles vaccine,"	572481000119103"
-571591000000000,"Administration of live attenuated measles, mumps, and rubella vaccine","	571591000119106"
-871728006,Administration of live attenuated Salmonella enterica subspecies enterica serovar Typhi antigen only vaccine product via oral route,"	871728006"
-414620004,Administration of low dose diphtheria and acellular pertussis five component and inactivated poliomyelitis and tetanus vaccine,"	414620004"
-414619005,Administration of low dose diphtheria and inactivated poliomyelitis and tetanus vaccine,"	414619005"
-871828004,Administration of low dose diphtheria and tetanus vaccine,"	871828004"
-170324007,Administration of low dose diphtheria vaccine,"	170324007"
-396455004,Administration of Lyme disease vaccine,"	396455004"
-432636005,Administration of measles and mumps and rubella and varicella virus vaccine,"	432636005"
-38598009,Administration of measles and mumps and rubella vaccine,"	38598009"
-792896000,Administration of measles and rubella vaccine,"	792896000"
-47435007,Administration of measles vaccine,"	47435007"
-314417000,Administration of meningitis A and C vaccine,"	314417000"
-871874000,"Administration of meningitis A, C, W135 and Y vaccine","	871874000"
-720537002,Administration of meningitis B vaccine,"	720537002"
-719596001,Administration of meningitis C vaccine,"	719596001"
-571641000000000,Administration of meningitis polysaccharide vaccine,"	571641000119102"
-16298700000000000,"Administration of meningococcus A, C, W135 and Y capsular oligosaccharide conjugated vaccine","	16298691000119102"
-41088001,Administration of Meningococcus vaccine,"	41088001"
-50583002,Administration of mumps vaccine,"	50583002"
-626061000000000,Administration of pentavalent live attenuated rotavirus vaccine via oral route,"	626061000119109"
-39343008,Administration of pertussis vaccine,"	39343008"
-50069008,Administration of plague vaccine,"	50069008"
-1119366009,Administration of pneumococcal 13-valent conjugate vaccine,"	1119366009"
-1119367000,Administration of pneumococcal 23-valent conjugate vaccine,"	1119367000"
-1119368005,Administration of pneumococcal 7-valent conjugate vaccine,"	1119368005"
-12866006,Administration of pneumococcal vaccine,"	12866006"
-268499008,Administration of poliomyelitis and tetanus vaccine,"	268499008"
-72093006,Administration of poliomyelitis vaccine,"	72093006"
-170432003,Administration of pre-school booster dose of measles and mumps and rubella vaccine,"	170432003"
-734152003,Administration of quadrivalent HPV (human papillomavirus) vaccine,"	734152003"
-34631000,Administration of rabies vaccine,"	34631000"
-572391000000000,Administration of rabies vaccine via intramuscular route,"	572391000119109"
-415354003,Administration of rotavirus vaccine,"	415354003"
-82314000,Administration of rubella vaccine,"	82314000"
-1119350007,Administration of SARS-CoV-2 mRNA vaccine,"	1119350007"
-417384007,Administration of second booster of low dose diphtheria and inactivated poliomyelitis and tetanus vaccine,"	417384007"
-170339008,Administration of second dose of anthrax vaccine,"	170339008"
-170312000,Administration of second dose of cholera vaccine,"	170312000"
-412763007,Administration of second dose of diphtheria and acellular pertussis and poliomyelitis and tetanus vaccine,"	412763007"
-412756007,Administration of second dose of diphtheria and acellular pertussis and tetanus vaccine,"	412756007"
-415507003,Administration of second dose of diphtheria and Haemophilus influenza B and five component acellular pertussis and inactivated poliomyelitis and tetanus vaccine,"	415507003"
-770617009,Administration of second dose of diphtheria and Haemophilus influenzae type B and hepatitis B and pertussis and tetanus vaccine,"	770617009"
-310307001,Administration of second dose of diphtheria and Haemophilus influenzae type B and pertussis and poliomyelitis and tetanus vaccine,"	310307001"
-868274001,Administration of second dose of diphtheria and pertussis and poliomyelitis and tetanus vaccine,"	868274001"
-866184004,Administration of second dose of diphtheria and tetanus vaccine,"	866184004"
-170321004,Administration of second dose of diphtheria vaccine,"	170321004"
-866159002,"Administration of second dose of diphtheria, pertussis, and tetanus vaccine","	866159002"
-868266002,"Administration of second dose of diphtheria, poliomyelitis, and tetanus vaccine","	868266002"
-712833000,Administration of second dose of Haemophilus influenzae type B and meningitis C vaccine,"	712833000"
-170344001,Administration of second dose of Haemophilus influenzae type B vaccine,"	170344001"
-170435001,Administration of second dose of hepatitis A and B vaccine,"	170435001"
-170379004,Administration of second dose of hepatitis A vaccine,"	170379004"
-170371001,Administration of second dose of hepatitis B vaccine,"	170371001"
-429396009,Administration of second dose of human papilloma virus vaccine,"	429396009"
-314762002,Administration of second dose of Japanese encephalitis vaccine,"	314762002"
-395179000,Administration of second dose of low dose diphtheria and tetanus vaccine,"	395179000"
-433733003,Administration of second dose of measles and mumps and rubella and varicella virus vaccine,"	433733003"
-170433008,Administration of second dose of measles and mumps and rubella vaccine,"	170433008"
-720540002,Administration of second dose of meningitis B vaccine,"	720540002"
-314415008,Administration of second dose of meningitis C vaccine,"	314415008"
-871752004,Administration of second dose of paediatric hepatitis A vaccine,"	871752004"
-170327000,Administration of second dose of pertussis vaccine,"	170327000"
-170419008,Administration of second dose of poliomyelitis and tetanus vaccine,"	170419008"
-170354002,Administration of second dose of poliomyelitis vaccine,"	170354002"
-170366008,Administration of second dose of rabies vaccine,"	170366008"
-1324690000000000,Administration of second dose of SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine,"	1324691000000104"
-1144998002,Administration of second dose of SARS-CoV-2 mRNA vaccine,"	1144998002"
-170360002,Administration of second dose of smallpox vaccine,"	170360002"
-170331006,Administration of second dose of tetanus vaccine,"	170331006"
-170317006,Administration of second dose of typhoid vaccine,"	170317006"
-428502009,Administration of second dose of Varicella-zoster vaccine for chickenpox,"	428502009"
-1326110000000000,Administration of second dose of Varicella-zoster vaccine for shingles,"	1326111000000107"
-314179000,Administration of second hepatitis A and typhoid vaccine,"	314179000"
-985171000000000,Administration of second inactivated seasonal influenza vaccination,"	985171000000109"
-871781000000000,Administration of second intranasal influenza vaccination,"	871781000000105"
-884841000000000,Administration of second intranasal pandemic influenza vaccination,"	884841000000101"
-884881000000000,Administration of second intranasal seasonal influenza vaccination,"	884881000000109"
-314450000,Administration of single dose of meningitis C vaccine,"	314450000"
-395665009,Administration of single dose of typhoid vaccine,"	395665009"
-416923003,Administration of sixth dose of hepatitis B vaccine,"	416923003"
-40001004,Administration of smallpox vaccine,"	40001004"
-127786006,Administration of tetanus vaccine,"	127786006"
-170340005,Administration of third dose of anthrax vaccine,"	170340005"
-412764001,Administration of third dose of diphtheria and acellular pertussis and poliomyelitis and tetanus vaccine,"	412764001"
-412757003,Administration of third dose of diphtheria and acellular pertussis and tetanus vaccine,"	412757003"
-415712004,Administration of third dose of diphtheria and Haemophilus influenza B and five component acellular pertussis and inactivated poliomyelitis and tetanus vaccine,"	415712004"
-770618004,Administration of third dose of diphtheria and Haemophilus influenzae type B and hepatitis B and pertussis and tetanus vaccine,"	770618004"
-310308006,Administration of third dose of diphtheria and Haemophilus influenzae type B and pertussis and poliomyelitis and tetanus vaccine,"	310308006"
-868276004,Administration of third dose of diphtheria and pertussis and poliomyelitis and tetanus vaccine,"	868276004"
-870668008,Administration of third dose of diphtheria and tetanus vaccine,"	870668008"
-170322006,Administration of third dose of diphtheria vaccine,"	170322006"
-866226006,"Administration of third dose of diphtheria, pertussis, and tetanus vaccine","	866226006"
-868268001,"Administration of third dose of diphtheria, poliomyelitis, and tetanus vaccine","	868268001"
-170345000,Administration of third dose of Haemophilus influenzae type B vaccine,"	170345000"
-170436000,Administration of third dose of hepatitis A and B vaccine,"	170436000"
-170380001,Administration of third dose of hepatitis A vaccine,"	170380001"
-170372008,Administration of third dose of hepatitis B vaccine,"	170372008"
-428931000,Administration of third dose of human papilloma virus vaccine,"	428931000"
-314763007,Administration of third dose of Japanese encephalitis vaccine,"	314763007"
-395180002,Administration of third dose of low dose diphtheria and tetanus vaccine,"	395180002"
-314416009,Administration of third dose of meningitis C vaccine,"	314416009"
-871753009,Administration of third dose of paediatric hepatitis A vaccine,"	871753009"
-170328005,Administration of third dose of pertussis vaccine,"	170328005"
-170420002,Administration of third dose of poliomyelitis and tetanus vaccine,"	170420002"
-170355001,Administration of third dose of poliomyelitis vaccine,"	170355001"
-170367004,Administration of third dose of rabies vaccine,"	170367004"
-1363860000000000,Administration of third dose of SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine,"	1363861000000103"
-170361003,Administration of third dose of smallpox vaccine,"	170361003"
-170332004,Administration of third dose of tetanus vaccine,"	170332004"
-281658005,Administration of tick-borne encephalitis vaccine,"	281658005"
-9856004,Administration of tularaemia vaccine,"	9856004"
-15483003,Administration of typhoid vaccine,"	15483003"
-572431000000000,Administration of typhoid VI capsular polysaccharide vaccine via intramuscular route,"	572431000119104"
-283511000000000,Administration of vaccine,"	283511000000105"
-823371000000000,Administration of vaccine under patient specific direction,"	823371000000105"
-767634004,Administration of Varicella-zoster vaccine,"	767634004"
-737081007,Administration of Varicella-zoster vaccine for chickenpox,"	737081007"
-722215002,Administration of Varicella-zoster vaccine for shingles,"	722215002"
-49083007,Administration of viral vaccine,"	49083007"
-67308009,Administration of yellow fever vaccine,"	67308009"
-359959008,Autogenous vaccination,"	359959008"
-42284007,BCG vaccination,"	42284007"
-201421000000000,Booster BCG (Bacillus Calmette-Guerin) vaccination,"	201421000000100"
-310551000000000,"Booster diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination","	310551000000106"
-379241000000000,"Booster diphtheria tetanus and three component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination","	379241000000107"
-247821000000000,"Booster diphtheria, tetanus, acellular pertussis and inactivated polio vaccination","	247821000000102"
-335051000000000,"Booster diphtheria, tetanus, acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination","	335051000000104"
-201391000000000,Booster influenza vaccination,"	201391000000106"
-359953009,Booster vaccination,"	359953009"
-921761000000000,Booster yellow fever vaccination,"	921761000000109"
-515291000000000,CELVAPAN - first influenza A (H1N1v) 2009 vaccination given,"	515291000000105"
-515321000000000,CELVAPAN - second influenza A (H1N1v) 2009 vaccination given,"	515321000000100"
-1091000000000000,Combined measles and rubella vaccination,"	1091001000000108"
-1082430000000000,"Diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination","	1082431000000104"
-14747002,Elective immunisation for international travel,"	14747002"
-91223004,Emergency administration of vaccine during epidemic,"	91223004"
-891891000000000,Fifth rabies vaccination,"	891891000000107"
-865151000000000,First combined paediatric hepatitis A and B vaccination,"	865151000000106"
-1082440000000000,"First diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination","	1082441000000108"
-865061000000000,First hepatitis B junior vaccination,"	865061000000108"
-957671000000000,First meningitis ACW & Y vaccination,"	957671000000103"
-202301000000000,First pandemic influenza vaccination,"	202301000000106"
-247631000000000,First pneumococcal conjugated vaccination,"	247631000000101"
-868631000000000,First rotavirus vaccination,"	868631000000102"
-783521000000000,First tick-borne encephalitis vaccination,"	783521000000106"
-865121000000000,Fourth hepatitis B junior vaccination,"	865121000000101"
-957731000000000,Fourth meningitis ACW & Y vaccination,"	957731000000105"
-957561000000000,Fourth meningitis B vaccination,"	957561000000106"
-891871000000000,Fourth rabies vaccination,"	891871000000108"
-859641000000000,Herpes zoster vaccination,"	859641000000109"
-22850005,Immunisation for autoimmune disease,"	22850005"
-70322007,Immunisation in infancy,"	70322007"
-283431000000000,Intramuscular injection of vaccine,"	283431000000103"
-427633002,Intravenous injection of vaccine,"	427633002"
-170392001,Leishmaniasis vaccination,"	170392001"
-308081000000000,Measles mumps and rubella vaccination - first dose,"	308081000000105"
-505001000000000,Measles mumps rubella catch-up vaccination,"	505001000000109"
-170364006,Measles vaccination plus immunoglobulin,"	170364006"
-283541000000000,Oral administration of vaccine,"	283541000000106"
-843231000000000,Oral typhoid vaccination,"	843231000000104"
-515281000000000,PANDEMRIX - first influenza A (H1N1v) 2009 vaccination given,"	515281000000108"
-515301000000000,PANDEMRIX - second influenza A (H1N1v) 2009 vaccination given,"	515301000000109"
-83798008,Paratyphoid fever vaccination,"	83798008"
-956951000000000,Pertussis vaccination in pregnancy,"	956951000000104"
-842861000000000,"Post exposure diphtheria, tetanus, acellular pertussis and inactivated polio vaccination","	842861000000101"
-281039000,Post-school administration of poliomyelitis and tetanus vaccine,"	281039000"
-870670004,"Preschool administration diphtheria, poliomyelitis, and tetanus vaccine","	870670004"
-870669000,Preschool administration of diphtheria and tetanus vaccine,"	870669000"
-308091000000000,Primary immunisation,"	308091000000107"
-308141000000000,Primary immunisation - fifth dose,"	308141000000101"
-308101000000000,Primary immunisation - first dose,"	308101000000104"
-308131000000000,Primary immunisation - fourth dose,"	308131000000105"
-308111000000000,Primary immunisation - second dose,"	308111000000102"
-308121000000000,Primary immunisation - third dose,"	308121000000108"
-516301000000000,Recombinant meningococcal group B and outer membrane vesicle vaccination,"	516301000000101"
-11842003,Rocky Mountain spotted fever vaccination,"	11842003"
-85720009,Salmonella vaccination,"	85720009"
-840534001,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) antigen vaccination,"	840534001"
-822851000000000,Seasonal influenza vaccination,"	822851000000102"
-865171000000000,Second combined paediatric hepatitis A and B vaccination,"	865171000000102"
-1082450000000000,"Second diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination","	1082451000000106"
-865081000000000,Second hepatitis B junior vaccination,"	865081000000104"
-417615007,"Second low dose diphtheria, tetanus and inactivated polio vaccination","	417615007"
-957691000000000,Second meningitis ACW & Y vaccination,"	957691000000104"
-202311000000000,Second pandemic influenza vaccination,"	202311000000108"
-247641000000000,Second pneumococcal conjugated vaccination,"	247641000000105"
-868651000000000,Second rotavirus vaccination,"	868651000000109"
-783541000000000,Second tick-borne encephalitis vaccination,"	783541000000104"
-44004000,Staphylococcus vaccination,"	44004000"
-3509001,Streptococcus vaccination,"	3509001"
-871833000,Subcutaneous injection of pneumococcal vaccine,"	871833000"
-283451000000000,Subcutaneous injection of vaccine,"	283451000000105"
-820741000000000,Supplemental pneumococcal conjugated vaccination,"	820741000000108"
-865191000000000,Third combined paediatric hepatitis A and B vaccination,"	865191000000103"
-1082460000000000,"Third diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination","	1082461000000109"
-865101000000000,Third hepatitis B junior vaccination,"	865101000000105"
-416144004,"Third low dose diphtheria, tetanus and inactivated polio vaccination","	416144004"
-957711000000000,Third meningitis ACW & Y vaccination,"	957711000000102"
-957541000000000,Third meningitis B vaccination,"	957541000000105"
-247651000000000,Third pneumococcal conjugated vaccination,"	247651000000108"
-783561000000000,Third tick-borne encephalitis vaccination,"	783561000000103"
-30338008,Typhus vaccination,"	30338008"
-46079006,Vaccination by injection gun,"	46079006"
-22989000,Vaccination for arthropod-borne virus,"	22989000"
-882761000000000,Booster meningitis C vaccination given by other healthcare provider,"	882761000000103"
-515331000000000,CELVAPAN - first influenza A (H1N1v) 2009 vaccination given by other healthcare provider,"	515331000000103"
-515351000000000,CELVAPAN - second influenza A (H1N1v) 2009 vaccination given by other healthcare provider,"	515351000000105"
-1037210000000000,First hepatitis B vaccination given by other healthcare provider,"	1037211000000101"
-1066180000000000,First inactivated seasonal influenza vaccination given by midwife,"	1066181000000105"
-884901000000000,First intranasal pandemic influenza vaccination given by other healthcare provider,"	884901000000107"
-1037250000000000,First MMR (measles mumps and rubella) vaccination given by other healthcare provider,"	1037251000000102"
-380741000000000,First pandemic influenza vaccination given by other healthcare provider,"	380741000000101"
-1036720000000000,First rotavirus vaccination given by other health care provider,"	1036721000000101"
-868511000000000,Herpes zoster vaccination given by other health care provider,"	868511000000106"
-515341000000000,PANDEMRIX - first influenza A (H1N1v) 2009 vaccination given by other healthcare provider,"	515341000000107"
-515361000000000,PANDEMRIX - second influenza A (H1N1v) 2009 vaccination given by other healthcare provider,"	515361000000108"
-908671000000000,Pertussis vaccination given by other healthcare provider,"	908671000000105"
-956971000000000,Pertussis vaccination in pregnancy given by other healthcare provider,"	956971000000108"
-868671000000000,Rotavirus vaccination given by other health care provider,"	868671000000100"
-1066170000000000,Seasonal influenza vaccination given by midwife,"	1066171000000108"
-1037230000000000,Second hepatitis B vaccination given by other healthcare provider,"	1037231000000109"
-1066190000000000,Second inactivated seasonal influenza vaccination given by midwife,"	1066191000000107"
-884921000000000,Second intranasal pandemic influenza vaccination given by other healthcare provider,"	884921000000103"
-1037270000000000,Second MMR (measles mumps and rubella) vaccination given by other healthcare provider,"	1037271000000106"
-380771000000000,Second pandemic influenza vaccination given by other healthcare provider,"	380771000000107"
-1036740000000000,Second rotavirus vaccination given by other health care provider,"	1036741000000108"
-62221000000000,BCG (Bacillus Calmette-Guerin) vaccination not done,"	62221000000101"
-61591000000000,"Booster diphtheria, tetanus, acellular pertussis and inactivated polio vaccination not done","	61591000000109"
-61671000000000,Booster meningitis B vaccination not done,"	61671000000106"
-61541000000000,"First diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination not done","	61541000000104"
-82671000000000,First hepatitis B junior vaccination not done,"	82671000000102"
-62181000000000,First human papillomavirus vaccination not done,"	62181000000106"
-63281000000000,First intranasal seasonal influenza vaccination not done,"	63281000000106"
-61751000000000,"First measles, mumps and rubella vaccination not done","	61751000000106"
-61641000000000,First meningitis B vaccination not done,"	61641000000100"
-61721000000000,First pneumococcal conjugated vaccination not done,"	61721000000101"
-61621000000000,First rotavirus vaccination not done,"	61621000000107"
-62201000000000,First varicella vaccination not done,"	62201000000105"
-82691000000000,Fourth hepatitis B junior vaccination not done,"	82691000000103"
-61811000000000,Haemophilus influenzae type B and meningitis C vaccination not done,"	61811000000102"
-6041000000000,Hepatitis A vaccination not done,"	6041000175108"
-6051000000000,Hepatitis B vaccination not done,"	6051000175105"
-61611000000000,"Low dose diphtheria, tetanus and inactivated polio vaccination not done","	61611000000101"
-4521000000000,Measles mumps and rubella vaccination not done,"	4521000175102"
-62141000000000,Meningitis ACW and Y vaccination not done,"	62141000000103"
-1324770000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination dose not given,"	1324771000000107"
-1363840000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination fifth dose not given,"	1363841000000104"
-1324780000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination first dose not given,"	1324781000000109"
-1363820000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination fourth dose not given,"	1363821000000106"
-1324790000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination second dose not given,"	1324791000000106"
-1363770000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination third dose not given,"	1363771000000100"
-1240700000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine not available,"	1240701000000101"
-61551000000000,"Second diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination not done","	61551000000101"
-82681000000000,Second hepatitis B junior vaccination not done,"	82681000000100"
-62191000000000,Second human papillomavirus vaccination not done,"	62191000000108"
-61761000000000,"Second measles, mumps and rubella vaccination not done","	61761000000109"
-61651000000000,Second meningitis B vaccination not done,"	61651000000102"
-61731000000000,Second pneumococcal conjugated vaccination not done,"	61731000000104"
-61631000000000,Second rotavirus vaccination not done,"	61631000000109"
-62211000000000,Second varicella vaccination not done,"	62211000000107"
-61561000000000,"Third diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination not done","	61561000000103"
-82701000000000,Third hepatitis B junior vaccination not done,"	82701000000103"
-61741000000000,Third pneumococcal conjugated vaccination not done,"	61741000000108"
-6021000000000,"Vaccination for diphtheria, pertussis, and tetanus not done","	6021000175100"
-90351000000000,Vaccination not done,"	90351000119108"
-6031000000000,Varicella vaccination not done,"	6031000175102"
+Concept Id,Description,Safety Code
+33879002,Active immunisation,33879002
+866186002,"Administration diphtheria, poliomyelitis, and tetanus vaccine",866186002
+571511000000000,Administration of adult hepatitis A vaccine,571511000119102
+49598002,Administration of anthrax vaccine,49598002
+312872008,Administration of bacterial and viral vaccine,312872008
+312871001,Administration of bacterial vaccine,312871001
+170342002,Administration of booster dose of anthrax vaccine,170342002
+170313005,Administration of booster dose of cholera vaccine,170313005
+390865008,Administration of booster dose of diphtheria and acellular pertussis and poliomyelitis and tetanus vaccine,390865008
+390846000,Administration of booster dose of diphtheria and acellular pertussis and tetanus vaccine,390846000
+866161006,Administration of booster dose of diphtheria and tetanus vaccine,866161006
+170323001,Administration of booster dose of diphtheria vaccine,170323001
+866227002,"Administration of booster dose of diphtheria, poliomyelitis, and tetanus vaccine",866227002
+16292200000000000,Administration of booster dose of Haemophilus influenzae type B capsular polysaccharide polyribosylribitol phosphate conjugated to Clostridium tetani toxoid vaccine,16292241000119109
+170346004,Administration of booster dose of Haemophilus influenzae type B vaccine,170346004
+170437009,Administration of booster dose of hepatitis A and B vaccine,170437009
+394691002,Administration of booster dose of hepatitis A and typhoid vaccine,394691002
+170381002,Administration of booster dose of hepatitis A vaccine,170381002
+170373003,Administration of booster dose of hepatitis B vaccine,170373003
+315335004,Administration of booster dose of Japanese encephalitis vaccine,315335004
+395181003,Administration of booster dose of low dose diphtheria and tetanus vaccine,395181003
+170431005,Administration of booster dose of measles and mumps and rubella vaccine,170431005
+720544006,Administration of booster dose of meningitis B vaccine,720544006
+700358002,Administration of booster dose of meningitis C vaccine,700358002
+871754003,Administration of booster dose of paediatric hepatitis A vaccine,871754003
+300038004,Administration of booster dose of pertussis vaccine,300038004
+394678003,Administration of booster dose of pneumococcal vaccine,394678003
+170421003,Administration of booster dose of poliomyelitis and tetanus vaccine,170421003
+170356000,Administration of booster dose of poliomyelitis vaccine,170356000
+416059007,Administration of booster dose of rabies vaccine,416059007
+170333009,Administration of booster dose of tetanus vaccine,170333009
+170318001,Administration of booster dose of typhoid vaccine,170318001
+28877009,Administration of cholera vaccine,28877009
+827179001,Administration of dengue vaccine,827179001
+16290700000000000,Administration of diphtheria and acellular pertussis and inactivated poliomyelitis and tetanus vaccine,16290681000119103
+571571000000000,Administration of diphtheria and acellular pertussis and tetanus vaccine,571571000119105
+414001002,Administration of diphtheria and Haemophilus influenza B and five component acellular pertussis and inactivated poliomyelitis and tetanus vaccine,414001002
+770608009,Administration of diphtheria and Haemophilus influenzae type B and hepatitis B and pertussis and tetanus vaccine,770608009
+312870000,Administration of diphtheria and Haemophilus influenzae type B and pertussis and poliomyelitis and tetanus vaccine,312870000
+787436003,Administration of diphtheria and Haemophilus influenzae type B and pertussis and tetanus vaccine,787436003
+312869001,Administration of diphtheria and Haemophilus influenzae type B and poliomyelitis and tetanus vaccine,312869001
+572561000000000,Administration of diphtheria and hepatitis B and acellular pertussis and inactivated poliomyelitis and tetanus vaccine,572561000119108
+396456003,Administration of diphtheria and hepatitis B and inactivated poliomyelitis and acellular pertussis vaccine,396456003
+868273007,Administration of diphtheria and pertussis and poliomyelitis and tetanus vaccine,868273007
+73152006,Administration of diphtheria and tetanus vaccine,73152006
+632481000000000,"Administration of diphtheria and tetanus vaccine, less than 7 years of age",632481000119106
+76668005,Administration of diphtheria vaccine,76668005
+399014008,"Administration of diphtheria, pertussis, and tetanus vaccine",399014008
+170375005,Administration of fifth dose of hepatitis B vaccine,170375005
+1363830000000000,Administration of fifth dose of SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine,1363831000000108
+170334003,Administration of final dose of tetanus vaccine,170334003
+417211006,Administration of first booster of low dose diphtheria and inactivated poliomyelitis and tetanus vaccine,417211006
+170338000,Administration of first dose of anthrax vaccine,170338000
+170311007,Administration of first dose of cholera vaccine,170311007
+412762002,Administration of first dose of diphtheria and acellular pertussis and poliomyelitis and tetanus vaccine,412762002
+412755006,Administration of first dose of diphtheria and acellular pertussis and tetanus vaccine,412755006
+414259000,Administration of first dose of diphtheria and Haemophilus influenza B and five component acellular pertussis and inactivated poliomyelitis and tetanus vaccine,414259000
+770616000,Administration of first dose of diphtheria and Haemophilus influenzae type B and hepatitis B and pertussis and tetanus vaccine,770616000
+310306005,Administration of first dose of diphtheria and Haemophilus influenzae type B and pertussis and poliomyelitis and tetanus vaccine,310306005
+868277008,Administration of first dose of diphtheria and pertussis and poliomyelitis and tetanus vaccine,868277008
+866185003,Administration of first dose of diphtheria and tetanus vaccine,866185003
+170320003,Administration of first dose of diphtheria vaccine,170320003
+866158005,"Administration of first dose of diphtheria, pertussis, and tetanus vaccine",866158005
+868267006,"Administration of first dose of diphtheria, poliomyelitis, and tetanus vaccine",868267006
+712834006,Administration of first dose of Haemophilus influenzae type B and meningitis C vaccine,712834006
+170343007,Administration of first dose of Haemophilus influenzae type B vaccine,170343007
+170434002,Administration of first dose of hepatitis A and B vaccine,170434002
+314178008,Administration of first dose of hepatitis A and typhoid vaccine,314178008
+170370000,Administration of first dose of hepatitis B vaccine,170370000
+428741008,Administration of first dose of human papilloma virus vaccine,428741008
+314761009,Administration of first dose of Japanese encephalitis vaccine,314761009
+416591003,Administration of first dose of low dose diphtheria and inactivated poliomyelitis and tetanus vaccine,416591003
+395178008,Administration of first dose of low dose diphtheria and tetanus vaccine,395178008
+871909005,Administration of first dose of measles and mumps and rubella and varicella virus vaccine,871909005
+720539004,Administration of first dose of meningitis B vaccine,720539004
+314414007,Administration of first dose of meningitis C vaccine,314414007
+170378007,Administration of first dose of paediatric hepatitis A vaccine,170378007
+170326009,Administration of first dose of pertussis vaccine,170326009
+170418000,Administration of first dose of poliomyelitis and tetanus vaccine,170418000
+170353008,Administration of first dose of poliomyelitis vaccine,170353008
+170365007,Administration of first dose of rabies vaccine,170365007
+1324680000000000,Administration of first dose of SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine,1324681000000101
+1144997007,Administration of first dose of SARS-CoV-2 mRNA vaccine,1144997007
+307416007,Administration of first dose of smallpox vaccine,307416007
+170330007,Administration of first dose of tetanus vaccine,170330007
+170316002,Administration of first dose of typhoid vaccine,170316002
+425897001,Administration of first dose of Varicella-zoster vaccine for chickenpox,425897001
+1326100000000000,Administration of first dose of Varicella-zoster vaccine for shingles,1326101000000105
+985151000000000,Administration of first inactivated seasonal influenza vaccination,985151000000100
+871751000000000,Administration of first intranasal influenza vaccination,871751000000104
+884821000000000,Administration of first intranasal pandemic influenza vaccination,884821000000108
+884861000000000,Administration of first intranasal seasonal influenza vaccination,884861000000100
+170341009,Administration of fourth dose of anthrax vaccine,170341009
+313383003,Administration of fourth dose of diphtheria and Haemophilus influenzae type B and pertussis and poliomyelitis and tetanus vaccine,313383003
+170374009,Administration of fourth dose of hepatitis B vaccine,170374009
+1363790000000000,Administration of fourth dose of SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine,1363791000000101
+786846001,Administration of Haemophilus influenzae type b and hepatitis B vaccine,786846001
+1119364007,Administration of Haemophilus influenzae type B and meningitis C and Y vaccine,1119364007
+428975001,Administration of Haemophilus influenzae type B and meningitis C vaccine,428975001
+127787002,Administration of Haemophilus influenzae type B vaccine,127787002
+312868009,Administration of hepatitis A and B vaccine,312868009
+314177003,Administration of hepatitis A and typhoid vaccine,314177003
+243789007,Administration of hepatitis A vaccine,243789007
+16584000,Administration of hepatitis B vaccine,16584000
+761841000,Administration of human papilloma virus vaccine,761841000
+717953009,Administration of Human papillomavirus 16 and 18 vaccine,717953009
+724332002,Administration of Human papillomavirus 9 vaccine,724332002
+16292700000000000,Administration of inactivated Japanese encephalitis virus adsorbed vaccine via intramuscular route,16292731000119106
+16292800000000000,Administration of inactivated poliomyelitis vaccine,16292771000119109
+442333005,Administration of Influenza A virus subtype H1N1 antigen only vaccine product,442333005
+786847005,Administration of influenza H5N1 vaccine,786847005
+86198006,Administration of influenza vaccine,86198006
+787016008,Administration of influenza vaccine via nasal route,787016008
+314759000,Administration of Japanese encephalitis vaccine,314759000
+871898007,Administration of live attenuated Human alphaherpesvirus 3 vaccine,871898007
+871899004,Administration of live attenuated Human alphaherpesvirus 3 vaccine via subcutaneous route,871899004
+572511000000000,Administration of live attenuated measles and mumps and rubella and varicella-zoster vaccine,572511000119105
+572481000000000,Administration of live attenuated measles vaccine,572481000119103
+571591000000000,"Administration of live attenuated measles, mumps, and rubella vaccine",571591000119106
+871728006,Administration of live attenuated Salmonella enterica subspecies enterica serovar Typhi antigen only vaccine product via oral route,871728006
+414620004,Administration of low dose diphtheria and acellular pertussis five component and inactivated poliomyelitis and tetanus vaccine,414620004
+414619005,Administration of low dose diphtheria and inactivated poliomyelitis and tetanus vaccine,414619005
+871828004,Administration of low dose diphtheria and tetanus vaccine,871828004
+170324007,Administration of low dose diphtheria vaccine,170324007
+396455004,Administration of Lyme disease vaccine,396455004
+432636005,Administration of measles and mumps and rubella and varicella virus vaccine,432636005
+38598009,Administration of measles and mumps and rubella vaccine,38598009
+792896000,Administration of measles and rubella vaccine,792896000
+47435007,Administration of measles vaccine,47435007
+314417000,Administration of meningitis A and C vaccine,314417000
+871874000,"Administration of meningitis A, C, W135 and Y vaccine",871874000
+720537002,Administration of meningitis B vaccine,720537002
+719596001,Administration of meningitis C vaccine,719596001
+571641000000000,Administration of meningitis polysaccharide vaccine,571641000119102
+16298700000000000,"Administration of meningococcus A, C, W135 and Y capsular oligosaccharide conjugated vaccine",16298691000119102
+41088001,Administration of Meningococcus vaccine,41088001
+50583002,Administration of mumps vaccine,50583002
+626061000000000,Administration of pentavalent live attenuated rotavirus vaccine via oral route,626061000119109
+39343008,Administration of pertussis vaccine,39343008
+50069008,Administration of plague vaccine,50069008
+1119366009,Administration of pneumococcal 13-valent conjugate vaccine,1119366009
+1119367000,Administration of pneumococcal 23-valent conjugate vaccine,1119367000
+1119368005,Administration of pneumococcal 7-valent conjugate vaccine,1119368005
+12866006,Administration of pneumococcal vaccine,12866006
+268499008,Administration of poliomyelitis and tetanus vaccine,268499008
+72093006,Administration of poliomyelitis vaccine,72093006
+170432003,Administration of pre-school booster dose of measles and mumps and rubella vaccine,170432003
+734152003,Administration of quadrivalent HPV (human papillomavirus) vaccine,734152003
+34631000,Administration of rabies vaccine,34631000
+572391000000000,Administration of rabies vaccine via intramuscular route,572391000119109
+415354003,Administration of rotavirus vaccine,415354003
+82314000,Administration of rubella vaccine,82314000
+1119350007,Administration of SARS-CoV-2 mRNA vaccine,1119350007
+417384007,Administration of second booster of low dose diphtheria and inactivated poliomyelitis and tetanus vaccine,417384007
+170339008,Administration of second dose of anthrax vaccine,170339008
+170312000,Administration of second dose of cholera vaccine,170312000
+412763007,Administration of second dose of diphtheria and acellular pertussis and poliomyelitis and tetanus vaccine,412763007
+412756007,Administration of second dose of diphtheria and acellular pertussis and tetanus vaccine,412756007
+415507003,Administration of second dose of diphtheria and Haemophilus influenza B and five component acellular pertussis and inactivated poliomyelitis and tetanus vaccine,415507003
+770617009,Administration of second dose of diphtheria and Haemophilus influenzae type B and hepatitis B and pertussis and tetanus vaccine,770617009
+310307001,Administration of second dose of diphtheria and Haemophilus influenzae type B and pertussis and poliomyelitis and tetanus vaccine,310307001
+868274001,Administration of second dose of diphtheria and pertussis and poliomyelitis and tetanus vaccine,868274001
+866184004,Administration of second dose of diphtheria and tetanus vaccine,866184004
+170321004,Administration of second dose of diphtheria vaccine,170321004
+866159002,"Administration of second dose of diphtheria, pertussis, and tetanus vaccine",866159002
+868266002,"Administration of second dose of diphtheria, poliomyelitis, and tetanus vaccine",868266002
+712833000,Administration of second dose of Haemophilus influenzae type B and meningitis C vaccine,712833000
+170344001,Administration of second dose of Haemophilus influenzae type B vaccine,170344001
+170435001,Administration of second dose of hepatitis A and B vaccine,170435001
+170379004,Administration of second dose of hepatitis A vaccine,170379004
+170371001,Administration of second dose of hepatitis B vaccine,170371001
+429396009,Administration of second dose of human papilloma virus vaccine,429396009
+314762002,Administration of second dose of Japanese encephalitis vaccine,314762002
+395179000,Administration of second dose of low dose diphtheria and tetanus vaccine,395179000
+433733003,Administration of second dose of measles and mumps and rubella and varicella virus vaccine,433733003
+170433008,Administration of second dose of measles and mumps and rubella vaccine,170433008
+720540002,Administration of second dose of meningitis B vaccine,720540002
+314415008,Administration of second dose of meningitis C vaccine,314415008
+871752004,Administration of second dose of paediatric hepatitis A vaccine,871752004
+170327000,Administration of second dose of pertussis vaccine,170327000
+170419008,Administration of second dose of poliomyelitis and tetanus vaccine,170419008
+170354002,Administration of second dose of poliomyelitis vaccine,170354002
+170366008,Administration of second dose of rabies vaccine,170366008
+1324690000000000,Administration of second dose of SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine,1324691000000104
+1144998002,Administration of second dose of SARS-CoV-2 mRNA vaccine,1144998002
+170360002,Administration of second dose of smallpox vaccine,170360002
+170331006,Administration of second dose of tetanus vaccine,170331006
+170317006,Administration of second dose of typhoid vaccine,170317006
+428502009,Administration of second dose of Varicella-zoster vaccine for chickenpox,428502009
+1326110000000000,Administration of second dose of Varicella-zoster vaccine for shingles,1326111000000107
+314179000,Administration of second hepatitis A and typhoid vaccine,314179000
+985171000000000,Administration of second inactivated seasonal influenza vaccination,985171000000109
+871781000000000,Administration of second intranasal influenza vaccination,871781000000105
+884841000000000,Administration of second intranasal pandemic influenza vaccination,884841000000101
+884881000000000,Administration of second intranasal seasonal influenza vaccination,884881000000109
+314450000,Administration of single dose of meningitis C vaccine,314450000
+395665009,Administration of single dose of typhoid vaccine,395665009
+416923003,Administration of sixth dose of hepatitis B vaccine,416923003
+40001004,Administration of smallpox vaccine,40001004
+127786006,Administration of tetanus vaccine,127786006
+170340005,Administration of third dose of anthrax vaccine,170340005
+412764001,Administration of third dose of diphtheria and acellular pertussis and poliomyelitis and tetanus vaccine,412764001
+412757003,Administration of third dose of diphtheria and acellular pertussis and tetanus vaccine,412757003
+415712004,Administration of third dose of diphtheria and Haemophilus influenza B and five component acellular pertussis and inactivated poliomyelitis and tetanus vaccine,415712004
+770618004,Administration of third dose of diphtheria and Haemophilus influenzae type B and hepatitis B and pertussis and tetanus vaccine,770618004
+310308006,Administration of third dose of diphtheria and Haemophilus influenzae type B and pertussis and poliomyelitis and tetanus vaccine,310308006
+868276004,Administration of third dose of diphtheria and pertussis and poliomyelitis and tetanus vaccine,868276004
+870668008,Administration of third dose of diphtheria and tetanus vaccine,870668008
+170322006,Administration of third dose of diphtheria vaccine,170322006
+866226006,"Administration of third dose of diphtheria, pertussis, and tetanus vaccine",866226006
+868268001,"Administration of third dose of diphtheria, poliomyelitis, and tetanus vaccine",868268001
+170345000,Administration of third dose of Haemophilus influenzae type B vaccine,170345000
+170436000,Administration of third dose of hepatitis A and B vaccine,170436000
+170380001,Administration of third dose of hepatitis A vaccine,170380001
+170372008,Administration of third dose of hepatitis B vaccine,170372008
+428931000,Administration of third dose of human papilloma virus vaccine,428931000
+314763007,Administration of third dose of Japanese encephalitis vaccine,314763007
+395180002,Administration of third dose of low dose diphtheria and tetanus vaccine,395180002
+314416009,Administration of third dose of meningitis C vaccine,314416009
+871753009,Administration of third dose of paediatric hepatitis A vaccine,871753009
+170328005,Administration of third dose of pertussis vaccine,170328005
+170420002,Administration of third dose of poliomyelitis and tetanus vaccine,170420002
+170355001,Administration of third dose of poliomyelitis vaccine,170355001
+170367004,Administration of third dose of rabies vaccine,170367004
+1363860000000000,Administration of third dose of SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine,1363861000000103
+170361003,Administration of third dose of smallpox vaccine,170361003
+170332004,Administration of third dose of tetanus vaccine,170332004
+281658005,Administration of tick-borne encephalitis vaccine,281658005
+9856004,Administration of tularaemia vaccine,9856004
+15483003,Administration of typhoid vaccine,15483003
+572431000000000,Administration of typhoid VI capsular polysaccharide vaccine via intramuscular route,572431000119104
+283511000000000,Administration of vaccine,283511000000105
+823371000000000,Administration of vaccine under patient specific direction,823371000000105
+767634004,Administration of Varicella-zoster vaccine,767634004
+737081007,Administration of Varicella-zoster vaccine for chickenpox,737081007
+722215002,Administration of Varicella-zoster vaccine for shingles,722215002
+49083007,Administration of viral vaccine,49083007
+67308009,Administration of yellow fever vaccine,67308009
+359959008,Autogenous vaccination,359959008
+42284007,BCG vaccination,42284007
+201421000000000,Booster BCG (Bacillus Calmette-Guerin) vaccination,201421000000100
+310551000000000,"Booster diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination",310551000000106
+379241000000000,"Booster diphtheria tetanus and three component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination",379241000000107
+247821000000000,"Booster diphtheria, tetanus, acellular pertussis and inactivated polio vaccination",247821000000102
+335051000000000,"Booster diphtheria, tetanus, acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination",335051000000104
+201391000000000,Booster influenza vaccination,201391000000106
+359953009,Booster vaccination,359953009
+921761000000000,Booster yellow fever vaccination,921761000000109
+515291000000000,CELVAPAN - first influenza A (H1N1v) 2009 vaccination given,515291000000105
+515321000000000,CELVAPAN - second influenza A (H1N1v) 2009 vaccination given,515321000000100
+1091000000000000,Combined measles and rubella vaccination,1091001000000108
+1082430000000000,"Diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination",1082431000000104
+14747002,Elective immunisation for international travel,14747002
+91223004,Emergency administration of vaccine during epidemic,91223004
+891891000000000,Fifth rabies vaccination,891891000000107
+865151000000000,First combined paediatric hepatitis A and B vaccination,865151000000106
+1082440000000000,"First diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination",1082441000000108
+865061000000000,First hepatitis B junior vaccination,865061000000108
+957671000000000,First meningitis ACW & Y vaccination,957671000000103
+202301000000000,First pandemic influenza vaccination,202301000000106
+247631000000000,First pneumococcal conjugated vaccination,247631000000101
+868631000000000,First rotavirus vaccination,868631000000102
+783521000000000,First tick-borne encephalitis vaccination,783521000000106
+865121000000000,Fourth hepatitis B junior vaccination,865121000000101
+957731000000000,Fourth meningitis ACW & Y vaccination,957731000000105
+957561000000000,Fourth meningitis B vaccination,957561000000106
+891871000000000,Fourth rabies vaccination,891871000000108
+859641000000000,Herpes zoster vaccination,859641000000109
+22850005,Immunisation for autoimmune disease,22850005
+70322007,Immunisation in infancy,70322007
+283431000000000,Intramuscular injection of vaccine,283431000000103
+427633002,Intravenous injection of vaccine,427633002
+170392001,Leishmaniasis vaccination,170392001
+308081000000000,Measles mumps and rubella vaccination - first dose,308081000000105
+505001000000000,Measles mumps rubella catch-up vaccination,505001000000109
+170364006,Measles vaccination plus immunoglobulin,170364006
+283541000000000,Oral administration of vaccine,283541000000106
+843231000000000,Oral typhoid vaccination,843231000000104
+515281000000000,PANDEMRIX - first influenza A (H1N1v) 2009 vaccination given,515281000000108
+515301000000000,PANDEMRIX - second influenza A (H1N1v) 2009 vaccination given,515301000000109
+83798008,Paratyphoid fever vaccination,83798008
+956951000000000,Pertussis vaccination in pregnancy,956951000000104
+842861000000000,"Post exposure diphtheria, tetanus, acellular pertussis and inactivated polio vaccination",842861000000101
+281039000,Post-school administration of poliomyelitis and tetanus vaccine,281039000
+870670004,"Preschool administration diphtheria, poliomyelitis, and tetanus vaccine",870670004
+870669000,Preschool administration of diphtheria and tetanus vaccine,870669000
+308091000000000,Primary immunisation,308091000000107
+308141000000000,Primary immunisation - fifth dose,308141000000101
+308101000000000,Primary immunisation - first dose,308101000000104
+308131000000000,Primary immunisation - fourth dose,308131000000105
+308111000000000,Primary immunisation - second dose,308111000000102
+308121000000000,Primary immunisation - third dose,308121000000108
+516301000000000,Recombinant meningococcal group B and outer membrane vesicle vaccination,516301000000101
+11842003,Rocky Mountain spotted fever vaccination,11842003
+85720009,Salmonella vaccination,85720009
+840534001,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) antigen vaccination,840534001
+822851000000000,Seasonal influenza vaccination,822851000000102
+865171000000000,Second combined paediatric hepatitis A and B vaccination,865171000000102
+1082450000000000,"Second diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination",1082451000000106
+865081000000000,Second hepatitis B junior vaccination,865081000000104
+417615007,"Second low dose diphtheria, tetanus and inactivated polio vaccination",417615007
+957691000000000,Second meningitis ACW & Y vaccination,957691000000104
+202311000000000,Second pandemic influenza vaccination,202311000000108
+247641000000000,Second pneumococcal conjugated vaccination,247641000000105
+868651000000000,Second rotavirus vaccination,868651000000109
+783541000000000,Second tick-borne encephalitis vaccination,783541000000104
+44004000,Staphylococcus vaccination,44004000
+3509001,Streptococcus vaccination,3509001
+871833000,Subcutaneous injection of pneumococcal vaccine,871833000
+283451000000000,Subcutaneous injection of vaccine,283451000000105
+820741000000000,Supplemental pneumococcal conjugated vaccination,820741000000108
+865191000000000,Third combined paediatric hepatitis A and B vaccination,865191000000103
+1082460000000000,"Third diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination",1082461000000109
+865101000000000,Third hepatitis B junior vaccination,865101000000105
+416144004,"Third low dose diphtheria, tetanus and inactivated polio vaccination",416144004
+957711000000000,Third meningitis ACW & Y vaccination,957711000000102
+957541000000000,Third meningitis B vaccination,957541000000105
+247651000000000,Third pneumococcal conjugated vaccination,247651000000108
+783561000000000,Third tick-borne encephalitis vaccination,783561000000103
+30338008,Typhus vaccination,30338008
+46079006,Vaccination by injection gun,46079006
+22989000,Vaccination for arthropod-borne virus,22989000
+882761000000000,Booster meningitis C vaccination given by other healthcare provider,882761000000103
+515331000000000,CELVAPAN - first influenza A (H1N1v) 2009 vaccination given by other healthcare provider,515331000000103
+515351000000000,CELVAPAN - second influenza A (H1N1v) 2009 vaccination given by other healthcare provider,515351000000105
+1037210000000000,First hepatitis B vaccination given by other healthcare provider,1037211000000101
+1066180000000000,First inactivated seasonal influenza vaccination given by midwife,1066181000000105
+884901000000000,First intranasal pandemic influenza vaccination given by other healthcare provider,884901000000107
+1037250000000000,First MMR (measles mumps and rubella) vaccination given by other healthcare provider,1037251000000102
+380741000000000,First pandemic influenza vaccination given by other healthcare provider,380741000000101
+1036720000000000,First rotavirus vaccination given by other health care provider,1036721000000101
+868511000000000,Herpes zoster vaccination given by other health care provider,868511000000106
+515341000000000,PANDEMRIX - first influenza A (H1N1v) 2009 vaccination given by other healthcare provider,515341000000107
+515361000000000,PANDEMRIX - second influenza A (H1N1v) 2009 vaccination given by other healthcare provider,515361000000108
+908671000000000,Pertussis vaccination given by other healthcare provider,908671000000105
+956971000000000,Pertussis vaccination in pregnancy given by other healthcare provider,956971000000108
+868671000000000,Rotavirus vaccination given by other health care provider,868671000000100
+1066170000000000,Seasonal influenza vaccination given by midwife,1066171000000108
+1037230000000000,Second hepatitis B vaccination given by other healthcare provider,1037231000000109
+1066190000000000,Second inactivated seasonal influenza vaccination given by midwife,1066191000000107
+884921000000000,Second intranasal pandemic influenza vaccination given by other healthcare provider,884921000000103
+1037270000000000,Second MMR (measles mumps and rubella) vaccination given by other healthcare provider,1037271000000106
+380771000000000,Second pandemic influenza vaccination given by other healthcare provider,380771000000107
+1036740000000000,Second rotavirus vaccination given by other health care provider,1036741000000108
+62221000000000,BCG (Bacillus Calmette-Guerin) vaccination not done,62221000000101
+61591000000000,"Booster diphtheria, tetanus, acellular pertussis and inactivated polio vaccination not done",61591000000109
+61671000000000,Booster meningitis B vaccination not done,61671000000106
+61541000000000,"First diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination not done",61541000000104
+82671000000000,First hepatitis B junior vaccination not done,82671000000102
+62181000000000,First human papillomavirus vaccination not done,62181000000106
+63281000000000,First intranasal seasonal influenza vaccination not done,63281000000106
+61751000000000,"First measles, mumps and rubella vaccination not done",61751000000106
+61641000000000,First meningitis B vaccination not done,61641000000100
+61721000000000,First pneumococcal conjugated vaccination not done,61721000000101
+61621000000000,First rotavirus vaccination not done,61621000000107
+62201000000000,First varicella vaccination not done,62201000000105
+82691000000000,Fourth hepatitis B junior vaccination not done,82691000000103
+61811000000000,Haemophilus influenzae type B and meningitis C vaccination not done,61811000000102
+6041000000000,Hepatitis A vaccination not done,6041000175108
+6051000000000,Hepatitis B vaccination not done,6051000175105
+61611000000000,"Low dose diphtheria, tetanus and inactivated polio vaccination not done",61611000000101
+4521000000000,Measles mumps and rubella vaccination not done,4521000175102
+62141000000000,Meningitis ACW and Y vaccination not done,62141000000103
+1324770000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination dose not given,1324771000000107
+1363840000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination fifth dose not given,1363841000000104
+1324780000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination first dose not given,1324781000000109
+1363820000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination fourth dose not given,1363821000000106
+1324790000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination second dose not given,1324791000000106
+1363770000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination third dose not given,1363771000000100
+1240700000000000,SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccine not available,1240701000000101
+61551000000000,"Second diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination not done",61551000000101
+82681000000000,Second hepatitis B junior vaccination not done,82681000000100
+62191000000000,Second human papillomavirus vaccination not done,62191000000108
+61761000000000,"Second measles, mumps and rubella vaccination not done",61761000000109
+61651000000000,Second meningitis B vaccination not done,61651000000102
+61731000000000,Second pneumococcal conjugated vaccination not done,61731000000104
+61631000000000,Second rotavirus vaccination not done,61631000000109
+62211000000000,Second varicella vaccination not done,62211000000107
+61561000000000,"Third diphtheria, tetanus and acellular pertussis, inactivated polio, Haemophilus influenzae type b and hepatitis B vaccination not done",61561000000103
+82701000000000,Third hepatitis B junior vaccination not done,82701000000103
+61741000000000,Third pneumococcal conjugated vaccination not done,61741000000108
+6021000000000,"Vaccination for diphtheria, pertussis, and tetanus not done",6021000175100
+90351000000000,Vaccination not done,90351000119108
+6031000000000,Varicella vaccination not done,6031000175102
+3923006,Autogenous vaccination (procedure),3923006
+7141001,Brucellosis vaccination (procedure),7141001
+45772003,Common cold vaccination (procedure),45772003
+57968001,"Vaccination for diphtheria, pertussis, and tetanus (procedure)",57968001
+68525005,Varicella vaccination (procedure),68525005
+87886005,Booster vaccination (procedure),87886005
+108235008,Human vaccination (procedure),108235008
+147542009,Cholera vaccination (procedure),147542009
+147543004,First cholera vaccination (procedure),147543004
+147544005,Second cholera vaccination (procedure),147544005
+147545006,Booster cholera vaccination (procedure),147545006
+147546007,Cholera vaccination NOS (procedure),147546007
+147547003,Typhoid vaccination (& [A & B]) (procedure),147547003
+147548008,First typhoid vaccination (procedure),147548008
+147549000,Second typhoid vaccination (procedure),147549000
+147550000,Booster typhoid vaccination (procedure),147550000
+147551001,Typhoid vaccination NOS (procedure),147551001
+147552008,Tuberculosis (BCG) vaccination (procedure),147552008
+147553003,Diphtheria vaccination (procedure),147553003
+147554009,First diphtheria vaccination (procedure),147554009
+147555005,Second diphtheria vaccination (procedure),147555005
+147556006,Third diphtheria vaccination (procedure),147556006
+147557002,Booster diphtheria vaccination (procedure),147557002
+147558007,Low dose diphtheria vaccination (procedure),147558007
+147559004,Diphtheria vaccination NOS (procedure),147559004
+147560009,Pertussis vaccination (procedure),147560009
+147562001,First pertussis vaccination (procedure),147562001
+147563006,Second pertussis vaccination (procedure),147563006
+147564000,Third pertussis vaccination (procedure),147564000
+147565004,Pertussis vaccination NOS (procedure),147565004
+147566003,Tetanus vaccination (procedure),147566003
+147567007,First tetanus vaccination (procedure),147567007
+147568002,Second tetanus vaccination (procedure),147568002
+147569005,Third tetanus vaccination (procedure),147569005
+147570006,Booster tetanus vaccination (procedure),147570006
+147572003,Tetanus vaccination NOS (procedure),147572003
+147573008,Other bacterial vaccinations (procedure),147573008
+147574002,Meningitis vaccination (procedure),147574002
+147575001,Pneumococcal vaccination (procedure),147575001
+147576000,Plague vaccination (procedure),147576000
+147577009,Tularaemia vaccination (procedure),147577009
+147578004,First anthrax vaccination (procedure),147578004
+147579007,Second anthrax vaccination (procedure),147579007
+147580005,Third anthrax vaccination (procedure),147580005
+147581009,Fourth anthrax vaccination (procedure),147581009
+147583007,First haemophilus B vaccination (procedure),147583007
+147584001,Second haemophilus B vaccination (procedure),147584001
+147585000,Third haemophilus B vaccination (procedure),147585000
+147586004,Booster haemophilus B vaccination (procedure),147586004
+147587008,First meningitis C vaccination (procedure),147587008
+147588003,Second meningitis C vaccination (procedure),147588003
+147589006,Third meningitis C vaccination (procedure),147589006
+147590002,Meningitis A & C vaccination (procedure),147590002
+147591003,Single meningitis C vaccination (procedure),147591003
+147593000,Polio vaccination (& [oral vaccine]) (procedure),147593000
+147594006,First polio vaccination (procedure),147594006
+147595007,Second polio vaccination (procedure),147595007
+147596008,Third polio vaccination (procedure),147596008
+147597004,Booster polio vaccination (procedure),147597004
+147598009,Polio vaccination NOS (procedure),147598009
+147599001,Smallpox vaccination (procedure),147599001
+147600003,First smallpox vaccination - successful (finding),147600003
+147601004,First smallpox vaccination - unsuccessful (finding),147601004
+147602006,Second smallpox vaccination (procedure),147602006
+147603001,Third smallpox vaccination (procedure),147603001
+147604007,Smallpox vaccination NOS (procedure),147604007
+147605008,Measles vaccination (procedure),147605008
+147606009,Measles vaccination (procedure),147606009
+147607000,Measles vaccination plus immunoglobulin (procedure),147607000
+147608005,Rubella vaccination (procedure),147608005
+147609002,Yellow fever vaccination (procedure),147609002
+147610007,Rabies vaccination (procedure),147610007
+147611006,First rabies vaccination (procedure),147611006
+147612004,Second rabies vaccination (procedure),147612004
+147613009,Third rabies vaccination (procedure),147613009
+147614003,Rabies vaccination NOS (procedure),147614003
+147615002,Influenza vaccination (procedure),147615002
+147616001,Viral vaccinations: [other] or [hepatitis B immunisation] (procedure),147616001
+147617005,First hepatitis B vaccination (procedure),147617005
+147618000,Second hepatitis B vaccination (procedure),147618000
+147619008,Third hepatitis B vaccination (procedure),147619008
+147620002,Booster hepatitis B vaccination (procedure),147620002
+147621003,Mumps vaccination (procedure),147621003
+147622005,Fourth hepatitis B vaccination (procedure),147622005
+147623000,Fifth hepatitis B vaccination (procedure),147623000
+147625007,Other arthropod viral vaccination (procedure),147625007
+147626008,First hepatitis A vaccination (procedure),147626008
+147627004,Second hepatitis A vaccination (procedure),147627004
+147628009,Third hepatitis A vaccination (procedure),147628009
+147629001,Booster hepatitis A vaccination (procedure),147629001
+147631005,First hepatitis A junior vaccination (procedure),147631005
+147632003,Second hepatitis A junior vaccination (procedure),147632003
+147633008,1st Japanese encephalitis vaccination (procedure),147633008
+147634002,2nd Japanese encephalitis vaccination (procedure),147634002
+147635001,3rd Japanese encephalitis vaccination (procedure),147635001
+147636000,Booster Japanese encephalitis vaccination (procedure),147636000
+147637009,Other viral vaccinations NOS (procedure),147637009
+147638004,Other single vaccinations (procedure),147638004
+147639007,Leishmaniasis vaccination (procedure),147639007
+147640009,Single vaccination NEC (procedure),147640009
+147641008,Single vaccination NOS (procedure),147641008
+147642001,"Diphtheria, pertussis and tetanus triple vaccination (procedure)",147642001
+147643006,"First diphtheria, pertussis and tetanus triple vaccination (procedure)",147643006
+147644000,"Second diphtheria, pertussis and tetanus triple vaccination (procedure)",147644000
+147645004,"Third diphtheria, pertussis and tetanus triple vaccination (procedure)",147645004
+147646003,"Diphtheria, pertussis and tetanus triple vaccination NOS (procedure)",147646003
+147647007,"Diphtheria, pertussis and tetanus triple and polio vaccination (procedure)",147647007
+147648002,"First diphtheria, pertussis and tetanus triple and polio vaccination (procedure)",147648002
+147649005,"Second diphtheria, pertussis and tetanus triple and polio vaccination (procedure)",147649005
+147650005,"Third diphtheria, pertussis and tetanus triple and polio vaccination (procedure)",147650005
+147651009,"Diphtheria, pertussis and tetanus triple and polio vaccination NOS (procedure)",147651009
+147652002,Double - DT - vaccination (& [pre-school] ) (procedure),147652002
+147653007,First diphtheria and tetanus double vaccination (procedure),147653007
+147654001,Second diphtheria and tetanus double vaccination (procedure),147654001
+147655000,Third diphtheria and tetanus double vaccination (procedure),147655000
+147656004,Booster diphtheria and tetanus double vaccination (procedure),147656004
+147657008,Tetanus and low dose diphtheria double vaccination (procedure),147657008
+147658003,Diphtheria and tetanus double vaccination NOS (procedure),147658003
+147660001,First diphtheria and tetanus double and polio vaccination (procedure),147660001
+147661002,Second diphtheria and tetanus double and polio vaccination (procedure),147661002
+147663004,Third diphtheria and tetanus double and polio vaccination (procedure),147663004
+147664005,Booster diphtheria and tetanus double and polio vaccination (procedure),147664005
+147665006,Diphtheria and tetanus double and polio vaccination NOS (procedure),147665006
+147667003,First tetanus and polio vaccination (procedure),147667003
+147668008,Second tetanus and polio vaccination (procedure),147668008
+147669000,Third tetanus and polio vaccination (procedure),147669000
+147670004,Booster tetanus and polio vaccination (procedure),147670004
+147672007,Other combined vaccinations (procedure),147672007
+147673002,Measles/mumps/rubella vaccination (procedure),147673002
+147675009,Low dose diphtheria: [vaccination] or [vaccine] (procedure),147675009
+147682008,Measles mumps and rubella booster vaccination (procedure),147682008
+147683003,MMR pre-school booster vaccination (procedure),147683003
+147684009,Measles mumps and rubella vaccination - second dose (procedure),147684009
+147685005,First combined hepatitis A and B vaccination (procedure),147685005
+147686006,Second combined hepatitis A and B vaccination (procedure),147686006
+147687002,Third combined hepatitis A and B vaccination (procedure),147687002
+147688007,Booster combined hepatitis A and B vaccination (procedure),147688007
+147689004,First DTP polio and Hib vaccination (procedure),147689004
+147690008,Second DTP polio and Hib vaccination (procedure),147690008
+147691007,Third DTP polio and Hib vaccination (procedure),147691007
+147692000,Fourth DTP polio and Hib vaccination (procedure),147692000
+147693005,First hepatitis A and typhoid vaccination (procedure),147693005
+147694004,Second hepatitis A and typhoid vaccination (procedure),147694004
+147695003,Other combined vaccination NOS (procedure),147695003
+154076005,Has influenza vaccination at home (finding),154076005
+154077001,Has influenza vaccination at surgery (finding),154077001
+154078006,Has influenza vaccination at hospital (finding),154078006
+154080000,Influenza vaccination declined (finding),154080000
+170314004,Cholera vaccination NOS (procedure),170314004
+170315003,Typhoid vaccination (& [A & B]) (procedure),170315003
+170319009,Typhoid vaccination NOS (procedure),170319009
+170325008,Diphtheria vaccination NOS (procedure),170325008
+170329002,Pertussis vaccination NOS (procedure),170329002
+170335002,Tetanus vaccination NOS (procedure),170335002
+170336001,Other bacterial vaccinations (procedure),170336001
+170347008,First meningitis C vaccination (procedure),170347008
+170348003,Second meningitis C vaccination (procedure),170348003
+170349006,Third meningitis C vaccination (procedure),170349006
+170350006,Meningitis A & C vaccination (procedure),170350006
+170351005,Single meningitis C vaccination (procedure),170351005
+170357009,Polio vaccination NOS (procedure),170357009
+170362005,Smallpox vaccination NOS (procedure),170362005
+170363000,Measles vaccination (procedure),170363000
+170368009,Rabies vaccination NOS (procedure),170368009
+170377002,Other arthropod viral vaccination (procedure),170377002
+170383004,First hepatitis A junior vaccination (procedure),170383004
+170384005,Second hepatitis A junior vaccination (procedure),170384005
+170385006,1st Japanese encephalitis vaccination (procedure),170385006
+170386007,2nd Japanese encephalitis vaccination (procedure),170386007
+170388008,3rd Japanese encephalitis vaccination (procedure),170388008
+170389000,Booster Japanese encephalitis vaccination (procedure),170389000
+170390009,Other viral vaccinations NOS (procedure),170390009
+170391008,Other single vaccinations (procedure),170391008
+170393006,Single vaccination NEC (procedure),170393006
+170394000,Single vaccination NOS (procedure),170394000
+170395004,"First diphtheria, pertussis and tetanus triple vaccination (procedure)",170395004
+170396003,"Second diphtheria, pertussis and tetanus triple vaccination (procedure)",170396003
+170397007,"Third diphtheria, pertussis and tetanus triple vaccination (procedure)",170397007
+170398002,"Diphtheria, pertussis and tetanus triple vaccination NOS (procedure)",170398002
+170399005,"Diphtheria, pertussis and tetanus triple and polio vaccination (procedure)",170399005
+170400003,"First diphtheria, pertussis and tetanus triple and polio vaccination (procedure)",170400003
+170401004,"Second diphtheria, pertussis and tetanus triple and polio vaccination (procedure)",170401004
+170402006,"Third diphtheria, pertussis and tetanus triple and polio vaccination (procedure)",170402006
+170403001,"Diphtheria, pertussis and tetanus triple and polio vaccination NOS (procedure)",170403001
+170404007,Double - DT - vaccination (& [pre-school] ) (procedure),170404007
+170405008,First diphtheria and tetanus double vaccination (procedure),170405008
+170406009,Second diphtheria and tetanus double vaccination (procedure),170406009
+170407000,Third diphtheria and tetanus double vaccination (procedure),170407000
+170408005,Booster diphtheria and tetanus double vaccination (procedure),170408005
+170409002,Tetanus and low dose diphtheria double vaccination (procedure),170409002
+170410007,Diphtheria and tetanus double vaccination NOS (procedure),170410007
+170412004,First diphtheria and tetanus double and polio vaccination (procedure),170412004
+170413009,Second diphtheria and tetanus double and polio vaccination (procedure),170413009
+170414003,Third diphtheria and tetanus double and polio vaccination (procedure),170414003
+170415002,Booster diphtheria and tetanus double and polio vaccination (procedure),170415002
+170416001,Diphtheria and tetanus double and polio vaccination NOS (procedure),170416001
+170423000,Other combined vaccinations (procedure),170423000
+170424006,Tetanus and low dose diphtheria double vaccination (procedure),170424006
+170438004,First DTP polio and Hib vaccination (procedure),170438004
+170439007,Second DTP polio and Hib vaccination (procedure),170439007
+170440009,Third DTP polio and Hib vaccination (procedure),170440009
+170441008,Fourth DTP polio and Hib vaccination (procedure),170441008
+170442001,First hepatitis A and typhoid vaccination (procedure),170442001
+170443006,Second hepatitis A and typhoid vaccination (procedure),170443006
+170444000,Other combined vaccination NOS (procedure),170444000
+171073000,Travel vaccination given (procedure),171073000
+185904007,Influenza vaccination declined (finding),185904007
+268498000,Other viral vaccinations (procedure),268498000
+268590009,Polio vaccination (& [oral vaccine]) (procedure),268590009
+268591008,Tetanus+polio vaccination (& [postschool] or [oral]) (procedure),268591008
+270898008,Diphtheria and tetanus double and polio vaccination (procedure),270898008
+270952006,Low dose diphtheria: [vaccination] or [vaccine] (procedure),270952006
+275841003,Pre-school diphtheria and tetanus double vaccination (procedure),275841003
+281040003,Pre-school diphtheria and tetanus double and polio vaccination (procedure),281040003
+281657000,Travel vaccinations (procedure),281657000
+310578008,Pneumococcal vaccination given (finding),310578008
+311548005,Tet/low dose dipther vaccine (& vaccination) (substance),311548005
+313188000,First hepatitis A junior vaccination (procedure),313188000
+313189008,Second hepatitis A junior vaccination (procedure),313189008
+315682001,[V]Cholera vaccination (situation),315682001
+315683006,[V]Typhoid-paratyphoid (TAB) vaccination (situation),315683006
+315685004,[V]Plague vaccination (situation),315685004
+315686003,[V]Tularemia vaccination (situation),315686003
+315687007,[V]Diphtheria vaccination (situation),315687007
+315688002,[V]Pertussis vaccination (situation),315688002
+315689005,[V]Tetanus toxoid vaccination (situation),315689005
+315690001,[V]Other specified vaccination against single bacterial disease (situation),315690001
+315691002,[V]Unspecified vaccination against single bacterial disease (situation),315691002
+315693004,[V]Poliomyelitis vaccination (situation),315693004
+315694005,[V]Smallpox vaccination (situation),315694005
+315695006,[V]Measles vaccination (situation),315695006
+315696007,[V]Rubella vaccination (situation),315696007
+315697003,[V]Yellow fever vaccination (situation),315697003
+315698008,[V]Rabies vaccination (situation),315698008
+315699000,[V]Mumps vaccination (situation),315699000
+315700004,[V]Common cold vaccination (situation),315700004
+315701000,[V]Influenza vaccination (situation),315701000
+315704008,[V]Other specified vaccination against certain viral disease (situation),315704008
+315705009,[V]Unspecified vaccination against certain viral disease (situation),315705009
+315708006,[V]Other arthropod-borne viral disease vaccination (situation),315708006
+315709003,[V]Leishmaniasis vaccination (situation),315709003
+315711007,[V]Other specified vaccination against single disease (situation),315711007
+315712000,[V]Unspecified vaccination against single disease (situation),315712000
+315713005,[V]Combined disease vaccination and inoculation (situation),315713005
+315714004,[V]Cholera with typhoid-paratyphoid vaccination (situation),315714004
+315715003,"[V]Diphtheria-tetanus-pertussis, combined (DTP) vaccination (situation)",315715003
+315716002,[V]Diphtheria-tetanus-pertussis with typhoid-paratyphoid (DTP + TAB) vaccination (situation),315716002
+315717006,[V]Diphtheria-tetanus-pertussis with poliomyelitis (DTP + polio) vaccination (situation),315717006
+315718001,[V]Measles-mumps-rubella (MMR) vaccination (situation),315718001
+315719009,[V]Other specified combined vaccination (situation),315719009
+315720003,[V]Unspecified combined vaccination (situation),315720003
+316409006,[V]Vaccination not carried out because of contraindication (situation),316409006
+389832009,Meningitis ACW & Y vaccination (procedure),389832009
+389833004,"Booster diphtheria, tetanus and acellular pertussis (DTaP) vaccination (procedure)",389833004
+389834005,"Booster diphtheria, tetanus, acellular pertussis (DTaP) and polio vaccination (procedure)",389834005
+389944006,Pneumococcal vaccination contraindicated (situation),389944006
+389945007,Influenza vaccination contraindicated (situation),389945007
+390564000,Meningitis ACW & Y vaccination (procedure),390564000
+390565004,"Booster diphtheria, tetanus and acellular pertussis (DTaP) vaccination (procedure)",390565004
+390566003,"Booster diphtheria, tetanus, acellular pertussis (DTaP) and polio vaccination (procedure)",390566003
+390678006,Pneumococcal vaccination contraindicated (finding),390678006
+390679003,Influenza vaccination contraindicated (finding),390679003
+390892002,Meningitis ACW & Y vaccination (procedure),390892002
+393017007,Booster pneumococcal vaccination (procedure),393017007
+393018002,First tetanus and low dose diphtheria vaccination (procedure),393018002
+393019005,Second tetanus and low dose diphtheria vaccination (procedure),393019005
+393020004,Third tetanus and low dose diphtheria vaccination (procedure),393020004
+393021000,Booster tetanus and low dose diphtheria vaccination (procedure),393021000
+393022007,Booster hepatitis A and typhoid vaccination (procedure),393022007
+393973001,Booster pneumococcal vaccination (procedure),393973001
+393974007,First tetanus and low dose diphtheria vaccination (procedure),393974007
+393975008,Second tetanus and low dose diphtheria vaccination (procedure),393975008
+393976009,Third tetanus and low dose diphtheria vaccination (procedure),393976009
+393977000,Booster tetanus and low dose diphtheria vaccination (procedure),393977000
+393978005,Booster hepatitis A and typhoid vaccination (procedure),393978005
+395579005,Single dose typhoid vaccination (procedure),395579005
+395626006,Single dose typhoid vaccination (procedure),395626006
+410019002,Complication of vaccination (disorder),410019002
+412742005,Third hepatitis A junior vaccination (procedure),412742005
+412743000,Booster hepatitis A junior vaccination (procedure),412743000
+413138007,Chickenpox vaccination (procedure),413138007
+428570002,Vaccination for human papillomavirus (procedure),428570002
+787438002,"Vaccination for diphtheria, pertussis, tetanus, poliomyelitis, Hepatitis B virus and Haemophilus influenzae type b (procedure)",787438002
+20601000000104,Influenza vaccination administration NOS (administrative concept),20601000000104
+21781000000105,Influenza vaccination administration (administrative concept),21781000000105
+76681000000108,Pertussis booster vaccination,76681000000108
+77361000000108,Pneumococcal vaccination declined,77361000000108
+80941000000102,Pertussis booster vaccination,80941000000102
+81671000000109,Pneumococcal vaccination declined,81671000000109
+98521000119107,Human papilloma virus type 4 vaccination given (situation),98521000119107
+116601000000103,Third hepatitis A junior vaccination,116601000000103
+116611000000101,Booster hepatitis A junior vaccination,116611000000101
+116621000000107,"First diphtheria, tetanus and acellular pertussis (DTaP) vaccination",116621000000107
+116631000000109,"Second diphtheria, tetanus and acellular pertussis (DTaP) vaccination",116631000000109
+116641000000100,"Third diphtheria, tetanus and acellular pertussis (DTaP) vaccination",116641000000100
+116651000000102,"First diphtheria, tetanus, acellular pertussis (DTaP) and polio vaccination",116651000000102
+116661000000104,"Second diphtheria, tetanus, acellular pertussis (DTaP) and polio vaccination",116661000000104
+116671000000106,"Third diphtheria, tetanus, acellular pertussis (DTaP) and polio vaccination",116671000000106
+117431000000105,"Did not attend DTP, Hib and polio vaccination",117431000000105
+117451000000103,"Did not attend 2nd DTP, Hib and polio vaccination",117451000000103
+117461000000100,"Did not attend 3rd DTP, Hib and polio vaccination",117461000000100
+121161000000105,Chickenpox vaccination,121161000000105
+121171000000103,Third hepatitis A junior vaccination,121171000000103
+121181000000101,Booster hepatitis A junior vaccination,121181000000101
+121191000000104,"First diphtheria, tetanus and acellular pertussis (DTaP) vaccination",121191000000104
+121201000000102,"Second diphtheria, tetanus and acellular pertussis (DTaP) vaccination",121201000000102
+121211000000100,"Third diphtheria, tetanus and acellular pertussis (DTaP) vaccination",121211000000100
+121221000000106,"First diphtheria, tetanus, acellular pertussis (DTaP) and polio vaccination",121221000000106
+121231000000108,"Second diphtheria, tetanus, acellular pertussis (DTaP) and polio vaccination",121231000000108
+121241000000104,"Third diphtheria, tetanus, acellular pertussis (DTaP) and polio vaccination",121241000000104
+122171000000106,"Did not attend DTP, Hib and polio vaccination",122171000000106
+122191000000105,"Did not attend 2nd DTP, Hib and polio vaccination",122191000000105
+122201000000107,"Did not attend 3rd DTP, Hib and polio vaccination",122201000000107
+165561000000107,Pneumococcal vaccination administration,165561000000107
+166831000000106,Pneumococcal vaccination administration (administrative concept),166831000000106
+169361000000103,"Low dose diphtheria, tetanus, five component acellular pertussis and inactivated polio vaccination",169361000000103
+169371000000105,"Low dose diphtheria, tetanus and inactivated polio vaccination",169371000000105
+169481000000102,"Diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination",169481000000102
+169491000000100,"First diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination",169491000000100
+169501000000106,"Second diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination",169501000000106
+169511000000108,"Third diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination",169511000000108
+171131000000104,Pneumococcal vaccination administration,171131000000104
+173951000000105,"Low dose diphtheria, tetanus, five component acellular pertussis and inactivated polio vaccination",173951000000105
+173961000000108,"Low dose diphtheria, tetanus and inactivated polio vaccination",173961000000108
+174061000000106,"Diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination",174061000000106
+174071000000104,"First diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination",174071000000104
+174081000000102,"Second diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination",174081000000102
+174091000000100,"Third diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination",174091000000100
+187711000000108,Rabies booster vaccination,187711000000108
+187721000000102,Sixth hepatitis B vaccination,187721000000102
+187731000000100,"First low dose diphtheria, tetanus and inactivated polio vaccination",187731000000100
+187741000000109,"Second low dose diphtheria, tetanus and inactivated polio vaccination",187741000000109
+187751000000107,"Third low dose diphtheria, tetanus and inactivated polio vaccination",187751000000107
+187761000000105,"First booster low dose diphtheria, tetanus and inactivated polio vaccination",187761000000105
+187771000000103,"Second booster low dose diphtheria, tetanus and inactivated polio vaccination",187771000000103
+188941000000107,Has influenza vaccination at work,188941000000107
+191151000000100,Rabies booster vaccination,191151000000100
+191161000000102,Sixth hepatitis B vaccination,191161000000102
+191171000000109,"First low dose diphtheria, tetanus and inactivated polio vaccination",191171000000109
+191181000000106,"Second low dose diphtheria, tetanus and inactivated polio vaccination",191181000000106
+191191000000108,"Third low dose diphtheria, tetanus and inactivated polio vaccination",191191000000108
+191201000000105,"First booster low dose diphtheria, tetanus and inactivated polio vaccination",191201000000105
+191211000000107,"Second booster low dose diphtheria, tetanus and inactivated polio vaccination",191211000000107
+192441000000103,Has influenza vaccination at work,192441000000103
+208171000000104,First pandemic influenza vaccination,208171000000104
+208181000000102,First pandemic influenza vaccination,208181000000102
+208191000000100,Second pandemic influenza vaccination,208191000000100
+208201000000103,Second pandemic influenza vaccination,208201000000103
+212751000000109,Did not attend travel vaccination,212751000000109
+212761000000107,Did not attend travel vaccination,212761000000107
+214891000000104,Did not attend flu vaccination appointment,214891000000104
+214901000000103,Did not attend flu vaccination appointment,214901000000103
+247151000000100,"Measles, mumps and rubella vaccination declined (situation)",247151000000100
+248841000000108,Haemophilus influenzae type B and meningitis C vaccination (procedure),248841000000108
+250351000000102,First pneumococcal conjugated vaccination ,250351000000102
+250361000000104,Second pneumococcal conjugated vaccination ,250361000000104
+250371000000106,Third pneumococcal conjugated vaccination ,250371000000106
+250381000000108,"Booster diphtheria, tetanus, acellular pertussis and inactivated polio vaccination ",250381000000108
+250401000000108,Haemophilus influenzae type B and meningitis C vaccination ,250401000000108
+250951000000101,Measles mumps rubella vaccination declined ,250951000000101
+252981000000108,First pneumococcal conjugated vaccination ,252981000000108
+252991000000105,Second pneumococcal conjugated vaccination ,252991000000105
+253001000000109,Third pneumococcal conjugated vaccination ,253001000000109
+253011000000106,"Booster diphtheria, tetanus, acellular pertussis and inactivated polio vaccination ",253011000000106
+253031000000103,Haemophilus influenzae type B and meningitis C vaccination ,253031000000103
+256201000000106,Tuberculosis (BCG) vaccination ,256201000000106
+273931000000100,Measles mumps rubella vaccination declined ,273931000000100
+286111000000106,First varicella vaccination (procedure),286111000000106
+286121000000100,First varicella vaccination ,286121000000100
+286131000000103,First varicella vaccination ,286131000000103
+286231000000106,Second varicella vaccination (procedure),286231000000106
+286241000000102,Second varicella vaccination ,286241000000102
+286251000000104,Second varicella vaccination ,286251000000104
+287611000000104,History of vaccination (situation),287611000000104
+287641000000103,History of one hepatitis B vaccination (situation),287641000000103
+287671000000109,History of two hepatitis B vaccinations (situation),287671000000109
+287701000000108,History of hepatitis B vaccination (situation),287701000000108
+289291000000100,Tuberculosis (BCG) vaccination,289291000000100
+292921000000100,History of three hepatitis B vaccinations (situation),292921000000100
+292931000000103,History of three hepatitis B vaccinations ,292931000000103
+292941000000107,History of three hepatitis B vaccinations ,292941000000107
+299171000000107,Haemophilus influenzae type B and meningitis C vaccination declined ,299171000000107
+299181000000109,Haemophilus influenzae type B and meningitis C vaccination declined ,299181000000109
+303121000000102,First human papillomavirus vaccination (procedure),303121000000102
+303151000000107,Second human papillomavirus vaccination (procedure),303151000000107
+303181000000101,Third human papillomavirus vaccination (procedure),303181000000101
+305601000000101,Human papillomavirus vaccination (procedure),305601000000101
+308731000000109,First human papillomavirus vaccination,308731000000109
+308741000000100,Second human papillomavirus vaccination,308741000000100
+308751000000102,Third human papillomavirus vaccination,308751000000102
+309151000000105,First human papillomavirus vaccination,309151000000105
+309161000000108,Second human papillomavirus vaccination,309161000000108
+309171000000101,Third human papillomavirus vaccination,309171000000101
+310561000000109,"Fourth (booster) diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination ",310561000000109
+310571000000102,"Fourth (booster) diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination ",310571000000102
+320181000000102,Rotavirus vaccination (procedure),320181000000102
+320191000000100,Rotavirus vaccination ,320191000000100
+320201000000103,Rotavirus vaccination ,320201000000103
+335061000000101,"Booster diphtheria, tetanus, acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination ",335061000000101
+335071000000108,"Booster diphtheria, tetanus, acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination ",335071000000108
+351951000000103,Human papillomavirus vaccination declined (situation),351951000000103
+351961000000100,Human papillomavirus vaccination declined ,351961000000100
+351971000000107,Human papillomavirus vaccination declined ,351971000000107
+379251000000105,"Booster diphtheria, tetanus and three component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination ",379251000000105
+379261000000108,"Booster diphtheria, tetanus and three component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination ",379261000000108
+380391000000105,First pandemic influenza vaccination declined ,380391000000105
+380401000000108,First pandemic influenza vaccination declined ,380401000000108
+382471000000101,Influenza vaccination given by other healthcare provider (finding),382471000000101
+382551000000109,Pneumococcal vaccination given by other healthcare provider (finding),382551000000109
+383831000000106,Hepatitis A vaccination - enhanced services administration (procedure),383831000000106
+391251000000103,[V]Unspecified vaccination against single disease (situation),391251000000103
+398951000000103,[V]Other specified vaccination against single disease (situation),398951000000103
+399511000000103,[V]Smallpox vaccination (situation),399511000000103
+400341000000109,[V]Other specified vaccination against single bacterial disease (situation),400341000000109
+410091000000104,[V]Combined disease vaccination and inoculation (situation),410091000000104
+410891000000109,[V]Rabies vaccination (situation),410891000000109
+411491000000104,[V]Measles-mumps-rubella (MMR) vaccination (situation),411491000000104
+411571000000102,[V]Measles vaccination (situation),411571000000102
+412151000000107,[V]Unspecified vaccination against single bacterial disease (situation),412151000000107
+412161000000105,[V]Poliomyelitis vaccination (situation),412161000000105
+412511000000102,[V]Influenza vaccination (situation),412511000000102
+414181000000105,[V]Vaccination not carried out because of contraindication (situation),414181000000105
+416361000000106,[V]Unspecified combined vaccination (situation),416361000000106
+416511000000101,[V]Rubella vaccination (situation),416511000000101
+428671000000104,[V]Mumps vaccination (situation),428671000000104
+429321000000104,[V]Other specified combined vaccination (situation),429321000000104
+430281000000104,[V]Common cold vaccination (situation),430281000000104
+439771000000101,[V]Diphtheria-tetanus-pertussis with poliomyelitis (DTP + polio) vaccination (situation),439771000000101
+452831000000104,[V]Typhoid-paratyphoid (TAB) vaccination (situation),452831000000104
+453321000000102,[V]Plague vaccination (situation),453321000000102
+453331000000100,[V]Tularemia vaccination (situation),453331000000100
+453811000000102,[V]Pertussis vaccination (situation),453811000000102
+453821000000108,[V]Tetanus toxoid vaccination (situation),453821000000108
+463801000000108,"[V]Diphtheria-tetanus-pertussis, combined (DTP) vaccination (situation)",463801000000108
+465081000000108,[V]Diphtheria vaccination (situation),465081000000108
+468451000000101,[V]Cholera vaccination (situation),468451000000101
+479541000000100,[V]Leishmaniasis vaccination (situation),479541000000100
+480181000000100,[V]Other specified vaccination against certain viral disease (situation),480181000000100
+480271000000109,[V]Yellow fever vaccination (situation),480271000000109
+486801000000103,Pneumococcal vaccination given by other healthcare provider ,486801000000103
+486811000000101,Influenza vaccination given by other healthcare provider ,486811000000101
+486821000000107,First pandemic influenza vaccination given by other healthcare provider ,486821000000107
+486831000000109,Second pandemic influenza vaccination given by other healthcare provider ,486831000000109
+488221000000107,Pneumococcal vaccination given by other healthcare provider ,488221000000107
+488231000000109,Influenza vaccination given by other healthcare provider ,488231000000109
+488241000000100,First pandemic influenza vaccination given by other healthcare provider ,488241000000100
+488251000000102,Second pandemic influenza vaccination given by other healthcare provider ,488251000000102
+504491000000105,Measles mumps rubella catch-up vaccination programme - enhanced services administration ,504491000000105
+504501000000104,Measles mumps rubella catch-up vaccination programme - enhanced services administration ,504501000000104
+504521000000108,Did not attend for measles mumps rubella catch-up vaccination - enhanced services administration ,504521000000108
+504531000000105,Did not attend for measles mumps rubella catch-up vaccination - enhanced services administration ,504531000000105
+505011000000106,Measles mumps rubella catch-up vaccination - enhanced services administration ,505011000000106
+505021000000100,Measles mumps rubella catch-up vaccination - enhanced services administration ,505021000000100
+505041000000107,Measles mumps rubella catch-up vaccination declined - enhanced services administration ,505041000000107
+505051000000105,Measles mumps rubella catch-up vaccination declined - enhanced services administration ,505051000000105
+510811000000108,History of influenza vaccination (situation),510811000000108
+510821000000102,History of influenza vaccination ,510821000000102
+510841000000109,History of pneumococcal vaccination (situation),510841000000109
+510851000000107,History of pneumococcal vaccination ,510851000000107
+510901000000103,"History of measles, mumps and rubella vaccination (situation)",510901000000103
+510911000000101,"History of measles, mumps and rubella vaccination ",510911000000101
+510931000000109,History of yellow fever vaccination (situation),510931000000109
+510941000000100,History of yellow fever vaccination ,510941000000100
+511601000000104,History of varicella vaccination (situation),511601000000104
+511611000000102,History of varicella vaccination ,511611000000102
+512671000000100,History of bacillus calmette-guerin vaccination (situation),512671000000100
+512681000000103,History of bacillus calmette-guerin vaccination ,512681000000103
+516311000000104,Recombinant meningococcal group B - outer membrane vesicle vaccination ,516311000000104
+516421000000102,Did not attend measels mumps and rubella vaccination ,516421000000102
+516601000000109,Did not attend meningitis C vaccination ,516601000000109
+517501000000107,Did not attend pneumococcal vaccination ,517501000000107
+517521000000103,"Did not attend diptheria, tetanus and acellular pertussis vaccination ",517521000000103
+518291000000101,"Did not attend diphtheria, tetanus, acellular pertussis and polio vaccination",518291000000101
+519431000000107,Did not attend haemophilus influenzae type b and meningitis C vaccination ,519431000000107
+519951000000108,Did not attend second measles mumps and rubella vaccination ,519951000000108
+519991000000100,Did not attend second meningitis C vaccination ,519991000000100
+520011000000106,Did not attend third meningitis C vaccination ,520011000000106
+520031000000103,Did not attend second pneumococcal vaccination ,520031000000103
+520051000000105,Did not attend third pneumococcal vaccination ,520051000000105
+533941000000102,Other viral vaccinations NOS (procedure),533941000000102
+533961000000101,Other single vaccinations (procedure),533961000000101
+533971000000108,Single vaccination NEC (procedure),533971000000108
+533981000000105,Single vaccination NOS (procedure),533981000000105
+533991000000107,"Diphtheria, pertussis and tetanus triple vaccination NOS (procedure)",533991000000107
+541761000000103,Other bacterial vaccinations (procedure),541761000000103
+541781000000107,Polio vaccination NOS (procedure),541781000000107
+541841000000106,Diphtheria and tetanus double vaccination NOS (procedure),541841000000106
+541851000000109,Diphtheria and tetanus double and polio vaccination NOS (procedure),541851000000109
+542911000000106,Tetanus vaccination NOS (procedure),542911000000106
+542931000000103,Rabies vaccination NOS (procedure),542931000000103
+542941000000107,Other arthropod viral vaccination (procedure),542941000000107
+544841000000108,Other viral vaccinations (procedure),544841000000108
+545111000000104,Other combined vaccinations (procedure),545111000000104
+545121000000105,Other combined vaccination NOS (procedure),545121000000105
+546661000000100,Cholera vaccination NOS (procedure),546661000000100
+546811000000103,"Diphtheria, pertussis and tetanus triple and polio vaccination NOS (procedure)",546811000000103
+554521000000100,Tetanus and polio vaccination NOS (procedure),554521000000100
+555101000000103,Typhoid vaccination NOS (procedure),555101000000103
+555111000000101,Diphtheria vaccination NOS (procedure),555111000000101
+555121000000107,Pertussis vaccination NOS (procedure),555121000000107
+570741000000105,Smallpox vaccination NOS (procedure),570741000000105
+707201000000108,CELVAPAN - first influenza A (H1N1v) 2009 vaccination given,707201000000108
+707211000000105,CELVAPAN - second influenza A (H1N1v) 2009 vaccination given,707211000000105
+707221000000104,PANDEMRIX - first influenza A (H1N1v) 2009 vaccination given,707221000000104
+707231000000102,PANDEMRIX - second influenza A (H1N1v) 2009 vaccination given,707231000000102
+707241000000106,CELVAPAN - first influenza A (H1N1v) 2009 vaccination given by other healthcare provider,707241000000106
+707251000000109,CELVAPAN - second influenza A (H1N1v) 2009 vaccination given by other healthcare provider,707251000000109
+707261000000107,PANDEMRIX - first influenza A (H1N1v) 2009 vaccination given by other healthcare provider,707261000000107
+707271000000100,PANDEMRIX - second influenza A (H1N1v) 2009 vaccination given by other healthcare provider,707271000000100
+710161000000103,Did not attend swine flu vaccination ,710161000000103
+714811000000102,Influenza vaccination administration NOS (record artifact),714811000000102
+754811000000105,Influenza A virus subtype H1N1 vaccination declined (situation),754811000000105
+754821000000104,Influenza A virus subtype H1N1 vaccination declined,754821000000104
+764121000000104,First Haemophilus influenzae type B and Neisseria meningitidis serotype C combination vaccination (procedure),764121000000104
+764131000000102,First haemophilus influenzae type B and meningitis C vaccination ,764131000000102
+764141000000106,Second Haemophilus influenzae type B and Neisseria meningitidis serotype C combination vaccination (procedure),764141000000106
+764151000000109,Second haemophilus influenzae type B and meningitis C vaccination ,764151000000109
+777611000000100,Quadrivalent human papillomavirus vaccination (procedure),777611000000100
+777621000000106,Quadrivalent human papillomavirus vaccination ,777621000000106
+783531000000108,First tick-borne encephalitis vaccination ,783531000000108
+783551000000101,Second tick-borne encephalitis vaccination ,783551000000101
+783571000000105,Third tick-borne encephalitis vaccination ,783571000000105
+785541000000100,Influenza vaccination requested (situation),785541000000100
+808131000000107,Tick-borne encephalitis vaccination,808131000000107
+820751000000106,Supplemental pneumococcal conjugated vaccination,820751000000106
+822861000000104,Seasonal influenza vaccination ,822861000000104
+822871000000106,Seasonal influenza vaccination given by other healthcare provider (finding),822871000000106
+822881000000108,Seasonal influenza vaccination given by other healthcare provider ,822881000000108
+822941000000109,Seasonal influenza vaccination declined ,822941000000109
+842811000000103,"Post exposure diphtheria, tetanus, acellular pertussis and inactivated polio vaccination enhanced services administration ",842811000000103
+842831000000106,"Did not attend post exposure diphtheria, tetanus, acellular pertussis and inactivated polio vaccination ",842831000000106
+842871000000108,"Post exposure diphtheria, tetanus, acellular pertussis and inactivated polio vaccination ",842871000000108
+842891000000107,"Post exposure diphtheria, tetanus, acellular pertussis and inactivated polio vaccination declined ",842891000000107
+843241000000108,Oral typhoid vaccination ,843241000000108
+849211000000109,Seasonal influenza vaccination given by pharmacist (finding),849211000000109
+849221000000103,Seasonal influenza vaccination given by pharmacist ,849221000000103
+859651000000107,Shingles (Herpes zoster) vaccination ,859651000000107
+865071000000101,First hepatitis B junior vaccination ,865071000000101
+865091000000102,Second hepatitis B junior vaccination ,865091000000102
+865111000000107,Third hepatitis B junior vaccination ,865111000000107
+865131000000104,Fourth hepatitis B junior vaccination ,865131000000104
+865161000000109,First combined paediatric hepatitis A and B vaccination ,865161000000109
+865181000000100,Second combined paediatric hepatitis A and B vaccination ,865181000000100
+865201000000101,Third combined paediatric hepatitis A and B vaccination ,865201000000101
+865441000000104,Pertussis vaccination programme for pregnant women enhanced service administration ,865441000000104
+866361000000100,Did not attend pertussis in pregnancy vaccination ,866361000000100
+868241000000109,Administration of intranasal influenza vaccination (procedure),868241000000109
+868251000000107,Administration of intranasal influenza vaccination ,868251000000107
+868521000000100,Herpes zoster vaccination given by other health care provider ,868521000000100
+868551000000105,Herpes zoster vaccination declined (situation),868551000000105
+868561000000108,Herpes zoster vaccination declined ,868561000000108
+868641000000106,First rotavirus vaccination ,868641000000106
+868661000000107,Second rotavirus vaccination ,868661000000107
+868681000000103,Rotavirus vaccination given by other health care provider ,868681000000103
+868721000000105,Rotavirus vaccination declined ,868721000000105
+869141000000105,Did not attend herpes zoster vaccination ,869141000000105
+870021000000100,Did not attend first rotavirus vaccination ,870021000000100
+870051000000105,Did not attend second rotavirus vaccination ,870051000000105
+871531000000102,First intranasal influenza vaccination declined ,871531000000102
+871551000000109,Second intranasal influenza vaccination declined ,871551000000109
+871761000000101,Administration of first intranasal influenza vaccination ,871761000000101
+871791000000107,Administration of second intranasal influenza vaccination ,871791000000107
+875761000000104,Pertussis vaccination in pregnancy declined,875761000000104
+882211000000109,First rotavirus vaccination declined ,882211000000109
+882231000000101,Second rotavirus vaccination declined ,882231000000101
+882681000000104,Booster meningitis C vaccination (procedure),882681000000104
+882691000000102,Booster meningitis C vaccination ,882691000000102
+882701000000102,Booster meningitis C vaccination declined (situation),882701000000102
+882751000000101,Did not attend booster meningitis C vaccination ,882751000000101
+883641000000103,Seasonal influenza vaccination given while hospital inpatient (finding),883641000000103
+883651000000100,Seasonal influenza vaccination given while hospital inpatient ,883651000000100
+884831000000105,Administration of first intranasal pandemic influenza vaccination ,884831000000105
+884851000000103,Administration of second intranasal pandemic influenza vaccination ,884851000000103
+884871000000107,Administration of first intranasal seasonal influenza vaccination ,884871000000107
+884891000000106,Administration of second intranasal seasonal influenza vaccination ,884891000000106
+884911000000109,First intranasal pandemic influenza vaccination given by other healthcare provider ,884911000000109
+884931000000101,Second intranasal pandemic influenza vaccination given by other healthcare provider ,884931000000101
+884941000000105,First intranasal seasonal influenza vaccination given by other healthcare provider (finding),884941000000105
+884951000000108,First intranasal seasonal influenza vaccination given by other healthcare provider ,884951000000108
+884961000000106,Second intranasal seasonal influenza vaccination given by other healthcare provider (finding),884961000000106
+884971000000104,Second intranasal seasonal influenza vaccination given by other healthcare provider ,884971000000104
+885981000000101,First intranasal seasonal influenza vaccination declined ,885981000000101
+886001000000100,First intranasal pandemic influenza vaccination declined ,886001000000100
+886021000000109,Second intranasal seasonal influenza vaccination declined ,886021000000109
+886041000000102,Second intranasal pandemic influenza vaccination declined ,886041000000102
+886081000000105,Did not attend first intranasal seasonal influenza vaccination ,886081000000105
+886121000000108,Did not attend second intranasal pandemic influenza vaccination ,886121000000108
+890791000000107,Booster meningitis C vaccination given by other healthcare provider,890791000000107
+890831000000100,Booster meningitis C vaccination declined,890831000000100
+891201000000101,Did not attend first intranasal seasonal influenza vaccination,891201000000101
+891221000000105,Did not attend second intranasal seasonal influenza vaccination,891221000000105
+891881000000105,Fourth rabies vaccination ,891881000000105
+891901000000108,Fifth rabies vaccination ,891901000000108
+903291000000103,"Diphtheria, tetanus, inactivated polio vaccination declined ",903291000000103
+908681000000107,Pertussis vaccination given by other healthcare provider ,908681000000107
+918011000000107,Cholera vaccination declined,918011000000107
+937571000000100,Booster yellow fever vaccination,937571000000100
+939951000000109,Second intramuscular seasonal influenza vaccination given by other healthcare provider (finding),939951000000109
+939961000000107,Second seasonal influenza vaccination given by other healthcare provider ,939961000000107
+940251000000108,"Diphtheria, tetanus, inactivated polio vaccination invitation ",940251000000108
+945841000000101,Second intramuscular seasonal influenza vaccination given by other healthcare provider ,945841000000101
+956961000000101,Pertussis vaccination in pregnancy ,956961000000101
+956981000000105,Pertussis vaccination in pregnancy given by other healthcare provider ,956981000000105
+957501000000107,First meningitis B vaccination (procedure),957501000000107
+957521000000103,Second meningitis B vaccination (procedure),957521000000103
+957621000000102,Meningitis B vaccination declined (situation),957621000000102
+957631000000100,Meningitis B vaccination declined ,957631000000100
+957681000000101,First meningitis ACW & Y vaccination ,957681000000101
+957701000000104,Second meningitis ACW & Y vaccination ,957701000000104
+957721000000108,Third meningitis ACW & Y vaccination ,957721000000108
+957741000000101,Fourth meningitis ACW & Y vaccination ,957741000000101
+957761000000100,Meningitis ACW & Y vaccination given by other healthcare provider ,957761000000100
+965041000000102,Meningitis B vaccination given by other healthcare provider,965041000000102
+965121000000108,First meningitis B vaccination,965121000000108
+965131000000105,Second meningitis B vaccination,965131000000105
+965141000000101,Third meningitis B vaccination,965141000000101
+965151000000103,Fourth meningitis B vaccination,965151000000103
+965161000000100,First meningitis B vaccination given by other healthcare provider,965161000000100
+965171000000107,Second meningitis B vaccination given by other healthcare provider,965171000000107
+965181000000109,Third meningitis B vaccination given by other healthcare provider,965181000000109
+965191000000106,Fourth meningitis B vaccination given by other healthcare provider,965191000000106
+965201000000108,Meningitis ACW & Y vaccination declined,965201000000108
+965861000000108,Human papillomavirus vaccination given by other healthcare provider ,965861000000108
+985161000000102,Administration of first inactivated seasonal influenza vaccination ,985161000000102
+985181000000106,Administration of second inactivated seasonal influenza vaccination ,985181000000106
+1036611000000101,Booster meningitis B vaccination declined (situation),1036611000000101
+1036621000000107,Booster meningitis B vaccination declined ,1036621000000107
+1036681000000108,First meningitis B vaccination declined (situation),1036681000000108
+1036691000000105,First meningitis B vaccination declined ,1036691000000105
+1036701000000105,Second meningitis B vaccination declined (situation),1036701000000105
+1036711000000107,Second meningitis B vaccination declined ,1036711000000107
+1036731000000104,First rotavirus vaccination given by other health care provider ,1036731000000104
+1036751000000106,Second rotavirus vaccination given by other health care provider ,1036751000000106
+1037021000000102,Booster meningitis B vaccination given by other healthcare provider ,1037021000000102
+1037031000000100,First measles mumps and rubella vaccination (procedure),1037031000000100
+1037221000000107,First hepatitis B vaccination given by other healthcare provider ,1037221000000107
+1037241000000100,Second hepatitis B vaccination given by other healthcare provider ,1037241000000100
+1037261000000104,First measles mumps and rubella vaccination given by other healthcare provider ,1037261000000104
+1037281000000108,Second measles mumps and rubella vaccination given by other healthcare provider ,1037281000000108
+1037291000000105,Booster meningitis B vaccination (procedure),1037291000000105
+1037301000000109,Booster meningitis B vaccination ,1037301000000109
+1037321000000100,First intranasal seasonal influenza vaccination given by pharmacist ,1037321000000100
+1037341000000107,Second intranasal seasonal influenza vaccination given by pharmacist ,1037341000000107
+1037361000000108,First seasonal influenza vaccination given by pharmacist ,1037361000000108
+1037381000000104,Second seasonal influenza vaccination given by pharmacist ,1037381000000104
+1050641000000103,First MMR (measles mumps and rubella) vaccination,1050641000000103
+1050861000000103,Meningitis ACW and Y vaccination invitation,1050861000000103
+1051061000000100,Meningitis B vaccination invitation,1051061000000100
+1240491000000103,Severe acute respiratory syndrome coronavirus 2 vaccination (procedure),1240491000000103
+16300531000119107,Human papillomavirus type 9 vaccination given (situation),16300531000119107
+170358004,First smallpox vaccination - successful (situation),170358004
+170359007,First smallpox vaccination - unsuccessful (situation),170359007
+185900003,Has influenza vaccination at home (finding),185900003
+185901004,Has influenza vaccination at surgery (finding),185901004
+185902006,Has influenza vaccination at hospital (finding),185902006
+127785005,"Administration of substance to produce immunity, either active or passive (procedure)",127785005
+268503002,Normal immunoglobulin given (situation),268503002
+303010008,Hepatitis A gamma globulin given (situation),303010008
+148297000,Travel vaccination given (situation),148297000
+170337005,Pneumococcal vaccination given (situation),170337005
+734154002,"Administration of human papilloma virus type 6, 11, 16, and 18 vaccine done (situation)",734154002
+425457005,History of vaccination (situation),425457005
+426980004,History of one dose of hepatitis B vaccine (situation),426980004
+426519003,History of two doses hepatitis B vaccine (situation),426519003
+427390007,History of hepatitis B vaccination (situation),427390007
+39031000119103,Viral hepatitis B vaccination given (situation),39031000119103
+43941000119105,Viral hepatitis A vaccination given (situation),43941000119105
+516301000000101,Recombinant meningococcal group B and outer membrane vesicle vaccination (procedure),516301000000101
+516411000000108,Did not attend measles mumps and rubella vaccination (finding),516411000000108
+516591000000103,Did not attend meningitis C vaccination (finding),516591000000103
+517491000000101,Did not attend pneumococcal vaccination (finding),517491000000101
+517511000000109,"Did not attend diphtheria, tetanus and acellular pertussis vaccination (finding)",517511000000109
+518281000000103,"Did not attend diphtheria, tetanus, acellular pertussis and polio vaccination (finding)",518281000000103
+519421000000105,Did not attend haemophilus influenzae type B and meningitis C vaccination (finding),519421000000105
+519941000000105,Did not attend second measles mumps and rubella vaccination (finding),519941000000105
+519981000000102,Did not attend second meningitis C vaccination (finding),519981000000102
+520001000000109,Did not attend third meningitis C vaccination (finding),520001000000109
+520021000000100,Did not attend second pneumococcal vaccination (finding),520021000000100
+520041000000107,Did not attend third pneumococcal vaccination (finding),520041000000107
+515291000000105,CELVAPAN - first influenza A (H1N1v) 2009 vaccination given (procedure),515291000000105
+515321000000100,CELVAPAN - second influenza A (H1N1v) 2009 vaccination given (procedure),515321000000100
+515281000000108,PANDEMRIX - first influenza A (H1N1v) 2009 vaccination given (procedure),515281000000108
+515301000000109,PANDEMRIX - second influenza A (H1N1v) 2009 vaccination given (procedure),515301000000109
+515331000000103,CELVAPAN - first influenza A (H1N1v) 2009 vaccination given by other healthcare provider (finding),515331000000103
+515351000000105,CELVAPAN - second influenza A (H1N1v) 2009 vaccination given by other healthcare provider (finding),515351000000105
+515341000000107,PANDEMRIX - first influenza A (H1N1v) 2009 vaccination given by other healthcare provider (finding),515341000000107
+515361000000108,PANDEMRIX - second influenza A (H1N1v) 2009 vaccination given by other healthcare provider (finding),515361000000108
+710151000000101,Did not attend influenza A virus subtype H1N1 vaccination (finding),710151000000101
+783521000000106,First tick-borne encephalitis vaccination (procedure),783521000000106
+783541000000104,Second tick-borne encephalitis vaccination (procedure),783541000000104
+783561000000103,Third tick-borne encephalitis vaccination (procedure),783561000000103
+820741000000108,Supplemental pneumococcal conjugated vaccination (procedure),820741000000108
+822851000000102,Seasonal influenza vaccination (procedure),822851000000102
+822931000000100,Seasonal influenza vaccination declined (situation),822931000000100
+827101000000105,Combined hepatitis A and B vaccination declined (situation),827101000000105
+842801000000100,"Post-exposure diphtheria, tetanus, acellular pertussis and inactivated polio vaccination programme enhanced services administration (procedure)",842801000000100
+842821000000109,"Did not attend post exposure diphtheria, tetanus, acellular pertussis and inactivated polio vaccination (finding)",842821000000109
+842861000000101,"Post exposure diphtheria, tetanus, acellular pertussis and inactivated polio vaccination (procedure)",842861000000101
+842881000000105,"Post exposure diphtheria, tetanus, acellular pertussis and inactivated polio vaccination declined (situation)",842881000000105
+843231000000104,Oral typhoid vaccination (procedure),843231000000104
+859641000000109,Herpes zoster vaccination (procedure),859641000000109
+865061000000108,First hepatitis B junior vaccination (procedure),865061000000108
+865081000000104,Second hepatitis B junior vaccination (procedure),865081000000104
+865101000000105,Third hepatitis B junior vaccination (procedure),865101000000105
+865121000000101,Fourth hepatitis B junior vaccination (procedure),865121000000101
+865151000000106,First combined paediatric hepatitis A and B vaccination (procedure),865151000000106
+865171000000102,Second combined paediatric hepatitis A and B vaccination (procedure),865171000000102
+865191000000103,Third combined paediatric hepatitis A and B vaccination (procedure),865191000000103
+865431000000108,Pertussis vaccination programme for pregnant women enhanced service administration (procedure),865431000000108
+866351000000103,Did not attend pertussis vaccination in pregnancy (finding),866351000000103
+868511000000106,Herpes zoster vaccination given by other health care provider (finding),868511000000106
+868631000000102,First rotavirus vaccination (procedure),868631000000102
+868651000000109,Second rotavirus vaccination (procedure),868651000000109
+868671000000100,Rotavirus vaccination given by other health care provider (finding),868671000000100
+868711000000104,Rotavirus vaccination declined (situation),868711000000104
+869131000000101,Did not attend herpes zoster vaccination (finding),869131000000101
+870011000000106,Did not attend first rotavirus vaccination (finding),870011000000106
+870041000000107,Did not attend second rotavirus vaccination (finding),870041000000107
+871521000000104,First intranasal influenza vaccination declined (situation),871521000000104
+871541000000106,Second intranasal influenza vaccination declined (situation),871541000000106
+871751000000104,Administration of first intranasal influenza vaccination (procedure),871751000000104
+871781000000105,Administration of second intranasal influenza vaccination (procedure),871781000000105
+866641000000105,Pertussis vaccination in pregnancy declined (situation),866641000000105
+882201000000107,First rotavirus vaccination declined (situation),882201000000107
+882221000000103,Second rotavirus vaccination declined (situation),882221000000103
+882741000000104,Did not attend booster meningitis C vaccination (finding),882741000000104
+884821000000108,Administration of first intranasal pandemic influenza vaccination (procedure),884821000000108
+884841000000101,Administration of second intranasal pandemic influenza vaccination (procedure),884841000000101
+884861000000100,Administration of first intranasal seasonal influenza vaccination (procedure),884861000000100
+884881000000109,Administration of second intranasal seasonal influenza vaccination (procedure),884881000000109
+884901000000107,First intranasal pandemic influenza vaccination given by other healthcare provider (finding),884901000000107
+884921000000103,Second intranasal pandemic influenza vaccination given by other healthcare provider (finding),884921000000103
+885971000000103,First intranasal seasonal influenza vaccination declined (situation),885971000000103
+885991000000104,First intranasal pandemic influenza vaccination declined (situation),885991000000104
+886011000000103,Second intranasal seasonal influenza vaccination declined (situation),886011000000103
+886031000000106,Second intranasal pandemic influenza vaccination declined (situation),886031000000106
+886071000000108,Did not attend first intranasal pandemic influenza vaccination (finding),886071000000108
+886111000000102,Did not attend second intranasal pandemic influenza vaccination (finding),886111000000102
+882761000000103,Booster meningitis C vaccination given by other healthcare provider (finding),882761000000103
+882181000000108,Did not attend first intranasal seasonal influenza vaccination (finding),882181000000108
+882141000000100,Did not attend second intranasal seasonal influenza vaccination (finding),882141000000100
+891871000000108,Fourth rabies vaccination (procedure),891871000000108
+891891000000107,Fifth rabies vaccination (procedure),891891000000107
+903281000000100,"Diphtheria, tetanus, inactivated polio vaccination declined (situation)",903281000000100
+908671000000105,Pertussis vaccination given by other healthcare provider (finding),908671000000105
+913961000000102,Education about influenza vaccination (procedure),913961000000102
+894681000000107,Cholera vaccination declined (situation),894681000000107
+935351000000106,Long term indication for seasonal influenza vaccination (situation),935351000000106
+921761000000109,Booster yellow fever vaccination (procedure),921761000000109
+940241000000105,"Tetanus, diphtheria, inactivated polio vaccination invitation (procedure)",940241000000105
+956951000000104,Pertussis vaccination in pregnancy (procedure),956951000000104
+956971000000108,Pertussis vaccination in pregnancy given by other healthcare provider (finding),956971000000108
+957671000000103,First meningitis ACW and Y vaccination (procedure),957671000000103
+957691000000104,Second meningitis ACW and Y vaccination (procedure),957691000000104
+957711000000102,Third meningitis ACW and Y vaccination (procedure),957711000000102
+957731000000105,Fourth meningitis ACW and Y vaccination (procedure),957731000000105
+957751000000103,Meningitis ACW and Y vaccination given by other healthcare provider (situation),957751000000103
+957581000000102,Meningitis B vaccination given by other healthcare provider (situation),957581000000102
+957541000000105,Third meningitis B vaccination (procedure),957541000000105
+957561000000106,Fourth meningitis B vaccination (procedure),957561000000106
+958381000000107,First meningitis B vaccination given by other healthcare provider (situation),958381000000107
+958401000000107,Second meningitis B vaccination given by other healthcare provider (situation),958401000000107
+958421000000103,Third meningitis B vaccination given by other healthcare provider (situation),958421000000103
+958441000000105,Fourth meningitis B vaccination given by other healthcare provider (situation),958441000000105
+957791000000106,Meningitis ACW and Y vaccination declined (situation),957791000000106
+965851000000105,Human papillomavirus vaccination given by other healthcare provider (situation),965851000000105
+985151000000100,Administration of first inactivated seasonal influenza vaccination (procedure),985151000000100
+985171000000109,Administration of second inactivated seasonal influenza vaccination (procedure),985171000000109
+1036721000000101,First rotavirus vaccination given by other health care provider (finding),1036721000000101
+1036741000000108,Second rotavirus vaccination given by other health care provider (finding),1036741000000108
+1037011000000108,Booster meningitis B vaccination given by other healthcare provider (situation),1037011000000108
+1037211000000101,First hepatitis B vaccination given by other healthcare provider (finding),1037211000000101
+1037231000000109,Second hepatitis B vaccination given by other healthcare provider (finding),1037231000000109
+1037251000000102,First measles mumps and rubella vaccination given by other healthcare provider (finding),1037251000000102
+1037271000000106,Second measles mumps and rubella vaccination given by other healthcare provider (finding),1037271000000106
+1037311000000106,First intranasal seasonal influenza vaccination given by pharmacist (situation),1037311000000106
+1037331000000103,Second intranasal seasonal influenza vaccination given by pharmacist (situation),1037331000000103
+1037351000000105,First inactivated seasonal influenza vaccination given by pharmacist (situation),1037351000000105
+1037371000000101,Second inactivated seasonal influenza vaccination given by pharmacist (situation),1037371000000101
+1324721000000108,Severe acute respiratory syndrome coronavirus 2 vaccination dose declined (situation),1324721000000108
+1324811000000107,Severe acute respiratory syndrome coronavirus 2 immunisation course declined (situation),1324811000000107
+1324771000000107,Severe acute respiratory syndrome coronavirus 2 vaccination dose not given (situation),1324771000000107
+1324821000000101,Severe acute respiratory syndrome coronavirus 2 immunisation course not done (situation),1324821000000101
+99501000119107,Human papilloma virus vaccination given (situation),99501000119107
+147582002,Booster anthrax vaccination (procedure),147582002
+570001,Vaccination for arthropod-borne viral encephalitis (procedure),570001
+44193004,Typhoid-paratyphoid vaccination (procedure),44193004
+90640007,Coronavirus vaccination (procedure),90640007
+147624006,Arthropod encephalitis vaccination (& [tick-borne]) (procedure),147624006
+147659006,DT (double) + polio vaccination (& preschool) (procedure),147659006
+147666007,Tetanus+polio vaccination (& [postschool] or [oral]) (procedure),147666007
+147674008,Measles/rubella: [vaccine] or [vaccination] (procedure),147674008
+170376006,Arthropod encephalitis vaccination (& [tick-borne]) (procedure),170376006
+170411006,DT (double) + polio vaccination (& preschool) (procedure),170411006
+170417005,Tetanus + polio vaccination (& [postschool]) (procedure),170417005
+170454001,(Normal immunoglobulin given (& [hep A gammaglobulin]) or (infectious hepatitis vaccination) (procedure),170454001
+309543007,Measles/rubella: [vaccine] or [vaccination] (substance),309543007
+312867004,Typhoid and paratyphoid vaccination (procedure),312867004
+315684000,[V]Tuberculosis (BCG) vaccination (situation),315684000
+315707001,[V]Arthropod-borne viral encephalitis vaccination (situation),315707001
+398171000000105,[V]Diphtheria-tetanus-pertussis with typhoid-paratyphoid (DTP + TAB) vaccination (situation),398171000000105
+428551000000109,[V]Unspecified vaccination against certain viral disease (situation),428551000000109
+429231000000108,[V]Tuberculosis (BCG) vaccination (situation),429231000000108
+451641000000104,[V]Other arthropod-borne viral disease vaccination (situation),451641000000104
+463641000000107,[V]Cholera with typhoid-paratyphoid vaccination (situation),463641000000107
+479531000000109,[V]Arthropod-borne viral encephalitis vaccination (situation),479531000000109
+1240651000000109,Severe acute respiratory syndrome coronavirus 2 vaccination declined (situation),1240651000000109
+1240681000000103,Severe acute respiratory syndrome coronavirus 2 vaccination not done (situation),1240681000000103
+722338002,Second meningitis B vaccination declined (situation),722338002
+722397009,First meningitis B vaccination declined (situation),722397009
+722396000,Booster meningitis B vaccination declined (situation),722396000
+720548009,Meningitis B vaccination declined (situation),720548009
+955671000000109,Second intramuscular seasonal influenza vaccination given by other healthcare provider (situation),955671000000109
+700359005,Booster meningitis C vaccination declined (situation),700359005
+955681000000106,Second intranasal seasonal influenza vaccination given by other healthcare provider (situation),955681000000106
+955661000000102,First intranasal seasonal influenza vaccination given by other healthcare provider (situation),955661000000102
+955701000000108,Seasonal influenza vaccination given while hospital inpatient (situation),955701000000108
+9691000175102,Herpes zoster vaccination declined (situation),9691000175102
+955691000000108,Seasonal influenza vaccination given by pharmacist (situation),955691000000108
+955651000000100,Seasonal influenza vaccination given by other healthcare provider (situation),955651000000100
+698950001,Influenza A virus subtype H1N1 vaccination declined (situation),698950001
+714801000000104,Influenza vaccination administration (record artifact),714801000000104
+315640000,Influenza vaccination declined (situation),315640000
+473170005,History of bacillus Calmette-Guerin vaccination (situation),473170005
+473164004,History of varicella vaccination (situation),473164004
+473168001,History of yellow fever vaccination (situation),473168001
+473166002,"History of measles, mumps and rubella vaccination (situation)",473166002
+473165003,History of pneumococcal vaccination (situation),473165003
+473169009,History of influenza vaccination (situation),473169009
+505031000000103,Measles mumps rubella catch-up vaccination declined (situation),505031000000103
+505001000000109,Measles mumps rubella catch-up vaccination (procedure),505001000000109
+504511000000102,Did not attend for measles mumps rubella catch-up vaccination (finding),504511000000102
+504481000000108,Measles mumps rubella catch-up vaccination programme enhanced services administration (procedure),504481000000108
+380771000000107,Second pandemic influenza vaccination given by other healthcare provider (finding),380771000000107
+380741000000101,First pandemic influenza vaccination given by other healthcare provider (finding),380741000000101
+955641000000103,Influenza vaccination given by other healthcare provider (situation),955641000000103
+1324631000000100,Pneumococcal vaccination given by other healthcare provider (situation),1324631000000100
+713404003,Vaccination given (situation),713404003
+151061000119101,Tetanus toxoid vaccination given (situation),151061000119101
+150971000119104,"Measles, mumps and rubella vaccination given (situation)",150971000119104
+380381000000108,Pandemic influenza vaccination declined (situation),380381000000108
+379241000000107,"Booster diphtheria tetanus and three component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination (procedure)",379241000000107
+438765003,Human papillomavirus vaccination declined (situation),438765003
+335051000000104,"Booster diphtheria, tetanus, acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination (procedure)",335051000000104
+310551000000106,"Booster diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination (procedure)",310551000000106
+299161000000100,Haemophilus influenzae type B and meningitis C vaccination declined (situation),299161000000100
+429203008,History of three doses of hepatitis B vaccine (situation),429203008
+9711000175104,"Measles, mumps and rubella vaccination declined (situation)",9711000175104
+199331000000106,Did not attend influenza vaccination appointment (finding),199331000000106
+197961000000108,Did not attend travel vaccination (finding),197961000000108
+202311000000108,Second pandemic influenza vaccination (procedure),202311000000108
+202301000000106,First pandemic influenza vaccination (procedure),202301000000106
+416928007,Has influenza vaccination at work (finding),416928007
+714821000000108,Pneumococcal vaccination administration (record artifact),714821000000108
+413106002,"Did not attend third diphtheria, tetanus and pertussis, Haemophilus influenzae type b and polio vaccination (finding)",413106002
+413103005,"Did not attend diphtheria, tetanus and pertussis, Haemophilus influenzae type b and polio vaccination (finding)",413103005
+413105003,"Did not attend second diphtheria, tetanus and pertussis, Haemophilus influenzae type b and polio vaccination (finding)",413105003
+401086001,Pneumococcal vaccination declined (situation),401086001
+836388000,Vaccine product containing Rubella virus antigen (medicinal product),836388000
+836382004,Vaccine product containing Measles morbillivirus antigen (medicinal product),836382004
+77248004,Infection control procedure (procedure),77248004
