@@ -72,9 +72,6 @@ import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 @Validated
 public class PatientTransferController {
 
-    @Autowired
-    private FhirParser fhirParser;
-
     private static final String ISSUE_SYSTEM = "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1";
 
     private static final List<MigrationStatus> IN_PROGRESS_STATUSES = List.of(
@@ -118,6 +115,7 @@ public class PatientTransferController {
     );
 
     private final PatientTransferService patientTransferService;
+    private final FhirParser fhirParser;
 
     @PostMapping(
         path = "/Patient/$gpc.migratestructuredrecord",
