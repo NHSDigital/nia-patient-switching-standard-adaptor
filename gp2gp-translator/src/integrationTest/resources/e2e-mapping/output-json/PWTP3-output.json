@@ -2023,6 +2023,13 @@
           "medication"
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196461000000101",
+              "display": "Transfer-degraded drug allergy"
+            }
+          ],
           "text": "Adverse reactions"
         },
         "patient": {
@@ -2281,6 +2288,13 @@
           "medication"
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196461000000101",
+              "display": "Transfer-degraded drug allergy"
+            }
+          ],
           "text": "Adverse reaction to Ethyol"
         },
         "patient": {
@@ -2712,6 +2726,13 @@
           "medication"
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196461000000101",
+              "display": "Transfer-degraded drug allergy"
+            }
+          ],
           "text": "Adverse reaction to Erythromid"
         },
         "patient": {
