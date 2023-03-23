@@ -5,6 +5,8 @@ import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
 import org.hl7.fhir.dstu3.model.Organization;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +34,7 @@ public class OrganizationMapperTest {
     public void mapAuthorOrganization() {
         when(idGenerator.generateUuid()).thenReturn(ID);
 
-        Organization organization = organizationMapper.mapAuthorOrganization(ODS_CODE);
+        Organization organization = organizationMapper.mapAuthorOrganization(ODS_CODE, new ArrayList<>());
 
         assertThat(organization.getId()).isEqualTo(ID);
         assertThat(organization.getIdentifierFirstRep().getSystem()).isEqualTo(ODS_SYSTEM);

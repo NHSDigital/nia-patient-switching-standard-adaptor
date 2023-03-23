@@ -199,7 +199,7 @@ services:
       - nia-daisy-chain
     image: ${MONGODB_VERSION}
     ports:
-        - "27017:27017"
+      - "27017:27017"
 
   gpcc:
     image: ${GPCC_ADAPTOR_VERSION}
@@ -247,8 +247,8 @@ services:
 
   activemq:
     image: ${ACTIVEMQ_VERSION}
-#    build:
-#      context: ../docker/activemq
+    #    build:
+    #      context: ../docker/activemq
     ports:
       - "8161:8161"
       - "${ACTIVE_MQ_PORT}:5672"
