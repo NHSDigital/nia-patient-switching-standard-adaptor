@@ -108,7 +108,7 @@ public class AcknowledgeMessageHandlingIT {
 
     @Test
     public void handleNegativeAcknowledgeMessageWithPatientNotRegisteredErrorReasonFromQueue() {
-        sendAcknowledgementMessageToQueue("AE", "6", "Test Error Message");
+        sendAcknowledgementMessageToQueue("AE", "06", "Test Error Message");
 
         // verify if correct status is set in the DB
         await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED));
@@ -116,7 +116,7 @@ public class AcknowledgeMessageHandlingIT {
 
     @Test
     public void handleNegativeAcknowledgeMessageWithSENDERNOTCONFIGUREDErrorReasonFromQueue() {
-        sendAcknowledgementMessageToQueue("AE", "7", "Test Error Message");
+        sendAcknowledgementMessageToQueue("AE", "07", "Test Error Message");
 
         // verify if correct status is set in the DB
         await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED));
