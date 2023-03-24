@@ -7,6 +7,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
 
@@ -57,6 +58,7 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
     private static final String UNEXPECTED_CONDITION_CODE = "99";
     private static final String LARGE_MESSAGE_TIMEOUT_CODE = "25";
     private static final String EHR_GENERAL_PROCESSING_ERROR_CODE = "30";
+    private static final String EHR_NACK_UNKNOWN = "99";
 
     @Autowired
     private MigrationStatusLogService migrationStatusLogService;
@@ -77,7 +79,7 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
     public void When_ProcessFailedByIncumbent_With_EhrExtract_Expect_NotProcessed() {
         sendNackToQueue();
 
-        await().until(this::isEhrRequestNegativeAck);
+        await().until(this::isEhrRequestNegativeAckUnknown);
 
         sendEhrExtractToQueue();
 
@@ -85,7 +87,7 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
 
         var migrationStatus = migrationStatusLogService.getLatestMigrationStatusLog(getConversationId()).getMigrationStatus();
 
-        assertThat(migrationStatus).isEqualTo(EHR_EXTRACT_REQUEST_NEGATIVE_ACK);
+        assertThat(migrationStatus).isEqualTo(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN);
     }
 
     @Test
@@ -94,15 +96,15 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
 
         sendNackToQueue();
 
-        await().until(this::isEhrRequestNegativeAck);
+        await().until(this::isEhrRequestNegativeAckUnknown);
 
         sendCopcToQueue();
 
-        await().until(() -> nackSentWithCode(UNEXPECTED_CONDITION_CODE));
+        await().until(() -> nackSentWithCode(EHR_GENERAL_PROCESSING_ERROR_CODE));
 
         var migrationStatus = migrationStatusLogService.getLatestMigrationStatusLog(getConversationId()).getMigrationStatus();
 
-        assertThat(migrationStatus).isEqualTo(EHR_EXTRACT_REQUEST_NEGATIVE_ACK);
+        assertThat(migrationStatus).isEqualTo(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN);
     }
 
     @Test
@@ -179,9 +181,9 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
         return objectMapper.writeValueAsString(inboundMessage);
     }
 
-    private boolean isEhrRequestNegativeAck() {
+    private boolean isEhrRequestNegativeAckUnknown() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(getConversationId());
-        return migrationStatusLog != null && EHR_EXTRACT_REQUEST_NEGATIVE_ACK.equals(migrationStatusLog.getMigrationStatus());
+        return migrationStatusLog != null && EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN.equals(migrationStatusLog.getMigrationStatus());
     }
 
     private boolean isContinueRequestAccepted() {
