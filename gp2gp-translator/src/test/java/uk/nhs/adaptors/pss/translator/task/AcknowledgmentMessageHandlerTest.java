@@ -80,7 +80,7 @@ public class AcknowledgmentMessageHandlerTest {
     @Test
     public void handleMessageWithNackTypeCodeAndErrorCode() throws SAXException {
         inboundMessage = new InboundMessage();
-        prepareXPathServiceMocks(NACK_TYPE_CODE, "6");
+        prepareXPathServiceMocks(NACK_TYPE_CODE, "06");
         prepareMigrationStatusMocks(EHR_EXTRACT_REQUEST_ACCEPTED);
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
