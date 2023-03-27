@@ -90,12 +90,12 @@ public class ProcedureRequestMapperTest {
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, getEhrComposition(ehrExtract),
                 planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
-        
+
         assertThat(procedureRequest.getCode().getCodingFirstRep()).isNotNull();
         assertThat(procedureRequest.getCode().getCodingFirstRep())
                 .isEqualTo(DegradedCodeableConcepts.DEGRADED_PLAN);
     }
-    
+
     @Test
     public void mapProcedureRequestWithNoOptionalFields() {
         var ehrExtract = unmarshallCodeElement("no_optional_data_example.xml");
