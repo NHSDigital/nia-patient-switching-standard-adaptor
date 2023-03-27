@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
@@ -60,6 +61,12 @@ public class ObservationMapperTest {
         (Encounter) new Encounter().setId("TEST_ID_MATCHING_ENCOUNTER")
     );
 
+    private static final String ORIGINAL_TEXT = "Original Text";
+    private static final String MINUS_ONE_ANNOTATION_TEXT = "minus 1 sequence comment";
+    private static final String ZERO_ANNOTATION_TEXT = "zero sequence comment";
+    private static final String PLUS_ONE_ANNOTATION_TEXT = "plus 1 sequence comment";
+    private static final String NULL_FLAVOR_ANNOTATION_TEXT = "nullFlavor sequence comment";
+
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
 
@@ -84,6 +91,7 @@ public class ObservationMapperTest {
     public void createMeasurementUnits() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         getCreateMeasurementUnitsMethod().invoke(MEASUREMENT_UNITS_UTIL);
     }
+
     @Test
     public void mapObservationWithValidData() {
         //when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
@@ -188,6 +196,90 @@ public class ObservationMapperTest {
         var observations = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(observations).isEmpty();
+    }
+
+    @Test
+    public void When_MapObservation_With_Plus1SequenceComment_Expect_CommentMapped() {
+        var ehrExtract = unmarshallEhrExtractElement(
+            "sequence_comment_plus1__originalText_observation.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        assertThat(observation.getComment()).isEqualTo(PLUS_ONE_ANNOTATION_TEXT);
+    }
+
+    @Test
+    public void When_MapObservation_With_Minus1SequenceComment_Expect_CommentAndOriginalTextMapped() {
+        var ehrExtract = unmarshallEhrExtractElement(
+            "sequence_comment_minus1_originalText_observation.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        var expectedComment = MINUS_ONE_ANNOTATION_TEXT + StringUtils.SPACE + ORIGINAL_TEXT;
+
+        assertThat(observation.getComment()).isEqualTo(expectedComment);
+    }
+
+    @Test
+    public void When_MapObservation_With_Minus1AndPlus1SequenceComment_Expect_CommentsAndOriginalTextMapped() {
+        var ehrExtract = unmarshallEhrExtractElement(
+            "sequence_comment_plus1_minus1_originalText_observation.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        var expectedComment = MINUS_ONE_ANNOTATION_TEXT + StringUtils.SPACE + ORIGINAL_TEXT + StringUtils.SPACE + PLUS_ONE_ANNOTATION_TEXT;
+
+        assertThat(observation.getComment()).isEqualTo(expectedComment);
+    }
+
+    @Test
+    public void When_MapObservation_With_ZeroSequenceAndPlus1SequenceComment_Expect_CommentsMapped() {
+        var ehrExtract = unmarshallEhrExtractElement(
+            "sequence_comment_plus1_zero_originalText_observation.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        var expectedComment = ZERO_ANNOTATION_TEXT + StringUtils.SPACE + PLUS_ONE_ANNOTATION_TEXT;
+
+        assertThat(observation.getComment()).isEqualTo(expectedComment);
+    }
+
+    @Test
+    public void When_MapObservation_With_ZeroSequenceComment_Expect_CommentMapped() {
+        var ehrExtract = unmarshallEhrExtractElement(
+            "sequence_comment_zero_originalText_observation.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        assertThat(observation.getComment()).isEqualTo(ZERO_ANNOTATION_TEXT);
+    }
+
+    @Test
+    public void When_MapObservation_With_Minus1SequenceCommentAndNoOriginalText_Expect_CommentMapped() {
+        var ehrExtract = unmarshallEhrExtractElement(
+            "sequence_comment_minus1_observation.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        assertThat(observation.getComment()).isEqualTo(MINUS_ONE_ANNOTATION_TEXT);
+    }
+
+    @Test
+    public void When_MapObservation_With_AllSequenceCommentsAndOriginalText_Expect_MappedInCorrectOrder() {
+        var ehrExtract = unmarshallEhrExtractElement(
+            "sequence_comment_all_observation.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        var expectedComment = MINUS_ONE_ANNOTATION_TEXT + StringUtils.SPACE + ORIGINAL_TEXT + StringUtils.SPACE + ZERO_ANNOTATION_TEXT
+            + StringUtils.SPACE + PLUS_ONE_ANNOTATION_TEXT;
+
+        assertThat(observation.getComment()).isEqualTo(expectedComment);
+    }
+
+    @Test
+    public void When_MapObservation_WithNullFlavorSequenceComments_Expect_CommentsPostFixed() {
+        var ehrExtract = unmarshallEhrExtractElement(
+            "sequence_comment_minus1_nullFlavor_originalText.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        var expectedComment = MINUS_ONE_ANNOTATION_TEXT + StringUtils.SPACE + ORIGINAL_TEXT + StringUtils.SPACE
+            + NULL_FLAVOR_ANNOTATION_TEXT;
+
+        assertThat(observation.getComment()).isEqualTo(expectedComment);
     }
 
     private void assertFixedValues(Observation observation) {
