@@ -29,6 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @ExtendWith(MockitoExtension.class)
 public class ProcedureRequestMapperTest {
@@ -81,6 +82,20 @@ public class ProcedureRequestMapperTest {
         assertThat(procedureRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 
+    @Test
+    public void mapProcedureRequestWithDegradedPlan() {
+        var ehrExtract = unmarshallCodeElement("full_valid_data_example.xml");
+        var planStatement = getPlanStatement(ehrExtract);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(new CodeableConcept());
+
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrExtract, getEhrComposition(ehrExtract),
+                planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
+        
+        assertThat(procedureRequest.getCode().getCodingFirstRep()).isNotNull();
+        assertThat(procedureRequest.getCode().getCodingFirstRep())
+                .isEqualTo(DegradedCodeableConcepts.DEGRADED_PLAN);
+    }
+    
     @Test
     public void mapProcedureRequestWithNoOptionalFields() {
         var ehrExtract = unmarshallCodeElement("no_optional_data_example.xml");
