@@ -543,6 +543,13 @@
         "status": "active",
         "intent": "plan",
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196451000000104",
+              "display": "Transfer-degraded plan"
+            }
+          ],
           "text": "Fissure sealant required"
         },
         "subject": {
@@ -578,6 +585,13 @@
         "status": "active",
         "intent": "plan",
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196451000000104",
+              "display": "Transfer-degraded plan"
+            }
+          ],
           "text": "Dental recall - high caries in mother and siblings"
         },
         "subject": {
