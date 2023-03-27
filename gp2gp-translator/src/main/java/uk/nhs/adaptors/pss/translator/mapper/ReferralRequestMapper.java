@@ -93,7 +93,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                 );
 
         referralRequest.setPriority(referralPriority);
-        
+
         return referralRequest;
     }
 

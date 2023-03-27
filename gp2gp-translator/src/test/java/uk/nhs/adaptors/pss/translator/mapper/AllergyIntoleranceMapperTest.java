@@ -269,7 +269,7 @@ public class AllergyIntoleranceMapperTest {
     @MethodSource("allergyStructuresWithTranslations")
     public void testTppNamedSchemaInValue(String filename) {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
-            .thenReturn(tertiaryCodeableConcept());
+                .thenReturn(tertiaryCodeableConcept());
 
         var ehrExtract = unmarshallEhrExtract(filename);
 
@@ -290,8 +290,6 @@ public class AllergyIntoleranceMapperTest {
         assertThat(translation.getCode()).isEqualTo(SNOMED_COCONUT_OIL);
         assertThat(translation.getDisplayName()).isEqualTo("Coconut oil");
     }
-
-   
 
     private static Stream<Arguments> allergyStructuresWithTranslations() {
         return Stream.of(
