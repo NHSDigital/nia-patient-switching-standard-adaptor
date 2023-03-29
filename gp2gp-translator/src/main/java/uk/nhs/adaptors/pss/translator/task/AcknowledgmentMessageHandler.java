@@ -58,7 +58,13 @@ public class AcknowledgmentMessageHandler {
         }
 
         if (currentMigrationStatus.equals(FINAL_ACK_SENT) || currentMigrationStatus.equals(MIGRATION_COMPLETED)) {
-            LOGGER.info("Received an ack with type code {}, but the migration is complete and the EHR has been accepted", ackTypeCode);
+            var loggerMessage = "Received an ack with type code {}, but the migration is complete";
+
+            if (currentMigrationStatus.equals(FINAL_ACK_SENT)) {
+                loggerMessage = loggerMessage + " and the EHR has been accepted";
+            }
+
+            LOGGER.info(loggerMessage, ackTypeCode);
             return;
         }
 
