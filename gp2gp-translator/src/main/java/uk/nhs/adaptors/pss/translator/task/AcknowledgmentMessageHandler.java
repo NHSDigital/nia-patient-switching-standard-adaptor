@@ -9,6 +9,7 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUES
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.FINAL_ACK_SENT;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -56,7 +57,7 @@ public class AcknowledgmentMessageHandler {
             return;
         }
 
-        if (currentMigrationStatus.equals(FINAL_ACK_SENT)) {
+        if (currentMigrationStatus.equals(FINAL_ACK_SENT) || currentMigrationStatus.equals(MIGRATION_COMPLETED)) {
             LOGGER.info("Received an ack with type code {}, but the migration is complete and the EHR has been accepted", ackTypeCode);
             return;
         }
