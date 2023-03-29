@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
 
 import java.util.UUID;
 
@@ -29,7 +29,7 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
-import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)

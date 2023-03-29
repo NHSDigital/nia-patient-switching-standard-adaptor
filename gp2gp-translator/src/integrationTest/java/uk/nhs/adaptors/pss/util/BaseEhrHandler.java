@@ -3,12 +3,12 @@ package uk.nhs.adaptors.pss.util;
 import static org.assertj.core.api.Assertions.fail;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
 import java.io.PrintWriter;

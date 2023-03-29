@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.pss.translator.task;
 
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 
 import javax.jms.JMSException;
 import javax.jms.Message;

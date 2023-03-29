@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
-import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 
 @Service

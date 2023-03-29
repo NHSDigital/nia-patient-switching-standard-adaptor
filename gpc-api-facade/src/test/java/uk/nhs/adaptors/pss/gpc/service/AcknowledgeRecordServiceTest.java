@@ -11,7 +11,7 @@ import uk.nhs.adaptors.common.enums.ConfirmationResponse;
 import uk.nhs.adaptors.common.model.AcknowledgeRecordMessage;
 import uk.nhs.adaptors.connector.dao.MigrationStatusLogDao;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
-import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;

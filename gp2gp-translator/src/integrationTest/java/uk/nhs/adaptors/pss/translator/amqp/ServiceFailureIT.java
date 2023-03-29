@@ -14,12 +14,12 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import static uk.nhs.adaptors.common.enums.QueueMessageType.TRANSFER_REQUEST;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ERROR;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ERROR;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.REQUEST_RECEIVED;
 
 import java.time.Duration;
 import java.util.List;
@@ -45,7 +45,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.model.TransferRequestMessage;
-import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.pss.translator.config.PssQueueProperties;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
