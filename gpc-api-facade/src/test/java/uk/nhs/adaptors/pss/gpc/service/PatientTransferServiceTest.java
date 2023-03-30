@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.enums.QueueMessageType.TRANSFER_REQUEST;
+import static uk.nhs.adaptors.common.model.MigrationStatusGroups.IN_PROGRESS_STATUSES;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
@@ -15,11 +16,14 @@ import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -118,9 +122,101 @@ public class PatientTransferServiceTest {
         verifyNoMoreInteractions(patientMigrationRequestDao);
     }
 
+    @Test
+    public void checkExistingPatientMigrationRequestInProgressWhenNoExistingRequest() {
+        when(mdcService.getConversationId())
+                .thenReturn(CONVERSATION_ID);
+        when(patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(PATIENT_NHS_NUMBER))
+                        .thenReturn(null);
+
+        var existingConversationId = service.checkExistingPatientMigrationRequestInProgress(parameters);
+
+        assertThat(existingConversationId).isNull();
+    }
+
+    @Test
+    public void checkExistingPatientMigrationRequestInProgressWhenMigrationStatusLogNotYetCreated() {
+        // this test deals with the edge case that two requests with different conversationId's are fired in quick
+        // succession and the migrationStatusLog from the first request received has not yet been written
+
+        when(mdcService.getConversationId())
+                .thenReturn(CONVERSATION_ID);
+        when(patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(PATIENT_NHS_NUMBER))
+                .thenReturn(null);
+
+        var existingConversationId = service.checkExistingPatientMigrationRequestInProgress(parameters);
+
+        assertThat(existingConversationId).isNull();
+    }
+
+    @ParameterizedTest
+    @MethodSource("generateInProgressStatuses")
+    public void checkExistingPatientMigrationRequestInProgressWhenExistingMigrationInProcess(MigrationStatus status) {
+        final String newConversationId = UUID.randomUUID().toString();
+        final PatientMigrationRequest patientMigrationRequest = createPatientMigrationRequest();
+        final MigrationStatusLog migrationStatusLog = createMigrationStatusLog(status);
+
+        when(mdcService.getConversationId())
+                .thenReturn(newConversationId);
+        when(patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(PATIENT_NHS_NUMBER))
+                .thenReturn(patientMigrationRequest);
+        when(migrationStatusLogDao.getLatestMigrationStatusLog(1))
+                .thenReturn(migrationStatusLog);
+
+        var existingConversationId = service.checkExistingPatientMigrationRequestInProgress(parameters);
+
+        assertThat(existingConversationId).isNotNull();
+        assertThat(existingConversationId).isEqualTo(CONVERSATION_ID);
+    }
+
+    @ParameterizedTest
+    @MethodSource("generateCompletedStatuses")
+    public void checkExistingPatientMigrationRequestInProgressWhenPreviousMigrationCompleted(MigrationStatus status) {
+        final String newConversationId = UUID.randomUUID().toString();
+        final PatientMigrationRequest patientMigrationRequest = createPatientMigrationRequest();
+        final MigrationStatusLog migrationStatusLog = createMigrationStatusLog(status);
+
+        when(mdcService.getConversationId())
+                .thenReturn(newConversationId);
+        when(patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(PATIENT_NHS_NUMBER))
+                .thenReturn(patientMigrationRequest);
+        when(migrationStatusLogDao.getLatestMigrationStatusLog(1))
+                .thenReturn(migrationStatusLog);
+
+        var existingConversationId = service.checkExistingPatientMigrationRequestInProgress(parameters);
+
+        assertThat(existingConversationId).isNull();
+    }
+
+    @Test public void checkExistingPatientMigrationRequestInProgressWhenConversationIdsMatch() {
+        final PatientMigrationRequest patientMigrationRequest = createPatientMigrationRequest();
+        final MigrationStatusLog migrationStatusLog = createMigrationStatusLog();
+
+        when(mdcService.getConversationId())
+                .thenReturn(CONVERSATION_ID);
+        when(patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(PATIENT_NHS_NUMBER))
+                .thenReturn(patientMigrationRequest);
+        when(migrationStatusLogDao.getLatestMigrationStatusLog(1))
+                .thenReturn(migrationStatusLog);
+
+        var existingConversationId = service.checkExistingPatientMigrationRequestInProgress(parameters);
+
+        assertThat(existingConversationId).isNull();
+    }
+
+    private static Stream<MigrationStatus> generateInProgressStatuses() {
+        return IN_PROGRESS_STATUSES.stream();
+    }
+
+    private static Stream<MigrationStatus> generateCompletedStatuses() {
+        return Stream.of(MigrationStatus.values())
+                .filter(status -> !IN_PROGRESS_STATUSES.contains(status));
+    }
+
     private PatientMigrationRequest createPatientMigrationRequest() {
         return PatientMigrationRequest.builder()
             .id(1)
+            .conversationId(CONVERSATION_ID)
             .patientNhsNumber(PATIENT_NHS_NUMBER)
             .build();
     }
@@ -132,5 +228,14 @@ public class PatientTransferServiceTest {
             .date(OffsetDateTime.now())
             .migrationRequestId(1)
             .build();
+    }
+
+    private MigrationStatusLog createMigrationStatusLog(MigrationStatus status) {
+        return MigrationStatusLog.builder()
+                .id(1)
+                .migrationStatus(status)
+                .date(OffsetDateTime.now())
+                .migrationRequestId(1)
+                .build();
     }
 }

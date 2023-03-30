@@ -61,7 +61,7 @@ public class PatientTransferService {
         return mdcService.getConversationId() == existingConversationId ? null : existingConversationId;
     }
 
-    public String getConversationIdOfIncompleteMigrationRequest(String patientNhsNumber) {
+    private String getConversationIdOfIncompleteMigrationRequest(String patientNhsNumber) {
         var migrationRequest = patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(patientNhsNumber);
         if (migrationRequest == null) {
             return null;
