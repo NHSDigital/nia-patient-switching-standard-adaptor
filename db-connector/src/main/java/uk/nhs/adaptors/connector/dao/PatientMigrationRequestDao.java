@@ -38,7 +38,7 @@ public interface PatientMigrationRequestDao {
     @UseClasspathSqlLocator
     boolean existsByConversationId(@Bind("conversationId") String conversationId);
 
-    @SqlQuery("select_patient_migration_request_patient_nhs_number")
+    @SqlQuery("select_patient_migration_request_by_patient_nhs_number")
     @UseClasspathSqlLocator
     PatientMigrationRequest getLatestMigrationRequestByPatientNhsNumber(@Bind("patientNhsNumber") String patientNhsNumber);
 }

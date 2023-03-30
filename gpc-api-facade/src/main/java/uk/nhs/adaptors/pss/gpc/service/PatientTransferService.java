@@ -58,7 +58,7 @@ public class PatientTransferService {
 
         var existingConversationId = getConversationIdOfIncompleteMigrationRequest(patientNhsNumber);
 
-        return mdcService.getConversationId() == existingConversationId ? null : existingConversationId;
+        return mdcService.getConversationId().equals(existingConversationId) ? null : existingConversationId;
     }
 
     private String getConversationIdOfIncompleteMigrationRequest(String patientNhsNumber) {
