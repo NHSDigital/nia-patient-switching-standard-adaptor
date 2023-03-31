@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.task.scheduled;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
@@ -27,10 +28,16 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
@@ -52,6 +59,7 @@ import uk.nhs.adaptors.pss.translator.config.TimeoutProperties;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.exception.SdsRetrievalException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.service.PersistDurationService;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.util.InboundMessageUtil;
@@ -73,6 +81,11 @@ public class EHRTimeoutHandlerTest {
     private static final String INBOUND_MESSAGE_STRING_TWO = "test inbound Message 2";
     private static final String EBXML_STRING = "test ebXML";
     private static final String EBXML_STRING_TWO = "test ebXML 2";
+    private static final String UNEXPECTED_CONDITION_CODE = "99";
+    private static final String ATTACHMENTS_NOT_RECEIVED_CODE = "31";
+
+    @Captor
+    private ArgumentCaptor<NACKMessageData> nackMessageData;
     @Mock
     private PersistDurationService persistDurationService;
     @Mock
@@ -104,6 +117,17 @@ public class EHRTimeoutHandlerTest {
     @InjectMocks
     private EHRTimeoutHandler ehrTimeoutHandler;
 
+    private static Stream<Arguments> inProgressRequestsWithAttachments() {
+        return Stream.of(
+            Arguments.of(EHR_EXTRACT_PROCESSING),
+            Arguments.of(CONTINUE_REQUEST_ACCEPTED),
+            Arguments.of(COPC_MESSAGE_RECEIVED),
+            Arguments.of(COPC_MESSAGE_PROCESSING),
+            Arguments.of(COPC_ACKNOWLEDGED),
+            Arguments.of(COPC_FAILED)
+            );
+    }
+
     private void setupMocks() throws JsonProcessingException {
         when(persistDurationService.getPersistDurationFor(any(), eq(EHR_EXTRACT_MESSAGE_NAME)))
             .thenReturn(Duration.ofHours(EHR_EXTRACT_PERSIST_DURATION));
@@ -132,6 +156,25 @@ public class EHRTimeoutHandlerTest {
         String conversationId = UUID.randomUUID().toString();
         callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_TRANSLATED, TEN_DAYS_AGO, 0, conversationId);
         verify(sendNACKMessageHandler, times(1)).prepareAndSendMessage(any());
+    }
+
+    @Test
+    public void When_CheckForTimeouts_WithEhrExtractTranslatedTimeout_Expect_NackCode99() {
+        String conversationId = UUID.randomUUID().toString();
+        callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_TRANSLATED, TEN_DAYS_AGO, 0, conversationId);
+        verify(sendNACKMessageHandler, times(1)).prepareAndSendMessage(nackMessageData.capture());
+
+        assertThat(nackMessageData.getValue().getNackCode()).isEqualTo(UNEXPECTED_CONDITION_CODE);
+    }
+
+    @ParameterizedTest
+    @MethodSource("inProgressRequestsWithAttachments")
+    public void When_CheckForTimeouts_WithMigrationWithAttachmentsTimeout_Expect_NackCode31(MigrationStatus migrationStatus) {
+        String conversationId = UUID.randomUUID().toString();
+        callCheckForTimeoutsWithOneRequest(migrationStatus, TEN_DAYS_AGO, 0, conversationId);
+        verify(sendNACKMessageHandler, times(1)).prepareAndSendMessage(nackMessageData.capture());
+
+        assertThat(nackMessageData.getValue().getNackCode()).isEqualTo(ATTACHMENTS_NOT_RECEIVED_CODE);
     }
 
     @Test

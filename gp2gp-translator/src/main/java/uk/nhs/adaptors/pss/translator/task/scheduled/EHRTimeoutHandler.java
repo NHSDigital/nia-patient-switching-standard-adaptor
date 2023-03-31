@@ -8,7 +8,9 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_RECEI
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_TIMEOUT;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.time.Duration;
@@ -39,6 +41,7 @@ import uk.nhs.adaptors.pss.translator.config.TimeoutProperties;
 import uk.nhs.adaptors.pss.translator.exception.SdsRetrievalException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.PersistDurationService;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.util.InboundMessageUtil;
@@ -65,9 +68,11 @@ public class EHRTimeoutHandler {
     public void checkForTimeouts() {
         LOGGER.info("running scheduled task to check for timeouts");
 
-        // Ehr Extract Translated is not the final state for a simple EHR, so we can use it for timeouts
-        List<PatientMigrationRequest> inProgressRequests = Stream.of(
-                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED),
+        // Ehr Extract Translated is not the final state for an EHR, but we cannot guarantee it has attachments
+        List<PatientMigrationRequest> translatedRequests =
+            migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED);
+
+        List<PatientMigrationRequest> requestsWithAttachments = Stream.of(
                 migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_PROCESSING),
                 migrationRequestService.getMigrationRequestByCurrentMigrationStatus(CONTINUE_REQUEST_ACCEPTED),
                 migrationRequestService.getMigrationRequestByCurrentMigrationStatus(COPC_MESSAGE_RECEIVED),
@@ -77,10 +82,11 @@ public class EHRTimeoutHandler {
             .flatMap(Collection::stream)
             .toList();
 
-        inProgressRequests.forEach(this::handleMigrationTimeout);
+        translatedRequests.forEach(migrationRequest -> handleMigrationTimeout(migrationRequest, UNEXPECTED_CONDITION));
+        requestsWithAttachments.forEach(migrationRequest -> handleMigrationTimeout(migrationRequest, LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED));
     }
 
-    private void handleMigrationTimeout(PatientMigrationRequest migrationRequest) {
+    private void handleMigrationTimeout(PatientMigrationRequest migrationRequest, NACKReason reason) {
 
         String conversationId = migrationRequest.getConversationId();
         mdcService.applyConversationId(conversationId);
@@ -111,7 +117,7 @@ public class EHRTimeoutHandler {
 
             if (timeoutDateTime.isBefore(currentTime)) {
                 LOGGER.info("Migration timed out at [{}]", timeoutDateTime);
-                sendNackMessage(message, conversationId);
+                sendNackMessage(message, conversationId, reason);
             }
         } catch (SdsRetrievalException e) {
             LOGGER.error("Error retrieving persist duration: [{}]", e.getMessage());
@@ -123,13 +129,13 @@ public class EHRTimeoutHandler {
         mdcService.applyConversationId("");
     }
 
-    private void sendNackMessage(InboundMessage inboundMessage, String conversationId) throws JAXBException {
+    private void sendNackMessage(InboundMessage inboundMessage, String conversationId, NACKReason reason) throws JAXBException {
 
         RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
 
         NACKMessageData messageData = NACKMessageData
             .builder()
-            .nackCode(LARGE_MESSAGE_TIMEOUT.getCode())
+            .nackCode(reason.getCode())
             .fromAsid(outboundMessageUtil.parseFromAsid(payload))
             .toAsid(outboundMessageUtil.parseToAsid(payload))
             .toOdsCode(outboundMessageUtil.parseToOdsCode(payload))
