@@ -124,7 +124,7 @@ public class PatientTransferController {
     private OperationOutcome createErrorBodyForInProgressRequest(String conversationId) {
         var operationErrorCode = "INTERNAL_SERVER_ERROR";
         var operationErrorMessage = "PS - The Given NHS number is already being processed against Conversation ID: "
-            + conversationId + "you cannot start a new request until the current request has completed or failed.";
+            + conversationId + ", you cannot start a new request until the current request has completed or failed.";
 
         CodeableConcept details = CodeableConceptUtils.
                 createCodeableConcept(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage, null);

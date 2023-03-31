@@ -43,6 +43,8 @@ public class PatientTransferControllerIT {
     private static final String VALID_REQUEST_BODY_PATH = "/requests/migrate-patient-record/validRequestBody.json";
     private static final String UNPROCESSABLE_ENTITY_RESPONSE_BODY_PATH =
             "/responses/migrate-patient-record/unprocessableEntityResponseBody.json";
+    private static final String TRANSFER_IN_PROGRESS_RESPONSE_BODY_PATH =
+            "/responses/migrate-patient-record/transferInProgressResponseBody.json";
     private static final HttpHeaders REQUIRED_HEADERS = generateHeaders();
     private static final String CONVERSATION_ID_HEADER = "ConversationId";
     private static final String LOSING_PRACTICE_ODS = "F765";
@@ -111,6 +113,53 @@ public class PatientTransferControllerIT {
 
         var migrationRequestAfterSecondRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         verifyPatientMigrationRequest(migrationRequestAfterSecondRequest, MigrationStatus.REQUEST_RECEIVED);
+    }
+
+    @Test
+    public void sendPatientTransferRequestWithDifferentConversationIdWhenTransferIsAlreadyInProgress() throws Exception {
+        var conversationId = generateConversationId();
+        var secondConversationId = generateConversationId();
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
+        var expectedResponseBody = readResourceAsString(TRANSFER_IN_PROGRESS_RESPONSE_BODY_PATH)
+                .replace("{{conversationId}}", conversationId);
+
+        var migrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
+        assertThat(migrationRequest).isNull();
+
+        mockMvc.perform(
+                        post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                                .contentType(APPLICATION_FHIR_JSON_VALUE)
+                                .headers(REQUIRED_HEADERS)
+                                .header(CONVERSATION_ID_HEADER, conversationId)
+                                .content(requestBody))
+                .andExpect(status().isAccepted());
+
+        mockMvc.perform(
+                        post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                                .contentType(APPLICATION_FHIR_JSON_VALUE)
+                                .headers(REQUIRED_HEADERS)
+                                .header(CONVERSATION_ID_HEADER, secondConversationId)
+                                .content(requestBody))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().json(expectedResponseBody))
+                .andReturn();
+    }
+
+    @Test
+    public void sendPatientTransferRequestWhenPreviousTransferForThatNhsNumberHasCompleted() throws Exception {
+        var conversationId = generateConversationId();
+        var secondConversationId = generateConversationId();
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
+
+        completePatientMigrationJourney(conversationId);
+
+        mockMvc.perform(
+                        post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                                .contentType(APPLICATION_FHIR_JSON_VALUE)
+                                .headers(REQUIRED_HEADERS)
+                                .header(CONVERSATION_ID_HEADER, secondConversationId)
+                                .content(requestBody))
+                .andExpect(status().isAccepted());
     }
 
     @Test
