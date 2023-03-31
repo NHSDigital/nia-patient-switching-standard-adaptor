@@ -6,6 +6,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -16,6 +17,8 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 import lombok.SneakyThrows;
 
@@ -27,7 +30,7 @@ public class ObservationUtilTest {
     private static final String EFFECTIVE_START_DATE_1 = "2010-05-21";
     private static final String EFFECTIVE_START_DATE_2 = "2010-05-20";
     private static final String EFFECTIVE_END_DATE = "2010-05-22";
-    private static final String QUANTITY_UNIT = "ml";
+    private static final String QUANTITY_UNIT = "milliliter";
     private static final String QUANTITY_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ValueApproximation-1";
     private static final BigDecimal PQ_QUANTITY_VALUE_BASE = new BigDecimal(100);
@@ -39,6 +42,10 @@ public class ObservationUtilTest {
     private static final BigDecimal REFERENCE_RANGE_HIGH_VALUE_2 = new BigDecimal(22);
     private static final Double REFERENCE_RANGE_LOW_VALUE_DECIMAL = 10.5;
     private static final Double REFERENCE_RANGE_HIGH_VALUE_DECIMAL = 12.2;
+
+    private static final Map<String, String> stubMeasurementUnitMap = Map.of(
+        "ml", "milliliter"
+    );
 
     @SneakyThrows
     private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
@@ -63,28 +70,40 @@ public class ObservationUtilTest {
 
     @Test
     public void mapValueQuantityUsingPqQuantity() {
-        var ehrExtract = unmarshallEhrExtractElement(
-            "pq_value_quantity_observation_example.xml");
-        var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
 
-        var quantity = ObservationUtil.getValueQuantity(observationStatement.getValue(),
-            observationStatement.getUncertaintyCode());
+        try (MockedStatic<MeasurementUnitsUtil> mockedMeasurementUnitUtil = Mockito.mockStatic(MeasurementUnitsUtil.class)) {
 
-        assertThat(quantity.getValue()).isEqualTo(PQ_QUANTITY_VALUE);
-        assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
+            mockedMeasurementUnitUtil.when(MeasurementUnitsUtil::getMeasurementUnitsMap).thenReturn(stubMeasurementUnitMap);
+
+            var ehrExtract = unmarshallEhrExtractElement(
+                "pq_value_quantity_observation_example.xml");
+            var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
+
+            var quantity = ObservationUtil.getValueQuantity(observationStatement.getValue(),
+                observationStatement.getUncertaintyCode());
+
+            assertThat(quantity.getValue()).isEqualTo(PQ_QUANTITY_VALUE);
+            assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
+        }
     }
 
     @Test
     public void mapValueQuantityUsingIvlPqQuantity() {
-        var ehrExtract = unmarshallEhrExtractElement(
-            "ivl_pq_value_quantity_observation_example.xml");
-        var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
 
-        var quantity = ObservationUtil.getValueQuantity(observationStatement.getValue(),
-            observationStatement.getUncertaintyCode());
+        try (MockedStatic<MeasurementUnitsUtil> mockedMeasurementUnitUtil = Mockito.mockStatic(MeasurementUnitsUtil.class)) {
 
-        assertThat(quantity.getValue()).isEqualTo(IVL_PQ_QUANTITY_VALUE);
-        assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
+            mockedMeasurementUnitUtil.when(MeasurementUnitsUtil::getMeasurementUnitsMap).thenReturn(stubMeasurementUnitMap);
+
+            var ehrExtract = unmarshallEhrExtractElement(
+                "ivl_pq_value_quantity_observation_example.xml");
+            var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
+
+            var quantity = ObservationUtil.getValueQuantity(observationStatement.getValue(),
+                observationStatement.getUncertaintyCode());
+
+            assertThat(quantity.getValue()).isEqualTo(IVL_PQ_QUANTITY_VALUE);
+            assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
+        }
     }
 
     @Test
