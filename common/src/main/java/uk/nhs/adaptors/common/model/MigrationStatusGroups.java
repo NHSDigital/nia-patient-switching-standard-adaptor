@@ -2,9 +2,7 @@ package uk.nhs.adaptors.common.model;
 
 import uk.nhs.adaptors.common.enums.MigrationStatus;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_ACKNOWLEDGED;
