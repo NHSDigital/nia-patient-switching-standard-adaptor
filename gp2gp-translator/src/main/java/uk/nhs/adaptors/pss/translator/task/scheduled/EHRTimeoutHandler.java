@@ -22,9 +22,7 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBException;
 
@@ -40,6 +38,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.common.util.DateUtils;
+import uk.nhs.adaptors.connector.model.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
@@ -73,38 +72,37 @@ public class EHRTimeoutHandler {
     private final PatientAttachmentLogService patientAttachmentLogService;
     private final DateUtils dateUtils;
 
+    private static final List<MigrationStatus> PRE_EHR_PARSED_STATUS_LIST = List.of(
+        REQUEST_RECEIVED,
+        EHR_EXTRACT_REQUEST_ACCEPTED,
+        EHR_EXTRACT_REQUEST_ACKNOWLEDGED,
+        EHR_EXTRACT_RECEIVED
+    );
+
+    private static final List<MigrationStatus> REQUESTS_WITH_ATTACHMENTS_STATUS_LIST = List.of(
+        EHR_EXTRACT_PROCESSING,
+        CONTINUE_REQUEST_ACCEPTED,
+        COPC_MESSAGE_RECEIVED,
+        COPC_MESSAGE_PROCESSING,
+        COPC_ACKNOWLEDGED,
+        COPC_FAILED
+    );
+
     @Scheduled(cron = "${timeout.cronTime}")
     public void checkForTimeouts() {
         LOGGER.info("running scheduled task to check for timeouts");
 
-        //TODO: improve the SQL query to reduce calls
-
-        List<PatientMigrationRequest> preEhrParsedRequests = Stream.of(
-                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(REQUEST_RECEIVED),
-                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_REQUEST_ACCEPTED),
-                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_REQUEST_ACKNOWLEDGED),
-                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_RECEIVED))
-            .flatMap(Collection::stream)
-            .toList();
-
+        List<PatientMigrationRequest> preEhrParsedRequests = migrationRequestService
+            .getMigrationRequestsByMigrationStatusIn(PRE_EHR_PARSED_STATUS_LIST);
         preEhrParsedRequests.forEach(this::handleRequestTimeout);
 
-        // Ehr Extract Translated is not the final state for an EHR, but we cannot guarantee it has attachments
-        List<PatientMigrationRequest> translatedRequests =
-            migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED);
-
+        // Ehr Extract Translated is not the final state for an EHR, so we cannot guarantee it has attachments
+        List<PatientMigrationRequest> translatedRequests = migrationRequestService
+            .getMigrationRequestsByMigrationStatusIn(List.of(EHR_EXTRACT_TRANSLATED));
         translatedRequests.forEach(migrationRequest -> handleMigrationTimeout(migrationRequest, UNEXPECTED_CONDITION));
 
-        List<PatientMigrationRequest> requestsWithAttachments = Stream.of(
-                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_PROCESSING),
-                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(CONTINUE_REQUEST_ACCEPTED),
-                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(COPC_MESSAGE_RECEIVED),
-                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(COPC_MESSAGE_PROCESSING),
-                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(COPC_ACKNOWLEDGED),
-                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(COPC_FAILED))
-            .flatMap(Collection::stream)
-            .toList();
-
+        List<PatientMigrationRequest> requestsWithAttachments = migrationRequestService
+            .getMigrationRequestsByMigrationStatusIn(REQUESTS_WITH_ATTACHMENTS_STATUS_LIST);
         requestsWithAttachments.forEach(migrationRequest -> handleMigrationTimeout(migrationRequest,
             LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED));
     }

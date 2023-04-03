@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doThrow;
@@ -174,7 +175,7 @@ public class EHRTimeoutHandlerTest {
     @Test
     public void When_CheckForTimeouts_WithTimeout_Expect_SendNACKMessageHandlerIsCalled() {
         String conversationId = UUID.randomUUID().toString();
-        callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_TRANSLATED, TEN_DAYS_AGO, 0, conversationId);
+        callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_PROCESSING, TEN_DAYS_AGO, 0, conversationId);
         verify(sendNACKMessageHandler, times(1)).prepareAndSendMessage(any());
     }
 
@@ -206,7 +207,8 @@ public class EHRTimeoutHandlerTest {
             .build();
         List<PatientMigrationRequest> requests = List.of(mockRequest);
 
-        when(migrationRequestService.getMigrationRequestByCurrentMigrationStatus(migrationStatus)).thenReturn(requests);
+        when(migrationRequestService.getMigrationRequestsByMigrationStatusIn(argThat(list -> list.contains(migrationStatus))))
+            .thenReturn(requests);
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(OffsetDateTime.now());
         when(mockRequest.getConversationId()).thenReturn(conversationId);
         when(migrationStatusLogService.getLatestMigrationStatusLog(conversationId)).thenReturn(statusLog);
@@ -225,7 +227,7 @@ public class EHRTimeoutHandlerTest {
 
         when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenReturn(false);
 
-        callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_TRANSLATED, TEN_DAYS_AGO, 0, conversationId);
+        callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_PROCESSING, TEN_DAYS_AGO, 0, conversationId);
         verify(migrationStatusLogService, times(0))
             .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
     }
@@ -237,7 +239,7 @@ public class EHRTimeoutHandlerTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenThrow(MhsServerErrorException.class);
 
         assertThatThrownBy(
-                () -> callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_TRANSLATED, TEN_DAYS_AGO, 0, conversationId))
+                () -> callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_PROCESSING, TEN_DAYS_AGO, 0, conversationId))
             .isInstanceOf(MhsServerErrorException.class);
 
         verify(migrationStatusLogService, times(0))
@@ -250,7 +252,7 @@ public class EHRTimeoutHandlerTest {
 
         when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
 
-        callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_TRANSLATED, TEN_DAYS_AGO, 0, conversationId);
+        callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_PROCESSING, TEN_DAYS_AGO, 0, conversationId);
         verify(migrationStatusLogService, times(1))
             .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
     }
@@ -313,7 +315,7 @@ public class EHRTimeoutHandlerTest {
     @Test
     public void When_CheckForTimeouts_WithoutTimeout_Expect_SendNACKMessageHandlerIsNotCalled() {
         String conversationId = UUID.randomUUID().toString();
-        callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_TRANSLATED, TEN_DAYS_TIME, 0, conversationId);
+        callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_PROCESSING, TEN_DAYS_TIME, 0, conversationId);
         verify(sendNACKMessageHandler, times(0)).prepareAndSendMessage(any());
     }
 
@@ -345,7 +347,7 @@ public class EHRTimeoutHandlerTest {
     @Test
     public void When_CheckForTimeouts_WithSdsRetrievalException_Expect_MigrationLogNotUpdated() {
         List<PatientMigrationRequest> requests = List.of(mockRequest);
-        when(migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED))
+        when(migrationRequestService.getMigrationRequestsByMigrationStatusIn(argThat(list -> list.contains(EHR_EXTRACT_PROCESSING))))
             .thenReturn(requests);
         when(persistDurationService.getPersistDurationFor(any(), eq(EHR_EXTRACT_MESSAGE_NAME)))
             .thenThrow(new SdsRetrievalException("Test exception"));
@@ -359,7 +361,7 @@ public class EHRTimeoutHandlerTest {
     public void When_CheckForTimeouts_WithJsonProcessingException_Expect_MigrationLogUpdated() throws JsonProcessingException {
         String conversationId = UUID.randomUUID().toString();
         List<PatientMigrationRequest> requests = List.of(mockRequest);
-        when(migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED))
+        when(migrationRequestService.getMigrationRequestsByMigrationStatusIn(argThat(list -> list.contains(EHR_EXTRACT_TRANSLATED))))
             .thenReturn(requests);
         when(mockRequest.getConversationId()).thenReturn(conversationId);
 
@@ -374,7 +376,7 @@ public class EHRTimeoutHandlerTest {
     public void When_CheckForTimeouts_WithSAXException_Expect_MigrationLogUpdated() throws SAXException, JsonProcessingException {
         String conversationId = UUID.randomUUID().toString();
         List<PatientMigrationRequest> requests = List.of(mockRequest);
-        when(migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED))
+        when(migrationRequestService.getMigrationRequestsByMigrationStatusIn(argThat(list -> list.contains(EHR_EXTRACT_TRANSLATED))))
             .thenReturn(requests);
         when(mockRequest.getConversationId()).thenReturn(conversationId);
         when(inboundMessageUtil.readMessage(any())).thenReturn(mockInboundMessage);
@@ -390,7 +392,7 @@ public class EHRTimeoutHandlerTest {
     public void When_CheckForTimeouts_WithDateTimeParseException_Expect_MigrationLogUpdated() throws SAXException, JsonProcessingException {
         String conversationId = UUID.randomUUID().toString();
         List<PatientMigrationRequest> requests = List.of(mockRequest);
-        when(migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED))
+        when(migrationRequestService.getMigrationRequestsByMigrationStatusIn(argThat(list -> list.contains(EHR_EXTRACT_TRANSLATED))))
             .thenReturn(requests);
         when(mockRequest.getConversationId()).thenReturn(conversationId);
         when(inboundMessageUtil.readMessage(any())).thenReturn(mockInboundMessage);
@@ -420,7 +422,7 @@ public class EHRTimeoutHandlerTest {
 
             // request
             List<PatientMigrationRequest> requests = List.of(mockRequest);
-            when(migrationRequestService.getMigrationRequestByCurrentMigrationStatus(migrationStatus))
+            when(migrationRequestService.getMigrationRequestsByMigrationStatusIn(argThat(list -> list.contains(migrationStatus))))
                 .thenReturn(requests);
 
             // timestamp
@@ -461,7 +463,7 @@ public class EHRTimeoutHandlerTest {
 
             // requests
             List<PatientMigrationRequest> requests = List.of(mockRequest, mockRequest2);
-            when(migrationRequestService.getMigrationRequestByCurrentMigrationStatus(MigrationStatus.EHR_EXTRACT_TRANSLATED))
+            when(migrationRequestService.getMigrationRequestsByMigrationStatusIn(argThat(list -> list.contains(EHR_EXTRACT_TRANSLATED))))
                 .thenReturn(requests);
 
             // timestamps

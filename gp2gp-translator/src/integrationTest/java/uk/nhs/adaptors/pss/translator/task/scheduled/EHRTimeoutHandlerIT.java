@@ -73,7 +73,12 @@ public class EHRTimeoutHandlerIT {
 
     @Test
     public void When_CheckForTimeouts_WithContinueRequestAcceptedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
+        long startTime = System.nanoTime();
         checkDatabaseUpdated(CONTINUE_REQUEST_ACCEPTED, ERROR_LRG_MSG_TIMEOUT);
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1000;
+
+        System.out.println(duration);
     }
 
     @Test
