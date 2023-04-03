@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Service
@@ -118,6 +119,10 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
 
         if (NON_DRUG_ALLERGY_CODE.equals(compoundCode)) {
             allergyIntolerance.setCode(codeableConceptFromCode);
+
+            if (allergyIntolerance.getCode() != null && !allergyIntolerance.getCode().hasCoding()) {
+                allergyIntolerance.getCode().setCoding(List.of(DegradedCodeableConcepts.DEGRADED_NON_DRUG_ALLERGY));
+            }
         }
 
         if (DRUG_ALLERGY_CODE.equals(compoundCode)) {
@@ -136,6 +141,10 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 }
             } else {
                 allergyIntolerance.setCode(codeableConceptFromCode);
+            }
+
+            if (allergyIntolerance.getCode() != null && !allergyIntolerance.getCode().hasCoding()) {
+                allergyIntolerance.getCode().setCoding(List.of(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY));
             }
         }
 

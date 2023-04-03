@@ -23106,6 +23106,13 @@
           "medication"
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196461000000101",
+              "display": "Transfer-degraded drug allergy"
+            }
+          ],
           "text": "Adverse reaction to Cetirizine Hydrochloride"
         },
         "patient": {
@@ -23142,6 +23149,13 @@
           "medication"
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196461000000101",
+              "display": "Transfer-degraded drug allergy"
+            }
+          ],
           "text": "Adverse reaction to Lustral"
         },
         "patient": {
@@ -23178,6 +23192,13 @@
           "medication"
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196461000000101",
+              "display": "Transfer-degraded drug allergy"
+            }
+          ],
           "text": "Adverse reaction to Mebeverine Hydrochloride"
         },
         "patient": {
@@ -23214,6 +23235,13 @@
           "medication"
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196461000000101",
+              "display": "Transfer-degraded drug allergy"
+            }
+          ],
           "text": "Adverse reaction to Prednisolone"
         },
         "patient": {
@@ -23255,6 +23283,13 @@
           "medication"
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196461000000101",
+              "display": "Transfer-degraded drug allergy"
+            }
+          ],
           "text": "Adverse reaction to Central Nervous System Drugs"
         },
         "patient": {

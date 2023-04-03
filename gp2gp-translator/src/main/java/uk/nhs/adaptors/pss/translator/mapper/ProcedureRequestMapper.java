@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
@@ -71,6 +72,10 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
             ehrComposition));
 
         setProcedureRequestContext(procedureRequest, ehrComposition, encounters);
+
+        if (procedureRequest.getCode() != null && !procedureRequest.getCode().hasCoding()) {
+            procedureRequest.getCode().setCoding(List.of(DegradedCodeableConcepts.DEGRADED_PLAN));
+        }
 
         return procedureRequest;
     }

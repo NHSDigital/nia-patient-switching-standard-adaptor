@@ -26,6 +26,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @ExtendWith(MockitoExtension.class)
 public class ReferralRequestMapperTest {
@@ -197,5 +198,19 @@ public class ReferralRequestMapperTest {
         assertThat(referralRequest.getRequester().getAgent().getReference()).isNull();
         assertThat(referralRequest.getRecipient().size()).isZero();
         assertThat(referralRequest.getReasonCode().size()).isZero();
+    }
+
+    @Test
+    public void mapDegradedReferralRequest() {
+        var ehrComposition = unmarshallEhrCompositionElement("full_valid_data_example.xml");
+        var requestStatement = getRequestStatement(ehrComposition);
+
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(new CodeableConcept());
+
+        ReferralRequest referralRequest = referralRequestMapper.mapToReferralRequest(ehrComposition, requestStatement, SUBJECT,
+                ENCOUNTERS, PRACTISE_CODE);
+
+        assertThat(referralRequest.getReasonCodeFirstRep().getCodingFirstRep())
+                .isEqualTo(DegradedCodeableConcepts.DEGRADED_REFERRAL);
     }
 }
