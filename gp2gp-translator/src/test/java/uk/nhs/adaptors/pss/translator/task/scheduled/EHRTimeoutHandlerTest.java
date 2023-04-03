@@ -17,12 +17,18 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_PROCESSING;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_REQUEST_TIMEOUT;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_TIMEOUT;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
@@ -50,7 +56,9 @@ import org.xml.sax.SAXException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import uk.nhs.adaptors.common.service.MDCService;
+import uk.nhs.adaptors.common.util.DateUtils;
 import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
@@ -77,6 +85,7 @@ public class EHRTimeoutHandlerTest {
     private static final int COPC_PERSIST_DURATION = 4;
     private static final ZonedDateTime TEN_DAYS_AGO = ZonedDateTime.of(LocalDateTime.now().minusDays(10), ZoneId.systemDefault());
     private static final ZonedDateTime TEN_DAYS_TIME = ZonedDateTime.of(LocalDateTime.now().plusDays(10), ZoneId.systemDefault());
+    private static final long TEN_DAYS = 10;
     private static final String INBOUND_MESSAGE_STRING = "test inbound Message";
     private static final String INBOUND_MESSAGE_STRING_TWO = "test inbound Message 2";
     private static final String EBXML_STRING = "test ebXML";
@@ -114,6 +123,8 @@ public class EHRTimeoutHandlerTest {
     private PatientMigrationRequest mockRequest;
     @Mock(name = "mockRequest2")
     private PatientMigrationRequest mockRequest2;
+    @Mock
+    private DateUtils dateUtils;
     @InjectMocks
     private EHRTimeoutHandler ehrTimeoutHandler;
 
@@ -126,6 +137,15 @@ public class EHRTimeoutHandlerTest {
             Arguments.of(COPC_ACKNOWLEDGED),
             Arguments.of(COPC_FAILED)
             );
+    }
+
+    private static Stream<Arguments> preEhrParsedRequests() {
+        return Stream.of(
+            Arguments.of(REQUEST_RECEIVED),
+            Arguments.of(EHR_EXTRACT_REQUEST_ACCEPTED),
+            Arguments.of(EHR_EXTRACT_REQUEST_ACKNOWLEDGED),
+            Arguments.of(EHR_EXTRACT_RECEIVED)
+        );
     }
 
     private void setupMocks() throws JsonProcessingException {
@@ -175,6 +195,28 @@ public class EHRTimeoutHandlerTest {
         verify(sendNACKMessageHandler, times(1)).prepareAndSendMessage(nackMessageData.capture());
 
         assertThat(nackMessageData.getValue().getNackCode()).isEqualTo(ATTACHMENTS_NOT_RECEIVED_CODE);
+    }
+
+    @ParameterizedTest
+    @MethodSource("preEhrParsedRequests")
+    void When_CheckForTimeouts_With_PreEhrParsedRequests_Expect_EhrRequestTimeout(MigrationStatus migrationStatus) {
+        String conversationId = UUID.randomUUID().toString();
+        MigrationStatusLog statusLog = MigrationStatusLog.builder()
+            .date(OffsetDateTime.now().minusDays(TEN_DAYS))
+            .build();
+        List<PatientMigrationRequest> requests = List.of(mockRequest);
+
+        when(migrationRequestService.getMigrationRequestByCurrentMigrationStatus(migrationStatus)).thenReturn(requests);
+        when(dateUtils.getCurrentOffsetDateTime()).thenReturn(OffsetDateTime.now());
+        when(mockRequest.getConversationId()).thenReturn(conversationId);
+        when(migrationStatusLogService.getLatestMigrationStatusLog(conversationId)).thenReturn(statusLog);
+
+        ehrTimeoutHandler.checkForTimeouts();
+
+        verify(sendNACKMessageHandler, times(0)).prepareAndSendMessage(any());
+
+        verify(migrationStatusLogService, times(1))
+            .addMigrationStatusLog(eq(ERROR_REQUEST_TIMEOUT), eq(conversationId), eq(null));
     }
 
     @Test

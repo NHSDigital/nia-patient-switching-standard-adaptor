@@ -6,14 +6,20 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_PROCESSING;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_RECEIVED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_REQUEST_TIMEOUT;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_TIMEOUT;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
@@ -33,6 +39,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.service.MDCService;
+import uk.nhs.adaptors.common.util.DateUtils;
+import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
@@ -63,14 +71,29 @@ public class EHRTimeoutHandler {
     private final InboundMessageUtil inboundMessageUtil;
     private final MigrationStatusLogService migrationStatusLogService;
     private final PatientAttachmentLogService patientAttachmentLogService;
+    private final DateUtils dateUtils;
 
     @Scheduled(cron = "${timeout.cronTime}")
     public void checkForTimeouts() {
         LOGGER.info("running scheduled task to check for timeouts");
 
+        //TODO: improve the SQL query to reduce calls
+
+        List<PatientMigrationRequest> preEhrParsedRequests = Stream.of(
+                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(REQUEST_RECEIVED),
+                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_REQUEST_ACCEPTED),
+                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_REQUEST_ACKNOWLEDGED),
+                migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_RECEIVED))
+            .flatMap(Collection::stream)
+            .toList();
+
+        preEhrParsedRequests.forEach(this::handleRequestTimeout);
+
         // Ehr Extract Translated is not the final state for an EHR, but we cannot guarantee it has attachments
         List<PatientMigrationRequest> translatedRequests =
             migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_TRANSLATED);
+
+        translatedRequests.forEach(migrationRequest -> handleMigrationTimeout(migrationRequest, UNEXPECTED_CONDITION));
 
         List<PatientMigrationRequest> requestsWithAttachments = Stream.of(
                 migrationRequestService.getMigrationRequestByCurrentMigrationStatus(EHR_EXTRACT_PROCESSING),
@@ -82,8 +105,37 @@ public class EHRTimeoutHandler {
             .flatMap(Collection::stream)
             .toList();
 
-        translatedRequests.forEach(migrationRequest -> handleMigrationTimeout(migrationRequest, UNEXPECTED_CONDITION));
-        requestsWithAttachments.forEach(migrationRequest -> handleMigrationTimeout(migrationRequest, LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED));
+        requestsWithAttachments.forEach(migrationRequest -> handleMigrationTimeout(migrationRequest,
+            LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED));
+    }
+
+    private void handleRequestTimeout(PatientMigrationRequest migrationRequest) {
+        String conversationId = migrationRequest.getConversationId();
+        mdcService.applyConversationId(conversationId);
+
+        try {
+            long timeout;
+            Duration ehrPersistDuration = persistDurationService.getPersistDurationFor(migrationRequest, EHR_EXTRACT_MESSAGE_NAME);
+            OffsetDateTime currentTime = dateUtils.getCurrentOffsetDateTime();
+
+            timeout = timeoutProperties.getEhrExtractWeighting() * ehrPersistDuration.getSeconds();
+
+            LOGGER.debug("Request timeout calculated as [{}] seconds", timeout);
+
+            MigrationStatusLog migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
+            var timeoutDateTime = migrationStatusLog.getDate().plusSeconds(timeout);
+            LOGGER.debug("Timeout datetime calculated as [{}]", timeoutDateTime);
+
+            if (timeoutDateTime.isBefore(currentTime)) {
+                LOGGER.info("Migration Request timed out at [{}]", timeoutDateTime);
+                migrationStatusLogService.addMigrationStatusLog(ERROR_REQUEST_TIMEOUT, conversationId, null);
+            }
+
+        } catch (SdsRetrievalException e) {
+            LOGGER.error("Error retrieving persist duration: [{}]", e.getMessage());
+        } finally {
+            mdcService.applyConversationId("");
+        }
     }
 
     private void handleMigrationTimeout(PatientMigrationRequest migrationRequest, NACKReason reason) {
@@ -124,9 +176,9 @@ public class EHRTimeoutHandler {
         } catch (JsonProcessingException | SAXException | DateTimeParseException | JAXBException e) {
             LOGGER.error("Error parsing inbound message from database");
             migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null);
+        } finally {
+            mdcService.applyConversationId("");
         }
-
-        mdcService.applyConversationId("");
     }
 
     private void sendNackMessage(InboundMessage inboundMessage, String conversationId, NACKReason reason) throws JAXBException {
@@ -145,7 +197,13 @@ public class EHRTimeoutHandler {
 
         LOGGER.debug("EHR Extract message timed out: sending NACK message");
         if (sendNACKMessageHandler.prepareAndSendMessage(messageData)) {
-            migrationStatusLogService.addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+
+            if (reason == LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED) {
+                migrationStatusLogService
+                    .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+            } else {
+                migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null);
+            }
         }
     }
 }
