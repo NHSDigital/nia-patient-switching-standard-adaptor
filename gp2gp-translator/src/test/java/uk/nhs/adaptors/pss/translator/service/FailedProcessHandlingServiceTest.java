@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_REQUEST_TIMEOUT;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_TIMEOUT;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
@@ -120,10 +121,29 @@ public class FailedProcessHandlingServiceTest {
     }
 
     @Test
-    public void When_HandleFailedProcess_With_COPCAndProcessTimeout_Expect_LargeMessageTimeout() {
+    public void When_HandleFailedProcess_With_COPCAndLargeMessageTimeout_Expect_LargeMessageTimeout() {
         String conversationId = UUID.randomUUID().toString();
         MigrationStatusLog statusLog = MigrationStatusLog.builder()
             .migrationStatus(ERROR_LRG_MSG_TIMEOUT)
+            .build();
+
+        when(copcMessage.getId()).thenReturn(mockId);
+        when(migrationStatusLogService.getLatestMigrationStatusLog(conversationId))
+            .thenReturn(statusLog);
+
+        when(nackAckPreparationService.prepareNackMessageData(eq(LARGE_MESSAGE_TIMEOUT), eq(copcMessage), eq(conversationId)))
+            .thenReturn(messageData);
+
+        failedProcessHandlingService.handleFailedProcess(copcMessage, conversationId);
+
+        verify(sendNACKMessageHandler).prepareAndSendMessage(messageData);
+    }
+
+    @Test
+    public void When_HandleFailedProcess_With_COPCAndRequestTimeout_Expect_LargeMessageTimeout() {
+        String conversationId = UUID.randomUUID().toString();
+        MigrationStatusLog statusLog = MigrationStatusLog.builder()
+            .migrationStatus(ERROR_REQUEST_TIMEOUT)
             .build();
 
         when(copcMessage.getId()).thenReturn(mockId);
@@ -157,7 +177,8 @@ public class FailedProcessHandlingServiceTest {
             "MIGRATION_COMPLETED",
             "FINAL_ACK_SENT",
             "ERROR_LRG_MSG_TIMEOUT",
-            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK"
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK",
+            "ERROR_REQUEST_TIMEOUT"
         })
     public void When_HandleFailedProcess_With_OtherStatus_Expect_LargeMessageGeneralFailure(MigrationStatus migrationStatus) {
         String conversationId = UUID.randomUUID().toString();
