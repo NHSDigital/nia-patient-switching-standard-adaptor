@@ -14,7 +14,7 @@ public final class DegradedCodeableConcepts {
     public static final Coding DEGRADED_NON_DRUG_ALLERGY = new Coding()
             .setSystem(SNOMED_SYSTEM)
             .setCode("196471000000108")
-            .setDisplay("Transfer-degraded non-drug-allergy");
+            .setDisplay("Transfer-degraded non-drug allergy");
 
     public static final Coding DEGRADED_MEDICATION = new Coding()
             .setSystem(SNOMED_SYSTEM)

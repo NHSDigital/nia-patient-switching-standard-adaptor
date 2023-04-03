@@ -543,6 +543,13 @@
         "status": "active",
         "intent": "plan",
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196451000000104",
+              "display": "Transfer-degraded plan"
+            }
+          ],
           "text": "Fissure sealant required"
         },
         "subject": {
@@ -578,6 +585,13 @@
         "status": "active",
         "intent": "plan",
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196451000000104",
+              "display": "Transfer-degraded plan"
+            }
+          ],
           "text": "Dental recall - high caries in mother and siblings"
         },
         "subject": {
@@ -2023,6 +2037,13 @@
           "medication"
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196461000000101",
+              "display": "Transfer-degraded drug allergy"
+            }
+          ],
           "text": "Adverse reactions"
         },
         "patient": {
@@ -2281,6 +2302,13 @@
           "medication"
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196461000000101",
+              "display": "Transfer-degraded drug allergy"
+            }
+          ],
           "text": "Adverse reaction to Ethyol"
         },
         "patient": {
@@ -2712,6 +2740,13 @@
           "medication"
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196461000000101",
+              "display": "Transfer-degraded drug allergy"
+            }
+          ],
           "text": "Adverse reaction to Erythromid"
         },
         "patient": {

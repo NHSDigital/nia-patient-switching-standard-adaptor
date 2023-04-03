@@ -23301,6 +23301,13 @@
       "verificationStatus": "unconfirmed",
       "category": [ "environment" ],
       "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "196471000000108",
+            "display": "Transfer-degraded non-drug allergy"
+          }
+        ],
         "text": "Adverse reaction to Cetirizine Hydrochloride"
       },
       "patient": {
@@ -23380,6 +23387,13 @@
       "verificationStatus": "unconfirmed",
       "category": [ "medication" ],
       "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "196461000000101",
+            "display": "Transfer-degraded drug allergy"
+          }
+        ],
         "text": "Adverse reaction to Lustral"
       },
       "patient": {
@@ -23412,6 +23426,13 @@
       "verificationStatus": "unconfirmed",
       "category": [ "medication" ],
       "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "196461000000101",
+            "display": "Transfer-degraded drug allergy"
+          }
+        ],
         "text": "Adverse reaction to Prednisolone"
       },
       "patient": {
@@ -23444,6 +23465,13 @@
       "verificationStatus": "unconfirmed",
       "category": [ "medication" ],
       "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "196461000000101",
+            "display": "Transfer-degraded drug allergy"
+          }
+        ],
         "text": "Adverse reaction to Central Nervous System Drugs"
       },
       "patient": {
@@ -23476,6 +23504,13 @@
       "verificationStatus": "unconfirmed",
       "category": [ "medication" ],
       "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "196461000000101",
+            "display": "Transfer-degraded drug allergy"
+          }
+        ],
         "text": "Adverse reaction to Central Nervous System Drugs"
       },
       "patient": {
