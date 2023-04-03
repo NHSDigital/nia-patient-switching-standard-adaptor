@@ -29,6 +29,7 @@ import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_ATTA
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_REASSEMBLY_FAILURE;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
+import static uk.nhs.adaptors.connector.model.MigrationStatus.ERROR_REQUEST_TIMEOUT;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.FINAL_ACK_SENT;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
@@ -154,7 +155,8 @@ public class PatientTransferController {
             if (GPG2PG_NACK_500_ERROR_STATUSES.contains(currentMigrationStatus)
                 || LRG_MESSAGE_ERRORS.contains(currentMigrationStatus)
                 || EHR_GENERAL_PROCESSING_ERROR == currentMigrationStatus
-                || EHR_EXTRACT_REQUEST_NEGATIVE_ACK == currentMigrationStatus) {
+                || EHR_EXTRACT_REQUEST_NEGATIVE_ACK == currentMigrationStatus
+                || ERROR_REQUEST_TIMEOUT == currentMigrationStatus) {
                 return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
@@ -175,7 +177,7 @@ public class PatientTransferController {
         }
     }
 
-    private OperationOutcome createErrorBodyFromMigrationStatus(MigrationStatus migrationStatus) throws IOException {
+    private OperationOutcome createErrorBodyFromMigrationStatus(MigrationStatus migrationStatus) {
 
         String operationErrorCode = "";
         String operationErrorMessage = "";
@@ -226,6 +228,10 @@ public class PatientTransferController {
             case ERROR_LRG_MSG_TIMEOUT:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
                 operationErrorMessage = "PS - An attachment was not received before a timeout condition occurred";
+                break;
+            case ERROR_REQUEST_TIMEOUT:
+                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorMessage = "PS - The EHR record was not received within the given timeout timeframe";
                 break;
             default:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
