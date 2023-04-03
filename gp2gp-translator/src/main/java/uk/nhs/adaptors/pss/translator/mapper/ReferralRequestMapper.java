@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 
 @Service
@@ -92,12 +93,17 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                 );
 
         referralRequest.setPriority(referralPriority);
+
         return referralRequest;
     }
 
     private void setReferralRequestReasonCode(ReferralRequest referralRequest, CD code) {
         if (code != null) {
-            referralRequest.getReasonCode().add(codeableConceptMapper.mapToCodeableConcept(code));
+            var reasonCode = codeableConceptMapper.mapToCodeableConcept(code);
+            if (!reasonCode.hasCoding()) {
+                reasonCode.addCoding(DegradedCodeableConcepts.DEGRADED_REFERRAL);
+            }
+            referralRequest.getReasonCode().add(reasonCode);
         }
     }
 
