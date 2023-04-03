@@ -43,7 +43,7 @@ public class ObservationUtilTest {
     private static final Double REFERENCE_RANGE_LOW_VALUE_DECIMAL = 10.5;
     private static final Double REFERENCE_RANGE_HIGH_VALUE_DECIMAL = 12.2;
 
-    private static final Map<String, String> stubMeasurementUnitMap = Map.of(
+    private static final Map<String, String> STUB_MEASUREMENT_UNIT_MAP = Map.of(
         "ml", "milliliter"
     );
 
@@ -71,9 +71,11 @@ public class ObservationUtilTest {
     @Test
     public void mapValueQuantityUsingPqQuantity() {
 
-        try (MockedStatic<MeasurementUnitsUtil> mockedMeasurementUnitUtil = Mockito.mockStatic(MeasurementUnitsUtil.class)) {
+        MockedStatic<MeasurementUnitsUtil> mockedMeasurementUnitUtil = Mockito.mockStatic(MeasurementUnitsUtil.class);
 
-            mockedMeasurementUnitUtil.when(MeasurementUnitsUtil::getMeasurementUnitsMap).thenReturn(stubMeasurementUnitMap);
+        try {
+
+            mockedMeasurementUnitUtil.when(MeasurementUnitsUtil::getMeasurementUnitsMap).thenReturn(STUB_MEASUREMENT_UNIT_MAP);
 
             var ehrExtract = unmarshallEhrExtractElement(
                 "pq_value_quantity_observation_example.xml");
@@ -84,15 +86,19 @@ public class ObservationUtilTest {
 
             assertThat(quantity.getValue()).isEqualTo(PQ_QUANTITY_VALUE);
             assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
+        } finally {
+            mockedMeasurementUnitUtil.close();
         }
     }
 
     @Test
     public void mapValueQuantityUsingIvlPqQuantity() {
 
-        try (MockedStatic<MeasurementUnitsUtil> mockedMeasurementUnitUtil = Mockito.mockStatic(MeasurementUnitsUtil.class)) {
+        MockedStatic<MeasurementUnitsUtil> mockedMeasurementUnitUtil = Mockito.mockStatic(MeasurementUnitsUtil.class);
 
-            mockedMeasurementUnitUtil.when(MeasurementUnitsUtil::getMeasurementUnitsMap).thenReturn(stubMeasurementUnitMap);
+        try {
+
+            mockedMeasurementUnitUtil.when(MeasurementUnitsUtil::getMeasurementUnitsMap).thenReturn(STUB_MEASUREMENT_UNIT_MAP);
 
             var ehrExtract = unmarshallEhrExtractElement(
                 "ivl_pq_value_quantity_observation_example.xml");
@@ -103,6 +109,8 @@ public class ObservationUtilTest {
 
             assertThat(quantity.getValue()).isEqualTo(IVL_PQ_QUANTITY_VALUE);
             assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
+        } finally {
+            mockedMeasurementUnitUtil.close();
         }
     }
 

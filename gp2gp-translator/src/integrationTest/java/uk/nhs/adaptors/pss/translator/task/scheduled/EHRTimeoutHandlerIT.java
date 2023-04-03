@@ -48,6 +48,8 @@ import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 @AutoConfigureMockMvc
 public class EHRTimeoutHandlerIT {
 
+    private static final long ONE_MILLISECOND_IN_NANOSECONDS = 1000;
+
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
 
@@ -76,7 +78,7 @@ public class EHRTimeoutHandlerIT {
         long startTime = System.nanoTime();
         checkDatabaseUpdated(CONTINUE_REQUEST_ACCEPTED, ERROR_LRG_MSG_TIMEOUT);
         long endTime = System.nanoTime();
-        long duration = (endTime - startTime) / 1000;
+        long duration = (endTime - startTime) / ONE_MILLISECOND_IN_NANOSECONDS;
 
         System.out.println(duration);
     }
