@@ -13,7 +13,7 @@ server:
 
 logging:
   level:
-    uk.nhs.adaptors.pss.gpc: ${LOG_LEVEL:INFO}
+    uk.nhs.adaptors.pss.gpc: ${PS_LOGGING_LEVEL:INFO}
 
 spring:
   mvc:

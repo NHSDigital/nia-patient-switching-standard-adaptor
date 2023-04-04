@@ -3,7 +3,7 @@ server:
 
 logging:
   level:
-    uk.nhs.adaptors.pss.translator: ${LOG_LEVEL:INFO}
+    uk.nhs.adaptors.pss.translator: ${PS_LOGGING_LEVEL:INFO}
 
 spring:
   datasource:
