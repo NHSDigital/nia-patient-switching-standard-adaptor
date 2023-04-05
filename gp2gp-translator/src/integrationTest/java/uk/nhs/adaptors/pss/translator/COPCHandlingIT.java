@@ -13,8 +13,8 @@ import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 import static org.awaitility.Awaitility.await;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})

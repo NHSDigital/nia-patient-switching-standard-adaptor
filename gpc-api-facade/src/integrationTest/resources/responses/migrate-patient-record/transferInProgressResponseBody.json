@@ -1,0 +1,23 @@
+{
+  "resourceType": "OperationOutcome",
+  "meta": {
+    "profile": [
+      "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-OperationOutcome-1"
+    ]
+  },
+  "issue": [
+    {
+      "severity": "error",
+      "code": "exception",
+      "details": {
+        "coding": [
+          {
+            "system": "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1",
+            "code": "INTERNAL_SERVER_ERROR",
+            "display": "PS - The Given NHS number is already being processed against Conversation ID: {{conversationId}}, you cannot start a new request until the current request has completed or failed."
+          }
+        ]
+      }
+    }
+  ]
+}

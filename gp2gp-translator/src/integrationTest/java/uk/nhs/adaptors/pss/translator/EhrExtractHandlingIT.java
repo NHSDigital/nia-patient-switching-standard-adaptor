@@ -5,8 +5,8 @@ import static org.awaitility.Awaitility.await;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.MIGRATION_COMPLETED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
 import java.io.PrintWriter;

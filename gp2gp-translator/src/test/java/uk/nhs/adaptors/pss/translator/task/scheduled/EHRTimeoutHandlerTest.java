@@ -10,14 +10,14 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_ACKNOWLEDGED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_PROCESSING;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_MESSAGE_RECEIVED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_PROCESSING;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_ACKNOWLEDGED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_RECEIVED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_PROCESSING;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_TIMEOUT;
 
 import java.time.Duration;
@@ -43,7 +43,7 @@ import org.xml.sax.SAXException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import uk.nhs.adaptors.common.service.MDCService;
-import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;

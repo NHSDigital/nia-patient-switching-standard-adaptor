@@ -5,7 +5,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 
 import java.util.List;
 import java.util.stream.Stream;

@@ -22,7 +22,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.model.TransferRequestMessage;
-import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
