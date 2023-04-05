@@ -7,10 +7,12 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_ACKNOWLEDGED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
 
 import java.io.IOException;
@@ -46,6 +48,8 @@ import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 @AutoConfigureMockMvc
 public class EHRTimeoutHandlerIT {
 
+    private static final long ONE_MILLISECOND_IN_NANOSECONDS = 1000;
+
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
 
@@ -66,40 +70,45 @@ public class EHRTimeoutHandlerIT {
 
     @Test
     public void When_CheckForTimeouts_WithEHRExtractTranslatedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
-        checkDatabaseUpdated(EHR_EXTRACT_TRANSLATED);
+        checkDatabaseUpdated(EHR_EXTRACT_TRANSLATED, EHR_GENERAL_PROCESSING_ERROR);
     }
 
     @Test
     public void When_CheckForTimeouts_WithContinueRequestAcceptedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
-        checkDatabaseUpdated(CONTINUE_REQUEST_ACCEPTED);
+        long startTime = System.nanoTime();
+        checkDatabaseUpdated(CONTINUE_REQUEST_ACCEPTED, ERROR_LRG_MSG_TIMEOUT);
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / ONE_MILLISECOND_IN_NANOSECONDS;
+
+        System.out.println(duration);
     }
 
     @Test
     public void When_CheckForTimeouts_WithCopcReceivedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
-        checkDatabaseUpdated(COPC_MESSAGE_RECEIVED);
+        checkDatabaseUpdated(COPC_MESSAGE_RECEIVED, ERROR_LRG_MSG_TIMEOUT);
     }
 
     @Test
     public void When_CheckForTimeouts_WithCopcProcessingAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
-        checkDatabaseUpdated(COPC_MESSAGE_PROCESSING);
+        checkDatabaseUpdated(COPC_MESSAGE_PROCESSING, ERROR_LRG_MSG_TIMEOUT);
     }
 
     @Test
     public void When_CheckForTimeouts_WithCopcAcknowledgedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
-        checkDatabaseUpdated(COPC_ACKNOWLEDGED);
+        checkDatabaseUpdated(COPC_ACKNOWLEDGED, ERROR_LRG_MSG_TIMEOUT);
     }
 
     @Test
     public void When_CheckForTimeouts_WithEhrExtractProcessingAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
-        checkDatabaseUpdated(EHR_EXTRACT_PROCESSING);
+        checkDatabaseUpdated(EHR_EXTRACT_PROCESSING, ERROR_LRG_MSG_TIMEOUT);
     }
 
     @Test
     public void When_CheckForTimeouts_WithCopcFailedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
-        checkDatabaseUpdated(EHR_EXTRACT_PROCESSING);
+        checkDatabaseUpdated(COPC_FAILED, ERROR_LRG_MSG_TIMEOUT);
     }
 
-    private void checkDatabaseUpdated(MigrationStatus migrationStatus) throws IOException {
+    private void checkDatabaseUpdated(MigrationStatus statusBeforeTimeout, MigrationStatus statusAfterTimeout) throws IOException {
 
         String losingOdsCode = "P83007";
         String winningOdsCode = "A0378";
@@ -116,13 +125,13 @@ public class EHRTimeoutHandlerIT {
             conversationId,
             "{test bundle}",
             objectMapper.writeValueAsString(inboundMessage),
-            migrationStatus, null);
+            statusBeforeTimeout, null);
 
         ehrTimeoutHandler.checkForTimeouts();
 
         MigrationStatusLog statusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
 
-        assertEquals(ERROR_LRG_MSG_TIMEOUT, statusLog.getMigrationStatus());
+        assertEquals(statusAfterTimeout, statusLog.getMigrationStatus());
     }
 
     private InboundMessage createInboundMessage() throws IOException {

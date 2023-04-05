@@ -13,6 +13,7 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_ATTACHM
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_REASSEMBLY_FAILURE;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_REQUEST_TIMEOUT;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_TIMEOUT;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
@@ -47,6 +48,7 @@ public class FailedProcessHandlingService {
         ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED,
         ERROR_LRG_MSG_GENERAL_FAILURE,
         ERROR_LRG_MSG_TIMEOUT,
+        ERROR_REQUEST_TIMEOUT,
         EHR_GENERAL_PROCESSING_ERROR,
         EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED,
         EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED,
@@ -81,7 +83,7 @@ public class FailedProcessHandlingService {
 
         NACKReason nackReason = switch (migrationStatus) {
             case EHR_EXTRACT_REQUEST_NEGATIVE_ACK -> UNEXPECTED_CONDITION;
-            case ERROR_LRG_MSG_TIMEOUT -> LARGE_MESSAGE_TIMEOUT;
+            case ERROR_LRG_MSG_TIMEOUT, ERROR_REQUEST_TIMEOUT -> LARGE_MESSAGE_TIMEOUT;
             default -> LARGE_MESSAGE_GENERAL_FAILURE;
         };
 

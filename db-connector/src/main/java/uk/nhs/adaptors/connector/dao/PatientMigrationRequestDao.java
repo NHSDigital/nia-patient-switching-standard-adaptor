@@ -8,6 +8,7 @@ import org.jdbi.v3.sqlobject.locator.UseClasspathSqlLocator;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 
 public interface PatientMigrationRequestDao {
@@ -30,10 +31,6 @@ public interface PatientMigrationRequestDao {
     void saveBundleAndInboundMessageData(@Bind("conversationId") String conversationId, @Bind("bundle") String bundle,
         @Bind("inboundMessage") String inboundMessage);
 
-    @SqlQuery("select_patient_migration_request_by_id_in")
-    @UseClasspathSqlLocator
-    List<PatientMigrationRequest> getMigrationRequestByIdIn(@BindList("migrationRequestIds") List<Integer> migrationRequestIds);
-
     @SqlQuery("exists_by_conversation_id")
     @UseClasspathSqlLocator
     boolean existsByConversationId(@Bind("conversationId") String conversationId);
@@ -41,4 +38,9 @@ public interface PatientMigrationRequestDao {
     @SqlQuery("select_patient_migration_request_by_patient_nhs_number")
     @UseClasspathSqlLocator
     PatientMigrationRequest getLatestMigrationRequestByPatientNhsNumber(@Bind("patientNhsNumber") String patientNhsNumber);
+
+    @SqlQuery("select_patient_migration_requests_by_latest_migration_status")
+    @UseClasspathSqlLocator
+    List<PatientMigrationRequest> getMigrationRequestsByLatestMigrationStatusIn(
+        @BindList("statusList") List<MigrationStatus> statusList);
 }
