@@ -8,7 +8,7 @@ import org.jdbi.v3.sqlobject.locator.UseClasspathSqlLocator;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
-import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 
 public interface PatientMigrationRequestDao {
@@ -34,6 +34,10 @@ public interface PatientMigrationRequestDao {
     @SqlQuery("exists_by_conversation_id")
     @UseClasspathSqlLocator
     boolean existsByConversationId(@Bind("conversationId") String conversationId);
+
+    @SqlQuery("select_patient_migration_request_by_patient_nhs_number")
+    @UseClasspathSqlLocator
+    PatientMigrationRequest getLatestMigrationRequestByPatientNhsNumber(@Bind("patientNhsNumber") String patientNhsNumber);
 
     @SqlQuery("select_paitent_migration_requests_by_latest_migration_status")
     @UseClasspathSqlLocator

@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.connector.model;
+package uk.nhs.adaptors.common.enums;
 
 import lombok.Getter;
 

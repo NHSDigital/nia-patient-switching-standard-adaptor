@@ -14,9 +14,9 @@ import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
-import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_ACKNOWLEDGED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.COPC_FAILED;
-import static uk.nhs.adaptors.connector.model.MigrationStatus.FINAL_ACK_SENT;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_ACKNOWLEDGED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.FINAL_ACK_SENT;
 
 @Slf4j
 @Service
