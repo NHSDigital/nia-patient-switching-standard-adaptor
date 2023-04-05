@@ -33,6 +33,7 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_N
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.FINAL_ACK_SENT;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_REQUEST_TIMEOUT;
 import static uk.nhs.adaptors.common.model.MigrationStatusGroups.GPG2PG_NACK_400_ERROR_STATUSES;
 import static uk.nhs.adaptors.common.model.MigrationStatusGroups.GPG2PG_NACK_404_ERROR_STATUSES;
 import static uk.nhs.adaptors.common.model.MigrationStatusGroups.GPG2PG_NACK_500_ERROR_STATUSES;
@@ -100,7 +101,8 @@ public class PatientTransferController {
             if (GPG2PG_NACK_500_ERROR_STATUSES.contains(currentMigrationStatus)
                 || LRG_MESSAGE_ERRORS.contains(currentMigrationStatus)
                 || EHR_GENERAL_PROCESSING_ERROR == currentMigrationStatus
-                || EHR_EXTRACT_REQUEST_NEGATIVE_ACK == currentMigrationStatus) {
+                || EHR_EXTRACT_REQUEST_NEGATIVE_ACK == currentMigrationStatus
+                || ERROR_REQUEST_TIMEOUT == currentMigrationStatus) {
                 return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
@@ -181,6 +183,10 @@ public class PatientTransferController {
             case ERROR_LRG_MSG_TIMEOUT:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
                 operationErrorMessage = "PS - An attachment was not received before a timeout condition occurred";
+                break;
+            case ERROR_REQUEST_TIMEOUT:
+                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorMessage = "PS - The EHR record was not received within the given timeout timeframe";
                 break;
             default:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";

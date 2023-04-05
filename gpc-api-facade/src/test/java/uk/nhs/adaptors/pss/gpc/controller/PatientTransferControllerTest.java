@@ -13,6 +13,7 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_N
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.REQUEST_RECEIVED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_REQUEST_TIMEOUT;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.CONVERSATION_ID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
@@ -166,6 +167,19 @@ public class PatientTransferControllerTest {
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    public void migratePatientStructuredRecordWhenTransferStatusIsErrorRequestTimeout() throws IOException {
+        when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
+            .thenReturn(createMigrationStatusLog(ERROR_REQUEST_TIMEOUT));
+
+        // The OperationOutcome does not effect the http status
+        when(fhirParser.encodeToJson(any())).thenReturn("");
+
+        ResponseEntity<String> response = controller.migratePatientStructuredRecord(
+            PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Test

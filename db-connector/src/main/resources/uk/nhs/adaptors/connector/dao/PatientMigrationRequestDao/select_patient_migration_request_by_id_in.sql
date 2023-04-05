@@ -1,1 +1,0 @@
-SELECT * FROM patient_migration_request WHERE id IN (<migrationRequestIds>);
