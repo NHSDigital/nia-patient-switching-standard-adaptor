@@ -39,7 +39,7 @@ public interface PatientMigrationRequestDao {
     @UseClasspathSqlLocator
     PatientMigrationRequest getLatestMigrationRequestByPatientNhsNumber(@Bind("patientNhsNumber") String patientNhsNumber);
 
-    @SqlQuery("select_paitent_migration_requests_by_latest_migration_status")
+    @SqlQuery("select_patient_migration_requests_by_latest_migration_status")
     @UseClasspathSqlLocator
     List<PatientMigrationRequest> getMigrationRequestsByLatestMigrationStatusIn(
         @BindList("statusList") List<MigrationStatus> statusList);
