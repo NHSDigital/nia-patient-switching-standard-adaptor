@@ -9,7 +9,7 @@ import org.jdbi.v3.core.statement.StatementContext;
 import org.springframework.stereotype.Component;
 
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
-import uk.nhs.adaptors.connector.model.MigrationStatus;
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 
 @Component
 public class MigrationStatusLogRowMapper implements RowMapper<MigrationStatusLog> {

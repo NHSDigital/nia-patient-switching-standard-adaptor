@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.pss.gpc.service;
 
-import static uk.nhs.adaptors.connector.model.MigrationStatus.REQUEST_RECEIVED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.REQUEST_RECEIVED;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.common.enums.QueueMessageType;
+import uk.nhs.adaptors.common.model.MigrationStatusGroups;
 import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.common.util.DateUtils;
@@ -49,6 +50,34 @@ public class PatientTransferService {
         } else {
             return migrationStatusLogDao.getLatestMigrationStatusLog(patientMigrationRequest.getId());
         }
+        return null;
+    }
+
+    public String checkExistingPatientMigrationRequestInProgress(Parameters parameters) {
+        var patientNhsNumber = getNhsNumberFromParameters(parameters).get().getValue();
+
+        var existingConversationId = getConversationIdOfIncompleteMigrationRequest(patientNhsNumber);
+
+        return mdcService.getConversationId().equals(existingConversationId) ? null : existingConversationId;
+    }
+
+    private String getConversationIdOfIncompleteMigrationRequest(String patientNhsNumber) {
+        var migrationRequest = patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(patientNhsNumber);
+        if (migrationRequest == null) {
+            return null;
+        }
+
+        var migrationStatusLog = migrationStatusLogDao.getLatestMigrationStatusLog(migrationRequest.getId());
+
+        // edge case of second request occurring before the first migration status log has been written
+        if (migrationStatusLog == null) {
+            return migrationRequest.getConversationId();
+        }
+
+        if (MigrationStatusGroups.IN_PROGRESS_STATUSES.contains(migrationStatusLog.getMigrationStatus())) {
+            return migrationRequest.getConversationId();
+        }
+
         return null;
     }
 

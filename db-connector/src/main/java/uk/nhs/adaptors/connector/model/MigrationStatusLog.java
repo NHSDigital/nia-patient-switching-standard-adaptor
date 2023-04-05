@@ -7,6 +7,7 @@ import org.jdbi.v3.core.enums.EnumByName;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 
 @Getter
 @Setter
