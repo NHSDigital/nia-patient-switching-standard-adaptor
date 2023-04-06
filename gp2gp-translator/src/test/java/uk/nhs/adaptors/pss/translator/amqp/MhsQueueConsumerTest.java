@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.config.MhsQueueProperties;
 import uk.nhs.adaptors.pss.translator.exception.ConversationIdNotFoundException;
 import uk.nhs.adaptors.pss.translator.task.MhsQueueMessageHandler;
@@ -37,6 +38,8 @@ public class MhsQueueConsumerTest {
     private Message message;
     @Mock
     private Session session;
+    @Mock
+    private MDCService mdcService;
     @InjectMocks
     private MhsQueueConsumer mhsQueueConsumer;
 
