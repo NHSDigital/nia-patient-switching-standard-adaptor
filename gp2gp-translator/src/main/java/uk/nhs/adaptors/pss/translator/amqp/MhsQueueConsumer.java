@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.config.MhsQueueProperties;
 import uk.nhs.adaptors.pss.translator.exception.ConversationIdNotFoundException;
 import uk.nhs.adaptors.pss.translator.task.MhsQueueMessageHandler;
@@ -23,6 +24,7 @@ public class MhsQueueConsumer {
     private final MhsQueueMessageHandler mhsQueueMessageHandler;
     private final MhsDlqPublisher mhsDlqPublisher;
     private final MhsQueueProperties mhsQueueProperties;
+    private final MDCService mdcService;
 
     @JmsListener(destination = "${amqp.mhs.queueName}", containerFactory = "mhsQueueJmsListenerFactory")
     @SneakyThrows
@@ -47,6 +49,8 @@ public class MhsQueueConsumer {
 
             LOGGER.debug("Rolling back session for message_id=[{}], unrecognised conversation ID", messageId);
             session.rollback();
+        } finally {
+            mdcService.resetAllMdcKeys();
         }
     }
 }
