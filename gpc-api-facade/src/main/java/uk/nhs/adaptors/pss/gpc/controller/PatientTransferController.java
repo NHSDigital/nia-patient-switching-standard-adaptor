@@ -23,7 +23,6 @@ import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 import static uk.nhs.adaptors.pss.gpc.util.fhir.OperationOutcomeUtils.createOperationOutcome;
 
-import java.io.IOException;
 import java.util.Map;
 
 import javax.validation.constraints.NotBlank;
@@ -69,7 +68,7 @@ public class PatientTransferController {
         @RequestHeader(TO_ASID) @NotBlank String toAsid,
         @RequestHeader(FROM_ASID) @NotBlank String fromAsid,
         @RequestHeader(TO_ODS) @NotBlank String toOds,
-        @RequestHeader(FROM_ODS) @NotBlank String fromOds) throws IOException {
+        @RequestHeader(FROM_ODS) @NotBlank String fromOds) {
         LOGGER.info("Received patient transfer request");
         Map<String, String> headers = Map.of(
             TO_ASID, toAsid,
@@ -133,7 +132,7 @@ public class PatientTransferController {
                 createCodeableConcept(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage, null);
         return createOperationOutcome(EXCEPTION, ERROR, details, "");
     }
-    private OperationOutcome createErrorBodyFromMigrationStatus(MigrationStatus migrationStatus) throws IOException {
+    private OperationOutcome createErrorBodyFromMigrationStatus(MigrationStatus migrationStatus) {
 
         String operationErrorCode;
         String operationErrorMessage;
