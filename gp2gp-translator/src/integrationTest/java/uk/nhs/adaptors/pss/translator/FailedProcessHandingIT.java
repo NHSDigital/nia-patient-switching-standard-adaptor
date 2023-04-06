@@ -99,7 +99,7 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
 
         sendCopcToQueue();
 
-        await().until(() -> nackSentWithCode(EHR_GENERAL_PROCESSING_ERROR_CODE));
+        await().until(() -> nackSentWithCode(EHR_NACK_UNKNOWN));
 
         var migrationStatus = migrationStatusLogService.getLatestMigrationStatusLog(getConversationId()).getMigrationStatus();
 
