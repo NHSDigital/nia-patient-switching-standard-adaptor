@@ -1,7 +1,33 @@
 package uk.nhs.adaptors.pss.gpc.controller;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueSeverity.ERROR;
+import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueType.EXCEPTION;
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
+
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_REQUEST_TIMEOUT;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.FINAL_ACK_SENT;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
+import static uk.nhs.adaptors.common.model.MigrationStatusGroups.GP2GP_NACK_400_ERROR_STATUSES;
+import static uk.nhs.adaptors.common.model.MigrationStatusGroups.GP2GP_NACK_404_ERROR_STATUSES;
+import static uk.nhs.adaptors.common.model.MigrationStatusGroups.GP2GP_NACK_500_ERROR_STATUSES;
+import static uk.nhs.adaptors.common.model.MigrationStatusGroups.GP2GP_NACK_501_ERROR_STATUSES;
+import static uk.nhs.adaptors.common.model.MigrationStatusGroups.IN_PROGRESS_STATUSES;
+import static uk.nhs.adaptors.common.model.MigrationStatusGroups.LRG_MESSAGE_ERRORS;
+import static uk.nhs.adaptors.pss.gpc.controller.handler.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
+import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
+import static uk.nhs.adaptors.pss.gpc.util.fhir.OperationOutcomeUtils.createOperationOutcome;
+
+import java.io.IOException;
+import java.util.Map;
+
+import javax.validation.constraints.NotBlank;
+
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.OperationOutcome;
 import org.hl7.fhir.dstu3.model.Parameters;
@@ -13,39 +39,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.pss.gpc.controller.validation.PatientTransferRequest;
 import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
-
-import javax.validation.constraints.NotBlank;
-import java.io.IOException;
-import java.util.Map;
-
-import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueSeverity.ERROR;
-import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueType.EXCEPTION;
-import static org.springframework.http.HttpStatus.ACCEPTED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static org.springframework.http.HttpStatus.OK;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.FINAL_ACK_SENT;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_REQUEST_TIMEOUT;
-import static uk.nhs.adaptors.common.model.MigrationStatusGroups.GPG2PG_NACK_400_ERROR_STATUSES;
-import static uk.nhs.adaptors.common.model.MigrationStatusGroups.GPG2PG_NACK_404_ERROR_STATUSES;
-import static uk.nhs.adaptors.common.model.MigrationStatusGroups.GPG2PG_NACK_500_ERROR_STATUSES;
-import static uk.nhs.adaptors.common.model.MigrationStatusGroups.GPG2PG_NACK_501_ERROR_STATUSES;
-import static uk.nhs.adaptors.common.model.MigrationStatusGroups.IN_PROGRESS_STATUSES;
-import static uk.nhs.adaptors.common.model.MigrationStatusGroups.LRG_MESSAGE_ERRORS;
-import static uk.nhs.adaptors.pss.gpc.controller.handler.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
-import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
-import static uk.nhs.adaptors.pss.gpc.util.fhir.OperationOutcomeUtils.createOperationOutcome;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -98,24 +100,23 @@ public class PatientTransferController {
             MigrationStatus currentMigrationStatus = request.getMigrationStatus();
 
             // This is where we handle errors
-            if (GPG2PG_NACK_500_ERROR_STATUSES.contains(currentMigrationStatus)
+            if (GP2GP_NACK_500_ERROR_STATUSES.contains(currentMigrationStatus)
                 || LRG_MESSAGE_ERRORS.contains(currentMigrationStatus)
                 || EHR_GENERAL_PROCESSING_ERROR == currentMigrationStatus
-                || EHR_EXTRACT_REQUEST_NEGATIVE_ACK == currentMigrationStatus
                 || ERROR_REQUEST_TIMEOUT == currentMigrationStatus) {
                 return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
-            if (GPG2PG_NACK_400_ERROR_STATUSES.contains(currentMigrationStatus)) {
+            if (GP2GP_NACK_400_ERROR_STATUSES.contains(currentMigrationStatus)) {
                 return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
             }
 
-            if (GPG2PG_NACK_404_ERROR_STATUSES.contains(currentMigrationStatus)) {
+            if (GP2GP_NACK_404_ERROR_STATUSES.contains(currentMigrationStatus)) {
                 return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
             }
 
 
-            if (GPG2PG_NACK_501_ERROR_STATUSES.contains(currentMigrationStatus)) {
+            if (GP2GP_NACK_501_ERROR_STATUSES.contains(currentMigrationStatus)) {
                 return new ResponseEntity<>(errorBody, HttpStatus.NOT_IMPLEMENTED);
             }
 
@@ -187,6 +188,22 @@ public class PatientTransferController {
             case ERROR_REQUEST_TIMEOUT:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
                 operationErrorMessage = "PS - The EHR record was not received within the given timeout timeframe";
+                break;
+            case EHR_EXTRACT_NEGATIVE_ACK_ABA_INCORRECT_PATIENT:
+                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorMessage = "PS - A-B-A EHR Extract Received and rejected due to wrong record or wrong patient";
+                break;
+            case EHR_EXTRACT_NEGATIVE_ACK_NON_ABA_INCORRECT_PATIENT:
+                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorMessage = "PS - Non A-B-A EHR Extract Received and rejected due to wrong record or wrong patient";
+                break;
+            case EHR_EXTRACT_NEGATIVE_ACK_FAILED_TO_INTEGRATE:
+                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorMessage = "PS - Failed to successfully integrate EHR Extract";
+                break;
+            case EHR_EXTRACT_NEGATIVE_ACK_SUPPRESSED:
+                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorMessage = "PS - A-B-A EHR Extract Received and Stored As Suppressed Record";
                 break;
             default:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";

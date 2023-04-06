@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_REQUEST_TIMEOUT;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
@@ -101,11 +101,23 @@ public class FailedProcessHandlingServiceTest {
         verify(sendNACKMessageHandler).prepareAndSendMessage(messageData);
     }
 
-    @Test
+    @ParameterizedTest
+    @EnumSource(
+        value = MigrationStatus.class,
+        mode = EnumSource.Mode.INCLUDE,
+        names = {
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_NOT_PRIMARY_HEALTHCARE_PROVIDER",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN"
+        })
     public void When_HandleFailedProcess_With_COPCAndIncumbentNackdProcess_Expect_UnexpectedCondition() {
         String conversationId = UUID.randomUUID().toString();
         MigrationStatusLog statusLog = MigrationStatusLog.builder()
-            .migrationStatus(EHR_EXTRACT_REQUEST_NEGATIVE_ACK)
+            .migrationStatus(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN)
             .build();
 
         when(copcMessage.getId()).thenReturn(mockId);
@@ -177,8 +189,14 @@ public class FailedProcessHandlingServiceTest {
             "MIGRATION_COMPLETED",
             "FINAL_ACK_SENT",
             "ERROR_LRG_MSG_TIMEOUT",
-            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK",
-            "ERROR_REQUEST_TIMEOUT"
+            "ERROR_REQUEST_TIMEOUT",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_NOT_PRIMARY_HEALTHCARE_PROVIDER",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES",
+            "EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN"
         })
     public void When_HandleFailedProcess_With_OtherStatus_Expect_LargeMessageGeneralFailure(MigrationStatus migrationStatus) {
         String conversationId = UUID.randomUUID().toString();

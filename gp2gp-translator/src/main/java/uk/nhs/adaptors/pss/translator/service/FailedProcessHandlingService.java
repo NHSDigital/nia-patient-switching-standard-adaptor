@@ -1,6 +1,9 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_NEGATIVE_ACK_ABA_INCORRECT_PATIENT;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_NEGATIVE_ACK_FAILED_TO_INTEGRATE;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_NEGATIVE_ACK_NON_ABA_INCORRECT_PATIENT;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_NEGATIVE_ACK_SUPPRESSED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES;
@@ -43,7 +46,6 @@ public class FailedProcessHandlingService {
     private final SendNACKMessageHandler sendNACKMessageHandler;
 
     private static final List<MigrationStatus> FAILED_MIGRATION_STATUSES = List.of(
-        EHR_EXTRACT_REQUEST_NEGATIVE_ACK,
         ERROR_LRG_MSG_REASSEMBLY_FAILURE,
         ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED,
         ERROR_LRG_MSG_GENERAL_FAILURE,
@@ -56,9 +58,22 @@ public class FailedProcessHandlingService {
         EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST,
         EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_NOT_PRIMARY_HEALTHCARE_PROVIDER,
         EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES,
-        EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN
+        EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN,
+        EHR_EXTRACT_NEGATIVE_ACK_ABA_INCORRECT_PATIENT,
+        EHR_EXTRACT_NEGATIVE_ACK_NON_ABA_INCORRECT_PATIENT,
+        EHR_EXTRACT_NEGATIVE_ACK_FAILED_TO_INTEGRATE,
+        EHR_EXTRACT_NEGATIVE_ACK_SUPPRESSED
     );
 
+    private static final List<MigrationStatus> INCUMBENT_NACK_STATUSES = List.of(
+        EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED,
+        EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED,
+        EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR,
+        EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST,
+        EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_NOT_PRIMARY_HEALTHCARE_PROVIDER,
+        EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES,
+        EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN
+    );
 
     public boolean hasProcessFailed(String conversationId) {
         MigrationStatus migrationStatus = getMigrationStatus(conversationId);
@@ -74,18 +89,22 @@ public class FailedProcessHandlingService {
             .prepareNackMessageData(UNEXPECTED_CONDITION, ehrExtractMessage, conversationId);
 
         sendNACKMessageHandler.prepareAndSendMessage(nackMessageData);
-
     }
 
     public void handleFailedProcess(COPCIN000001UK01Message copcMessage, String conversationId) {
 
         var migrationStatus = getMigrationStatus(conversationId);
 
-        NACKReason nackReason = switch (migrationStatus) {
-            case EHR_EXTRACT_REQUEST_NEGATIVE_ACK -> UNEXPECTED_CONDITION;
-            case ERROR_LRG_MSG_TIMEOUT, ERROR_REQUEST_TIMEOUT -> LARGE_MESSAGE_TIMEOUT;
-            default -> LARGE_MESSAGE_GENERAL_FAILURE;
-        };
+        NACKReason nackReason;
+
+        if (INCUMBENT_NACK_STATUSES.contains(migrationStatus)) {
+            nackReason = UNEXPECTED_CONDITION;
+        } else {
+            nackReason = switch (migrationStatus) {
+                case ERROR_LRG_MSG_TIMEOUT, ERROR_REQUEST_TIMEOUT -> LARGE_MESSAGE_TIMEOUT;
+                default -> LARGE_MESSAGE_GENERAL_FAILURE;
+            };
+        }
 
         LOGGER.info("Received COPC Message [Message ID: {}], but the transfer process has already failed. Responding with NACK code {}",
             copcMessage.getId().getRoot(), nackReason.getCode());
