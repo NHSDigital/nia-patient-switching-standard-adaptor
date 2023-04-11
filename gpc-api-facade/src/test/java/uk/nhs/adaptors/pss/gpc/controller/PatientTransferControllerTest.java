@@ -11,16 +11,15 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_N
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_REQUEST_TIMEOUT;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.REQUEST_RECEIVED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_REQUEST_TIMEOUT;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.CONVERSATION_ID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.FROM_ODS;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 
-import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.Map;
 
@@ -33,8 +32,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.common.enums.MigrationStatus;
+import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 
@@ -64,7 +63,7 @@ public class PatientTransferControllerTest {
     private FhirParser fhirParser;
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsNew() throws IOException {
+    public void migratePatientStructuredRecordWhenTransferStatusIsNew() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS)).thenReturn(null);
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
@@ -74,7 +73,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsReceived() throws IOException {
+    public void migratePatientStructuredRecordWhenTransferStatusIsReceived() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(REQUEST_RECEIVED));
 
@@ -85,7 +84,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsInProgress() throws IOException {
+    public void migratePatientStructuredRecordWhenTransferStatusIsInProgress() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED));
 
@@ -96,7 +95,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsCompleted() throws IOException {
+    public void migratePatientStructuredRecordWhenTransferStatusIsCompleted() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(MIGRATION_COMPLETED));
         when(patientTransferService.getBundleResource()).thenReturn(RESPONSE_BODY);
@@ -118,7 +117,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsEhrExtractNegativeAckIn500Group() throws IOException {
+    public void migratePatientStructuredRecordWhenTransferStatusIsEhrExtractNegativeAckIn500Group() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR));
 
@@ -131,7 +130,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsEhrExtractNegativeAckIn501Group() throws IOException {
+    public void migratePatientStructuredRecordWhenTransferStatusIsEhrExtractNegativeAckIn501Group() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED));
 
@@ -144,7 +143,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsEhrExtractNegativeAckin400Group() throws IOException {
+    public void migratePatientStructuredRecordWhenTransferStatusIsEhrExtractNegativeAckin400Group() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST));
 
@@ -157,7 +156,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsEhrExtractNegativeAckIn404Group() throws IOException {
+    public void migratePatientStructuredRecordWhenTransferStatusIsEhrExtractNegativeAckIn404Group() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED));
 
@@ -170,7 +169,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructuredRecordWhenTransferStatusIsErrorRequestTimeout() throws IOException {
+    public void migratePatientStructuredRecordWhenTransferStatusIsErrorRequestTimeout() {
         when(patientTransferService.handlePatientMigrationRequest(PARAMETERS, HEADERS))
             .thenReturn(createMigrationStatusLog(ERROR_REQUEST_TIMEOUT));
 
@@ -183,7 +182,7 @@ public class PatientTransferControllerTest {
     }
 
     @Test
-    public void migratePatientStructureRecordWhenExistingPatientMigrationRequestInProgress() throws IOException {
+    public void migratePatientStructureRecordWhenExistingPatientMigrationRequestInProgress() {
         when(patientTransferService.checkExistingPatientMigrationRequestInProgress(PARAMETERS))
                 .thenReturn(CONVERSATION_ID);
 
