@@ -142,7 +142,7 @@ public class NackAckPreparationService {
 
     public boolean sendNackMessage(NACKReason reason, COPCIN000001UK01Message payload, String conversationId) {
 
-        LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
+        LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message COPC message [{}]", reason.getCode(),
                 payload.getId().getRoot());
 
         migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null);

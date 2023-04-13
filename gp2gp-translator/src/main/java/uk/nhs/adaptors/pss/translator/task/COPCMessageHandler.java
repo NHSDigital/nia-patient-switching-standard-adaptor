@@ -443,6 +443,7 @@ public class COPCMessageHandler {
 
         InboundMessage inboundMessage = inboundMessageUtil.readMessage(migrationRequest.getInboundMessage());
         RCMRIN030000UK06Message ehrExtract = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+        String ehrExtractMessageId = outboundMessageUtil.parseMessageRef(ehrExtract);
 
         NACKMessageData messageData = NACKMessageData
             .builder()
@@ -450,9 +451,12 @@ public class COPCMessageHandler {
             .fromAsid(outboundMessageUtil.parseFromAsid(ehrExtract))
             .toAsid(outboundMessageUtil.parseToAsid(ehrExtract))
             .toOdsCode(outboundMessageUtil.parseToOdsCode(ehrExtract))
-            .messageRef(outboundMessageUtil.parseMessageRef(ehrExtract))
+            .messageRef(ehrExtractMessageId)
             .conversationId(conversationId)
             .build();
+
+        LOGGER.debug("An attachment failed to be processed, failing migration for EHR Extract [{}] with reason code [{}]", ehrExtractMessageId,
+            reason.getCode());
 
         sendNACKMessageHandler.prepareAndSendMessage(messageData);
     }
