@@ -89,11 +89,11 @@ public class AttachmentHandlerService {
                     storageManagerService.uploadFile(filename, dataWrapper, conversationId);
 
                 } catch (StorageException ex) {
-                    throw new InlineAttachmentProcessingException("Unable to upload inline attachment to storage: " + ex.getMessage());
+                    throw new InlineAttachmentProcessingException("Unable to upload inline attachment to storage: " + ex.getMessage(), ex);
                 } catch (IOException ex) {
-                    throw new InlineAttachmentProcessingException("Unable to decompress attachment: " + ex.getMessage());
+                    throw new InlineAttachmentProcessingException("Unable to decompress attachment: " + ex.getMessage(), ex);
                 } catch (ParseException ex) {
-                    throw new InlineAttachmentProcessingException("Unable to parse inline attachment description: " + ex.getMessage());
+                    throw new InlineAttachmentProcessingException("Unable to parse inline attachment description: " + ex.getMessage(), ex);
                 } catch (UnsupportedFileTypeException ex) {
                     throw ex;
                 }
@@ -134,7 +134,7 @@ public class AttachmentHandlerService {
             storageManagerService.uploadFile(fileName, dataWrapper, conversationId);
         } catch (StorageException ex) {
             throw new InlineAttachmentProcessingException("Unable to upload inline attachment to storage without processing: "
-                + ex.getMessage());
+                + ex.getMessage(), ex);
         }
     }
 
