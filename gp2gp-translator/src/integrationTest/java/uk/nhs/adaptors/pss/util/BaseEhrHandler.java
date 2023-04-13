@@ -2,13 +2,12 @@ package uk.nhs.adaptors.pss.util;
 
 import static org.assertj.core.api.Assertions.fail;
 
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
 import java.io.PrintWriter;
@@ -103,11 +102,6 @@ public abstract class BaseEhrHandler {
     protected boolean isLargeGeneralMessageFailure() {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
         return ERROR_LRG_MSG_GENERAL_FAILURE.equals(migrationStatusLog.getMigrationStatus());
-    }
-
-    protected boolean isCopcFailed() {
-        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        return COPC_FAILED.equals(migrationStatusLog.getMigrationStatus());
     }
 
     protected void verifyBundle(String path) throws JSONException {

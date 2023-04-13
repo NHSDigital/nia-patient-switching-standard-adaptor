@@ -1,12 +1,7 @@
 package uk.nhs.adaptors.common.model;
 
-import uk.nhs.adaptors.common.enums.MigrationStatus;
-
-import java.util.List;
-
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_ACKNOWLEDGED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_NEGATIVE_ACK_ABA_INCORRECT_PATIENT;
@@ -31,6 +26,10 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_REASSEM
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.REQUEST_RECEIVED;
 
+import java.util.List;
+
+import uk.nhs.adaptors.common.enums.MigrationStatus;
+
 public class MigrationStatusGroups {
     public static final List<MigrationStatus> IN_PROGRESS_STATUSES = List.of(
             REQUEST_RECEIVED,
@@ -42,8 +41,7 @@ public class MigrationStatusGroups {
             CONTINUE_REQUEST_ACCEPTED,
             COPC_MESSAGE_RECEIVED,
             COPC_MESSAGE_PROCESSING,
-            COPC_ACKNOWLEDGED,
-            COPC_FAILED
+            COPC_ACKNOWLEDGED
     );
 
     public static final List<MigrationStatus> GP2GP_NACK_400_ERROR_STATUSES = List.of(

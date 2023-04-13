@@ -12,14 +12,14 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
-import static uk.nhs.adaptors.common.enums.QueueMessageType.TRANSFER_REQUEST;
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ERROR;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.REQUEST_RECEIVED;
+import static uk.nhs.adaptors.common.enums.QueueMessageType.TRANSFER_REQUEST;
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 import java.time.Duration;
 import java.util.List;
@@ -44,8 +44,8 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.common.enums.MigrationStatus;
+import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.pss.translator.config.PssQueueProperties;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
@@ -149,12 +149,12 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().until(() -> hasMigrationStatus(COPC_FAILED, getConversationId()));
+        await().until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
 
         verify(mhsDlqPublisher, timeout(THIRTY_SECONDS).times(1)).sendToMhsDlq(any());
 
         assertThat(getCurrentMigrationStatus(getConversationId()))
-            .isEqualTo(COPC_FAILED);
+            .isEqualTo(ERROR_LRG_MSG_GENERAL_FAILURE);
     }
 
     @Test
