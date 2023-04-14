@@ -36,7 +36,8 @@ public class AcknowledgmentMessageHandlerTest {
 
     private static final String CONVERSATION_ID = randomUUID().toString();
     private static final String ACK_TYPE_CODE = "AA";
-    private static final String NACK_TYPE_CODE = "AE";
+    private static final String NACK_ERROR_TYPE_CODE = "AE";
+    private static final String NACK_REJECT_TYPE_CODE = "AR";
 
     @Mock
     private XPathService xPathService;
@@ -67,9 +68,9 @@ public class AcknowledgmentMessageHandlerTest {
     }
 
     @Test
-    public void handleMessageWithNackTypeCode() throws SAXException {
+    public void handleMessageWithNackErrorTypeCode() throws SAXException {
         inboundMessage = new InboundMessage();
-        prepareXPathServiceMocks(NACK_TYPE_CODE, null);
+        prepareXPathServiceMocks(NACK_ERROR_TYPE_CODE, null);
         prepareMigrationStatusMocks(EHR_EXTRACT_REQUEST_ACCEPTED);
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
@@ -78,9 +79,32 @@ public class AcknowledgmentMessageHandlerTest {
     }
 
     @Test
-    public void handleMessageWithNackTypeCodeAndErrorCode() throws SAXException {
+    public void handleMessageWithNackErrorTypeCodeAndErrorCode() throws SAXException {
         inboundMessage = new InboundMessage();
-        prepareXPathServiceMocks(NACK_TYPE_CODE, "06");
+        prepareXPathServiceMocks(NACK_ERROR_TYPE_CODE, "06");
+        prepareMigrationStatusMocks(EHR_EXTRACT_REQUEST_ACCEPTED);
+
+        acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(migrationStatusLogService)
+            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED, CONVERSATION_ID, null);
+    }
+
+    @Test
+    public void handleMessageWithNackRejectTypeCode() throws SAXException {
+        inboundMessage = new InboundMessage();
+        prepareXPathServiceMocks(NACK_REJECT_TYPE_CODE, null);
+        prepareMigrationStatusMocks(EHR_EXTRACT_REQUEST_ACCEPTED);
+
+        acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN, CONVERSATION_ID, null);
+    }
+
+    @Test
+    public void handleMessageWithNackRejectTypeCodeAndErrorCode() throws SAXException {
+        inboundMessage = new InboundMessage();
+        prepareXPathServiceMocks(NACK_REJECT_TYPE_CODE, "06");
         prepareMigrationStatusMocks(EHR_EXTRACT_REQUEST_ACCEPTED);
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
@@ -101,9 +125,20 @@ public class AcknowledgmentMessageHandlerTest {
     }
 
     @Test
-    public void When_HandleMessage_With_NackTypeCodeAndFinalAckSent_Expect_MigrationStatusNotUpdated() throws SAXException {
+    public void When_HandleMessage_With_NackErrorTypeCodeAndFinalAckSent_Expect_MigrationStatusNotUpdated() throws SAXException {
         inboundMessage = new InboundMessage();
-        prepareXPathServiceMocks("AE", null);
+        prepareXPathServiceMocks(NACK_ERROR_TYPE_CODE, null);
+        prepareMigrationStatusMocks(FINAL_ACK_SENT);
+
+        acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any());
+    }
+
+    @Test
+    public void When_HandleMessage_With_NackRejectTypeCodeAndFinalAckSent_Expect_MigrationStatusNotUpdated() throws SAXException {
+        inboundMessage = new InboundMessage();
+        prepareXPathServiceMocks(NACK_REJECT_TYPE_CODE, null);
         prepareMigrationStatusMocks(FINAL_ACK_SENT);
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
@@ -129,7 +164,7 @@ public class AcknowledgmentMessageHandlerTest {
         when(xPathService.getNodeValue(ebXmlDocument, ACK_TYPE_CODE_XPATH)).thenReturn(typeCode);
 
         // Required to prevent unnecessary stubs error
-        if (NACK_TYPE_CODE.equals(typeCode)) {
+        if (NACK_ERROR_TYPE_CODE.equals(typeCode) || NACK_REJECT_TYPE_CODE.equals(typeCode)) {
             when(xPathService.getNodeValue(ebXmlDocument, ERROR_REASON_CODE_XPATH)).thenReturn(errorReasonCode);
         }
     }
