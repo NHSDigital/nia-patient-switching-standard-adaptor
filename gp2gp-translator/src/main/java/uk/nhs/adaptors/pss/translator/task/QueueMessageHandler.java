@@ -38,7 +38,8 @@ public class QueueMessageHandler {
             var messageBody = message.getBody(String.class);
 
             var pssQueueMessage = objectMapper.readValue(messageBody, PssQueueMessage.class);
-            mdcService.applyConversationId(pssQueueMessage.getConversationId());
+            var conversationId = pssQueueMessage.getConversationId();
+            mdcService.applyConversationId(conversationId);
 
             switch (pssQueueMessage.getMessageType()) {
                 case TRANSFER_REQUEST:
