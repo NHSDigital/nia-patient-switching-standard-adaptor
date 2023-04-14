@@ -134,7 +134,7 @@ public class MhsQueueMessageHandlerTest {
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
         when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new JAXBException("Nobody expects the spanish inquisition!"))
-            .when(ehrExtractMessageHandler).handleMessage(inboundMessage,CONVERSATION_ID_UPPER);
+            .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
