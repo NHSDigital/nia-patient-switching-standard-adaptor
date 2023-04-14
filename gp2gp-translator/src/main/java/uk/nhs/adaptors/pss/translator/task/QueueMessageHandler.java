@@ -17,6 +17,8 @@ import javax.jms.Message;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
+import java.util.Locale;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -38,7 +40,7 @@ public class QueueMessageHandler {
             var messageBody = message.getBody(String.class);
 
             var pssQueueMessage = objectMapper.readValue(messageBody, PssQueueMessage.class);
-            var conversationId = pssQueueMessage.getConversationId();
+            var conversationId = pssQueueMessage.getConversationId().toUpperCase(Locale.ROOT);
             mdcService.applyConversationId(conversationId);
 
             switch (pssQueueMessage.getMessageType()) {

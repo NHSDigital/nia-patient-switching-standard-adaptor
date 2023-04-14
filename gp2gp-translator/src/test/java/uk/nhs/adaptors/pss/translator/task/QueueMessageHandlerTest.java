@@ -15,6 +15,8 @@ import uk.nhs.adaptors.pss.translator.service.AcknowledgeRecordService;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
+
+import java.util.Locale;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -30,6 +32,7 @@ import static uk.nhs.adaptors.common.enums.QueueMessageType.TRANSFER_REQUEST;
 public class QueueMessageHandlerTest {
 
     private static final String CONVERSATION_ID = UUID.randomUUID().toString();
+    private static final String CONVERSATION_ID_UPPER = CONVERSATION_ID.toUpperCase(Locale.ROOT);
 
     @Mock
     private Message message;
@@ -52,11 +55,11 @@ public class QueueMessageHandlerTest {
 
     @Test
     public void handleMessageWhenSendEhrExtractRequestHandlerReturnsTrue() {
-        prepareMocksForTransferRequest(true);
+        prepareMocksForTransferRequest(true, CONVERSATION_ID_UPPER);
 
         boolean messageAcknowledged = queueMessageHandler.handle(message);
 
-        verify(mdcService).applyConversationId(CONVERSATION_ID);
+        verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
         verify(acknowledgeRecordService, never())
                 .prepareAndSendAcknowledgementMessage(any(AcknowledgeRecordMessage.class));
 
@@ -64,33 +67,57 @@ public class QueueMessageHandlerTest {
     }
 
     @Test
-    public void handleMessageWhenSendEhrExtractRequestHandlerReturnsFalse() {
-        prepareMocksForTransferRequest(false);
+    public void handleMessageWhenSendEhrExtractRequestHandlerReturnsTrueWithLowercaseConversationId() {
+        prepareMocksForTransferRequest(true, CONVERSATION_ID);
 
         boolean messageAcknowledged = queueMessageHandler.handle(message);
 
-        verify(mdcService).applyConversationId(CONVERSATION_ID);
+        verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
+        verify(acknowledgeRecordService, never())
+            .prepareAndSendAcknowledgementMessage(any(AcknowledgeRecordMessage.class));
+
+        assertTrue(messageAcknowledged);
+    }
+
+    @Test
+    public void handleMessageWhenSendEhrExtractRequestHandlerReturnsFalse() {
+        prepareMocksForTransferRequest(false, CONVERSATION_ID_UPPER);
+
+        boolean messageAcknowledged = queueMessageHandler.handle(message);
+
+        verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
         assertFalse(messageAcknowledged);
     }
 
     @Test
     public void handleMessageWhenAcknowledgeRecordServiceReturnsTrue() {
-        prepareMocksForAcknowledgeRecord(true);
+        prepareMocksForAcknowledgeRecord(true, CONVERSATION_ID_UPPER);
 
         var result = queueMessageHandler.handle(message);
 
-        verify(mdcService).applyConversationId(CONVERSATION_ID);
+        verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
+        verify(sendEhrExtractRequestHandler, never()).prepareAndSendRequest(any(TransferRequestMessage.class));
+        assertTrue(result);
+    }
+
+    @Test
+    public void handleMessageWhenAcknowledgeRecordServiceReturnsTrueWithLowercaseConversationId() {
+        prepareMocksForAcknowledgeRecord(true, CONVERSATION_ID);
+
+        var result = queueMessageHandler.handle(message);
+
+        verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
         verify(sendEhrExtractRequestHandler, never()).prepareAndSendRequest(any(TransferRequestMessage.class));
         assertTrue(result);
     }
 
     @Test
     public void handleMessageWhenAcknowledgeRecordServiceReturnsFalse() {
-        prepareMocksForAcknowledgeRecord(false);
+        prepareMocksForAcknowledgeRecord(false, CONVERSATION_ID_UPPER);
 
         var result = queueMessageHandler.handle(message);
 
-        verify(mdcService).applyConversationId(CONVERSATION_ID);
+        verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
         verify(sendEhrExtractRequestHandler, never()).prepareAndSendRequest(any(TransferRequestMessage.class));
         assertFalse(result);
     }
@@ -103,14 +130,14 @@ public class QueueMessageHandlerTest {
     }
 
     @SneakyThrows
-    private void prepareMocksForTransferRequest(boolean prepareAndSendRequestResult) {
+    private void prepareMocksForTransferRequest(boolean prepareAndSendRequestResult, String conversationID) {
         var transferRequestMessage = TransferRequestMessage.builder()
-            .conversationId(CONVERSATION_ID)
+            .conversationId(conversationID)
             .messageType(TRANSFER_REQUEST)
             .build();
 
         var pssQueueMessage = PssQueueMessage.builder()
-                .conversationId(CONVERSATION_ID)
+                .conversationId(conversationID)
                 .messageType(TRANSFER_REQUEST)
                 .build();
 
@@ -125,14 +152,14 @@ public class QueueMessageHandlerTest {
     }
 
     @SneakyThrows
-    private void prepareMocksForAcknowledgeRecord(boolean prepareAndSendAcknowledgementMessageResult) {
+    private void prepareMocksForAcknowledgeRecord(boolean prepareAndSendAcknowledgementMessageResult, String conversationId) {
         var acknowledgeRecordMessage = AcknowledgeRecordMessage.builder()
-                .conversationId(CONVERSATION_ID)
+                .conversationId(conversationId)
                 .messageType(ACKNOWLEDGE_RECORD)
                 .build();
 
         var pssQueueMessage = PssQueueMessage.builder()
-                .conversationId(CONVERSATION_ID)
+                .conversationId(conversationId)
                 .messageType(ACKNOWLEDGE_RECORD)
                 .build();
 
