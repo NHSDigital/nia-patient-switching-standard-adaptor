@@ -126,8 +126,7 @@ public class COPCMessageHandler {
             throw e;
         } catch (ParseException | InlineAttachmentProcessingException | ValidationException
                  | SAXException | ExternalAttachmentProcessingException | UnsupportedFileTypeException e) {
-            LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
-                + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
+            LOGGER.error("COPC_IN000001UK01 processing error", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
             failMigration(conversationId, UNEXPECTED_CONDITION);
         } catch (Exception e) {
