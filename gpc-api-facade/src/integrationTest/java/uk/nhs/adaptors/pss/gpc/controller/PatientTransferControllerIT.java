@@ -282,6 +282,7 @@ public class PatientTransferControllerIT {
         verifyPatientMigrationRequest(migrationRequest, MIGRATION_COMPLETED);
     }
 
+    // This is a use case test to make sure we can pull bundles back with case insensitive conversation ids.
     @Test
     public void handleCompletedMigrationPatientRequestWithLowercaseConversationId() throws Exception {
         var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);

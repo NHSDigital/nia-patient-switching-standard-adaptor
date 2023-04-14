@@ -85,7 +85,7 @@ public class PatientTransferService {
     }
 
     public String getBundleResource() {
-        var conversationId = mdcService.getConversationId();
+        var conversationId = mdcService.getConversationId().toUpperCase(Locale.ROOT);
         PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         return patientMigrationRequest.getBundleResource();
     }
