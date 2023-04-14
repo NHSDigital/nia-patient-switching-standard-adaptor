@@ -125,7 +125,11 @@ public class EhrExtractMessageHandler {
                     | ParseException
                     | UnsupportedFileTypeException ex
         ) {
-            nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+            if (ex instanceof StorageException || ex.getCause() instanceof StorageException) {
+                nackAckPreparationService.sendNackMessage(UNEXPECTED_CONDITION, payload, conversationId);
+            } else {
+                nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+            }
             throw ex;
         } catch (MhsServerErrorException ex) {
             nackAckPreparationService.sendNackMessage(UNEXPECTED_CONDITION, payload, conversationId);
