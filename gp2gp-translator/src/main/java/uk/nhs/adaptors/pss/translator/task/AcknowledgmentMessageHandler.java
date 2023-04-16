@@ -31,7 +31,8 @@ public class AcknowledgmentMessageHandler {
     private static final String NACK_REASON_CODE_PATH =
         "//MCCI_IN010000UK13/ControlActEvent/reason/justifyingDetectedIssueEvent/code/@code";
     private static final String ACK_TYPE_CODE = "AA";
-    private static final String NACK_TYPE_CODE = "AE";
+    private static final String NACK_ERROR_TYPE_CODE = "AE";
+    private static final String NACK_REJECT_TYPE_CODE = "AR";
 
     private final XPathService xPathService;
     private final MigrationStatusLogService migrationStatusLogService;
@@ -42,7 +43,7 @@ public class AcknowledgmentMessageHandler {
         String nackReasonCode = null;
         String nackReasonMessage = null;
 
-        if (ackTypeCode.equals(NACK_TYPE_CODE)) {
+        if (ackTypeCode.equals(NACK_ERROR_TYPE_CODE) || ackTypeCode.equals(NACK_REJECT_TYPE_CODE)) {
             nackReasonCode = xPathService.getNodeValue(document, NACK_REASON_CODE_PATH);
             if (nackReasonCode == null) {
                 nackReasonCode = "";
@@ -74,7 +75,7 @@ public class AcknowledgmentMessageHandler {
     private MigrationStatus getMigrationStatus(String ackTypeCode, String reasonCode) {
         return switch (ackTypeCode) {
             case ACK_TYPE_CODE -> EHR_EXTRACT_REQUEST_ACKNOWLEDGED;
-            case NACK_TYPE_CODE -> switch (reasonCode) {
+            case NACK_ERROR_TYPE_CODE, NACK_REJECT_TYPE_CODE  -> switch (reasonCode) {
                 case "06" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED;
                 case "07" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED;
                 case "10" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR;
