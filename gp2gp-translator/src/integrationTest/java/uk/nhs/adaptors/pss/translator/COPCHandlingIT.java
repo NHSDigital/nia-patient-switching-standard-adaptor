@@ -44,6 +44,7 @@ public class COPCHandlingIT extends BaseEhrHandler {
         Assertions.assertNotNull(migrationStatusLog.get().getMessageId());
         Assertions.assertNotEquals(migrationStatusLog.get().getMessageId(), StringUtils.EMPTY);
     }
+
     @Test
     public void handleCOPCMessageWithMissingAttachment() {
         sendInboundMessageToQueue("/json/LargeMessage/NewError/uk06.json");
@@ -60,7 +61,6 @@ public class COPCHandlingIT extends BaseEhrHandler {
         Assertions.assertEquals(migrationStatusLog.getMigrationStatus().toString(), "COPC_FAILED");
 
     }
-
 
 
     private void sendInboundMessageToQueue(String json) {

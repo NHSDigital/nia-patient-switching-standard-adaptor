@@ -14,6 +14,7 @@ import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonP
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -78,7 +79,7 @@ public abstract class BaseEhrHandler {
     @BeforeEach
     public void setUp() {
         patientNhsNumber = generatePatientNhsNumber();
-        conversationId = generateConversationId();
+        conversationId = generateConversationId().toUpperCase(Locale.ROOT);
         startPatientMigrationJourney();
     }
 
