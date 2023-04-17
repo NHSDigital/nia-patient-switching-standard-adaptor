@@ -127,7 +127,7 @@ public class COPCMessageHandler {
         } catch (WebClientRequestException | ConnectionException e) {
             throw e;
         } catch (ParseException | ValidationException | SAXException e) {
-            LOGGER.error("COPC_IN000001UK01 processing error", e);
+            LOGGER.error("COPC_IN000001UK01 validation / parsing  error", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
             failMigration(conversationId, UNEXPECTED_CONDITION);
 
@@ -142,7 +142,7 @@ public class COPCMessageHandler {
             }
 
         } catch (Exception e) {
-            LOGGER.error("Unexpected exception", e);
+            LOGGER.error("Unexpected exception processing COPC_IN000001UK01 message", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
             failMigration(conversationId, UNEXPECTED_CONDITION);
         }

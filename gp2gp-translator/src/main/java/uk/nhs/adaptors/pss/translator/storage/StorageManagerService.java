@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class StorageManagerService {
 
     private final StorageService storageService;
@@ -19,7 +21,7 @@ public class StorageManagerService {
         Integer retryAttempts = 0;
         Integer retryLimit = configuration.getRetryLimit();
 
-        Boolean successful = Boolean.FALSE;
+        boolean successful;
 
         var clashPreventionFilename = createFilename(filename, conversationId);
 
@@ -30,6 +32,8 @@ public class StorageManagerService {
                 if (successful) {
                     retryAttempts = retryLimit;
                 } else {
+                    LOGGER.debug("Unable to save file: [{}] to object storage. Retrying: attempt {} of {}",
+                        filename, retryAttempts, retryLimit);
                     deleteFile(filename, conversationId);
                     retryAttempts++;
                     if (retryAttempts.equals(retryLimit)) {
@@ -70,7 +74,7 @@ public class StorageManagerService {
         }
     }
 
-    private Boolean validateUploadedFile(String filename, byte[] fileAsString) throws StorageException {
+    private boolean validateUploadedFile(String filename, byte[] fileAsString) throws StorageException {
         byte[] downloadedFile = storageService.downloadFile(filename);
         return Arrays.equals(fileAsString, downloadedFile);
     }
