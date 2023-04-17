@@ -33,6 +33,7 @@ import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 
 import java.text.ParseException;
+import java.util.Locale;
 
 @Slf4j
 @Component
@@ -62,6 +63,7 @@ public class MhsQueueMessageHandler {
             InboundMessage inboundMessage = readMessage(message);
             Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
             conversationId = xPathService.getNodeValue(ebXmlDocument, CONVERSATION_ID_PATH);
+            conversationId = conversationId.toUpperCase(Locale.ROOT);
             applyConversationId(conversationId);
             String interactionId = xPathService.getNodeValue(ebXmlDocument, INTERACTION_ID_PATH);
 

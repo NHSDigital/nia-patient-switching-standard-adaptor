@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
 
+import java.util.Locale;
 import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -281,6 +282,28 @@ public class PatientTransferControllerIT {
         verifyPatientMigrationRequest(migrationRequest, MIGRATION_COMPLETED);
     }
 
+    // This is a use case test to make sure we can pull bundles back with case insensitive conversation ids.
+    @Test
+    public void handleCompletedMigrationPatientRequestWithLowercaseConversationId() throws Exception {
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
+        var conversationId = generateConversationId();
+        var lowercaseConversationId = conversationId.toLowerCase(Locale.ROOT);
+
+        completePatientMigrationJourney(conversationId);
+
+        mockMvc.perform(
+                post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .headers(REQUIRED_HEADERS)
+                    .header(CONVERSATION_ID_HEADER, lowercaseConversationId)
+                    .content(requestBody))
+            .andExpect(status().isOk())
+            .andExpect(content().json(readResourceAsString(EXAMPLE_JSON_BUNDLE)));
+
+        var migrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
+        verifyPatientMigrationRequest(migrationRequest, MIGRATION_COMPLETED);
+    }
+
     private String getRequestBody(String path) {
         var patientNhsNumber = generatePatientNhsNumber();
         return readResourceAsString(path).replace("{{nhsNumber}}", patientNhsNumber);
@@ -298,7 +321,7 @@ public class PatientTransferControllerIT {
     }
 
     private String generateConversationId() {
-        return UUID.randomUUID().toString();
+        return UUID.randomUUID().toString().toUpperCase(Locale.ROOT);
     }
 
     private static HttpHeaders generateHeaders() {

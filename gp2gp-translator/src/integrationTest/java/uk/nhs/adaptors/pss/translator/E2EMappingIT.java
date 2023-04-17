@@ -10,6 +10,7 @@ import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonP
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBException;
@@ -74,7 +75,7 @@ public class E2EMappingIT extends BaseEhrHandler {
     @BeforeEach
     public void setUp() {
         setPatientNhsNumber(generatePatientNhsNumber());
-        setConversationId(generateConversationId());
+        setConversationId(generateConversationId().toUpperCase(Locale.ROOT));
         setLosingODSCode("B83002");
         setWiningODSCode("C81007");
         startPatientMigrationJourney();
