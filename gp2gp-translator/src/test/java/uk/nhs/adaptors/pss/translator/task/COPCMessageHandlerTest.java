@@ -117,11 +117,11 @@ class COPCMessageHandlerTest {
 
     private Document ebXmlDocument;
     @Mock
-    OutboundMessageUtil outboundMessageUtil;
+    private OutboundMessageUtil outboundMessageUtil;
     @Mock
-    InboundMessageUtil inboundMessageUtil;
+    private InboundMessageUtil inboundMessageUtil;
     @Mock
-    SendNACKMessageHandler sendNACKMessageHandler;
+    private SendNACKMessageHandler sendNACKMessageHandler;
     @InjectMocks
     private COPCMessageHandler copcMessageHandler;
     @Captor
@@ -477,7 +477,8 @@ class COPCMessageHandlerTest {
             prepareFailProcessMocks(mockedXmlUnmarshall);
 
             when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
-                .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", false));
+                .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
+                    "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", false));
 
             doThrow(UnsupportedFileTypeException.class)
                 .when(attachmentHandlerService)
@@ -1121,7 +1122,8 @@ class COPCMessageHandlerTest {
             prepareFailProcessMocks(mockedXmlUnmarshall);
 
             doThrow(ValidationException.class)
-                .when(attachmentHandlerService).storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any());
+                .when(attachmentHandlerService)
+                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any());
 
             copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
@@ -1183,8 +1185,9 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_HandleMessage_With_AttachmentProcessingErrorStorageCause_Expect_FailedWithUnexpectedCondition() throws JsonProcessingException,
-        JAXBException, InlineAttachmentProcessingException, AttachmentNotFoundException, BundleMappingException, SAXException, AttachmentLogException {
+    public void When_HandleMessage_With_AttachmentProcessingErrorStorageCause_Expect_FailedWithUnexpectedCondition() throws
+        JsonProcessingException, JAXBException, InlineAttachmentProcessingException, AttachmentNotFoundException, BundleMappingException,
+        SAXException, AttachmentLogException {
 
         MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
         InboundMessage message = new InboundMessage();
@@ -1201,7 +1204,8 @@ class COPCMessageHandlerTest {
 
             doThrow(new InlineAttachmentProcessingException(
                 "Test Inline Attachment Processing Exception", new StorageException("Test storage exception", new Exception()))
-            ).when(attachmentHandlerService).storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any());
+            ).when(attachmentHandlerService)
+                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any());
 
             copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
@@ -1217,8 +1221,10 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_HandleMessage_with_AttachmentProcessingErrorNotStorageCause_Expect_FailedWithAttachmentsNotReceived() throws SAXException,
-        JsonProcessingException, JAXBException, InlineAttachmentProcessingException, AttachmentNotFoundException, BundleMappingException, AttachmentLogException {
+    public void When_HandleMessage_With_AttachmentProcessingErrorNotStorageCause_Expect_FailedWithAttachmentsNotReceived() throws
+        SAXException, JsonProcessingException, JAXBException, InlineAttachmentProcessingException, AttachmentNotFoundException,
+        BundleMappingException, AttachmentLogException {
+
         MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
         InboundMessage message = new InboundMessage();
 
@@ -1233,7 +1239,8 @@ class COPCMessageHandlerTest {
             prepareFailProcessMocks(mockedXmlUnmarshall);
 
             doThrow(InlineAttachmentProcessingException.class)
-                .when(attachmentHandlerService).storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any());
+                .when(attachmentHandlerService)
+                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any());
 
 
             copcMessageHandler.handleMessage(message, CONVERSATION_ID);

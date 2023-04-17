@@ -468,8 +468,8 @@ public class COPCMessageHandler {
             .conversationId(conversationId)
             .build();
 
-        LOGGER.debug("An attachment failed to be processed, failing migration for EHR Extract [{}] with reason code [{}]", ehrExtractMessageId,
-            reason.getCode());
+        LOGGER.debug("An attachment failed to be processed, failing migration for EHR Extract [{}] with reason code [{}]",
+            ehrExtractMessageId, reason.getCode());
 
         sendNACKMessageHandler.prepareAndSendMessage(messageData);
     }
