@@ -204,6 +204,10 @@ public class PatientTransferController {
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
                 operationErrorMessage = "PS - A-B-A EHR Extract Received and Stored As Suppressed Record";
                 break;
+            case ERROR_EXTRACT_CANNOT_BE_PROCESSED:
+                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorMessage = "PS - EHR Extract message not well-formed or not able to be processed";
+                break;
             default:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
                 operationErrorMessage = "PS - A general error has occurred";

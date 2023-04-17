@@ -10,7 +10,7 @@ import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_EXTRACT_CANNOT_BE_PROCESSED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
@@ -216,7 +216,7 @@ class NackAckPreparationServiceTest {
 
         verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull());
 
-        assertEquals(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
+        assertEquals(MigrationStatus.ERROR_EXTRACT_CANNOT_BE_PROCESSED, migrationStatusCaptor.getValue());
     }
 
     @Test
@@ -376,7 +376,7 @@ class NackAckPreparationServiceTest {
 
         verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull());
 
-        assertEquals(EHR_GENERAL_PROCESSING_ERROR, migrationStatusCaptor.getValue());
+        assertEquals(ERROR_EXTRACT_CANNOT_BE_PROCESSED, migrationStatusCaptor.getValue());
     }
 
     @SneakyThrows

@@ -20,6 +20,7 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_N
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_TRANSLATED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_EXTRACT_CANNOT_BE_PROCESSED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_REASSEMBLY_FAILURE;
@@ -60,7 +61,8 @@ public class MigrationStatusGroups {
             EHR_EXTRACT_NEGATIVE_ACK_ABA_INCORRECT_PATIENT,
             EHR_EXTRACT_NEGATIVE_ACK_NON_ABA_INCORRECT_PATIENT,
             EHR_EXTRACT_NEGATIVE_ACK_FAILED_TO_INTEGRATE,
-            EHR_EXTRACT_NEGATIVE_ACK_SUPPRESSED
+            EHR_EXTRACT_NEGATIVE_ACK_SUPPRESSED,
+            ERROR_EXTRACT_CANNOT_BE_PROCESSED
     );
 
     public static final List<MigrationStatus> GP2GP_NACK_501_ERROR_STATUSES = List.of(
