@@ -2,10 +2,8 @@ package uk.nhs.adaptors.pss.util;
 
 import static org.assertj.core.api.Assertions.fail;
 
-import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_TRANSLATED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
@@ -31,6 +29,7 @@ import org.springframework.jms.core.JmsTemplate;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
@@ -95,13 +94,10 @@ public abstract class BaseEhrHandler {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
         return MIGRATION_COMPLETED.equals(migrationStatusLog.getMigrationStatus());
     }
-    protected boolean isCOPCMessageProcessing() {
+
+    protected boolean isMigrationStatus(MigrationStatus migrationStatus) {
         var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        return COPC_MESSAGE_PROCESSING.equals(migrationStatusLog.getMigrationStatus());
-    }
-    protected boolean isLargeGeneralMessageFailure() {
-        var migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
-        return ERROR_LRG_MSG_GENERAL_FAILURE.equals(migrationStatusLog.getMigrationStatus());
+        return migrationStatus.equals(migrationStatusLog.getMigrationStatus());
     }
 
     protected void verifyBundle(String path) throws JSONException {
