@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 import java.text.ParseException;
+import java.util.Locale;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -58,6 +59,7 @@ public class MhsQueueMessageHandlerTest {
     private static final String CONVERSATION_ID_PATH = "/Envelope/Header/MessageHeader/ConversationId";
     private static final String INTERACTION_ID_PATH = "/Envelope/Header/MessageHeader/Action";
     private static final String CONVERSATION_ID = randomUUID().toString();
+    private static final String CONVERSATION_ID_UPPER = CONVERSATION_ID.toUpperCase(Locale.ROOT);
 
     @Mock
     private ObjectMapper objectMapper;
@@ -112,8 +114,8 @@ public class MhsQueueMessageHandlerTest {
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
         assertTrue(result);
-        verify(mdcService).applyConversationId(CONVERSATION_ID);
-        verify(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
+        verify(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER);
         verifyNoInteractions(acknowledgmentMessageHandler);
     }
 
@@ -132,12 +134,12 @@ public class MhsQueueMessageHandlerTest {
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
         when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new JAXBException("Nobody expects the spanish inquisition!"))
-            .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
+            .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
         assertFalse(result);
-        verify(mdcService).applyConversationId(CONVERSATION_ID);
+        verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
         verifyNoInteractions(acknowledgmentMessageHandler);
     }
 
@@ -156,12 +158,12 @@ public class MhsQueueMessageHandlerTest {
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
         when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new JAXBException("Nobody expects the spanish inquisition!"))
-            .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
+            .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
         assertFalse(result);
-        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, CONVERSATION_ID_UPPER, null);
 
     }
 
@@ -174,8 +176,8 @@ public class MhsQueueMessageHandlerTest {
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
         assertTrue(result);
-        verify(mdcService).applyConversationId(CONVERSATION_ID);
-        verify(acknowledgmentMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
+        verify(acknowledgmentMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER);
         verifyNoInteractions(ehrExtractMessageHandler);
     }
 
@@ -185,13 +187,13 @@ public class MhsQueueMessageHandlerTest {
         prepareMocks(ACKNOWLEDGEMENT_INTERACTION_ID);
         when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new SAXException("Nobody expects the spanish inquisition!"))
-            .when(acknowledgmentMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
+            .when(acknowledgmentMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
         assertFalse(result);
-        verify(mdcService).applyConversationId(CONVERSATION_ID);
-        verify(acknowledgmentMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
+        verify(acknowledgmentMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER);
         verifyNoInteractions(ehrExtractMessageHandler);
     }
 
@@ -204,7 +206,7 @@ public class MhsQueueMessageHandlerTest {
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
         assertTrue(result);
-        verify(mdcService).applyConversationId(CONVERSATION_ID);
+        verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
         verifyNoInteractions(acknowledgmentMessageHandler);
         verifyNoInteractions(ehrExtractMessageHandler);
     }

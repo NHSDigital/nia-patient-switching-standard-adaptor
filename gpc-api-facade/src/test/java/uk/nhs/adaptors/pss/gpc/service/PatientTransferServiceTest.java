@@ -14,6 +14,7 @@ import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 
 import java.time.OffsetDateTime;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -42,7 +43,7 @@ import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferServiceTest {
     private static final String PATIENT_NHS_NUMBER = "123456789";
-    private static final String CONVERSATION_ID = UUID.randomUUID().toString();
+    private static final String CONVERSATION_ID = UUID.randomUUID().toString().toUpperCase(Locale.ROOT);
     private static final String LOSING_ODS_CODE = "D443";
     private static final String WINNING_ODS_CODE = "ABC";
 
@@ -105,11 +106,56 @@ public class PatientTransferServiceTest {
     }
 
     @Test
+    public void handlePatientMigrationRequestWhenRequestIsNewAndConversationIdIsLowercase() {
+        var expectedPssQueueMessage = TransferRequestMessage.builder()
+            .conversationId(CONVERSATION_ID)
+            .patientNhsNumber(PATIENT_NHS_NUMBER)
+            .toAsid(HEADERS.get(TO_ASID))
+            .fromAsid(HEADERS.get(FROM_ASID))
+            .toOds(HEADERS.get(TO_ODS))
+            .fromOds(HEADERS.get(FROM_ODS))
+            .messageType(TRANSFER_REQUEST)
+            .build();
+        var migrationRequestId = 1;
+        OffsetDateTime now = OffsetDateTime.now();
+        when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
+        when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(null);
+        when(patientMigrationRequestDao.getMigrationRequestId(CONVERSATION_ID)).thenReturn(migrationRequestId);
+        when(mdcService.getConversationId()).thenReturn(CONVERSATION_ID.toLowerCase(Locale.ROOT));
+
+        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);
+
+        assertThat(patientMigrationRequest).isEqualTo(null);
+        verify(pssQueuePublisher).sendToPssQueue(expectedPssQueueMessage);
+        verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, CONVERSATION_ID, LOSING_ODS_CODE, WINNING_ODS_CODE);
+        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId, null);
+    }
+
+    @Test
     public void handlePatientMigrationRequestWhenRequestIsInProgress() {
         PatientMigrationRequest expectedPatientMigrationRequest = createPatientMigrationRequest();
         MigrationStatusLog expectedMigrationStatusLog = createMigrationStatusLog();
 
         when(mdcService.getConversationId()).thenReturn(CONVERSATION_ID);
+        when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(expectedPatientMigrationRequest);
+        when(migrationStatusLogDao.getLatestMigrationStatusLog(expectedPatientMigrationRequest.getId()))
+            .thenReturn(expectedMigrationStatusLog);
+
+        MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);
+
+        assertThat(patientMigrationRequest).isEqualTo(expectedMigrationStatusLog);
+        verifyNoInteractions(pssQueuePublisher);
+        verify(patientMigrationRequestDao).getMigrationRequest(CONVERSATION_ID);
+        verifyNoMoreInteractions(patientMigrationRequestDao);
+    }
+
+    @Test
+    public void handlePatientMigrationRequestWhenRequestIsInProgressAndCalledWithALowercaseConversationId() {
+        PatientMigrationRequest expectedPatientMigrationRequest = createPatientMigrationRequest();
+        MigrationStatusLog expectedMigrationStatusLog = createMigrationStatusLog();
+
+        var lowercaseConversationId = CONVERSATION_ID.toLowerCase(Locale.ROOT);
+        when(mdcService.getConversationId()).thenReturn(lowercaseConversationId);
         when(patientMigrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(expectedPatientMigrationRequest);
         when(migrationStatusLogDao.getLatestMigrationStatusLog(expectedPatientMigrationRequest.getId()))
             .thenReturn(expectedMigrationStatusLog);

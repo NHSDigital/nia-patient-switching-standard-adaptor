@@ -7,6 +7,7 @@ import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ASID;
 import static uk.nhs.adaptors.pss.gpc.controller.header.HttpHeaders.TO_ODS;
 import static uk.nhs.adaptors.pss.gpc.util.fhir.ParametersUtils.getNhsNumberFromParameters;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.hl7.fhir.dstu3.model.Parameters;
@@ -36,6 +37,8 @@ public class PatientTransferService {
 
     public MigrationStatusLog handlePatientMigrationRequest(Parameters parameters, Map<String, String> headers) {
         var conversationId = mdcService.getConversationId();
+        conversationId = conversationId.toUpperCase(Locale.ROOT);
+
         PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
 
         if (patientMigrationRequest == null) {
@@ -58,7 +61,8 @@ public class PatientTransferService {
 
         var existingConversationId = getConversationIdOfIncompleteMigrationRequest(patientNhsNumber);
 
-        return mdcService.getConversationId().equals(existingConversationId) ? null : existingConversationId;
+        var internalConversationId = mdcService.getConversationId().toUpperCase(Locale.ROOT);
+        return internalConversationId.equals(existingConversationId) ? null : existingConversationId;
     }
 
     private String getConversationIdOfIncompleteMigrationRequest(String patientNhsNumber) {
@@ -82,7 +86,7 @@ public class PatientTransferService {
     }
 
     public String getBundleResource() {
-        var conversationId = mdcService.getConversationId();
+        var conversationId = mdcService.getConversationId().toUpperCase(Locale.ROOT);
         PatientMigrationRequest patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
         return patientMigrationRequest.getBundleResource();
     }

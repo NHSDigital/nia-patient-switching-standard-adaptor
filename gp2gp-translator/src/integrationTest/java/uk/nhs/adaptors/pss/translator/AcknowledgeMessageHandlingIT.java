@@ -14,6 +14,7 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_N
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
 
+import java.util.Locale;
 import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -69,7 +70,7 @@ public class AcknowledgeMessageHandlingIT {
 
     @BeforeEach
     public void setUp() {
-        conversationId = generateConversationId();
+        conversationId = generateConversationId().toUpperCase(Locale.ROOT);
         patientMigrationRequestDao.addNewRequest(generatePatientNhsNumber(), conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId, null);
     }
