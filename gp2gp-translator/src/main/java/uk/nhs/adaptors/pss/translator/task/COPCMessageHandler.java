@@ -139,6 +139,8 @@ public class COPCMessageHandler {
                 failMigration(conversationId, UNEXPECTED_CONDITION);
             } else {
                 failMigration(conversationId, LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED);
+                migrationStatusLogService.addMigrationStatusLog(
+                    LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(), conversationId, null);
             }
 
         } catch (Exception e) {

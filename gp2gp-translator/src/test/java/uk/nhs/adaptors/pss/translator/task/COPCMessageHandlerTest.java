@@ -1244,6 +1244,9 @@ class COPCMessageHandlerTest {
             verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
             assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode());
 
+            verify(migrationStatusLogService, times(1))
+                .addMigrationStatusLog(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(), CONVERSATION_ID, null);
+
         } finally {
             mockedXmlUnmarshall.close();
         }

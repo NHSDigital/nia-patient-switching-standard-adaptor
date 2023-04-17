@@ -174,7 +174,7 @@ public class PatientTransferController {
                 break;
             case ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
-                operationErrorMessage = "PS - At least one attachment has not be received";
+                operationErrorMessage = "PS - At least one attachment has not been received or could not be processed";
                 break;
             case ERROR_LRG_MSG_GENERAL_FAILURE:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
