@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_RECEIVED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
@@ -49,6 +50,7 @@ import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
+import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.util.InboundMessageUtil;
 import uk.nhs.adaptors.pss.translator.util.OutboundMessageUtil;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
@@ -124,11 +126,21 @@ public class COPCMessageHandler {
             }
         } catch (WebClientRequestException | ConnectionException e) {
             throw e;
-        } catch (ParseException | InlineAttachmentProcessingException | ValidationException
-                 | SAXException | ExternalAttachmentProcessingException | UnsupportedFileTypeException e) {
+        } catch (ParseException | ValidationException | SAXException e) {
             LOGGER.error("COPC_IN000001UK01 processing error", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
             failMigration(conversationId, UNEXPECTED_CONDITION);
+
+        } catch (InlineAttachmentProcessingException | ExternalAttachmentProcessingException | UnsupportedFileTypeException e) {
+            LOGGER.error("Large messaging attachment processing error", e);
+            nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
+
+            if (e.getCause() instanceof StorageException) {
+                failMigration(conversationId, UNEXPECTED_CONDITION);
+            } else {
+                failMigration(conversationId, LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED);
+            }
+
         } catch (Exception e) {
             LOGGER.error("Unexpected exception", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
