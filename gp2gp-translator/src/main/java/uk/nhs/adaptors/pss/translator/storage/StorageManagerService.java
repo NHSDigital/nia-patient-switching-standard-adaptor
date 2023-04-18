@@ -33,7 +33,7 @@ public class StorageManagerService {
                     retryAttempts = retryLimit;
                 } else {
                     LOGGER.debug("Unable to save file: [{}] to object storage. Retrying: attempt {} of {}",
-                        filename, retryAttempts, retryLimit);
+                        filename, retryAttempts + 1, retryLimit);
                     deleteFile(filename, conversationId);
                     retryAttempts++;
                     if (retryAttempts.equals(retryLimit)) {
