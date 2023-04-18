@@ -224,6 +224,99 @@ messages with an unrecognised conversation ID on a dead letter queue.
 
 An example daisy chaining environment is provided in test-suite/daisy-chaining 
 
+## Endpoints
+
+The Patient Switching adaptors facade exposes two endpoints.
+
+- POST /Patient/$gpc.migratestructuredrecord
+- POST /$gpc.ack
+
+### /Patient/$gpc.migratestructuredrecord
+
+The migratestructuredrecord endpoint is the primary endpoint for the adaptor and is used to start an electronic health record transfer.
+The following is required to call this endpoint...
+
+- TO_ASID : The ASID identifier of the winning incumbent
+- FROM_ASID : The ASID identifier of the losing incumbent
+- TO_ODS : The ODS identifier of the winning incumbent
+- FROM_ODS : the ODS identifier of the losing incumbent
+- ConversationId : A unique GUID for each request; if you do not provide one, the adaptor will create one and return it in the response headers. It must be used for all further calls for the patient's NHS number.
+
+The endpoint also requires a JSON body that includes the needed patient NHS number. The format of the body should look like the following...
+
+   {
+      "resourceType": "Parameters",
+      "parameter": [
+         {
+            "name": "patientNHSNumber",
+            "valueIdentifier": {
+               "system": "https://fhir.nhs.uk/Id/nhs-number",
+               "value": "{{nhs-number-test-group-8}}"
+            }
+         },
+         {
+            "name": "includeFullRecord",
+            "part": [
+               {
+                  "name": "includeSensitiveInfomation",
+                  "valueBoolean": true
+               }
+            ]
+         }
+      ]
+   }
+
+Endpoint calling: 
+
+1. Initial request: If you successfully configure the endpoint described above and call it, you should receive a 202-accepted response. This means the adaptor has received the request and is making the relevant requests.
+2. Polling the request: after receiving a 202 response, we recommend polling the endpoint at regular intervals using an increasing call gap strategy. Each poll can return the following responses:-
+   1. 204 No content: this response indicates that we are still processing the requests / waiting for the EHR message response.
+   2. 200 Success: this response indicates we have successfully received and converted the EHR to JSON; you will also receive the FHIR bundle in the response's body.
+   3. 400,404,500,501: The endpoint can return all these possible error codes. These will all provide a detailed error with an operationOutcome JSON model response in the body. This looks like...
+ 
+   {
+      "resourceType": "OperationOutcome",
+      "meta": {
+         "profile": [
+            "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-OperationOutcome-1"
+         ]
+      },
+      "issue": [
+         {
+            "severity": "error",
+            "code": "exception",
+            "details": {
+               "coding": [
+                  {
+                     "system": "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1",
+                     "code": "PATIENT_NOT_FOUND",
+                     "display": "GP2GP - Patient is not registered at the practice"
+                  }
+               ]
+            }
+         }
+      ]
+   }
+
+### /$gpc.ack
+
+The ack endpoint is the final endpoint to call once you are happy that the EHR record you have receieved is acceptable. 
+If you do not call this endpoint after reciving an EHR from above then you risk the losing practise triggering off the manual postal transfer. 
+
+The following is required to call this endpoint:-
+
+- CONVERSATION_ID: The id associated with patient transfer request.
+- CONFIRMATION_RESPONSE: you can provide the following status:-
+  - ACCEPTED: This will tell the sending incument that you are happy with the recived EHR.
+  - ABA_INCORRECT_PATIENT: 
+  - NON_ABA_INCORRECT_PATIENT:
+  - FAILED_TO_INTEGRATE: There is a problem your side integrating the record into your system. This will alert the sender to an error and trigger off the postal process.
+  - SUPPRESSED:
+
+Endpoint calling:
+
+This endpoint is also a polling 
+
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).
 Any new work added to this repository must conform to the conditions of these licenses.
