@@ -16,11 +16,14 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_RECEIVED;
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +31,9 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.v3.COPCIN000001UK01Message;
+import org.hl7.v3.RCMRIN030000UK06Message;
 import org.jdbi.v3.core.ConnectionException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -67,6 +72,9 @@ import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
+import uk.nhs.adaptors.pss.translator.storage.StorageException;
+import uk.nhs.adaptors.pss.translator.util.InboundMessageUtil;
+import uk.nhs.adaptors.pss.translator.util.OutboundMessageUtil;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 import uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil;
 
@@ -108,7 +116,12 @@ class COPCMessageHandlerTest {
     private FailedProcessHandlingService failedProcessHandlingService;
 
     private Document ebXmlDocument;
-
+    @Mock
+    private OutboundMessageUtil outboundMessageUtil;
+    @Mock
+    private InboundMessageUtil inboundMessageUtil;
+    @Mock
+    private SendNACKMessageHandler sendNACKMessageHandler;
     @InjectMocks
     private COPCMessageHandler copcMessageHandler;
     @Captor
@@ -129,6 +142,13 @@ class COPCMessageHandlerTest {
 
     @Captor
     private ArgumentCaptor<NACKMessageData> nackMessageDataCaptor;
+
+    @Mock
+    private COPCIN000001UK01Message mockCOPCMessage;
+    @Mock
+    private RCMRIN030000UK06Message mockEhrExtract;
+    @Mock
+    private InboundMessage mockInboundMessage;
 
     @Test
     public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_PartialLogToBeCreated()
@@ -448,27 +468,37 @@ class COPCMessageHandlerTest {
         BundleMappingException, JsonProcessingException, InlineAttachmentProcessingException, SAXException,
         AttachmentLogException, UnsupportedFileTypeException {
 
-        InboundMessage message = new InboundMessage();
-        setUpInboundMessageAndMocks(message);
-
-        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
-            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", false));
-
-        doThrow(UnsupportedFileTypeException.class)
-            .when(attachmentHandlerService)
-            .storeAttachments(any(), any());
-
-        COPCIN000001UK01Message mockedPayload = unmarshallString(message.getPayload(), COPCIN000001UK01Message.class);
         MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
-        mockedXmlUnmarshall.when(
-            () -> XmlUnmarshallUtil.unmarshallString(any(), eq(COPCIN000001UK01Message.class))
-        ).thenReturn(mockedPayload);
 
-        copcMessageHandler.handleMessage(message, CONVERSATION_ID);
-        verify(nackAckPreparationServiceMock, times(1))
-            .sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, mockedPayload, CONVERSATION_ID);
+        try {
 
-        mockedXmlUnmarshall.close();
+            InboundMessage message = new InboundMessage();
+            setUpInboundMessageAndMocks(message);
+            prepareFailProcessMocks(mockedXmlUnmarshall);
+
+            when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
+                .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
+                    "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", false));
+
+            doThrow(UnsupportedFileTypeException.class)
+                .when(attachmentHandlerService)
+                .storeAttachments(any(), any());
+
+            COPCIN000001UK01Message mockedPayload = unmarshallString(message.getPayload(), COPCIN000001UK01Message.class);
+            mockedXmlUnmarshall.when(
+                () -> XmlUnmarshallUtil.unmarshallString(any(), eq(COPCIN000001UK01Message.class))
+            ).thenReturn(mockedPayload);
+
+            copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+            verify(nackAckPreparationServiceMock, times(1))
+                .sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, mockedPayload, CONVERSATION_ID);
+
+            verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
+            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode());
+        } finally {
+            mockedXmlUnmarshall.close();
+        }
+
     }
 
     @Test
@@ -990,19 +1020,36 @@ class COPCMessageHandlerTest {
     public void When_HandleMessage_WithMhsServerErrorException_Expect_NackIsAttempted() throws SAXException, AttachmentNotFoundException,
         JAXBException, BundleMappingException, JsonProcessingException, InlineAttachmentProcessingException, AttachmentLogException {
 
-        InboundMessage message = new InboundMessage();
-        prepareFragmentMocks(message);
-        when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
-            .thenReturn(null)
-            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
+        MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
 
-        doThrow(MhsServerErrorException.class)
-            .when(nackAckPreparationServiceMock).sendAckMessage(any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID), anyString());
+        try {
+            InboundMessage message = new InboundMessage();
+            prepareFragmentMocks(message);
 
-        copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+            mockedXmlUnmarshall.when(
+                () -> XmlUnmarshallUtil.unmarshallString(anyString(), eq(COPCIN000001UK01Message.class))
+            ).thenReturn(mockCOPCMessage);
 
-        verify(nackAckPreparationServiceMock, times(1))
-            .sendNackMessage(eq(LARGE_MESSAGE_GENERAL_FAILURE), any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID));
+            when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
+                .thenReturn(null)
+                .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
+
+            prepareFailProcessMocks(mockedXmlUnmarshall);
+
+            doThrow(MhsServerErrorException.class)
+                .when(nackAckPreparationServiceMock).sendAckMessage(any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID), anyString());
+
+            copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+
+            verify(nackAckPreparationServiceMock, times(1))
+                .sendNackMessage(eq(LARGE_MESSAGE_GENERAL_FAILURE), any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID));
+
+            verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
+            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(UNEXPECTED_CONDITION.getCode());
+
+        } finally {
+            mockedXmlUnmarshall.close();
+        }
     }
 
     @Test
@@ -1021,6 +1068,205 @@ class COPCMessageHandlerTest {
 
         verify(migrationStatusLogService, times(0))
             .addMigrationStatusLog(COPC_MESSAGE_RECEIVED, CONVERSATION_ID, null);
+    }
+
+    @Test
+    public void When_HandleMessage_With_SAXException_Expect_MigrationFailed() throws
+        JsonProcessingException, AttachmentNotFoundException, JAXBException, BundleMappingException, InlineAttachmentProcessingException,
+        SAXException, AttachmentLogException {
+        MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
+        InboundMessage message = new InboundMessage();
+
+        try {
+
+            prepareMocks();
+            message.setPayload(readXmlFile("inbound_message_payload_fragment_index.xml"));
+
+            mockedXmlUnmarshall.when(
+                () -> XmlUnmarshallUtil.unmarshallString(anyString(), eq(COPCIN000001UK01Message.class))
+            ).thenReturn(mockCOPCMessage);
+
+            prepareFailProcessMocks(mockedXmlUnmarshall);
+
+            doThrow(SAXException.class)
+                .when(xPathService).parseDocumentFromXml(any());
+
+            copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+
+            verify(nackAckPreparationServiceMock, times(1))
+                .sendNackMessage(eq(LARGE_MESSAGE_GENERAL_FAILURE), any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID));
+
+            verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
+            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(UNEXPECTED_CONDITION.getCode());
+
+        } finally {
+            mockedXmlUnmarshall.close();
+        }
+    }
+
+    @Test
+    public void When_HandleMessage_With_ValidationException_Expect_MigrationFailed() throws SAXException, JsonProcessingException,
+        JAXBException, InlineAttachmentProcessingException, AttachmentNotFoundException, BundleMappingException, AttachmentLogException {
+        //TODO: use attachmentHandlerService.storeAttachmentWithoutProcessing to throw exception
+        MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
+        InboundMessage message = new InboundMessage();
+
+        try {
+
+            prepareFragmentMocks(message);
+
+            mockedXmlUnmarshall.when(
+                () -> XmlUnmarshallUtil.unmarshallString(anyString(), eq(COPCIN000001UK01Message.class))
+            ).thenReturn(mockCOPCMessage);
+
+            prepareFailProcessMocks(mockedXmlUnmarshall);
+
+            doThrow(ValidationException.class)
+                .when(attachmentHandlerService)
+                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any());
+
+            copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+
+            verify(nackAckPreparationServiceMock, times(1))
+                .sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, mockCOPCMessage, CONVERSATION_ID);
+
+            verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
+            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(UNEXPECTED_CONDITION.getCode());
+
+        } finally {
+            mockedXmlUnmarshall.close();
+        }
+    }
+
+    @Test
+    public void When_HandleMessage_With_ParseException_Expect_MigrationFailed() throws SAXException, JsonProcessingException,
+        JAXBException, InlineAttachmentProcessingException, AttachmentNotFoundException, BundleMappingException, AttachmentLogException {
+
+        MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
+        MockedStatic<XmlParseUtilService> mockedXmlParseUtilService = Mockito.mockStatic(XmlParseUtilService.class);
+        InboundMessage message = new InboundMessage();
+
+        message.setExternalAttachments(List.of(
+            new InboundMessage.ExternalAttachment("testId", "testId", "testTile", "testDescription"))
+        );
+
+        try {
+
+            mockedXmlUnmarshall.when(
+                () -> XmlUnmarshallUtil.unmarshallString(anyString(), eq(COPCIN000001UK01Message.class))
+            ).thenReturn(mockCOPCMessage);
+
+            mockedXmlParseUtilService.when(
+                () -> XmlParseUtilService.parseContentType(anyString())
+            ).thenThrow(ParseException.class);
+
+            prepareFragmentMocks(message);
+            prepareFailProcessMocks(mockedXmlUnmarshall);
+
+            var messageId = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
+            when(patientAttachmentLogService.findAttachmentLog(messageId, CONVERSATION_ID))
+                .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
+
+            when(xmlParseUtilService.getEbxmlAttachmentsData(any()))
+                .thenReturn(buildCidReferenceDescription());
+
+            copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+
+            verify(nackAckPreparationServiceMock, times(1))
+                .sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, mockCOPCMessage, CONVERSATION_ID);
+
+            verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
+            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(UNEXPECTED_CONDITION.getCode());
+
+        } finally {
+            mockedXmlUnmarshall.close();
+            mockedXmlParseUtilService.close();
+        }
+    }
+
+    @Test
+    public void When_HandleMessage_With_AttachmentProcessingErrorStorageCause_Expect_FailedWithUnexpectedCondition() throws
+        JsonProcessingException, JAXBException, InlineAttachmentProcessingException, AttachmentNotFoundException, BundleMappingException,
+        SAXException, AttachmentLogException {
+
+        MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
+        InboundMessage message = new InboundMessage();
+
+        try {
+
+            prepareFragmentMocks(message);
+
+            mockedXmlUnmarshall.when(
+                () -> XmlUnmarshallUtil.unmarshallString(anyString(), eq(COPCIN000001UK01Message.class))
+            ).thenReturn(mockCOPCMessage);
+
+            prepareFailProcessMocks(mockedXmlUnmarshall);
+
+            doThrow(new InlineAttachmentProcessingException(
+                "Test Inline Attachment Processing Exception", new StorageException("Test storage exception", new Exception()))
+            ).when(attachmentHandlerService)
+                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any());
+
+            copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+
+            verify(nackAckPreparationServiceMock, times(1))
+                .sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, mockCOPCMessage, CONVERSATION_ID);
+
+            verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
+            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(UNEXPECTED_CONDITION.getCode());
+
+        } finally {
+            mockedXmlUnmarshall.close();
+        }
+    }
+
+    @Test
+    public void When_HandleMessage_With_AttachmentProcessingErrorNotStorageCause_Expect_FailedWithAttachmentsNotReceived() throws
+        SAXException, JsonProcessingException, JAXBException, InlineAttachmentProcessingException, AttachmentNotFoundException,
+        BundleMappingException, AttachmentLogException {
+
+        MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
+        InboundMessage message = new InboundMessage();
+
+        try {
+
+            prepareFragmentMocks(message);
+
+            mockedXmlUnmarshall.when(
+                () -> XmlUnmarshallUtil.unmarshallString(anyString(), eq(COPCIN000001UK01Message.class))
+            ).thenReturn(mockCOPCMessage);
+
+            prepareFailProcessMocks(mockedXmlUnmarshall);
+
+            doThrow(InlineAttachmentProcessingException.class)
+                .when(attachmentHandlerService)
+                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any());
+
+
+            copcMessageHandler.handleMessage(message, CONVERSATION_ID);
+
+            verify(nackAckPreparationServiceMock, times(1))
+                .sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, mockCOPCMessage, CONVERSATION_ID);
+
+            verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
+            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode());
+
+            verify(migrationStatusLogService, times(1))
+                .addMigrationStatusLog(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(), CONVERSATION_ID, null);
+
+        } finally {
+            mockedXmlUnmarshall.close();
+        }
+    }
+
+    private List<EbxmlReference> buildCidReferenceDescription() {
+        EbxmlReference reference = new EbxmlReference("First instance is always a payload", "mid:xxxx-xxxx-xxxx-xxxx", "docId");
+        EbxmlReference reference2 = new EbxmlReference("desc", "cid:28B31-4245-4AFC-8DA2-8A40623A5101", "docId");
+        List<EbxmlReference> attachmentReferenceDescription = new ArrayList<>();
+        attachmentReferenceDescription.add(reference);
+        attachmentReferenceDescription.add(reference2);
+
+        return attachmentReferenceDescription;
     }
 
     private PatientAttachmentLog buildPatientAttachmentLog(String mid, String parentMid, int orderNum,
@@ -1220,5 +1466,20 @@ class COPCMessageHandlerTest {
             );
         }
         return patientAttachmentLogs;
+    }
+
+    private void prepareFailProcessMocks(MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall) throws JsonProcessingException {
+
+        mockedXmlUnmarshall.when(
+            () -> XmlUnmarshallUtil.unmarshallString(anyString(), eq(RCMRIN030000UK06Message.class))
+        ).thenReturn(mockEhrExtract);
+
+        when(outboundMessageUtil.parseFromAsid(any())).thenReturn(StringUtils.EMPTY);
+        when(outboundMessageUtil.parseMessageRef(any())).thenReturn(StringUtils.EMPTY);
+        when(outboundMessageUtil.parseToAsid(any())).thenReturn(StringUtils.EMPTY);
+        when(outboundMessageUtil.parseToOdsCode(any())).thenReturn(StringUtils.EMPTY);
+
+        when(inboundMessageUtil.readMessage(any())).thenReturn(mockInboundMessage);
+        when(mockInboundMessage.getPayload()).thenReturn(StringUtils.EMPTY);
     }
 }

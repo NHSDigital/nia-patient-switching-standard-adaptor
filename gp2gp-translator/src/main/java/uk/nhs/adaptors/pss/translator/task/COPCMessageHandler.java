@@ -1,8 +1,10 @@
 package uk.nhs.adaptors.pss.translator.task;
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_RECEIVED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.text.ParseException;
@@ -14,14 +16,16 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.ValidationException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.hl7.v3.COPCIN000001UK01Message;
+import org.hl7.v3.RCMRIN030000UK06Message;
 import org.jdbi.v3.core.ConnectionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,11 +43,16 @@ import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingExcept
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
+import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
+import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
+import uk.nhs.adaptors.pss.translator.storage.StorageException;
+import uk.nhs.adaptors.pss.translator.util.InboundMessageUtil;
+import uk.nhs.adaptors.pss.translator.util.OutboundMessageUtil;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 @Slf4j
@@ -64,6 +73,9 @@ public class COPCMessageHandler {
     private final XmlParseUtilService xmlParseUtilService;
     private final SupportedFileTypes supportedFileTypes;
     private final FailedProcessHandlingService failedProcessHandlingService;
+    private final OutboundMessageUtil outboundMessageUtil;
+    private final InboundMessageUtil inboundMessageUtil;
+    private final SendNACKMessageHandler sendNACKMessageHandler;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId)
             throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
@@ -114,14 +126,27 @@ public class COPCMessageHandler {
             }
         } catch (WebClientRequestException | ConnectionException e) {
             throw e;
-        } catch (ParseException | InlineAttachmentProcessingException | ValidationException
-                 | SAXException | ExternalAttachmentProcessingException | UnsupportedFileTypeException e) {
-            LOGGER.error("failed to parse COPC_IN000001UK01 ebxml: "
-                + "failed to extract \"mid:\" from xlink:href, before sending the continue message", e);
+        } catch (ParseException | ValidationException | SAXException e) {
+            LOGGER.error("COPC_IN000001UK01 validation / parsing  error", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
+            failMigration(conversationId, UNEXPECTED_CONDITION);
+
+        } catch (InlineAttachmentProcessingException | ExternalAttachmentProcessingException | UnsupportedFileTypeException e) {
+            LOGGER.error("Large messaging attachment processing error", e);
+            nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
+
+            if (e.getCause() instanceof StorageException) {
+                failMigration(conversationId, UNEXPECTED_CONDITION);
+            } else {
+                failMigration(conversationId, LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED);
+                migrationStatusLogService.addMigrationStatusLog(
+                    LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(), conversationId, null);
+            }
+
         } catch (Exception e) {
-            LOGGER.error("Unexpected exception", e);
+            LOGGER.error("Unexpected exception processing COPC_IN000001UK01 message", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
+            failMigration(conversationId, UNEXPECTED_CONDITION);
         }
     }
 
@@ -424,5 +449,28 @@ public class COPCMessageHandler {
             .uploaded(uploaded)
             .orderNum(attachmentOrder)
             .build();
+    }
+
+    private void failMigration(String conversationId, NACKReason reason) throws JsonProcessingException, JAXBException {
+        PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
+
+        InboundMessage inboundMessage = inboundMessageUtil.readMessage(migrationRequest.getInboundMessage());
+        RCMRIN030000UK06Message ehrExtract = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+        String ehrExtractMessageId = outboundMessageUtil.parseMessageRef(ehrExtract);
+
+        NACKMessageData messageData = NACKMessageData
+            .builder()
+            .nackCode(reason.getCode())
+            .fromAsid(outboundMessageUtil.parseFromAsid(ehrExtract))
+            .toAsid(outboundMessageUtil.parseToAsid(ehrExtract))
+            .toOdsCode(outboundMessageUtil.parseToOdsCode(ehrExtract))
+            .messageRef(ehrExtractMessageId)
+            .conversationId(conversationId)
+            .build();
+
+        LOGGER.debug("An attachment failed to be processed, failing migration for EHR Extract [{}] with reason code [{}]",
+            ehrExtractMessageId, reason.getCode());
+
+        sendNACKMessageHandler.prepareAndSendMessage(messageData);
     }
 }

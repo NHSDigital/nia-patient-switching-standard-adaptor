@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.task.scheduled;
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_ACKNOWLEDGED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_PROCESSING;
@@ -36,9 +35,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.common.util.DateUtils;
-import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
@@ -84,8 +83,7 @@ public class EHRTimeoutHandler {
         CONTINUE_REQUEST_ACCEPTED,
         COPC_MESSAGE_RECEIVED,
         COPC_MESSAGE_PROCESSING,
-        COPC_ACKNOWLEDGED,
-        COPC_FAILED
+        COPC_ACKNOWLEDGED
     );
 
     @Scheduled(cron = "${timeout.cronTime}")

@@ -7,7 +7,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_ACKNOWLEDGED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_PROCESSING;
@@ -34,8 +33,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.common.enums.MigrationStatus;
+import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -101,11 +100,6 @@ public class EHRTimeoutHandlerIT {
     @Test
     public void When_CheckForTimeouts_WithEhrExtractProcessingAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
         checkDatabaseUpdated(EHR_EXTRACT_PROCESSING, ERROR_LRG_MSG_TIMEOUT);
-    }
-
-    @Test
-    public void When_CheckForTimeouts_WithCopcFailedAndTimedOut_Expect_MigrationStatusLogUpdated() throws IOException {
-        checkDatabaseUpdated(COPC_FAILED, ERROR_LRG_MSG_TIMEOUT);
     }
 
     private void checkDatabaseUpdated(MigrationStatus statusBeforeTimeout, MigrationStatus statusAfterTimeout) throws IOException {
