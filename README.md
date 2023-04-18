@@ -300,22 +300,27 @@ Endpoint calling:
 
 ### /$gpc.ack
 
-The ack endpoint is the final endpoint to call once you are happy that the EHR record you have receieved is acceptable. 
-If you do not call this endpoint after reciving an EHR from above then you risk the losing practise triggering off the manual postal transfer. 
+The ack endpoint is the final endpoint to call once you are happy that the EHR record you have received is acceptable.
+If you do not call this endpoint after receiving an EHR from the migratestructuredrecord enpoint, then you risk the losing practise triggering off the manual postal transfer.
 
 The following is required to call this endpoint:-
 
-- CONVERSATION_ID: The id associated with patient transfer request.
+- CONVERSATION_ID: The id associated with the patient transfer request.
 - CONFIRMATION_RESPONSE: you can provide the following status:-
-  - ACCEPTED: This will tell the sending incument that you are happy with the recived EHR.
-  - ABA_INCORRECT_PATIENT: 
-  - NON_ABA_INCORRECT_PATIENT:
-  - FAILED_TO_INTEGRATE: There is a problem your side integrating the record into your system. This will alert the sender to an error and trigger off the postal process.
-  - SUPPRESSED:
+   - ACCEPTED: This will tell the sending incumbent that you are happy with the received EHR.
+   - ABA_INCORRECT_PATIENT: Alert the sender that this is not the patient you expected.
+   - NON_ABA_INCORRECT_PATIENT: Alert the sender that this is not the patient you expected.
+   - FAILED_TO_INTEGRATE: You have encountered a problem integrating the record into your system. This will alert the sender to an error and trigger off the postal process.
+   - SUPPRESSED:
 
 Endpoint calling:
 
-This endpoint is also a polling 
+This endpoint is a fire-and-forget endpoint.
+If your request is successful, you will get a 200: Success response.
+If your request is unsuccessful, you will get a 500: Server error response.
+If you receive a 500 response, you can retry again at any point, however, it should be noted that you must receive a 200: Success response from the migratestructuredrecord for the given conversation ID to receive a 200: Success from this endpoint.
+
+Note: To improve reliability on this endpoint we are currently looking at a polling change, the documentation will be updated once this has been updated.
 
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).
