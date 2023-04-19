@@ -118,13 +118,12 @@ public class COPCMessageHandler {
             }
 
             checkAndMergeFileParts(inboundMessage, conversationId);
+            nackAckPreparationService.sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
 
             // merge and uncompress large EHR message
             if (inboundMessageMergingService.canMergeCompleteBundle(conversationId)) {
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
             }
-
-            nackAckPreparationService.sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
 
         } catch (WebClientRequestException | ConnectionException e) {
             throw e;
