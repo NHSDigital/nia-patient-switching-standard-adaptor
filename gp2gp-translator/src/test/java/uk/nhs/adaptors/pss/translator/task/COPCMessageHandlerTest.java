@@ -990,6 +990,8 @@ class COPCMessageHandlerTest {
     public void When_HandleMessage_WithDbConnectionException_Expect_ExceptionThrown() throws SAXException {
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
+        prepareAttachmentLogs();
+
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(null)
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
@@ -1005,6 +1007,8 @@ class COPCMessageHandlerTest {
     public void When_HandleMessage_WithWebClientRequestException_Expect_ExceptionThrown() throws SAXException {
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
+        prepareAttachmentLogs();
+
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(null)
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
@@ -1025,6 +1029,7 @@ class COPCMessageHandlerTest {
         try {
             InboundMessage message = new InboundMessage();
             prepareFragmentMocks(message);
+            prepareAttachmentLogs();
 
             mockedXmlUnmarshall.when(
                 () -> XmlUnmarshallUtil.unmarshallString(anyString(), eq(COPCIN000001UK01Message.class))
@@ -1107,7 +1112,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_HandleMessage_With_ValidationException_Expect_MigrationFailed() throws SAXException, JsonProcessingException,
         JAXBException, InlineAttachmentProcessingException, AttachmentNotFoundException, BundleMappingException, AttachmentLogException {
-        //TODO: use attachmentHandlerService.storeAttachmentWithoutProcessing to throw exception
+
         MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
         InboundMessage message = new InboundMessage();
 
@@ -1410,6 +1415,14 @@ class COPCMessageHandlerTest {
                 .build();
 
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+    }
+
+    private void prepareAttachmentLogs() {
+        var messageId = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
+        when(patientAttachmentLogService.findAttachmentLog(messageId, CONVERSATION_ID)).thenReturn(null)
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
+        when(patientAttachmentLogService.findAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", CONVERSATION_ID))
+            .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
     }
 
     @SneakyThrows
