@@ -4,6 +4,7 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSI
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_REASSEMBLY_FAILURE;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
@@ -116,22 +117,23 @@ public class COPCMessageHandler {
                 }
             }
 
-            nackAckPreparationService.sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
             checkAndMergeFileParts(inboundMessage, conversationId);
+            nackAckPreparationService.sendAckMessage(payload, conversationId, migrationRequest.getLosingPracticeOdsCode());
 
             // merge and uncompress large EHR message
             if (inboundMessageMergingService.canMergeCompleteBundle(conversationId)) {
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
-
             }
+
         } catch (WebClientRequestException | ConnectionException e) {
             throw e;
+
         } catch (ParseException | ValidationException | SAXException e) {
             LOGGER.error("COPC_IN000001UK01 validation / parsing  error", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
             failMigration(conversationId, UNEXPECTED_CONDITION);
 
-        } catch (InlineAttachmentProcessingException | ExternalAttachmentProcessingException | UnsupportedFileTypeException e) {
+        } catch (InlineAttachmentProcessingException | UnsupportedFileTypeException e) {
             LOGGER.error("Large messaging attachment processing error", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
 
@@ -142,6 +144,12 @@ public class COPCMessageHandler {
                 migrationStatusLogService.addMigrationStatusLog(
                     LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(), conversationId, null);
             }
+
+        } catch (ExternalAttachmentProcessingException e) {
+            LOGGER.error("Unable to merge attachment", e);
+            nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_REASSEMBLY_FAILURE, payload, conversationId);
+
+            failMigration(conversationId, LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED);
 
         } catch (Exception e) {
             LOGGER.error("Unexpected exception processing COPC_IN000001UK01 message", e);
