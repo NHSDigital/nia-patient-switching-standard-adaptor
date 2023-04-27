@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "5b87e500-524c-4080-8fd5-4ac04571ffb0",
+  "id": "39e7091b-ee7e-4e0a-a42f-4949ba010e07",
   "meta": {
     "profile": [
       "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1"
@@ -11,7 +11,7 @@
     {
       "resource": {
         "resourceType": "Patient",
-        "id": "67846157-90d1-4718-a4bc-da6b47b0769c",
+        "id": "b7caa39d-5ecd-4d93-b0c7-535ee44a491c",
         "meta": {
           "versionId": "1521806400000",
           "profile": [
@@ -60,7 +60,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "4C04E966-8CDD-4BED-92CE-220ED82F9ABE"
           }
         ],
@@ -69,16 +69,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Home Visit Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25651000000106",
-                "display": "Home Visit Note"
+                "display": "Home visit note"
               }
             ],
             "text": "Home visit note"
           }
         ],
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "participant": [
           {
@@ -120,7 +131,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/{{LOCATION-1}}"
+              "reference": "Location/0CAB026D-B49B-40A8-82FE-465A4FDC4C29"
             }
           }
         ]
@@ -137,7 +148,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "B60F6338-CC2A-4DF6-870D-AB2A51DA4AA4"
           }
         ],
@@ -146,16 +157,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "participant": [
           {
@@ -197,7 +219,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/{{LOCATION-1}}"
+              "reference": "Location/0CAB026D-B49B-40A8-82FE-465A4FDC4C29"
             }
           }
         ]
@@ -214,7 +236,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "F55AB99F-E327-420E-8D0B-4348C61778FF"
           }
         ],
@@ -223,16 +245,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "participant": [
           {
@@ -274,7 +307,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/{{LOCATION-1}}"
+              "reference": "Location/0CAB026D-B49B-40A8-82FE-465A4FDC4C29"
             }
           }
         ]
@@ -291,7 +324,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "A1C8AD7F-99E6-4EED-B102-362D3961D2AF"
           }
         ],
@@ -300,16 +333,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "participant": [
           {
@@ -351,7 +395,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/{{LOCATION-1}}"
+              "reference": "Location/0CAB026D-B49B-40A8-82FE-465A4FDC4C29"
             }
           }
         ]
@@ -368,7 +412,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "389A5279-93AD-4AAA-9FE7-95883FCE91B6"
           }
         ],
@@ -377,16 +421,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "participant": [
           {
@@ -428,7 +483,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/{{LOCATION-1}}"
+              "reference": "Location/0CAB026D-B49B-40A8-82FE-465A4FDC4C29"
             }
           }
         ]
@@ -445,7 +500,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
           }
         ],
@@ -454,16 +509,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "participant": [
           {
@@ -505,7 +571,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/{{LOCATION-1}}"
+              "reference": "Location/0CAB026D-B49B-40A8-82FE-465A4FDC4C29"
             }
           }
         ]
@@ -522,7 +588,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "6CE8318F-2230-47CE-86CC-5210130A00F5"
           }
         ],
@@ -531,16 +597,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "participant": [
           {
@@ -582,7 +659,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/{{LOCATION-1}}"
+              "reference": "Location/0CAB026D-B49B-40A8-82FE-465A4FDC4C29"
             }
           }
         ]
@@ -599,7 +676,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "CF355E94-C4BB-44A8-A346-785A993F37F0"
           }
         ],
@@ -608,16 +685,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "participant": [
           {
@@ -659,7 +747,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/{{LOCATION-1}}"
+              "reference": "Location/0CAB026D-B49B-40A8-82FE-465A4FDC4C29"
             }
           }
         ]
@@ -676,7 +764,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "55315F2E-55D0-4737-B2BC-4E816F04770E"
           }
         ],
@@ -685,16 +773,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "participant": [
           {
@@ -736,7 +835,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/{{LOCATION-1}}"
+              "reference": "Location/0CAB026D-B49B-40A8-82FE-465A4FDC4C29"
             }
           }
         ]
@@ -764,7 +863,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/4C04E966-8CDD-4BED-92CE-220ED82F9ABE"
@@ -810,7 +909,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/B60F6338-CC2A-4DF6-870D-AB2A51DA4AA4"
@@ -856,7 +955,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/F55AB99F-E327-420E-8D0B-4348C61778FF"
@@ -902,7 +1001,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/A1C8AD7F-99E6-4EED-B102-362D3961D2AF"
@@ -948,7 +1047,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/389A5279-93AD-4AAA-9FE7-95883FCE91B6"
@@ -994,7 +1093,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -1040,7 +1139,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -1086,7 +1185,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/CF355E94-C4BB-44A8-A346-785A993F37F0"
@@ -1132,7 +1231,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -1178,7 +1277,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/4C04E966-8CDD-4BED-92CE-220ED82F9ABE"
@@ -1224,7 +1323,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/B60F6338-CC2A-4DF6-870D-AB2A51DA4AA4"
@@ -1270,7 +1369,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/F55AB99F-E327-420E-8D0B-4348C61778FF"
@@ -1316,7 +1415,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/A1C8AD7F-99E6-4EED-B102-362D3961D2AF"
@@ -1362,7 +1461,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/389A5279-93AD-4AAA-9FE7-95883FCE91B6"
@@ -1408,7 +1507,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -1479,7 +1578,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -1535,7 +1634,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/CF355E94-C4BB-44A8-A346-785A993F37F0"
@@ -1581,7 +1680,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -1627,7 +1726,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/4C04E966-8CDD-4BED-92CE-220ED82F9ABE"
@@ -1673,7 +1772,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/B60F6338-CC2A-4DF6-870D-AB2A51DA4AA4"
@@ -1719,7 +1818,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/F55AB99F-E327-420E-8D0B-4348C61778FF"
@@ -1765,7 +1864,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/A1C8AD7F-99E6-4EED-B102-362D3961D2AF"
@@ -1811,7 +1910,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/389A5279-93AD-4AAA-9FE7-95883FCE91B6"
@@ -1857,7 +1956,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -1903,7 +2002,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -1949,7 +2048,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -1995,7 +2094,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -2041,7 +2140,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -2087,7 +2186,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -2133,7 +2232,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -2179,7 +2278,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -2245,7 +2344,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -2296,7 +2395,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/CF355E94-C4BB-44A8-A346-785A993F37F0"
@@ -2347,7 +2446,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -2424,7 +2523,7 @@
     {
       "resource": {
         "resourceType": "Location",
-        "id": "{{LOCATION-1}}",
+        "id": "0CAB026D-B49B-40A8-82FE-465A4FDC4C29",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
@@ -2432,8 +2531,8 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
-            "value": "{{LOCATION-1}}"
+            "system": "https://PSSAdaptor/B83002",
+            "value": "0CAB026D-B49B-40A8-82FE-465A4FDC4C29"
           }
         ],
         "status": "active",
@@ -2451,7 +2550,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "A02FD80F-0457-4711-9E7F-5ED73BF0AB62"
           }
         ],
@@ -2482,7 +2581,7 @@
           "text": "Glaucoma"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -2508,7 +2607,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "5A160A1B-A0BA-4270-8613-AE7FFDA28A08"
           }
         ],
@@ -2539,7 +2638,7 @@
           "text": "Systolic blood pressure"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -2576,7 +2675,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "AAD4D91A-CCFA-47A9-BED5-39C6392E0134"
           }
         ],
@@ -2607,7 +2706,7 @@
           "text": "Diastolic blood pressure"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -2644,7 +2743,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "F1AA242F-0146-4079-A1E2-AFFA6B5FCB5C"
           }
         ],
@@ -2675,7 +2774,7 @@
           "text": "Happy puppet syndrome"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -2701,7 +2800,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "92E305A0-0CF1-4AA3-A3C3-93F468B19DE2"
           }
         ],
@@ -2732,7 +2831,7 @@
           "text": "Patient too late"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -2758,7 +2857,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "88E47CC1-E7D2-46DE-AFE4-57AD390671A1"
           }
         ],
@@ -2789,7 +2888,7 @@
           "text": "Happy puppet syndrome"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/CF355E94-C4BB-44A8-A346-785A993F37F0"
@@ -2823,7 +2922,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "D67FB1C5-F0B0-4E14-9390-8A180D10818F"
           }
         ],
@@ -2854,7 +2953,7 @@
           "text": "Tired all the time"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -2888,7 +2987,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "AF0942B7-C504-4D82-911B-49062BA7D16C"
           }
         ],
@@ -2915,7 +3014,7 @@
           "text": "Total prosthetic replacement of hip joint using cement OS"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -2949,7 +3048,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "6F96229B-E217-40D2-9621-DC5CD96C6A6B"
           }
         ],
@@ -2980,7 +3079,7 @@
           "text": "Total prosthetic replacement of hip joint using cement"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -3014,7 +3113,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "4CF8FAF9-09E4-4415-BA5B-F2D74A82623C"
           }
         ],
@@ -3045,7 +3144,7 @@
           "text": "Total prosthetic replacement of knee joint using cement"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -3079,7 +3178,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "9EBFF609-4026-422E-A6B4-4F527EFD8125"
           }
         ],
@@ -3106,7 +3205,7 @@
           "text": "Diagnostic procedures"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -3139,7 +3238,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "591CB3F3-B8EF-4734-9B6B-431E45B72E68"
           }
         ],
@@ -3170,7 +3269,7 @@
           "text": "Very heavy drinker"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -3203,7 +3302,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "4317FE34-7390-4A17-A1E7-AC89FF8780FF"
           }
         ],
@@ -3234,7 +3333,7 @@
           "text": "Systolic blood pressure"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -3271,7 +3370,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "DE4F2C79-5607-48BD-B607-E21B7C1F64A6"
           }
         ],
@@ -3302,7 +3401,7 @@
           "text": "Diastolic blood pressure"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -3339,7 +3438,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "93563A9D-BD9D-45A5-AA63-25F738C7D3BA"
           }
         ],
@@ -3348,7 +3447,7 @@
           "text": "Witchcraft"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "effectiveDateTime": "2010-01-18T09:29:00+00:00",
         "issued": "2010-01-18T09:29:11.000+00:00",
@@ -3370,7 +3469,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "F637F44F-DD07-484C-A70E-A0AC2C6ABBBD"
           }
         ],
@@ -3401,7 +3500,7 @@
           "text": "Divorced"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "effectiveDateTime": "2010-01-18T09:29:00+00:00",
         "issued": "2010-01-18T09:29:11.000+00:00",
@@ -3423,7 +3522,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "7F08C1A3-3A13-49F7-8E22-B819BCA440FB"
           }
         ],
@@ -3454,7 +3553,7 @@
           "text": "Consent given for upload to local shared electronic record"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "effectiveDateTime": "2010-01-18T11:16:00+00:00",
         "issued": "2010-01-18T11:10:38.000+00:00",
@@ -3476,7 +3575,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "E304600C-D553-4CBC-B5D8-480F144C4F20"
           }
         ],
@@ -3507,7 +3606,7 @@
           "text": "Nairobi sheep disease"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "effectiveDateTime": "2010-06-30",
         "issued": "2010-06-30T04:48:26.000+00:00",
@@ -3530,7 +3629,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "3D80ACE7-663A-480E-9CC4-187ABD8A813D"
           }
         ],
@@ -3557,7 +3656,7 @@
           "text": "Forced landing on takeoff - occupant of spacecraft injured"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "effectiveDateTime": "2010-06-30",
         "issued": "2010-06-30T04:51:44.000+00:00",
@@ -3580,7 +3679,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "3E054E61-D811-4B52-B262-71638B6295F5"
           }
         ],
@@ -3607,7 +3706,7 @@
           "text": "Cystostomy bag fitting"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "effectiveDateTime": "2010-06-30",
         "issued": "2010-06-30T04:51:55.000+00:00",
@@ -3663,7 +3762,7 @@
         ],
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "C93659E1-1107-441C-BE25-C5EF4B7831D1"
           }
         ],
@@ -3678,7 +3777,7 @@
           ]
         },
         "patient": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "encounter": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -3722,7 +3821,7 @@
         ],
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "2CBF23A7-1EEA-4902-940D-E30F87D8436F"
           }
         ],
@@ -3764,7 +3863,7 @@
           "text": "Nairobi sheep disease"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "onsetDateTime": "2010-06-30",
         "assertedDate": "2010-06-30T04:48:26+00:00",
@@ -3804,7 +3903,7 @@
         ],
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "BC16A65E-3578-454D-8675-8129A7DDB818"
           }
         ],
@@ -3842,7 +3941,7 @@
           "text": "Forced landing on takeoff - occupant of spacecraft injured"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "onsetDateTime": "2010-06-30",
         "assertedDate": "2010-06-30T04:51:44+00:00",
@@ -3870,7 +3969,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "FA2B9D2E-B5FE-4960-9B44-870EC47C340A"
           }
         ],
@@ -3901,7 +4000,7 @@
           "text": "O/E - blood pressure reading"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -3940,7 +4039,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "B43CC274-A773-402D-931D-D66A1806F55A"
           }
         ],
@@ -3949,7 +4048,7 @@
           "text": "Banana"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/CF355E94-C4BB-44A8-A346-785A993F37F0"
@@ -3982,7 +4081,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "87C817BA-ADFF-49FC-A4ED-8D455E821008"
           }
         ],
@@ -4013,7 +4112,7 @@
           "text": "Happy puppet syndrome"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -4076,7 +4175,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "343D4E34-2B31-4F06-AAC0-07102CC82917"
           }
         ],
@@ -4107,7 +4206,7 @@
           "text": "O/E - blood pressure reading"
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -4154,7 +4253,7 @@
         ],
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "1E1EEC52-5D1E-40DE-8790-23DE3D0B1491"
           }
         ],
@@ -4174,7 +4273,7 @@
           "text": "Adverse reaction to Paracetamol And Dihydrocodeine"
         },
         "patient": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "onsetDateTime": "2010-06-30T04:59:00+00:00",
         "assertedDate": "2010-06-30T04:59:00+00:00",
@@ -4202,7 +4301,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "86F043E0-5787-42E0-8ADD-635CF2E76B79"
           }
         ],
@@ -4237,7 +4336,7 @@
           "text": "H/O: penicillin allergy"
         },
         "patient": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "onsetDateTime": "2010-06-30",
         "assertedDate": "2010-06-30",
@@ -4265,7 +4364,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "091D7A17-82D7-4AB1-A6BF-E5BCCE374603"
           }
         ],
@@ -4280,7 +4379,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/4C04E966-8CDD-4BED-92CE-220ED82F9ABE"
@@ -4292,7 +4391,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a single line quick note."
+        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a single line quick note."
       }
     },
     {
@@ -4306,7 +4405,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "9468AB16-698C-45D1-ADAF-1B260F600DA6"
           }
         ],
@@ -4321,7 +4420,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/B60F6338-CC2A-4DF6-870D-AB2A51DA4AA4"
@@ -4347,7 +4446,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "4C2A650E-BD79-4A38-AEFA-6D5E92BA6E74"
           }
         ],
@@ -4362,7 +4461,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/F55AB99F-E327-420E-8D0B-4348C61778FF"
@@ -4374,7 +4473,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This line end with a LB/CR followed by a blank line with a LB/CR\n\n                                                            This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is the END of the long paragraph.\n\n                                                            ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ENDofLONGline...\n\n\n\n\n                                                            There are 4 blank lines (with LB/CR above this one)\n\n                                                            This is the last line of this note."
+        "comment": "Quick Note Clinical Purpose: Assessment                                                            This line end with a LB/CR followed by a blank line with a LB/CR                                                            This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is a long paragraph. This is the END of the long paragraph.                                                            ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ThisParagraphHasNoSPaces(Reallylongline)ENDofLONGline...                                                            There are 4 blank lines (with LB/CR above this one)                                                            This is the last line of this note."
       }
     },
     {
@@ -4388,7 +4487,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "B5047285-2CF6-47FE-BDBC-45BB40542264"
           }
         ],
@@ -4403,7 +4502,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/A1C8AD7F-99E6-4EED-B102-362D3961D2AF"
@@ -4415,7 +4514,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            ANSI Characters:\n\n                                                            Regular: a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0\n\n                                                            Miscellaneous: \" ( ) [ ] { } ~ : ; , . ? ¿ ! ¡ @ # £ $ ¢ ¤ ° ¯ ¶ © ® ™ ¦ † ‡ & * _ ' \\ « ‹ › » §\n\n                                                            Mathematical: ± + - × ÷ ¼ ½ ¾ ² ³ ¬ %<> / | µ\n\n                                                            Other Languages: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë"
+        "comment": "Quick Note Clinical Purpose: Assessment                                                            ANSI Characters:                                                            Regular: a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0                                                            Miscellaneous: \" ( ) [ ] { } ~ : ; , . ? ¿ ! ¡ @ # £ $ ¢ ¤ ° ¯ ¶ © ® ™ ¦ † ‡ & * _ ' \\ « ‹ › » §                                                            Mathematical: ± + - × ÷ ¼ ½ ¾ ² ³ ¬ %<> / | µ                                                            Other Languages: Á á à  Æ æ Þ è é É ç Ç ß Ì Í  ý ë"
       }
     },
     {
@@ -4429,7 +4528,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "F048A43D-290E-4AE5-A001-CFED841CEF82"
           }
         ],
@@ -4444,7 +4543,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/389A5279-93AD-4AAA-9FE7-95883FCE91B6"
@@ -4456,7 +4555,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a fairly standard quick note with some random words is one paragraph. The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog."
+        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a fairly standard quick note with some random words is one paragraph. The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog."
       }
     },
     {
@@ -4470,7 +4569,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "1CC3D9D7-099A-4F34-BBBF-254967C0330E"
           }
         ],
@@ -4485,7 +4584,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -4497,7 +4596,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in a problem heading"
+        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in a problem heading"
       }
     },
     {
@@ -4511,7 +4610,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "F52A559F-F4D4-466F-8938-14B7F20E666E"
           }
         ],
@@ -4526,7 +4625,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -4538,7 +4637,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in a History heading"
+        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in a History heading"
       }
     },
     {
@@ -4552,7 +4651,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "88469331-7C7B-4735-8375-6E418CDF547F"
           }
         ],
@@ -4567,7 +4666,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -4579,7 +4678,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in an Examination heading"
+        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in an Examination heading"
       }
     },
     {
@@ -4593,7 +4692,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "B2AA19DA-A459-4DBA-AF21-056C8D76E0AB"
           }
         ],
@@ -4608,7 +4707,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -4620,7 +4719,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in a Family History heading"
+        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in a Family History heading"
       }
     },
     {
@@ -4634,7 +4733,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "8FDCA4D4-1F0A-4F0E-B97B-B1267891E459"
           }
         ],
@@ -4649,7 +4748,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -4661,7 +4760,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in a Social heading"
+        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in a Social heading"
       }
     },
     {
@@ -4675,7 +4774,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "A81C5B12-29A4-492B-9FC2-6143EF9307D0"
           }
         ],
@@ -4690,7 +4789,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
@@ -4702,7 +4801,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Quick Note Clinical Purpose: Assessment\n                                                            This is a note in a Comment heading"
+        "comment": "Quick Note Clinical Purpose: Assessment                                                            This is a note in a Comment heading"
       }
     },
     {
@@ -4716,7 +4815,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "04675E0F-0F4C-472D-830D-5AE415240FAA"
           }
         ],
@@ -4731,7 +4830,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
@@ -4757,7 +4856,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "CF8EF304-61D2-463D-9DBB-E01CB4B6B762"
           }
         ],
@@ -4772,7 +4871,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/CF355E94-C4BB-44A8-A346-785A993F37F0"
@@ -4798,7 +4897,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "D2940DDA-A7CF-4B0D-ABEB-9A7B92E5B3BA"
           }
         ],
@@ -4813,7 +4912,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -4839,7 +4938,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "DBA34160-8D01-4C5D-8343-82C70D76C99D"
           }
         ],
@@ -4854,7 +4953,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
@@ -4880,7 +4979,7 @@
         },
         "identifier": [
           {
-            "system": "https://PSSAdaptor/2167888433",
+            "system": "https://PSSAdaptor/B83002",
             "value": "8B99C1E9-818F-44E6-8FCA-F0EF1C3CABEB"
           }
         ],
@@ -4895,7 +4994,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/67846157-90d1-4718-a4bc-da6b47b0769c"
+          "reference": "Patient/b7caa39d-5ecd-4d93-b0c7-535ee44a491c"
         },
         "context": {
           "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"

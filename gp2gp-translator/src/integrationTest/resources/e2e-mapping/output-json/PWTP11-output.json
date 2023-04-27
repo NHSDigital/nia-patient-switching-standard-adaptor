@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "534b4027-901b-4868-be7f-9fe25e0363ed",
+  "id": "22dd1826-fb13-49a9-a173-44f856a26e9f",
   "meta": {
     "profile": [
       "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1"
@@ -11,7 +11,7 @@
     {
       "resource": {
         "resourceType": "Patient",
-        "id": "ea3755bb-e7a7-4523-b415-7878701d84ef",
+        "id": "c782c5ef-8235-4acf-945b-268a1bbe9d64",
         "meta": {
           "versionId": "1521806400000",
           "profile": [
@@ -69,16 +69,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "participant": [
           {
@@ -120,7 +131,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/4E45805B-B44E-4B6E-8059-AA2FA7A2B8A6"
+              "reference": "Location/A135C761-3939-431E-A943-04F2C89E3967"
             }
           }
         ]
@@ -146,16 +157,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "participant": [
           {
@@ -197,7 +219,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/4E45805B-B44E-4B6E-8059-AA2FA7A2B8A6"
+              "reference": "Location/A135C761-3939-431E-A943-04F2C89E3967"
             }
           }
         ]
@@ -223,16 +245,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "participant": [
           {
@@ -274,7 +307,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/4E45805B-B44E-4B6E-8059-AA2FA7A2B8A6"
+              "reference": "Location/A135C761-3939-431E-A943-04F2C89E3967"
             }
           }
         ]
@@ -300,16 +333,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "participant": [
           {
@@ -351,7 +395,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/4E45805B-B44E-4B6E-8059-AA2FA7A2B8A6"
+              "reference": "Location/A135C761-3939-431E-A943-04F2C89E3967"
             }
           }
         ]
@@ -377,16 +421,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "participant": [
           {
@@ -428,7 +483,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/4E45805B-B44E-4B6E-8059-AA2FA7A2B8A6"
+              "reference": "Location/A135C761-3939-431E-A943-04F2C89E3967"
             }
           }
         ]
@@ -454,16 +509,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "participant": [
           {
@@ -505,7 +571,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/4E45805B-B44E-4B6E-8059-AA2FA7A2B8A6"
+              "reference": "Location/A135C761-3939-431E-A943-04F2C89E3967"
             }
           }
         ]
@@ -531,16 +597,27 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Surgery Consultation Note"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25671000000102",
-                "display": "Surgery Consultation Note"
+                "display": "Surgery consultation note"
               }
             ],
             "text": "GP Surgery"
           }
         ],
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "participant": [
           {
@@ -582,7 +659,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/4E45805B-B44E-4B6E-8059-AA2FA7A2B8A6"
+              "reference": "Location/A135C761-3939-431E-A943-04F2C89E3967"
             }
           }
         ]
@@ -610,7 +687,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -656,7 +733,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -712,7 +789,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/22A00924-FCA4-4B32-9588-5BBC1145AAB0"
@@ -758,7 +835,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
@@ -809,7 +886,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/18CE5476-4631-4E23-9BF9-6DF67556EEB4"
@@ -855,7 +932,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/12F40565-E231-449D-ABE1-803ECEB7FAEA"
@@ -901,7 +978,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/67D1789F-D717-4A94-B026-4BA3513C4433"
@@ -960,7 +1037,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -1029,7 +1106,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -1098,7 +1175,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -1162,7 +1239,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -1218,7 +1295,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/22A00924-FCA4-4B32-9588-5BBC1145AAB0"
@@ -1269,7 +1346,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
@@ -1320,7 +1397,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
@@ -1371,7 +1448,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/18CE5476-4631-4E23-9BF9-6DF67556EEB4"
@@ -1422,7 +1499,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/12F40565-E231-449D-ABE1-803ECEB7FAEA"
@@ -1473,7 +1550,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/67D1789F-D717-4A94-B026-4BA3513C4433"
@@ -1519,7 +1596,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -1565,7 +1642,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -1621,7 +1698,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -1672,7 +1749,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -1718,7 +1795,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -1764,7 +1841,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -1810,7 +1887,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -1856,7 +1933,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -1907,7 +1984,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -1953,7 +2030,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -1999,7 +2076,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -2045,7 +2122,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/22A00924-FCA4-4B32-9588-5BBC1145AAB0"
@@ -2091,7 +2168,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/22A00924-FCA4-4B32-9588-5BBC1145AAB0"
@@ -2137,7 +2214,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
@@ -2183,7 +2260,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
@@ -2229,7 +2306,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
@@ -2275,7 +2352,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
@@ -2321,7 +2398,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/18CE5476-4631-4E23-9BF9-6DF67556EEB4"
@@ -2367,7 +2444,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/18CE5476-4631-4E23-9BF9-6DF67556EEB4"
@@ -2413,7 +2490,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/12F40565-E231-449D-ABE1-803ECEB7FAEA"
@@ -2459,7 +2536,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/12F40565-E231-449D-ABE1-803ECEB7FAEA"
@@ -2505,7 +2582,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "encounter": {
           "reference": "Encounter/67D1789F-D717-4A94-B026-4BA3513C4433"
@@ -2532,7 +2609,7 @@
     {
       "resource": {
         "resourceType": "Location",
-        "id": "4E45805B-B44E-4B6E-8059-AA2FA7A2B8A6",
+        "id": "A135C761-3939-431E-A943-04F2C89E3967",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
@@ -2541,7 +2618,7 @@
         "identifier": [
           {
             "system": "https://PSSAdaptor/B83002",
-            "value": "4E45805B-B44E-4B6E-8059-AA2FA7A2B8A6"
+            "value": "A135C761-3939-431E-A943-04F2C89E3967"
           }
         ],
         "status": "active",
@@ -2591,7 +2668,7 @@
           "text": "Chronic sinusitis"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
@@ -2613,7 +2690,7 @@
     {
       "resource": {
         "resourceType": "Medication",
-        "id": "e9b0aee1-e93b-4824-9454-6597935b1ab6",
+        "id": "9fa0d37d-912f-44c2-855b-06d1e8623c97",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1"
@@ -2626,7 +2703,8 @@
               "code": "3154411000001105",
               "display": "Lacri-lube eye ointment (Allergan Ltd)"
             }
-          ]
+          ],
+          "text": "Lacri-lube eye ointment (Allergan Ltd)"
         }
       }
     },
@@ -2662,10 +2740,10 @@
         "status": "completed",
         "intent": "plan",
         "medicationReference": {
-          "reference": "Medication/e9b0aee1-e93b-4824-9454-6597935b1ab6"
+          "reference": "Medication/9fa0d37d-912f-44c2-855b-06d1e8623c97"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "authoredOn": "2010-02-10",
         "requester": {
@@ -2733,7 +2811,7 @@
         ],
         "status": "completed",
         "medicationReference": {
-          "reference": "Medication/e9b0aee1-e93b-4824-9454-6597935b1ab6"
+          "reference": "Medication/9fa0d37d-912f-44c2-855b-06d1e8623c97"
         },
         "effectivePeriod": {
           "start": "2010-02-10",
@@ -2741,7 +2819,7 @@
         },
         "dateAsserted": "2010-02-10T08:31:19+00:00",
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "taken": "unk",
         "dosage": [
@@ -2754,7 +2832,7 @@
     {
       "resource": {
         "resourceType": "Medication",
-        "id": "e6b957cb-1679-4755-b813-a5eba42cf3e5",
+        "id": "884de0b4-8005-4e24-8f39-d4b1d5ce9249",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1"
@@ -2765,7 +2843,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "320139002",
-              "display": "Salbutamol 100micrograms/dose inhaler CFC free"
+              "display": "Salbutamol 100micrograms CFC-free inhaler"
             }
           ],
           "text": "Salbutamol 100micrograms/dose inhaler CFC free"
@@ -2804,10 +2882,10 @@
         "status": "completed",
         "intent": "plan",
         "medicationReference": {
-          "reference": "Medication/e6b957cb-1679-4755-b813-a5eba42cf3e5"
+          "reference": "Medication/884de0b4-8005-4e24-8f39-d4b1d5ce9249"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "authoredOn": "2010-03-23",
         "requester": {
@@ -2870,7 +2948,7 @@
         ],
         "status": "completed",
         "medicationReference": {
-          "reference": "Medication/e6b957cb-1679-4755-b813-a5eba42cf3e5"
+          "reference": "Medication/884de0b4-8005-4e24-8f39-d4b1d5ce9249"
         },
         "effectivePeriod": {
           "start": "2010-03-23",
@@ -2878,7 +2956,7 @@
         },
         "dateAsserted": "2010-03-23T15:02:45+00:00",
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "taken": "unk",
         "dosage": [
@@ -2891,7 +2969,7 @@
     {
       "resource": {
         "resourceType": "Medication",
-        "id": "ecc22193-29fa-4f68-8105-4ca7f5d54dc1",
+        "id": "6c98bd9f-5048-4f16-9f8e-d8e083f6bb30",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1"
@@ -2941,10 +3019,10 @@
         "status": "completed",
         "intent": "plan",
         "medicationReference": {
-          "reference": "Medication/ecc22193-29fa-4f68-8105-4ca7f5d54dc1"
+          "reference": "Medication/6c98bd9f-5048-4f16-9f8e-d8e083f6bb30"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "authoredOn": "2010-03-24",
         "requester": {
@@ -3007,7 +3085,7 @@
         ],
         "status": "completed",
         "medicationReference": {
-          "reference": "Medication/ecc22193-29fa-4f68-8105-4ca7f5d54dc1"
+          "reference": "Medication/6c98bd9f-5048-4f16-9f8e-d8e083f6bb30"
         },
         "effectivePeriod": {
           "start": "2010-03-24",
@@ -3015,7 +3093,7 @@
         },
         "dateAsserted": "2010-03-24T08:51:13+00:00",
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "taken": "unk",
         "dosage": [
@@ -3067,7 +3145,7 @@
           "text": "Macular hole"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -3100,14 +3178,30 @@
         "code": {
           "coding": [
             {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "1003271000000110"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "[V]Examination of eyes and vision"
+                    }
+                  ]
+                }
+              ],
               "system": "http://snomed.info/sct",
               "code": "426411000000105",
               "display": "[V]Examination of eyes and vision"
             }
-          ]
+          ],
+          "text": "[V]Examination of eyes and vision"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -3163,7 +3257,7 @@
           "text": "Visual field defects"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -3219,7 +3313,7 @@
           "text": "O/E - visual acuity R-eye=6/36"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -3275,7 +3369,7 @@
           "text": "FH: Glaucoma"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -3332,7 +3426,7 @@
           "text": "No FH: diabetes"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -3388,7 +3482,7 @@
           "text": "Gout"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -3445,7 +3539,7 @@
           "text": "Tiredness symptom"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -3502,7 +3596,7 @@
           "text": "O/E - weight"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -3564,7 +3658,7 @@
           "text": "Chronic sinusitis"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -3617,7 +3711,7 @@
           "text": "Cavendish total replacement of knee joint using cement"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -3673,7 +3767,7 @@
           "text": "Rheumatoid arthritis"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -3730,7 +3824,7 @@
           "text": "O/E - height"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -3791,7 +3885,7 @@
           "text": "FH: Asthma"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -3848,7 +3942,7 @@
           "text": "Chronic renal failure"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/22A00924-FCA4-4B32-9588-5BBC1145AAB0"
@@ -3905,7 +3999,7 @@
           "text": "Gout"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
@@ -3962,7 +4056,7 @@
           "text": "Chronic sinusitis"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
@@ -4019,7 +4113,7 @@
           "text": "Gout"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/18CE5476-4631-4E23-9BF9-6DF67556EEB4"
@@ -4053,14 +4147,26 @@
         "code": {
           "coding": [
             {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Excepted from LVD quality indicators: Informed dissent"
+                    }
+                  ]
+                }
+              ],
               "system": "http://snomed.info/sct",
               "code": "717281000000100",
-              "display": "Excepted from LVD quality indicators: Informed dissent"
+              "display": "Excepted from LVD quality indicators - informed dissent"
             }
-          ]
+          ],
+          "text": "Excepted from LVD quality indicators: Informed dissent"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/18CE5476-4631-4E23-9BF9-6DF67556EEB4"
@@ -4116,7 +4222,7 @@
           "text": "Gout"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/12F40565-E231-449D-ABE1-803ECEB7FAEA"
@@ -4173,7 +4279,7 @@
           "text": "FH: Hypertension"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/12F40565-E231-449D-ABE1-803ECEB7FAEA"
@@ -4230,7 +4336,7 @@
           "text": "Gout"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/67D1789F-D717-4A94-B026-4BA3513C4433"
@@ -4287,7 +4393,7 @@
           "text": "Angelman syndrome"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2001-03-01",
         "issued": "2010-02-10T08:11:29.000+00:00",
@@ -4340,7 +4446,7 @@
           "text": "Foot pain"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2008-06-01",
         "issued": "2010-02-10T08:43:34.000+00:00",
@@ -4393,7 +4499,7 @@
           "text": "Nairobi sheep disease"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2009-03-18",
         "issued": "2010-02-10T08:11:10.000+00:00",
@@ -4447,7 +4553,7 @@
           "text": "Angelman syndrome"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2010-02-10",
         "issued": "2010-02-10T08:11:29.000+00:00",
@@ -4496,7 +4602,7 @@
           "text": "Strabismus due to other neuromuscular disorder"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2010-02-10",
         "issued": "2010-02-10T08:15:25.000+00:00",
@@ -4527,14 +4633,30 @@
         "code": {
           "coding": [
             {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "528701000000112"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Disorder of gait and/or balance present"
+                    }
+                  ]
+                }
+              ],
               "system": "http://snomed.info/sct",
               "code": "299031000000106",
               "display": "Disorder of gait and/or balance present"
             }
-          ]
+          ],
+          "text": "Disorder of gait and/or balance present"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2010-02-10",
         "issued": "2010-02-10T08:19:04.000+00:00",
@@ -4564,14 +4686,30 @@
         "code": {
           "coding": [
             {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "1117091000000115"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "[D]Difficulty in swallowing"
+                    }
+                  ]
+                }
+              ],
               "system": "http://snomed.info/sct",
               "code": "498481000000105",
               "display": "[D]Difficulty in swallowing"
             }
-          ]
+          ],
+          "text": "[D]Difficulty in swallowing"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2010-02-10",
         "issued": "2010-02-10T08:20:00.000+00:00",
@@ -4625,7 +4763,7 @@
           "text": "Dribbling from mouth"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2010-02-10",
         "issued": "2010-02-10T08:23:25.000+00:00",
@@ -4675,7 +4813,7 @@
           "text": "Tremor symptom"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2010-02-10",
         "issued": "2010-02-10T08:35:37.000+00:00",
@@ -4728,7 +4866,7 @@
           "text": "Generalised obesity"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2010-02-10",
         "issued": "2010-02-10T08:35:57.000+00:00",
@@ -4782,7 +4920,7 @@
           "text": "Foot pain"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2010-02-10",
         "issued": "2010-02-10T08:43:34.000+00:00",
@@ -4836,7 +4974,7 @@
           "text": "Chronic renal failure"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "effectiveDateTime": "2010-03-23",
         "issued": "2010-03-23T15:06:09.000+00:00",
@@ -4913,7 +5051,7 @@
           "text": "Macular hole"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/3F785B5D-7964-444A-8E3F-6D0AF25E86AD"
@@ -5019,7 +5157,7 @@
           "text": "Gout"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -5111,7 +5249,7 @@
           "text": "Chronic sinusitis"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -5196,7 +5334,7 @@
           "text": "Rheumatoid arthritis"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -5332,7 +5470,7 @@
           "text": "Angelman syndrome"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "onsetDateTime": "2001-03-01",
         "assertedDate": "2010-02-10T08:11:29+00:00",
@@ -5417,7 +5555,7 @@
           "text": "Foot pain"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "onsetDateTime": "2008-06-01",
         "abatementDateTime": "2010-02-10",
@@ -5497,7 +5635,7 @@
           "text": "Nairobi sheep disease"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "onsetDateTime": "2009-03-18",
         "assertedDate": "2010-02-10T08:11:10+00:00",
@@ -5590,7 +5728,7 @@
           "text": "Strabismus due to other neuromuscular disorder"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "onsetDateTime": "2010-02-10",
         "assertedDate": "2010-02-10T08:15:25+00:00",
@@ -5688,14 +5826,30 @@
         "code": {
           "coding": [
             {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "528701000000112"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Disorder of gait and/or balance present"
+                    }
+                  ]
+                }
+              ],
               "system": "http://snomed.info/sct",
               "code": "299031000000106",
               "display": "Disorder of gait and/or balance present"
             }
-          ]
+          ],
+          "text": "Disorder of gait and/or balance present"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "onsetDateTime": "2010-02-10",
         "abatementDateTime": "2012-05-17",
@@ -5776,14 +5930,30 @@
         "code": {
           "coding": [
             {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "1117091000000115"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "[D]Difficulty in swallowing"
+                    }
+                  ]
+                }
+              ],
               "system": "http://snomed.info/sct",
               "code": "498481000000105",
               "display": "[D]Difficulty in swallowing"
             }
-          ]
+          ],
+          "text": "[D]Difficulty in swallowing"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "onsetDateTime": "2010-02-10",
         "assertedDate": "2010-02-10T08:20:00+00:00",
@@ -5883,7 +6053,7 @@
           "text": "Dribbling from mouth"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "onsetDateTime": "2010-02-10",
         "assertedDate": "2010-02-10T08:23:25+00:00",
@@ -5982,7 +6152,7 @@
           "text": "Tremor symptom"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "onsetDateTime": "2010-02-10",
         "abatementDateTime": "2010-05-24",
@@ -6071,7 +6241,7 @@
           "text": "Chronic renal failure"
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "onsetDateTime": "2010-03-23",
         "assertedDate": "2010-03-23T15:06:09+00:00",
@@ -6114,7 +6284,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
@@ -6155,7 +6325,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/22A00924-FCA4-4B32-9588-5BBC1145AAB0"
@@ -6196,7 +6366,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ea3755bb-e7a7-4523-b415-7878701d84ef"
+          "reference": "Patient/c782c5ef-8235-4acf-945b-268a1bbe9d64"
         },
         "context": {
           "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
