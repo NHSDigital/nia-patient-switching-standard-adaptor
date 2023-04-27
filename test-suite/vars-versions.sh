@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export MHS_INBOUND_VERSION="nhsdev/nia-mhs-inbound:1.2.4-arm64"  # has an arm64 and amd64 version
-export MHS_OUTBOUND_VERSION="nhsdev/nia-mhs-outbound:1.2.4-arm64" # has an arm64 and amd64 version
+export MHS_INBOUND_VERSION="nhsdev/nia-mhs-inbound:1.2.6-arm64"  # has an arm64 and amd64 version
+export MHS_OUTBOUND_VERSION="nhsdev/nia-mhs-outbound:1.2.6-arm64" # has an arm64 and amd64 version
 export MHS_ROUTE_VERSION="nhsdev/nia-mhs-route:1.2.2" #Not Used in test version
 
 export PS_TRANSLATOR_VERSION="nhsdev/nia-ps-adaptor:0.5-arm64" # has an arm64 and amd64 version
