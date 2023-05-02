@@ -193,7 +193,7 @@ public class DocumentReferenceTest {
     private void assertDocumentReferenceWithAbsentAttachment(DocumentReference documentReference) {
         assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
         assertThat(documentReference.getContent().get(0).getAttachment().getTitle()).isEqualTo(PLACEHOLDER);
-        assertThat(documentReference.getContent().get(0).getAttachment().getUrl()).isNull();
+        assertThat(documentReference.getContent().get(0).getAttachment().getUrl()).isNotNull();
         assertThat(documentReference.getContent().get(0).getAttachment().hasSize()).isFalse();
         assertThat(documentReference.getContent().get(0).getAttachment().getContentType()).isEqualTo(CONTENT_TYPE);
     }
