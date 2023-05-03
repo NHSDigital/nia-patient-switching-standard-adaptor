@@ -175,14 +175,15 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
             var filenameReference = referenceToExternalDocument.getText().getReference().getValue();
             var attachmentSize = getAttachmentSize(patientAttachmentLogs, filenameReference);
 
-            if (!isAbsentAttachment(narrativeStatement)) {
-                attachment.setUrl(referenceToExternalDocument.getText().getReference().getValue());
-
-                if (attachmentSize != null) {
-                    attachment.setSize(attachmentSize);
-                }
-            } else {
+            if (isAbsentAttachment(narrativeStatement)) {
                 attachment.setTitle(PLACEHOLDER_VALUE);
+            }
+
+            // Always provide a reference to the file, absent attachement placeholders container details about the original file
+            attachment.setUrl(referenceToExternalDocument.getText().getReference().getValue());
+
+            if (attachmentSize != null) {
+                attachment.setSize(attachmentSize);
             }
 
             if (isContentTypeValid(mediaType)) {
