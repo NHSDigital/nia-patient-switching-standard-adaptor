@@ -236,14 +236,15 @@ The Patient Switching adaptors facade exposes two endpoints.
 The migratestructuredrecord endpoint is the primary endpoint for the adaptor and is used to start an electronic health record transfer.
 The following is required to call this endpoint...
 
-- TO_ASID : The ASID identifier of the winning New Market Entrant (NMW)
-- FROM_ASID : The ASID identifier of the losing incumbent
-- TO_ODS : The ODS identifier of the winning NME
-- FROM_ODS : the ODS identifier of the losing incumbent
+- TO_ASID : The ASID identifier of the losing New Market Entrant (NMW)
+- FROM_ASID : The ASID identifier of the winning incumbent
+- TO_ODS : The ODS identifier of the losing NME
+- FROM_ODS : the ODS identifier of the winning incumbent
 - ConversationId : A unique GUID for each request; if you do not provide one, the adaptor will create one and return it in the response headers. It must be used for all further calls for the patient's NHS number.
 
 The endpoint also requires a JSON body that includes the needed patient NHS number. The format of the body should look like the following...
 
+   ```
    {
       "resourceType": "Parameters",
       "parameter": [
@@ -265,6 +266,7 @@ The endpoint also requires a JSON body that includes the needed patient NHS numb
          }
       ]
    }
+   ```
 
 Endpoint calling: 
 
@@ -273,7 +275,8 @@ Endpoint calling:
    1. 204 No content: this response indicates that we are still processing the requests / waiting for the EHR message response.
    2. 200 Success: this response indicates we have successfully received and converted the EHR to JSON; you will also receive the FHIR bundle in the response's body.
    3. 400,404,500,501: The endpoint can return all these possible error codes. These will all provide a detailed error with an operationOutcome JSON model response in the body. This looks like...
- 
+
+   ``` 
    {
       "resourceType": "OperationOutcome",
       "meta": {
@@ -297,6 +300,7 @@ Endpoint calling:
          }
       ]
    }
+   ```
 
 ### /$gpc.ack
 
@@ -308,10 +312,7 @@ The following is required to call this endpoint:-
 - CONVERSATION_ID: The id associated with the patient transfer request.
 - CONFIRMATION_RESPONSE: you can provide the following status:-
    - ACCEPTED: This will tell the sending incumbent that you are happy with the received EHR.
-   - ABA_INCORRECT_PATIENT: Alert the sender that this is not the patient you expected.
-   - NON_ABA_INCORRECT_PATIENT: Alert the sender that this is not the patient you expected.
    - FAILED_TO_INTEGRATE: You have encountered a problem integrating the record into your system. This will alert the sender to an error and trigger off the postal process.
-   - SUPPRESSED:
 
 Endpoint calling:
 
