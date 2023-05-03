@@ -236,10 +236,10 @@ The Patient Switching adaptors facade exposes two endpoints.
 The migratestructuredrecord endpoint is the primary endpoint for the adaptor and is used to start an electronic health record transfer.
 The following is required to call this endpoint...
 
-- TO_ASID : The ASID identifier of the losing New Market Entrant (NMW)
-- FROM_ASID : The ASID identifier of the winning incumbent
-- TO_ODS : The ODS identifier of the losing NME
-- FROM_ODS : the ODS identifier of the winning incumbent
+- TO_ASID : The ASID identifier of the losing incumbent
+- FROM_ASID : The ASID identifier of the winning New Market Entrant (NMW)
+- TO_ODS : The ODS identifier of the losing incumbent
+- FROM_ODS : the ODS identifier of the winning New Market Entrant (NMW)
 - ConversationId : A unique GUID for each request; if you do not provide one, the adaptor will create one and return it in the response headers. It must be used for all further calls for the patient's NHS number.
 
 The endpoint also requires a JSON body that includes the needed patient NHS number. The format of the body should look like the following...
