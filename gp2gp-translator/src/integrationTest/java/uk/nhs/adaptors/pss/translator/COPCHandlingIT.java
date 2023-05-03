@@ -12,6 +12,8 @@ import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
 import static org.awaitility.Awaitility.await;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
+import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
@@ -53,15 +55,12 @@ public class COPCHandlingIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/NewError/copc_error_missing_attachment.json");
 
-        await().until(this::isCopcFailed);
+        await().until(() -> isMigrationStatus(ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED));
 
         var migrationStatusLog = getMigrationStatusLogService().getLatestMigrationStatusLog(getConversationId());
 
-
-        Assertions.assertEquals(migrationStatusLog.getMigrationStatus().toString(), "COPC_FAILED");
-
+        Assertions.assertEquals(migrationStatusLog.getMigrationStatus().toString(), "ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED");
     }
-
 
     private void sendInboundMessageToQueue(String json) {
         var jsonMessage = readResourceAsString(json)

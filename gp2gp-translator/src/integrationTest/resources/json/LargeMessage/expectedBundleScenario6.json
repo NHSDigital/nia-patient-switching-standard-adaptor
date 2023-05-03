@@ -141,6 +141,21 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionId",
+                        "valueId": "62061000000119"
+                      },
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Other report"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "24591000000103",
                 "display": "Other report"
@@ -838,6 +853,21 @@
         "type": {
           "coding": [
             {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "87741000000119"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Other digital signal"
+                    }
+                  ]
+                }
+              ],
               "system": "http://snomed.info/sct",
               "code": "37251000000104",
               "display": "Other digital signal"

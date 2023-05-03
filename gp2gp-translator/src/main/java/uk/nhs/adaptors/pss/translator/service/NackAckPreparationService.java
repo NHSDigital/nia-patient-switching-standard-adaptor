@@ -1,11 +1,15 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_ACKNOWLEDGED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.FINAL_ACK_SENT;
+
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
@@ -13,10 +17,6 @@ import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
-
-import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_ACKNOWLEDGED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.FINAL_ACK_SENT;
 
 @Slf4j
 @Service
@@ -142,10 +142,10 @@ public class NackAckPreparationService {
 
     public boolean sendNackMessage(NACKReason reason, COPCIN000001UK01Message payload, String conversationId) {
 
-        LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
+        LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message COPC message [{}]", reason.getCode(),
                 payload.getId().getRoot());
 
-        migrationStatusLogService.addMigrationStatusLog(COPC_FAILED, conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null);
 
         return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
                 reason,

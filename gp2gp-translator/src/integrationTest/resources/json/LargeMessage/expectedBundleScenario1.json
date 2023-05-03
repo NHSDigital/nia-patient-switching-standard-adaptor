@@ -255,11 +255,23 @@
           {
             "coding": [
               {
+                "extension": [
+                  {
+                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                    "extension": [
+                      {
+                        "url": "descriptionDisplay",
+                        "valueString": "Third Party Consultation"
+                      }
+                    ]
+                  }
+                ],
                 "system": "http://snomed.info/sct",
                 "code": "25741000000100",
-                "display": "Third Party Consultation"
+                "display": "Third party consultation"
               }
-            ]
+            ],
+            "text": "Third Party Consultation"
           }
         ],
         "subject": {
@@ -460,6 +472,21 @@
         "type": {
           "coding": [
             {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "87741000000119"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Other digital signal"
+                    }
+                  ]
+                }
+              ],
               "system": "http://snomed.info/sct",
               "code": "37251000000104",
               "display": "Other digital signal"

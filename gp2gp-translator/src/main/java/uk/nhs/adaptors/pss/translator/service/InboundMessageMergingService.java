@@ -2,7 +2,7 @@ package uk.nhs.adaptors.pss.translator.service;
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
-import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.util.Arrays;
@@ -119,7 +119,7 @@ public class InboundMessageMergingService {
                  | BundleMappingException | JAXBException | AttachmentNotFoundException | JsonProcessingException e) {
 
             LOGGER.error("failed to merge Large Message Parts", e);
-            nackAckPreparationService.sendNackMessage(EHR_EXTRACT_CANNOT_BE_PROCESSED, payload, conversationId);
+            nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED, payload, conversationId);
         }
     }
 

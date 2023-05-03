@@ -66,6 +66,7 @@ import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.SkeletonProcessingService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
+import uk.nhs.adaptors.pss.translator.storage.StorageException;
 
 @ExtendWith(MockitoExtension.class)
 public class EhrExtractMessageHandlerTest {
@@ -296,7 +297,8 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void When_HandleMessage_WithStoreAttachmentsThrows_Expect_InlineAttachmentProcessingException() throws JAXBException,
+    public void When_HandleMessage_WithStoreAttachmentsThrows_Expect_InlineAttachmentProcessingException()
+        throws JAXBException,
         InlineAttachmentProcessingException, UnsupportedFileTypeException {
         InboundMessage inboundMessage = new InboundMessage();
         Bundle bundle = new Bundle();
@@ -317,6 +319,34 @@ public class EhrExtractMessageHandlerTest {
 
         assertThrows(InlineAttachmentProcessingException.class, () ->
                         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
+    }
+
+    @Test
+    public void When_HandleMessage_WithStorageExceptionCause_Expect_UnexpectedConditionNack() throws JAXBException,
+        InlineAttachmentProcessingException, UnsupportedFileTypeException {
+        InboundMessage inboundMessage = new InboundMessage();
+        Bundle bundle = new Bundle();
+        bundle.setId("Test");
+        inboundMessage.setPayload(readInboundMessagePayloadFromFile());
+        inboundMessage.setAttachments(new ArrayList<>());
+
+        PatientMigrationRequest migrationRequest =
+            PatientMigrationRequest.builder()
+                .losingPracticeOdsCode(LOSING_ODE_CODE)
+                .winningPracticeOdsCode(WINNING_ODE_CODE)
+                .build();
+
+        when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
+
+        doThrow(new InlineAttachmentProcessingException("Test Exception",
+            new StorageException("Cause Test Exception", new RuntimeException())))
+            .when(attachmentHandlerService).storeAttachments(any(), any());
+
+        assertThrows(InlineAttachmentProcessingException.class, () ->
+            ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
+
+        verify(nackAckPreparationServiceMock, times(1))
+            .sendNackMessage(eq(UNEXPECTED_CONDITION), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID));
     }
 
     @Test

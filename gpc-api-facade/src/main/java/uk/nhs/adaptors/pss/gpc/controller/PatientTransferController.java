@@ -174,7 +174,7 @@ public class PatientTransferController {
                 break;
             case ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
-                operationErrorMessage = "PS - At least one attachment has not be received";
+                operationErrorMessage = "PS - At least one attachment has not been received or could not be processed";
                 break;
             case ERROR_LRG_MSG_GENERAL_FAILURE:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
@@ -203,6 +203,10 @@ public class PatientTransferController {
             case EHR_EXTRACT_NEGATIVE_ACK_SUPPRESSED:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";
                 operationErrorMessage = "PS - A-B-A EHR Extract Received and Stored As Suppressed Record";
+                break;
+            case ERROR_EXTRACT_CANNOT_BE_PROCESSED:
+                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorMessage = "PS - EHR Extract message not well-formed or not able to be processed";
                 break;
             default:
                 operationErrorCode = "INTERNAL_SERVER_ERROR";

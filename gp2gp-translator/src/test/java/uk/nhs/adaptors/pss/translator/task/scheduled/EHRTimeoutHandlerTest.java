@@ -14,7 +14,6 @@ import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_ACKNOWLEDGED;
-import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_FAILED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_RECEIVED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_PROCESSING;
@@ -56,9 +55,9 @@ import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.common.util.DateUtils;
-import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
@@ -135,8 +134,7 @@ public class EHRTimeoutHandlerTest {
             Arguments.of(CONTINUE_REQUEST_ACCEPTED),
             Arguments.of(COPC_MESSAGE_RECEIVED),
             Arguments.of(COPC_MESSAGE_PROCESSING),
-            Arguments.of(COPC_ACKNOWLEDGED),
-            Arguments.of(COPC_FAILED)
+            Arguments.of(COPC_ACKNOWLEDGED)
             );
     }
 
@@ -297,17 +295,6 @@ public class EHRTimeoutHandlerTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
 
         callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_PROCESSING, TEN_DAYS_AGO, 2, conversationId);
-        verify(migrationStatusLogService, times(1))
-            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
-    }
-
-    @Test
-    public void When_CheckForTimeouts_WithTimeoutAndCopcFailed_Expect_MigrationLogUpdated() {
-        String conversationId = UUID.randomUUID().toString();
-
-        when(sendNACKMessageHandler.prepareAndSendMessage(any())).thenReturn(true);
-
-        callCheckForTimeoutsWithOneRequest(COPC_FAILED, TEN_DAYS_AGO, 2, conversationId);
         verify(migrationStatusLogService, times(1))
             .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
     }

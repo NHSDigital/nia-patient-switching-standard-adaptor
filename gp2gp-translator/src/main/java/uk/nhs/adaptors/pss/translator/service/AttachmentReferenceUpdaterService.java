@@ -64,7 +64,7 @@ public class AttachmentReferenceUpdaterService {
                         }
                     }
                 } catch (ParseException ex) {
-                    throw new InlineAttachmentProcessingException("Unable to parse inline attachment description: " + ex.getMessage());
+                    throw new InlineAttachmentProcessingException("Unable to parse inline attachment description: " + ex.getMessage(), ex);
                 } catch (AttachmentNotFoundException e) {
                     throw new AttachmentNotFoundException(e.getMessage());
                 }
