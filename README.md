@@ -16,6 +16,8 @@ Adaptor consists of two main components:
 - GP2GP Translator
 They are Java Spring Boot applications, released as separate docker images.
 
+# Developer Information 
+
 ## Requirements:
 
 * JDK 17 - We develop the adaptor in Java with Spring Boot
@@ -202,7 +204,9 @@ Before cloning the project, navigate to:
 
    1. open docker desktop/settings/resources/WSL INTEGRATION
    2. tick the box where it says "Ubuntu" or the name of your ubuntu terminal
-   
+
+# User Information
+
 ## Daisy-Chaining
 
 It is possible to run the PS Adaptor and the [GP2GP Adaptor](https://github.com/nhsconnect/integration-adaptor-gp2gp) side by side using a single instance of the MHS Adaptor.
