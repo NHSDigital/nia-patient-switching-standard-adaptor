@@ -16,6 +16,8 @@ Adaptor consists of two main components:
 - GP2GP Translator
 They are Java Spring Boot applications, released as separate docker images.
 
+# Developer Information 
+
 ## Requirements:
 
 * JDK 17 - We develop the adaptor in Java with Spring Boot
@@ -202,7 +204,9 @@ Before cloning the project, navigate to:
 
    1. open docker desktop/settings/resources/WSL INTEGRATION
    2. tick the box where it says "Ubuntu" or the name of your ubuntu terminal
-   
+
+# User Information
+
 ## Daisy-Chaining
 
 It is possible to run the PS Adaptor and the [GP2GP Adaptor](https://github.com/nhsconnect/integration-adaptor-gp2gp) side by side using a single instance of the MHS Adaptor.
@@ -322,6 +326,30 @@ If your request is unsuccessful, you will get a 500: Server error response.
 If you receive a 500 response, you can retry again at any point, however, it should be noted that you must receive a 200: Success response from the migratestructuredrecord for the given conversation ID to receive a 200: Success from this endpoint.
 
 Note: To improve reliability on this endpoint we are currently looking at a polling change, the documentation will be updated once this has been updated.
+
+## Configuring the SNOMED Database 
+
+### First  installation
+
+As part of the installation of the adaptor, we do not provide the SNOMED database files as they are updated regularly under TRUD (Technology Reference Update Distribution).
+To acquire the most recent SNOMED database:-
+
+   1. Head to https://isd.digital.nhs.uk/ and create a new account.
+   2. Log in
+   3. Search for the following: SNOMED CT UK Monolith Edition, RF2: Snapshot (https://isd.digital.nhs.uk/trud/users/authenticated/filters/0/categories/26/items/1799/releases). We recommend the full Monolith edition, not the delta version.
+   4. Subscribe to the data store.
+   5. Once subscribed you will be able to download the most recent version of the SNOMED DB, at the time of writing this is release 36.0.0. (uk_sct2mo_36.0.0_20230412000001Z.zip)
+   6. During the setup of the adaptor you will now need to set the environment variable “SNOMED_FILE_LOCATION” to the root location of the zip file that you’ve downloaded e.g. export SNOMED_FILE_LOCATION=“/root/uk_sct2mo_36.0.0_20230412000001Z.zip
+   7. Now when you run our startup scripts for the first time, the SNOMED database will be installed for you.
+
+### Updating the SNOMED Database
+
+You will now receive email notifications from TRUD once the subscribed data source is updated. We recommend updating your SNOMED version as soon as you receive the notification. To do this:-
+
+   1. Log in to https://isd.digital.nhs.uk/
+   2. Download the newest version of the SNOMED Monolith edition
+   3….. Update here once update path is completed.
+
 
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).
