@@ -114,22 +114,22 @@ public class XmlParseUtilTest {
     }
 
     @Test
-    public void shouldParseBase64Value() throws ParseException {
+    public void shouldParseOriginalBase64Value() throws ParseException {
         // Arrange
 
         // Act
-        boolean actual = XmlParseUtilService.parseBase64(DESCRIPTION);
+        boolean actual = XmlParseUtilService.parseOriginalBase64(DESCRIPTION);
         // Assert
         assertThat(actual).isTrue();
     }
 
     @Test()
-    public void shouldThrowParseExceptionWhenBase64CantBeRead() {
+    public void shouldThrowParseExceptionWhenOriginalBase64CantBeRead() {
 
         String description = "Compressed=No LargeAttachment=No";
 
         Assertions.assertThrows(ParseException.class, () ->
-            XmlParseUtilService.parseBase64(description)
+            XmlParseUtilService.parseOriginalBase64(description)
         );
     }
 

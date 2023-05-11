@@ -6,7 +6,7 @@ INSERT INTO patient_attachment_log(
     content_type,
     compressed,
     large_attachment,
-    base64,
+    original_base64,
     skeleton,
     uploaded,
     order_num,

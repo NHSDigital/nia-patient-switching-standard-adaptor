@@ -37,7 +37,7 @@ public class XmlParseUtilService {
 
     private final XPathService xPathService;
 
-    public static boolean parseBase64(String description) throws ParseException {
+    public static boolean parseOriginalBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
         Matcher matcher = pattern.matcher(description);
 

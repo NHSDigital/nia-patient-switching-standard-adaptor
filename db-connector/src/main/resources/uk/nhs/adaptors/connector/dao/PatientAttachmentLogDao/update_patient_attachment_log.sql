@@ -4,7 +4,7 @@ SET
     content_type = COALESCE(:contentType, PAL.content_type),
     compressed = COALESCE(:compressed, PAL.compressed),
     large_attachment = COALESCE(:largeAttachment, PAL.large_attachment),
-    base64 = COALESCE(:base64, PAL.base64),
+    original_base64 = COALESCE(:originalBase64, PAL.original_base64),
     skeleton = COALESCE(:skeleton, PAL.skeleton),
     uploaded = COALESCE(:uploaded, PAL.uploaded),
     length_num = COALESCE(:lengthNum, PAL.length_num),

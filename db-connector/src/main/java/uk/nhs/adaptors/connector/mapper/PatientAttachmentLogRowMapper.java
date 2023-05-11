@@ -22,7 +22,7 @@ public class PatientAttachmentLogRowMapper implements RowMapper<PatientAttachmen
             .patientMigrationReqId(rs.getInt("patient_migration_req_id"))
             .compressed(rs.getBoolean("compressed"))
             .largeAttachment(rs.getBoolean("large_attachment"))
-            .base64(rs.getBoolean("base64"))
+            .originalBase64(rs.getBoolean("original_base64"))
             .skeleton(rs.getBoolean("skeleton"))
             .uploaded(rs.getBoolean("uploaded"))
             .lengthNum(rs.getInt("length_num"))

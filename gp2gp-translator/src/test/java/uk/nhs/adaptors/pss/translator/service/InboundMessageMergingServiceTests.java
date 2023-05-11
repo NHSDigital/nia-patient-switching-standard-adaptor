@@ -471,7 +471,7 @@ public class InboundMessageMergingServiceTests {
                         .parentMid("0")
                         .uploaded(isParentUploaded)
                         .largeAttachment(true)
-                        .base64(true)
+                        .originalBase64(true)
                         .compressed(false)
                         .contentType("text/plain")
                         .lengthNum(0)
