@@ -71,7 +71,7 @@ public class XmlParseUtilService {
     }
 
     public static String parseContentType(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("ContentType=([A-Za-z\\d\\-/]*)");
+        Pattern pattern = Pattern.compile("ContentType=([A-Za-z\\d\\-/.]*)");
         Matcher matcher = pattern.matcher(description);
 
         if (matcher.find()) {
