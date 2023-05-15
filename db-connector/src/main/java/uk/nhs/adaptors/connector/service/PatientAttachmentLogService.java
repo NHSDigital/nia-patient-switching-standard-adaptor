@@ -42,7 +42,8 @@ public class PatientAttachmentLogService {
             attachmentLogInput.getUploaded(),
             attachmentLogInput.getOrderNum(),
             attachmentLogInput.getLengthNum(),
-            attachmentLogInput.getPostProcessedLengthNum()
+            attachmentLogInput.getPostProcessedLengthNum(),
+            attachmentLogInput.getIsBase64()
         );
         LOGGER.debug("Created migration log mid=[{}] for patient migration request id=[{}]", mid, filename);
     }
@@ -104,7 +105,8 @@ public class PatientAttachmentLogService {
             attachmentLogInput.getUploaded(),
             attachmentLogInput.getLengthNum(),
             attachmentLogInput.getOrderNum(),
-            attachmentLogInput.getPostProcessedLengthNum()
+            attachmentLogInput.getPostProcessedLengthNum(),
+            attachmentLogInput.getIsBase64()
 
         );
         LOGGER.debug("Updated migration log mid=[{}]", mid);

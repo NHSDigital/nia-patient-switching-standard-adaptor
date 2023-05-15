@@ -11,7 +11,8 @@ INSERT INTO patient_attachment_log(
                                    uploaded,
                                    order_num,
                                    length_num,
-                                   post_processed_length_num
+                                   post_processed_length_num,
+                                   base64
                                    )
 VALUES (
         :mid,
@@ -26,5 +27,6 @@ VALUES (
         COALESCE(:uploaded, false),
         COALESCE(:orderNum, 0),
         :lengthNum,
-        :postProcessedLengthNum
+        :postProcessedLengthNum,
+        :isBase64
         );

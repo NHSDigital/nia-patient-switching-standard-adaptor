@@ -290,7 +290,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     @Test
     public void When_StoreEhrExtractParametersAreCorrectAndNotErrors_Expect_ExecuteStorageManagerServiceUploadFile()
             throws ValidationException, InlineAttachmentProcessingException {
-        attachmentHandlerService.storeAttachmentWithoutProcessing("fileName", "payload", "conversationId", "contentType", 0);
+        attachmentHandlerService.storeAttachmentWithoutProcessing("fileName", "payload", "conversationId", "contentType", 0, false);
         verify(storageManagerService).uploadFile(any(), any(), any());
     }
 
@@ -302,7 +302,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         assertThrows(InlineAttachmentProcessingException.class, () ->
             attachmentHandlerService.storeAttachmentWithoutProcessing("fileNAme", "Payload", "123456",
-                "contentType", 0)
+                "contentType", 0, false)
         );
     }
 
@@ -313,7 +313,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
                 ValidationException.class,
                 () ->
                     attachmentHandlerService.storeAttachmentWithoutProcessing(null, "payload",
-                        "conversationId", "contentType", 0)
+                        "conversationId", "contentType", 0, false)
 
         );
         String actualNull = exceptionNull.getMessage();
@@ -324,7 +324,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
                 ValidationException.class,
                 () ->
                     attachmentHandlerService.storeAttachmentWithoutProcessing("", "payload",
-                        "conversationId", "contentType", 0)
+                        "conversationId", "contentType", 0, false)
 
         );
         String actualEmpty = exceptionEmpty.getMessage();
@@ -338,7 +338,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
                 ValidationException.class,
                 () ->
                     attachmentHandlerService.storeAttachmentWithoutProcessing("Filename", null,
-                        "conversationId", "contentType", 0)
+                        "conversationId", "contentType", 0, false)
 
         );
         String actualNull = exceptionNull.getMessage();
@@ -349,7 +349,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
                 ValidationException.class,
                 () ->
                     attachmentHandlerService.storeAttachmentWithoutProcessing("Filename", "",
-                        "conversationId", "contentType", 0)
+                        "conversationId", "contentType", 0, false)
 
         );
         String actualEmpty = exceptionEmpty.getMessage();
@@ -363,7 +363,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
                 ValidationException.class,
                 () ->
                     attachmentHandlerService.storeAttachmentWithoutProcessing("Filename", "payload",
-                        null, "contentType", 0)
+                        null, "contentType", 0, false)
 
         );
         String actualNull = exceptionNull.getMessage();
@@ -374,7 +374,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
                 ValidationException.class,
                 () ->
                     attachmentHandlerService.storeAttachmentWithoutProcessing("Filename", "payload",
-                        "", "contentType", 0)
+                        "", "contentType", 0, false)
 
         );
         String actualEmpty = exceptionEmpty.getMessage();
@@ -387,7 +387,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         Exception exceptionNull = assertThrows(
                 ValidationException.class,
                 () -> attachmentHandlerService.storeAttachmentWithoutProcessing("Filename", "payload",
-                    "conversationId", null, 0)
+                    "conversationId", null, 0, false)
         );
         String actualNull = exceptionNull.getMessage();
         String expectedNull = "ContentType cannot be null or empty";
@@ -396,7 +396,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         Exception exceptionEmpty = assertThrows(
                 ValidationException.class,
                 () -> attachmentHandlerService.storeAttachmentWithoutProcessing("Filename", "payload",
-                    "conversationId", "", 0)
+                    "conversationId", "", 0, false)
 
         );
         String actualEmpty = exceptionEmpty.getMessage();
@@ -410,7 +410,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("text/plain")));
         var attachment = List.of(InboundMessage.Attachment.builder()
             .contentType("text/plain")
-            .isBase64("false")
+            .isBase64("true") // file has to be base64 otherwise length can not be checked
             .description("Filename=\"277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE.txt\" ContentType=text/plain Compressed=No "
                 + "LargeAttachment=No OriginalBase64=No; Length=45")
             .payload("SGVsbG8gV29ybGQgZnJvbSBTY290dCBBbGV4YW5kZXI=").build());

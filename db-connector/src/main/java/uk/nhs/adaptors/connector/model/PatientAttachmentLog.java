@@ -27,4 +27,5 @@ public class PatientAttachmentLog {
     private Integer orderNum;
     private Boolean deleted;
     private Integer postProcessedLengthNum;
+    private Boolean isBase64;
 }

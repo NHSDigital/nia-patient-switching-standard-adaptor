@@ -10,10 +10,10 @@
     http://www.liquibase.org/xml/ns/pro
 	http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
     <changeSet id="13" author="bhession">
-        <renameColumn schemaName="public"
-                      tableName="patient_attachment_log"
-                      columnDataType="boolean"
-                      oldColumnName="base64"
-                      newColumnName="original_base64"/>
+        <addColumn schemaName="public" tableName="patient_attachment_log">
+            <column name="original_base64" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>
