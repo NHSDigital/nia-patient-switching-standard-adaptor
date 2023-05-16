@@ -18,7 +18,7 @@ public class PatientAttachmentLog {
     private String contentType;
     private Boolean compressed;
     private Boolean largeAttachment;
-    private Boolean base64;
+    private Boolean originalBase64;
     private Boolean skeleton;
     private Boolean uploaded;
     private Integer lengthNum;
@@ -27,4 +27,5 @@ public class PatientAttachmentLog {
     private Integer orderNum;
     private Boolean deleted;
     private Integer postProcessedLengthNum;
+    private Boolean isBase64;
 }

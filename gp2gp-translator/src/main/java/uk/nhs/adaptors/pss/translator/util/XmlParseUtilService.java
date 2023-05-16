@@ -37,7 +37,7 @@ public class XmlParseUtilService {
 
     private final XPathService xPathService;
 
-    public static boolean parseBase64(String description) throws ParseException {
+    public static boolean parseOriginalBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
         Matcher matcher = pattern.matcher(description);
 
@@ -71,7 +71,7 @@ public class XmlParseUtilService {
     }
 
     public static String parseContentType(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("ContentType=([A-Za-z\\d\\-/]*)");
+        Pattern pattern = Pattern.compile("ContentType=([A-Za-z\\d\\-/.]*)");
         Matcher matcher = pattern.matcher(description);
 
         if (matcher.find()) {

@@ -24,6 +24,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class XmlParseUtilTest {
 
+    private static final String DOCX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
     private static final String DESCRIPTION =
         "\"Filename=\"E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment\" ContentType=text/plain "
             + "DomainData=\"X-GP2GP-Skeleton: Yes\" Compressed=No LargeAttachment=No OriginalBase64=Yes Length=4718592";
@@ -114,22 +116,22 @@ public class XmlParseUtilTest {
     }
 
     @Test
-    public void shouldParseBase64Value() throws ParseException {
+    public void shouldParseOriginalBase64Value() throws ParseException {
         // Arrange
 
         // Act
-        boolean actual = XmlParseUtilService.parseBase64(DESCRIPTION);
+        boolean actual = XmlParseUtilService.parseOriginalBase64(DESCRIPTION);
         // Assert
         assertThat(actual).isTrue();
     }
 
     @Test()
-    public void shouldThrowParseExceptionWhenBase64CantBeRead() {
+    public void shouldThrowParseExceptionWhenOriginalBase64CantBeRead() {
 
         String description = "Compressed=No LargeAttachment=No";
 
         Assertions.assertThrows(ParseException.class, () ->
-            XmlParseUtilService.parseBase64(description)
+            XmlParseUtilService.parseOriginalBase64(description)
         );
     }
 
@@ -177,6 +179,13 @@ public class XmlParseUtilTest {
         String expected = "text/plain";
         // Assert
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void shouldParseContentTypeWithDotSyntax() throws ParseException {
+        String actual = XmlParseUtilService.parseContentType("ContentType=" + DOCX_CONTENT_TYPE);
+
+        assertThat(actual).isEqualTo(DOCX_CONTENT_TYPE);
     }
 
     @Test

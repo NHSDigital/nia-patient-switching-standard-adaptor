@@ -105,6 +105,14 @@ public class COPCMessageHandler {
                 if (isManifestMessage(inboundMessage.getAttachments(), inboundMessage.getExternalAttachments())) {
                     extractFragmentsAndLog(migrationRequest, patientAttachmentLog, conversationId, inboundMessage);
                 } else {
+                    var inlineAttachments = inboundMessage.getAttachments();
+
+                    if (!inlineAttachments.isEmpty()) {
+                        // we are expecting inline attachments to only have one attachment in the storeCOPCAttachment method below
+                        // so use isBase64 flag of the first inline attachment
+                        patientAttachmentLog.setIsBase64(Boolean.valueOf(inlineAttachments.get(0).getIsBase64()));
+                    }
+
                     storeCOPCAttachment(patientAttachmentLog, inboundMessage, conversationId);
                     patientAttachmentLog.setUploaded(true);
 
@@ -216,10 +224,12 @@ public class COPCMessageHandler {
             var parentLogFile = conversationAttachmentLogs.stream()
                 .filter(log ->  log.getMid().equals(parentLogMessageId))
                 .findAny()
-                .orElse(null);
+                .orElseThrow();
 
             // if we have been given a file length, validate it
-            var canCheckAttachmentLength = parentLogFile.getLengthNum() > 0;
+            var canCheckAttachmentLength = parentLogFile.getLengthNum() > 0
+                && attachmentLogFragments.stream()
+                    .allMatch(PatientAttachmentLog::getIsBase64);
 
             if (canCheckAttachmentLength) {
                 if (payload.length() != parentLogFile.getLengthNum()) {
@@ -231,13 +241,18 @@ public class COPCMessageHandler {
                 parentLogFile.setPostProcessedLengthNum(payload.length());
             }
 
+            boolean parentIsBase64 = determineIfParentIsBase64(parentLogFile, attachmentLogFragments);
+            parentLogFile.setIsBase64(parentIsBase64);
+
             var mergedLargeAttachment = createNewLargeAttachmentInList(parentLogFile, payload);
+
             attachmentHandlerService.storeAttachments(mergedLargeAttachment, conversationId);
 
             var updatedLog = PatientAttachmentLog.builder()
                 .mid(parentLogFile.getMid())
                 .uploaded(true)
                 .postProcessedLengthNum(parentLogFile.getPostProcessedLengthNum())
+                .isBase64(parentIsBase64)
                 .build();
 
             patientAttachmentLogService.updateAttachmentLog(updatedLog, conversationId);
@@ -249,22 +264,36 @@ public class COPCMessageHandler {
         }
     }
 
-    public List<InboundMessage.Attachment> createNewLargeAttachmentInList(PatientAttachmentLog largeFileLog, String payload) {
+    private boolean determineIfParentIsBase64(PatientAttachmentLog parentLogFile, List<PatientAttachmentLog> attachmentLogFragments)
+        throws ExternalAttachmentProcessingException {
+        var containsBase64Fragments = attachmentLogFragments.stream()
+            .anyMatch(PatientAttachmentLog::getIsBase64);
+
+        var allFragmentsAreBase64 = attachmentLogFragments.stream()
+            .allMatch(PatientAttachmentLog::getIsBase64);
+
+        if (containsBase64Fragments && !allFragmentsAreBase64) {
+            throw new ExternalAttachmentProcessingException(String.format("Received both encoded and decoded fragments for message"
+                + parentLogFile.getMid()));
+        }
+
+        return allFragmentsAreBase64;
+    }
+
+    private List<InboundMessage.Attachment> createNewLargeAttachmentInList(PatientAttachmentLog largeFileLog, String payload) {
 
         var fileDescription =
             "Filename=" + "\"" + largeFileLog.getFilename()  + "\" "
                 + "ContentType=" + largeFileLog.getContentType() + " "
                 + "Compressed=" + largeFileLog.getCompressed().toString() + " "
                 + "LargeAttachment=" + largeFileLog.getLargeAttachment().toString() + " "
-                + "OriginalBase64=" + largeFileLog.getBase64().toString() + " "
+                + "OriginalBase64=" + largeFileLog.getOriginalBase64().toString() + " "
                 + "Length=" + largeFileLog.getLengthNum();
 
         return Collections.singletonList(
                 InboundMessage.Attachment.builder()
                         .payload(payload)
-                        .isBase64(largeFileLog
-                                .getBase64()
-                                .toString())
+                        .isBase64(largeFileLog.getIsBase64().toString())
                         .contentType(largeFileLog.getContentType())
                         .description(fileDescription)
                         .build()
@@ -281,10 +310,8 @@ public class COPCMessageHandler {
         String fragmentMid = getFragmentMidId(ebXmlDocument);
         String fileName = getFileNameForFragment(inboundMessage, payload);
         var attachment = inboundMessage.getAttachments().get(0);
-        var postProcessedLength = inboundMessage.getAttachments().get(0).getPayload().length();
 
-        PatientAttachmentLog fragmentAttachmentLog = buildFragmentAttachmentLog(fragmentMid, fileName,
-                attachment.getContentType(), patientId, postProcessedLength);
+        PatientAttachmentLog fragmentAttachmentLog = buildFragmentAttachmentLog(attachment, fragmentMid, fileName, patientId);
 
         storeCOPCAttachment(fragmentAttachmentLog, inboundMessage, conversationId);
         fragmentAttachmentLog.setUploaded(true);
@@ -296,14 +323,18 @@ public class COPCMessageHandler {
                                      String conversationId)
         throws ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
 
+
         if (inboundMessage.getAttachments().isEmpty()) {
             throw new InlineAttachmentProcessingException("COPC message does not contain an inline attachment");
         }
 
         if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
+            // a length check is done if the attachment is base64
+            boolean isBase64 = Boolean.parseBoolean(inboundMessage.getAttachments().get(0).getIsBase64());
+
             attachmentHandlerService.storeAttachmentWithoutProcessing(fragmentAttachmentLog.getFilename(),
                 inboundMessage.getAttachments().get(0).getPayload(), conversationId,
-                fragmentAttachmentLog.getContentType(), fragmentAttachmentLog.getLengthNum());
+                fragmentAttachmentLog.getContentType(), fragmentAttachmentLog.getLengthNum(), isBase64);
         } else {
             var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
                 List.of(fragmentAttachmentLog),
@@ -338,14 +369,18 @@ public class COPCMessageHandler {
         }
     }
 
-    private PatientAttachmentLog buildFragmentAttachmentLog(
-            String fragmentMid, String fileName, String contentType, int patientId, int postProcessedLength) {
+    private PatientAttachmentLog buildFragmentAttachmentLog(InboundMessage.Attachment attachment, String fragmentMid, String fileName,
+        int patientId) {
+        var postProcessedLength = attachment.getPayload().length();
+        Boolean isBase64 = Boolean.valueOf(attachment.getIsBase64());
+
         return PatientAttachmentLog.builder()
             .mid(fragmentMid)
             .filename(fileName)
-            .contentType(contentType)
+            .contentType(attachment.getContentType())
             .patientMigrationReqId(patientId)
             .postProcessedLengthNum(postProcessedLength)
+            .isBase64(isBase64)
             .build();
     }
 
@@ -379,11 +414,14 @@ public class COPCMessageHandler {
             var descriptionString = "";
             var messageId = "";
             var fileUpload = false;
+            boolean isBase64 = true;
 
             // in this instance there should only ever be one CID on a fragment index file
             if (payloadReference.getHref().contains("cid:")) {
                 messageId = payloadReference.getHref().substring(payloadReference.getHref().indexOf("cid:") + "cid:".length());
                 descriptionString = message.getAttachments().get(0).getDescription();
+
+                isBase64 = Boolean.parseBoolean(message.getAttachments().get(0).getIsBase64());
 
                 // upload the file
                 attachmentHandlerService.storeAttachmentWithoutProcessing(
@@ -391,7 +429,8 @@ public class COPCMessageHandler {
                     message.getAttachments().get(0).getPayload(),
                     conversationId,
                     message.getAttachments().get(0).getContentType(),
-                    XmlParseUtilService.parseFileLength(descriptionString)
+                    XmlParseUtilService.parseFileLength(descriptionString),
+                    isBase64
                 );
                 fileUpload = true;
             } else {
@@ -426,6 +465,11 @@ public class COPCMessageHandler {
                         fileUpload,
                         parentAttachmentLog.getLargeAttachment()
                 );
+
+                if (fileUpload) {
+                    newFragmentLog.setIsBase64(isBase64);
+                }
+
                 patientAttachmentLogService.addAttachmentLog(newFragmentLog);
             }
         }
@@ -437,7 +481,7 @@ public class COPCMessageHandler {
         childLog.setCompressed(XmlParseUtilService.parseCompressed(descriptionString));
         childLog.setLargeAttachment(isLargeAttachment);
         childLog.setSkeleton(parentLog.getSkeleton());
-        childLog.setBase64(XmlParseUtilService.parseBase64(descriptionString));
+        childLog.setOriginalBase64(XmlParseUtilService.parseOriginalBase64(descriptionString));
         childLog.setOrderNum(orderNum);
     }
 
@@ -452,7 +496,7 @@ public class COPCMessageHandler {
             .contentType(XmlParseUtilService.parseContentType(description))
             .compressed(XmlParseUtilService.parseCompressed(description))
             .largeAttachment(isLargeAttachment)
-            .base64(XmlParseUtilService.parseBase64(description))
+            .originalBase64(XmlParseUtilService.parseOriginalBase64(description))
             .skeleton(false)
             .uploaded(uploaded)
             .orderNum(attachmentOrder)

@@ -22,12 +22,13 @@ public interface PatientAttachmentLogDao {
         @Bind() String contentType,
         @Bind() Boolean compressed,
         @Bind() Boolean largeAttachment,
-        @Bind() Boolean base64,
+        @Bind() Boolean originalBase64,
         @Bind() Boolean skeleton,
         @Bind() Boolean uploaded,
         @Bind() Integer orderNum,
         @Bind() Integer lengthNum,
-        @Bind() Integer postProcessedLengthNum
+        @Bind() Integer postProcessedLengthNum,
+        @Bind() Boolean isBase64
     );
 
     @SqlUpdate("delete_patient_attachment_log")
@@ -61,12 +62,13 @@ public interface PatientAttachmentLogDao {
         @Bind() String contentType,
         @Bind() Boolean compressed,
         @Bind() Boolean largeAttachment,
-        @Bind() Boolean base64,
+        @Bind() Boolean originalBase64,
         @Bind() Boolean skeleton,
         @Bind() Boolean uploaded,
         @Bind() Integer lengthNum,
         @Bind() Integer orderNum,
-        @Bind() Integer postProcessedLengthNum
+        @Bind() Integer postProcessedLengthNum,
+        @Bind() Boolean isBase64
     );
 
     @SqlQuery("count_attachments_for_migration_id")

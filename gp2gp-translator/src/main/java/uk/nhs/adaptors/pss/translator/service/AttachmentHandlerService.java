@@ -12,7 +12,6 @@ import java.util.zip.GZIPInputStream;
 import javax.xml.bind.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -34,13 +33,14 @@ import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AttachmentHandlerService {
 
-    @Value("${base64.skipDecode}")
-    private boolean skipDecoding;
     private final StorageManagerService storageManagerService;
     private final SupportedFileTypes supportedFileTypes;
 
     public void storeAttachments(List<InboundMessage.Attachment> attachments, String conversationId) throws ValidationException,
         InlineAttachmentProcessingException, UnsupportedFileTypeException {
+
+        byte[] decodedPayload;
+        byte[] payload;
 
         if (!StringUtils.hasText(conversationId)) {
             throw new ValidationException("ConversationId cannot be null or empty");
@@ -57,20 +57,15 @@ public class AttachmentHandlerService {
                             String.format("File type %s is unsupported", contentType));
                     }
 
-                    if (inlineAttachment != null) {
+                    if (inlineAttachment.isBase64()) {
                         if (inlineAttachment.getLength() > 0
                             && inlineAttachment.getLength() != inlineAttachment.getPayload().length()) {
                             throw new InlineAttachmentProcessingException("Incorrect payload length received");
                         }
-                    }
-
-                    byte[] decodedPayload = inlineAttachment.getPayload().getBytes(StandardCharsets.UTF_8);
-
-                    if (inlineAttachment.isBase64()) {
                         decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
+                    } else {
+                        decodedPayload = inlineAttachment.getPayload().getBytes(StandardCharsets.UTF_8);
                     }
-
-                    byte[] payload;
 
                     if (inlineAttachment.isCompressed()) {
                         GZIPInputStream inputStream = new GZIPInputStream(new ByteArrayInputStream(decodedPayload));
@@ -102,7 +97,7 @@ public class AttachmentHandlerService {
     }
 
     public void storeAttachmentWithoutProcessing(String fileName, String payload, String conversationId,
-        String contentType, Integer expectedLength)
+        String contentType, Integer expectedLength, boolean isBase64)
         throws ValidationException, InlineAttachmentProcessingException {
 
         if (!StringUtils.hasText(fileName)) {
@@ -118,7 +113,7 @@ public class AttachmentHandlerService {
             throw new ValidationException("ContentType cannot be null or empty");
         }
 
-        if (expectedLength != null) {
+        if (expectedLength != null && isBase64) {
             if (expectedLength > 0 && expectedLength != payload.length()) {
                 throw new InlineAttachmentProcessingException("Incorrect payload length received");
             }
@@ -178,7 +173,7 @@ public class AttachmentHandlerService {
                     + "ContentType=" + log.getContentType() + " "
                     + "Compressed=" + log.getCompressed().toString() + " "
                     + "LargeAttachment=" + log.getLargeAttachment().toString() + " "
-                    + "OriginalBase64=" + log.getBase64().toString() + " "
+                    + "OriginalBase64=" + log.getOriginalBase64().toString() + " "
                     + "Length=" + log.getLengthNum();
 
             if (log.getSkeleton()) {
@@ -195,9 +190,7 @@ public class AttachmentHandlerService {
             attachmentsResponse.add(
                 InboundMessage.Attachment.builder()
                     .payload(payload)
-                        .isBase64(log
-                                .getBase64()
-                                .toString())
+                    .isBase64(log.getIsBase64().toString())
                     .contentType(log.getContentType())
                     .description(fileDescription)
                     .build()
