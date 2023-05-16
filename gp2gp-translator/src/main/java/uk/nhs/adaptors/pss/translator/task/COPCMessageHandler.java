@@ -227,8 +227,8 @@ public class COPCMessageHandler {
                 .orElseThrow();
 
             // if we have been given a file length, validate it
-            var canCheckAttachmentLength = parentLogFile.getLengthNum() > 0 &&
-                attachmentLogFragments.stream()
+            var canCheckAttachmentLength = parentLogFile.getLengthNum() > 0
+                && attachmentLogFragments.stream()
                     .allMatch(PatientAttachmentLog::getIsBase64);
 
             if (canCheckAttachmentLength) {
@@ -240,7 +240,7 @@ public class COPCMessageHandler {
             if (payload != null) {
                 parentLogFile.setPostProcessedLengthNum(payload.length());
             }
-            
+
             boolean parentIsBase64 = determineIfParentIsBase64(parentLogFile, attachmentLogFragments);
             parentLogFile.setIsBase64(parentIsBase64);
 
@@ -273,8 +273,8 @@ public class COPCMessageHandler {
             .allMatch(PatientAttachmentLog::getIsBase64);
 
         if (containsBase64Fragments && !allFragmentsAreBase64) {
-            throw new ExternalAttachmentProcessingException(String.format("Received both encoded and decoded fragments for message" +
-                parentLogFile.getMid()));
+            throw new ExternalAttachmentProcessingException(String.format("Received both encoded and decoded fragments for message"
+                + parentLogFile.getMid()));
         }
 
         return allFragmentsAreBase64;
@@ -330,7 +330,7 @@ public class COPCMessageHandler {
 
         if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
             // a length check is done if the attachment is base64
-             boolean isBase64 = Boolean.parseBoolean(inboundMessage.getAttachments().get(0).getIsBase64());
+            boolean isBase64 = Boolean.parseBoolean(inboundMessage.getAttachments().get(0).getIsBase64());
 
             attachmentHandlerService.storeAttachmentWithoutProcessing(fragmentAttachmentLog.getFilename(),
                 inboundMessage.getAttachments().get(0).getPayload(), conversationId,

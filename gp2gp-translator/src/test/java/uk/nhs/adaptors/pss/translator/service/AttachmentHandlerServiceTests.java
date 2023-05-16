@@ -9,13 +9,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
-import uk.nhs.adaptors.pss.translator.config.SupportedFileTypes;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
-import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 
 @ExtendWith(MockitoExtension.class)
 public class AttachmentHandlerServiceTests {
@@ -23,6 +20,9 @@ public class AttachmentHandlerServiceTests {
     private static String conversationId;
     private static String messageId1;
     private static String messageId2;
+
+    private static final int MESSAGE_1_LENGTH = 4040;
+    private static final int MESSAGE_2_LENGTH = 220;
 
     @InjectMocks
     private AttachmentHandlerService attachmentHandlerService;
@@ -35,7 +35,7 @@ public class AttachmentHandlerServiceTests {
     }
 
     @Test
-    public void When_BuildInboundAttachmentsFromLogs_With_EncodedAttachments_Expect_isBase64HasCorrectValue() {
+    public void When_BuildInboundAttachmentsFromLogs_With_EncodedAttachments_Expect_IsBase64HasCorrectValue() {
 
         List<PatientAttachmentLog> patientAttachmentLogs = getPatientAttachmentLogs(messageId1, messageId2);
         List<String> payloads = List.of(
@@ -61,7 +61,7 @@ public class AttachmentHandlerServiceTests {
                     .compressed(false)
                     .largeAttachment(false)
                     .originalBase64(true)
-                    .lengthNum(4040)
+                    .lengthNum(MESSAGE_1_LENGTH)
                     .isBase64(true)
                     .skeleton(false)
                     .build(),
@@ -73,7 +73,7 @@ public class AttachmentHandlerServiceTests {
                     .compressed(false)
                     .largeAttachment(false)
                     .originalBase64(true)
-                    .lengthNum(220)
+                    .lengthNum(MESSAGE_2_LENGTH)
                     .isBase64(false)
                     .skeleton(false)
                     .build()
