@@ -347,9 +347,15 @@ To acquire the most recent SNOMED database:-
 You will now receive email notifications from TRUD once the subscribed data source is updated. We recommend updating your SNOMED version as soon as you receive the notification. To do this:-
 
    1. Log in to https://isd.digital.nhs.uk/
-   2. Download the newest version of the SNOMED Monolith edition
-   3….. Update here once update path is completed.
+   2. Download the newest version of the SNOMED Monolith edition.
+   3. Navigate to directory 'snomed-database-loader'.
+   4. Before continuing, please be aware that the database will be unavailable whilst being rebuilt, so this should be completed during a maintenance window. 
+   5. Execute the script 'load_release-postgresql.sh' followed by the path to the root location of the zip file that you have downloaded. For example:
 
+      ``` 
+      ./load_release_postgresql.sh /root/uk_sct2mo_36.0.0_20230412000001Z.zip
+      ``` 
+ 
 
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).
