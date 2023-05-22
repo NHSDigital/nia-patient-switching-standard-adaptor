@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
@@ -15,6 +16,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
 
 import java.util.ArrayList;
 
@@ -261,7 +264,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
-                .sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UK06Message.class), any());
     }
 
     @Test
@@ -289,7 +292,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
-                .sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UK06Message.class), any());
     }
 
     @Test
@@ -318,7 +321,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
-                .sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UK06Message.class), any());
     }
 
     @Test
@@ -345,7 +348,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
-                .sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UK06Message.class), any());
     }
 
     @Test
@@ -374,7 +377,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
-                .sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+                .sendNackMessage(eq(EHR_EXTRACT_CANNOT_BE_PROCESSED), any(RCMRIN030000UK06Message.class), any());
     }
 
     @Test
