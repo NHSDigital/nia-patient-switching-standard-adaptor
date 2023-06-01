@@ -35,7 +35,7 @@ They are Java Spring Boot applications, released as separate docker images.
     └── mhs-adaptor-mock            # Dockerfile and required files for mock of MHS Adaptor
 
 ## Snomed CT Database
-Please make sure to load the latest release of Snomed CT UK Edition. See [snomed-database-loader](https://github.com/NHSDigital/nia-patient-switching-standard-adaptor/tree/main/snomed-database-loader) for more information.
+Please make sure to load the latest release of Snomed CT UK Edition. See [snomed-database-loader](/snomed-database-loader/README.md) for more information.
 
 ## Local development
 ### How to start local environment
