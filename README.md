@@ -45,6 +45,7 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [snomed
    - POSTGRES_PASSWORD: Password to be set for the user used to run migrations. It will also be the password for the default postgres user.
    - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
    - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
+   - SNOMED_CT_TERMINOLOGY_FILE: Path to your downloaded Snomed CT UK
    
    There is an option to set following env variables when needed:
    - PS_DB_URL: Database URL required to run migrations (for local environment set 'jdbc:postgresql://localhost:5436/patient_switching')
