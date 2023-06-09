@@ -100,4 +100,4 @@ GPC_FACADE_USER_DB_PASSWORD: "123456"
 - Check that both the `ps_gp2gp_translator-1` + `gpc_facade-1` have stopped running
 - Check the certificates in postman
 - If the start script doesn't run, check the file permissions to ensure the script is executable or run with 
-elevated privatises i.e `sudo ./start-test-environment.sh`   
+elevated privileges i.e. `sudo ./start-test-environment.sh`   
