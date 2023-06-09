@@ -17,7 +17,7 @@
 
 ## Setting up test-suite adaptors to run Postman tests
 1. Use the terminal and CD into folder `\nia-patient-switching-standard-adaptor\test-suite`
-2. Run the code `sudo ./start-test-environment.sh`
+2. Run the start script `./start-test-environment.sh`
 3. Allow the system to build adaptors
 4. After building your docker suite should look something like this (containers can appear in any order):
 
@@ -99,3 +99,5 @@ GPC_FACADE_USER_DB_PASSWORD: "123456"
 - Check the environment variables
 - Check that both the `ps_gp2gp_translator-1` + `gpc_facade-1` have stopped running
 - Check the certificates in postman
+- If the start script doesn't run, check the file permissions to ensure the script is executable or run with 
+elevated privatises i.e `sudo ./start-test-environment.sh`   
