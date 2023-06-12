@@ -98,6 +98,39 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [snomed
       All components will run in Docker.
 
 4. Follow the `README` in `snomed-database-loader` directory to load Snomed CT into database
+
+### Releasing a new version to Docker Hub
+
+Make sure you are on the main branch, with the latest version of the code before following these instructions.
+
+```shell
+git checkout main
+git pull
+```
+
+When running the buildx commands you may get an error asking you to run the following command, which you should do.
+```shell
+docker buildx create --use
+```
+
+Replace \<version\> with the [next version of the ps-adaptor to release](https://hub.docker.com/r/nhsdev/nia-ps-adaptor/tags).
+
+```shell
+docker buildx build -f docker/gp2gp-translator/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-adaptor:<version> --push
+```
+
+Replace \<version\> with the [next version of the gpc-facade to release](https://hub.docker.com/r/nhsdev/nia-ps-facade/tags).
+
+```shell
+docker buildx build -f docker/gpc-facade/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-facade:<version> --push
+```
+
+Replace \<version\> with the [next version of the ps-db-migration to release](https://hub.docker.com/r/nhsdev/nia-ps-db-migration/tags).
+
+```shell
+docker buildx build -f docker/db-migration/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-db-migration:<version> --push
+```
+
 ### Rebuilding services
 To rebuild the GPC Api Facade run
 ```shell script
