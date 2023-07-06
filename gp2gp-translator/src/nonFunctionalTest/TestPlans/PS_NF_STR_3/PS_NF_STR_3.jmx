@@ -152,7 +152,7 @@ log.info(vars.get(&quot;threadDetails&quot;) + &quot;Preparing request with conv
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
           <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -284,7 +284,7 @@ SampleResult.setIgnore();</stringProp>
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">localhost</stringProp>
+                  <stringProp name="HTTPSampler.domain"> ${__P(facadeUrl, localhost)}</stringProp>
                   <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
                   <stringProp name="HTTPSampler.protocol">http</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -411,7 +411,7 @@ SampleResult.setIgnore();</stringProp>
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">localhost</stringProp>
+                  <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
                   <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
                   <stringProp name="HTTPSampler.protocol">http</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -538,7 +538,7 @@ SampleResult.setIgnore();</stringProp>
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">localhost</stringProp>
+                  <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
                   <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
                   <stringProp name="HTTPSampler.protocol">http</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -658,7 +658,7 @@ SampleResult.setIgnore();</stringProp>
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">localhost</stringProp>
+                  <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
                   <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
                   <stringProp name="HTTPSampler.protocol">http</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -746,7 +746,7 @@ SampleResult.setIgnore();</stringProp>
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -821,7 +821,7 @@ SampleResult.setIgnore();</stringProp>
         <stringProp name="filename">../../Results/PS_NF_STR_3/SummaryReport_${__time(YMDHMS)}.csv</stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="true">
+      <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="false">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>

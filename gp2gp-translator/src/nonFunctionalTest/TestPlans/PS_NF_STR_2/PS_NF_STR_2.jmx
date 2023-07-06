@@ -152,7 +152,7 @@ log.info(vars.get(&quot;threadDetails&quot;) + &quot;Preparing request with conv
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
           <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -274,7 +274,7 @@ SampleResult.setIgnore();</stringProp>
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">localhost</stringProp>
+                  <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
                   <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
                   <stringProp name="HTTPSampler.protocol">http</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -401,7 +401,7 @@ SampleResult.setIgnore();</stringProp>
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">localhost</stringProp>
+                  <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
                   <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
                   <stringProp name="HTTPSampler.protocol">http</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding"></stringProp>
