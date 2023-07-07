@@ -38,6 +38,7 @@ services:
       - MHS_INBOUND_USE_SSL
       - TCP_PORTS=${MHS_INBOUND_PORT}
       - SERVICE_PORTS=${MHS_INBOUND_SERVICE_PORTS}
+      - SUPPORTED_FILE_TYPES
 
   outbound:
     image: ${MHS_OUTBOUND_VERSION}
@@ -67,13 +68,12 @@ services:
       - MHS_OUTBOUND_ROUTING_LOOKUP_METHOD
       - MHS_SDS_API_URL
       - MHS_SDS_API_KEY
+      - SUPPORTED_FILE_TYPES
 
   ########### PS Adapter Specific ###############
 
   gpc_facade:
-    build:
-      context: ../../
-      dockerfile: ./docker/gpc-facade/Dockerfile
+    image: ${PS_FACADE_VERSION}
     ports:
       - "8081:8081"
     depends_on:
@@ -92,9 +92,7 @@ services:
       - nia-daisy-chain
 
   ps_gp2gp_translator:
-    build:
-      context: ../../
-      dockerfile: ./docker/gp2gp-translator/Dockerfile
+    image: ${PS_TRANSLATOR_VERSION}
     ports:
       - "8085:8085"
     depends_on:
