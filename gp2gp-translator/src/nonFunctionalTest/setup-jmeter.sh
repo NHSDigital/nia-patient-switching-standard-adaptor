@@ -3,6 +3,10 @@
 echo "Current working directory: "
 pwd
 echo
+echo "Downloading Apache JMeter..."
+curl -O https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.5.tgz
+echo "Downloaded Apache JMeter."
+echo
 
 echo "Downloading Qpid Jms Client..."
 curl -O https://archive.apache.org/dist/qpid/jms/1.3.0/apache-qpid-jms-1.3.0-bin.tar.gz
