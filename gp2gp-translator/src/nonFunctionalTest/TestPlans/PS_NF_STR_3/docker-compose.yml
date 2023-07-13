@@ -5,7 +5,7 @@ services:
       context: ../../../../..
       dockerfile: ./docker/gp2gp-translator/Dockerfile
     ports:
-      - "8086:8086"
+      - "8087:8087"
     environment:
       - GP2GP_TRANSLATOR_SERVER_PORT
       - PS_DB_URL=jdbc:postgresql://ps_db:5432
@@ -31,7 +31,7 @@ services:
       context: ../../../../..
       dockerfile: ./docker/gp2gp-translator/Dockerfile
     ports:
-      - "8087:8087"
+      - "8088:8088"
     environment:
       - GP2GP_TRANSLATOR_SERVER_PORT
       - PS_DB_URL=jdbc:postgresql://ps_db:5432

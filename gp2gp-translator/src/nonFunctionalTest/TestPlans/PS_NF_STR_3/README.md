@@ -2,6 +2,9 @@
 
 #### Can the system process 20 batches of 12 messages submitted in parallel using 3 threads/instances?
 
+Please note that at present this test will only run on a local test environment due to the requirement
+to spin up extra instances of the GP2GP adaptor.
+
 ### Preparing Tests
 
 * Ensure that the docker (in the root of the project) folder contains a valid vars.sh.
