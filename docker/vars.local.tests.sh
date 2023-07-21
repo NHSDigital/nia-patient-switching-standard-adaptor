@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export PS_DB_HOST="ps_db"
 export PS_DB_PORT="5432"
-export PS_DB_URL="jdbc:localhost://${PS_DB_HOST}:${PS_DB_PORT}"
+export PS_DB_URL="jdbc:postgresql://${PS_DB_HOST}:${PS_DB_PORT}"
 export PS_DB_OWNER_NAME="postgres"
 export POSTGRES_PASSWORD="pass_test"
 export GPC_FACADE_USER_DB_PASSWORD="pass_test"
