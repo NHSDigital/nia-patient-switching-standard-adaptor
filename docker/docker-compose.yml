@@ -99,6 +99,7 @@ services:
       - ps-network
 
   mhs-adaptor-mock:
+    container_name: "mhs-adaptor-mock"
     build: ./mhs-adaptor-mock
     ports:
       - "8080:8080"
