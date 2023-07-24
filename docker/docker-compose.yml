@@ -35,8 +35,8 @@ services:
       - GP2GP_TRANSLATOR_SERVER_PORT
       - PS_DB_URL=jdbc:postgresql://ps_db:5432
       - GP2GP_TRANSLATOR_USER_DB_PASSWORD
-      - PS_AMQP_BROKER #=amqp://activemq:5672
-      - MHS_AMQP_BROKER #=amqp://activemq:5672
+      - PS_AMQP_BROKER=amqp://activemq:5672
+      - MHS_AMQP_BROKER=amqp://activemq:5672
       - PS_QUEUE_NAME
       - MHS_QUEUE_NAME
       - PS_AMQP_USERNAME
@@ -99,7 +99,6 @@ services:
       - ps-network
 
   mhs-adaptor-mock:
-    container_name: "mhs-adaptor-mock"
     build: ./mhs-adaptor-mock
     ports:
       - "8080:8080"
