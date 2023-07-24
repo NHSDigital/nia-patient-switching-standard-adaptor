@@ -45,7 +45,7 @@ services:
       - MHS_AMQP_USERNAME
       - MHS_AMQP_PASSWORD
       - MHS_AMQP_MAX_REDELIVERIES
-      - MHS_BASE_URL #=http://mhs-adaptor-mock:8080/
+      - MHS_BASE_URL=http://mhs-adaptor-mock:8080/
       - PS_LOGGING_LEVEL
       - SUPPORTED_FILE_TYPES
     networks:
