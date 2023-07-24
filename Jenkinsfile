@@ -89,9 +89,11 @@ pipeline {
                                     sh '''
                                        source docker/vars.local.tests.sh
                                        docker-compose -f docker/docker-compose.yml up --build --force-recreate --no-deps -d activemq
-                                       docker-compose -f docker/docker-compose.yml up --build -d  mhs-adaptor-mock
+                                       docker-compose -f docker/docker-compose.yml up --build -d mhs-adaptor-mock
+                                       sleep 10
                                        docker ps
                                        docker network inspect ps-network
+                                       docker inspect docker_mhs-adaptor-mock_1
                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml build gp2gp_translator
                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml up --exit-code-from gp2gp_translator gp2gp_translator
                                    '''
