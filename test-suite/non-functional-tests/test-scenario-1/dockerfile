@@ -1,0 +1,56 @@
+FROM openjdk:17-jdk-alpine
+
+ARG JMETER_VERSION="5.5"
+ARG JMETER_HOME="/opt/apache-jmeter-${JMETER_VERSION}"
+ARG JMETER_BIN="${JMETER_HOME}/bin"
+ARG MIRROR_HOST=http://mirrors.ocf.berkeley.edu/apache/jmeter
+ARG JMETER_DOWNLOAD_URL="${MIRROR_HOST}/binaries/apache-jmeter-${JMETER_VERSION}.tgz"
+ARG JMETER_PLUGINS_DOWNLOAD_URL="http://repo1.maven.org/maven2/kg/apc"
+ARG JMETER_LIB_FOLDER="${JMETER_HOME}/lib/"
+ARG JMETER_PLUGINS_FOLDER="${JMETER_HOME}/lib/ext/"
+ARG INBOUND_CERT_PATH="/jmeter-config/certs"
+
+ENV FACADE_URL test-suite_gpc_facade_1
+ENV FACADE_PORT 8081
+ENV INBOUND_URL test-suite_inbound_1
+ENV INBOUND_PORT 443
+
+RUN apk update  \
+    && apk upgrade  \
+    && apk add --update openjdk8-jre tzdata curl unzip bash  \
+    && rm -rf /var/cache/apk/*  \
+    && mkdir -p /tmp/dependencies/ \
+    && mkdir -p /opt \
+    && mkdir -p ./jmeter-logs \
+    && mkdir -p ./jmeter-config \
+    && mkdir -p ./jmeter-config/certs
+
+RUN chmod a+rw -R ./jmeter-logs
+    
+RUN curl -L --silent ${JMETER_DOWNLOAD_URL} > /tmp/dependencies/apache-jmeter-${JMETER_VERSION}.tgz
+
+RUN tar -xzf /tmp/dependencies/apache-jmeter-${JMETER_VERSION}.tgz -C /opt
+
+RUN rm -rf /tmp/dependencies
+
+RUN curl -L --silent ${JMETER_PLUGINS_DOWNLOAD_URL}/jmeter-plugins-cmn-jmeter/0.5/jmeter-plugins-cmn-jmeter-0.5.jar -o ${JMETER_PLUGINS_FOLDER}/jmeter-plugins-cmn-jmeter-0.5.jar
+
+ENV PATH $PATH:$JMETER_BIN
+
+COPY config-template.properties ./jmeter-config/config.properties
+
+RUN sed -i "s|{{facade-port}}|${FACADE_PORT}|g" ./jmeter-config/config.properties  \
+    && sed -i "s|{{facade-url}}|${FACADE_URL}|g" ./jmeter-config/config.properties \
+    && sed -i "s|{{inbound-port}}|${INBOUND_PORT}|g" ./jmeter-config/config.properties \
+    && sed -i "s|{{inbound-url}}|${INBOUND_URL}|g" ./jmeter-config/config.properties \
+    && sed -i "s|{{jms-provider-path}}|${JNDI_PROPERTIES_PATH}|g" ./jmeter-config/config.properties
+
+COPY testplan.jmx ./jmeter-config/
+COPY run-tests.sh ./jmeter-config/
+COPY jmeterkeystore.p12 ./jmeter-config/certs/jmeterkeystore.p12
+
+RUN chmod +x ./jmeter-config/run-tests.sh
+
+WORKDIR ${JMETER_HOME}
+
+ENTRYPOINT ["../../jmeter-config/run-tests.sh"]

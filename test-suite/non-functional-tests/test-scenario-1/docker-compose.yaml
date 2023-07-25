@@ -1,0 +1,12 @@
+version: '3'
+
+networks:
+  default:
+    name: nia-ps
+    external: true
+
+services:
+  nf-test-1:
+    build: .
+    networks:
+      - default
