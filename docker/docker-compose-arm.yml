@@ -80,7 +80,7 @@ services:
   activemq:
     build:
       context: ../
-      dockerfile: ./docker/activemq/Dockerfile
+      dockerfile: ./docker/activemq/DockerfileARM
     ports:
       - "5672:5672"
       - "8161:8161"
