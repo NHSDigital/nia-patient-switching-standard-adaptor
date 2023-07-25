@@ -6,7 +6,7 @@
 
 You will need to provide the certificate and key required to connect to the inbound service.
  * Copy the certificate and key files into the /testPlans/certs folder named 'client.crt' and 'client.key' respectively.
- * Ensure that the ENV variables in docker-compose have been set correctly
+ * Ensure that varaibles in the .env file have been set correctly
 
 ### Running Tests
 
