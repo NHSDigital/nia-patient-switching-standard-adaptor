@@ -94,6 +94,7 @@ pipeline {
                                        docker ps
                                        docker network inspect ps-network
                                        docker inspect docker_mhs-adaptor-mock_1
+                                       docker logs docker_mhs-adaptor-mock_1
                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml build gp2gp_translator
                                        docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml up --exit-code-from gp2gp_translator gp2gp_translator
                                    '''
