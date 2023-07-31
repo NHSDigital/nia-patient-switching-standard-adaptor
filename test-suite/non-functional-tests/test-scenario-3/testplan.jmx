@@ -12,13 +12,13 @@
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Test Scenario 1" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Test Plan" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">${__P(loopCount, 12)}</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__P(threadCount, 1)}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(threadCount, 3)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${__P(rampUp, 0)}</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration">60</stringProp>
@@ -28,7 +28,7 @@
       <hashTree>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Batch Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">${__P(batchCount, 1)}</stringProp>
+          <stringProp name="LoopController.loops">${__P(batchCount, 20)}</stringProp>
         </LoopController>
         <hashTree>
           <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Prepare variables" enabled="true">

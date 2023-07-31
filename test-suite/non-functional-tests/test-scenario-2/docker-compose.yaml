@@ -1,0 +1,18 @@
+version: '3'
+
+networks:
+  default:
+    name: nia-ps
+    external: true
+
+services:
+  nf-test-2:
+      build: 
+        context: .
+        args:
+          FACADE_URL: $FACADE_URL
+          FACADE_PORT: $FACADE_PORT
+          INBOUND_URL: $INBOUND_URL
+          INBOUND_PORT: $INBOUND_PORT
+      networks:
+        - default

@@ -1,6 +1,6 @@
-## Test Scenario 1
+## Test Scenario 4
 
-12 patient transfers x 1 thread
+12 Simultaneous transfers - 1 patient transfers x 12 threads
 
 ### Test details
 

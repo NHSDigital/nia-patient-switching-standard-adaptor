@@ -1,10 +1,10 @@
-## Test Scenario 1
+## Test Scenario 5
 
-12 patient transfers x 1 thread
+360 transfers in 1.5 hours.
 
 ### Test details
 
-12 Transfers requested - 10 expected to succeed, 2 expected to fail, each successful transfer contains:
+360 Transfers requested - 300 expected to succeed, 60 expected to fail, each successful transfer contains:
 * 1 RCMR_IN030000UK06 message
 * 1 COPC_IN000001UK01 index message
 * 2 COPC_IN000001UK01 Fragment messages

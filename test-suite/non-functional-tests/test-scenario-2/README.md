@@ -1,10 +1,10 @@
-## Test Scenario 1
+## Test Scenario 2
 
-12 patient transfers x 1 thread
+30 batches of 12 patient transfers x 1 thread
 
 ### Test details
 
-12 Transfers requested - 10 expected to succeed, 2 expected to fail, each successful transfer contains:
+360 Transfers requested - 300 expected to succeed, 60 expected to fail, each successful transfer contains:
 * 1 RCMR_IN030000UK06 message
 * 1 COPC_IN000001UK01 index message
 * 2 COPC_IN000001UK01 Fragment messages
