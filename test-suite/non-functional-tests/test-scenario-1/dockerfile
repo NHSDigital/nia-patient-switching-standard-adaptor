@@ -6,9 +6,7 @@ ARG JMETER_BIN="${JMETER_HOME}/bin"
 ARG MIRROR_HOST=http://mirrors.ocf.berkeley.edu/apache/jmeter
 ARG JMETER_DOWNLOAD_URL="${MIRROR_HOST}/binaries/apache-jmeter-${JMETER_VERSION}.tgz"
 ARG JMETER_PLUGINS_DOWNLOAD_URL="http://repo1.maven.org/maven2/kg/apc"
-ARG JMETER_LIB_FOLDER="${JMETER_HOME}/lib/"
 ARG JMETER_PLUGINS_FOLDER="${JMETER_HOME}/lib/ext/"
-ARG INBOUND_CERT_PATH="/jmeter-config/certs"
 
 ARG FACADE_URL 
 ARG FACADE_PORT 
