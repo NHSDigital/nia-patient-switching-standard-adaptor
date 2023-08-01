@@ -12,7 +12,7 @@
 ### Prerequisites 
 
 You will need to provide the certificate and key required to connect to the inbound service.
-* Copy the certificate and key files into the /testPlans/certs folder named 'client.crt' and 'client.key' respectively.
+* Copy the certificate and key files into the /certs folder named 'client.crt' and 'client.key' respectively..
 * Ensure that variables in the .env file have been set correctly
 
 ### Running Tests
