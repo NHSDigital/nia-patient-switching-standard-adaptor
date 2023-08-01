@@ -164,7 +164,7 @@ SampleResult.setIgnore();</stringProp>
           <hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="${threadDetails} 0: Send EHR Extract - Large File Size" enabled="true">
               <boolProp name="TransactionController.includeTimers">false</boolProp>
-              <boolProp name="TransactionController.parent">true</boolProp>
+              <boolProp name="TransactionController.parent">false</boolProp>
               <stringProp name="TestPlan.comments">A transaction controller to send a standard RCMR_IN030000UK06 message flow with COPC_IN000001UK01 fragment</stringProp>
             </TransactionController>
             <hashTree>

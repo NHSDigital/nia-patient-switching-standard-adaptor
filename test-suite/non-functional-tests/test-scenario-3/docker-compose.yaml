@@ -7,12 +7,11 @@ networks:
 
 services:
   nf-test-3:
-      build: 
-        context: .
-        args:
-          FACADE_URL: $FACADE_URL
-          FACADE_PORT: $FACADE_PORT
-          INBOUND_URL: $INBOUND_URL
-          INBOUND_PORT: $INBOUND_PORT
-      networks:
-        - default
+    environment:
+      - FACADE_URL=$FACADE_URL
+      - FACADE_PORT=$FACADE_PORT
+      - INBOUND_URL=$INBOUND_URL
+      - INBOUND_PORT=$INBOUND_PORT
+    build: .
+    networks:
+      - default

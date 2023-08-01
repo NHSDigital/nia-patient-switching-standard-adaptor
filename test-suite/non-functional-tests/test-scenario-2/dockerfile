@@ -8,10 +8,10 @@ ARG JMETER_DOWNLOAD_URL="${MIRROR_HOST}/binaries/apache-jmeter-${JMETER_VERSION}
 ARG JMETER_PLUGINS_DOWNLOAD_URL="http://repo1.maven.org/maven2/kg/apc"
 ARG JMETER_PLUGINS_FOLDER="${JMETER_HOME}/lib/ext/"
 
-ARG FACADE_URL 
-ARG FACADE_PORT 
-ARG INBOUND_URL
-ARG INBOUND_PORT
+ENV FACADE_URL="" 
+ENV FACADE_PORT="" 
+ENV INBOUND_URL=""
+ENV INBOUND_PORT=""
 
 RUN apk update  \
     && apk upgrade  \
@@ -32,12 +32,6 @@ RUN curl -L --silent ${JMETER_PLUGINS_DOWNLOAD_URL}/jmeter-plugins-cmn-jmeter/0.
 ENV PATH $PATH:$JMETER_BIN
 
 COPY config-template.properties ./jmeter-config/config.properties
-
-RUN sed -i "s|{{facade-port}}|${FACADE_PORT}|g" ./jmeter-config/config.properties  \
-    && sed -i "s|{{facade-url}}|${FACADE_URL}|g" ./jmeter-config/config.properties \
-    && sed -i "s|{{inbound-port}}|${INBOUND_PORT}|g" ./jmeter-config/config.properties \
-    && sed -i "s|{{inbound-url}}|${INBOUND_URL}|g" ./jmeter-config/config.properties \
-    && sed -i "s|{{jms-provider-path}}|${JNDI_PROPERTIES_PATH}|g" ./jmeter-config/config.properties
 
 COPY testplan.jmx ./jmeter-config/
 COPY run-tests.sh ./jmeter-config/
