@@ -6,5 +6,6 @@ docker ps -a -q -f name=gp2gp_translator_nft | xargs -r docker rm
 
 source ../../../../../docker/vars.sh
 
+docker network create ps-network || true
 docker-compose build gp2gp_translator_nft1 gp2gp_translator_nft2
 docker-compose up -d gp2gp_translator_nft1 gp2gp_translator_nft2
