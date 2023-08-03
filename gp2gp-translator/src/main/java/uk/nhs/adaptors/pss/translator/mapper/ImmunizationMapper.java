@@ -126,8 +126,8 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
 
         if (ehrComposition.getAuthor() != null) {
             return extension
-                    .setValue(new DateTimeType(
-                            DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue()).asStringValue()));
+                .setValue(new DateTimeType(
+                    DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue()).asStringValue()));
         } else if (ehrComposition.getEffectiveTime() != null && ehrComposition.getAvailabilityTime().getNullFlavor() == null) {
             return extension
                 .setValue(new DateTimeType(
