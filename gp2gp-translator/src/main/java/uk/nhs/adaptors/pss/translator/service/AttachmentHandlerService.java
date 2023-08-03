@@ -58,10 +58,6 @@ public class AttachmentHandlerService {
                     }
 
                     if (inlineAttachment.isBase64()) {
-                        if (inlineAttachment.getLength() > 0
-                            && inlineAttachment.getLength() != inlineAttachment.getPayload().length()) {
-                            throw new InlineAttachmentProcessingException("Incorrect payload length received");
-                        }
                         decodedPayload = Base64.getMimeDecoder().decode(inlineAttachment.getPayload());
                     } else {
                         decodedPayload = inlineAttachment.getPayload().getBytes(StandardCharsets.UTF_8);
