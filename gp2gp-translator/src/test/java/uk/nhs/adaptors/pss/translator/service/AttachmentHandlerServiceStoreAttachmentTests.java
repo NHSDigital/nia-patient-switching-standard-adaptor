@@ -418,7 +418,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
             .payload("SGVsbG8gV29ybGQgZnJvbSBTY290dCBBbGV4YW5kZXI=").build());
 
         assertDoesNotThrow( () -> attachmentHandlerService.storeAttachments(attachment, CONVERSATION_ID),
-                            "PS Adaptor accepts if payload size is different from the declared one");
+                            "PS Adaptor is OK when payload size is different from the declared one");
 
     }
 
