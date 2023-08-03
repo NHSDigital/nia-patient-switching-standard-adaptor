@@ -7151,7 +7151,7 @@
           },
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-            "valueString": "20100118113945"
+            "valueDateTime": "2010-01-18T11:39:45+00:00"
           }
         ],
         "identifier": [
@@ -7231,7 +7231,7 @@
           },
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-            "valueString": "20100118113945"
+            "valueDateTime": "2010-01-18T11:39:45+00:00"
           }
         ],
         "identifier": [
@@ -7315,7 +7315,7 @@
           },
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-            "valueString": "20100118113945"
+            "valueDateTime": "2010-01-18T11:39:45+00:00"
           }
         ],
         "identifier": [
@@ -7395,7 +7395,7 @@
           },
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-            "valueString": "20100118113945"
+            "valueDateTime": "2010-01-18T11:39:45+00:00"
           }
         ],
         "identifier": [
@@ -7479,7 +7479,7 @@
           },
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-            "valueString": "20100118113945"
+            "valueDateTime": "2010-01-18T11:39:45+00:00"
           }
         ],
         "identifier": [
@@ -7563,7 +7563,7 @@
           },
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-            "valueString": "20100118113945"
+            "valueDateTime": "2010-01-18T11:39:45+00:00"
           }
         ],
         "identifier": [

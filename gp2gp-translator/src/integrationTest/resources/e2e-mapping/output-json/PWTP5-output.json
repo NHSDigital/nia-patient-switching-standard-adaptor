@@ -3757,7 +3757,7 @@
           },
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-            "valueString": "20100630054804"
+            "valueDateTime": "2010-06-30T04:48:04+00:00"
           }
         ],
         "identifier": [
