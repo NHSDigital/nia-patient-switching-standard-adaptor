@@ -5335,7 +5335,7 @@
                                                                                 <availabilityTime value="20100120104622" />
                                                                                 <value xsi:type="PQ" value="1.4" unit="1">
                                                                                     <translation value="1.4">
-                                                                                        <originalText>mu/L</originalText>
+                                                                                        <originalText>mU/L</originalText>
                                                                                     </translation>
                                                                                 </value>
                                                                                 <referenceRange typeCode="REFV">
@@ -5469,7 +5469,7 @@
                                                         <availabilityTime value="201002100856" />
                                                         <value xsi:type="PQ" value="35" unit="1">
                                                             <translation value="35">
-                                                                <originalText>g/l</originalText>
+                                                                <originalText>g/L</originalText>
                                                             </translation>
                                                         </value>
                                                     </ObservationStatement>

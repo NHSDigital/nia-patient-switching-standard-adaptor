@@ -47,7 +47,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity((PQ) value);
 
-        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", null);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "kg/m2", null);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", null);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "kg/m2", null);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_THAN);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "kg/m2", QuantityComparator.LESS_THAN);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_THAN);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "kg/m2", QuantityComparator.GREATER_THAN);
     }
 
     @Test
@@ -120,7 +120,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_OR_EQUAL);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "kg/m2", QuantityComparator.LESS_OR_EQUAL);
     }
 
     @Test
@@ -129,7 +129,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.LESS_THAN);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "kg/m2", QuantityComparator.LESS_THAN);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_OR_EQUAL);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "kg/m2", QuantityComparator.GREATER_OR_EQUAL);
     }
 
     @Test
@@ -147,7 +147,7 @@ public class QuantityMapperTest {
 
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
-        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "Kg/m2", QuantityComparator.GREATER_THAN);
+        assertQuantity(quantity, "100", "kilogram per square meter", UNIT_SYSTEM, "kg/m2", QuantityComparator.GREATER_THAN);
     }
 
     @Test
@@ -185,6 +185,18 @@ public class QuantityMapperTest {
         Quantity quantity = quantityMapper.mapValueQuantity(value);
 
         assertQuantity(quantity, "100", "1", UNIT_SYSTEM, "1", null);
+    }
+
+    @Test
+    public void mapQuantityPqMultipleKeysDifferingOnlyByCase() {
+        var uppercaseValue = unmarshallValueElementForPQ("pq_arbitrary_unit_uppercase_s.xml");
+        var lowercaseValue = unmarshallValueElementForPQ("pq_arbitrary_unit_lowercase_s.xml");
+
+        Quantity uppercaseQuantity = quantityMapper.mapValueQuantity(uppercaseValue);
+        Quantity lowercaseQuantity = quantityMapper.mapValueQuantity(lowercaseValue);
+
+        assertQuantity(uppercaseQuantity, "10", "Siemens", null, "S", null);
+        assertQuantity(lowercaseQuantity, "10", "second", null, "s", null);
     }
 
     private void assertQuantity(

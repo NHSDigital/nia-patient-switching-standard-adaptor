@@ -4,13 +4,13 @@ package uk.nhs.adaptors.pss.translator.util;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 @Component
 public final class MeasurementUnitsUtil {
 
-    private static final Map<String, String> UNITS = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private static final Map<String, String> UNITS = new HashMap<>();
 
     @PostConstruct
     @SuppressWarnings("checkstyle:methodlength")

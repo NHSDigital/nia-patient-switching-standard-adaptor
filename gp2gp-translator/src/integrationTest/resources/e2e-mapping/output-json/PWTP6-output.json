@@ -4137,7 +4137,7 @@
         ],
         "valueQuantity": {
           "value": 10,
-          "unit": "Siemens",
+          "unit": "second",
           "code": "s"
         },
         "comment": "Right Foot"

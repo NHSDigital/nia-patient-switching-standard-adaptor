@@ -13035,7 +13035,7 @@
         "valueQuantity": {
           "value": 1.4,
           "unit": "milli enzyme unit per liter",
-          "code": "mu/L"
+          "code": "mU/L"
         },
         "comment": "                                                                                    Euthyroid picture (including satisfactory thyroxine replacement)",
         "specimen": {
@@ -13224,7 +13224,7 @@
         "valueQuantity": {
           "value": 35,
           "unit": "gram per liter",
-          "code": "g/l"
+          "code": "g/L"
         }
       }
     },
