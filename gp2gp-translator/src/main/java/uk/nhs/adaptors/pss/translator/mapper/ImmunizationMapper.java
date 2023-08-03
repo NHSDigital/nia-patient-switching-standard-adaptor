@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
+import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Immunization;
@@ -125,10 +126,11 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
 
         if (ehrComposition.getAuthor() != null) {
             return extension
-                .setValue(new StringType(ehrComposition.getAuthor().getTime().getValue()));
+                    .setValue(new DateTimeType(
+                            DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue()).asStringValue()));
         } else if (ehrComposition.getEffectiveTime() != null && ehrComposition.getAvailabilityTime().getNullFlavor() == null) {
             return extension
-                .setValue(new StringType(
+                .setValue(new DateTimeType(
                     DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue()).asStringValue()));
         }
 
