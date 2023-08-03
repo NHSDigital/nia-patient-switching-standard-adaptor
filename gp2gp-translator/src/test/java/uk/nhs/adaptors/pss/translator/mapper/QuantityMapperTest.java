@@ -186,6 +186,18 @@ public class QuantityMapperTest {
 
         assertQuantity(quantity, "100", "1", UNIT_SYSTEM, "1", null);
     }
+    
+    @Test
+    public void mapQuantityPqMultipleKeysDifferingOnlyByCase() {
+        var uppercaseValue = unmarshallValueElementForPQ("pq_arbitrary_unit_uppercase_s.xml");
+        var lowercaseValue = unmarshallValueElementForPQ("pq_arbitrary_unit_lowercase_s.xml");
+
+        Quantity uppercaseQuantity = quantityMapper.mapValueQuantity(uppercaseValue);
+        Quantity lowercaseQuantity = quantityMapper.mapValueQuantity(lowercaseValue);
+
+        assertQuantity(uppercaseQuantity, "10", "Siemens", null, "S", null);
+        assertQuantity(lowercaseQuantity, "10", "second", null, "s", null);
+    }
 
     private void assertQuantity(
         Quantity quantity,
