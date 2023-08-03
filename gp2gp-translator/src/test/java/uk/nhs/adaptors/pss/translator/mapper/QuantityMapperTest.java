@@ -186,7 +186,7 @@ public class QuantityMapperTest {
 
         assertQuantity(quantity, "100", "1", UNIT_SYSTEM, "1", null);
     }
-    
+
     @Test
     public void mapQuantityPqMultipleKeysDifferingOnlyByCase() {
         var uppercaseValue = unmarshallValueElementForPQ("pq_arbitrary_unit_uppercase_s.xml");
