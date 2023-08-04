@@ -36,7 +36,9 @@ public class InlineAttachment {
             return matcher.group(1);
         }
 
-        throw new ParseException("Unable to parse originalFilename", 0);
+        return description;
+
+        //throw new ParseException("Unable to parse originalFilename", 0);
     }
 
     private boolean parseCompressed(String description) throws ParseException {
@@ -47,6 +49,8 @@ public class InlineAttachment {
             return (matcher.group(1).equals("Yes") || matcher.group(1).equals("true"));
         }
 
-        throw new ParseException("Unable to parse isCompressed", 0);
+        return false;
+
+        //throw new ParseException("Unable to parse isCompressed", 0);
     }
 }

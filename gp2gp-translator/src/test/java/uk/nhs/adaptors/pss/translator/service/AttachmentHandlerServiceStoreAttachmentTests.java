@@ -136,6 +136,8 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
                 .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
                 .build()
         );
+
+
     }
 
     @Test
@@ -145,6 +147,28 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("text/plain")));
         attachmentHandlerService.storeAttachments(mockAttachments, CONVERSATION_ID);
         verify(storageManagerService, times(2)).uploadFile(any(), any(), any());
+    }
+
+    @Test
+    public void When_ValidListOfAttachmentsFromEMIS_Expect_DoesNotThrow() throws ValidationException,
+            InlineAttachmentProcessingException, UnsupportedFileTypeException, IOException {
+
+        when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("text/plain")));
+
+        List<InboundMessage.Attachment> EMISAttachment;
+
+        EMISAttachment = List.of(
+                InboundMessage.Attachment.builder()
+                        .contentType("text/plain")
+                        .isBase64("true")
+                        .description("9D6C3DB6-9A8E-41A6-AE11-3761EF580202_New_Guerra_output_2.xml")
+                        .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
+                        .build()
+        );
+
+
+        attachmentHandlerService.storeAttachments(EMISAttachment, CONVERSATION_ID);
+        verify(storageManagerService, times(1)).uploadFile(any(), any(), any());
     }
 
     @Test
