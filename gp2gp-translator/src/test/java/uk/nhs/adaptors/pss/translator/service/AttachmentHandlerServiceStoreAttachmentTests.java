@@ -140,9 +140,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
         when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("text/plain")));
 
-        List<InboundMessage.Attachment> EMISAttachment;
-
-        EMISAttachment = List.of(
+        List<InboundMessage.Attachment> emisAttachment = List.of(
                 InboundMessage.Attachment.builder()
                         .contentType("text/plain")
                         .isBase64("true")
@@ -151,8 +149,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
                         .build()
         );
 
-
-        attachmentHandlerService.storeAttachments(EMISAttachment, CONVERSATION_ID);
+        attachmentHandlerService.storeAttachments(emisAttachment, CONVERSATION_ID);
         verify(storageManagerService, times(1)).uploadFile(any(), any(), any());
     }
 
