@@ -19,6 +19,10 @@ public class InlineAttachment {
     private final Integer length;
 
     public InlineAttachment(InboundMessage.Attachment attachment) throws ParseException {
+        if (attachment.getDescription() == null) {
+            throw new ParseException("Unable to parse NULL description", 0);
+        }
+
         this.originalFilename = parseFilename(attachment.getDescription());
         this.contentType = attachment.getContentType();
         this.isCompressed = parseCompressed(attachment.getDescription());
@@ -28,11 +32,7 @@ public class InlineAttachment {
         this.length = XmlParseUtilService.parseFileLength(attachment.getDescription());
     }
 
-    private String parseFilename(String description) throws ParseException {
-        if (description == null) {
-            throw new ParseException("Unable to parse originalFilename from NULL description", 0);
-        }
-
+    private String parseFilename(String description) {
         Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
         Matcher matcher = pattern.matcher(description);
 
@@ -43,7 +43,7 @@ public class InlineAttachment {
         return description;
     }
 
-    private boolean parseCompressed(String description) throws ParseException {
+    private boolean parseCompressed(String description) {
         Pattern pattern = Pattern.compile("Compressed=(Yes|No|true|false)");
         Matcher matcher = pattern.matcher(description);
 
@@ -52,7 +52,5 @@ public class InlineAttachment {
         }
 
         return false;
-
-        //throw new ParseException("Unable to parse isCompressed", 0);
     }
 }
