@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
@@ -159,7 +160,7 @@ public class AttachmentHandlerService {
         List<String> payloads,
         String conversationId) {
 
-        List<InboundMessage.Attachment> attachmentsResponse = new ArrayList<InboundMessage.Attachment>();
+        List<InboundMessage.Attachment> attachmentsResponse = new ArrayList<>();
 
         for (var  i = 0; i < attachmentLogs.size(); i++) {
             var log = attachmentLogs.get(i);
@@ -178,7 +179,7 @@ public class AttachmentHandlerService {
 
             var payload = "";
             if (payloads == null || payloads.get(i) == null) {
-                payload = getAttachment(log.getFilename(), conversationId).toString();
+                payload = Arrays.toString(getAttachment(log.getFilename(), conversationId));
             } else {
                 payload = payloads.get(i);
             }
