@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.service;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -417,7 +416,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
                 + "LargeAttachment=No OriginalBase64=No; Length=45")
             .payload("SGVsbG8gV29ybGQgZnJvbSBTY290dCBBbGV4YW5kZXI=").build());
 
-        assertDoesNotThrow( () -> attachmentHandlerService.storeAttachments(attachment, CONVERSATION_ID),
+        assertDoesNotThrow(() -> attachmentHandlerService.storeAttachments(attachment, CONVERSATION_ID),
                             "PS Adaptor is OK when payload size is different from the declared one");
 
     }
