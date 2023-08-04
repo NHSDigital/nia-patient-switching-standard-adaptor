@@ -18,7 +18,23 @@ public class InlineAttachment {
     private final String payload;
     private final Integer length;
 
+    private static String originalFilenameRegEx = "Filename=\"([A-Za-z\\d\\-_. ]*)\"";
+
+    private static String isCompressedRegEx = "Compressed=(Yes|No|true|false)";
+
+    private static Pattern filenamePattern;
+
+    private static Pattern compressedPattern;
+
+    private static Matcher filenameMatcher;
+
+    private static Matcher compressedMatcher;
+
     public InlineAttachment(InboundMessage.Attachment attachment) throws ParseException {
+        if (attachment.getDescription() == null) {
+            throw new ParseException("Unable to parse NULL description", 0);
+        }
+
         this.originalFilename = parseFilename(attachment.getDescription());
         this.contentType = attachment.getContentType();
         this.isCompressed = parseCompressed(attachment.getDescription());
@@ -28,25 +44,45 @@ public class InlineAttachment {
         this.length = XmlParseUtilService.parseFileLength(attachment.getDescription());
     }
 
-    private String parseFilename(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
-        Matcher matcher = pattern.matcher(description);
+    private Boolean isTppAttachment(String description) {
+        filenamePattern = Pattern.compile(originalFilenameRegEx);
+        compressedPattern = Pattern.compile(isCompressedRegEx);
 
-        if (matcher.find()) {
-            return matcher.group(1);
+        filenameMatcher = filenamePattern.matcher(description);
+        compressedMatcher = compressedPattern.matcher(description);
+
+        if (filenameMatcher.find() || compressedMatcher.find()) {
+            return true;
         }
 
-        throw new ParseException("Unable to parse originalFilename", 0);
+        return false;
+    }
+
+    private String parseFilename(String description) throws ParseException {
+        if (isTppAttachment(description)) {
+            filenamePattern = Pattern.compile(originalFilenameRegEx);
+            filenameMatcher = filenamePattern.matcher(description);
+
+            if (filenameMatcher.find()) {
+                return filenameMatcher.group(1);
+            }
+            throw new ParseException("Unable to parse originalFilename field in description", 0);
+        }
+
+        return description;
     }
 
     private boolean parseCompressed(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("Compressed=(Yes|No|true|false)");
-        Matcher matcher = pattern.matcher(description);
+        if (isTppAttachment(description)) {
+            compressedPattern = Pattern.compile(isCompressedRegEx);
+            compressedMatcher = compressedPattern.matcher(description);
 
-        if (matcher.find()) {
-            return (matcher.group(1).equals("Yes") || matcher.group(1).equals("true"));
+            if (compressedMatcher.find()) {
+                return (compressedMatcher.group(1).equals("Yes") || compressedMatcher.group(1).equals("true"));
+            }
+            throw new ParseException("Unable to parse isCompressed field in description", 0);
         }
 
-        throw new ParseException("Unable to parse isCompressed", 0);
+        return false;
     }
 }
