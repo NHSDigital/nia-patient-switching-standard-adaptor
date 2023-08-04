@@ -29,6 +29,10 @@ public class InlineAttachment {
     }
 
     private String parseFilename(String description) throws ParseException {
+        if (description == null) {
+            throw new ParseException("Unable to parse originalFilename from NULL description", 0);
+        }
+
         Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
         Matcher matcher = pattern.matcher(description);
 
@@ -37,8 +41,6 @@ public class InlineAttachment {
         }
 
         return description;
-
-        //throw new ParseException("Unable to parse originalFilename", 0);
     }
 
     private boolean parseCompressed(String description) throws ParseException {

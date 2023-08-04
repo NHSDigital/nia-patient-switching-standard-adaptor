@@ -46,7 +46,6 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     private static List<InboundMessage.Attachment> mockAttachments;
     private static List<InboundMessage.Attachment> mockCompressedAttachments;
     private static List<InboundMessage.Attachment> mockMislabeledUncompressedAttachments;
-    private static List<InboundMessage.Attachment> mockMissingDescriptionElementsAttachments;
     private static final String CONVERSATION_ID = "1";
 
     @Captor
@@ -126,20 +125,6 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         );
     }
 
-    @BeforeAll
-    static void setMockMissingDescriptionElementsAttachments() throws IOException {
-        mockMissingDescriptionElementsAttachments = List.of(
-            InboundMessage.Attachment.builder()
-                .contentType("text/plain")
-                .isBase64("true")
-                .description("Incorrect format test")
-                .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
-                .build()
-        );
-
-
-    }
-
     @Test
     public void When_ValidListOfAttachmentsAndConversationIdIsGiven_Expect_DoesNotThrow() throws ValidationException,
         InlineAttachmentProcessingException, UnsupportedFileTypeException {
@@ -216,7 +201,15 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     }
 
     @Test
-    public void When_AttachmentDescriptionNotParsedCorrectly_Expect_InlineProcessingException() {
+    public void When_AttachmentDescriptionIsNull_Expect_InlineProcessingException() throws IOException {
+        List<InboundMessage.Attachment> mockMissingDescriptionElementsAttachments = List.of(
+                InboundMessage.Attachment.builder()
+                        .contentType("text/plain")
+                        .isBase64("true")
+                        .description(null)
+                        .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
+                        .build()
+        );
 
         Exception exception = assertThrows(InlineAttachmentProcessingException.class, () ->
             attachmentHandlerService.storeAttachments(mockMissingDescriptionElementsAttachments, CONVERSATION_ID)
