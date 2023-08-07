@@ -43,6 +43,8 @@ import javax.xml.transform.TransformerException;
 
 import java.text.ParseException;
 import java.time.Instant;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_RECEIVED;
@@ -242,6 +244,29 @@ public class EhrExtractMessageHandler {
         PatientMigrationRequest migrationRequest,
         InboundMessage.Attachment attachment) throws ParseException {
 
+        String description = attachment.getDescription();
+        Pattern pattern = Pattern.compile("([A-Za-z\\d\\-_. ]*)");
+        Matcher matcher = pattern.matcher(description);
+        Boolean isEmis = matcher.find();
+
+        if(isEmis){
+            return PatientAttachmentLog.builder()
+                    .mid(messageId)
+                    .filename(attachment.getDescription())
+                    .parentMid(null)
+                    .patientMigrationReqId(migrationRequest.getId())
+                    .contentType("plain/text")
+                    .compressed(false)
+                    .largeAttachment(false)
+                    .originalBase64(true)
+                    .skeleton(false)
+                    .uploaded(true)
+                    .lengthNum(0)
+                    .postProcessedLengthNum(attachment.getPayload().length())
+                    .orderNum(0)
+                    .build();
+        }
+
         return PatientAttachmentLog.builder()
             .mid(messageId)
             .filename(XmlParseUtilService.parseFilename(attachment.getDescription()))
@@ -262,6 +287,29 @@ public class EhrExtractMessageHandler {
     private PatientAttachmentLog buildPatientAttachmentLogFromExternalAttachment(
         PatientMigrationRequest migrationRequest,
         InboundMessage.ExternalAttachment externalAttachment) throws ParseException {
+
+        String description = externalAttachment.getDescription();
+        Pattern pattern = Pattern.compile("([A-Za-z\\d\\-_. ]*)");
+        Matcher matcher = pattern.matcher(description);
+        Boolean isEmis = matcher.find();
+
+        if(isEmis){
+            return PatientAttachmentLog.builder()
+                    .mid(externalAttachment.getMessageId())
+                    .filename(externalAttachment.getDescription())
+                    .parentMid(null)
+                    .patientMigrationReqId(migrationRequest.getId())
+                    .contentType("plain/text")
+                    .compressed(false)
+                    .largeAttachment(false)
+                    .originalBase64(true)
+                    .skeleton(false)
+                    .uploaded(false)
+                    .lengthNum(0)
+                    .orderNum(0)
+                    .build();
+        }
+
         return PatientAttachmentLog.builder()
                 .mid(externalAttachment.getMessageId())
                 .filename(XmlParseUtilService.parseFilename(externalAttachment.getDescription()))
