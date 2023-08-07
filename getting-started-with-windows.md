@@ -46,7 +46,7 @@ Before cloning the project, we need to create a `.gitconfig` file.
        ```
     5. Then Run
        ```
-       wsl --instal -d Ubuntu
+       wsl --install -d Ubuntu
        ``` 
     6. Once Ubuntu is installed your command prompt should look like this:
           ```

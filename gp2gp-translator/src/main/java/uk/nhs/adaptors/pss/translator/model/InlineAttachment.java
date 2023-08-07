@@ -36,7 +36,7 @@ public class InlineAttachment {
             return matcher.group(1);
         }
 
-        throw new ParseException("Unable to parse originalFilename", 0);
+        throw new ParseException("Unable to parse originalFilename: " + description, 0);
     }
 
     private boolean parseCompressed(String description) throws ParseException {
