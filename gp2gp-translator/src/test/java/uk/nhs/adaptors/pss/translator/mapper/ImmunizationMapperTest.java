@@ -107,7 +107,7 @@ public class ImmunizationMapperTest {
         assertThat(immunization.getId()).isEqualTo(OBSERVATION_ROOT_ID);
         assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
         assertEquals(VACCINE_PROCEDURE_URL, immunization.getExtension().get(0).getUrl());
-        assertEquals(CODING_DISPLAY, ((CodeableConcept)immunization.getExtension().get(0).getValue()).getCoding().get(0).getDisplay());
+        assertEquals(CODING_DISPLAY, ((CodeableConcept) immunization.getExtension().get(0).getValue()).getCoding().get(0).getDisplay());
 
         assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
     }
