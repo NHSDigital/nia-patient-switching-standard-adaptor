@@ -97,8 +97,16 @@ public class XmlParseUtilService {
 
         if (matcher.find()) {
             return matcher.group(1);
+        }else{
+            pattern = Pattern.compile("([A-Za-z\\d\\-_. ]*)");
+            matcher = pattern.matcher(description);
+
+            if (matcher.find()) {
+                return matcher.group(1);
+            }
+            throw new ParseException("Unable to parse originalFilename", 0);
         }
-        throw new ParseException("Unable to parse originalFilename", 0);
+
     }
 
     public static int parseFileLength(String description) {
