@@ -37,8 +37,7 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @AllArgsConstructor
 public class ImmunizationMapper extends AbstractMapper<Immunization> {
     private static final String META_PROFILE = "Immunization-1";
-    private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
-        + "-VaccinationProcedure-1";
+    private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1";
     private static final String END_DATE_PREFIX = "End Date: ";
     private static final String VACCINATION_CODING_EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding"
         + "-sctdescid";
@@ -137,11 +136,8 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
 
     private Extension createVaccineProcedureExtension(RCMRMT030101UK04ObservationStatement observationStatement) {
         return new Extension()
-            .setUrl(VACCINE_PROCEDURE_URL)
-            .setValue(new Extension()
-                .setUrl(VACCINATION_CODING_EXTENSION_URL)
-                .setValue(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
-            );
+                    .setUrl(VACCINE_PROCEDURE_URL)
+                    .setValue(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
     }
 
     private Annotation buildAnnotation(String annotation) {
