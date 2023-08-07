@@ -22896,7 +22896,7 @@
         }
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-        "valueString": "20100114103430"
+        "valueDateTime": "2010-01-14T10:34:30+00:00"
       } ],
       "identifier": [ {
         "system": "https://PSSAdaptor/D5445",
@@ -22941,7 +22941,7 @@
         }
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-        "valueString": "20100113151332"
+        "valueDateTime": "2010-01-13T15:13:32+00:00"
       } ],
       "identifier": [ {
         "system": "https://PSSAdaptor/D5445",
@@ -22991,7 +22991,7 @@
         }
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-        "valueString": "20100113151332"
+        "valueDateTime": "2010-01-13T15:13:32+00:00"
       } ],
       "identifier": [ {
         "system": "https://PSSAdaptor/D5445",
