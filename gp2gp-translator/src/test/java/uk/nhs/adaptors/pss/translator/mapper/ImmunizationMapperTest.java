@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -81,7 +82,7 @@ public class ImmunizationMapperTest {
         List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
         var immunization = (Immunization) immunizationList.get(0);
-        assertThat(immunization.getEncounter().getReference()).isNull();
+        assertNull(immunization.getEncounter().getReference());
     }
 
     @Test
@@ -91,8 +92,8 @@ public class ImmunizationMapperTest {
 
         var immunization = (Immunization) immunizationList.get(0);
         assertThat(immunizationList).hasSize(THREE);
-        assertThat(immunization.getId()).isEqualTo(OBSERVATION_ROOT_ID);
-        assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertEquals(OBSERVATION_ROOT_ID, immunization.getId());
+        assertEquals(META_PROFILE, immunization.getMeta().getProfile().get(0).getValue());
         assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
     }
 
@@ -153,69 +154,65 @@ public class ImmunizationMapperTest {
     }
 
     private void assertImmunizationWithHighAndLowEffectiveTime(Immunization immunization) {
-        assertThat(immunization.getDateElement().getValue()).isEqualTo(
-            DateFormatUtil.parseToDateTimeType("20110118114100000").getValue());
-        assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
-        assertThat(immunization.getNote().get(1).getText()).isEqualTo("End Date: 2010-01-18T11:41:00+00:00");
+
+        assertEquals(DateFormatUtil.parseToDateTimeType("20110118114100000").getValue(), immunization.getDateElement().getValue());
+        assertEquals(OBSERVATION_TEXT, immunization.getNote().get(0).getText());
+        assertEquals("End Date: 2010-01-18T11:41:00+00:00", immunization.getNote().get(1).getText());
     }
 
     private void assertImmunizationWithEffectiveTimeLow(Immunization immunization) {
-        assertThat(immunization.getDateElement().getValue()).isEqualTo(
-            DateFormatUtil.parseToDateTimeType("20100118114100000").getValue());
-        assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
+        assertEquals(DateFormatUtil.parseToDateTimeType("20100118114100000").getValue(), immunization.getDateElement().getValue());
+        assertEquals(OBSERVATION_TEXT, immunization.getNote().get(0).getText());
     }
 
     private void assertImmunizationWithHighEffectiveTime(Immunization immunization) {
-        assertThat(immunization.getDate()).isNull();
-        assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
-        assertThat(immunization.getNote().get(1).getText()).isEqualTo("End Date: 2010-01-18T11:41:00+00:00");
+        assertNull(immunization.getDate());
+        assertEquals(OBSERVATION_TEXT, immunization.getNote().get(0).getText());
+        assertEquals("End Date: 2010-01-18T11:41:00+00:00", immunization.getNote().get(1).getText());
     }
 
     private void assertImmunizationWithDefaultVaccineCode(Immunization immunization) {
-        assertThat(immunization.getVaccineCode()).isNotNull();
-        assertThat(immunization.getVaccineCode().getCoding().get(0).getCode()).isEqualTo("UNK");
-        assertThat(immunization.getVaccineCode().getCoding().get(0).getSystem()).isEqualTo("http://hl7.org/fhir/v3/NullFlavor");
+        assertNull(immunization.getVaccineCode());
+        assertEquals("UNK", immunization.getVaccineCode().getCoding().get(0).getCode());
+        assertEquals("http://hl7.org/fhir/v3/NullFlavor", immunization.getVaccineCode().getCoding().get(0).getSystem());
     }
 
     private void assertImmunizationWithHighEffectiveTimeCenter(Immunization immunization) {
-        assertThat(immunization.getDateElement().getValue()).isEqualTo(
-            DateFormatUtil.parseToDateTimeType("20100118114100000").getValue());
-        assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
+        assertEquals(DateFormatUtil.parseToDateTimeType("20100118114100000").getValue(), immunization.getDateElement().getValue());
+        assertEquals(OBSERVATION_TEXT, immunization.getNote().get(0).getText());
     }
 
     private void assertFullValidData(Immunization immunization, List<Immunization> immunizationList) {
         assertThat(immunizationList).hasSize(1);
-        assertThat(immunization.getId()).isEqualTo(OBSERVATION_ROOT_ID);
-        assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertEquals(OBSERVATION_ROOT_ID, immunization.getId());
+        assertEquals(META_PROFILE, immunization.getMeta().getProfile().get(0).getValue());
         assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
-        assertThat(immunization.getStatus()).isEqualTo(Immunization.ImmunizationStatus.COMPLETED);
+        assertEquals(Immunization.ImmunizationStatus.COMPLETED, immunization.getStatus());
         assertTrue(immunization.getPrimarySource());
-        assertThat(immunization.getDateElement().getValue()).isEqualTo(
-            DateFormatUtil.parseToDateTimeType("20100118114100000").getValue());
-        assertThat(immunization.getNote().get(0).getText()).isEqualTo(OBSERVATION_TEXT);
-        assertThat(immunization.getNote().get(1).getText()).isEqualTo("End Date: 2010-01-18T11:41:00+00:00");
-        assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
-        assertThat(immunization.getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
-        assertThat(immunization.getPractitioner().get(0).getActor().getReference()).isEqualTo("Practitioner/9C1610C2-5E48-4ED5-882B"
-            + "-5A4A172AFA35");
+        assertEquals(DateFormatUtil.parseToDateTimeType("20100118114100000").getValue(), immunization.getDateElement().getValue());
+        assertEquals(OBSERVATION_TEXT, immunization.getNote().get(0).getText());
+        assertEquals("End Date: 2010-01-18T11:41:00+00:00", immunization.getNote().get(1).getText());
+        assertEquals(PATIENT_ID, immunization.getPatient().getResource().getIdElement().getValue());
+        assertEquals(ENCOUNTER_ID, immunization.getEncounter().getResource().getIdElement().getValue());
+        assertEquals("Practitioner/9C1610C2-5E48-4ED5-882B-5A4A172AFA35", immunization.getPractitioner().get(0).getActor().getReference());
     }
 
     private void assertMissingData(Immunization immunization, List<Immunization> immunizationList) {
         assertEquals(1, immunizationList.size());
-        assertThat(immunization.getId()).isEqualTo(OBSERVATION_ROOT_ID);
-        assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertEquals(OBSERVATION_ROOT_ID, immunization.getId());
+        assertEquals(META_PROFILE, immunization.getMeta().getProfile().get(0).getValue());
         assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
-        assertThat(immunization.getStatus()).isEqualTo(Immunization.ImmunizationStatus.COMPLETED);
+        assertEquals(Immunization.ImmunizationStatus.COMPLETED, immunization.getStatus());
         assertTrue(immunization.getPrimarySource());
-        assertThat(immunization.getDate()).isNull();
+        assertNull(immunization.getDate());
         assertThat(immunization.getNote()).isEmpty();
-        assertThat(immunization.getPatient().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
-        assertThat(immunization.getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
+        assertEquals(PATIENT_ID, immunization.getPatient().getResource().getIdElement().getValue());
+        assertEquals(ENCOUNTER_ID, immunization.getEncounter().getResource().getIdElement().getValue());
     }
 
     private void assertThatIdentifierIsValid(Identifier identifier, String id) {
-        assertThat(identifier.getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
-        assertThat(identifier.getValue()).isEqualTo(id);
+        assertEquals(IDENTIFIER_SYSTEM, identifier.getSystem());
+        assertEquals(id, identifier.getValue());
     }
 
     private void setUpCodeableConceptMock() {
