@@ -238,6 +238,14 @@ public class EhrExtractMessageHandler {
         );
     }
 
+    private Boolean isDescriptionEmisStyle(String description) {
+        Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
+        Matcher matcher = pattern.matcher(description);
+        Boolean isEmis = !matcher.find();
+
+        return isEmis;
+    }
+
     // Parent MID should be null against an EHR message so that they are not detected in the merge process
     private PatientAttachmentLog buildPatientAttachmentLogFromAttachment(
         String messageId,
@@ -245,17 +253,15 @@ public class EhrExtractMessageHandler {
         InboundMessage.Attachment attachment) throws ParseException {
 
         String description = attachment.getDescription();
-        Pattern pattern = Pattern.compile("([A-Za-z\\d\\-_. ]*)");
-        Matcher matcher = pattern.matcher(description);
-        Boolean isEmis = matcher.find();
+        Boolean isEmis = isDescriptionEmisStyle(description);
 
-        if(isEmis){
+        if (isEmis) {
             return PatientAttachmentLog.builder()
                     .mid(messageId)
                     .filename(attachment.getDescription())
                     .parentMid(null)
                     .patientMigrationReqId(migrationRequest.getId())
-                    .contentType("plain/text")
+                    .contentType(attachment.getContentType())
                     .compressed(false)
                     .largeAttachment(false)
                     .originalBase64(true)
@@ -287,28 +293,6 @@ public class EhrExtractMessageHandler {
     private PatientAttachmentLog buildPatientAttachmentLogFromExternalAttachment(
         PatientMigrationRequest migrationRequest,
         InboundMessage.ExternalAttachment externalAttachment) throws ParseException {
-
-        String description = externalAttachment.getDescription();
-        Pattern pattern = Pattern.compile("([A-Za-z\\d\\-_. ]*)");
-        Matcher matcher = pattern.matcher(description);
-        Boolean isEmis = matcher.find();
-
-        if(isEmis){
-            return PatientAttachmentLog.builder()
-                    .mid(externalAttachment.getMessageId())
-                    .filename(externalAttachment.getDescription())
-                    .parentMid(null)
-                    .patientMigrationReqId(migrationRequest.getId())
-                    .contentType("plain/text")
-                    .compressed(false)
-                    .largeAttachment(false)
-                    .originalBase64(true)
-                    .skeleton(false)
-                    .uploaded(false)
-                    .lengthNum(0)
-                    .orderNum(0)
-                    .build();
-        }
 
         return PatientAttachmentLog.builder()
                 .mid(externalAttachment.getMessageId())
