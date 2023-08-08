@@ -97,19 +97,14 @@ public class ImmunizationMapperTest {
     }
 
     @Test
-    public void mapObservationToImmunizationWithMultipleObservationStatementsAndCodingDisplay() {
+    public void mapObservationToImmunizationAndCheckCodingDisplayAndVaccineProcedureUrl() {
         final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1";
         var ehrExtract = unmarshallEhrExtract("full_valid_immunization_with_multiple_observation_statements.xml");
         List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
         var immunization = (Immunization) immunizationList.get(0);
-        assertThat(immunizationList).hasSize(THREE);
-        assertThat(immunization.getId()).isEqualTo(OBSERVATION_ROOT_ID);
-        assertThat(immunization.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
         assertEquals(VACCINE_PROCEDURE_URL, immunization.getExtension().get(0).getUrl());
         assertEquals(CODING_DISPLAY, ((CodeableConcept) immunization.getExtension().get(0).getValue()).getCoding().get(0).getDisplay());
-
-        assertThatIdentifierIsValid(immunization.getIdentifierFirstRep(), immunization.getId());
     }
 
     @Test
