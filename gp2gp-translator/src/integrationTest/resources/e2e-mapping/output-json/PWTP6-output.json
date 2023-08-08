@@ -7124,29 +7124,26 @@
         "extension": [
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
-            "valueExtension": {
-              "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-              "valueCodeableConcept": {
-                "coding": [
-                  {
-                    "extension": [
-                      {
-                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                        "extension": [
-                          {
-                            "url": "descriptionDisplay",
-                            "valueString": "1st dipht tet acell pertus, haem influ b, inactiv polio vacc"
-                          }
-                        ]
-                      }
-                    ],
-                    "system": "http://snomed.info/sct",
-                    "code": "414259000",
-                    "display": "First diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
-                  }
-                ],
-                "text": "1st dipht tet acell pertus, haem influ b, inactiv polio vacc"
-              }
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "extension": [
+                    {
+                      "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                      "extension": [
+                        {
+                          "url": "descriptionDisplay",
+                          "valueString": "1st dipht tet acell pertus, haem influ b, inactiv polio vacc"
+                        }
+                      ]
+                    }
+                  ],
+                  "system": "http://snomed.info/sct",
+                  "code": "414259000",
+                  "display": "First diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
+                }
+              ],
+              "text": "1st dipht tet acell pertus, haem influ b, inactiv polio vacc"
             }
           },
           {
@@ -7204,29 +7201,26 @@
         "extension": [
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
-            "valueExtension": {
-              "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-              "valueCodeableConcept": {
-                "coding": [
-                  {
-                    "extension": [
-                      {
-                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                        "extension": [
-                          {
-                            "url": "descriptionDisplay",
-                            "valueString": "2nd dipht tet acell pertus, haem influ b, inactiv polio vacc"
-                          }
-                        ]
-                      }
-                    ],
-                    "system": "http://snomed.info/sct",
-                    "code": "415507003",
-                    "display": "Second diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
-                  }
-                ],
-                "text": "2nd dipht tet acell pertus, haem influ b, inactiv polio vacc"
-              }
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "extension": [
+                    {
+                      "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                      "extension": [
+                        {
+                          "url": "descriptionDisplay",
+                          "valueString": "2nd dipht tet acell pertus, haem influ b, inactiv polio vacc"
+                        }
+                      ]
+                    }
+                  ],
+                  "system": "http://snomed.info/sct",
+                  "code": "415507003",
+                  "display": "Second diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
+                }
+              ],
+              "text": "2nd dipht tet acell pertus, haem influ b, inactiv polio vacc"
             }
           },
           {
@@ -7284,33 +7278,30 @@
         "extension": [
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
-            "valueExtension": {
-              "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-              "valueCodeableConcept": {
-                "coding": [
-                  {
-                    "extension": [
-                      {
-                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                        "extension": [
-                          {
-                            "url": "descriptionId",
-                            "valueId": "458773016"
-                          },
-                          {
-                            "url": "descriptionDisplay",
-                            "valueString": "First meningitis C vaccination"
-                          }
-                        ]
-                      }
-                    ],
-                    "system": "http://snomed.info/sct",
-                    "code": "314414007",
-                    "display": "Administration of first dose of meningitis C vaccine"
-                  }
-                ],
-                "text": "First meningitis C vaccination"
-              }
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "extension": [
+                    {
+                      "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                      "extension": [
+                        {
+                          "url": "descriptionId",
+                          "valueId": "458773016"
+                        },
+                        {
+                          "url": "descriptionDisplay",
+                          "valueString": "First meningitis C vaccination"
+                        }
+                      ]
+                    }
+                  ],
+                  "system": "http://snomed.info/sct",
+                  "code": "314414007",
+                  "display": "Administration of first dose of meningitis C vaccine"
+                }
+              ],
+              "text": "First meningitis C vaccination"
             }
           },
           {
@@ -7368,29 +7359,26 @@
         "extension": [
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
-            "valueExtension": {
-              "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-              "valueCodeableConcept": {
-                "coding": [
-                  {
-                    "extension": [
-                      {
-                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                        "extension": [
-                          {
-                            "url": "descriptionDisplay",
-                            "valueString": "3rd dipht tet acell pertus, haem influ b, inactiv polio vacc"
-                          }
-                        ]
-                      }
-                    ],
-                    "system": "http://snomed.info/sct",
-                    "code": "415712004",
-                    "display": "Third diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
-                  }
-                ],
-                "text": "3rd dipht tet acell pertus, haem influ b, inactiv polio vacc"
-              }
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "extension": [
+                    {
+                      "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                      "extension": [
+                        {
+                          "url": "descriptionDisplay",
+                          "valueString": "3rd dipht tet acell pertus, haem influ b, inactiv polio vacc"
+                        }
+                      ]
+                    }
+                  ],
+                  "system": "http://snomed.info/sct",
+                  "code": "415712004",
+                  "display": "Third diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
+                }
+              ],
+              "text": "3rd dipht tet acell pertus, haem influ b, inactiv polio vacc"
             }
           },
           {
@@ -7448,33 +7436,30 @@
         "extension": [
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
-            "valueExtension": {
-              "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-              "valueCodeableConcept": {
-                "coding": [
-                  {
-                    "extension": [
-                      {
-                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                        "extension": [
-                          {
-                            "url": "descriptionId",
-                            "valueId": "458774010"
-                          },
-                          {
-                            "url": "descriptionDisplay",
-                            "valueString": "Second meningitis C vaccination"
-                          }
-                        ]
-                      }
-                    ],
-                    "system": "http://snomed.info/sct",
-                    "code": "314415008",
-                    "display": "Administration of second dose of meningitis C vaccine"
-                  }
-                ],
-                "text": "Second meningitis C vaccination"
-              }
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "extension": [
+                    {
+                      "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                      "extension": [
+                        {
+                          "url": "descriptionId",
+                          "valueId": "458774010"
+                        },
+                        {
+                          "url": "descriptionDisplay",
+                          "valueString": "Second meningitis C vaccination"
+                        }
+                      ]
+                    }
+                  ],
+                  "system": "http://snomed.info/sct",
+                  "code": "314415008",
+                  "display": "Administration of second dose of meningitis C vaccine"
+                }
+              ],
+              "text": "Second meningitis C vaccination"
             }
           },
           {
@@ -7532,33 +7517,30 @@
         "extension": [
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
-            "valueExtension": {
-              "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-              "valueCodeableConcept": {
-                "coding": [
-                  {
-                    "extension": [
-                      {
-                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                        "extension": [
-                          {
-                            "url": "descriptionId",
-                            "valueId": "3977226011"
-                          },
-                          {
-                            "url": "descriptionDisplay",
-                            "valueString": "Haemophilus influenzae type B and meningitis C vaccination"
-                          }
-                        ]
-                      }
-                    ],
-                    "system": "http://snomed.info/sct",
-                    "code": "428975001",
-                    "display": "Vaccination with Haemophilus influenzae type B and Neisseria meningitidis serotype C combination vaccine"
-                  }
-                ],
-                "text": "Haemophilus influenzae type B and meningitis C vaccination"
-              }
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "extension": [
+                    {
+                      "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                      "extension": [
+                        {
+                          "url": "descriptionId",
+                          "valueId": "3977226011"
+                        },
+                        {
+                          "url": "descriptionDisplay",
+                          "valueString": "Haemophilus influenzae type B and meningitis C vaccination"
+                        }
+                      ]
+                    }
+                  ],
+                  "system": "http://snomed.info/sct",
+                  "code": "428975001",
+                  "display": "Vaccination with Haemophilus influenzae type B and Neisseria meningitidis serotype C combination vaccine"
+                }
+              ],
+              "text": "Haemophilus influenzae type B and meningitis C vaccination"
             }
           },
           {
