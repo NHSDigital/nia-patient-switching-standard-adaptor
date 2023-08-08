@@ -40,8 +40,6 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
     private static final String META_PROFILE = "Immunization-1";
     private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1";
     private static final String END_DATE_PREFIX = "End Date: ";
-    private static final String VACCINATION_CODING_EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding"
-        + "-sctdescid";
     private static final String RECORDED_DATE_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-DateRecorded-1";
 

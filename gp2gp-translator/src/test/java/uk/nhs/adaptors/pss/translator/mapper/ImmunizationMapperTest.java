@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -172,7 +173,7 @@ public class ImmunizationMapperTest {
     }
 
     private void assertImmunizationWithDefaultVaccineCode(Immunization immunization) {
-        assertNull(immunization.getVaccineCode());
+        assertNotNull(immunization.getVaccineCode());
         assertEquals("UNK", immunization.getVaccineCode().getCoding().get(0).getCode());
         assertEquals("http://hl7.org/fhir/v3/NullFlavor", immunization.getVaccineCode().getCoding().get(0).getSystem());
     }
