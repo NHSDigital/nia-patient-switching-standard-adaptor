@@ -3730,29 +3730,26 @@
         "extension": [
           {
             "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
-            "valueExtension": {
-              "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-              "valueCodeableConcept": {
-                "coding": [
-                  {
-                    "extension": [
-                      {
-                        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                        "extension": [
-                          {
-                            "url": "descriptionDisplay",
-                            "valueString": "Measles/mumps/rubella vaccn."
-                          }
-                        ]
-                      }
-                    ],
-                    "system": "http://snomed.info/sct",
-                    "code": "38598009",
-                    "display": "Measles-mumps-rubella vaccination"
-                  }
-                ],
-                "text": "Measles/mumps/rubella vaccn."
-              }
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "extension": [
+                    {
+                      "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                      "extension": [
+                        {
+                          "url": "descriptionDisplay",
+                          "valueString": "Measles/mumps/rubella vaccn."
+                        }
+                      ]
+                    }
+                  ],
+                  "system": "http://snomed.info/sct",
+                  "code": "38598009",
+                  "display": "Measles-mumps-rubella vaccination"
+                }
+              ],
+              "text": "Measles/mumps/rubella vaccn."
             }
           },
           {
