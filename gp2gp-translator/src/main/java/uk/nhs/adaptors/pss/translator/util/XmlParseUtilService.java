@@ -37,6 +37,8 @@ public class XmlParseUtilService {
 
     private final XPathService xPathService;
 
+    private static String filenamePattern = "Filename=\"([A-Za-z\\d\\-_. ]*)\"";
+
     public static boolean parseOriginalBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
         Matcher matcher = pattern.matcher(description);
@@ -92,7 +94,7 @@ public class XmlParseUtilService {
     }
 
     public static String parseFilename(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
+        Pattern pattern = Pattern.compile(filenamePattern);
         Matcher matcher = pattern.matcher(description);
 
         if (matcher.find()) {
@@ -100,6 +102,14 @@ public class XmlParseUtilService {
         }
 
         throw new ParseException("Unable to parse originalFilename", 0);
+    }
+
+    public static Boolean isDescriptionEmisStyle(String description) {
+        Pattern pattern = Pattern.compile(filenamePattern);
+        Matcher matcher = pattern.matcher(description);
+        Boolean isEmis = !matcher.find();
+
+        return isEmis;
     }
 
     public static int parseFileLength(String description) {

@@ -530,10 +530,10 @@ public class EhrExtractMessageHandlerTest {
         assertEquals(attachment.getContentType(), log.getContentType());
         assertFalse(log.getCompressed());
         assertFalse(log.getLargeAttachment());
-        assertTrue(log.getOriginalBase64()); // _Should_ this be true?
+        assertTrue(!log.getOriginalBase64());
         assertFalse(log.getSkeleton());
         assertTrue(log.getUploaded());
-        assertEquals(0, log.getLengthNum()); // Zero length seems sus
+        assertEquals(0, log.getLengthNum());
         assertEquals(attachment.getPayload().length(), log.getPostProcessedLengthNum());
         assertEquals(0, log.getOrderNum());
     }

@@ -43,8 +43,6 @@ import javax.xml.transform.TransformerException;
 
 import java.text.ParseException;
 import java.time.Instant;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_RECEIVED;
@@ -238,14 +236,6 @@ public class EhrExtractMessageHandler {
         );
     }
 
-    private Boolean isDescriptionEmisStyle(String description) {
-        Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
-        Matcher matcher = pattern.matcher(description);
-        Boolean isEmis = !matcher.find();
-
-        return isEmis;
-    }
-
     // Parent MID should be null against an EHR message so that they are not detected in the merge process
     private PatientAttachmentLog buildPatientAttachmentLogFromAttachment(
         String messageId,
@@ -253,7 +243,7 @@ public class EhrExtractMessageHandler {
         InboundMessage.Attachment attachment) throws ParseException {
 
         String description = attachment.getDescription();
-        Boolean isEmis = isDescriptionEmisStyle(description);
+        Boolean isEmis = XmlParseUtilService.isDescriptionEmisStyle(description);
 
         if (isEmis) {
             return PatientAttachmentLog.builder()
@@ -264,7 +254,7 @@ public class EhrExtractMessageHandler {
                     .contentType(attachment.getContentType())
                     .compressed(false)
                     .largeAttachment(false)
-                    .originalBase64(true)
+                    .originalBase64(false)
                     .skeleton(false)
                     .uploaded(true)
                     .lengthNum(0)

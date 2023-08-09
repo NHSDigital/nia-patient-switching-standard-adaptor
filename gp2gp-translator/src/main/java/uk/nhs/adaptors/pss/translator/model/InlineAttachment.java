@@ -59,17 +59,18 @@ public class InlineAttachment {
     }
 
     private String parseFilename(String description) throws ParseException {
-        if (isTppAttachment(description)) {
-            filenamePattern = Pattern.compile(originalFilenameRegEx);
-            filenameMatcher = filenamePattern.matcher(description);
-
-            if (filenameMatcher.find()) {
-                return filenameMatcher.group(1);
-            }
-            throw new ParseException("Unable to parse originalFilename field in description", 0);
+        if (!isTppAttachment(description)) {
+            return description;
         }
 
-        return description;
+        filenamePattern = Pattern.compile(originalFilenameRegEx);
+        filenameMatcher = filenamePattern.matcher(description);
+
+        if (filenameMatcher.find()) {
+            return filenameMatcher.group(1);
+        }
+
+        throw new ParseException("Unable to parse originalFilename field in description", 0);
     }
 
     private boolean parseCompressed(String description) throws ParseException {
