@@ -4,6 +4,10 @@ import static java.util.UUID.randomUUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -33,6 +37,8 @@ import org.hl7.v3.RCMRIN030000UK06Message;
 import org.jdbi.v3.core.ConnectionException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -77,6 +83,7 @@ public class EhrExtractMessageHandlerTest {
     private static final String LOSING_ODE_CODE = "G543";
     private static final String WINNING_ODE_CODE = "B943";
     private static final String MESSAGE_ID = randomUUID().toString();
+    public static final int MIGRATION_REQUEST_ID = 999;
 
     @Mock
     private ObjectMapper objectMapper;
@@ -124,6 +131,9 @@ public class EhrExtractMessageHandlerTest {
     private PatientAttachmentLog patientAttachmentLog;
     @Mock
     private FailedProcessHandlingService failedProcessHandlingService;
+
+    @Captor
+    private ArgumentCaptor<PatientAttachmentLog> patientAttachmentLogCaptor;
 
     @Test
     public void  When_HandleMessageWithValidDataIsCalled_Expect_CallsMigrationStatusLogServiceAddMigrationStatusLog()
@@ -481,7 +491,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
-    public void When_HandleSingleMessageWithEmisDescriptionAndValidDataIsCalled_Expect_CallToSkeletonProcessingService()
+    public void When_HandleSingleMessageWithAFilenameDescription_Expect_PatientAttachmentLogEntryGenerated()
             throws JsonProcessingException,
             JAXBException,
             InlineAttachmentProcessingException,
@@ -510,7 +520,22 @@ public class EhrExtractMessageHandlerTest {
                 )).thenReturn(inboundMessage.getPayload());
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-        verify(patientAttachmentLogService, times(1)).addAttachmentLog(any());
+
+        verify(patientAttachmentLogService, times(1)).addAttachmentLog(patientAttachmentLogCaptor.capture());
+        PatientAttachmentLog log = patientAttachmentLogCaptor.getValue();
+        assertEquals("MESSAGE-ID", log.getMid());
+        assertEquals("test.txt", log.getFilename());
+        assertNull(log.getParentMid());
+        assertEquals(MIGRATION_REQUEST_ID, log.getPatientMigrationReqId());
+        assertEquals(attachment.getContentType(), log.getContentType());
+        assertFalse(log.getCompressed());
+        assertFalse(log.getLargeAttachment());
+        assertTrue(log.getOriginalBase64()); // _Should_ this be true?
+        assertFalse(log.getSkeleton());
+        assertTrue(log.getUploaded());
+        assertEquals(0, log.getLengthNum()); // Zero length seems sus
+        assertEquals(attachment.getPayload().length(), log.getPostProcessedLengthNum());
+        assertEquals(0, log.getOrderNum());
     }
 
     @Test
@@ -781,6 +806,7 @@ public class EhrExtractMessageHandlerTest {
                 PatientMigrationRequest.builder()
                         .losingPracticeOdsCode(LOSING_ODE_CODE)
                         .winningPracticeOdsCode(WINNING_ODE_CODE)
+                        .id(MIGRATION_REQUEST_ID)
                         .build();
 
         MigrationStatusLog migrationStatusLog =
