@@ -40,37 +40,37 @@ public class CodeableConceptMapper {
     }
 
     private CodeableConcept generateCodeableConceptWithoutSnomedCode(CD codedData) {
-        var text = StringUtils.isNotEmpty(codedData.getOriginalText())
-                ? codedData.getOriginalText()
-                : codedData.getDisplayName();
+        var text = StringUtils.isNotEmpty(codedData.getOriginalText()) 
+            ? codedData.getOriginalText()
+            : codedData.getDisplayName();
 
         return new CodeableConcept()
-                .setText(text);
+            .setText(text);
     }
 
     private CodeableConcept generateCodeableConcept(CD codedData, boolean isMedicationResource) {
         var isSnomedCodeInMainCode = codedData.hasCodeSystem()
-                && SNOMED_SYSTEM_CODE.equals(codedData.getCodeSystem());
+            && SNOMED_SYSTEM_CODE.equals(codedData.getCodeSystem());
 
         var isSnomedCodeInTranslationElement = codedData.getTranslation()
-                .stream()
-                .anyMatch(translation -> SNOMED_SYSTEM_CODE.equals(translation.getCodeSystem()));
+            .stream()
+             .anyMatch(translation -> SNOMED_SYSTEM_CODE.equals(translation.getCodeSystem()));
 
         if (!isSnomedCodeInMainCode && !isSnomedCodeInTranslationElement) {
             return generateCodeableConceptWithoutSnomedCode(codedData);
         }
 
         var mainCode = isSnomedCodeInMainCode
-                ? codedData
-                : codedData.getTranslation()
-                .stream()
-                .filter(translation -> SNOMED_SYSTEM_CODE.equals(translation.getCodeSystem()))
-                .findFirst()
-                .get();
+            ? codedData
+            : codedData.getTranslation()
+            .stream()
+            .filter(translation -> SNOMED_SYSTEM_CODE.equals(translation.getCodeSystem()))
+            .findFirst()
+            .get();
 
         var translationMainCode = isSnomedCodeInTranslationElement
-                ? codedData
-                : null;
+            ? codedData
+            : null;
 
         var partitionIdentifier = getPartitionIdentifier(mainCode.getCode());
         var isCodeConceptId = isCodeConceptId(partitionIdentifier);
@@ -81,20 +81,20 @@ public class CodeableConceptMapper {
         }
 
         return isCodeConceptId
-                ? generateCodeableConceptUsingConceptId(mainCode, translationMainCode, isMedicationResource)
-                : generateCodeableConceptUsingDescriptionId(mainCode, translationMainCode, isMedicationResource);
+            ? generateCodeableConceptUsingConceptId(mainCode, translationMainCode, isMedicationResource)
+            : generateCodeableConceptUsingDescriptionId(mainCode, translationMainCode, isMedicationResource);
     }
 
     private CodeableConcept generateCodeableConceptUsingDescriptionId(CD codedData, CD translationMainCode, boolean isMedicationResource) {
         var descriptionId = codedData.getCode();
 
         var displayName = hasDisplayNameInTranslationMainCode(translationMainCode)
-                ? translationMainCode.getDisplayName()
-                : codedData.getDisplayName();
+            ? translationMainCode.getDisplayName()
+            : codedData.getDisplayName();
 
         var originalText = hasOriginalTextInTranslationMainCode(translationMainCode)
-                ? translationMainCode.getOriginalText()
-                : codedData.getOriginalText();
+            ? translationMainCode.getOriginalText()
+            : codedData.getOriginalText();
 
         if (isMedicationResource) {
             return new CodeableConcept().setText(getTextFieldValue(originalText, displayName));
@@ -125,15 +125,15 @@ public class CodeableConceptMapper {
             code = description.getConceptid();
             display = description.getTerm();
             text = !displayName.equals(description.getTerm())
-                    ? displayName
-                    : null;
+                ? displayName
+                : null;
         } else {
             code = preferredTerm.getConceptid();
             display = preferredTerm.getTerm();
             descriptionDisplay = description.getTerm();
             text = !displayName.equals(preferredTerm.getTerm())
-                    ? displayName
-                    : null;
+                ? displayName
+                : null;
         }
 
         var extension = createExtension(description.getId(), descriptionDisplay);
@@ -148,8 +148,8 @@ public class CodeableConceptMapper {
         var originalText = getOriginalText(mainCode, translationMainCode);
         var preferredTerm = snomedCTDao.getSnomedDescriptionPreferredTermUsingConceptId(conceptId);
         var description = StringUtils.isEmpty(displayName)
-                ? snomedCTDao.getSnomedDescriptionUsingConceptId(conceptId)
-                : snomedCTDao.getSnomedDescriptionUsingConceptIdAndDisplayName(conceptId, displayName);
+            ? snomedCTDao.getSnomedDescriptionUsingConceptId(conceptId)
+            : snomedCTDao.getSnomedDescriptionUsingConceptIdAndDisplayName(conceptId, displayName);
 
         String display;
         String text;
@@ -181,12 +181,12 @@ public class CodeableConceptMapper {
         }
         else if (hasPreferredValueAndDescriptionValueNotPresent(preferredTerm, description)) {
             var translationDisplay = hasDisplayNameInTranslationMainCode(translationMainCode)
-                    ? translationMainCode.getDisplayName()
-                    : null;
+                ? translationMainCode.getDisplayName()
+                : null;
 
             display = StringUtils.isNotEmpty(displayName)
-                    ? displayName
-                    : translationDisplay;
+                ? displayName
+                : translationDisplay;
             text = originalText;
         }
         else {
@@ -194,41 +194,41 @@ public class CodeableConceptMapper {
         }
 
         var extension = isMedicationResource || hasPreferredValueAndDescriptionValueNotPresent(preferredTerm, description)
-                ? null
-                : createExtension(extensionId, extensionDisplay);
+            ? null
+            : createExtension(extensionId, extensionDisplay);
 
         return createCodeableConcept(conceptId, SNOMED_SYSTEM, display, text, extension);
     }
 
     private CodeableConcept createCodeableConcept(String code, String system, String display, String text, Extension extension) {
         var codeableConcept = new CodeableConcept()
-                .setText(text);
+            .setText(text);
 
         codeableConcept
-                .getCodingFirstRep()
-                .setCode(code)
-                .setSystem(system)
-                .setDisplay(display)
-                .addExtension(extension);
+            .getCodingFirstRep()
+            .setCode(code)
+            .setSystem(system)
+            .setDisplay(display)
+            .addExtension(extension);
 
         return codeableConcept;
     }
 
     private Extension createExtension(String descriptionId, String descriptionDisplay) {
         var extension = new Extension()
-                .setUrl(EXTENSION_URL);
+            .setUrl(EXTENSION_URL);
 
         if (StringUtils.isNotEmpty(descriptionId)) {
             var idExtension = new Extension()
-                    .setUrl(EXTENSION_DESCRIPTION_ID_URL)
-                    .setValue(new IdType(descriptionId));
+                .setUrl(EXTENSION_DESCRIPTION_ID_URL)
+                .setValue(new IdType(descriptionId));
 
             extension.addExtension(idExtension);
         }
         if (StringUtils.isNotEmpty(descriptionDisplay)) {
             var displayExtension = new Extension()
-                    .setUrl(EXTENSION_DESCRIPTION_DISPLAY_URL)
-                    .setValue(new StringType(descriptionDisplay));
+                .setUrl(EXTENSION_DESCRIPTION_DISPLAY_URL)
+                .setValue(new StringType(descriptionDisplay));
 
             extension.addExtension(displayExtension);
         }
@@ -238,29 +238,29 @@ public class CodeableConceptMapper {
 
     private String getDisplayName(CD mainCode, CD translationMainCode) {
         return translationMainCode != null && !mainCode.hasDisplayName()
-                ? translationMainCode.getDisplayName()
-                : mainCode.getDisplayName();
+            ? translationMainCode.getDisplayName()
+            : mainCode.getDisplayName();
     }
 
     private String getOriginalText(CD mainCode, CD translationMainCode) {
         return translationMainCode != null && StringUtils.isNotEmpty(translationMainCode.getOriginalText())
-                ? translationMainCode.getOriginalText()
-                : mainCode.getOriginalText();
+            ? translationMainCode.getOriginalText()
+            : mainCode.getOriginalText();
     }
 
     private String getPreferredText(String originalText, CD translationMainCode, SnomedCTDescription preferredTerm) {
         if (StringUtils.isEmpty(originalText) && hasDisplayNameInTranslationMainCode(translationMainCode)) {
             return !translationMainCode.getDisplayName().equals(preferredTerm.getTerm())
-                    ? translationMainCode.getDisplayName()
-                    : preferredTerm.getTerm();
+                ? translationMainCode.getDisplayName()
+                : preferredTerm.getTerm();
         }
         return originalText;
     }
 
     private String getDisplayForSnomedTranslationElement(CD codedData, CD translation) {
         return translation.getDisplayName() != null
-                ? translation.getDisplayName()
-                : codedData.getDisplayName();
+            ? translation.getDisplayName()
+            : codedData.getDisplayName();
     }
 
     private String getPartitionIdentifier(String code) {
@@ -270,48 +270,47 @@ public class CodeableConceptMapper {
 
     private String getTextFieldValue(String text, String newText) {
         return StringUtils.isNotEmpty(text)
-                ? text
-                : newText;
+            ? text
+            : newText;
     }
-
-
+    
     private boolean isCodeConceptId(String partitionIdentifier) {
         return CONCEPT_PARTITION_SHORT.equals(partitionIdentifier)
-                || CONCEPT_PARTITION_LONG.equals(partitionIdentifier);
+            || CONCEPT_PARTITION_LONG.equals(partitionIdentifier);
     }
 
     private boolean isCodeDescriptionId(String partitionIdentifier) {
         return DESCRIPTION_PARTITION_SHORT.equals(partitionIdentifier)
-                || DESCRIPTION_PARTITION_LONG.equals(partitionIdentifier);
+            || DESCRIPTION_PARTITION_LONG.equals(partitionIdentifier);
     }
 
     private boolean hasPreferredValuePresentAndNoDescriptionValue(SnomedCTDescription preferredTerm, SnomedCTDescription description) {
         return Objects.nonNull(preferredTerm)
-                && Objects.isNull(description);
+            && Objects.isNull(description);
     }
 
     private boolean hasPreferredValueAndDescriptionValuePresent(SnomedCTDescription preferredTerm, SnomedCTDescription description) {
         return Objects.nonNull(preferredTerm)
-                && Objects.nonNull(description);
+            && Objects.nonNull(description);
     }
 
     private boolean hasPreferredValueAndDescriptionValueNotPresent(SnomedCTDescription preferredTerm, SnomedCTDescription description) {
         return Objects.isNull(preferredTerm)
-                && Objects.isNull(description);
+            && Objects.isNull(description);
     }
 
     private boolean hasOriginalTextInTranslationMainCode(CD translationMainCode) {
         return Objects.nonNull(translationMainCode)
-                && StringUtils.isNotEmpty(translationMainCode.getOriginalText());
+            && StringUtils.isNotEmpty(translationMainCode.getOriginalText());
     }
 
     private boolean hasDisplayNameInTranslationMainCode(CD mainCodeFromTranslation) {
         return Objects.nonNull(mainCodeFromTranslation)
-                && StringUtils.isNotEmpty(mainCodeFromTranslation.getDisplayName());
+            && StringUtils.isNotEmpty(mainCodeFromTranslation.getDisplayName());
     }
 
     private boolean isDescriptionPreferredTerm(SnomedCTDescription description, SnomedCTDescription preferredTerm) {
         return description.getId().equals(preferredTerm.getId())
-                && description.getTerm().equals(preferredTerm.getTerm());
+            && description.getTerm().equals(preferredTerm.getTerm());
     }
 }
