@@ -54,7 +54,7 @@ public class CodeableConceptMapper {
 
         var isSnomedCodeInTranslationElement = codedData.getTranslation()
             .stream()
-             .anyMatch(translation -> SNOMED_SYSTEM_CODE.equals(translation.getCodeSystem()));
+            .anyMatch(translation -> SNOMED_SYSTEM_CODE.equals(translation.getCodeSystem()));
 
         if (!isSnomedCodeInMainCode && !isSnomedCodeInTranslationElement) {
             return generateCodeableConceptWithoutSnomedCode(codedData);
