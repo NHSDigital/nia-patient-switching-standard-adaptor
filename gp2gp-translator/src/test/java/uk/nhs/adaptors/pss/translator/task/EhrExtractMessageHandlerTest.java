@@ -481,6 +481,39 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @Test
+    public void When_HandleSingleMessageWithEmisDescriptionAndValidDataIsCalled_Expect_CallToSkeletonProcessingService()
+            throws JsonProcessingException,
+            JAXBException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException, TransformerException, UnsupportedFileTypeException {
+
+        InboundMessage inboundMessage = new InboundMessage();
+        var attachment = new InboundMessage.Attachment("text/xml",
+                "true", "test.txt", "abcdefghi");
+
+        var attachmentList = new ArrayList<InboundMessage.Attachment>();
+        attachmentList.add(attachment);
+        inboundMessage.setAttachments(attachmentList);
+
+        inboundMessage.setPayload(readInboundSingleMessagePayloadFromFile());
+        inboundMessage.setEbXML(readInboundSingleMessageEbXmlFromFile());
+
+        prepareMigrationRequestAndMigrationStatusMocks();
+
+        when(xPathService.getNodeValue(any(), any())).thenReturn("MESSAGE-ID");
+        when(attachmentReferenceUpdaterService
+                .updateReferenceToAttachment(
+                        inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
+                )).thenReturn(inboundMessage.getPayload());
+
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        verify(patientAttachmentLogService, times(1)).addAttachmentLog(any());
+    }
+
+    @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_ItShouldNotTranslate()
         throws JAXBException, BundleMappingException, AttachmentNotFoundException,
         ParseException, JsonProcessingException, InlineAttachmentProcessingException,
