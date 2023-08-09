@@ -61,6 +61,6 @@ timeout:
   cronTime: ${TIMEOUT_CRON_TIME:0 0 */6 * * *}
 
 supported-filetypes:
-  accepted: ${SUPPORTED_FILE_TYPES:}
+  accepted: text/plain,application/xml,video/mpeg,text/xml,image/tiff
 
 base64.skipDecode: ${SKIP_DECODE:false}
