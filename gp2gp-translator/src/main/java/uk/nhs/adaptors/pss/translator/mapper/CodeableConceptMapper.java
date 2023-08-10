@@ -40,7 +40,7 @@ public class CodeableConceptMapper {
     }
 
     private CodeableConcept generateCodeableConceptWithoutSnomedCode(CD codedData) {
-        var text = StringUtils.isNotEmpty(codedData.getOriginalText()) 
+        var text = StringUtils.isNotEmpty(codedData.getOriginalText())
             ? codedData.getOriginalText()
             : codedData.getDisplayName();
 
@@ -160,13 +160,11 @@ public class CodeableConceptMapper {
             display = preferredTerm.getTerm();
             text = getPreferredText(originalText, translationMainCode, preferredTerm);
             extensionId = description.getId();
-        }
-        else if (hasPreferredValuePresentAndNoDescriptionValue(preferredTerm, description)) {
+        } else if (hasPreferredValuePresentAndNoDescriptionValue(preferredTerm, description)) {
             display = preferredTerm.getTerm();
             text = getTextFieldValue(originalText, displayName);
             extensionDisplay = displayName;
-        }
-        else if (hasPreferredValueAndDescriptionValuePresent(preferredTerm, description)) {
+        } else if (hasPreferredValueAndDescriptionValuePresent(preferredTerm, description)) {
             text = getTextFieldValue(originalText, displayName);
 
             if (isDescriptionPreferredTerm(description, preferredTerm)) {
@@ -178,8 +176,7 @@ public class CodeableConceptMapper {
                 extensionId = description.getId();
                 extensionDisplay = description.getTerm();
             }
-        }
-        else if (hasPreferredValueAndDescriptionValueNotPresent(preferredTerm, description)) {
+        } else if (hasPreferredValueAndDescriptionValueNotPresent(preferredTerm, description)) {
             var translationDisplay = hasDisplayNameInTranslationMainCode(translationMainCode)
                 ? translationMainCode.getDisplayName()
                 : null;
@@ -188,8 +185,7 @@ public class CodeableConceptMapper {
                 ? displayName
                 : translationDisplay;
             text = originalText;
-        }
-        else {
+        } else {
             return null;
         }
 
@@ -273,7 +269,7 @@ public class CodeableConceptMapper {
             ? text
             : newText;
     }
-    
+
     private boolean isCodeConceptId(String partitionIdentifier) {
         return CONCEPT_PARTITION_SHORT.equals(partitionIdentifier)
             || CONCEPT_PARTITION_LONG.equals(partitionIdentifier);
