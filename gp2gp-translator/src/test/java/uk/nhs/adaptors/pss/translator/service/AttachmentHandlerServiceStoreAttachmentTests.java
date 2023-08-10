@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -405,7 +406,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     }
 
     @Test
-    public void When_AttachmentMismatchedPayloadLengthIsGiven_Expect_ThrowsInlineAttachmentException() {
+    public void When_AttachmentMismatchedPayloadLengthIsGiven_Expect_NotThrowsInlineAttachmentException() {
 
         when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("text/plain")));
         var attachment = List.of(InboundMessage.Attachment.builder()
@@ -415,14 +416,9 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
                 + "LargeAttachment=No OriginalBase64=No; Length=45")
             .payload("SGVsbG8gV29ybGQgZnJvbSBTY290dCBBbGV4YW5kZXI=").build());
 
-        Exception exception = assertThrows(InlineAttachmentProcessingException.class, () ->
-            attachmentHandlerService.storeAttachments(attachment, CONVERSATION_ID)
-        );
+        assertDoesNotThrow(() -> attachmentHandlerService.storeAttachments(attachment, CONVERSATION_ID),
+                            "PS Adaptor is OK when payload size is different from the declared one");
 
-        String expectedMessage = "Incorrect payload length received";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test

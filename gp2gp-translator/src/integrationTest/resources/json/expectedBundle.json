@@ -22888,15 +22888,12 @@
       },
       "extension": [ {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
-        "valueExtension": {
-          "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
           "valueCodeableConcept": {
             "text": "Medication review with patient"
           }
-        }
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-        "valueString": "20100114103430"
+        "valueDateTime": "2010-01-14T10:34:30+00:00"
       } ],
       "identifier": [ {
         "system": "https://PSSAdaptor/D5445",
@@ -22933,15 +22930,12 @@
       },
       "extension": [ {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
-        "valueExtension": {
-          "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
           "valueCodeableConcept": {
             "text": "Haemophilus influenzae type B and meningitis C vaccination"
           }
-        }
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-        "valueString": "20100113151332"
+        "valueDateTime": "2010-01-13T15:13:32+00:00"
       } ],
       "identifier": [ {
         "system": "https://PSSAdaptor/D5445",
@@ -22983,15 +22977,13 @@
       },
       "extension": [ {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1",
-        "valueExtension": {
-          "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
           "valueCodeableConcept": {
             "text": "Haemophilus influenzae type B and meningitis C vaccination"
           }
-        }
+
       }, {
         "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-DateRecorded-1",
-        "valueString": "20100113151332"
+        "valueDateTime": "2010-01-13T15:13:32+00:00"
       } ],
       "identifier": [ {
         "system": "https://PSSAdaptor/D5445",
