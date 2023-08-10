@@ -37,7 +37,7 @@ public class XmlParseUtilService {
 
     private final XPathService xPathService;
 
-    private static String filenamePattern = "Filename=\"([A-Za-z\\d\\-_. ]*)\"";
+    private static String filenamePattern = "Filename=\"([\\S]+[A-Za-z\\d\\-_. ]*)\"";
 
     public static boolean parseOriginalBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
