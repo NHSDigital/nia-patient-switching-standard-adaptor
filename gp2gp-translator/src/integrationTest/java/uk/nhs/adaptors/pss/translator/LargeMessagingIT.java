@@ -54,6 +54,16 @@ public final class LargeMessagingIT extends BaseEhrHandler {
     }
 
     @Test
+    public void handleUk06WithEMISCidAttachment() throws JSONException {
+        // NIAD-2789: EMIS can send inline attachments where the attachment description contains ONLY a filename.
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_12/uk06.json");
+
+        await().until(this::isEhrMigrationCompleted);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario1.json");
+    }
+
+    @Test
     public void handleUk06WithCompressedCidAttachmement() throws JSONException {
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_2/uk06.json");
 

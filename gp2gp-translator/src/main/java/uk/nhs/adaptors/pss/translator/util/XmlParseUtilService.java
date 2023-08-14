@@ -37,6 +37,10 @@ public class XmlParseUtilService {
 
     private final XPathService xPathService;
 
+    private static String filenamePattern = "Filename=\"([\\S]+[A-Za-z\\d\\-_. ]*)\"";
+
+    private static String compressedPattern = "Compressed=(Yes|No|true|false)";
+
     public static boolean parseOriginalBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
         Matcher matcher = pattern.matcher(description);
@@ -60,14 +64,14 @@ public class XmlParseUtilService {
     }
 
     public static boolean parseCompressed(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("Compressed=(Yes|No)");
+        Pattern pattern = Pattern.compile(compressedPattern);
         Matcher matcher = pattern.matcher(description);
 
         if (matcher.find()) {
             return matcher.group(1).equals("Yes");
         }
 
-        throw new ParseException("Unable to parse isCompressed", 0);
+        throw new ParseException("Unable to parse isCompressed field in description", 0);
     }
 
     public static String parseContentType(String description) throws ParseException {
@@ -92,13 +96,29 @@ public class XmlParseUtilService {
     }
 
     public static String parseFilename(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
+        Pattern pattern = Pattern.compile(filenamePattern);
         Matcher matcher = pattern.matcher(description);
 
         if (matcher.find()) {
             return matcher.group(1);
         }
-        throw new ParseException("Unable to parse originalFilename", 0);
+
+        throw new ParseException("Unable to parse originalFilename field in description", 0);
+    }
+
+    public static Boolean isDescriptionEmisStyle(String description) {
+        Pattern pattern = Pattern.compile(filenamePattern);
+        Matcher matcher = pattern.matcher(description);
+        Boolean hasFilename = matcher.find();
+        pattern = Pattern.compile(compressedPattern);
+        matcher = pattern.matcher(description);
+        Boolean hasCompressed = matcher.find();
+
+        if (!hasFilename && !hasCompressed) {
+            return true;
+        }
+
+        return false;
     }
 
     public static int parseFileLength(String description) {

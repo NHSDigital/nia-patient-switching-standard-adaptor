@@ -1,8 +1,6 @@
 package uk.nhs.adaptors.pss.translator.model;
 
 import java.text.ParseException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import lombok.Getter;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -19,6 +17,10 @@ public class InlineAttachment {
     private final Integer length;
 
     public InlineAttachment(InboundMessage.Attachment attachment) throws ParseException {
+        if (attachment.getDescription() == null) {
+            throw new ParseException("Unable to parse NULL description", 0);
+        }
+
         this.originalFilename = parseFilename(attachment.getDescription());
         this.contentType = attachment.getContentType();
         this.isCompressed = parseCompressed(attachment.getDescription());
@@ -29,24 +31,18 @@ public class InlineAttachment {
     }
 
     private String parseFilename(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("Filename=\"([A-Za-z\\d\\-_. ]*)\"");
-        Matcher matcher = pattern.matcher(description);
-
-        if (matcher.find()) {
-            return matcher.group(1);
+        if (XmlParseUtilService.isDescriptionEmisStyle(description)) {
+            return description;
         }
 
-        throw new ParseException("Unable to parse originalFilename: " + description, 0);
+        return XmlParseUtilService.parseFilename(description);
     }
 
     private boolean parseCompressed(String description) throws ParseException {
-        Pattern pattern = Pattern.compile("Compressed=(Yes|No|true|false)");
-        Matcher matcher = pattern.matcher(description);
-
-        if (matcher.find()) {
-            return (matcher.group(1).equals("Yes") || matcher.group(1).equals("true"));
+        if (XmlParseUtilService.isDescriptionEmisStyle(description)) {
+            return false;
         }
 
-        throw new ParseException("Unable to parse isCompressed", 0);
+        return XmlParseUtilService.parseCompressed(description);
     }
 }
