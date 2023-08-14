@@ -446,15 +446,16 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private Optional<RCMRMT030101UK04ObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+
         var componentsByHasCompoundStatement = ehrExtract.getComponent()
                 .get(0)
                 .getEhrFolder()
                 .getComponent()
                 .stream().map(RCMRMT030101UK04Component3::getEhrComposition)
             .toList();
+
         var flatMap = componentsByHasCompoundStatement.stream().flatMap(e -> e.getComponent().stream())
                 .collect(partitioningBy(RCMRMT030101UK04Component4::hasCompoundStatement));
-
 
         var observationStatementList = new ArrayList<>(Stream.concat(flatMap.get(false)
                     .stream()
@@ -463,7 +464,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                     .flatMap(cs -> cs.getCompoundStatement().getComponent().stream())
                     .map(RCMRMT030101UK04Component02::getObservationStatement))
             .toList());
-        var getInnerCompoundStatementsWithObservationStatements = flatMap.get(true)
+
+        var observationStatementsFromInnerCompoundStatements = flatMap.get(true)
             .stream()
             .map(RCMRMT030101UK04Component4::getCompoundStatement)
             .flatMap(cs -> cs.getComponent().stream())
@@ -473,7 +475,20 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .map(RCMRMT030101UK04Component02::getObservationStatement)
             .toList();
 
-        observationStatementList.addAll(getInnerCompoundStatementsWithObservationStatements);
+        var observationStatementsNestedWithinInnerCompoundStatements = flatMap.get(true).stream()
+            .map(RCMRMT030101UK04Component4::getCompoundStatement)
+            .flatMap(cs -> cs.getComponent().stream())
+            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(Objects::nonNull)
+            .flatMap(cs -> cs.getComponent().stream())
+            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(Objects::nonNull)
+            .flatMap(cs -> cs.getComponent().stream())
+            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .toList();
+
+        observationStatementList.addAll(observationStatementsFromInnerCompoundStatements);
+        observationStatementList.addAll(observationStatementsNestedWithinInnerCompoundStatements);
 
         return observationStatementList.stream()
                 .filter(Objects::nonNull)
