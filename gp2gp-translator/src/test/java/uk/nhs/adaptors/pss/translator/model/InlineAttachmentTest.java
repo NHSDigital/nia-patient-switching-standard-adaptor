@@ -80,17 +80,17 @@ public class InlineAttachmentTest {
     public void When_InlineAttachmentConstructed_WithMissingFilename_Expect_ParseException() {
         Exception exception = assertThrows(ParseException.class, () -> new InlineAttachment(mockMissingFilenameAttachment));
 
-        String expectedMessage = "Unable to parse originalFilename";
+        String expectedMessage = "Unable to parse originalFilename field in description";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
-    public void When_InlineAttachmentConstructed_WithIsCompressed_Expect_ParseException() {
+    public void When_InlineAttachmentConstructed_WithIsCompressedMissing_Expect_ParseException() {
         Exception exception = assertThrows(ParseException.class, () -> new InlineAttachment(mockMissingContentTypeAttachment));
 
-        String expectedMessage = "Unable to parse isCompressed";
+        String expectedMessage = "Unable to parse isCompressed field in description";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
