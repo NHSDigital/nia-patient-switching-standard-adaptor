@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -70,9 +70,9 @@ public class ConditionMapperIT {
 
         var code = conditions.get(0).getCode().getCodingFirstRep();
 
-        assertThat(code.getDisplay()).isEqualTo(OBSERVATION_CONCEPT_DESCRIPTION);
-        assertThat(code.getCode()).isEqualTo(OBSERVATION_CONCEPT_ID);
-        assertThat(code.getSystem()).isEqualTo(SNOMED_SYSTEM);
+        assertEquals(OBSERVATION_CONCEPT_DESCRIPTION, code.getDisplay());
+        assertEquals(OBSERVATION_CONCEPT_ID, code.getCode());
+        assertEquals(SNOMED_SYSTEM, code.getSystem());
     }
 
     public static Stream<Arguments> ehrExtractsWithAllergyIntoleranceActualProblemCode() {
@@ -95,9 +95,9 @@ public class ConditionMapperIT {
 
         var code = conditions.get(0).getCode().getCodingFirstRep();
 
-        assertThat(code.getDisplay()).isEqualTo(ALLERGY_CONCEPT_DESCRIPTION);
-        assertThat(code.getCode()).isEqualTo(ALLERGY_CONCEPT_ID);
-        assertThat(code.getSystem()).isEqualTo(SNOMED_SYSTEM);
+        assertEquals(ALLERGY_CONCEPT_DESCRIPTION, code.getDisplay());
+        assertEquals(ALLERGY_CONCEPT_ID, code.getCode());
+        assertEquals(SNOMED_SYSTEM, code.getSystem());
     }
 
     @SneakyThrows
