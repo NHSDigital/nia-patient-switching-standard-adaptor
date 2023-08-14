@@ -86,7 +86,7 @@ public class ConditionMapperIT {
 
     @ParameterizedTest
     @MethodSource("ehrExtractsWithAllergyIntoleranceActualProblemCode")
-    public void When_addReferences_With_AllergyIntoleranceAsProblem_Expect_CodeAddedToCondition(String filename) {
+    public void When_AddReferences_With_AllergyIntoleranceAsProblem_Expect_CodeAddedToCondition(String filename) {
 
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract(filename);
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
