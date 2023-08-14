@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static java.util.stream.Collectors.partitioningBy;
-
 import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIVE;
 
@@ -14,13 +12,13 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
@@ -41,13 +39,14 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04Component6;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
@@ -447,50 +446,16 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
     private Optional<RCMRMT030101UK04ObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
 
-        var componentsByHasCompoundStatement = ehrExtract.getComponent()
-                .get(0)
-                .getEhrFolder()
-                .getComponent()
-                .stream().map(RCMRMT030101UK04Component3::getEhrComposition)
+        List<RCMRMT030101UK04ObservationStatement> observationStatements = ehrExtract.getComponent().stream()
+            .map(RCMRMT030101UK04Component::getEhrFolder)
+            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .flatMap(Collection::stream)
+            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
+            .flatMap(CompoundStatementResourceExtractors::extractAllObservationStatements)
             .toList();
 
-        var flatMap = componentsByHasCompoundStatement.stream().flatMap(e -> e.getComponent().stream())
-                .collect(partitioningBy(RCMRMT030101UK04Component4::hasCompoundStatement));
-
-        var observationStatementList = new ArrayList<>(Stream.concat(flatMap.get(false)
-                    .stream()
-                    .map(RCMRMT030101UK04Component4::getObservationStatement),
-                flatMap.get(true).stream()
-                    .flatMap(cs -> cs.getCompoundStatement().getComponent().stream())
-                    .map(RCMRMT030101UK04Component02::getObservationStatement))
-            .toList());
-
-        var observationStatementsFromInnerCompoundStatements = flatMap.get(true)
-            .stream()
-            .map(RCMRMT030101UK04Component4::getCompoundStatement)
-            .flatMap(cs -> cs.getComponent().stream())
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
-            .filter(Objects::nonNull)
-            .flatMap(comp -> comp.getComponent().stream())
-            .map(RCMRMT030101UK04Component02::getObservationStatement)
-            .toList();
-
-        var observationStatementsNestedWithinInnerCompoundStatements = flatMap.get(true).stream()
-            .map(RCMRMT030101UK04Component4::getCompoundStatement)
-            .flatMap(cs -> cs.getComponent().stream())
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
-            .filter(Objects::nonNull)
-            .flatMap(cs -> cs.getComponent().stream())
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
-            .filter(Objects::nonNull)
-            .flatMap(cs -> cs.getComponent().stream())
-            .map(RCMRMT030101UK04Component02::getObservationStatement)
-            .toList();
-
-        observationStatementList.addAll(observationStatementsFromInnerCompoundStatements);
-        observationStatementList.addAll(observationStatementsNestedWithinInnerCompoundStatements);
-
-        return observationStatementList.stream()
+        return observationStatements.stream()
                 .filter(Objects::nonNull)
                 .filter(observationStatement -> id.equals(observationStatement.getId().getRoot()))
                 .findFirst();
