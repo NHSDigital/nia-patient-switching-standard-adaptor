@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.StringType;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.connector.dao.SnomedCTDao;
 import uk.nhs.adaptors.connector.model.SnomedCTDescription;
+import uk.nhs.adaptors.pss.translator.util.CodeSystemsUtil;
 
 import java.util.Objects;
 
@@ -32,11 +34,17 @@ public class CodeableConceptMapper {
     private final SnomedCTDao snomedCTDao;
 
     public CodeableConcept mapToCodeableConcept(CD codedData) {
-        return generateCodeableConcept(codedData, false);
+        var codeableConcept = generateCodeableConcept(codedData, false);
+        addNonSnomedCodesToCodeableConcept(codeableConcept, codedData);
+
+        return codeableConcept;
     }
 
     public CodeableConcept mapToCodeableConceptForMedication(CD codedData) {
-        return generateCodeableConcept(codedData, true);
+        var codeableConcept =  generateCodeableConcept(codedData, true);
+        addNonSnomedCodesToCodeableConcept(codeableConcept, codedData);
+
+        return codeableConcept;
     }
 
     private CodeableConcept generateCodeableConceptWithoutSnomedCode(CD codedData) {
@@ -194,6 +202,31 @@ public class CodeableConceptMapper {
             : createExtension(extensionId, extensionDisplay);
 
         return createCodeableConcept(conceptId, SNOMED_SYSTEM, display, text, extension);
+    }
+
+    private void addNonSnomedCodesToCodeableConcept(CodeableConcept codeableConcept, CD codedData) {
+        if (codedData.hasCodeSystem() && !SNOMED_SYSTEM_CODE.equals(codedData.getCodeSystem())) {
+            var coding = mapNonSnomedCodes(codedData);
+            codeableConcept.getCoding().add(coding);
+        }
+
+        var translationCodes = codedData
+                .getTranslation()
+                .stream()
+                .filter(cd -> !SNOMED_SYSTEM_CODE.equals(cd.getCodeSystem()))
+                .map(this::mapNonSnomedCodes)
+                .toList();
+
+        if (!translationCodes.isEmpty()) {
+            codeableConcept.getCoding().addAll(translationCodes);
+        }
+    }
+
+    private Coding mapNonSnomedCodes(CD codedData) {
+        return new Coding()
+                .setCode(codedData.getCode())
+                .setSystem(CodeSystemsUtil.getFhirCodeSystem(codedData.getCodeSystem()))
+                .setDisplay(codedData.getDisplayName());
     }
 
     private CodeableConcept createCodeableConcept(String code, String system, String display, String text, Extension extension) {
