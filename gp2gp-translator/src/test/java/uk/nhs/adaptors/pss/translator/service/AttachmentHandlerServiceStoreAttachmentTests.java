@@ -47,7 +47,6 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     private static List<InboundMessage.Attachment> mockAttachments;
     private static List<InboundMessage.Attachment> mockCompressedAttachments;
     private static List<InboundMessage.Attachment> mockMislabeledUncompressedAttachments;
-    private static List<InboundMessage.Attachment> mockMissingDescriptionElementsAttachments;
     private static final String CONVERSATION_ID = "1";
 
     @Captor
@@ -127,18 +126,6 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         );
     }
 
-    @BeforeAll
-    static void setMockMissingDescriptionElementsAttachments() throws IOException {
-        mockMissingDescriptionElementsAttachments = List.of(
-            InboundMessage.Attachment.builder()
-                .contentType("text/plain")
-                .isBase64("true")
-                .description("Incorrect format test")
-                .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
-                .build()
-        );
-    }
-
     @Test
     public void When_ValidListOfAttachmentsAndConversationIdIsGiven_Expect_DoesNotThrow() throws ValidationException,
         InlineAttachmentProcessingException, UnsupportedFileTypeException {
@@ -146,6 +133,25 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
         when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("text/plain")));
         attachmentHandlerService.storeAttachments(mockAttachments, CONVERSATION_ID);
         verify(storageManagerService, times(2)).uploadFile(any(), any(), any());
+    }
+
+    @Test
+    public void When_ValidListOfAttachmentsFromEMIS_Expect_DoesNotThrow() throws ValidationException,
+            InlineAttachmentProcessingException, UnsupportedFileTypeException, IOException {
+
+        when(supportedFileTypesMock.getAccepted()).thenReturn(new HashSet<>(Arrays.asList("text/plain")));
+
+        List<InboundMessage.Attachment> emisAttachment = List.of(
+                InboundMessage.Attachment.builder()
+                        .contentType("text/plain")
+                        .isBase64("true")
+                        .description("9D6C3DB6-9A8E-41A6-AE11-3761EF580202_New_Guerra_output_2.xml")
+                        .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
+                        .build()
+        );
+
+        attachmentHandlerService.storeAttachments(emisAttachment, CONVERSATION_ID);
+        verify(storageManagerService, times(1)).uploadFile(any(), any(), any());
     }
 
     @Test
@@ -193,7 +199,15 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
     }
 
     @Test
-    public void When_AttachmentDescriptionNotParsedCorrectly_Expect_InlineProcessingException() {
+    public void When_AttachmentDescriptionIsNull_Expect_InlineProcessingException() throws IOException {
+        List<InboundMessage.Attachment> mockMissingDescriptionElementsAttachments = List.of(
+                InboundMessage.Attachment.builder()
+                        .contentType("text/plain")
+                        .isBase64("true")
+                        .description(null)
+                        .payload(readFileAsString("InlineAttachments/text_attachment_encoded.txt"))
+                        .build()
+        );
 
         Exception exception = assertThrows(InlineAttachmentProcessingException.class, () ->
             attachmentHandlerService.storeAttachments(mockMissingDescriptionElementsAttachments, CONVERSATION_ID)

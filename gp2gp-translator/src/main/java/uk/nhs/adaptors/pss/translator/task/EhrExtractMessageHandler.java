@@ -242,6 +242,27 @@ public class EhrExtractMessageHandler {
         PatientMigrationRequest migrationRequest,
         InboundMessage.Attachment attachment) throws ParseException {
 
+        String description = attachment.getDescription();
+        Boolean isEmis = XmlParseUtilService.isDescriptionEmisStyle(description);
+
+        if (isEmis) {
+            return PatientAttachmentLog.builder()
+                    .mid(messageId)
+                    .filename(attachment.getDescription())
+                    .parentMid(null)
+                    .patientMigrationReqId(migrationRequest.getId())
+                    .contentType(attachment.getContentType())
+                    .compressed(false)
+                    .largeAttachment(false)
+                    .originalBase64(false)
+                    .skeleton(false)
+                    .uploaded(true)
+                    .lengthNum(0)
+                    .postProcessedLengthNum(attachment.getPayload().length())
+                    .orderNum(0)
+                    .build();
+        }
+
         return PatientAttachmentLog.builder()
             .mid(messageId)
             .filename(XmlParseUtilService.parseFilename(attachment.getDescription()))
@@ -262,6 +283,7 @@ public class EhrExtractMessageHandler {
     private PatientAttachmentLog buildPatientAttachmentLogFromExternalAttachment(
         PatientMigrationRequest migrationRequest,
         InboundMessage.ExternalAttachment externalAttachment) throws ParseException {
+
         return PatientAttachmentLog.builder()
                 .mid(externalAttachment.getMessageId())
                 .filename(XmlParseUtilService.parseFilename(externalAttachment.getDescription()))
