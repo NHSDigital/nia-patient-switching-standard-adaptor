@@ -202,7 +202,7 @@ public class BundleMapperService {
             Patient patient,
             String losingPracticeOdsCode,
             List<Location> locations) {
-        return encounterMapper.mapEncounters(ehrExtract, patient, losingPracticeOdsCode, locations); //HERE
+        return encounterMapper.mapEncounters(ehrExtract, patient, losingPracticeOdsCode, locations);
     }
 
     private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UK04EhrFolder ehrFolder) {
