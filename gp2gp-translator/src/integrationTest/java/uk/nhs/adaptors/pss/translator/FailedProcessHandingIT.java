@@ -2,13 +2,12 @@ package uk.nhs.adaptors.pss.translator;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_TIMEOUT;
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +19,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.annotation.DirtiesContext;
@@ -37,10 +35,9 @@ import uk.nhs.adaptors.pss.mhsmock.model.RequestJournal;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest
 @ExtendWith({SpringExtension.class})
 @DirtiesContext
-@AutoConfigureMockMvc
 public class FailedProcessHandingIT extends BaseEhrHandler {
 
     private static final String NACK_PAYLOAD_PATH = "/xml/MCCI_IN010000UK13/payload_part.xml";
@@ -92,6 +89,8 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
     @Test
     public void When_ProcessFailedByIncumbent_With_CopcMessage_Expect_NotProcessed() {
         sendEhrExtractToQueue();
+
+        await().until(this::isContinueRequestAccepted);
 
         sendNackToQueue();
 
