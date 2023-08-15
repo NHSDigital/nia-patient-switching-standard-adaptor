@@ -133,8 +133,10 @@ public class ResourceReferenceUtil {
 
     private static void addAllergyIntoleranceEntry(RCMRMT030101UK04CompoundStatement compoundStatement,
                                                    List<Reference> entryReferences) {
+        var observationStatementPart = compoundStatement.getComponent().get(0).getObservationStatement();
+
         entryReferences.add(createResourceReference(ResourceType.AllergyIntolerance.name(),
-                compoundStatement.getId().get(0).getRoot()));
+                observationStatementPart.getId().getRoot()));
     }
 
     private static void addDiagnosticReportEntry(RCMRMT030101UK04CompoundStatement compoundStatement,
