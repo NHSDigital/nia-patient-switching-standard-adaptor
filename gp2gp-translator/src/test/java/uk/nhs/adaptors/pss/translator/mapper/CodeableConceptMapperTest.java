@@ -568,7 +568,7 @@ public class CodeableConceptMapperTest {
         var inputXML = """
                 <?xml version="1.0" encoding="UTF-8"?>
                 <code xmlns="urn:hl7-org:v3" code="ALLERGY-SNOMED-13482891000006110" codeSystem="2.16.840.1.113883.2.1.6.3" displayName="Adverse reaction to Comirnaty Covid-19 mRna Vaccine">
-                    <translation code="ALLERGY138185NEMIS" codeSystem="2.16.840.1.113883.2.1.6.3" displayName="Translation - Adverse reaction to Comirnaty Covid-19 mRna Vaccine"/>
+                    <translation code="22A..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="O/E - weight"/>
                     <originalText>Test original text</originalText>
                 </code>
                 """;
@@ -580,9 +580,9 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCodingFirstRep().getCode()).isEqualTo("ALLERGY-SNOMED-13482891000006110");
         assertThat(codeableConcept.getCodingFirstRep().getSystem()).isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
         assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
-        assertThat(codeableConcept.getCoding().get(1).getCode()).isEqualTo("ALLERGY138185NEMIS");
-        assertThat(codeableConcept.getCoding().get(1).getSystem()).isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
-        assertThat(codeableConcept.getCoding().get(1).getDisplay()).isEqualTo("Translation - Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+        assertThat(codeableConcept.getCoding().get(1).getCode()).isEqualTo("22A..00");
+        assertThat(codeableConcept.getCoding().get(1).getSystem()).isEqualTo("http://read.info/readv2");
+        assertThat(codeableConcept.getCoding().get(1).getDisplay()).isEqualTo("O/E - weight");
     }
 
     @Test
@@ -590,7 +590,7 @@ public class CodeableConceptMapperTest {
         var inputXML = """
                 <?xml version="1.0" encoding="UTF-8"?>
                 <code xmlns="urn:hl7-org:v3" code="ALLERGY-SNOMED-13482891000006110" codeSystem="2.16.840.1.113883.2.1.6.3" displayName="Adverse reaction to Comirnaty Covid-19 mRna Vaccine">
-                    <translation code="ALLERGY138185NEMIS" codeSystem="2.16.840.1.113883.2.1.6.3" displayName="Translation - Adverse reaction to Comirnaty Covid-19 mRna Vaccine"/>
+                    <translation code="22A.." codeSystem="2.16.840.1.113883.2.1.3.2.4.14" displayName="O/E - weight"/>
                 </code>
                 """;
 
@@ -601,9 +601,9 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCodingFirstRep().getCode()).isEqualTo("ALLERGY-SNOMED-13482891000006110");
         assertThat(codeableConcept.getCodingFirstRep().getSystem()).isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
         assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
-        assertThat(codeableConcept.getCoding().get(1).getCode()).isEqualTo("ALLERGY138185NEMIS");
-        assertThat(codeableConcept.getCoding().get(1).getSystem()).isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
-        assertThat(codeableConcept.getCoding().get(1).getDisplay()).isEqualTo("Translation - Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+        assertThat(codeableConcept.getCoding().get(1).getCode()).isEqualTo("22A..");
+        assertThat(codeableConcept.getCoding().get(1).getSystem()).isEqualTo("http://read.info/ctv3");
+        assertThat(codeableConcept.getCoding().get(1).getDisplay()).isEqualTo("O/E - weight");
     }
     
     @Test
