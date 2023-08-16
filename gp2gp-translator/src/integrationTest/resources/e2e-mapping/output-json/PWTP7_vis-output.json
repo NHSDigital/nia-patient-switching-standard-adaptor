@@ -2058,7 +2058,12 @@
           "system": "http://snomed.info/sct",
           "code": "266747000",
           "display": "Referral to private doctor"
-        } ],
+        },
+          {
+            "system": "http://read.info/readv2",
+            "code": "8H61.00",
+            "display": "Referral to private doctor"
+          }],
         "text": "Referral to private doctor"
       } ],
       "note": [ {
@@ -2108,7 +2113,11 @@
           "system": "http://snomed.info/sct",
           "code": "183545006",
           "display": "Referral to orthopaedic service"
-        } ],
+        },
+          {"system": "http://read.info/readv2",
+            "code": "8H54.00",
+            "display": "Orthopaedic referral"}
+        ],
         "text": "Orthopaedic referral"
       } ],
       "note": [ {
@@ -2158,7 +2167,10 @@
           "system": "http://snomed.info/sct",
           "code": "306098008",
           "display": "Self-referral"
-        } ],
+        },
+          {"system": "http://read.info/readv2",
+            "code": "8Hh..00",
+            "display": "Self-referral"}],
         "text": "Neurosurgical referral"
       } ],
       "note": [ {
@@ -2205,7 +2217,12 @@
           "system": "http://snomed.info/sct",
           "code": "183481006",
           "display": "Non-urgent hospital admission"
-        } ],
+        },
+          {
+            "system": "http://read.info/readv2",
+            "code": "8H3..00",
+            "display": "Non-urgent hospital admission"
+          }],
         "text": "Non-urgent hospital admission"
       } ],
       "note": [ {
@@ -2226,7 +2243,12 @@
           "system": "http://snomed.info/sct",
           "code": "330062008",
           "display": "Allopurinol 300mg tablets"
-        } ],
+        },
+          {
+            "system": "2.16.840.1.113883.2.1.6.9",
+            "code": "ALTA78",
+            "display": "Allopurinol 300mg tablets"
+          }],
         "text": "Allopurinol 300mg tablets"
       }
     }
@@ -2344,12 +2366,17 @@
             }, {
               "url": "descriptionDisplay",
               "valueString": "Referral to G.P."
-            } ]
+            }]
           } ],
           "system": "http://snomed.info/sct",
           "code": "183561008",
           "display": "Referral to GP"
-        } ],
+        },
+          {
+            "system": "http://read.info/readv2",
+            "code": "8H62.00",
+            "display": "Referral to G.P."
+          }],
         "text": "Referral to G.P."
       },
       "subject": {
@@ -2400,7 +2427,10 @@
           "system": "http://snomed.info/sct",
           "code": "21719001",
           "display": "Allergic rhinitis due to pollen"
-        } ],
+        },
+          {"system": "http://read.info/readv2",
+            "code": "H170.11",
+            "display": "Hay fever - pollens"}],
         "text": "Hay fever - pollens"
       },
       "subject": {
@@ -2440,7 +2470,12 @@
           "system": "http://snomed.info/sct",
           "code": "501631000000108",
           "display": "[D]Low blood pressure reading"
-        } ],
+        },
+          {
+            "system": "http://read.info/readv2",
+            "code": "R1y3.00",
+            "display": "[D]Low blood pressure reading"
+          }],
         "text": "[D]Low blood pressure reading"
       },
       "subject": {
@@ -2479,7 +2514,12 @@
           "system": "http://snomed.info/sct",
           "code": "162290004",
           "display": "Dry eyes"
-        } ],
+        },
+          {
+            "system": "http://read.info/readv2",
+            "code": "1B88.00",
+            "display": "Dry eyes"
+          }],
         "text": "Dry eyes"
       },
       "subject": {
@@ -2518,7 +2558,12 @@
           "system": "http://snomed.info/sct",
           "code": "162290004",
           "display": "Dry eyes"
-        } ],
+        },
+          {
+            "system": "http://read.info/readv2",
+            "code": "1B88.00",
+            "display": "Dry eyes"
+          } ],
         "text": "Dry eyes"
       },
       "subject": {
@@ -2557,7 +2602,10 @@
           "system": "http://snomed.info/sct",
           "code": "46152009",
           "display": "Tear film insufficiency"
-        } ],
+        },
+          {"system": "http://read.info/readv2",
+            "code": "F4F1400",
+            "display": "Dry eye syndrome"}],
         "text": "Dry eye syndrome"
       },
       "subject": {
@@ -2670,7 +2718,10 @@
           "system": "http://snomed.info/sct",
           "code": "21719001",
           "display": "Allergic rhinitis due to pollen"
-        } ],
+        },
+          {"system": "http://read.info/readv2",
+            "code": "H170.11",
+            "display": "Hay fever - pollens"} ],
         "text": "Hay fever - pollens"
       },
       "subject": {
@@ -2735,7 +2786,12 @@
           "system": "http://snomed.info/sct",
           "code": "501631000000108",
           "display": "[D]Low blood pressure reading"
-        } ],
+        },
+          {
+            "system": "http://read.info/readv2",
+            "code": "R1y3.00",
+            "display": "[D]Low blood pressure reading"
+          } ],
         "text": "[D]Low blood pressure reading"
       },
       "subject": {
@@ -2813,7 +2869,10 @@
           "system": "http://snomed.info/sct",
           "code": "46152009",
           "display": "Tear film insufficiency"
-        } ],
+        },
+          {"system": "http://read.info/readv2",
+            "code": "F4F1400",
+            "display": "Dry eye syndrome"} ],
         "text": "Dry eye syndrome"
       },
       "subject": {
