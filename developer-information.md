@@ -83,11 +83,19 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [Config
 
 ### Releasing a new version to Docker Hub
 
-Make sure you are on the main branch, with the latest version of the code before following these instructions.
+First identify which is the most recent commit within GitHub which contains only changes which are marked as Done within Jira.
+
+Make a note of the most recent Release within GitHub, and identify what the next version number to use will be.
+
+Create a new release within GitHub, specifying the tag as the version to use (e.g. "0.11"), and the target being the commit you identified.
+
+Log into DockerHub using the credentials stored within our AWS accounts Secrets Manager, secret name `nhsdev-dockerhub-credentials` in London region.
+
+Now build the adaptor using the following commands.
 
 ```shell
-git checkout main
-git pull
+git fetch
+git checkout <version tag>
 ```
 
 When running the buildx commands you may get an error asking you to run the following command, which you should do.
@@ -95,21 +103,12 @@ When running the buildx commands you may get an error asking you to run the foll
 docker buildx create --use
 ```
 
-Replace \<version\> with the [next version of the ps-adaptor to release](https://hub.docker.com/r/nhsdev/nia-ps-adaptor/tags).
+Replace \<version\> with the version tag above.
+_NOTE_ that the commands can take up to 20 minutes.
 
 ```shell
 docker buildx build -f docker/gp2gp-translator/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-adaptor:<version> --push
-```
-
-Replace \<version\> with the [next version of the gpc-facade to release](https://hub.docker.com/r/nhsdev/nia-ps-facade/tags).
-
-```shell
 docker buildx build -f docker/gpc-facade/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-facade:<version> --push
-```
-
-Replace \<version\> with the [next version of the ps-db-migration to release](https://hub.docker.com/r/nhsdev/nia-ps-db-migration/tags).
-
-```shell
 docker buildx build -f docker/db-migration/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-db-migration:<version> --push
 ```
 
