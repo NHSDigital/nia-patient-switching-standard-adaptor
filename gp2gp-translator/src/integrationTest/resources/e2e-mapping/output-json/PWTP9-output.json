@@ -4963,6 +4963,11 @@
               "system": "http://snomed.info/sct",
               "code": "165581004",
               "display": "INR - international normalised ratio"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42QE.00",
+              "display": "International normalised ratio"
             }
           ],
           "text": "International normalised ratio"
@@ -5046,6 +5051,11 @@
               "system": "http://snomed.info/sct",
               "code": "19518008",
               "display": "Protein measurement, urine, quantitative 24 hour"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "467A.00",
+              "display": "24 hour urine protein output"
             }
           ],
           "text": "24 hour urine protein output"
@@ -5118,6 +5128,11 @@
               "system": "http://snomed.info/sct",
               "code": "271216009",
               "display": "Serum vitamin B12 measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42T..00",
+              "display": "Serum vitamin B12"
             }
           ],
           "text": "Serum vitamin B12"
@@ -5216,6 +5231,11 @@
               "system": "http://snomed.info/sct",
               "code": "69152001",
               "display": "Folic acid measurement, RBC"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42U4.00",
+              "display": "Red blood cell folate"
             }
           ],
           "text": "Red blood cell folate"
@@ -5301,6 +5321,11 @@
               "system": "http://snomed.info/sct",
               "code": "269874008",
               "display": "Serum paracetamol measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44WB.00",
+              "display": "Serum paracetamol level"
             }
           ],
           "text": "Serum paracetamol level"
@@ -6272,6 +6297,11 @@
               "system": "http://snomed.info/sct",
               "code": "104934005",
               "display": "Sodium measurement, serum"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44I5.00",
+              "display": "Serum sodium"
             }
           ],
           "text": "Serum sodium"
@@ -6436,6 +6466,11 @@
               "system": "http://snomed.info/sct",
               "code": "113075003",
               "display": "Creatinine measurement, serum"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44J3.00",
+              "display": "Serum creatinine"
             }
           ],
           "text": "Serum creatinine"
@@ -6525,6 +6560,11 @@
               "system": "http://snomed.info/sct",
               "code": "270996006",
               "display": "Serum cholesterol measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44P..00",
+              "display": "Serum cholesterol"
             }
           ],
           "text": "Serum cholesterol"
@@ -6699,6 +6739,11 @@
               "system": "http://snomed.info/sct",
               "code": "166832000",
               "display": "Serum HDL cholesterol measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44P5.00",
+              "display": "Serum HDL cholesterol level"
             }
           ],
           "text": "Serum HDL cholesterol level"
@@ -6801,6 +6846,11 @@
               "system": "http://snomed.info/sct",
               "code": "166833005",
               "display": "Serum LDL cholesterol measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44P6.00",
+              "display": "Serum LDL cholesterol level"
             }
           ],
           "text": "Serum LDL cholesterol level"
@@ -6905,6 +6955,11 @@
               "system": "http://snomed.info/sct",
               "code": "271062006",
               "display": "Fasting blood glucose measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44TK.00",
+              "display": "Fasting blood glucose level"
             }
           ],
           "text": "Fasting blood glucose level"
@@ -8691,6 +8746,11 @@
               "system": "http://snomed.info/sct",
               "code": "104934005",
               "display": "Sodium measurement, serum"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44I5.00",
+              "display": "Serum sodium"
             }
           ],
           "text": "Serum sodium"
@@ -8868,6 +8928,11 @@
               "system": "http://snomed.info/sct",
               "code": "113075003",
               "display": "Creatinine measurement, serum"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44J3.00",
+              "display": "Serum creatinine"
             }
           ],
           "text": "Serum creatinine"
@@ -12399,6 +12464,11 @@
               "system": "http://snomed.info/sct",
               "code": "104934005",
               "display": "Sodium measurement, serum"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44I5.00",
+              "display": "Serum sodium"
             }
           ],
           "text": "Serum sodium"
@@ -12674,6 +12744,11 @@
               "system": "http://snomed.info/sct",
               "code": "113075003",
               "display": "Creatinine measurement, serum"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44J3.00",
+              "display": "Serum creatinine"
             }
           ],
           "text": "Serum creatinine"
@@ -12763,6 +12838,11 @@
               "system": "http://snomed.info/sct",
               "code": "270996006",
               "display": "Serum cholesterol measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44P..00",
+              "display": "Serum cholesterol"
             }
           ],
           "text": "Serum cholesterol"
@@ -12846,6 +12926,11 @@
               "system": "http://snomed.info/sct",
               "code": "166832000",
               "display": "Serum HDL cholesterol measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44P5.00",
+              "display": "Serum HDL cholesterol level"
             }
           ],
           "text": "Serum HDL cholesterol level"
@@ -13677,6 +13762,11 @@
               "system": "http://snomed.info/sct",
               "code": "104934005",
               "display": "Sodium measurement, serum"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44I5.00",
+              "display": "Serum sodium"
             }
           ],
           "text": "Serum sodium"
@@ -13796,6 +13886,11 @@
               "system": "http://snomed.info/sct",
               "code": "113075003",
               "display": "Creatinine measurement, serum"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44J3.00",
+              "display": "Serum creatinine"
             }
           ],
           "text": "Serum creatinine"
@@ -14097,6 +14192,11 @@
               "system": "http://snomed.info/sct",
               "code": "270996006",
               "display": "Serum cholesterol measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44P..00",
+              "display": "Serum cholesterol"
             }
           ],
           "text": "Serum cholesterol"
@@ -14519,6 +14619,11 @@
               "system": "http://snomed.info/sct",
               "code": "271216009",
               "display": "Serum vitamin B12 measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42T..00",
+              "display": "Serum vitamin B12"
             }
           ],
           "text": "Serum vitamin B12"
@@ -15931,6 +16036,11 @@
               "system": "http://snomed.info/sct",
               "code": "271062006",
               "display": "Fasting blood glucose measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44TK.00",
+              "display": "Fasting blood glucose level"
             }
           ],
           "text": "Fasting blood sugar"
