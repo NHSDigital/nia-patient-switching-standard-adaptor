@@ -7041,6 +7041,11 @@
               "system": "http://snomed.info/sct",
               "code": "275806002",
               "display": "Hb estimation"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "423..00",
+              "display": "Haemoglobin estimation"
             }
           ],
           "text": "Haemoglobin estimation"
@@ -7130,6 +7135,11 @@
               "system": "http://snomed.info/sct",
               "code": "767002",
               "display": "White blood cell count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42H..00",
+              "display": "Total white cell count"
             }
           ],
           "text": "Total white cell count"
@@ -7222,6 +7232,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "61928009",
+              "display": "Platelet count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42P..00",
               "display": "Platelet count"
             }
           ],
@@ -7322,6 +7337,11 @@
               "system": "http://snomed.info/sct",
               "code": "104133003",
               "display": "Erythrocyte mean corpuscular volume determination"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42A..00",
+              "display": "Mean corpuscular volume (MCV)"
             }
           ],
           "text": "Mean corpuscular volume (MCV)"
@@ -7411,6 +7431,11 @@
               "system": "http://snomed.info/sct",
               "code": "14089001",
               "display": "Red blood cell count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "426..00",
+              "display": "Red blood cell (RBC) count"
             }
           ],
           "text": "Red blood cell (RBC) count"
@@ -7504,6 +7529,11 @@
               "system": "http://snomed.info/sct",
               "code": "250231008",
               "display": "Packed cell volume measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "4257.00",
+              "display": "Packed cell volume"
             }
           ],
           "text": "Packed cell volume"
@@ -7593,6 +7623,11 @@
               "system": "http://snomed.info/sct",
               "code": "54706004",
               "display": "Mean corpuscular haemoglobin determination"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "428..00",
+              "display": "Mean corpusc. haemoglobin(MCH)"
             }
           ],
           "text": "Mean corpusc. haemoglobin(MCH)"
@@ -7756,6 +7791,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "74765001",
+              "display": "Lymphocyte count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42M..00",
               "display": "Lymphocyte count"
             }
           ],
@@ -7921,6 +7961,11 @@
               "system": "http://snomed.info/sct",
               "code": "71960002",
               "display": "Eosinophil count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42K..00",
+              "display": "Eosinophil count"
             }
           ],
           "text": "Eosinophil count"
@@ -8014,6 +8059,11 @@
               "system": "http://snomed.info/sct",
               "code": "42351005",
               "display": "Basophil count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42L..00",
+              "display": "Basophil count"
             }
           ],
           "text": "Basophil count"
@@ -8103,6 +8153,11 @@
               "system": "http://snomed.info/sct",
               "code": "270992008",
               "display": "Serum total protein measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44M3.00",
+              "display": "Serum total protein"
             }
           ],
           "text": "Serum total protein"
@@ -8196,6 +8251,11 @@
               "system": "http://snomed.info/sct",
               "code": "104485008",
               "display": "Albumin measurement, serum"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44M4.00",
+              "display": "Serum albumin"
             }
           ],
           "text": "Serum albumin"
@@ -8285,6 +8345,11 @@
               "system": "http://snomed.info/sct",
               "code": "271240001",
               "display": "Serum calcium measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44I8.00",
+              "display": "Serum calcium"
             }
           ],
           "text": "Serum calcium"
@@ -8378,6 +8443,11 @@
               "system": "http://snomed.info/sct",
               "code": "166708003",
               "display": "Corrected serum calcium measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44IC.00",
+              "display": "Corrected serum calcium level"
             }
           ],
           "text": "Corrected serum calcium level"
@@ -8476,6 +8546,11 @@
               "system": "http://snomed.info/sct",
               "code": "271241002",
               "display": "Serum inorganic phosphate measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44I9.00",
+              "display": "Serum inorganic phosphate"
             }
           ],
           "text": "Serum inorganic phosphate"
@@ -8561,6 +8636,11 @@
               "system": "http://snomed.info/sct",
               "code": "271234008",
               "display": "Serum alkaline phosphatase measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44F..00",
+              "display": "Serum alkaline phosphatase"
             }
           ],
           "text": "Serum alkaline phosphatase"
@@ -8653,6 +8733,11 @@
               "system": "http://snomed.info/sct",
               "code": "273967009",
               "display": "Serum urea measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44J9.00",
+              "display": "Serum urea level"
             }
           ],
           "text": "Serum urea level"
@@ -10218,6 +10303,11 @@
               "system": "http://snomed.info/sct",
               "code": "275806002",
               "display": "Hb estimation"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "423..00",
+              "display": "Haemoglobin estimation"
             }
           ],
           "text": "Haemoglobin estimation"
@@ -10307,6 +10397,11 @@
               "system": "http://snomed.info/sct",
               "code": "767002",
               "display": "White blood cell count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42H..00",
+              "display": "Total white cell count"
             }
           ],
           "text": "Total white cell count"
@@ -10489,6 +10584,11 @@
               "system": "http://snomed.info/sct",
               "code": "104133003",
               "display": "Erythrocyte mean corpuscular volume determination"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42A..00",
+              "display": "Mean corpuscular volume (MCV)"
             }
           ],
           "text": "Mean corpuscular volume (MCV)"
@@ -10650,6 +10750,11 @@
               "system": "http://snomed.info/sct",
               "code": "14089001",
               "display": "Red blood cell count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "426..00",
+              "display": "Red blood cell (RBC) count"
             }
           ],
           "text": "Red blood cell (RBC) count"
@@ -10739,6 +10844,11 @@
               "system": "http://snomed.info/sct",
               "code": "54706004",
               "display": "Mean corpuscular haemoglobin determination"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "428..00",
+              "display": "Mean corpusc. haemoglobin(MCH)"
             }
           ],
           "text": "Mean corpusc. haemoglobin(MCH)"
@@ -11085,6 +11195,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "74765001",
+              "display": "Lymphocyte count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42M..00",
               "display": "Lymphocyte count"
             }
           ],
@@ -12651,6 +12766,11 @@
               "system": "http://snomed.info/sct",
               "code": "273967009",
               "display": "Serum urea measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44J9.00",
+              "display": "Serum urea level"
             }
           ],
           "text": "Serum urea level"
@@ -13233,6 +13353,11 @@
               "system": "http://snomed.info/sct",
               "code": "270992008",
               "display": "Serum total protein measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44M3.00",
+              "display": "Serum total protein"
             }
           ],
           "text": "Serum total protein"
@@ -13294,6 +13419,11 @@
               "system": "http://snomed.info/sct",
               "code": "104485008",
               "display": "Albumin measurement, serum"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44M4.00",
+              "display": "Serum albumin"
             }
           ],
           "text": "Serum albumin"
@@ -13351,6 +13481,11 @@
               "system": "http://snomed.info/sct",
               "code": "271240001",
               "display": "Serum calcium measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44I8.00",
+              "display": "Serum calcium"
             }
           ],
           "text": "Serum calcium"
@@ -13412,6 +13547,11 @@
               "system": "http://snomed.info/sct",
               "code": "166708003",
               "display": "Corrected serum calcium measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44IC.00",
+              "display": "Corrected serum calcium level"
             }
           ],
           "text": "Corrected serum calcium level"
@@ -13469,6 +13609,11 @@
               "system": "http://snomed.info/sct",
               "code": "271241002",
               "display": "Serum inorganic phosphate measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44I9.00",
+              "display": "Serum inorganic phosphate"
             }
           ],
           "text": "Serum inorganic phosphate"
@@ -13527,6 +13672,11 @@
               "system": "http://snomed.info/sct",
               "code": "271234008",
               "display": "Serum alkaline phosphatase measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44F..00",
+              "display": "Serum alkaline phosphatase"
             }
           ],
           "text": "Serum alkaline phosphatase"
@@ -13701,6 +13851,11 @@
               "system": "http://snomed.info/sct",
               "code": "273967009",
               "display": "Serum urea measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44J9.00",
+              "display": "Serum urea level"
             }
           ],
           "text": "Serum urea level"
@@ -14397,6 +14552,11 @@
               "system": "http://snomed.info/sct",
               "code": "271234008",
               "display": "Serum alkaline phosphatase measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44F..00",
+              "display": "Serum alkaline phosphatase"
             }
           ],
           "text": "Serum alkaline phosphatase"
@@ -14547,6 +14707,11 @@
               "system": "http://snomed.info/sct",
               "code": "104485008",
               "display": "Albumin measurement, serum"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "44M4.00",
+              "display": "Serum albumin"
             }
           ],
           "text": "Serum albumin"
@@ -14826,6 +14991,11 @@
               "system": "http://snomed.info/sct",
               "code": "767002",
               "display": "White blood cell count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42H..00",
+              "display": "Total white cell count"
             }
           ],
           "text": "Total white cell count"
@@ -14898,6 +15068,11 @@
               "system": "http://snomed.info/sct",
               "code": "14089001",
               "display": "Red blood cell count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "426..00",
+              "display": "Red blood cell (RBC) count"
             }
           ],
           "text": "Red blood cell (RBC) count"
@@ -14980,6 +15155,11 @@
               "system": "http://snomed.info/sct",
               "code": "275806002",
               "display": "Hb estimation"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "423..00",
+              "display": "Haemoglobin estimation"
             }
           ],
           "text": "Haemoglobin estimation"
@@ -15138,6 +15318,11 @@
               "system": "http://snomed.info/sct",
               "code": "104133003",
               "display": "Erythrocyte mean corpuscular volume determination"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42A..00",
+              "display": "Mean corpuscular volume (MCV)"
             }
           ],
           "text": "Mean corpuscular volume (MCV)"
@@ -15220,6 +15405,11 @@
               "system": "http://snomed.info/sct",
               "code": "54706004",
               "display": "Mean corpuscular haemoglobin determination"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "428..00",
+              "display": "Mean corpusc. haemoglobin(MCH)"
             }
           ],
           "text": "Mean corpusc. haemoglobin(MCH)"
@@ -15530,6 +15720,11 @@
               "system": "http://snomed.info/sct",
               "code": "74765001",
               "display": "Lymphocyte count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42M..00",
+              "display": "Lymphocyte count"
             }
           ],
           "text": "Lymphocyte count"
@@ -15758,6 +15953,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "42351005",
+              "display": "Basophil count"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "42L..00",
               "display": "Basophil count"
             }
           ],
