@@ -2576,6 +2576,11 @@
               "system": "http://snomed.info/sct",
               "code": "23986001",
               "display": "Glaucoma"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "F45..00",
+              "display": "Glaucoma"
             }
           ],
           "text": "Glaucoma"
@@ -2632,6 +2637,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163030003",
+              "display": "O/E - Systolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2469.00",
               "display": "O/E - Systolic BP reading"
             }
           ],
@@ -2701,6 +2711,11 @@
               "system": "http://snomed.info/sct",
               "code": "163031004",
               "display": "O/E - Diastolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246A.00",
+              "display": "O/E - Diastolic BP reading"
             }
           ],
           "text": "Diastolic blood pressure"
@@ -2769,6 +2784,11 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -2825,6 +2845,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "185328004",
+              "display": "Patient too late"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "9N43.00",
               "display": "Patient too late"
             }
           ],
@@ -2883,6 +2908,11 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -2948,6 +2978,11 @@
               "system": "http://snomed.info/sct",
               "code": "267032009",
               "display": "Tired all the time"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1683.00",
+              "display": "Tired all the time"
             }
           ],
           "text": "Tired all the time"
@@ -3009,6 +3044,11 @@
               "system": "http://snomed.info/sct",
               "code": "265157000",
               "display": "Total prosthetic replacement of hip joint using cement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "7K20y00",
+              "display": "Total prosthetic replacement of hip joint using cement OS"
             }
           ],
           "text": "Total prosthetic replacement of hip joint using cement OS"
@@ -3073,6 +3113,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "265157000",
+              "display": "Total prosthetic replacement of hip joint using cement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "7K20.00",
               "display": "Total prosthetic replacement of hip joint using cement"
             }
           ],
@@ -3139,6 +3184,11 @@
               "system": "http://snomed.info/sct",
               "code": "265170009",
               "display": "Total prosthetic replacement of knee joint using cement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "7K30.00",
+              "display": "Total prosthetic replacement of knee joint using cement"
             }
           ],
           "text": "Total prosthetic replacement of knee joint using cement"
@@ -3200,6 +3250,11 @@
               "system": "http://snomed.info/sct",
               "code": "103693007",
               "display": "Diagnostic procedure"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "3....00",
+              "display": "Diagnostic procedures"
             }
           ],
           "text": "Diagnostic procedures"
@@ -3264,6 +3319,11 @@
               "system": "http://snomed.info/sct",
               "code": "228279004",
               "display": "Very heavy drinker"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "136Q.00",
+              "display": "Very heavy drinker"
             }
           ],
           "text": "Very heavy drinker"
@@ -3327,6 +3387,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163030003",
+              "display": "O/E - Systolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2469.00",
               "display": "O/E - Systolic BP reading"
             }
           ],
@@ -3396,6 +3461,11 @@
               "system": "http://snomed.info/sct",
               "code": "163031004",
               "display": "O/E - Diastolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246A.00",
+              "display": "O/E - Diastolic BP reading"
             }
           ],
           "text": "Diastolic blood pressure"
@@ -3444,6 +3514,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISNQWI3",
+              "display": "Witchcraft"
+            }
+          ],
           "text": "Witchcraft"
         },
         "subject": {
@@ -3494,6 +3571,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "20295000",
+              "display": "Divorced"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1334.00",
               "display": "Divorced"
             }
           ],
@@ -3548,6 +3630,11 @@
               "system": "http://snomed.info/sct",
               "code": "417528008",
               "display": "Consent given for upload to local shared electronic record"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "93C0.00",
+              "display": "Consent given for upload to local shared electronic record"
             }
           ],
           "text": "Consent given for upload to local shared electronic record"
@@ -3601,6 +3688,11 @@
               "system": "http://snomed.info/sct",
               "code": "24069003",
               "display": "Nairobi sheep virus disease"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "A661000",
+              "display": "Nairobi sheep disease"
             }
           ],
           "text": "Nairobi sheep disease"
@@ -3651,6 +3743,11 @@
               "system": "http://snomed.info/sct",
               "code": "215964002",
               "display": "Forced landing whilst taking off, occupant of spacecraft injured"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "T508000",
+              "display": "Forced landing on takeoff - occupant of spacecraft injured"
             }
           ],
           "text": "Forced landing on takeoff - occupant of spacecraft injured"
@@ -3701,6 +3798,11 @@
               "system": "http://snomed.info/sct",
               "code": "309848007",
               "display": "Urinary stoma bag fitting"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "8D6E.00",
+              "display": "Cystostomy bag fitting"
             }
           ],
           "text": "Cystostomy bag fitting"
@@ -3747,6 +3849,11 @@
                   "system": "http://snomed.info/sct",
                   "code": "38598009",
                   "display": "Measles-mumps-rubella vaccination"
+                },
+                {
+                  "system": "http://read.info/readv2",
+                  "code": "65M1.00",
+                  "display": "Measles/mumps/rubella vaccn."
                 }
               ],
               "text": "Measles/mumps/rubella vaccn."
@@ -3855,6 +3962,11 @@
               "system": "http://snomed.info/sct",
               "code": "24069003",
               "display": "Nairobi sheep virus disease"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "A661000",
+              "display": "Nairobi sheep disease"
             }
           ],
           "text": "Nairobi sheep disease"
@@ -3933,6 +4045,11 @@
               "system": "http://snomed.info/sct",
               "code": "215964002",
               "display": "Forced landing whilst taking off, occupant of spacecraft injured"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "T508000",
+              "display": "Forced landing on takeoff - occupant of spacecraft injured"
             }
           ],
           "text": "Forced landing on takeoff - occupant of spacecraft injured"
@@ -3991,6 +4108,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163020007",
+              "display": "O/E - blood pressure reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246..00",
               "display": "O/E - blood pressure reading"
             }
           ],
@@ -4104,6 +4226,11 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -4198,6 +4325,11 @@
               "system": "http://snomed.info/sct",
               "code": "163020007",
               "display": "O/E - blood pressure reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246..00",
+              "display": "O/E - blood pressure reading"
             }
           ],
           "text": "O/E - blood pressure reading"
@@ -4265,6 +4397,11 @@
               "system": "http://snomed.info/sct",
               "code": "196461000000101",
               "display": "Transfer-degraded drug allergy"
+            },
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "ALLERGY-EMISDRUGNAME-18782NEMIS",
+              "display": "Adverse reaction to Paracetamol And Dihydrocodeine"
             }
           ],
           "text": "Adverse reaction to Paracetamol And Dihydrocodeine"
@@ -4327,6 +4464,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "161591004",
+              "display": "H/O: penicillin allergy"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "14L1.00",
               "display": "H/O: penicillin allergy"
             }
           ],
