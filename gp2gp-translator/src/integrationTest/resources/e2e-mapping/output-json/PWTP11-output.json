@@ -2663,6 +2663,11 @@
               "system": "http://snomed.info/sct",
               "code": "40055000",
               "display": "Chronic sinusitis"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "H13..00",
+              "display": "Chronic sinusitis"
             }
           ],
           "text": "Chronic sinusitis"
@@ -2701,6 +2706,11 @@
             {
               "system": "http://snomed.info/sct",
               "code": "3154411000001105",
+              "display": "Lacri-lube eye ointment (Allergan Ltd)"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "LAEY3811",
               "display": "Lacri-lube eye ointment (Allergan Ltd)"
             }
           ],
@@ -2844,6 +2854,11 @@
               "system": "http://snomed.info/sct",
               "code": "320139002",
               "display": "Salbutamol 100micrograms CFC-free inhaler"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "SACF26553EMIS",
+              "display": "Salbutamol 100micrograms/dose inhaler CFC free"
             }
           ],
           "text": "Salbutamol 100micrograms/dose inhaler CFC free"
@@ -2980,6 +2995,11 @@
             {
               "system": "http://snomed.info/sct",
               "code": "329653008",
+              "display": "Ibuprofen 400mg tablets"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "IBTA1430",
               "display": "Ibuprofen 400mg tablets"
             }
           ],
@@ -3140,6 +3160,11 @@
               "system": "http://snomed.info/sct",
               "code": "232006002",
               "display": "Macular hole"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "F425412",
+              "display": "Macular hole"
             }
           ],
           "text": "Macular hole"
@@ -3195,6 +3220,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "426411000000105",
+              "display": "[V]Examination of eyes and vision"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "ZV72000",
               "display": "[V]Examination of eyes and vision"
             }
           ],
@@ -3252,6 +3282,11 @@
               "system": "http://snomed.info/sct",
               "code": "12184005",
               "display": "Visual field defect"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "F484.00",
+              "display": "Visual field defects"
             }
           ],
           "text": "Visual field defects"
@@ -3308,6 +3343,11 @@
               "system": "http://snomed.info/sct",
               "code": "163942006",
               "display": "O/E - visual acuity R-eye=6/36"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2B67.00",
+              "display": "O/E - visual acuity R-eye=6/36"
             }
           ],
           "text": "O/E - visual acuity R-eye=6/36"
@@ -3363,6 +3403,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160347007",
+              "display": "FH: Glaucoma"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "12A1.00",
               "display": "FH: Glaucoma"
             }
           ],
@@ -3421,6 +3466,11 @@
               "system": "http://snomed.info/sct",
               "code": "160274005",
               "display": "No family history diabetes"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1228.00",
+              "display": "No family history diabetes"
             }
           ],
           "text": "No FH: diabetes"
@@ -3476,6 +3526,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
+              "display": "Gout"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
               "display": "Gout"
             }
           ],
@@ -3534,6 +3589,11 @@
               "system": "http://snomed.info/sct",
               "code": "267031002",
               "display": "Tiredness symptom"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "168..00",
+              "display": "Tiredness symptom"
             }
           ],
           "text": "Tiredness symptom"
@@ -3590,6 +3650,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "162763007",
+              "display": "O/E - weight"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "22A..00",
               "display": "O/E - weight"
             }
           ],
@@ -3653,6 +3718,11 @@
               "system": "http://snomed.info/sct",
               "code": "40055000",
               "display": "Chronic sinusitis"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "H13..00",
+              "display": "Chronic sinusitis"
             }
           ],
           "text": "Chronic sinusitis"
@@ -3706,6 +3776,11 @@
               "system": "http://snomed.info/sct",
               "code": "265170009",
               "display": "Total prosthetic replacement of knee joint using cement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "7K30.15",
+              "display": "Cavendish total replacement of knee joint using cement"
             }
           ],
           "text": "Cavendish total replacement of knee joint using cement"
@@ -3761,6 +3836,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "69896004",
+              "display": "Rheumatoid arthritis"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "N040.00",
               "display": "Rheumatoid arthritis"
             }
           ],
@@ -3818,6 +3898,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "162755006",
+              "display": "O/E - height"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "229..00",
               "display": "O/E - height"
             }
           ],
@@ -3880,6 +3965,11 @@
               "system": "http://snomed.info/sct",
               "code": "160377001",
               "display": "Family history of asthma"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "12D2.00",
+              "display": "FH: Asthma"
             }
           ],
           "text": "FH: Asthma"
@@ -3936,6 +4026,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90688005",
+              "display": "Chronic renal failure"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "K05..00",
               "display": "Chronic renal failure"
             }
           ],
@@ -3994,6 +4089,11 @@
               "system": "http://snomed.info/sct",
               "code": "90560007",
               "display": "Gout"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
             }
           ],
           "text": "Gout"
@@ -4050,6 +4150,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "40055000",
+              "display": "Chronic sinusitis"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "H13..00",
               "display": "Chronic sinusitis"
             }
           ],
@@ -4108,6 +4213,11 @@
               "system": "http://snomed.info/sct",
               "code": "90560007",
               "display": "Gout"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
             }
           ],
           "text": "Gout"
@@ -4161,6 +4271,11 @@
               "system": "http://snomed.info/sct",
               "code": "717281000000100",
               "display": "Excepted from LVD quality indicators - informed dissent"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "9h12.00",
+              "display": "Excepted from LVD quality indicators: Informed dissent"
             }
           ],
           "text": "Excepted from LVD quality indicators: Informed dissent"
@@ -4216,6 +4331,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
+              "display": "Gout"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
               "display": "Gout"
             }
           ],
@@ -4274,6 +4394,11 @@
               "system": "http://snomed.info/sct",
               "code": "160357008",
               "display": "FH: Hypertension"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "12C1.00",
+              "display": "FH: Hypertension"
             }
           ],
           "text": "FH: Hypertension"
@@ -4330,6 +4455,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
+              "display": "Gout"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
               "display": "Gout"
             }
           ],
@@ -4388,6 +4518,11 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "PKyz511",
+              "display": "Angelman syndrome"
             }
           ],
           "text": "Angelman syndrome"
@@ -4440,6 +4575,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "47933007",
+              "display": "Foot pain"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "N245100",
               "display": "Foot pain"
             }
           ],
@@ -4494,6 +4634,11 @@
               "system": "http://snomed.info/sct",
               "code": "24069003",
               "display": "Nairobi sheep virus disease"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "A661000",
+              "display": "Nairobi sheep disease"
             }
           ],
           "text": "Nairobi sheep disease"
@@ -4548,6 +4693,11 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "PKyz511",
+              "display": "Angelman syndrome"
             }
           ],
           "text": "Angelman syndrome"
@@ -4597,6 +4747,11 @@
               "system": "http://snomed.info/sct",
               "code": "22066006",
               "display": "Strabismus"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "F4J7200",
+              "display": "Strabismus due to other neuromuscular disorder"
             }
           ],
           "text": "Strabismus due to other neuromuscular disorder"
@@ -4651,6 +4806,11 @@
               "system": "http://snomed.info/sct",
               "code": "299031000000106",
               "display": "Disorder of gait and/or balance present"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "29LD.00",
+              "display": "Disorder of gait and/or balance present"
             }
           ],
           "text": "Disorder of gait and/or balance present"
@@ -4703,6 +4863,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "498481000000105",
+              "display": "[D]Difficulty in swallowing"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "R072000",
               "display": "[D]Difficulty in swallowing"
             }
           ],
@@ -4758,6 +4923,11 @@
               "system": "http://snomed.info/sct",
               "code": "62718007",
               "display": "Dribbling from mouth"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1926.00",
+              "display": "Dribbling from mouth"
             }
           ],
           "text": "Dribbling from mouth"
@@ -4808,6 +4978,11 @@
               "system": "http://snomed.info/sct",
               "code": "26079004",
               "display": "Tremor"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1B22.11",
+              "display": "Tremor symptom"
             }
           ],
           "text": "Tremor symptom"
@@ -4860,6 +5035,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "238134004",
+              "display": "Generalised obesity"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "C380500",
               "display": "Generalised obesity"
             }
           ],
@@ -4915,6 +5095,11 @@
               "system": "http://snomed.info/sct",
               "code": "47933007",
               "display": "Foot pain"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "N245100",
+              "display": "Foot pain"
             }
           ],
           "text": "Foot pain"
@@ -4968,6 +5153,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90688005",
+              "display": "Chronic renal failure"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "K05..00",
               "display": "Chronic renal failure"
             }
           ],
@@ -5045,6 +5235,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "232006002",
+              "display": "Macular hole"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "F425412",
               "display": "Macular hole"
             }
           ],
@@ -5152,6 +5347,11 @@
               "system": "http://snomed.info/sct",
               "code": "90560007",
               "display": "Gout"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
             }
           ],
           "text": "Gout"
@@ -5244,6 +5444,11 @@
               "system": "http://snomed.info/sct",
               "code": "40055000",
               "display": "Chronic sinusitis"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "H13..00",
+              "display": "Chronic sinusitis"
             }
           ],
           "text": "Chronic sinusitis"
@@ -5328,6 +5533,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "69896004",
+              "display": "Rheumatoid arthritis"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "N040.00",
               "display": "Rheumatoid arthritis"
             }
           ],
@@ -5465,6 +5675,11 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "PKyz511",
+              "display": "Angelman syndrome"
             }
           ],
           "text": "Angelman syndrome"
@@ -5550,6 +5765,11 @@
               "system": "http://snomed.info/sct",
               "code": "47933007",
               "display": "Foot pain"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "N245100",
+              "display": "Foot pain"
             }
           ],
           "text": "Foot pain"
@@ -5630,6 +5850,11 @@
               "system": "http://snomed.info/sct",
               "code": "24069003",
               "display": "Nairobi sheep virus disease"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "A661000",
+              "display": "Nairobi sheep disease"
             }
           ],
           "text": "Nairobi sheep disease"
@@ -5723,6 +5948,11 @@
               "system": "http://snomed.info/sct",
               "code": "22066006",
               "display": "Strabismus"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "F4J7200",
+              "display": "Strabismus due to other neuromuscular disorder"
             }
           ],
           "text": "Strabismus due to other neuromuscular disorder"
@@ -5844,6 +6074,11 @@
               "system": "http://snomed.info/sct",
               "code": "299031000000106",
               "display": "Disorder of gait and/or balance present"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "29LD.00",
+              "display": "Disorder of gait and/or balance present"
             }
           ],
           "text": "Disorder of gait and/or balance present"
@@ -5948,6 +6183,11 @@
               "system": "http://snomed.info/sct",
               "code": "498481000000105",
               "display": "[D]Difficulty in swallowing"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "R072000",
+              "display": "[D]Difficulty in swallowing"
             }
           ],
           "text": "[D]Difficulty in swallowing"
@@ -6048,6 +6288,11 @@
               "system": "http://snomed.info/sct",
               "code": "62718007",
               "display": "Dribbling from mouth"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1926.00",
+              "display": "Dribbling from mouth"
             }
           ],
           "text": "Dribbling from mouth"
@@ -6147,6 +6392,11 @@
               "system": "http://snomed.info/sct",
               "code": "26079004",
               "display": "Tremor"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1B22.11",
+              "display": "Tremor symptom"
             }
           ],
           "text": "Tremor symptom"
@@ -6235,6 +6485,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90688005",
+              "display": "Chronic renal failure"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "K05..00",
               "display": "Chronic renal failure"
             }
           ],
