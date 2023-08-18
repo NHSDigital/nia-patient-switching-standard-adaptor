@@ -100,7 +100,8 @@ public class ReferralRequestMapperTest {
         assertThat(referralRequest.getAuthoredOn()).isEqualTo("2010-01-01T12:30:00+00:00");
         assertThat(referralRequest.getRequester().getAgent().getReference()).isEqualTo(PRACTITIONER_ID);
         assertThat(referralRequest.getRecipient().get(0).getReference()).isEqualTo("Practitioner/B8CA3710-4D1C-11E3-9E6B-010000001205");
-        assertThat(referralRequest.getReasonCodeFirstRep().getCodingFirstRep().getDisplay()).isEqualTo("Reason Code 1");
+        assertThat(referralRequest.getReasonCodeFirstRep().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_REFERRAL);
+        assertThat(referralRequest.getReasonCodeFirstRep().getCoding().get(1).getDisplay()).isEqualTo("Reason Code 1");
         assertThat(referralRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 

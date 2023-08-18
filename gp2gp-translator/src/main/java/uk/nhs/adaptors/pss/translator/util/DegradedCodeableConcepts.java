@@ -1,6 +1,9 @@
 package uk.nhs.adaptors.pss.translator.util;
 
+import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
+
+import java.util.List;
 
 public final class DegradedCodeableConcepts {
 
@@ -40,4 +43,20 @@ public final class DegradedCodeableConcepts {
             .setSystem(SNOMED_SYSTEM)
             .setCode("196411000000103")
             .setDisplay("Transfer-degraded record entry");
+
+    public static void addDegradedEntry(CodeableConcept codeableConcept, Coding degradedCoding) {
+        if (codeableConcept.hasCoding()) {
+            var coding = codeableConcept.getCoding();
+            var hasSnomedCode = coding
+                 .stream()
+                 .anyMatch(cc -> SNOMED_SYSTEM.equals(cc.getSystem()));
+
+            if (!hasSnomedCode) {
+                coding.add(0, degradedCoding);
+            }
+        } else {
+            codeableConcept
+                .setCoding(List.of(degradedCoding));
+        }
+    }
 }

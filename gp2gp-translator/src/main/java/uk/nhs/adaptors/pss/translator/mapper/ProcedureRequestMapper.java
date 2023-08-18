@@ -73,9 +73,13 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
 
         setProcedureRequestContext(procedureRequest, ehrComposition, encounters);
 
-        if (procedureRequest.getCode() != null && !procedureRequest.getCode().hasCoding()) {
-            procedureRequest.getCode().setCoding(List.of(DegradedCodeableConcepts.DEGRADED_PLAN));
+        if (procedureRequest.getCode() == null) {
+            return procedureRequest;
         }
+
+        DegradedCodeableConcepts.addDegradedEntry(
+                procedureRequest.getCode(),
+                DegradedCodeableConcepts.DEGRADED_PLAN);
 
         return procedureRequest;
     }
