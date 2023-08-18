@@ -2770,6 +2770,11 @@
               "system": "http://snomed.info/sct",
               "code": "182836005",
               "display": "Review of medication"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "8B31400",
+              "display": "Medication review"
             }
           ],
           "text": "Medication review"
@@ -2827,6 +2832,11 @@
               "system": "http://snomed.info/sct",
               "code": "195967001",
               "display": "Asthma"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "H33..00",
+              "display": "Asthma"
             }
           ],
           "text": "Asthma"
@@ -2861,6 +2871,11 @@
               "system": "http://snomed.info/sct",
               "code": "524211000001108",
               "display": "Marvelon tablets (Organon Pharma (UK) Ltd)"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "MATA1723",
+              "display": "Marvelon tablets (Merck Sharp & Dohme Ltd)"
             }
           ],
           "text": "Marvelon tablets (Merck Sharp & Dohme Ltd)"
@@ -3014,6 +3029,11 @@
               "system": "http://snomed.info/sct",
               "code": "3493211000001100",
               "display": "Mirena 20micrograms/24hours intrauterine device (Bayer Plc)"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "MIIN26764EMIS",
+              "display": "Mirena 20micrograms/24hours intrauterine device (Bayer Plc)"
             }
           ],
           "text": "Mirena 20micrograms/24hours intrauterine device (Bayer Plc)"
@@ -3154,6 +3174,11 @@
             {
               "system": "http://snomed.info/sct",
               "code": "13331511000001101",
+              "display": "Gygel 2% contraceptive jelly (Marlborough Pharmaceuticals Ltd)"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "GYGE29052NEMIS",
               "display": "Gygel 2% contraceptive jelly (Marlborough Pharmaceuticals Ltd)"
             }
           ],
@@ -3308,6 +3333,11 @@
               "system": "http://snomed.info/sct",
               "code": "786411000001105",
               "display": "Flexi-T 300 intrauterine contraceptive device (IPC Pharma Ltd)"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "FLIN3846NEMIS",
+              "display": "Flexi-T 300 intrauterine contraceptive device (IPC Pharma Ltd)"
             }
           ],
           "text": "Flexi-T 300 intrauterine contraceptive device (IPC Pharma Ltd)"
@@ -3448,6 +3478,11 @@
             {
               "system": "http://snomed.info/sct",
               "code": "326324002",
+              "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "ETTA18971NEMIS",
               "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
             }
           ],
@@ -3724,6 +3759,11 @@
               "system": "http://snomed.info/sct",
               "code": "524211000001108",
               "display": "Marvelon tablets (Organon Pharma (UK) Ltd)"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "MATA1723",
+              "display": "Marvelon tablets (Merck Sharp & Dohme Ltd)"
             }
           ],
           "text": "Marvelon tablets (Organon Laboratories Ltd)"
@@ -7765,6 +7805,11 @@
               "system": "http://snomed.info/sct",
               "code": "326324002",
               "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "ETTA18971NEMIS",
+              "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
             }
           ],
           "text": "Levonorgestrel 150microgram / Ethinylestradiol 30microgram tablets"
@@ -8344,6 +8389,11 @@
               "system": "http://snomed.info/sct",
               "code": "22298006",
               "display": "Myocardial infarction"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "G30..14",
+              "display": "Heart attack"
             }
           ],
           "text": "Heart attack"
@@ -8399,6 +8449,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163030003",
+              "display": "O/E - Systolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2469.00",
               "display": "O/E - Systolic BP reading"
             }
           ],
@@ -8468,6 +8523,11 @@
               "system": "http://snomed.info/sct",
               "code": "163031004",
               "display": "O/E - Diastolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246A.00",
+              "display": "O/E - Diastolic BP reading"
             }
           ],
           "text": "Diastolic blood pressure"
@@ -8536,6 +8596,11 @@
               "system": "http://snomed.info/sct",
               "code": "162763007",
               "display": "O/E - weight"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "22A..00",
+              "display": "O/E - weight"
             }
           ],
           "text": "O/E - weight"
@@ -8597,6 +8662,11 @@
               "system": "http://snomed.info/sct",
               "code": "162755006",
               "display": "O/E - height"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "229..00",
+              "display": "O/E - height"
             }
           ],
           "text": "O/E - height"
@@ -8657,6 +8727,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "60621009",
+              "display": "Body mass index"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "22K..00",
               "display": "Body mass index"
             }
           ],
@@ -8720,6 +8795,11 @@
               "system": "http://snomed.info/sct",
               "code": "266894000",
               "display": "FH: Cardiovascular disease"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "12C..00",
+              "display": "FH: Cardiovascular disease"
             }
           ],
           "text": "FH: Cardiovascular disease"
@@ -8777,6 +8857,11 @@
               "system": "http://snomed.info/sct",
               "code": "88551000000109",
               "display": "Medication review with patient"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "8B3x.00",
+              "display": "Medication review with patient"
             }
           ],
           "text": "Medication review with patient"
@@ -8829,6 +8914,11 @@
               "system": "http://snomed.info/sct",
               "code": "29893006",
               "display": "Peak expiratory flow measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "3395.00",
+              "display": "Peak exp. flow rate: PEFR/PFR"
             }
           ],
           "text": "Peak exp. flow rate: PEFR/PFR"
@@ -8890,6 +8980,11 @@
               "system": "http://snomed.info/sct",
               "code": "271306003",
               "display": "Best ever peak flow rate (respiratory)"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "339D.00",
+              "display": "Best ever peak flow rate"
             }
           ],
           "text": "Best ever peak flow rate"
@@ -8947,6 +9042,11 @@
               "system": "http://snomed.info/sct",
               "code": "271508001",
               "display": "Expected peak flow rate (respiratory)"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "339H.00",
+              "display": "Predicted peak flow"
             }
           ],
           "text": "Predicted peak flow"
@@ -9008,6 +9108,11 @@
               "system": "http://snomed.info/sct",
               "code": "170639000",
               "display": "Peak flow meter at home"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "663S.00",
+              "display": "Peak flow meter at home"
             }
           ],
           "text": "Peak flow meter at home"
@@ -9063,6 +9168,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "170625000",
+              "display": "Inhaler technique - good"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "663H.00",
               "display": "Inhaler technique - good"
             }
           ],
@@ -9120,6 +9230,11 @@
               "system": "http://snomed.info/sct",
               "code": "170636007",
               "display": "Asthma never disturbs sleep"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "663O000",
+              "display": "Asthma never disturbs sleep"
             }
           ],
           "text": "Asthma never disturbs sleep"
@@ -9175,6 +9290,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "170656008",
+              "display": "Asthma sometimes restricts exercise"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "663e000",
               "display": "Asthma sometimes restricts exercise"
             }
           ],
@@ -9232,6 +9352,11 @@
               "system": "http://snomed.info/sct",
               "code": "76376003",
               "display": "Endometriosis of uterus"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "K500.00",
+              "display": "Endometriosis of uterus"
             }
           ],
           "text": "Endometriosis of uterus"
@@ -9287,6 +9412,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "21522001",
+              "display": "Abdominal pain"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1969.00",
               "display": "Abdominal pain"
             }
           ],
@@ -9344,6 +9474,11 @@
               "system": "http://snomed.info/sct",
               "code": "80182007",
               "display": "Irregular periods"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "K594.00",
+              "display": "Irregular menstrual cycle"
             }
           ],
           "text": "Irregular menstrual cycle"
@@ -9401,6 +9536,11 @@
               "system": "http://snomed.info/sct",
               "code": "161779006",
               "display": "H/O: menstrual disorder"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "157..00",
+              "display": "H/O: menstrual disorder"
             }
           ],
           "text": "H/O: menstrual disorder"
@@ -9456,6 +9596,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160393005",
+              "display": "FH: Menstrual disorder"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "12F5.00",
               "display": "FH: Menstrual disorder"
             }
           ],
@@ -9514,6 +9659,11 @@
               "system": "http://snomed.info/sct",
               "code": "160393005",
               "display": "FH: Menstrual disorder"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "12F5.00",
+              "display": "FH: Menstrual disorder"
             }
           ],
           "text": "FH: Menstrual disorder"
@@ -9570,6 +9720,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163030003",
+              "display": "O/E - Systolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2469.00",
               "display": "O/E - Systolic BP reading"
             }
           ],
@@ -9639,6 +9794,11 @@
               "system": "http://snomed.info/sct",
               "code": "163031004",
               "display": "O/E - Diastolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246A.00",
+              "display": "O/E - Diastolic BP reading"
             }
           ],
           "text": "Diastolic blood pressure"
@@ -9703,6 +9863,11 @@
               "system": "http://snomed.info/sct",
               "code": "198288003",
               "display": "Anxiety state"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "E200.00",
+              "display": "Anxiety states"
             }
           ],
           "text": "Anxiety states"
@@ -9760,6 +9925,11 @@
               "system": "http://snomed.info/sct",
               "code": "265943003",
               "display": "Etcher/engraver"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "0424.00",
+              "display": "Etcher/engraver"
             }
           ],
           "text": "Etcher/engraver"
@@ -9814,6 +9984,11 @@
               "system": "http://snomed.info/sct",
               "code": "21719001",
               "display": "Allergic rhinitis due to pollen"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "H170.00",
+              "display": "Allergic rhinitis due to pollens"
             }
           ],
           "text": "Allergic rhinitis due to pollens"
@@ -9867,6 +10042,11 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -9921,6 +10101,11 @@
               "system": "http://snomed.info/sct",
               "code": "22298006",
               "display": "Myocardial infarction"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "G30..14",
+              "display": "Heart attack"
             }
           ],
           "text": "Heart attack"
@@ -9975,6 +10160,11 @@
               "system": "http://snomed.info/sct",
               "code": "417528008",
               "display": "Consent given for upload to local shared electronic record"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "93C0.00",
+              "display": "Consent given for upload to local shared electronic record"
             }
           ],
           "text": "Consent given for upload to local shared electronic record"
@@ -10027,6 +10217,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163030003",
+              "display": "O/E - Systolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2469.00",
               "display": "O/E - Systolic BP reading"
             }
           ],
@@ -10093,6 +10288,11 @@
               "system": "http://snomed.info/sct",
               "code": "163031004",
               "display": "O/E - Diastolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246A.00",
+              "display": "O/E - Diastolic BP reading"
             }
           ],
           "text": "Diastolic blood pressure"
@@ -10158,6 +10358,11 @@
               "system": "http://snomed.info/sct",
               "code": "267032009",
               "display": "Tired all the time"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1683.00",
+              "display": "Tired all the time"
             }
           ],
           "text": "Tired all the time"
@@ -10212,6 +10417,11 @@
               "system": "http://snomed.info/sct",
               "code": "359814004",
               "display": "Mpox"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "A57y500",
+              "display": "Monkeypox"
             }
           ],
           "text": "Monkeypox"
@@ -10289,6 +10499,11 @@
               "system": "http://snomed.info/sct",
               "code": "22298006",
               "display": "Myocardial infarction"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "G30..14",
+              "display": "Heart attack"
             }
           ],
           "text": "Heart attack"
@@ -10370,6 +10585,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "76376003",
+              "display": "Endometriosis of uterus"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "K500.00",
               "display": "Endometriosis of uterus"
             }
           ],
@@ -10453,6 +10673,11 @@
               "system": "http://snomed.info/sct",
               "code": "21719001",
               "display": "Allergic rhinitis due to pollen"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "H170.00",
+              "display": "Allergic rhinitis due to pollens"
             }
           ],
           "text": "Allergic rhinitis due to pollens"
@@ -10553,6 +10778,11 @@
               "system": "http://snomed.info/sct",
               "code": "395102008",
               "display": "H/O: aspirin allergy"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "14LK.00",
+              "display": "H/O: aspirin allergy"
             }
           ],
           "text": "H/O: aspirin allergy"
@@ -10649,6 +10879,11 @@
               "system": "http://snomed.info/sct",
               "code": "91935009",
               "display": "Allergy to peanut"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "SN58200",
+              "display": "Peanut allergy"
             }
           ],
           "text": "Peanut allergy"
@@ -10732,6 +10967,11 @@
               "system": "http://snomed.info/sct",
               "code": "407580005",
               "display": "H/O: warfarin allergy"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "14LP.00",
+              "display": "H/O: warfarin allergy"
             }
           ],
           "text": "H/O: warfarin allergy"
@@ -10814,6 +11054,11 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -10896,6 +11141,11 @@
               "system": "http://snomed.info/sct",
               "code": "22298006",
               "display": "Myocardial infarction"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "G30..14",
+              "display": "Heart attack"
             }
           ],
           "text": "Heart attack"
@@ -10978,6 +11228,11 @@
               "system": "http://snomed.info/sct",
               "code": "359814004",
               "display": "Mpox"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "A57y500",
+              "display": "Monkeypox"
             }
           ],
           "text": "Monkeypox"
@@ -11036,6 +11291,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163020007",
+              "display": "O/E - blood pressure reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246..00",
               "display": "O/E - blood pressure reading"
             }
           ],
@@ -11107,6 +11367,11 @@
               "system": "http://snomed.info/sct",
               "code": "163020007",
               "display": "O/E - blood pressure reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246..00",
+              "display": "O/E - blood pressure reading"
             }
           ],
           "text": "O/E - blood pressure reading"
@@ -11177,6 +11442,11 @@
               "system": "http://snomed.info/sct",
               "code": "163020007",
               "display": "O/E - blood pressure reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246..00",
+              "display": "O/E - blood pressure reading"
             }
           ],
           "text": "O/E - blood pressure reading"
@@ -11244,6 +11514,11 @@
               "system": "http://snomed.info/sct",
               "code": "91935009",
               "display": "Allergy to peanut"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "SN58200",
+              "display": "Peanut allergy"
             }
           ],
           "text": "Peanut allergy"
@@ -11307,6 +11582,11 @@
               "system": "http://snomed.info/sct",
               "code": "395102008",
               "display": "H/O: aspirin allergy"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "14LK.00",
+              "display": "H/O: aspirin allergy"
             }
           ],
           "text": "H/O: aspirin allergy"
@@ -11366,6 +11646,11 @@
               "system": "http://snomed.info/sct",
               "code": "91935009",
               "display": "Allergy to peanut"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "SN58200",
+              "display": "Peanut allergy"
             }
           ],
           "text": "Peanut allergy"
@@ -11428,6 +11713,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "407580005",
+              "display": "H/O: warfarin allergy"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "14LP.00",
               "display": "H/O: warfarin allergy"
             }
           ],

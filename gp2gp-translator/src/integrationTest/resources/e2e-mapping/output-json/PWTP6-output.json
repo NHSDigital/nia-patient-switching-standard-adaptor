@@ -2367,6 +2367,11 @@
               "system": "http://snomed.info/sct",
               "code": "195967001",
               "display": "Asthma"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "H33..00",
+              "display": "Asthma"
             }
           ],
           "text": "Asthma"
@@ -2423,6 +2428,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "247221000000101",
+              "display": "In-house podiatry follow-up appointment"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "9NJX.00",
               "display": "In-house podiatry follow-up appointment"
             }
           ],
@@ -2485,6 +2495,11 @@
               "system": "http://snomed.info/sct",
               "code": "77176002",
               "display": "Smoker"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "137R.00",
+              "display": "Current smoker"
             }
           ],
           "text": "Current smoker"
@@ -2540,6 +2555,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160619003",
+              "display": "Rolls own cigarettes"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "137M.00",
               "display": "Rolls own cigarettes"
             }
           ],
@@ -2601,6 +2621,11 @@
               "system": "http://snomed.info/sct",
               "code": "77176002",
               "display": "Smoker"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "137P.11",
+              "display": "Smoker"
             }
           ],
           "text": "Smoker"
@@ -2658,6 +2683,11 @@
               "system": "http://snomed.info/sct",
               "code": "225324006",
               "display": "Smoking effects education"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "6791.00",
+              "display": "Health ed. - smoking"
             }
           ],
           "text": "Health ed. - smoking"
@@ -2713,6 +2743,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160616005",
+              "display": "Trying to give up smoking"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "137G.00",
               "display": "Trying to give up smoking"
             }
           ],
@@ -2770,6 +2805,11 @@
               "system": "http://snomed.info/sct",
               "code": "161077003",
               "display": "Father smokes"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "13WF100",
+              "display": "Father smokes"
             }
           ],
           "text": "Father smokes"
@@ -2826,6 +2866,11 @@
               "system": "http://snomed.info/sct",
               "code": "161078008",
               "display": "Mother smokes"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "13WF200",
+              "display": "Mother smokes"
             }
           ],
           "text": "Mother smokes"
@@ -2878,6 +2923,11 @@
               "system": "http://snomed.info/sct",
               "code": "160621008",
               "display": "Ex-cigar smoker"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "137O.00",
+              "display": "Ex cigar smoker"
             }
           ],
           "text": "Ex-cigar smoker"
@@ -2938,6 +2988,11 @@
               "system": "http://snomed.info/sct",
               "code": "228377000",
               "display": "Smokes drugs"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "13cA.00",
+              "display": "Smokes drugs"
             }
           ],
           "text": "Smokes drugs"
@@ -2994,6 +3049,11 @@
               "system": "http://snomed.info/sct",
               "code": "401160008",
               "display": "Smoking cessation programme start date"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "13p5.00",
+              "display": "Smoking cessation programme start date"
             }
           ],
           "text": "Smoking cessation programme start date"
@@ -3031,6 +3091,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISQSM13",
+              "display": "Smoking cessation counselling by telephone"
+            }
+          ],
           "text": "Smoking cessation counselling by telephone"
         },
         "subject": {
@@ -3081,6 +3148,11 @@
               "system": "http://snomed.info/sct",
               "code": "29893006",
               "display": "Peak expiratory flow measurement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "3395.00",
+              "display": "Peak exp. flow rate: PEFR/PFR"
             }
           ],
           "text": "Peak exp. flow rate: PEFR/PFR"
@@ -3142,6 +3214,11 @@
               "system": "http://snomed.info/sct",
               "code": "271306003",
               "display": "Best ever peak flow rate (respiratory)"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "339D.00",
+              "display": "Best ever peak flow rate"
             }
           ],
           "text": "Best ever peak flow rate"
@@ -3199,6 +3276,11 @@
               "system": "http://snomed.info/sct",
               "code": "271508001",
               "display": "Expected peak flow rate (respiratory)"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "339H.00",
+              "display": "Predicted peak flow"
             }
           ],
           "text": "Predicted peak flow"
@@ -3260,6 +3342,11 @@
               "system": "http://snomed.info/sct",
               "code": "170639000",
               "display": "Peak flow meter at home"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "663S.00",
+              "display": "Peak flow meter at home"
             }
           ],
           "text": "Peak flow meter at home"
@@ -3315,6 +3402,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "170625000",
+              "display": "Inhaler technique - good"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "663H.00",
               "display": "Inhaler technique - good"
             }
           ],
@@ -3372,6 +3464,11 @@
               "system": "http://snomed.info/sct",
               "code": "170636007",
               "display": "Asthma never disturbs sleep"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "663O000",
+              "display": "Asthma never disturbs sleep"
             }
           ],
           "text": "Asthma never disturbs sleep"
@@ -3428,6 +3525,11 @@
               "system": "http://snomed.info/sct",
               "code": "170658009",
               "display": "Asthma never restricts exercise"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "663f.00",
+              "display": "Asthma never restricts exercise"
             }
           ],
           "text": "Asthma never restricts exercise"
@@ -3483,6 +3585,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "247631000000101",
+              "display": "First pneumococcal conjugated vaccination"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "657L.00",
               "display": "First pneumococcal conjugated vaccination"
             }
           ],
@@ -3541,6 +3648,11 @@
               "system": "http://snomed.info/sct",
               "code": "247641000000105",
               "display": "Second pneumococcal conjugated vaccination"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "657M.00",
+              "display": "Second pneumococcal conjugated vaccination"
             }
           ],
           "text": "Second pneumococcal conjugated vaccination"
@@ -3598,6 +3710,11 @@
               "system": "http://snomed.info/sct",
               "code": "163106002",
               "display": "O/E - R.post.tib.pulse present"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "24E6.00",
+              "display": "O/E - R.post.tib.pulse present"
             }
           ],
           "text": "O/E - R.post.tib.pulse present"
@@ -3653,6 +3770,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163119003",
+              "display": "O/E - L.post.tib. pulse absent"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "24F7.00",
               "display": "O/E - L.post.tib. pulse absent"
             }
           ],
@@ -3710,6 +3832,11 @@
               "system": "http://snomed.info/sct",
               "code": "163108001",
               "display": "O/E - R.dorsalis pedis present"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "24E8.00",
+              "display": "O/E - R.dorsalis pedis present"
             }
           ],
           "text": "O/E - R.dorsalis pedis present"
@@ -3766,6 +3893,11 @@
               "system": "http://snomed.info/sct",
               "code": "163121008",
               "display": "O/E - L.dorsalis pedis absent"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "24F9.00",
+              "display": "O/E - L.dorsalis pedis absent"
             }
           ],
           "text": "O/E - L.dorsalis pedis absent"
@@ -3821,6 +3953,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "416694004",
+              "display": "O/E - Right foot colour normal"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2G5Z.00",
               "display": "O/E - Right foot colour normal"
             }
           ],
@@ -3879,6 +4016,11 @@
               "system": "http://snomed.info/sct",
               "code": "416317001",
               "display": "O/E - Left foot colour abnormal"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2G5c.00",
+              "display": "O/E - Left foot colour abnormal"
             }
           ],
           "text": "O/E - Left foot colour abnormal"
@@ -3935,6 +4077,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "164615004",
+              "display": "O/E - skin over lesion hot"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2HE4.00",
               "display": "O/E - skin over lesion hot"
             }
           ],
@@ -3993,6 +4140,11 @@
               "system": "http://snomed.info/sct",
               "code": "164612001",
               "display": "O/E - skin over lesion cold"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2HE2.00",
+              "display": "O/E - skin over lesion cold"
             }
           ],
           "text": "O/E - skin over lesion cold"
@@ -4030,6 +4182,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISQDO6",
+              "display": "Doppler of right foot - triphasic"
+            }
+          ],
           "text": "Doppler of right foot - triphasic"
         },
         "subject": {
@@ -4064,6 +4223,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISQDO2",
+              "display": "Doppler of left foot - biphasic"
+            }
+          ],
           "text": "Doppler of left foot - biphasic"
         },
         "subject": {
@@ -4118,6 +4284,11 @@
               "system": "http://snomed.info/sct",
               "code": "15527001",
               "display": "Capillary filling"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "24J0.00",
+              "display": "Capillary refill time"
             }
           ],
           "text": "Capillary refill time"
@@ -4180,6 +4351,11 @@
               "system": "http://snomed.info/sct",
               "code": "15527001",
               "display": "Capillary filling"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "24J0.00",
+              "display": "Capillary refill time"
             }
           ],
           "text": "Capillary refill time"
@@ -4240,6 +4416,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "252094004",
+              "display": "Claudication distance"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "16I..00",
               "display": "Claudication distance"
             }
           ],
@@ -4303,6 +4484,11 @@
               "system": "http://snomed.info/sct",
               "code": "252094004",
               "display": "Claudication distance"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "16I..00",
+              "display": "Claudication distance"
             }
           ],
           "text": "Claudication distance"
@@ -4365,6 +4551,11 @@
               "system": "http://snomed.info/sct",
               "code": "52598005",
               "display": "Rest pain"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1DCA.00",
+              "display": "Rest pain"
             }
           ],
           "text": "Rest pain"
@@ -4421,6 +4612,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "81765008",
+              "display": "No pain"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1DCB.00",
               "display": "No pain"
             }
           ],
@@ -4479,6 +4675,11 @@
               "system": "http://snomed.info/sct",
               "code": "162781005",
               "display": "O/E - oedema of ankles"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "22C2.00",
+              "display": "O/E - oedema of ankles"
             }
           ],
           "text": "O/E - oedema of ankles"
@@ -4536,6 +4737,11 @@
               "system": "http://snomed.info/sct",
               "code": "162783008",
               "display": "O/E - oedema of legs"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "22C4.00",
+              "display": "O/E - oedema of legs"
             }
           ],
           "text": "O/E - oedema of legs"
@@ -4573,6 +4779,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISQRI6",
+              "display": "Right foot monofilament 10g normal"
+            }
+          ],
           "text": "Right foot monofilament 10g normal"
         },
         "subject": {
@@ -4608,6 +4821,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISQLE7",
+              "display": "Left foot monofilament 10g abnormal"
+            }
+          ],
           "text": "Left foot monofilament 10g abnormal"
         },
         "subject": {
@@ -4662,6 +4882,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "407558007",
+              "display": "O/E - Vibration sense of right foot absent"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "29HA.00",
               "display": "O/E - Vibration sense of right foot absent"
             }
           ],
@@ -4719,6 +4944,11 @@
               "system": "http://snomed.info/sct",
               "code": "395149007",
               "display": "O/E - vibration sense left foot reduced"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "29H8.00",
+              "display": "O/E - vibration sense left foot reduced"
             }
           ],
           "text": "O/E - vibration sense left foot reduced"
@@ -4775,6 +5005,11 @@
               "system": "http://snomed.info/sct",
               "code": "6020002",
               "display": "Tinea pedis"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "AB04.11",
+              "display": "Athlete's foot"
             }
           ],
           "text": "Athlete's foot"
@@ -4831,6 +5066,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163683007",
+              "display": "O/E - gait"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "299..00",
               "display": "O/E - gait"
             }
           ],
@@ -4889,6 +5129,11 @@
               "system": "http://snomed.info/sct",
               "code": "63491006",
               "display": "Intermittent claudication"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "G73z000",
+              "display": "Intermittent claudication"
             }
           ],
           "text": "Intermittent claudication"
@@ -4944,6 +5189,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "63491006",
+              "display": "Intermittent claudication"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "G73z000",
               "display": "Intermittent claudication"
             }
           ],
@@ -5001,6 +5251,11 @@
               "system": "http://snomed.info/sct",
               "code": "230572002",
               "display": "Neuropathy due to diabetes mellitus"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "F372.12",
+              "display": "Diabetic neuropathy"
             }
           ],
           "text": "Diabetic neuropathy"
@@ -5058,6 +5313,11 @@
               "system": "http://snomed.info/sct",
               "code": "52897009",
               "display": "Onychogryposis"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "M23yC00",
+              "display": "Onychogryphosis"
             }
           ],
           "text": "Onychogryphosis"
@@ -5114,6 +5374,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "414941008",
+              "display": "Onychomycosis"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "AB01.11",
               "display": "Onychomycosis"
             }
           ],
@@ -5172,6 +5437,11 @@
               "system": "http://snomed.info/sct",
               "code": "201250006",
               "display": "Ischaemic ulcer of foot due to diabetes mellitus"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "M271000",
+              "display": "Ischaemic ulcer diabetic foot"
             }
           ],
           "text": "Ischaemic ulcer diabetic foot"
@@ -5229,6 +5499,11 @@
               "system": "http://snomed.info/sct",
               "code": "201251005",
               "display": "Neuropathic ulcer of foot due to diabetes mellitus"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "M271100",
+              "display": "Neuropathic diabetic ulcer - foot"
             }
           ],
           "text": "Neuropathic diabetic ulcer - foot"
@@ -5285,6 +5560,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "201252003",
+              "display": "Mixed diabetic ulcer - foot"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "M271200",
               "display": "Mixed diabetic ulcer - foot"
             }
           ],
@@ -5343,6 +5623,11 @@
               "system": "http://snomed.info/sct",
               "code": "238793001",
               "display": "Ischaemic leg ulcer"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "M271300",
+              "display": "Arterial leg ulcer"
             }
           ],
           "text": "Arterial leg ulcer"
@@ -5400,6 +5685,11 @@
               "system": "http://snomed.info/sct",
               "code": "238792006",
               "display": "Mixed arteriovenous leg ulcer"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "M271400",
+              "display": "Mixed venous and arterial leg ulcer"
             }
           ],
           "text": "Mixed venous and arterial leg ulcer"
@@ -5453,6 +5743,11 @@
               "system": "http://snomed.info/sct",
               "code": "201724008",
               "display": "Neuropathic arthropathy due to diabetes mellitus"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "N030100",
+              "display": "Diabetic Charcot arthropathy"
             }
           ],
           "text": "Diabetic Charcot arthropathy"
@@ -5510,6 +5805,11 @@
               "system": "http://snomed.info/sct",
               "code": "414911006",
               "display": "O/E - right healed foot ulcer"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2G5S.00",
+              "display": "O/E - right healed foot ulcer"
             }
           ],
           "text": "O/E - right healed foot ulcer"
@@ -5565,6 +5865,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "414895002",
+              "display": "O/E - left healed foot ulcer"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2G5T.00",
               "display": "O/E - left healed foot ulcer"
             }
           ],
@@ -5622,6 +5927,11 @@
               "system": "http://snomed.info/sct",
               "code": "308103003",
               "display": "O/E - Right foot deformity"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2G58.00",
+              "display": "O/E - Right foot deformity"
             }
           ],
           "text": "O/E - Right foot deformity"
@@ -5677,6 +5987,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "414900003",
+              "display": "O/E - No left foot deformity"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2G5N.00",
               "display": "O/E - No left foot deformity"
             }
           ],
@@ -5734,6 +6049,11 @@
               "system": "http://snomed.info/sct",
               "code": "394671009",
               "display": "O/E - Right diabetic foot at low risk"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2G5E.00",
+              "display": "O/E - Right diabetic foot at low risk"
             }
           ],
           "text": "O/E - Right diabetic foot at low risk"
@@ -5789,6 +6109,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "394676004",
+              "display": "O/E - Left diabetic foot at high risk"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2G5K.00",
               "display": "O/E - Left diabetic foot at high risk"
             }
           ],
@@ -5846,6 +6171,11 @@
               "system": "http://snomed.info/sct",
               "code": "265739006",
               "display": "Amputation through metatarsal bones"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "7L07300",
+              "display": "Amputation through metatarsal bones"
             }
           ],
           "text": "Amputation through metatarsal bones"
@@ -5899,6 +6229,11 @@
               "system": "http://snomed.info/sct",
               "code": "88312006",
               "display": "Amputation of leg through tibia and fibula"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "7L06400",
+              "display": "Amputation below knee"
             }
           ],
           "text": "Amputation below knee"
@@ -5955,6 +6290,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "183844002",
+              "display": "Refer for vascular studies"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "8HR7.00",
               "display": "Refer for vascular studies"
             }
           ],
@@ -6013,6 +6353,11 @@
               "system": "http://snomed.info/sct",
               "code": "266917007",
               "display": "Trivial drinker - <1u/day"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1362.00",
+              "display": "Trivial drinker - <1u/day"
             }
           ],
           "text": "Trivial drinker - <1u/day"
@@ -6070,6 +6415,11 @@
               "system": "http://snomed.info/sct",
               "code": "160575005",
               "display": "Light drinker - 1-2u/day"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1363.00",
+              "display": "Light drinker - 1-2u/day"
             }
           ],
           "text": "Light drinker - 1-2u/day"
@@ -6125,6 +6475,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160576006",
+              "display": "Moderate drinker - 3-6u/day"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1364.00",
               "display": "Moderate drinker - 3-6u/day"
             }
           ],
@@ -6182,6 +6537,11 @@
               "system": "http://snomed.info/sct",
               "code": "160577002",
               "display": "Heavy drinker - 7-9u/day"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1365.00",
+              "display": "Heavy drinker - 7-9u/day"
             }
           ],
           "text": "Heavy drinker - 7-9u/day"
@@ -6234,6 +6594,11 @@
               "system": "http://snomed.info/sct",
               "code": "408947007",
               "display": "Alcohol abuse prevention education"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "67H0.00",
+              "display": "Lifestyle advice regarding alcohol"
             }
           ],
           "text": "Lifestyle advice regarding alcohol"
@@ -6290,6 +6655,11 @@
               "system": "http://snomed.info/sct",
               "code": "160588008",
               "display": "Spirit drinker"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "136F.00",
+              "display": "Spirit drinker"
             }
           ],
           "text": "Spirit drinker"
@@ -6345,6 +6715,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160589000",
+              "display": "Beer drinker"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "136G.00",
               "display": "Beer drinker"
             }
           ],
@@ -6403,6 +6778,11 @@
               "system": "http://snomed.info/sct",
               "code": "160590009",
               "display": "Drinks beer and spirits"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "136H.00",
+              "display": "Drinks beer and spirits"
             }
           ],
           "text": "Drinks beer and spirits"
@@ -6459,6 +6839,11 @@
               "system": "http://snomed.info/sct",
               "code": "160592001",
               "display": "Alcohol intake above recommended sensible limits"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "136K.00",
+              "display": "Alcohol intake above recommended sensible limits"
             }
           ],
           "text": "Alcohol intake above recommended sensible limits"
@@ -6514,6 +6899,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "380951000000101",
+              "display": "Alcohol units consumed on heaviest drinking day"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "136X.00",
               "display": "Alcohol units consumed on heaviest drinking day"
             }
           ],
@@ -6575,6 +6965,11 @@
               "system": "http://snomed.info/sct",
               "code": "228958009",
               "display": "alcohol units/week"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "136V.00",
+              "display": "Alcohol units per week"
             }
           ],
           "text": "Alcohol units per week"
@@ -6635,6 +7030,11 @@
               "system": "http://snomed.info/sct",
               "code": "160573003",
               "display": "Alcohol intake"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "136..00",
+              "display": "Alcohol consumption"
             }
           ],
           "text": "Alcohol intake"
@@ -6694,6 +7094,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "267032009",
+              "display": "Tired all the time"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1683.00",
               "display": "Tired all the time"
             }
           ],
@@ -6760,6 +7165,11 @@
               "system": "http://snomed.info/sct",
               "code": "265170009",
               "display": "Total prosthetic replacement of knee joint using cement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "7K30.00",
+              "display": "Total prosthetic replacement of knee joint using cement"
             }
           ],
           "text": "Total prosthetic replacement of knee joint using cement"
@@ -6825,6 +7235,11 @@
               "system": "http://snomed.info/sct",
               "code": "265157000",
               "display": "Total prosthetic replacement of hip joint using cement"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "7K20.00",
+              "display": "Total prosthetic replacement of hip joint using cement"
             }
           ],
           "text": "Total prosthetic replacement of hip joint using cement"
@@ -6885,6 +7300,11 @@
               "system": "http://snomed.info/sct",
               "code": "165127005",
               "display": "Surgical biopsy - administration"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "35Z..00",
+              "display": "Surgical biopsy (admin) NOS"
             }
           ],
           "text": "Surgical biopsy (admin) NOS"
@@ -6949,6 +7369,11 @@
               "system": "http://snomed.info/sct",
               "code": "228279004",
               "display": "Very heavy drinker"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "136Q.00",
+              "display": "Very heavy drinker"
             }
           ],
           "text": "Very heavy drinker"
@@ -7012,6 +7437,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163030003",
+              "display": "O/E - Systolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2469.00",
               "display": "O/E - Systolic BP reading"
             }
           ],
@@ -7081,6 +7511,11 @@
               "system": "http://snomed.info/sct",
               "code": "163031004",
               "display": "O/E - Diastolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246A.00",
+              "display": "O/E - Diastolic BP reading"
             }
           ],
           "text": "Diastolic blood pressure"
@@ -7141,6 +7576,11 @@
                   "system": "http://snomed.info/sct",
                   "code": "414259000",
                   "display": "First diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
+                },
+                {
+                  "system": "http://read.info/readv2",
+                  "code": "65a0.00",
+                  "display": "1st dipht tet acell pertus, haem influ b, inactiv polio vacc"
                 }
               ],
               "text": "1st dipht tet acell pertus, haem influ b, inactiv polio vacc"
@@ -7218,6 +7658,11 @@
                   "system": "http://snomed.info/sct",
                   "code": "415507003",
                   "display": "Second diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
+                },
+                {
+                  "system": "http://read.info/readv2",
+                  "code": "65a1.00",
+                  "display": "2nd dipht tet acell pertus, haem influ b, inactiv polio vacc"
                 }
               ],
               "text": "2nd dipht tet acell pertus, haem influ b, inactiv polio vacc"
@@ -7299,6 +7744,11 @@
                   "system": "http://snomed.info/sct",
                   "code": "314414007",
                   "display": "Administration of first dose of meningitis C vaccine"
+                },
+                {
+                  "system": "http://read.info/readv2",
+                  "code": "657E.00",
+                  "display": "First meningitis C vaccination"
                 }
               ],
               "text": "First meningitis C vaccination"
@@ -7376,6 +7826,11 @@
                   "system": "http://snomed.info/sct",
                   "code": "415712004",
                   "display": "Third diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
+                },
+                {
+                  "system": "http://read.info/readv2",
+                  "code": "65a2.00",
+                  "display": "3rd dipht tet acell pertus, haem influ b, inactiv polio vacc"
                 }
               ],
               "text": "3rd dipht tet acell pertus, haem influ b, inactiv polio vacc"
@@ -7457,6 +7912,11 @@
                   "system": "http://snomed.info/sct",
                   "code": "314415008",
                   "display": "Administration of second dose of meningitis C vaccine"
+                },
+                {
+                  "system": "http://read.info/readv2",
+                  "code": "657F.00",
+                  "display": "Second meningitis C vaccination"
                 }
               ],
               "text": "Second meningitis C vaccination"
@@ -7538,6 +7998,11 @@
                   "system": "http://snomed.info/sct",
                   "code": "428975001",
                   "display": "Vaccination with Haemophilus influenzae type B and Neisseria meningitidis serotype C combination vaccine"
+                },
+                {
+                  "system": "http://read.info/readv2",
+                  "code": "65b..00",
+                  "display": "Haemophilus influenzae type B and meningitis C vaccination"
                 }
               ],
               "text": "Haemophilus influenzae type B and meningitis C vaccination"
@@ -7623,6 +8088,11 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -7710,6 +8180,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163020007",
+              "display": "O/E - blood pressure reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246..00",
               "display": "O/E - blood pressure reading"
             }
           ],
