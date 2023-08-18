@@ -4,7 +4,7 @@
 
 The Patient Switching Adaptors services emit logs which are captured by the docker containers they are hosted within. Whichever Docker container orchestration technology is used, the log streams can be captured and forwarded to an appropriate log indexing service for consumption, storage and subsequent queries. 
 
-The consumption of these logs forms an essential part of issue investigation and resolution. 
+The consumption of these logs form an essential part of issue investigation and resolution. 
 
 The log messages relating to a specific transfer can be identified by the Conversation ID. Which is a correlating ID present throughout the patient record migration and carried in the GP2GP messages themselves.
 
