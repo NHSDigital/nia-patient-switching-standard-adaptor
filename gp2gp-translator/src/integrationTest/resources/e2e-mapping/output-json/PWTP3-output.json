@@ -559,6 +559,11 @@
               "system": "http://snomed.info/sct",
               "code": "196451000000104",
               "display": "Transfer-degraded plan"
+            },
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISD_FI9",
+              "display": "Fissure sealant required"
             }
           ],
           "text": "Fissure sealant required"
@@ -601,6 +606,11 @@
               "system": "http://snomed.info/sct",
               "code": "196451000000104",
               "display": "Transfer-degraded plan"
+            },
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISD_DE196",
+              "display": "Dental recall - high caries in mother and siblings"
             }
           ],
           "text": "Dental recall - high caries in mother and siblings"
@@ -636,6 +646,11 @@
             {
               "system": "http://snomed.info/sct",
               "code": "324607004",
+              "display": "Ciprofloxacin 250mg tablets"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "CITA6845",
               "display": "Ciprofloxacin 250mg tablets"
             }
           ],
@@ -776,6 +791,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISCSU6",
+              "display": "Surveillance"
+            }
+          ],
           "text": "Surveillance"
         },
         "subject": {
@@ -810,6 +832,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISCTH1",
+              "display": "Threats/reports of violence"
+            }
+          ],
           "text": "Threats/reports of violence"
         },
         "subject": {
@@ -845,6 +874,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISNQDXDD",
+              "display": "Patient died"
+            }
+          ],
           "text": "Patient died"
         },
         "subject": {
@@ -879,6 +915,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISD_BE1",
+              "display": "Betel nut chewer"
+            }
+          ],
           "text": "Betel nut chewer"
         },
         "subject": {
@@ -914,6 +957,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "HMPNQHO5",
+              "display": "H/O: allergies"
+            }
+          ],
           "text": "H/O: allergies"
         },
         "subject": {
@@ -969,6 +1019,11 @@
               "system": "http://snomed.info/sct",
               "code": "38070000",
               "display": "Cohabiting"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1336.00",
+              "display": "Cohabiting"
             }
           ],
           "text": "Cohabiting"
@@ -1021,6 +1076,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "494161000000100",
+              "display": "White Irish - ethnic category 2001 census"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "9i10.00",
               "display": "White Irish - ethnic category 2001 census"
             }
           ],
@@ -1075,6 +1135,11 @@
               "system": "http://snomed.info/sct",
               "code": "160540005",
               "display": "Roman Catholic, follower of religion"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "1352.00",
+              "display": "Roman Catholic"
             }
           ],
           "text": "Roman Catholic"
@@ -1127,6 +1192,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "408522002",
+              "display": "Main spoken language Gaelic"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "13lj.00",
               "display": "Main spoken language Gaelic"
             }
           ],
@@ -1181,6 +1251,11 @@
               "system": "http://snomed.info/sct",
               "code": "202307002",
               "display": "Ankylosis of the elbow joint"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "N085C00",
+              "display": "Ankylosis of the elbow joint"
             }
           ],
           "text": "Ankylosis of the elbow joint"
@@ -1215,6 +1290,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISSCE2",
+              "display": "Cervical smear adequate"
+            }
+          ],
           "text": "Cervical smear adequate"
         },
         "subject": {
@@ -1267,6 +1349,11 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -1346,6 +1433,11 @@
               "system": "http://snomed.info/sct",
               "code": "292967008",
               "display": "Amoxycillin adverse reaction"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "TJ00300",
+              "display": "Adverse reaction to amoxycillin"
             }
           ],
           "text": "Adverse reaction to amoxycillin"
@@ -1434,6 +1526,11 @@
               "system": "http://snomed.info/sct",
               "code": "424251000000100",
               "display": "[X]Personal history of allergy to other antibiotic agents"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "ZVu6M00",
+              "display": "[X]Personal history of allergy to other antibiotic agents"
             }
           ],
           "text": "[X]Personal history of allergy to other antibiotic agents"
@@ -1517,6 +1614,11 @@
               "system": "http://snomed.info/sct",
               "code": "562141000000103",
               "display": "H/O: antibiotic allergy NOS"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "14L2.00",
+              "display": "H/O: antibiotic allergy NOS"
             }
           ],
           "text": "H/O: antibiotic allergy NOS"
@@ -1599,6 +1701,11 @@
               "system": "http://snomed.info/sct",
               "code": "91930004",
               "display": "Allergy to edible egg"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "SN58000",
+              "display": "Egg allergy"
             }
           ],
           "text": "Egg allergy"
@@ -1677,6 +1784,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "603051000000102",
+              "display": "Drug hypersensitivity NOS"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "SN52.00",
               "display": "Drug hypersensitivity NOS"
             }
           ],
@@ -1766,6 +1878,11 @@
               "system": "http://snomed.info/sct",
               "code": "192911000000109",
               "display": "[V]Personal history of bisphosphonate allergy"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "ZV14K00",
+              "display": "[V]Personal history of bisphosphonate allergy"
             }
           ],
           "text": "[V]Personal history of bisphosphonate allergy"
@@ -1849,6 +1966,11 @@
               "system": "http://snomed.info/sct",
               "code": "417424008",
               "display": "History of - combined calcium and vitamin D3 preparation allergy"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "14LS.00",
+              "display": "H/O: combined calcium and vitamin D3 preparation allergy"
             }
           ],
           "text": "H/O: combined calcium and vitamin D3 preparation allergy"
@@ -1929,6 +2051,11 @@
               "system": "http://snomed.info/sct",
               "code": "202307002",
               "display": "Ankylosis of the elbow joint"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "N085C00",
+              "display": "Ankylosis of the elbow joint"
             }
           ],
           "text": "Ankylosis of the elbow joint"
@@ -1991,6 +2118,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISSCE2",
+              "display": "Cervical smear adequate"
+            }
+          ],
           "text": "Cervical smear adequate"
         },
         "subject": {
@@ -2077,6 +2211,11 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -2133,6 +2272,11 @@
               "system": "http://snomed.info/sct",
               "code": "196461000000101",
               "display": "Transfer-degraded drug allergy"
+            },
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "EMISNQAD2",
+              "display": "Adverse reactions"
             }
           ],
           "text": "Adverse reactions"
@@ -2200,6 +2344,11 @@
               "system": "http://snomed.info/sct",
               "code": "292534001",
               "display": "Atropine adverse reaction"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "TJB1000",
+              "display": "Adverse reaction to atropine"
             }
           ],
           "text": "Adverse reaction to atropine"
@@ -2259,6 +2408,11 @@
               "system": "http://snomed.info/sct",
               "code": "292967008",
               "display": "Amoxycillin adverse reaction"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "TJ00300",
+              "display": "Adverse reaction to amoxycillin"
             }
           ],
           "text": "Adverse reaction to amoxycillin"
@@ -2313,6 +2467,11 @@
               "system": "http://snomed.info/sct",
               "code": "292967008",
               "display": "Amoxycillin adverse reaction"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "TJ00300",
+              "display": "Adverse reaction to amoxycillin"
             }
           ],
           "text": "Adverse reaction to amoxycillin"
@@ -2371,6 +2530,11 @@
               "system": "http://snomed.info/sct",
               "code": "424251000000100",
               "display": "[X]Personal history of allergy to other antibiotic agents"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "ZVu6M00",
+              "display": "[X]Personal history of allergy to other antibiotic agents"
             }
           ],
           "text": "[X]Personal history of allergy to other antibiotic agents"
@@ -2414,6 +2578,11 @@
               "system": "http://snomed.info/sct",
               "code": "196461000000101",
               "display": "Transfer-degraded drug allergy"
+            },
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "ALLERGY-EMISDRUGNAME-5701EMIS",
+              "display": "Adverse reaction to Ethyol"
             }
           ],
           "text": "Adverse reaction to Ethyol"
@@ -2471,6 +2640,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "562141000000103",
+              "display": "H/O: antibiotic allergy NOS"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "14L2.00",
               "display": "H/O: antibiotic allergy NOS"
             }
           ],
@@ -2531,6 +2705,11 @@
               "system": "http://snomed.info/sct",
               "code": "91930004",
               "display": "Allergy to edible egg"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "SN58000",
+              "display": "Egg allergy"
             }
           ],
           "text": "Egg allergy"
@@ -2589,6 +2768,11 @@
               "system": "http://snomed.info/sct",
               "code": "424251000000100",
               "display": "[X]Personal history of allergy to other antibiotic agents"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "ZVu6M00",
+              "display": "[X]Personal history of allergy to other antibiotic agents"
             }
           ],
           "text": "[X]Personal history of allergy to other antibiotic agents"
@@ -2646,6 +2830,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "603051000000102",
+              "display": "Drug hypersensitivity NOS"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "SN52.00",
               "display": "Drug hypersensitivity NOS"
             }
           ],
@@ -2710,6 +2899,11 @@
               "system": "http://snomed.info/sct",
               "code": "300909004",
               "display": "Allergic reaction to wasp sting"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "SN59200",
+              "display": "Allergic reaction to wasp sting"
             }
           ],
           "text": "Allergic reaction to wasp sting"
@@ -2773,6 +2967,11 @@
               "system": "http://snomed.info/sct",
               "code": "192911000000109",
               "display": "[V]Personal history of bisphosphonate allergy"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "ZV14K00",
+              "display": "[V]Personal history of bisphosphonate allergy"
             }
           ],
           "text": "[V]Personal history of bisphosphonate allergy"
@@ -2830,6 +3029,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "192911000000109",
+              "display": "[V]Personal history of bisphosphonate allergy"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "ZV14K00",
               "display": "[V]Personal history of bisphosphonate allergy"
             }
           ],
@@ -2889,6 +3093,11 @@
               "system": "http://snomed.info/sct",
               "code": "417424008",
               "display": "History of - combined calcium and vitamin D3 preparation allergy"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "14LS.00",
+              "display": "H/O: combined calcium and vitamin D3 preparation allergy"
             }
           ],
           "text": "H/O: combined calcium and vitamin D3 preparation allergy"
@@ -2932,6 +3141,11 @@
               "system": "http://snomed.info/sct",
               "code": "196461000000101",
               "display": "Transfer-degraded drug allergy"
+            },
+            {
+              "system": "https://fhir.hl7.org.uk/Id/egton-codes",
+              "code": "ALLERGY-EMISDRUGNAME-2529",
+              "display": "Adverse reaction to Erythromid"
             }
           ],
           "text": "Adverse reaction to Erythromid"
@@ -2994,6 +3208,11 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "161600004",
+              "display": "H/O: erythromycin allergy"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "14LA.00",
               "display": "H/O: erythromycin allergy"
             }
           ],
