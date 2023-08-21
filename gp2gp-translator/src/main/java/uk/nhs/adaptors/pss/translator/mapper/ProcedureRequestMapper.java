@@ -77,7 +77,7 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
             return procedureRequest;
         }
 
-        DegradedCodeableConcepts.addDegradedEntryIfPresent(
+        DegradedCodeableConcepts.addDegradedEntryIfRequired(
                 procedureRequest.getCode(),
                 DegradedCodeableConcepts.DEGRADED_PLAN);
 

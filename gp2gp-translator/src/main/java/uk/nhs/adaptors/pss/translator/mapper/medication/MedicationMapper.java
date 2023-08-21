@@ -40,7 +40,7 @@ public class MedicationMapper {
                     return medication;
                 }
 
-                DegradedCodeableConcepts.addDegradedEntryIfPresent(medication.getCode(), DegradedCodeableConcepts.DEGRADED_MEDICATION);
+                DegradedCodeableConcepts.addDegradedEntryIfRequired(medication.getCode(), DegradedCodeableConcepts.DEGRADED_MEDICATION);
 
                 return medication;
             }

@@ -101,7 +101,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         if (code != null) {
             var reasonCode = codeableConceptMapper.mapToCodeableConcept(code);
 
-            DegradedCodeableConcepts.addDegradedEntryIfPresent(reasonCode, DegradedCodeableConcepts.DEGRADED_REFERRAL);
+            DegradedCodeableConcepts.addDegradedEntryIfRequired(reasonCode, DegradedCodeableConcepts.DEGRADED_REFERRAL);
 
             referralRequest.getReasonCode().add(reasonCode);
         }

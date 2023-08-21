@@ -124,7 +124,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 return;
             }
 
-            DegradedCodeableConcepts.addDegradedEntryIfPresent(
+            DegradedCodeableConcepts.addDegradedEntryIfRequired(
                     allergyIntolerance.getCode(),
                     DegradedCodeableConcepts.DEGRADED_NON_DRUG_ALLERGY);
         }
@@ -151,7 +151,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 return;
             }
 
-            DegradedCodeableConcepts.addDegradedEntryIfPresent(
+            DegradedCodeableConcepts.addDegradedEntryIfRequired(
                     allergyIntolerance.getCode(),
                     DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
         }
