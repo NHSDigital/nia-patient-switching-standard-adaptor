@@ -44,7 +44,7 @@ public final class DegradedCodeableConcepts {
             .setCode("196411000000103")
             .setDisplay("Transfer-degraded record entry");
 
-    public static void addDegradedEntry(CodeableConcept codeableConcept, Coding degradedCoding) {
+    public static void addDegradedEntryIfPresent(CodeableConcept codeableConcept, Coding degradedCoding) {
         if (codeableConcept.hasCoding()) {
             var coding = codeableConcept.getCoding();
             var hasSnomedCode = coding
