@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.IdType;
@@ -30,6 +31,7 @@ public class CodeableConceptMapperTest {
     private static final String ORIGINAL_TEXT = "Test original text";
     private static final String DESCRIPTION_ID = "descriptionId";
     private static final String DESCRIPTION_DISPLAY = "descriptionDisplay";
+    private static final int EXPECTED_CODING_SIZE = 3;
     private static final SnomedCTDescription SNOMED_DESCRIPTION = SnomedCTDescription.builder()
         .id("test_description_id")
         .conceptid("test_concept_id")
@@ -335,7 +337,7 @@ public class CodeableConceptMapperTest {
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
 
         assertThat(codeableConcept.getText()).isEqualTo(DISPLAY_NAME_2);
-        assertThat(codeableConcept.getCoding()).isNullOrEmpty();
+        assertThat(codeableConcept.getCoding()).hasSize(1);
     }
 
     @Test
@@ -395,7 +397,7 @@ public class CodeableConceptMapperTest {
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
 
         assertThat(codeableConcept.getText()).isEqualTo("Inactive Problem, minor");
-        assertThat(codeableConcept.hasCoding()).isFalse();
+        assertThat(codeableConcept.getCoding()).hasSize(EXPECTED_CODING_SIZE);
     }
 
     @Test
@@ -405,7 +407,7 @@ public class CodeableConceptMapperTest {
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
 
         assertThat(codeableConcept.getText()).isEqualTo("O/E - blood pressure reading");
-        assertThat(codeableConcept.hasCoding()).isFalse();
+        assertThat(codeableConcept.getCoding()).hasSize(EXPECTED_CODING_SIZE);
     }
 
     @Test
@@ -468,8 +470,202 @@ public class CodeableConceptMapperTest {
         assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("blood pressure reading");
     }
 
+    @Test
+    public void mapKnownNonSnomedCodeInCodeWithOriginalText() {
+        var inputXML = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <code xmlns="urn:hl7-org:v3" code="ALLERGY138185NEMIS" codeSystem="2.16.840.1.113883.2.1.6.3"
+                displayName="Adverse reaction to Comirnaty Covid-19 mRna Vaccine">
+                    <originalText>Test original text</originalText>
+                </code>
+                """;
+
+        var codedData = unmarshallCodeElementFromXMLString(inputXML);
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
+
+        assertThat(codeableConcept.getText()).isEqualTo("Test original text");
+        assertThat(codeableConcept.getCodingFirstRep().getCode()).isEqualTo("ALLERGY138185NEMIS");
+        assertThat(codeableConcept.getCodingFirstRep().getSystem()).isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
+        assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+
+    }
+    @Test
+    public void mapKnownNonSnomedCodeInCodeWithoutOriginalText() {
+        var inputXML = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <code xmlns="urn:hl7-org:v3" code="ALLERGY138185NEMIS" codeSystem="2.16.840.1.113883.2.1.6.3"
+                displayName="Adverse reaction to Comirnaty Covid-19 mRna Vaccine" />
+                """;
+
+        var codedData = unmarshallCodeElementFromXMLString(inputXML);
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
+
+        assertThat(codeableConcept.getText()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+        assertThat(codeableConcept.getCodingFirstRep().getCode()).isEqualTo("ALLERGY138185NEMIS");
+        assertThat(codeableConcept.getCodingFirstRep().getSystem()).isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
+        assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+
+    }
+
+    @Test
+    public void mapKnownNonSnomedCodeInValue() {
+        var inputXML = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <value xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CD"
+                code="ALLERGY-SNOMED-13482891000006110" codeSystem="2.16.840.1.113883.2.1.6.3"
+                displayName="Adverse reaction to Comirnaty Covid-19 mRna Vaccine" />
+                """;
+
+        var codedData = unmarshallCodeElementFromXMLString(inputXML);
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
+
+        assertThat(codeableConcept.getText()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+        assertThat(codeableConcept.getCodingFirstRep().getCode()).isEqualTo("ALLERGY-SNOMED-13482891000006110");
+        assertThat(codeableConcept.getCodingFirstRep().getSystem()).isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
+        assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+    }
+
+    @Test
+    public void mapKnownNonSnomedCodeInTranslationWithSnomedCodeWithOriginalText() {
+        var inputXML = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <code xmlns="urn:hl7-org:v3" code="24591000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                displayName="O/E - blood pressure reading">
+                    <translation code="ALLERGY138185NEMIS" codeSystem="2.16.840.1.113883.2.1.6.3"
+                    displayName="Adverse reaction to Comirnaty Covid-19 mRna Vaccine"/>
+                    <originalText>Test original text</originalText>
+                </code>
+                """;
+
+        var codedData = unmarshallCodeElementFromXMLString(inputXML);
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
+
+        assertThat(codeableConcept.getText()).isEqualTo("Test original text");
+        assertThat(codeableConcept.getCodingFirstRep().getCode()).isEqualTo("24591000000103");
+        assertThat(codeableConcept.getCodingFirstRep().getSystem()).isEqualTo("http://snomed.info/sct");
+        assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("O/E - blood pressure reading");
+        assertThat(codeableConcept.getCoding().get(1).getCode()).isEqualTo("ALLERGY138185NEMIS");
+        assertThat(codeableConcept.getCoding().get(1).getSystem()).isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
+        assertThat(codeableConcept.getCoding().get(1).getDisplay()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+    }
+
+    @Test
+    public void mapKnownNonSnomedCodeInTranslationWithSnomedCodeWithoutOriginalText() {
+        var inputXML = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <code xmlns="urn:hl7-org:v3" code="24591000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                displayName="O/E - blood pressure reading">
+                    <translation code="ALLERGY138185NEMIS" codeSystem="2.16.840.1.113883.2.1.6.3"
+                    displayName="Adverse reaction to Comirnaty Covid-19 mRna Vaccine"/>
+                </code>
+                """;
+
+        var codedData = unmarshallCodeElementFromXMLString(inputXML);
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
+
+        assertThat(codeableConcept.getText()).isNull();
+        assertThat(codeableConcept.getCodingFirstRep().getCode()).isEqualTo("24591000000103");
+        assertThat(codeableConcept.getCodingFirstRep().getSystem()).isEqualTo("http://snomed.info/sct");
+        assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("O/E - blood pressure reading");
+        assertThat(codeableConcept.getCoding().get(1).getCode()).isEqualTo("ALLERGY138185NEMIS");
+        assertThat(codeableConcept.getCoding().get(1).getSystem()).isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
+        assertThat(codeableConcept.getCoding().get(1).getDisplay()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+    }
+
+    @Test
+    public void mapKnownNonSnomedCodeInMainCodeAndTranslationWithOriginalText() {
+        var inputXML = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <code xmlns="urn:hl7-org:v3" code="ALLERGY-SNOMED-13482891000006110"
+                codeSystem="2.16.840.1.113883.2.1.6.3"
+                displayName="Adverse reaction to Comirnaty Covid-19 mRna Vaccine">
+                    <translation code="22A..00" codeSystem="2.16.840.1.113883.2.1.6.2"
+                    displayName="O/E - weight"/>
+                    <originalText>Test original text</originalText>
+                </code>
+                """;
+
+        var codedData = unmarshallCodeElementFromXMLString(inputXML);
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
+
+        assertThat(codeableConcept.getText()).isEqualTo("Test original text");
+        assertThat(codeableConcept.getCodingFirstRep().getCode()).isEqualTo("ALLERGY-SNOMED-13482891000006110");
+        assertThat(codeableConcept.getCodingFirstRep().getSystem()).isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
+        assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+        assertThat(codeableConcept.getCoding().get(1).getCode()).isEqualTo("22A..00");
+        assertThat(codeableConcept.getCoding().get(1).getSystem()).isEqualTo("http://read.info/readv2");
+        assertThat(codeableConcept.getCoding().get(1).getDisplay()).isEqualTo("O/E - weight");
+    }
+
+    @Test
+    public void mapKnownNonSnomedCodeInMainCodeAndTranslationWithoutOriginalText() {
+        var inputXML = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <code xmlns="urn:hl7-org:v3" code="ALLERGY-SNOMED-13482891000006110"
+                codeSystem="2.16.840.1.113883.2.1.6.3"
+                displayName="Adverse reaction to Comirnaty Covid-19 mRna Vaccine">
+                    <translation code="22A.." codeSystem="2.16.840.1.113883.2.1.3.2.4.14" displayName="O/E - weight"/>
+                </code>
+                """;
+
+        var codedData = unmarshallCodeElementFromXMLString(inputXML);
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
+
+        assertThat(codeableConcept.getText()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+        assertThat(codeableConcept.getCodingFirstRep().getCode()).isEqualTo("ALLERGY-SNOMED-13482891000006110");
+        assertThat(codeableConcept.getCodingFirstRep().getSystem()).isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
+        assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+        assertThat(codeableConcept.getCoding().get(1).getCode()).isEqualTo("22A..");
+        assertThat(codeableConcept.getCoding().get(1).getSystem()).isEqualTo("http://read.info/ctv3");
+        assertThat(codeableConcept.getCoding().get(1).getDisplay()).isEqualTo("O/E - weight");
+    }
+
+    @Test
+    public void mapUnknownNonSnomedCodeInMainCode() {
+        var inputXML = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <code xmlns="urn:hl7-org:v3" code="TESTCODE" codeSystem="TESTCODE_SYSTEM"
+                displayName="TEST_DISPLAY_NAME" />
+                """;
+
+        var codedData = unmarshallCodeElementFromXMLString(inputXML);
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
+
+        assertThat(codeableConcept.getText()).isEqualTo("TEST_DISPLAY_NAME");
+        assertThat(codeableConcept.getCodingFirstRep().getCode()).isEqualTo("TESTCODE");
+        assertThat(codeableConcept.getCodingFirstRep().getSystem()).isEqualTo("TESTCODE_SYSTEM");
+        assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("TEST_DISPLAY_NAME");
+    }
+
+    @Test
+    public void mapUnknownNonSnomedCodeInTranslation() {
+        var inputXML = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <code xmlns="urn:hl7-org:v3" code="24591000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                displayName="O/E - blood pressure reading">
+                    <translation code="TESTCODE" codeSystem="TESTCODE_SYSTEM" displayName="TEST_DISPLAY_NAME"/>
+                </code>
+                """;
+
+        var codedData = unmarshallCodeElementFromXMLString(inputXML);
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
+
+        assertThat(codeableConcept.getText()).isNull();
+        assertThat(codeableConcept.getCodingFirstRep().getCode()).isEqualTo("24591000000103");
+        assertThat(codeableConcept.getCodingFirstRep().getSystem()).isEqualTo("http://snomed.info/sct");
+        assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("O/E - blood pressure reading");
+        assertThat(codeableConcept.getCoding().get(1).getCode()).isEqualTo("TESTCODE");
+        assertThat(codeableConcept.getCoding().get(1).getSystem()).isEqualTo("TESTCODE_SYSTEM");
+        assertThat(codeableConcept.getCoding().get(1).getDisplay()).isEqualTo("TEST_DISPLAY_NAME");
+    }
+
     @SneakyThrows
     private CD unmarshallCodeElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), CD.class);
+    }
+
+    @SneakyThrows
+    private CD unmarshallCodeElementFromXMLString(String xmlString) {
+        return unmarshallString(xmlString, CD.class);
     }
 }

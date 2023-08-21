@@ -95,7 +95,8 @@ public class AllergyIntoleranceMapperTest {
             .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
-        assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_2);
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
+        assertThat(allergyIntolerance.getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY_2);
         assertThat(allergyIntolerance.getNote().get(1).getText()).isEqualTo("Allergy Code: " + CODING_DISPLAY_1);
     }
 
@@ -121,7 +122,8 @@ public class AllergyIntoleranceMapperTest {
             .asStringValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
-        assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_1);
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_NON_DRUG_ALLERGY);
+        assertThat(allergyIntolerance.getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY_1);
     }
 
     @Test
@@ -186,7 +188,8 @@ public class AllergyIntoleranceMapperTest {
 
         assertFixedValues(allergyIntolerance);
 
-        assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_1);
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
+        assertThat(allergyIntolerance.getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY_1);
         assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2019-07-08T13:35:00+00:00");
         assertThat(allergyIntolerance.getRecorder().getReference()).isNull(); // this is added later in the UnknownPractitionerHandler
         assertThat(allergyIntolerance.getAsserter().getReference()).isNull();
@@ -235,7 +238,8 @@ public class AllergyIntoleranceMapperTest {
             .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
-        assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_1);
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
+        assertThat(allergyIntolerance.getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY_1);
         assertThat(allergyIntolerance.getNote().size()).isOne();
     }
 
@@ -261,7 +265,8 @@ public class AllergyIntoleranceMapperTest {
             .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
-        assertThat(allergyIntolerance.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_3);
+        assertThat(allergyIntolerance.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
+        assertThat(allergyIntolerance.getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY_3);
         assertThat(allergyIntolerance.getNote().size()).isOne();
     }
 

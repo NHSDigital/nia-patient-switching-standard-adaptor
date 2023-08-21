@@ -120,9 +120,13 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         if (NON_DRUG_ALLERGY_CODE.equals(compoundCode)) {
             allergyIntolerance.setCode(codeableConceptFromCode);
 
-            if (allergyIntolerance.getCode() != null && !allergyIntolerance.getCode().hasCoding()) {
-                allergyIntolerance.getCode().setCoding(List.of(DegradedCodeableConcepts.DEGRADED_NON_DRUG_ALLERGY));
+            if (allergyIntolerance.getCode() == null) {
+                return;
             }
+
+            DegradedCodeableConcepts.addDegradedEntryIfRequired(
+                    allergyIntolerance.getCode(),
+                    DegradedCodeableConcepts.DEGRADED_NON_DRUG_ALLERGY);
         }
 
         if (DRUG_ALLERGY_CODE.equals(compoundCode)) {
@@ -143,9 +147,13 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 allergyIntolerance.setCode(codeableConceptFromCode);
             }
 
-            if (allergyIntolerance.getCode() != null && !allergyIntolerance.getCode().hasCoding()) {
-                allergyIntolerance.getCode().setCoding(List.of(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY));
+            if (allergyIntolerance.getCode() == null) {
+                return;
             }
+
+            DegradedCodeableConcepts.addDegradedEntryIfRequired(
+                    allergyIntolerance.getCode(),
+                    DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
         }
 
         buildAllergyIntoleranceText(observationStatement, allergyIntolerance);

@@ -38,6 +38,8 @@ public class ProcedureRequestMapperTest {
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String CODING_DISPLAY = "Ischaemic heart disease";
+    private static final String CODING_CODE = "2534664018";
+    private static final String CODING_SYSTEM = "http://snomed.info/sct";
     private static final String ENCOUNTER_ID = "62A39454-299F-432E-993E-5A6232B4E099";
     private static final List<Encounter> ENCOUNTERS = getEncounterList();
     private static final Patient SUBJECT = createPatient();
@@ -215,8 +217,10 @@ public class ProcedureRequestMapperTest {
 
     private void setUpCodeableConceptMock() {
         var codeableConcept = new CodeableConcept();
-        var coding = new Coding();
-        coding.setDisplay(CODING_DISPLAY);
+        var coding = new Coding()
+                .setCode(CODING_CODE)
+                .setSystem(CODING_SYSTEM)
+                .setDisplay(CODING_DISPLAY);
         codeableConcept.addCoding(coding);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
     }

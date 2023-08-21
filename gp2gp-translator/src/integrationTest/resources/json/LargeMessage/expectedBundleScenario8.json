@@ -490,6 +490,16 @@
               "system": "http://snomed.info/sct",
               "code": "37251000000104",
               "display": "Other digital signal"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.10",
+              "code": "9b36.00",
+              "display": "Other digital signal"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "9b36.00",
+              "display": "Other digital signal"
             }
           ],
           "text": "Other Attachment"

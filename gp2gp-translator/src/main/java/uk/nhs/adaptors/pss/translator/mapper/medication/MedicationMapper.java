@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.IdType;
@@ -37,10 +36,11 @@ public class MedicationMapper {
                 medication.setMeta(generateMeta(MEDICATION_URL));
                 medication.setCode(codeableConceptMapper.mapToCodeableConceptForMedication(code));
 
-                if (medication.getCode() != null && !medication.getCode().hasCoding()) {
-                    medication.getCode()
-                            .setCoding(List.of(DegradedCodeableConcepts.DEGRADED_MEDICATION));
+                if (medication.getCode() == null) {
+                    return medication;
                 }
+
+                DegradedCodeableConcepts.addDegradedEntryIfRequired(medication.getCode(), DegradedCodeableConcepts.DEGRADED_MEDICATION);
 
                 return medication;
             }
