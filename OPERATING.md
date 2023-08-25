@@ -25,7 +25,14 @@ yyyy-mm-dd HH:mm:ss.SSS Level=DEBUG Logger=u.n.a.p.t.s.BundleMapperService Conve
 ## Message broker requirements
 
 ## Object storage
-
+    Data stored:
+        Snomed CT, a structured clinical vocabulary for use in an electronic health record.
+        PS Adaptor S3 config can also accept other S3 configuration parameters and can be fairly flexible.
+    Filename convention:
+        Snomed files are named as a concatenation of {uk_sct2cl}_{snomed_file_version}_{date}.zip        
+    Metadata stored with files
+        Type - Snomed (structured clinical vocabulary), various other files that given a provided configuration
+        
 ## AWS daisy chaining example
 
 ## Environment variables
