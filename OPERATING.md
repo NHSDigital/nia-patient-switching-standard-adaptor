@@ -26,14 +26,16 @@ yyyy-mm-dd HH:mm:ss.SSS Level=DEBUG Logger=u.n.a.p.t.s.BundleMapperService Conve
 
 ## Object storage
     Data stored:
-        Snomed CT, a structured clinical vocabulary for use in an electronic health record.
-        PS Adaptor S3 config can also accept other S3 configuration parameters and can be fairly flexible.
+        EhrExtract attachments of MHS Inbound, pre-signed S3 url is generated for stored attachments      
     Filename convention:
-        Snomed files are named as a concatenation of {uk_sct2cl}_{snomed_file_version}_{date}.zip      
-        Other options for filenames are also fairly flexible and can accept different names, subject to AWS S3 name restrictions
-    Metadata stored with files
-        Type - Snomed (structured clinical vocabulary), various other files that given a provided configuration
-        
+        Attachment files are named as {conversationId}_{documentId}_{gpc_structured.json} where documentId is the name of the file
+        Type - Task type that uploaded the file GET_GPC_STRUCTURED / GET_GPC_DOCUMENT
+        ConversationId - Task conversation ID
+    Configuration:
+        The app uses a number of attempts to upload attachemnts. It is congired in retry policy. 
+        Generated stored attachments will have 60 min to be downloaded, after this time limit they won't be available
+
+
 ## AWS daisy chaining example
 
 ## Environment variables
