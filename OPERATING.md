@@ -29,7 +29,8 @@ yyyy-mm-dd HH:mm:ss.SSS Level=DEBUG Logger=u.n.a.p.t.s.BundleMapperService Conve
         Snomed CT, a structured clinical vocabulary for use in an electronic health record.
         PS Adaptor S3 config can also accept other S3 configuration parameters and can be fairly flexible.
     Filename convention:
-        Snomed files are named as a concatenation of {uk_sct2cl}_{snomed_file_version}_{date}.zip        
+        Snomed files are named as a concatenation of {uk_sct2cl}_{snomed_file_version}_{date}.zip      
+        Other options for filenames are also fairly flexible and can accept different names, subject to AWS S3 name restrictions
     Metadata stored with files
         Type - Snomed (structured clinical vocabulary), various other files that given a provided configuration
         
