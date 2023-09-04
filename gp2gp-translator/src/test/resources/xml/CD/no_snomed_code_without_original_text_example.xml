@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<code xmlns="urn:hl7-org:v3" code="24591000000103" codeSystem="1234" displayName="O/E - blood pressure reading">
-    <translation code="163020007" codeSystem="12345" displayName="O/E - blood pressure reading"/>
-    <translation code="24591000000106" codeSystem="123456" displayName="O/E - blood pressure reading"/>
-</code>
