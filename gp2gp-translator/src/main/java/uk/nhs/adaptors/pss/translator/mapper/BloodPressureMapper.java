@@ -45,7 +45,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
-import uk.nhs.adaptors.pss.translator.util.DegradedCodesUtil;
 
 @Service
 @AllArgsConstructor
