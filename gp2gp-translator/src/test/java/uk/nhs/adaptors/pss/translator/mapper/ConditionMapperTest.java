@@ -39,6 +39,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @ExtendWith(MockitoExtension.class)
 public class ConditionMapperTest {
@@ -126,7 +127,8 @@ public class ConditionMapperTest {
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
-        assertThat(conditions.get(0).getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY);
+        assertThat(conditions.get(0).getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(conditions.get(0).getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY);
     }
 
     @Test
@@ -226,6 +228,41 @@ public class ConditionMapperTest {
             mockedMedicationMapperUtils.close();
         }
 
+    }
+
+    @Test
+    public void mapConditionWithoutSnomedCodeInCoding() {
+         var codeableConcept = new CodeableConcept().addCoding(new Coding().setDisplay(CODING_DISPLAY));
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+        when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
+
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
+        final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+
+        assertThat(conditions).isNotEmpty();
+        assertThat(conditions.get(0).getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(conditions.get(0).getCode().getCoding().get(1).getDisplay())
+            .isEqualTo(CODING_DISPLAY);
+    }
+
+    @Test
+    public void mapConditionWithSnomedCodeInCoding() {
+        var codeableConcept = new CodeableConcept()
+            .addCoding(new Coding()
+                .setSystem("http://snomed.info/sct")
+                .setDisplay("Display")
+                .setCode("123456"));
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+        when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
+
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
+        final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+
+        assertThat(conditions).isNotEmpty();
+        assertThat(conditions.get(0).getCode()).isEqualTo(codeableConcept);
     }
 
     private void addMedicationRequestsToBundle(Bundle bundle) {
