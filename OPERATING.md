@@ -28,13 +28,12 @@ yyyy-mm-dd HH:mm:ss.SSS Level=DEBUG Logger=u.n.a.p.t.s.BundleMapperService Conve
     Data stored:
         EhrExtract attachments of MHS Inbound, pre-signed S3 url is generated for stored attachments      
     Filename convention:
-        Attachment files are named as {conversationId}_{documentId}_{gpc_structured.json} where documentId is the name of the file
-        Type - Task type that uploaded the file GET_GPC_STRUCTURED / GET_GPC_DOCUMENT
+        Attachment files are named as {conversationId}_{documentId} where documentId is the name of the file which includes an extension.
         ConversationId - Task conversation ID
     Configuration:
         The app uses a number of attempts to upload attachemnts. It is congired in retry policy. 
-        Generated stored attachments will have 60 min to be downloaded, after this time limit they won't be available
-
+        Generated stored attachments will be available for 60 min to be downloaded, after this time limit the download link will be invalidated 
+        though no files will be deleted from S3 bucket.
 
 ## AWS daisy chaining example
 
