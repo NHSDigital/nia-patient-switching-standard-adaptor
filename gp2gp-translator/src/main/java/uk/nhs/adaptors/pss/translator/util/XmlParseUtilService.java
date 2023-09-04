@@ -37,9 +37,9 @@ public class XmlParseUtilService {
 
     private final XPathService xPathService;
 
-    private static String filenamePattern = "Filename=\"([\\S]+[A-Za-z\\d\\-_. ]*)\"";
+    private static final String filenamePattern = "Filename=\"([\\S]{1}[^\"]*)\"";
 
-    private static String compressedPattern = "Compressed=(Yes|No|true|false)";
+    private static final String compressedPattern = "Compressed=(Yes|No|true|false)";
 
     public static boolean parseOriginalBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
@@ -109,10 +109,10 @@ public class XmlParseUtilService {
     public static Boolean isDescriptionEmisStyle(String description) {
         Pattern pattern = Pattern.compile(filenamePattern);
         Matcher matcher = pattern.matcher(description);
-        Boolean hasFilename = matcher.find();
+        boolean hasFilename = matcher.find();
         pattern = Pattern.compile(compressedPattern);
         matcher = pattern.matcher(description);
-        Boolean hasCompressed = matcher.find();
+        boolean hasCompressed = matcher.find();
 
         if (!hasFilename && !hasCompressed) {
             return true;
