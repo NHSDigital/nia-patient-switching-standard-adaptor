@@ -42,7 +42,7 @@ public class AttachmentReferenceUpdaterService {
 
         if (attachments != null) {
 
-            Map<String, String> matches = findDecodedFileReferences(resultPayload);
+            Map<String, String> referenceMap = findReferences(resultPayload);
 
             for (InboundMessage.Attachment attachment : attachments) {
 
@@ -51,13 +51,13 @@ public class AttachmentReferenceUpdaterService {
                         InlineAttachment inlineAttachment = new InlineAttachment(attachment);
                         String filename = inlineAttachment.getOriginalFilename();
 
-                        if (matches.containsKey(filename)) {
+                        if (referenceMap.containsKey(filename)) {
                             String fileLocation = storageManagerService.getFileLocation(filename, conversationId);
 
-                            Pattern pattern = Pattern.compile(wrapWithReferenceValue(matches.get(filename)));
+                            Pattern pattern = Pattern.compile(wrapWithReferenceElement(referenceMap.get(filename)));
                             Matcher matcher = pattern.matcher(resultPayload);
 
-                            resultPayload = matcher.replaceAll(wrapWithReferenceValue(xmlEscape(fileLocation)));
+                            resultPayload = matcher.replaceAll(wrapWithReferenceElement(xmlEscape(fileLocation)));
 
                         } else {
                             var message = String.format("Could not find file %s in payload", filename);
@@ -82,9 +82,9 @@ public class AttachmentReferenceUpdaterService {
      * @param payload The payload to search
      * @return a map where the decoded filename is the key and the encoded URL is the value
      */
-    private Map<String, String> findDecodedFileReferences(String payload) {
+    private Map<String, String> findReferences(String payload) {
 
-        Pattern pattern = Pattern.compile(wrapWithReferenceValue("(file://localhost/([^\"]+))"));
+        Pattern pattern = Pattern.compile(wrapWithReferenceElement("(file://localhost/([^\"]+))"));
         Matcher matcher = pattern.matcher(payload);
 
         return matcher.results()
@@ -96,7 +96,7 @@ public class AttachmentReferenceUpdaterService {
             );
     }
 
-    private String wrapWithReferenceValue(String filePattern) {
+    private String wrapWithReferenceElement(String filePattern) {
         return "<reference value=\"" + filePattern + "\"";
     }
 }
