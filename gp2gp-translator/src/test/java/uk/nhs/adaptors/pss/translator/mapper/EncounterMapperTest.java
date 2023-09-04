@@ -27,6 +27,7 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +42,7 @@ import org.mockito.stubbing.Answer;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
 @ExtendWith(MockitoExtension.class)
@@ -105,6 +107,8 @@ public class EncounterMapperTest {
 
     private static final String LOCATION_ID =  "3";
 
+    private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
+
     @BeforeEach
     public void setup() {
         patient = new Patient();
@@ -146,6 +150,63 @@ public class EncounterMapperTest {
         assertThat(mappedResources.get(TOPIC_KEY).size()).isEqualTo(TWO_MAPPED_RESOURCES);
         assertThat(mappedResources.get(CATEGORY_KEY).size()).isEqualTo(ONE_MAPPED_RESOURCE);
         assertThat(encounterList.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void testMapValidEncounterWithSnomedCode() {
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
+
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+            ehrExtract, patient, PRACTISE_CODE, entryLocations
+        );
+
+        assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
+        assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
+        assertThat(mappedResources.get(TOPIC_KEY).size()).isOne();
+        assertThat(mappedResources.get(CATEGORY_KEY).size()).isOne();
+
+        var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
+
+        assertThat(encounter.getType().get(0).getCodingFirstRep().getDisplay())
+            .isEqualTo(CODING_DISPLAY);
+    }
+
+    @Test
+    public void testMapValidEncounterWithoutSnomedCode() {
+        var codeableConcept = new CodeableConcept();
+        var coding = new Coding()
+            .setDisplay(CODING_DISPLAY)
+            .setSystem("1.2.3.4.5");
+        codeableConcept.addCoding(coding);
+
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+            .thenReturn(getList());
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
+
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+            ehrExtract, patient, PRACTISE_CODE, entryLocations
+        );
+
+        assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
+        assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
+        assertThat(mappedResources.get(TOPIC_KEY).size()).isOne();
+        assertThat(mappedResources.get(CATEGORY_KEY).size()).isOne();
+
+        var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
+
+        assertThat(encounter.getType().get(0).getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
     }
 
     @Test
@@ -493,8 +554,9 @@ public class EncounterMapperTest {
 
     private void setUpCodeableConceptMock() {
         var codeableConcept = new CodeableConcept();
-        var coding = new Coding();
-        coding.setDisplay(CODING_DISPLAY);
+        var coding = new Coding()
+            .setDisplay(CODING_DISPLAY)
+            .setSystem(SNOMED_SYSTEM);
         codeableConcept.addCoding(coding);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {

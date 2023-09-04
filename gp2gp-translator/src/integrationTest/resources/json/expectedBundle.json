@@ -1466,6 +1466,11 @@
           {
             "coding": [
               {
+                "system": "http://snomed.info/sct",
+                "code": "196411000000103",
+                "display": "Transfer-degraded record entry"
+              },
+              {
                 "system": "http://read.info/ctv3",
                 "code": "496401000000100",
                 "display": "Non-consultation data"
