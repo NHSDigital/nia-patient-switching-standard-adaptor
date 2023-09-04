@@ -2,8 +2,9 @@ package uk.nhs.adaptors.pss.translator.service;
 
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -38,65 +39,55 @@ public class AttachmentReferenceUpdaterService {
             throw new ValidationException("ConversationId cannot be null or empty");
         }
 
+        if (attachments == null) {
+            return payloadStr;
+        }
+
         String resultPayload = payloadStr;
 
-        if (attachments != null) {
+        Set<String> expectedFilenames = attachments.stream()
+            .filter(attachment -> !XmlParseUtilService.parseIsSkeleton(attachment.getDescription()))
+            .map(this::convertAttachmentToInlineAttachment)
+            .map(InlineAttachment::getOriginalFilename)
+            .collect(Collectors.toCollection(HashSet::new));
 
-            Map<String, String> referenceMap = findReferences(resultPayload);
+        Pattern pattern = Pattern.compile(wrapWithReferenceElement("file://localhost/([^\"]+)"));
+        Matcher matcher = pattern.matcher(payloadStr);
 
-            for (InboundMessage.Attachment attachment : attachments) {
+        while (matcher.find()) {
+            String decodedFilename = UriUtils.decode(matcher.group(1), StandardCharsets.UTF_8);
 
-                try {
-                    if (!XmlParseUtilService.parseIsSkeleton(attachment.getDescription())) {
-                        InlineAttachment inlineAttachment = new InlineAttachment(attachment);
-                        String filename = inlineAttachment.getOriginalFilename();
+            if (expectedFilenames.contains(decodedFilename)) {
 
-                        if (referenceMap.containsKey(filename)) {
-                            String fileLocation = storageManagerService.getFileLocation(filename, conversationId);
+                String fileLocation = storageManagerService.getFileLocation(decodedFilename, conversationId);
 
-                            Pattern pattern = Pattern.compile(wrapWithReferenceElement(referenceMap.get(filename)));
-                            Matcher matcher = pattern.matcher(resultPayload);
-
-                            resultPayload = matcher.replaceAll(wrapWithReferenceElement(xmlEscape(fileLocation)));
-
-                        } else {
-                            var message = String.format("Could not find file %s in payload", filename);
-                            throw new AttachmentNotFoundException(message);
-                        }
-                    }
-                } catch (ParseException ex) {
-                    throw new InlineAttachmentProcessingException("Unable to parse inline attachment description: " + ex.getMessage(), ex);
-                }
+                resultPayload = matcher.replaceAll(wrapWithReferenceElement(xmlEscape(fileLocation)));
+                matcher.reset();
+                expectedFilenames.remove(decodedFilename);
             }
         }
 
+        if (!expectedFilenames.isEmpty()) {
+            throw new AttachmentNotFoundException("Unable to find attachment(s): " + expectedFilenames);
+        }
+
         return resultPayload;
+
     }
 
     private String xmlEscape(String str) {
         return StringEscapeUtils.escapeXml10(str);
     }
 
-    /**
-     *
-     * @param payload The payload to search
-     * @return a map where the decoded filename is the key and the encoded URL is the value
-     */
-    private Map<String, String> findReferences(String payload) {
-
-        Pattern pattern = Pattern.compile(wrapWithReferenceElement("(file://localhost/([^\"]+))"));
-        Matcher matcher = pattern.matcher(payload);
-
-        return matcher.results()
-            .collect(
-                Collectors.toMap(
-                    matchResult -> UriUtils.decode(matchResult.group(2), StandardCharsets.UTF_8),
-                    matchResult -> matchResult.group(1)
-                )
-            );
-    }
-
     private String wrapWithReferenceElement(String filePattern) {
         return "<reference value=\"" + filePattern + "\"";
+    }
+
+    private InlineAttachment convertAttachmentToInlineAttachment(InboundMessage.Attachment attachment) {
+        try {
+            return new InlineAttachment(attachment);
+        } catch (ParseException e) {
+            throw new InlineAttachmentProcessingException("Unable to parse inline attachment description: " + e.getMessage(), e);
+        }
     }
 }

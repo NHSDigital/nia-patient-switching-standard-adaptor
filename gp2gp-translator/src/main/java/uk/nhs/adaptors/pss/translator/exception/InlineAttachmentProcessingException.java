@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.pss.translator.exception;
 
-public class InlineAttachmentProcessingException extends Exception {
+public class InlineAttachmentProcessingException extends RuntimeException {
     public InlineAttachmentProcessingException(String message) {
         super(message);
     }

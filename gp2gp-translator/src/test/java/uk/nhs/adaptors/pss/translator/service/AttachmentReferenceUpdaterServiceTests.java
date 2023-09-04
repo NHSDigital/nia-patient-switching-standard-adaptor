@@ -243,7 +243,7 @@ public class AttachmentReferenceUpdaterServiceTests {
             () -> attachmentReferenceUpdaterService.updateReferenceToAttachment(mockMissingAttachment, CONVERSATION_ID, content)
         )
             .isInstanceOf(AttachmentNotFoundException.class)
-            .hasMessageContaining("Could not find file missing_attachment.txt in payload");
+            .hasMessageContaining("Unable to find attachment(s): [missing_attachment.txt]");
     }
 
     private String getFileContent(String filename) {
