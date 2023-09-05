@@ -37,9 +37,9 @@ public class XmlParseUtilService {
 
     private final XPathService xPathService;
 
-    private static String filenamePattern = "Filename=\"([\\S]+[A-Za-z\\d\\-_. ]*)\"";
+    private static final String FILENAME_PATTERN = "Filename=\"([\\S]{1}[^\"]*)\"";
 
-    private static String compressedPattern = "Compressed=(Yes|No|true|false)";
+    private static final String COMPRESSED_PATTERN = "Compressed=(Yes|No|true|false)";
 
     public static boolean parseOriginalBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
@@ -64,7 +64,7 @@ public class XmlParseUtilService {
     }
 
     public static boolean parseCompressed(String description) throws ParseException {
-        Pattern pattern = Pattern.compile(compressedPattern);
+        Pattern pattern = Pattern.compile(COMPRESSED_PATTERN);
         Matcher matcher = pattern.matcher(description);
 
         if (matcher.find()) {
@@ -96,7 +96,7 @@ public class XmlParseUtilService {
     }
 
     public static String parseFilename(String description) throws ParseException {
-        Pattern pattern = Pattern.compile(filenamePattern);
+        Pattern pattern = Pattern.compile(FILENAME_PATTERN);
         Matcher matcher = pattern.matcher(description);
 
         if (matcher.find()) {
@@ -107,12 +107,12 @@ public class XmlParseUtilService {
     }
 
     public static Boolean isDescriptionEmisStyle(String description) {
-        Pattern pattern = Pattern.compile(filenamePattern);
+        Pattern pattern = Pattern.compile(FILENAME_PATTERN);
         Matcher matcher = pattern.matcher(description);
-        Boolean hasFilename = matcher.find();
-        pattern = Pattern.compile(compressedPattern);
+        boolean hasFilename = matcher.find();
+        pattern = Pattern.compile(COMPRESSED_PATTERN);
         matcher = pattern.matcher(description);
-        Boolean hasCompressed = matcher.find();
+        boolean hasCompressed = matcher.find();
 
         if (!hasFilename && !hasCompressed) {
             return true;
