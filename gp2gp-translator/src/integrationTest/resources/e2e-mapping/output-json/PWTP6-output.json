@@ -3093,6 +3093,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
+            {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISQSM13",
               "display": "Smoking cessation counselling by telephone"
@@ -4184,6 +4189,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
+            {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISQDO6",
               "display": "Doppler of right foot - triphasic"
@@ -4224,6 +4234,11 @@
         "status": "final",
         "code": {
           "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
             {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISQDO2",
@@ -4781,6 +4796,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
+            {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISQRI6",
               "display": "Right foot monofilament 10g normal"
@@ -4822,6 +4842,11 @@
         "status": "final",
         "code": {
           "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
             {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISQLE7",
