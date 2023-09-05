@@ -47,6 +47,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.TextUtil;
 
 @Service
@@ -189,7 +190,9 @@ public class SpecimenBatteryMapper {
     }
 
     private CodeableConcept createCode(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
+        DegradedCodeableConcepts.addDegradedEntryIfRequired(codeableConcept, DegradedCodeableConcepts.DEGRADED_OTHER);
+        return codeableConcept;
     }
 
     private CodeableConcept createCategory() {

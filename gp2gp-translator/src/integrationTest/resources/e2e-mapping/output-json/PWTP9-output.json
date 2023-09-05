@@ -20867,6 +20867,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Full blood count - FBC"
         },
         "subject": {
@@ -21204,6 +21211,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "CHOL/HDL RATIO"
         },
         "subject": {
