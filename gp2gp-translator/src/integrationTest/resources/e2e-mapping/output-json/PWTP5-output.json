@@ -4169,6 +4169,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Banana"
         },
         "subject": {

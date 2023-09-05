@@ -30291,6 +30291,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
+            {
               "system": "2.16.840.1.113883.2.1.6.7",
               "code": "PKyz500",
               "display": "Happy puppet syndrome"

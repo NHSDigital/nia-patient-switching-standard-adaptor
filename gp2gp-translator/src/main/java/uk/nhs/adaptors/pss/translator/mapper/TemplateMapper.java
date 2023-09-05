@@ -41,6 +41,7 @@ import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
@@ -156,11 +157,14 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
         var parentObservation = new Observation();
         var id = compoundStatement.getId().get(0).getRoot();
 
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
+        DegradedCodeableConcepts.addDegradedEntryIfRequired(codeableConcept, DegradedCodeableConcepts.DEGRADED_OTHER);
+
         parentObservation
             .setSubject(new Reference(patient))
             .setIssuedElement(getIssued(ehrComposition, ehrExtract))
             .addPerformer(getParticipantReference(compoundStatement.getParticipant(), ehrComposition))
-            .setCode(codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode()))
+            .setCode(codeableConcept)
             .setStatus(FINAL)
             .addIdentifier(buildIdentifier(id, practiseCode))
             .setMeta(generateMeta(OBSERVATION_META_PROFILE))
