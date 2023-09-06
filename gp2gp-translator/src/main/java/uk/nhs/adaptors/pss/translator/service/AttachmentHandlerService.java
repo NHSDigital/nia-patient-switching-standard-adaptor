@@ -93,9 +93,8 @@ public class AttachmentHandlerService {
         }
     }
 
-    public void storeAttachmentWithoutProcessing(String fileName, String payload, String conversationId,
-        String contentType, Integer expectedLength, boolean isBase64)
-        throws ValidationException, InlineAttachmentProcessingException {
+    public void storeAttachmentWithoutProcessing(String fileName, String payload, String conversationId, String contentType)
+                                                            throws ValidationException, InlineAttachmentProcessingException {
 
         if (!StringUtils.hasText(fileName)) {
             throw new ValidationException("FileName cannot be null or empty");
@@ -108,12 +107,6 @@ public class AttachmentHandlerService {
         }
         if (!StringUtils.hasText(contentType)) {
             throw new ValidationException("ContentType cannot be null or empty");
-        }
-
-        if (expectedLength != null && isBase64) {
-            if (expectedLength > 0 && expectedLength != payload.length()) {
-                throw new InlineAttachmentProcessingException("Incorrect payload length received");
-            }
         }
 
         StorageDataUploadWrapper dataWrapper = new StorageDataUploadWrapper(

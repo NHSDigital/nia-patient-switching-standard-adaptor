@@ -327,12 +327,10 @@ public class COPCMessageHandler {
         }
 
         if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
-            // a length check is done if the attachment is base64
-            boolean isBase64 = Boolean.parseBoolean(inboundMessage.getAttachments().get(0).getIsBase64());
 
             attachmentHandlerService.storeAttachmentWithoutProcessing(fragmentAttachmentLog.getFilename(),
                 inboundMessage.getAttachments().get(0).getPayload(), conversationId,
-                fragmentAttachmentLog.getContentType(), fragmentAttachmentLog.getLengthNum(), isBase64);
+                fragmentAttachmentLog.getContentType());
         } else {
             var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
                 List.of(fragmentAttachmentLog),
@@ -421,9 +419,7 @@ public class COPCMessageHandler {
                     XmlParseUtilService.parseFragmentFilename(descriptionString),
                     message.getAttachments().get(0).getPayload(),
                     conversationId,
-                    message.getAttachments().get(0).getContentType(),
-                    XmlParseUtilService.parseFileLength(descriptionString),
-                    isBase64
+                    message.getAttachments().get(0).getContentType()
                 );
                 fileUpload = true;
             } else {
