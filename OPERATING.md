@@ -31,9 +31,9 @@ Filename convention:
     Attachment files are named as {conversationId}_{documentId} where documentId is the name of the file which includes an extension.
     ConversationId - Task conversation ID
 Configuration:
-    The app uses a number of attempts to upload attachemnts. It is congired in retry policy. 
-    Generated stored attachments will be available for 60 min to be downloaded, after this time limit the download link will be invalidated 
-    though no files will be deleted from S3 bucket.
+    The app uses a number of attempts to upload attachments. It is configured in retry policy. 
+    Generated stored attachments will be available for 60 min to be downloaded, after this time limit the download link will be invalidated
+    although no files will be deleted from S3 bucket.
 
 ## AWS daisy chaining example
 
