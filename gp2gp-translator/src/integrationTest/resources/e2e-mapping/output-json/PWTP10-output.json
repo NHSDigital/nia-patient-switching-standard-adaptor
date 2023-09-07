@@ -3186,6 +3186,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
+            {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISNOFH2",
               "display": "No FH: Ischaemic heart dis <60"

@@ -5398,6 +5398,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FT1"
         },
         "subject": {
@@ -5472,6 +5479,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FT2"
         },
         "subject": {
@@ -5546,6 +5560,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FTX3"
         },
         "subject": {
@@ -5620,6 +5641,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FTX4"
         },
         "subject": {
@@ -5694,6 +5722,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FT1"
         },
         "subject": {
@@ -5768,6 +5803,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FT2"
         },
         "subject": {
@@ -5842,6 +5884,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FTX3"
         },
         "subject": {
@@ -5916,6 +5965,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FTX4"
         },
         "subject": {
@@ -5990,6 +6046,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FT1"
         },
         "subject": {
@@ -6064,6 +6127,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FT2"
         },
         "subject": {
@@ -6138,6 +6208,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FTX3"
         },
         "subject": {
@@ -6212,6 +6289,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "FTX4"
         },
         "subject": {
@@ -6375,6 +6459,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Serum potassium"
         },
         "subject": {
@@ -6648,6 +6739,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Serum triglycerides"
         },
         "subject": {
@@ -7701,6 +7799,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Neutrophil count"
         },
         "subject": {
@@ -7870,6 +7975,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Monocyte count"
         },
         "subject": {
@@ -10115,6 +10227,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Comment"
         },
         "subject": {
@@ -10732,6 +10851,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Packed cell volume"
         },
         "subject": {
@@ -11185,6 +11311,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Neutrophil count"
         },
         "subject": {
@@ -11550,6 +11683,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Basophil count"
         },
         "subject": {
@@ -12432,6 +12572,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "IgA Reticulin Abs"
         },
         "subject": {
@@ -12481,6 +12628,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "IgG Reticulin Abs"
         },
         "subject": {
@@ -12606,6 +12760,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Ovarian Antibodies"
         },
         "subject": {
@@ -12655,6 +12816,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Skeletal Muscle Abs"
         },
         "subject": {
@@ -17012,6 +17180,13 @@
         ],
         "status": "final",
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Results repeated,Low plasma Folate"
         },
         "subject": {
@@ -20692,6 +20867,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "Full blood count - FBC"
         },
         "subject": {
@@ -21029,6 +21211,13 @@
           }
         ],
         "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            }
+          ],
           "text": "CHOL/HDL RATIO"
         },
         "subject": {

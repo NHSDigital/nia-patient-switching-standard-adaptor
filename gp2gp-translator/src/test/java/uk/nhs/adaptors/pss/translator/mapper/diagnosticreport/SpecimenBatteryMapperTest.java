@@ -2,6 +2,8 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
@@ -11,6 +13,8 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -21,6 +25,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,6 +36,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMapper.SpecimenBatteryParameters;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @ExtendWith(MockitoExtension.class)
 public class SpecimenBatteryMapperTest {
@@ -52,7 +58,13 @@ public class SpecimenBatteryMapperTest {
     private static final DiagnosticReport DIAGNOSTIC_REPORT = (DiagnosticReport) new DiagnosticReport().setId(DIAGNOSTIC_REPORT_ID);
     private static final InstantType OBSERVATION_ISSUED = parseToInstantType("202203021160700");
     private static final DateTimeType OBSERVATION_EFFECTIVE = parseToDateTimeType("20100223000000");
+    private static final String CODING_DISPLAY_MOCK = "Test Display";
+    private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
 
+    private static final CodeableConcept CODEABLE_CONCEPT = new CodeableConcept()
+        .addCoding(new Coding()
+            .setDisplay(CODING_DISPLAY_MOCK)
+            .setSystem(SNOMED_SYSTEM));
     private final List<Encounter> encounters = generateEncounters();
 
     @Mock
@@ -109,6 +121,67 @@ public class SpecimenBatteryMapperTest {
             .toList();
 
         assertThat(observationCommentIds.contains("BATTERY_DIRECT_CHILD_NARRATIVE_STATEMENT_ID")).isFalse();
+    }
+
+    @Test
+    public void When_MappingObservationFromBatteryCompoundStatementWithSnomedCode_Expect_CorrectlyMapped() {
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
+
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
+        var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+
+        final List<Observation> observations = getObservations();
+        final List<Observation> observationComments = getObservationComments();
+
+        var batteryParameters = SpecimenBatteryParameters.builder()
+            .ehrExtract(ehrExtract)
+            .batteryCompoundStatement(batteryCompoundStatement)
+            .specimenCompoundStatement(getSpecimenCompoundStatement(ehrExtract))
+            .ehrComposition(getEhrComposition(ehrExtract))
+            .diagnosticReport(DIAGNOSTIC_REPORT)
+            .patient(PATIENT)
+            .encounters(encounters)
+            .practiseCode(PRACTISE_CODE)
+            .observations(observations)
+            .observationComments(observationComments)
+            .build();
+
+        final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
+
+        assertThat(observation.getCode()).isEqualTo(CODEABLE_CONCEPT);
+    }
+
+    @Test
+    public void When_MappingObservationFromBatteryCompoundStatementWithoutSnomedCode_Expect_DegradedCode() {
+        var codeableConcept = new CodeableConcept();
+        var coding = new Coding()
+            .setDisplay(CODING_DISPLAY_MOCK)
+            .setSystem("1.2.3.4.5");
+        codeableConcept.addCoding(coding);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
+        var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+
+        final List<Observation> observations = getObservations();
+        final List<Observation> observationComments = getObservationComments();
+
+        var batteryParameters = SpecimenBatteryParameters.builder()
+            .ehrExtract(ehrExtract)
+            .batteryCompoundStatement(batteryCompoundStatement)
+            .specimenCompoundStatement(getSpecimenCompoundStatement(ehrExtract))
+            .ehrComposition(getEhrComposition(ehrExtract))
+            .diagnosticReport(DIAGNOSTIC_REPORT)
+            .patient(PATIENT)
+            .encounters(encounters)
+            .practiseCode(PRACTISE_CODE)
+            .observations(observations)
+            .observationComments(observationComments)
+            .build();
+
+        final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
+
+        assertThat(observation.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
     }
 
     private List<Observation> getObservationComments() {

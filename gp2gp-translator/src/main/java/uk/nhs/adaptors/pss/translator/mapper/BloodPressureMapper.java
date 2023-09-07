@@ -44,6 +44,7 @@ import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @Service
 @AllArgsConstructor
@@ -99,7 +100,15 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
     }
 
     private CodeableConcept getCode(CD code) {
-        return code != null ? codeableConceptMapper.mapToCodeableConcept(code) : null;
+        if (code != null) {
+            var codeableConcept = codeableConceptMapper.mapToCodeableConcept(code);
+            DegradedCodeableConcepts.addDegradedEntryIfRequired(
+                codeableConcept, DegradedCodeableConcepts.DEGRADED_OTHER);
+
+            return codeableConcept;
+        }
+
+        return null;
     }
 
     private List<ObservationComponentComponent> getComponent(List<RCMRMT030101UK04ObservationStatement> observationStatements) {

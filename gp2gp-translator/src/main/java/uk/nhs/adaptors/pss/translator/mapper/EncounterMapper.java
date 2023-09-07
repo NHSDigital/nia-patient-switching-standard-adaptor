@@ -48,6 +48,7 @@ import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
 @Service
@@ -299,7 +300,10 @@ public class EncounterMapper {
     }
 
     private List<CodeableConcept> getType(CD code) {
-        return List.of(codeableConceptMapper.mapToCodeableConcept(code));
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(code);
+
+        DegradedCodeableConcepts.addDegradedEntryIfRequired(codeableConcept, DegradedCodeableConcepts.DEGRADED_OTHER);
+        return List.of(codeableConcept);
     }
 
     private Period getPeriod(RCMRMT030101UK04EhrComposition ehrComposition) {

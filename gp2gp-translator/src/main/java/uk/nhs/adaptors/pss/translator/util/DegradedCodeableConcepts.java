@@ -45,6 +45,10 @@ public final class DegradedCodeableConcepts {
             .setDisplay("Transfer-degraded record entry");
 
     public static void addDegradedEntryIfRequired(CodeableConcept codeableConcept, Coding degradedCoding) {
+        if (codeableConcept == null) {
+            return;
+        }
+
         if (codeableConcept.hasCoding()) {
             var coding = codeableConcept.getCoding();
             var hasSnomedCode = coding

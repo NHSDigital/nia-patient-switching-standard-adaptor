@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -191,7 +192,13 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     }
 
     private CodeableConcept getCode(CD code) {
-        return code != null ? codeableConceptMapper.mapToCodeableConcept(code) : null;
+        if (code == null) {
+            return null;
+        }
+
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(code);
+        DegradedCodeableConcepts.addDegradedEntryIfRequired(codeableConcept, DegradedCodeableConcepts.DEGRADED_OTHER);
+        return codeableConcept;
     }
 
     private String getValueString(Object value) {
