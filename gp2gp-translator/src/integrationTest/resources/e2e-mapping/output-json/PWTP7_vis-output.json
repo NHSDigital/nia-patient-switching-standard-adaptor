@@ -3493,15 +3493,6 @@
             ]
           }
         ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "196411000000103",
-              "display": "Transfer-degraded record entry"
-            }
-          ]
-        },
         "subject": {
           "reference": "Patient/b362eb8b-4952-4daa-83fe-c86bbd3f1f2e"
         },

@@ -201,13 +201,12 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                         ).forEach(condition::addNote);
 
                         referencedObservationStatement.ifPresent(
-                                observationStatement ->
-                                    condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
-                        );
-
-                        DegradedCodeableConcepts.addDegradedEntryIfRequired(
-                            condition.getCode(),
-                            DegradedCodeableConcepts.DEGRADED_OTHER);
+                                observationStatement -> {
+                                    condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
+                                    DegradedCodeableConcepts.addDegradedEntryIfRequired(
+                                        condition.getCode(),
+                                        DegradedCodeableConcepts.DEGRADED_OTHER);
+                                });
 
                         var statementRefs = linkSet.getComponent()
                                 .stream()
