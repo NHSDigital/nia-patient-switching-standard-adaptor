@@ -4,10 +4,12 @@ import static java.util.UUID.randomUUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
@@ -935,7 +937,7 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_MergedAttachmentsBase64LengthsMismatches_Expect_ThrowsExternalAttachmentException() {
+    public void When_MergedAttachmentsBase64LengthsMismatches_Expect_NotThrowsExternalAttachmentException() {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -998,11 +1000,9 @@ class COPCMessageHandlerTest {
                         .build()
                 )));
 
+        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(anyList(), anyString())).thenReturn(ATTACH);
 
-        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any(), any())).thenReturn(ATTACH);
-
-        assertThrows(ExternalAttachmentProcessingException.class, () ->
-            copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID));
+        assertDoesNotThrow(() -> copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID));
     }
 
     @Test

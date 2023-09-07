@@ -225,15 +225,6 @@ public class COPCMessageHandler {
                 .findAny()
                 .orElseThrow();
 
-            // if we have been given a file length, validate it
-            var canCheckAttachmentLength = parentLogFile.getLengthNum() > 0
-                && attachmentLogFragments.stream()
-                    .allMatch(PatientAttachmentLog::getIsBase64);
-
-        if (canCheckAttachmentLength && payload.length() != parentLogFile.getLengthNum()) {
-                throw new ExternalAttachmentProcessingException("Illegal file length detected");
-            }
-
             if (payload != null) {
                 parentLogFile.setPostProcessedLengthNum(payload.length());
             }
