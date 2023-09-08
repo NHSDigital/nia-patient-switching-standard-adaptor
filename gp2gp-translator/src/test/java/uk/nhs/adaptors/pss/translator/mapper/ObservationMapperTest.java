@@ -1,6 +1,9 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -22,9 +25,9 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.junit.jupiter.api.BeforeAll;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -32,9 +35,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 public class ObservationMapperTest {
     private static final String XML_RESOURCES_BASE = "xml/Observation/";
@@ -53,14 +56,10 @@ public class ObservationMapperTest {
     private static final BigDecimal QUANTITY_VALUE = QUANTITY_VALUE_BASE.setScale(3);
     private static final BigDecimal REFERENCE_RANGE_LOW_VALUE = new BigDecimal(20);
     private static final BigDecimal REFERENCE_RANGE_HIGH_VALUE = new BigDecimal(22);
-
-    private static final CodeableConcept CODEABLE_CONCEPT = new CodeableConcept()
-        .addCoding(new Coding().setDisplay(CODING_DISPLAY_MOCK));
-
+    private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
     private static final List<Encounter> ENCOUNTER_LIST = List.of(
         (Encounter) new Encounter().setId("TEST_ID_MATCHING_ENCOUNTER")
     );
-
     private static final String ORIGINAL_TEXT = "Original Text";
     private static final String MINUS_ONE_ANNOTATION_TEXT = "minus 1 sequence comment";
     private static final String ZERO_ANNOTATION_TEXT = "zero sequence comment";
@@ -87,10 +86,12 @@ public class ObservationMapperTest {
         return method;
     }
 
-    @BeforeAll
+    @BeforeEach
     public void createMeasurementUnits() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         getCreateMeasurementUnitsMethod().invoke(MEASUREMENT_UNITS_UTIL);
     }
+
+
 
     @Test
     public void mapObservationWithValidData() {
@@ -280,6 +281,40 @@ public class ObservationMapperTest {
             + NULL_FLAVOR_ANNOTATION_TEXT;
 
         assertThat(observation.getComment()).isEqualTo(expectedComment);
+    }
+
+    @Test
+    public void When_MapObservation_WithoutSnomedCodeInCode_Expect_DegradedCodeableConcept() {
+        var codeableConcept = new CodeableConcept();
+        var coding = new Coding()
+            .setDisplay(CODING_DISPLAY_MOCK)
+            .setSystem("1.2.3.4.5");
+        codeableConcept.addCoding(coding);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        assertThat(observation.getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+    }
+
+    @Test
+    public void When_MapObservation_WithSnomedCodeInCode_Expect_MappedWithoutDegrading() {
+        var codeableConcept = new CodeableConcept();
+        var coding = new Coding()
+            .setDisplay(CODING_DISPLAY_MOCK)
+            .setSystem(SNOMED_SYSTEM);
+        codeableConcept.addCoding(coding);
+        lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        assertThat(observation.getCode().getCodingFirstRep().getDisplay())
+            .isEqualTo(CODING_DISPLAY_MOCK);
+        assertThat(observation.getCode().getCodingFirstRep().getSystem())
+            .isEqualTo(SNOMED_SYSTEM);
     }
 
     private void assertFixedValues(Observation observation) {

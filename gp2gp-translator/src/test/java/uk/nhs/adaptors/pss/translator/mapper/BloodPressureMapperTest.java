@@ -31,6 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -109,19 +110,28 @@ public class BloodPressureMapperTest {
 
         assertFixedValues(bloodPressure);
         assertThat(bloodPressure.getId()).isEqualTo(EXAMPLE_ID);
-        assertThat(bloodPressure.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_MOCK);
+        assertThat(bloodPressure.getComponent().get(0).getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(bloodPressure.getComponent().get(0).getCode().getCoding().get(1).getDisplay())
+            .isEqualTo(CODING_DISPLAY_MOCK);
         assertThat(bloodPressure.hasSubject()).isTrue();
         assertThat(bloodPressure.getIssuedElement().asStringValue()).isEqualTo(ISSUED_EXAMPLE);
         assertThat(bloodPressure.getEffective().toString()).isEqualTo(DateFormatUtil.parseToDateTimeType(EFFECTIVE_EXAMPLE).toString());
         assertThat(bloodPressure.getPerformer().get(0).getReference()).isEqualTo(PPRF_PARTICIPANT_ID);
         assertThat(bloodPressure.getComment()).isEqualTo(COMMENT_EXAMPLE_1);
 
-        assertThat(bloodPressure.getComponent().get(0).getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_MOCK);
+        assertThat(bloodPressure.getComponent().get(0).getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(bloodPressure.getComponent().get(0).getCode().getCoding().get(1).getDisplay())
+            .isEqualTo(CODING_DISPLAY_MOCK);
         assertThat(bloodPressure.getComponent().get(0).getValueQuantity().getValue()).isEqualTo(COMPONENT_1_VALUE_QUANTITY_VALUE);
         assertThat(bloodPressure.getComponent().get(0).getInterpretation().getText()).isEqualTo(COMPONENT_1_INTERPRETATION_TEXT);
         assertThat(bloodPressure.getComponent().get(0).getReferenceRange().get(0).getText()).isEqualTo(COMPONENT_1_REFERENCE_RANGE_TEXT);
 
-        assertThat(bloodPressure.getComponent().get(1).getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_MOCK);
+        assertThat(bloodPressure.getComponent().get(1).getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(bloodPressure.getComponent().get(1).getCode().getCoding().get(1).getDisplay())
+            .isEqualTo(CODING_DISPLAY_MOCK);
         assertThat(bloodPressure.getComponent().get(1).getValueQuantity().getValue()).isEqualTo(COMPONENT_2_VALUE_QUANTITY_VALUE);
         assertThat(bloodPressure.getComponent().get(1).getInterpretation().getText()).isEqualTo(COMPONENT_2_INTERPRETATION_TEXT);
         assertThat(bloodPressure.getComponent().get(1).getReferenceRange().get(0).getText()).isEqualTo(COMPONENT_2_REFERENCE_RANGE_TEXT);
@@ -137,7 +147,8 @@ public class BloodPressureMapperTest {
 
         assertFixedValues(bloodPressure);
         assertThat(bloodPressure.getId()).isEqualTo(EXAMPLE_ID);
-        assertThat(bloodPressure.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_MOCK);
+        assertThat(bloodPressure.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(bloodPressure.getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY_MOCK);
         assertThat(bloodPressure.hasSubject()).isTrue();
         assertThat(bloodPressure.getIssuedElement().asStringValue()).isEqualTo(ISSUED_EXAMPLE);
         assertThat(bloodPressure.getPerformer().get(0).getReference()).isEqualTo(PPRF_PARTICIPANT_ID);
@@ -145,12 +156,18 @@ public class BloodPressureMapperTest {
         assertThat(bloodPressure.getEffective()).isNull();
         assertThat(StringUtils.isEmpty(bloodPressure.getComment())).isTrue();
 
-        assertThat(bloodPressure.getComponent().get(0).getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_MOCK);
+        assertThat(bloodPressure.getComponent().get(0).getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(bloodPressure.getComponent().get(0).getCode().getCoding().get(1).getDisplay())
+            .isEqualTo(CODING_DISPLAY_MOCK);
         assertThat(bloodPressure.getComponent().get(0).getValueQuantity()).isNull();
         assertThat(bloodPressure.getComponent().get(0).getInterpretation().getCoding().isEmpty()).isTrue();
         assertThat(bloodPressure.getComponent().get(0).getReferenceRange().isEmpty()).isTrue();
 
-        assertThat(bloodPressure.getComponent().get(1).getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_MOCK);
+        assertThat(bloodPressure.getComponent().get(1).getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(bloodPressure.getComponent().get(1).getCode().getCoding().get(1).getDisplay())
+            .isEqualTo(CODING_DISPLAY_MOCK);
         assertThat(bloodPressure.getComponent().get(1).getValueQuantity()).isNull();
         assertThat(bloodPressure.getComponent().get(1).getInterpretation().getCoding().isEmpty()).isTrue();
         assertThat(bloodPressure.getComponent().get(1).getReferenceRange().isEmpty()).isTrue();
@@ -222,5 +239,49 @@ public class BloodPressureMapperTest {
         var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(bloodPressures.isEmpty()).isTrue();
+    }
+
+    @Test
+    public void mapBloodPressureWithNoSnomedCodeInCoding() {
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
+
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_data_bp_example.xml");
+
+        var bloodPressure = bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+
+        assertThat(bloodPressure.getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(bloodPressure.getCode().getCoding().get(1).getDisplay())
+            .isEqualTo(CODING_DISPLAY_MOCK);
+        assertThat(bloodPressure.getComponent().get(0).getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(bloodPressure.getComponent().get(0).getCode().getCoding().get(1).getDisplay())
+            .isEqualTo(CODING_DISPLAY_MOCK);
+        assertThat(bloodPressure.getComponent().get(1).getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(bloodPressure.getComponent().get(1).getCode().getCoding().get(1).getDisplay())
+            .isEqualTo(CODING_DISPLAY_MOCK);
+    }
+
+    @Test
+    public void mapBloodPressureWithSnomedCodeInCoding() {
+        var codeableConcept = new CodeableConcept()
+            .addCoding(new Coding()
+                .setSystem("http://snomed.info/sct")
+                .setDisplay("Display")
+                .setCode("123456"));
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_data_bp_example.xml");
+
+        var bloodPressure = bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        assertThat(bloodPressure.getCode())
+            .isEqualTo(codeableConcept);
+        assertThat(bloodPressure.getComponent().get(0).getCode())
+            .isEqualTo(codeableConcept);
+        assertThat(bloodPressure.getComponent().get(1).getCode())
+            .isEqualTo(codeableConcept);
     }
 }

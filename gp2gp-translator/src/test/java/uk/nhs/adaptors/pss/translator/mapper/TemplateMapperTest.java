@@ -27,6 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,9 +44,12 @@ public class TemplateMapperTest {
     private static final String OBSERVATION_META = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
     private static final String IDENTIFIER = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final int THREE = 3;
+    private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
 
     private static final CodeableConcept CODEABLE_CONCEPT = new CodeableConcept()
-        .addCoding(new Coding().setDisplay(CODING_DISPLAY_MOCK));
+        .addCoding(new Coding()
+            .setDisplay(CODING_DISPLAY_MOCK)
+            .setSystem(SNOMED_SYSTEM));
 
     private static final List<Encounter> ENCOUNTER_LIST = List.of(
         (Encounter) new Encounter().setId(ENCOUNTER_ID)
@@ -158,6 +162,33 @@ public class TemplateMapperTest {
         assertThat(secondChildRelations.size()).isOne();
         assertThat(secondChildRelations.get(0).getTarget().getReferenceElement().getIdPart()).isEqualTo("PARENT_OBSERVATION_ID");
         assertThat(secondChildRelations.get(0).getType()).isEqualTo(DERIVEDFROM);
+    }
+
+    @Test
+    public void When_MapTemplateWithSnomedCode_Expect_CorrectlyMapped() {
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
+
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_template.xml");
+        var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
+        var parentObservation = (Observation) mappedResources.get(0);
+
+        assertThat(parentObservation.getCode()).isEqualTo(CODEABLE_CONCEPT);
+    }
+
+    @Test
+    public void When_MapTemplateWithoutSnomedCode_Expect_DegradedCode() {
+        var codeableConcept = new CodeableConcept();
+        var coding = new Coding()
+            .setDisplay(CODING_DISPLAY_MOCK)
+            .setSystem("1.2.3.4.5");
+        codeableConcept.addCoding(coding);
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_template.xml");
+        var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
+        var parentObservation = (Observation) mappedResources.get(0);
+
+        assertThat(parentObservation.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
     }
 
     private void assertQuestionnaireResponse(QuestionnaireResponse questionnaireResponse, String encounter, String linkId,

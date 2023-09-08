@@ -793,6 +793,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
+            {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISCSU6",
               "display": "Surveillance"
@@ -833,6 +838,11 @@
         "status": "final",
         "code": {
           "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
             {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISCTH1",
@@ -876,6 +886,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
+            {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISNQDXDD",
               "display": "Patient died"
@@ -916,6 +931,11 @@
         "status": "final",
         "code": {
           "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
             {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISD_BE1",
@@ -958,6 +978,11 @@
         "status": "final",
         "code": {
           "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
             {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "HMPNQHO5",
@@ -1291,6 +1316,11 @@
         "status": "final",
         "code": {
           "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
             {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISSCE2",
@@ -2119,6 +2149,11 @@
         ],
         "code": {
           "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record entry"
+            },
             {
               "system": "https://fhir.hl7.org.uk/Id/egton-codes",
               "code": "EMISSCE2",

@@ -58,6 +58,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -200,9 +201,12 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                         ).forEach(condition::addNote);
 
                         referencedObservationStatement.ifPresent(
-                                observationStatement ->
-                                    condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()))
-                        );
+                                observationStatement -> {
+                                    condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
+                                    DegradedCodeableConcepts.addDegradedEntryIfRequired(
+                                        condition.getCode(),
+                                        DegradedCodeableConcepts.DEGRADED_OTHER);
+                                });
 
                         var statementRefs = linkSet.getComponent()
                                 .stream()

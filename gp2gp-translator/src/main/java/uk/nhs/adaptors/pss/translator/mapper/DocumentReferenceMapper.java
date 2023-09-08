@@ -30,6 +30,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
 @Slf4j
@@ -124,18 +125,19 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     private CodeableConcept getType(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
         var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
-
+        CodeableConcept codeableConcept = null;
         if (referenceToExternalDocument != null && referenceToExternalDocument.hasCode()) {
             if (!referenceToExternalDocument.getCode().hasOriginalText() && referenceToExternalDocument.getCode().hasDisplayName()) {
-                return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode())
+                codeableConcept = codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode())
                     .setText(referenceToExternalDocument.getCode().getDisplayName());
             } else if (referenceToExternalDocument.getCode().hasOriginalText()) {
-                return codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode())
+                codeableConcept = codeableConceptMapper.mapToCodeableConcept(referenceToExternalDocument.getCode())
                     .setText(referenceToExternalDocument.getCode().getOriginalText());
             }
         }
 
-        return null;
+        DegradedCodeableConcepts.addDegradedEntryIfRequired(codeableConcept, DegradedCodeableConcepts.DEGRADED_OTHER);
+        return codeableConcept;
     }
 
     private Optional<Reference> getAuthor(RCMRMT030101UK04NarrativeStatement narrativeStatement,
