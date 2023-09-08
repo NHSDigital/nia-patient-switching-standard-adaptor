@@ -61,7 +61,6 @@ import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class COPCMessageHandler {
 
-    private static final String DESCRIPTION_PATH = "/Envelope/Body/Manifest/Reference[position()=2]/Description";
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
 
     private final MigrationStatusLogService migrationStatusLogService;
@@ -226,17 +225,6 @@ public class COPCMessageHandler {
                 .findAny()
                 .orElseThrow();
 
-            // if we have been given a file length, validate it
-            var canCheckAttachmentLength = parentLogFile.getLengthNum() > 0
-                && attachmentLogFragments.stream()
-                    .allMatch(PatientAttachmentLog::getIsBase64);
-
-            if (canCheckAttachmentLength) {
-                if (payload.length() != parentLogFile.getLengthNum()) {
-                    throw new ExternalAttachmentProcessingException("Illegal file length detected");
-                }
-            }
-
             if (payload != null) {
                 parentLogFile.setPostProcessedLengthNum(payload.length());
             }
@@ -273,8 +261,9 @@ public class COPCMessageHandler {
             .allMatch(PatientAttachmentLog::getIsBase64);
 
         if (containsBase64Fragments && !allFragmentsAreBase64) {
-            throw new ExternalAttachmentProcessingException(String.format("Received both encoded and decoded fragments for message"
-                + parentLogFile.getMid()));
+            throw new ExternalAttachmentProcessingException(
+                String.format("Received both encoded and decoded fragments for message" + parentLogFile.getMid())
+            );
         }
 
         return allFragmentsAreBase64;
@@ -329,12 +318,10 @@ public class COPCMessageHandler {
         }
 
         if (fragmentAttachmentLog.getLargeAttachment() == null || fragmentAttachmentLog.getLargeAttachment()) {
-            // a length check is done if the attachment is base64
-            boolean isBase64 = Boolean.parseBoolean(inboundMessage.getAttachments().get(0).getIsBase64());
 
             attachmentHandlerService.storeAttachmentWithoutProcessing(fragmentAttachmentLog.getFilename(),
                 inboundMessage.getAttachments().get(0).getPayload(), conversationId,
-                fragmentAttachmentLog.getContentType(), fragmentAttachmentLog.getLengthNum(), isBase64);
+                fragmentAttachmentLog.getContentType());
         } else {
             var attachment = attachmentHandlerService.buildInboundAttachmentsFromAttachmentLogs(
                 List.of(fragmentAttachmentLog),
@@ -344,11 +331,6 @@ public class COPCMessageHandler {
 
             attachmentHandlerService.storeAttachments(attachment, conversationId);
         }
-    }
-
-    private boolean checkIfFileTypeSupported(String fileType) {
-        return supportedFileTypes.getAccepted() != null
-            && supportedFileTypes.getAccepted().contains(fileType);
     }
 
     private boolean isManifestMessage(List<InboundMessage.Attachment> attachments,
@@ -428,9 +410,7 @@ public class COPCMessageHandler {
                     XmlParseUtilService.parseFragmentFilename(descriptionString),
                     message.getAttachments().get(0).getPayload(),
                     conversationId,
-                    message.getAttachments().get(0).getContentType(),
-                    XmlParseUtilService.parseFileLength(descriptionString),
-                    isBase64
+                    message.getAttachments().get(0).getContentType()
                 );
                 fileUpload = true;
             } else {

@@ -4,10 +4,11 @@ import static java.util.UUID.randomUUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
@@ -199,7 +200,7 @@ class COPCMessageHandlerTest {
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
         // Assert
-        verify(attachmentHandlerService).storeAttachmentWithoutProcessing(any(), any(), any(), any(), any(), anyBoolean());
+        verify(attachmentHandlerService).storeAttachmentWithoutProcessing(any(), any(), any(), any());
     }
 
     @Test
@@ -316,7 +317,7 @@ class COPCMessageHandlerTest {
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
         verify(attachmentHandlerService)
             .storeAttachmentWithoutProcessing("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1_0.messageattachment",
-                "ABC Not Required", CONVERSATION_ID, "text/plain", 0, false);
+                "ABC Not Required", CONVERSATION_ID, "text/plain");
         verify(patientAttachmentLogService, times(2)).addAttachmentLog(patientLogCaptor.capture());
 
         PatientAttachmentLog actualCidAttachmentLog = patientLogCaptor.getAllValues().get(0);
@@ -341,7 +342,7 @@ class COPCMessageHandlerTest {
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
         verify(attachmentHandlerService).storeAttachmentWithoutProcessing(filenameCaptor.capture(), payloadCaptor.capture(),
-            conversationIdCaptor.capture(), contentTypeCaptor.capture(), fileLengthCaptor.capture(), anyBoolean());
+            conversationIdCaptor.capture(), contentTypeCaptor.capture());
 
         assertEquals("E39E79A2-FA96-48FF-9373-7BBCB9D036E7.txt", filenameCaptor.getValue());
         assertEquals("This is a payload", payloadCaptor.getValue());
@@ -935,7 +936,7 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_MergedAttachmentsBase64LengthsMismatches_Expect_ThrowsExternalAttachmentException() {
+    public void When_MergedAttachmentsBase64LengthsMismatches_Expect_NotThrowsExternalAttachmentException() {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -998,11 +999,9 @@ class COPCMessageHandlerTest {
                         .build()
                 )));
 
+        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(anyList(), anyString())).thenReturn(ATTACH);
 
-        when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any(), any())).thenReturn(ATTACH);
-
-        assertThrows(ExternalAttachmentProcessingException.class, () ->
-            copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID));
+        assertDoesNotThrow(() -> copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID));
     }
 
     @Test
@@ -1147,7 +1146,7 @@ class COPCMessageHandlerTest {
 
             doThrow(ValidationException.class)
                 .when(attachmentHandlerService)
-                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any(), anyBoolean());
+                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString());
 
             copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
@@ -1229,7 +1228,7 @@ class COPCMessageHandlerTest {
             doThrow(new InlineAttachmentProcessingException(
                 "Test Inline Attachment Processing Exception", new StorageException("Test storage exception", new Exception()))
             ).when(attachmentHandlerService)
-                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any(), anyBoolean());
+                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString());
 
             copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
@@ -1264,7 +1263,7 @@ class COPCMessageHandlerTest {
 
             doThrow(InlineAttachmentProcessingException.class)
                 .when(attachmentHandlerService)
-                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString(), any(), anyBoolean());
+                .storeAttachmentWithoutProcessing(anyString(), anyString(), eq(CONVERSATION_ID), anyString());
 
 
             copcMessageHandler.handleMessage(message, CONVERSATION_ID);
