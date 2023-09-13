@@ -84,12 +84,15 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [Config
 ### Releasing a new version to Docker Hub
 
 First identify which is the most recent commit within GitHub which contains only changes which are marked as Done within Jira.
+You can also review what commits have gone in by using the git log command or IDE.
 
 Make a note of the most recent Release within GitHub, and identify what the next version number to use will be.
 
-Create a new release within GitHub, specifying the tag as the version to use (e.g. "0.11"), and the target being the commit you identified.
+Create a new release within GitHub, specifying the tag as the version to use (e.g. 0.11), and the target being the commit you identified.
+Click on the "Generate release notes" button and this will list all the current changes from the recent commit.
 
 Log into DockerHub using the credentials stored within our AWS accounts Secrets Manager, secret name `nhsdev-dockerhub-credentials` in London region.
+Go to AWS Management Console > Service Manager then find the option 'retrieve keys'
 
 Now build the adaptor using the following commands.
 
@@ -97,14 +100,16 @@ Now build the adaptor using the following commands.
 git fetch
 git checkout <version tag>
 ```
+Replace \<version\> with the version tag above. (e.g. 0.11)
 
-When running the buildx commands you may get an error asking you to run the following command, which you should do.
+When running the **buildx** commands you may get an error asking you to run the following command, which you should do.
 ```shell
 docker buildx create --use
 ```
 
-Replace \<version\> with the version tag above.
-_NOTE_ that the commands can take up to 20 minutes.
+Replace \<version\> with the version tag above. (e.g. nhsdev/nia-ps-adaptor:0.11)
+
+_NOTE_ that the commands can take up to 20+ minutes.
 
 ```shell
 docker buildx build -f docker/gp2gp-translator/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-adaptor:<version> --push
