@@ -88,34 +88,21 @@ You can also review what commits have gone in by using the git log command or ID
 
 Make a note of the most recent Release within GitHub, and identify what the next version number to use will be.
 
-Create a new release within GitHub, specifying the tag as the version to use (e.g. 0.11), and the target being the commit you identified.
+Create a new release within GitHub, specifying the tag as the version to use (e.g. 1.2.7), and the target being the commit you identified.
 Click on the "Generate release notes" button and this will list all the current changes from the recent commit.
 
-Log into DockerHub using the credentials stored within our AWS accounts Secrets Manager, secret name `nhsdev-dockerhub-credentials` in London region.
-Go to AWS Management Console > Service Manager then find the option 'retrieve keys'
+From the root of this repository, update the `/release.sh`, changing the `BUILD_TAG` value to match the release created above.
+Update the `CHANGELOG.md` file, copying the release information within the GitHub release.
+Raise a PR for your changes.
 
-Now build the adaptor using the following commands.
+Once your changes have been merged, log into DockerHub using the credentials stored within our AWS accounts Secrets Manager, secret name `nhsdev-dockerhub-credentials` in London region.
+Go to AWS Management Console > Secrets Manager then find the option 'retrieve keys'.
 
-```shell
-git fetch
-git checkout <version tag>
-```
-Replace \<version\> with the version tag above. (e.g. 0.11)
+If you have not created a release before then you will first need to create a new docker builder instance using `docker buildx create --use`.
 
-When running the **buildx** commands you may get an error asking you to run the following command, which you should do.
-```shell
-docker buildx create --use
-```
+Execute `./release.sh`.
 
-Replace \<version\> with the version tag above. (e.g. nhsdev/nia-ps-adaptor:0.11)
-
-_NOTE_ that the commands can take up to 20+ minutes.
-
-```shell
-docker buildx build -f docker/gp2gp-translator/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-adaptor:<version> --push
-docker buildx build -f docker/gpc-facade/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-facade:<version> --push
-docker buildx build -f docker/db-migration/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-db-migration:<version> --push
-```
+Log out of DockerHub.
 
 ### Rebuilding services
 To rebuild the GPC Api Facade run
