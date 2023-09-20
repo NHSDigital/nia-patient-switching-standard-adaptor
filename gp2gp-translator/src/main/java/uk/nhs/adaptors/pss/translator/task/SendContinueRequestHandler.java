@@ -28,13 +28,13 @@ public class SendContinueRequestHandler {
     @SneakyThrows
     public void prepareAndSendRequest(ContinueRequestData data) {
         String continueRequest = continueRequestService.buildContinueRequest(
-                data.getConversationId(),
                 data.getNhsNumber(),
                 data.getFromAsid(),
                 data.getToAsid(),
                 data.getFromOdsCode(),
                 data.getToOdsCode(),
-                data.getMcciIN010000UK13creationTime()
+                data.getMcciIN010000UK13creationTime(),
+                data.getEhrExtractId()
         );
         var outboundMessage = new OutboundMessage(continueRequest);
         var request = requestBuilder.buildSendContinueRequest(data.getConversationId(), data.getToOdsCode(), outboundMessage);

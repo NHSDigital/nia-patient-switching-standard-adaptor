@@ -1,30 +1,32 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-import lombok.SneakyThrows;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import uk.nhs.adaptors.common.util.DateUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import lombok.SneakyThrows;
+import uk.nhs.adaptors.common.util.DateUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class ContinueRequestServiceTest {
     private static final String NHS_NUMBER = "9446363101";
-    private static final String CONVERSATION_ID = "6E242658-3D8E-11E3-A7DC-172BDA00FA67";
     private static final String LOSING_ODS_CODE = "B83002"; //to odds code
     private static final String WINNING_ODS_CODE = "C81007"; //from odds code
     private static final String TO_ASID = "715373337545";
     private static final String FROM_ASID = "276827251543";
     private static final String MCCI_IN010000UK13_CREATIONTIME = "20220407194614";
+    private static final String TEST_EHR_EXTRACT_ID = "TEST-EHR-EXTRACT-ID";
 
     @Mock
     private DateUtils dateUtils;
@@ -42,13 +44,13 @@ public class ContinueRequestServiceTest {
 
         String expected = readLargeInboundMessagePayloadFromFile();
         String actual = continueRequestService.buildContinueRequest(
-                CONVERSATION_ID,
                 NHS_NUMBER,
                 FROM_ASID,
                 TO_ASID,
                 LOSING_ODS_CODE,
                 WINNING_ODS_CODE,
-                MCCI_IN010000UK13_CREATIONTIME
+                MCCI_IN010000UK13_CREATIONTIME,
+                TEST_EHR_EXTRACT_ID
         );
 
         assertEquals(expected, actual);

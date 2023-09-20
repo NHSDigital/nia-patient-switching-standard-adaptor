@@ -23,26 +23,26 @@ public class ContinueRequestService {
     private final IdGeneratorService idGeneratorService;
 
     public String buildContinueRequest(
-             String conversationId,
              String nhsNumber,
              String fromAsid,
              String toAsid,
              String fromOdsCode,
              String toOdsCode,
-             String mcciIn010000UK13creationTime
+             String mcciIn010000UK13creationTime,
+             String ehrExtractId
     ) throws IOException {
         LOGGER.debug("Building ContinueRequest");
 
         SendContinueRequestParams params = SendContinueRequestParams.builder()
             .messageId(idGeneratorService.generateUuid().toLowerCase())
             .timestamp(DateFormatUtil.toHl7Format(dateUtils.getCurrentInstant()))
-            .conversationId(conversationId)
             .nhsNumber(nhsNumber)
             .toAsid(toAsid)
             .fromAsid(fromAsid)
             .fromOdsCode(fromOdsCode)
             .toOdsCode(toOdsCode)
             .mcciIN010000UK13creationTime(mcciIn010000UK13creationTime)
+            .ehrExtractId(ehrExtractId)
             .build();
 
         return fillTemplate(CONTINUE_REQUEST_FILE, params);
