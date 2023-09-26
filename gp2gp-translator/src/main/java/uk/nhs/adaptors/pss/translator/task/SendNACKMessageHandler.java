@@ -12,6 +12,7 @@ import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.service.ApplicationAcknowledgementMessageService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
 @Slf4j
@@ -22,16 +23,20 @@ public class SendNACKMessageHandler {
     private final MhsRequestBuilder requestBuilder;
     private final MhsClientService mhsClientService;
     private final ApplicationAcknowledgementMessageService messageService;
+    private final IdGeneratorService idGeneratorService;
 
     @SneakyThrows
     public boolean prepareAndSendMessage(NACKMessageData messageData) {
-        String ackMessage = messageService.buildNackMessage(messageData);
+        String messageId = idGeneratorService.generateUuid().toUpperCase();
+
+        String ackMessage = messageService.buildNackMessage(messageData, messageId);
         OutboundMessage outboundMessage = new OutboundMessage(ackMessage);
 
         var request = requestBuilder.buildSendACKRequest(
             messageData.getConversationId(),
             messageData.getToOdsCode(),
-            outboundMessage);
+            outboundMessage,
+            messageId);
 
         try {
 

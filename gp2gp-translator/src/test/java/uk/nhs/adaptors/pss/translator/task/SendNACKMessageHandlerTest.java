@@ -27,8 +27,9 @@ import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
-import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 import uk.nhs.adaptors.pss.translator.service.ApplicationAcknowledgementMessageService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
+import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
 @ExtendWith(MockitoExtension.class)
 public class SendNACKMessageHandlerTest {
@@ -39,6 +40,7 @@ public class SendNACKMessageHandlerTest {
     private static final String TEST_TO_ASID = "5678";
     private static final String TEST_FROM_ASID = "98765";
     private static final String TEST_NACK_CODE = "30";
+    private static final String TEST_MESSAGE_ID = "test-message-id";
 
     @Mock
     private MhsClientService mhsClientService;
@@ -51,6 +53,8 @@ public class SendNACKMessageHandlerTest {
 
     @Mock
     private WebClient.RequestHeadersSpec request;
+    @Mock
+    private IdGeneratorService idGeneratorService;
 
     @InjectMocks
     private SendNACKMessageHandler messageHandler;
@@ -68,7 +72,10 @@ public class SendNACKMessageHandlerTest {
             .nackCode(TEST_NACK_CODE)
             .build();
 
-        when(requestBuilder.buildSendACKRequest(eq(TEST_CONVERSATION_ID), eq(TEST_TO_ODS), any(OutboundMessage.class)))
+        when(idGeneratorService.generateUuid()).thenReturn(TEST_MESSAGE_ID);
+
+        when(requestBuilder.buildSendACKRequest(eq(TEST_CONVERSATION_ID), eq(TEST_TO_ODS), any(OutboundMessage.class),
+            eq(TEST_MESSAGE_ID.toUpperCase())))
             .thenReturn(request);
     }
 

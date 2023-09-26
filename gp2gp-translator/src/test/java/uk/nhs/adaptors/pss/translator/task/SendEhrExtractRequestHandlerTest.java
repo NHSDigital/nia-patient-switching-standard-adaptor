@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.task;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,12 +22,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.common.enums.MigrationStatus;
+import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.service.EhrExtractRequestService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,6 +37,7 @@ public class SendEhrExtractRequestHandlerTest {
     private static final String TEST_TO_ODS_CODE = "TEST_FROM_ODS";
     private static final String TEST_PAYLOAD_BODY = "TEST_PAYLOAD_BODY";
     private static final String CONVERSATION_ID = "abc-236";
+    private static final String TEST_MESSAGE_ID = "message-id";
 
     @Mock
     private MhsRequestBuilder builder;
@@ -50,6 +53,8 @@ public class SendEhrExtractRequestHandlerTest {
 
     @Mock
     private MhsClientService mhsClientService;
+    @Mock
+    private IdGeneratorService idGeneratorService;
 
     @InjectMocks
     private SendEhrExtractRequestHandler sendEhrExtractRequestHandler;
@@ -64,8 +69,12 @@ public class SendEhrExtractRequestHandlerTest {
             .toOds(TEST_TO_ODS_CODE)
             .conversationId(CONVERSATION_ID)
             .build();
-        when(ehrExtractRequestService.buildEhrExtractRequest(pssQueueMessage)).thenReturn(TEST_PAYLOAD_BODY);
-        when(builder.buildSendEhrExtractRequest(eq(CONVERSATION_ID), eq(TEST_TO_ODS_CODE), any(OutboundMessage.class)))
+
+        when(idGeneratorService.generateUuid()).thenReturn(TEST_MESSAGE_ID);
+
+        when(ehrExtractRequestService.buildEhrExtractRequest(eq(pssQueueMessage), anyString())).thenReturn(TEST_PAYLOAD_BODY);
+        when(builder.buildSendEhrExtractRequest(eq(CONVERSATION_ID), eq(TEST_TO_ODS_CODE), any(OutboundMessage.class),
+            eq(TEST_MESSAGE_ID.toUpperCase())))
             .thenReturn(request);
     }
 

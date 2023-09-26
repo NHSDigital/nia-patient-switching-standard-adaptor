@@ -43,9 +43,6 @@ public class ApplicationAcknowledgementMessageServiceTest {
     @Mock
     private DateUtils dateUtils;
 
-    @Mock
-    private IdGeneratorService idGeneratorService;
-
     @InjectMocks
     private ApplicationAcknowledgementMessageService messageService;
 
@@ -55,7 +52,6 @@ public class ApplicationAcknowledgementMessageServiceTest {
     public void setup() {
         Instant instant = Instant.now();
         when(dateUtils.getCurrentInstant()).thenReturn(instant);
-        when(idGeneratorService.generateUuid()).thenReturn(MESSAGE_ID);
 
         messageData = NACKMessageData.builder()
             .conversationId(TEST_CONVERSATION_ID)
@@ -69,35 +65,35 @@ public class ApplicationAcknowledgementMessageServiceTest {
 
     @Test
     public void When_BuildNackMessage_WithValidTestData_Expect_NackCodeIsSetCorrectly() {
-        String nackMessage = messageService.buildNackMessage(messageData);
+        String nackMessage = messageService.buildNackMessage(messageData, MESSAGE_ID);
 
         assertTrue(nackMessage.contains(NACK_CODE));
     }
 
     @Test
     public void When_BuildNackMessage_WithValidTestData_Expect_MessageIdIsSetCorrectly() {
-        String nackMessage = messageService.buildNackMessage(messageData);
+        String nackMessage = messageService.buildNackMessage(messageData, MESSAGE_ID);
 
         assertTrue(nackMessage.contains(MESSAGE_ID));
     }
 
     @Test
     public void When_BuildNackMessage_WithValidTestData_Expect_MessageRefIsSetCorrectly() {
-        String nackMessage = messageService.buildNackMessage(messageData);
+        String nackMessage = messageService.buildNackMessage(messageData, MESSAGE_ID);
 
         assertTrue(nackMessage.contains(MESSAGE_REF));
     }
 
     @Test
     public void When_BuildNackMessage_WithValidTestData_Expect_ToAsidIsSetCorrectly() {
-        String nackMessage = messageService.buildNackMessage(messageData);
+        String nackMessage = messageService.buildNackMessage(messageData, MESSAGE_ID);
 
         assertTrue(nackMessage.contains(TEST_TO_ASID));
     }
 
     @Test
     public void When_NackMessage_WithTestData_Expect_FromAsidIsSetCorrectly() {
-        String nackMessage = messageService.buildNackMessage(messageData);
+        String nackMessage = messageService.buildNackMessage(messageData, MESSAGE_ID);
 
         assertTrue(nackMessage.contains(TEST_FROM_ASID));
     }
@@ -107,14 +103,14 @@ public class ApplicationAcknowledgementMessageServiceTest {
         Instant instant = Instant.now();
         when(dateUtils.getCurrentInstant()).thenReturn(instant);
 
-        String nackMessage = messageService.buildNackMessage(messageData);
+        String nackMessage = messageService.buildNackMessage(messageData, MESSAGE_ID);
 
         assertTrue(nackMessage.contains(toHl7Format(instant)));
     }
 
     @Test
     public void When_NackMessage_WithNackCodePresent_Expect_TypeCodeSetCorrectly() {
-        String nackMessage = messageService.buildNackMessage(messageData);
+        String nackMessage = messageService.buildNackMessage(messageData, MESSAGE_ID);
 
         assertTrue(nackMessage.contains("typeCode=\"AE\""));
         assertFalse(nackMessage.contains("typeCode=\"AA\""));
@@ -123,7 +119,7 @@ public class ApplicationAcknowledgementMessageServiceTest {
     @Test
     public void When_BuildNackMessage_WithNackCodePresent_Expect_ReasonElementIncluded() throws ParserConfigurationException, IOException,
         SAXException {
-        String nackMessage = messageService.buildNackMessage(messageData);
+        String nackMessage = messageService.buildNackMessage(messageData, MESSAGE_ID);
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -136,7 +132,7 @@ public class ApplicationAcknowledgementMessageServiceTest {
     @Test
     public void When_BuildNackMessage_WithNackCodePresent_Expect_ReasonHasCorrectAttribute() throws ParserConfigurationException,
         IOException, SAXException {
-        String nackMessage = messageService.buildNackMessage(messageData);
+        String nackMessage = messageService.buildNackMessage(messageData, MESSAGE_ID);
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();

@@ -3,6 +3,8 @@ package uk.nhs.adaptors.pss.translator.task;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +18,7 @@ import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.service.ContinueRequestService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -39,6 +42,7 @@ public class SendContinueRequestHandlerTest {
     private static final String TO_ASID = "715373337545";
     private static final String FROM_ASID = "276827251543";
     private static final String MCCI_IN010000UK13_CREATIONTIME = "20220407194614";
+    private static final String MESSAGE_ID = "message-id";
 
     @Mock
     private MhsRequestBuilder requestBuilder;
@@ -57,9 +61,16 @@ public class SendContinueRequestHandlerTest {
 
     @Mock
     private HttpHeaders headers;
+    @Mock
+    private IdGeneratorService idGeneratorService;
 
     @InjectMocks
     private SendContinueRequestHandler sendContinueRequestHandler;
+
+    @BeforeEach
+    public void setup() {
+        when(idGeneratorService.generateUuid()).thenReturn(MESSAGE_ID);
+    }
 
     @Test
     public void When_PrepareAndSendRequest_ToMhsAndGetError_Expect_ThrowError() {

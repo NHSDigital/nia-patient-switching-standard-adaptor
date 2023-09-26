@@ -17,22 +17,21 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.util.DateUtils;
+import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 
 @ExtendWith(MockitoExtension.class)
 public class ContinueRequestServiceTest {
     private static final String NHS_NUMBER = "9446363101";
-    private static final String LOSING_ODS_CODE = "B83002"; //to odds code
-    private static final String WINNING_ODS_CODE = "C81007"; //from odds code
+    private static final String LOSING_ODS_CODE = "C81007";
+    private static final String WINNING_ODS_CODE = "B83002";
     private static final String TO_ASID = "715373337545";
     private static final String FROM_ASID = "276827251543";
     private static final String MCCI_IN010000UK13_CREATIONTIME = "20220407194614";
     private static final String TEST_EHR_EXTRACT_ID = "TEST-EHR-EXTRACT-ID";
+    private static final String MESSAGE_ID = "c258107f-7a3f-4fb5-8b36-d7c0f6496a17";
 
     @Mock
     private DateUtils dateUtils;
-
-    @Mock
-    private IdGeneratorService idGeneratorService;
 
     @InjectMocks
     private ContinueRequestService continueRequestService;
@@ -42,23 +41,24 @@ public class ContinueRequestServiceTest {
             throws IOException {
         prepareMocks();
 
+        var continueMessageData = ContinueRequestData.builder()
+            .nhsNumber(NHS_NUMBER)
+            .fromAsid(FROM_ASID)
+            .toAsid(TO_ASID)
+            .toOdsCode(LOSING_ODS_CODE)
+            .fromOdsCode(WINNING_ODS_CODE)
+            .mcciIN010000UK13creationTime(MCCI_IN010000UK13_CREATIONTIME)
+            .ehrExtractId(TEST_EHR_EXTRACT_ID)
+            .build();
+
         String expected = readLargeInboundMessagePayloadFromFile();
-        String actual = continueRequestService.buildContinueRequest(
-                NHS_NUMBER,
-                FROM_ASID,
-                TO_ASID,
-                LOSING_ODS_CODE,
-                WINNING_ODS_CODE,
-                MCCI_IN010000UK13_CREATIONTIME,
-                TEST_EHR_EXTRACT_ID
-        );
+        String actual = continueRequestService.buildContinueRequest(continueMessageData, MESSAGE_ID);
 
         assertEquals(expected, actual);
     }
 
     @SneakyThrows
     private void prepareMocks() {
-        when(idGeneratorService.generateUuid()).thenReturn("C258107F-7A3F-4FB5-8B36-D7C0F6496A17");
 
         final int YEAR = 1980;
         final int MONTH = 4;
