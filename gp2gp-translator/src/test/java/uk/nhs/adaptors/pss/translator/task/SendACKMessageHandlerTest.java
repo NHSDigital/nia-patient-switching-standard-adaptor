@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -109,5 +110,12 @@ public class SendACKMessageHandlerTest {
 
         assertThatThrownBy(() -> messageHandler.prepareAndSendMessage(messageData))
             .isInstanceOf(MhsServerErrorException.class);
+    }
+
+    @Test
+    public void When_PrepareAndSendRequest_Expect_MessageBuilderCalledWithCorrectParams() {
+        messageHandler.prepareAndSendMessage(messageData);
+
+        verify(messageService).buildAckMessage(eq(messageData), eq(TEST_MESSAGE_ID.toUpperCase()));
     }
 }

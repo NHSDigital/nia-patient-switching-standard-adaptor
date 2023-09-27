@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.task;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -72,7 +71,8 @@ public class SendEhrExtractRequestHandlerTest {
 
         when(idGeneratorService.generateUuid()).thenReturn(TEST_MESSAGE_ID);
 
-        when(ehrExtractRequestService.buildEhrExtractRequest(eq(pssQueueMessage), anyString())).thenReturn(TEST_PAYLOAD_BODY);
+        when(ehrExtractRequestService.buildEhrExtractRequest(eq(pssQueueMessage), eq(TEST_MESSAGE_ID.toUpperCase())))
+            .thenReturn(TEST_PAYLOAD_BODY);
         when(builder.buildSendEhrExtractRequest(eq(CONVERSATION_ID), eq(TEST_TO_ODS_CODE), any(OutboundMessage.class),
             eq(TEST_MESSAGE_ID.toUpperCase())))
             .thenReturn(request);

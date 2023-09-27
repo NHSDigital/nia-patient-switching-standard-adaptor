@@ -44,7 +44,6 @@ public class MhsRequestBuilder {
         return buildSendRequest(conversationId, toOdsCode, outboundMessage, MHS_OUTBOUND_EXTRACT_CORE_INTERACTION_ID, messageId);
     }
 
-    // TODO: this method is related to the large messaging epic and can be used during implementation of NIAD-2045
     public WebClient.RequestHeadersSpec<?> buildSendContinueRequest(
         String conversationId, String toOdsCode, OutboundMessage outboundMessage, String messageId) {
         return buildSendRequest(conversationId, toOdsCode, outboundMessage, MHS_OUTBOUND_COMMON_INTERACTION_ID, messageId);
