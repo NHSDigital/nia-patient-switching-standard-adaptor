@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UK07Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -83,7 +84,7 @@ public class EhrExtractMessageHandler {
         ParseException,
         SAXException, TransformerException, UnsupportedFileTypeException {
 
-        RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UK07Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK07Message.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
         MigrationStatusLog migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
 
@@ -188,7 +189,7 @@ public class EhrExtractMessageHandler {
         var attachments = patientAttachmentLogService.findAttachmentLogs(conversationId);
 
         // now we have the transformed payload, lets create our bundle
-        var payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+        var payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK07Message.class);
         var bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode(), attachments);
 
         // update the db migration request
@@ -234,6 +235,39 @@ public class EhrExtractMessageHandler {
             migrationRequest.getWinningPracticeOdsCode(),
             migrationStatusLog.getDate().toInstant()
         );
+    }
+
+    private void processExternalAttachmentsAndSendContinueMessage(InboundMessage inboundMessage,
+                                                                  PatientMigrationRequest migrationRequest, MigrationStatusLog migrationStatusLog,
+                                                                  RCMRIN030000UK07Message payload, String conversationId, String messageId)
+        throws ParseException, JsonProcessingException {
+
+        for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
+            PatientAttachmentLog patientAttachmentLog;
+
+            if (patientAttachmentLogService.findAttachmentLog(externalAttachment.getMessageId(), conversationId) == null) {
+                //save COPC_UK01 messages
+                patientAttachmentLog = buildPatientAttachmentLogFromExternalAttachment(migrationRequest, externalAttachment);
+                patientAttachmentLogService.addAttachmentLog(patientAttachmentLog);
+            }
+        }
+
+        migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
+            conversationId,
+            null,
+            objectMapper.writeValueAsString(inboundMessage),
+            EHR_EXTRACT_PROCESSING,
+            messageId
+                                                                                       );
+
+        String patientNhsNumber = XmlParseUtilService.parseNhsNumber(payload);
+        sendContinueRequest(
+            payload,
+            conversationId,
+            patientNhsNumber,
+            migrationRequest.getWinningPracticeOdsCode(),
+            migrationStatusLog.getDate().toInstant()
+                           );
     }
 
     // Parent MID should be null against an EHR message so that they are not detected in the merge process
@@ -312,6 +346,18 @@ public class EhrExtractMessageHandler {
         );
     }
 
+    public void sendContinueRequest(
+        RCMRIN030000UK07Message payload,
+        String conversationId,
+        String patientNhsNumber,
+        String winningPracticeOdsCode,
+        Instant mcciIN010000UK13creationTime
+                                   ) {
+        sendContinueRequestHandler.prepareAndSendRequest(
+            prepareContinueRequestData(payload, conversationId, patientNhsNumber, winningPracticeOdsCode, mcciIN010000UK13creationTime)
+                                                        );
+    }
+
     private ContinueRequestData prepareContinueRequestData(
         RCMRIN030000UK06Message payload,
         String conversationId,
@@ -319,6 +365,29 @@ public class EhrExtractMessageHandler {
         String winningPracticeOdsCode,
         Instant mcciIN010000UK13creationTime
     ) {
+        var fromAsid = XmlParseUtilService.parseFromAsid(payload);
+        var toAsid = XmlParseUtilService.parseToAsid(payload);
+        var toOdsCode = XmlParseUtilService.parseToOdsCode(payload);
+        var mcciIN010000UK13creationTimeToHl7Format = DateFormatUtil.toHl7Format(mcciIN010000UK13creationTime);
+
+        return ContinueRequestData.builder()
+            .conversationId(conversationId)
+            .nhsNumber(patientNhsNumber)
+            .fromAsid(fromAsid)
+            .toAsid(toAsid)
+            .toOdsCode(toOdsCode)
+            .fromOdsCode(winningPracticeOdsCode)
+            .mcciIN010000UK13creationTime(mcciIN010000UK13creationTimeToHl7Format)
+            .build();
+    }
+
+    private ContinueRequestData prepareContinueRequestData(
+        RCMRIN030000UK07Message payload,
+        String conversationId,
+        String patientNhsNumber,
+        String winningPracticeOdsCode,
+        Instant mcciIN010000UK13creationTime
+                                                          ) {
         var fromAsid = XmlParseUtilService.parseFromAsid(payload);
         var toAsid = XmlParseUtilService.parseToAsid(payload);
         var toOdsCode = XmlParseUtilService.parseToOdsCode(payload);

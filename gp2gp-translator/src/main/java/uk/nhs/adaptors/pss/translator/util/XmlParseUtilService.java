@@ -16,6 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UK07Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -85,6 +86,17 @@ public class XmlParseUtilService {
     }
 
     public static String parseNhsNumber(RCMRIN030000UK06Message payload) {
+        return payload
+            .getControlActEvent()
+            .getSubject()
+            .getEhrExtract()
+            .getRecordTarget()
+            .getPatient()
+            .getId()
+            .getExtension();
+    }
+
+    public static String parseNhsNumber(RCMRIN030000UK07Message payload) {
         return payload
             .getControlActEvent()
             .getSubject()
@@ -194,12 +206,29 @@ public class XmlParseUtilService {
                 .getExtension();
     }
 
+    public static String parseFromAsid(RCMRIN030000UK07Message payload) {
+        return payload.getCommunicationFunctionRcv()
+            .get(0)
+            .getDevice()
+            .getId()
+            .get(0)
+            .getExtension();
+    }
+
     public static String parseToAsid(RCMRIN030000UK06Message payload) {
         return payload.getCommunicationFunctionSnd()
                 .getDevice()
                 .getId()
                 .get(0)
                 .getExtension();
+    }
+
+    public static String parseToAsid(RCMRIN030000UK07Message payload) {
+        return payload.getCommunicationFunctionSnd()
+            .getDevice()
+            .getId()
+            .get(0)
+            .getExtension();
     }
 
     public static String parseToOdsCode(RCMRIN030000UK06Message payload) {
@@ -213,7 +242,22 @@ public class XmlParseUtilService {
                 .getExtension();
     }
 
+    public static String parseToOdsCode(RCMRIN030000UK07Message payload) {
+        return payload.getControlActEvent()
+            .getSubject()
+            .getEhrExtract()
+            .getAuthor()
+            .getAgentOrgSDS()
+            .getAgentOrganizationSDS()
+            .getId()
+            .getExtension();
+    }
+
     public static String parseMessageRef(RCMRIN030000UK06Message payload) {
+        return payload.getId().getRoot();
+    }
+
+    public static String parseMessageRef(RCMRIN030000UK07Message payload) {
         return payload.getId().getRoot();
     }
 

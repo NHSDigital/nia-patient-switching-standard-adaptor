@@ -541,8 +541,8 @@ public class EhrExtractMessageHandlerTest {
     @Test
     public void When_HandleLargeMessageWithValidDataIsCalled_Expect_ItShouldNotTranslate()
         throws JAXBException, BundleMappingException, AttachmentNotFoundException,
-        ParseException, JsonProcessingException, InlineAttachmentProcessingException,
-        SAXException, TransformerException, UnsupportedFileTypeException {
+               ParseException, JsonProcessingException, InlineAttachmentProcessingException,
+               SAXException, TransformerException, UnsupportedFileTypeException, InstantiationException, IllegalAccessException {
 
         Bundle bundle = new Bundle();
         bundle.setId("Test");
@@ -565,7 +565,7 @@ public class EhrExtractMessageHandlerTest {
         prepareMigrationRequestAndMigrationStatusMocks();
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-        verify(bundleMapperService, times(0)).mapToBundle(any(), any(), any());
+        verify(bundleMapperService, times(0)).mapToBundle(RCMRIN030000UK06Message.class.newInstance(), any(), any());
     }
 
     @Test
