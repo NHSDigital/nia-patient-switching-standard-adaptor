@@ -11,7 +11,6 @@
    <xs:include schemaLocation="UKCT_MT121001UK01.xsd"/>
    <xs:include schemaLocation="MCCI_MT010101UK12.xsd"/>
    <xs:include schemaLocation="MCAI_MT040101UK03.xsd"/>
-   <xs:include schemaLocation="RCMR_MT030101UK04.xsd"/>
    <xs:include schemaLocation="RCMR_MT030101UK05.xsd"/>
    <xs:element name="RCMR_IN030000UK07" type="RCMR_IN030000UK07.Message"/>
    <xs:complexType name="RCMR_IN030000UK07.Message">
