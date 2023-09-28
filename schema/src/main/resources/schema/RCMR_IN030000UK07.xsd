@@ -12,6 +12,7 @@
    <xs:include schemaLocation="MCCI_MT010101UK12.xsd"/>
    <xs:include schemaLocation="MCAI_MT040101UK03.xsd"/>
    <xs:include schemaLocation="RCMR_MT030101UK04.xsd"/>
+   <xs:include schemaLocation="RCMR_MT030101UK05.xsd"/>
    <xs:element name="RCMR_IN030000UK07" type="RCMR_IN030000UK07.Message"/>
    <xs:complexType name="RCMR_IN030000UK07.Message">
       <xs:sequence>
@@ -131,7 +132,7 @@
       
    <xs:complexType name="RCMR_IN030000UK07.Subject">
       <xs:sequence>
-         <xs:element name="EhrExtract" type="RCMR_MT030101UK04.EhrExtract"/>
+         <xs:element name="EhrExtract" type="RCMR_MT030101UK05.EhrExtract"/>
       </xs:sequence>
       <xs:attribute name="type" type="Classes" default="ActRelationship"/>
       <xs:attribute name="typeCode" type="ActRelationshipType" use="optional" default="SUBJ"/>
