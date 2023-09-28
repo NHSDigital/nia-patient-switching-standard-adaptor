@@ -9,6 +9,4 @@ import lombok.Setter;
 @Builder
 public class ImmunizationSnomedCT {
     private String conceptId;
-    private String description;
-    private String safetyCode;
 }
