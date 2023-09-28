@@ -59,7 +59,7 @@ pipeline {
                                         docker-compose -f docker/docker-compose.yml up -d ps_db
                                         docker-compose -f docker/docker-compose.yml up db_migration
                                         aws s3 cp s3://snomed-schema/uk_sct2mo_36.0.0_20230412000001Z.zip ./snomed-database-loader/uk_sct2mo_36.0.0_20230412000001Z.zip
-                                        docker-compose -f docker/docker-compose.yml up snomed_schema
+                                        docker-compose -f docker/docker-compose.yml run snomed_schema uk_sct2mo_36.0.0_20230412000001Z.zip
                                         docker-compose -f docker/docker-compose.yml up snomed_immunization
                                     '''
                                 }
