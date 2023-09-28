@@ -14,6 +14,7 @@ import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.service.ContinueRequestService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
 @Slf4j
@@ -24,20 +25,17 @@ public class SendContinueRequestHandler {
     private final MhsClientService mhsClientService;
     private final MigrationStatusLogService migrationStatusLogService;
     private final ContinueRequestService continueRequestService;
+    private final IdGeneratorService idGeneratorService;
 
     @SneakyThrows
     public void prepareAndSendRequest(ContinueRequestData data) {
-        String continueRequest = continueRequestService.buildContinueRequest(
-                data.getConversationId(),
-                data.getNhsNumber(),
-                data.getFromAsid(),
-                data.getToAsid(),
-                data.getFromOdsCode(),
-                data.getToOdsCode(),
-                data.getMcciIN010000UK13creationTime()
-        );
+
+        String messageId = idGeneratorService.generateUuid().toUpperCase();
+
+        String continueRequest = continueRequestService.buildContinueRequest(data, messageId);
         var outboundMessage = new OutboundMessage(continueRequest);
-        var request = requestBuilder.buildSendContinueRequest(data.getConversationId(), data.getToOdsCode(), outboundMessage);
+        var request = requestBuilder.buildSendContinueRequest(
+            data.getConversationId(), data.getToOdsCode(), outboundMessage, messageId);
 
         try {
             mhsClientService.send(request);

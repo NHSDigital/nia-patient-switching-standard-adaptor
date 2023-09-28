@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<COPC_IN000001UK01 xmlns="urn:hl7-org:v3">
+<COPC_IN000001UK01 xmlns="urn:hl7-org:v3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <id root="c258107f-7a3f-4fb5-8b36-d7c0f6496a17"/>
     <creationTime value="19800409141545"/>
     <versionCode code="V3NPfIT3.0"/>
@@ -7,20 +7,20 @@
     <processingCode code="P"/>
     <processingModeCode code="T"/>
     <acceptAckCode code="NE"/>
-    <communicationFunctionRcv>
-        <device>
+    <communicationFunctionRcv typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
             <id extension="715373337545" root="1.2.826.0.1285.0.2.0.107"/>
         </device>
     </communicationFunctionRcv>
-    <communicationFunctionSnd>
-        <device>
+    <communicationFunctionSnd typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
             <id extension="276827251543" root="1.2.826.0.1285.0.2.0.107"/>
         </device>
     </communicationFunctionSnd>
     <ControlActEvent classCode="CACT" moodCode="EVN">
-        <author1>
-            <AgentSystemSDS>
-                <agentSystemSDS>
+        <author1 typeCode="AUT">
+            <AgentSystemSDS classCode="AGNT">
+                <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
                     <id extension="276827251543" root="1.2.826.0.1285.0.2.0.107"/>
                 </agentSystemSDS>
             </AgentSystemSDS>
@@ -62,22 +62,22 @@
                                             <code code="0" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.101" displayName="Continue"/>
                                         </acknowledgementDetail>
                                         <messageRef>
-                                            <id root="6E242658-3D8E-11E3-A7DC-172BDA00FA67"/>
+                                            <id root="TEST-EHR-EXTRACT-ID"/>
                                         </messageRef>
                                     </acknowledgement>
-                                    <communicationFunctionRcv>
-                                        <device>
+                                    <communicationFunctionRcv typecode="RCV">
+                                        <device classCode="DEV" determinerCode="INSTANCE">
                                             <id extension="715373337545" root="1.2.826.0.1285.0.2.0.107"/>
                                         </device>
                                     </communicationFunctionRcv>
-                                    <communicationFunctionSnd>
-                                        <device>
+                                    <communicationFunctionSnd typeCode="SND">
+                                        <device classCode="DEV" determinerCode="INSTANCE">
                                             <id extension="276827251543" root="1.2.826.0.1285.0.2.0.107"/>
                                         </device>
                                     </communicationFunctionSnd>
                                 </Message>
                                 <gp:acknowledgedMessage>
-                                    <gp:id root="6E242658-3D8E-11E3-A7DC-172BDA00FA67"/>
+                                    <gp:id root="TEST-EHR-EXTRACT-ID"/>
                                 </gp:acknowledgedMessage>
                             </gp:Gp2gpfragment>
                         </value>

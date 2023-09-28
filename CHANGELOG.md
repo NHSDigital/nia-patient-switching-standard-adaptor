@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+* Fix issue where continue message was not accepted by EMIS. 
 
 ## [0.13] - 2023-09-13
 

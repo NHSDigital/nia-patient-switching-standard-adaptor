@@ -13,4 +13,5 @@ public class ContinueRequestData {
     private String fromOdsCode;
     private String conversationId;
     private String mcciIN010000UK13creationTime;
+    private String ehrExtractId;
 }

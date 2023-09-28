@@ -25,11 +25,11 @@ public class EhrExtractRequestService {
     private final DateUtils dateUtils;
     private final IdGeneratorService idGeneratorService;
 
-    public String buildEhrExtractRequest(TransferRequestMessage transferRequestMessage) {
+    public String buildEhrExtractRequest(TransferRequestMessage transferRequestMessage, String messageId) {
         LOGGER.debug("Building EHRExtractRequest with nhsNumber=[{}]", transferRequestMessage.getPatientNhsNumber());
 
         SendEhrExtractRequestParams params = SendEhrExtractRequestParams.builder()
-            .messageId(idGeneratorService.generateUuid())
+            .messageId(messageId)
             .timestamp(toHl7Format(dateUtils.getCurrentInstant()))
             .toAsid(transferRequestMessage.getToAsid())
             .fromAsid(transferRequestMessage.getFromAsid())

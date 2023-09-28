@@ -1,5 +1,18 @@
 package uk.nhs.adaptors.pss.translator.task;
 
+import static java.util.UUID.randomUUID;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
+import java.nio.charset.Charset;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,19 +29,8 @@ import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
 import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.service.ApplicationAcknowledgementMessageService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
-
-import java.nio.charset.Charset;
-
-import static java.util.UUID.randomUUID;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @ExtendWith(MockitoExtension.class)
 public class SendACKMessageHandlerTest {
@@ -38,6 +40,7 @@ public class SendACKMessageHandlerTest {
     private static final String TEST_TO_ODS = "1234";
     private static final String TEST_TO_ASID = "5678";
     private static final String TEST_FROM_ASID = "98765";
+    private static final String TEST_MESSAGE_ID = "test-message-id";
 
     @Mock
     private MhsClientService mhsClientService;
@@ -50,6 +53,8 @@ public class SendACKMessageHandlerTest {
 
     @Mock
     private WebClient.RequestHeadersSpec request;
+    @Mock
+    private IdGeneratorService idGeneratorService;
 
     @InjectMocks
     private SendACKMessageHandler messageHandler;
@@ -66,7 +71,10 @@ public class SendACKMessageHandlerTest {
             .fromAsid(TEST_FROM_ASID)
             .build();
 
-        when(requestBuilder.buildSendACKRequest(eq(TEST_CONVERSATION_ID), eq(TEST_TO_ODS), any(OutboundMessage.class)))
+        when(idGeneratorService.generateUuid()).thenReturn(TEST_MESSAGE_ID);
+
+        when(requestBuilder.buildSendACKRequest(eq(TEST_CONVERSATION_ID), eq(TEST_TO_ODS), any(OutboundMessage.class),
+            eq(TEST_MESSAGE_ID.toUpperCase())))
             .thenReturn(request);
     }
 
@@ -102,5 +110,12 @@ public class SendACKMessageHandlerTest {
 
         assertThatThrownBy(() -> messageHandler.prepareAndSendMessage(messageData))
             .isInstanceOf(MhsServerErrorException.class);
+    }
+
+    @Test
+    public void When_PrepareAndSendRequest_Expect_MessageBuilderCalledWithCorrectParams() {
+        messageHandler.prepareAndSendMessage(messageData);
+
+        verify(messageService).buildAckMessage(eq(messageData), eq(TEST_MESSAGE_ID.toUpperCase()));
     }
 }

@@ -37,7 +37,7 @@ public class EhrExtractRequestServiceTest {
     public void whenBuildEhrExtractRequestThenTemplateIsFilled() {
         var instant = Instant.now();
         when(dateUtils.getCurrentInstant()).thenReturn(instant);
-        when(idGeneratorService.generateUuid()).thenReturn(MESSAGE_ID, EHR_REQUEST_ID);
+        when(idGeneratorService.generateUuid()).thenReturn(EHR_REQUEST_ID);
         var message = TransferRequestMessage.builder()
             .patientNhsNumber(TEST_NHS_NUMBER)
             .fromAsid(TEST_FROM_ASID)
@@ -46,7 +46,7 @@ public class EhrExtractRequestServiceTest {
             .toOds(TEST_TO_ODS_CODE)
             .build();
 
-        final var ehrExtractRequest = ehrExtractRequestService.buildEhrExtractRequest(message);
+        final var ehrExtractRequest = ehrExtractRequestService.buildEhrExtractRequest(message, MESSAGE_ID);
         assertTrue(ehrExtractRequest.contains(TEST_NHS_NUMBER));
         assertTrue(ehrExtractRequest.contains(TEST_FROM_ODS_CODE));
         assertTrue(ehrExtractRequest.contains(TEST_TO_ODS_CODE));

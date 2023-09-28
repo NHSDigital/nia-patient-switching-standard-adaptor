@@ -27,14 +27,13 @@ public class ApplicationAcknowledgementMessageService {
         loadTemplate("applicationAcknowledgementTemplate.mustache");
 
     private final DateUtils dateUtils;
-    private final IdGeneratorService idGeneratorService;
 
-    public String buildNackMessage(NACKMessageData messageData) throws IllegalArgumentException {
+    public String buildNackMessage(NACKMessageData messageData, String messageId) throws IllegalArgumentException {
 
         LOGGER.debug("Building NACK message for message = [{}]", messageData.getMessageRef());
 
         ApplicationAcknowledgmentParams params = ApplicationAcknowledgmentParams.builder()
-            .messageId(idGeneratorService.generateUuid())
+            .messageId(messageId)
             .creationTime(toHl7Format(dateUtils.getCurrentInstant()))
             .toAsid(messageData.getToAsid())
             .fromAsid(messageData.getFromAsid())
@@ -45,12 +44,12 @@ public class ApplicationAcknowledgementMessageService {
         return fillTemplate(NACK_MESSAGE_TEMPLATE, params);
     }
 
-    public String buildAckMessage(ACKMessageData messageData) throws IllegalArgumentException {
+    public String buildAckMessage(ACKMessageData messageData, String messageId) throws IllegalArgumentException {
 
         LOGGER.debug("Building ACK message for message = [{}]", messageData.getMessageRef());
 
         ApplicationAcknowledgmentParams params = ApplicationAcknowledgmentParams.builder()
-            .messageId(idGeneratorService.generateUuid())
+            .messageId(messageId)
             .creationTime(toHl7Format(dateUtils.getCurrentInstant()))
             .toAsid(messageData.getToAsid())
             .fromAsid(messageData.getFromAsid())

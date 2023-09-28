@@ -34,29 +34,29 @@ public class MhsRequestBuilder {
     private static final String WAIT_FOR_RESPONSE = "wait-for-response";
     private static final String FALSE = "false";
     private static final String CONTENT_TYPE = "Content-type";
+    private static final String MESSAGE_ID = "Message-Id";
 
     private final RequestBuilderService requestBuilderService;
     private final MhsOutboundConfiguration mhsOutboundConfiguration;
 
     public WebClient.RequestHeadersSpec<?> buildSendEhrExtractRequest(
-        String conversationId, String toOdsCode, OutboundMessage outboundMessage) {
-        return buildSendRequest(conversationId, toOdsCode, outboundMessage, MHS_OUTBOUND_EXTRACT_CORE_INTERACTION_ID);
+        String conversationId, String toOdsCode, OutboundMessage outboundMessage, String messageId) {
+        return buildSendRequest(conversationId, toOdsCode, outboundMessage, MHS_OUTBOUND_EXTRACT_CORE_INTERACTION_ID, messageId);
     }
 
-    // TODO: this method is related to the large messaging epic and can be used during implementation of NIAD-2045
     public WebClient.RequestHeadersSpec<?> buildSendContinueRequest(
-        String conversationId, String toOdsCode, OutboundMessage outboundMessage) {
-        return buildSendRequest(conversationId, toOdsCode, outboundMessage, MHS_OUTBOUND_COMMON_INTERACTION_ID);
+        String conversationId, String toOdsCode, OutboundMessage outboundMessage, String messageId) {
+        return buildSendRequest(conversationId, toOdsCode, outboundMessage, MHS_OUTBOUND_COMMON_INTERACTION_ID, messageId);
     }
 
     public WebClient.RequestHeadersSpec<?> buildSendACKRequest(
-            String conversationId, String toOdsCode, OutboundMessage outboundMessage) {
+            String conversationId, String toOdsCode, OutboundMessage outboundMessage, String messageId) {
         return buildSendRequest(conversationId, toOdsCode, outboundMessage,
-                MHS_OUTBOUND_APPLICATION_ACKNOWLEDGMENT_INTERACTION_ID);
+                MHS_OUTBOUND_APPLICATION_ACKNOWLEDGMENT_INTERACTION_ID, messageId);
     }
 
     private WebClient.RequestHeadersSpec<?> buildSendRequest(
-        String conversationId, String toOdsCode, OutboundMessage outboundMessage, String interactionId) {
+        String conversationId, String toOdsCode, OutboundMessage outboundMessage, String interactionId, String messageId) {
         SslContext sslContext = requestBuilderService.buildSSLContext();
         HttpClient httpClient = HttpClient.create().secure(t -> t.sslContext(sslContext));
         WebClient client = buildWebClient(httpClient);
@@ -72,6 +72,7 @@ public class MhsRequestBuilder {
             .header(INTERACTION_ID, interactionId)
             .header(WAIT_FOR_RESPONSE, FALSE)
             .header(CORRELATION_ID, conversationId)
+            .header(MESSAGE_ID, messageId)
             .body(bodyInserter);
     }
 
