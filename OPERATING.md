@@ -22,6 +22,59 @@ yyyy-mm-dd HH:mm:ss.SSS Level=DEBUG Logger=u.n.a.p.t.s.BundleMapperService Conve
 
 ## Database requirements
 
+* The adaptor requires a [PostgreSQL] database
+* The adaptor stores the identifiers, status, and metadata for each patient transfer
+* The adaptor uses the database as a source of SNOMED information
+* Deleting the database, or its records will cause any in-progress transfers to fail
+* The database can be used to monitor for any failed or incomplete transfers
+
+[PostgreSQL]: https://www.postgresql.org/
+
+### Updating the application schema
+
+The adaptor uses Liquibase to perform DB migrations.
+New versions of the Adaptor may require DB changes, which will necessitate the execution of the migration script before the new version of the application can be executed.
+
+The DB migrations is build as a Docker image, hosted on DockerHub under [nhsdev/nia-ps-db-migration](https://hub.docker.com/r/nhsdev/nia-ps-db-migration).
+
+Required environment variables:
+
+- POSTGRES_PASSWORD e.g. super5ecret
+- PS_DB_OWNER_NAME e.g. postgres
+- PS_DB_URL e.g. jdbc:postgresql://hostname:port
+- GPC_FACADE_USER_DB_PASSWORD e.g. another5ecret, used when creating the user `gpc_user`
+- GP2GP_TRANSLATOR_USER_DB_PASSWORD e.g. yetanother5ecret, used when creating the user `gp2gp_user`
+
+*When passing passwords into this script it is the responsibility of the supplier to ensure that passwords are being kept secure by using appropriate controls within their infrastructure.*
+
+### Updating the SNOMED Database
+
+The adaptor requires an up to date copy of the SNOMED DB as part of translating FHIR `CodableConcepts`.
+
+The SNOMED loader script is built as a Docker image, hosted on DockerHub under [nhsdev/nia-ps-snomed-schema](https://hub.docker.com/r/nhsdev/nia-ps-snomed-schema).
+
+Running the loader script will delete any existing SNOMED data, and then proceed to populate it using the provided extract.
+
+Required environment variables:
+
+- PS_DB_OWNER_NAME e.g. postgres
+- POSTGRES_PASSWORD e.g. super5ecret
+- PS_DB_HOST e.g. hostname.domain.com
+- PS_DB_PORT e.g. 5432
+
+The docker container has a required argument which is the path to a zipped SnomedCT RF2 file.
+The container does not come bundled with any Snomed data itself.
+You will need to provide this file to the container.
+
+*When passing passwords into this script it is the responsibility of the supplier to ensure that passwords are being kept secure by using appropriate controls within their infrastructure.*
+
+Example usage:
+```sh
+$ docker run --rm -e PS_DB_OWNER_NAME=postgres -e POSTGRES_PASSWORD=super5ecret -e PS_DB_HOST=postgres -e PS_DB_PORT=5432 \
+    -v /path/to/uk_sct2mo_36.3.0_20230705000001Z.zip:/snomed/uk_sct2mo_36.3.0_20230705000001Z.zip \
+    nhsdev/nia-ps-snomed-schema /snomed/uk_sct2mo_36.3.0_20230705000001Z.zip
+```
+
 ## Message broker requirements
 
 ## Object storage
