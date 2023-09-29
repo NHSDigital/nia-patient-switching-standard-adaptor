@@ -17,6 +17,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRIN030000UK07Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -85,26 +86,26 @@ public class XmlParseUtilService {
         throw new ParseException("Unable to parse ContentType", 0);
     }
 
-    public static String parseNhsNumber(RCMRIN030000UK06Message payload) {
-        return payload
-            .getControlActEvent()
-            .getSubject()
-            .getEhrExtract()
-            .getRecordTarget()
-            .getPatient()
-            .getId()
-            .getExtension();
-    }
-
-    public static String parseNhsNumber(RCMRIN030000UK07Message payload) {
-        return payload
-            .getControlActEvent()
-            .getSubject()
-            .getEhrExtract()
-            .getRecordTarget()
-            .getPatient()
-            .getId()
-            .getExtension();
+    public static String parseNhsNumber(RCMRIN030000UKMessage payload) {
+        if(payload instanceof RCMRIN030000UK06Message) {
+            return ((RCMRIN030000UK06Message) payload)
+                .getControlActEvent()
+                .getSubject()
+                .getEhrExtract()
+                .getRecordTarget()
+                .getPatient()
+                .getId()
+                .getExtension();
+        } else {
+            return ((RCMRIN030000UK07Message) payload)
+                .getControlActEvent()
+                .getSubject()
+                .getEhrExtract()
+                .getRecordTarget()
+                .getPatient()
+                .getId()
+                .getExtension();
+        }
     }
 
     public static String parseFilename(String description) throws ParseException {
@@ -197,25 +198,26 @@ public class XmlParseUtilService {
         return null;
     }
 
-    public static String parseFromAsid(RCMRIN030000UK06Message payload) {
-        return payload.getCommunicationFunctionRcv()
+    public static String parseFromAsid(RCMRIN030000UKMessage payload) {
+        if(payload instanceof RCMRIN030000UK06Message) {
+            return ((RCMRIN030000UK06Message) payload).getCommunicationFunctionRcv()
                 .get(0)
                 .getDevice()
                 .getId()
                 .get(0)
                 .getExtension();
+        } else {
+            return ((RCMRIN030000UK07Message) payload).getCommunicationFunctionRcv()
+                .get(0)
+                .getDevice()
+                .getId()
+                .get(0)
+                .getExtension();
+        }
+
     }
 
-    public static String parseFromAsid(RCMRIN030000UK07Message payload) {
-        return payload.getCommunicationFunctionRcv()
-            .get(0)
-            .getDevice()
-            .getId()
-            .get(0)
-            .getExtension();
-    }
-
-    public static String parseToAsid(RCMRIN030000UK06Message payload) {
+    public static String parseToAsid(RCMRIN030000UKMessage payload) {
         return payload.getCommunicationFunctionSnd()
                 .getDevice()
                 .getId()
@@ -223,16 +225,9 @@ public class XmlParseUtilService {
                 .getExtension();
     }
 
-    public static String parseToAsid(RCMRIN030000UK07Message payload) {
-        return payload.getCommunicationFunctionSnd()
-            .getDevice()
-            .getId()
-            .get(0)
-            .getExtension();
-    }
-
-    public static String parseToOdsCode(RCMRIN030000UK06Message payload) {
-        return payload.getControlActEvent()
+    public static String parseToOdsCode(RCMRIN030000UKMessage payload) {
+        if(payload instanceof RCMRIN030000UK07Message) {
+            return ((RCMRIN030000UK07Message) payload).getControlActEvent()
                 .getSubject()
                 .getEhrExtract()
                 .getAuthor()
@@ -240,6 +235,16 @@ public class XmlParseUtilService {
                 .getAgentOrganizationSDS()
                 .getId()
                 .getExtension();
+        } else {
+           return ((RCMRIN030000UK06Message) payload).getControlActEvent()
+                .getSubject()
+                .getEhrExtract()
+                .getAuthor()
+                .getAgentOrgSDS()
+                .getAgentOrganizationSDS()
+                .getId()
+                .getExtension();
+        }
     }
 
     public static String parseToOdsCode(RCMRIN030000UK07Message payload) {
@@ -253,11 +258,7 @@ public class XmlParseUtilService {
             .getExtension();
     }
 
-    public static String parseMessageRef(RCMRIN030000UK06Message payload) {
-        return payload.getId().getRoot();
-    }
-
-    public static String parseMessageRef(RCMRIN030000UK07Message payload) {
+    public static String parseMessageRef(RCMRIN030000UKMessage payload) {
         return payload.getId().getRoot();
     }
 

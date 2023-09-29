@@ -65,7 +65,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "communicationFunctionSnd",
     "controlActEvent"
 })
-public class RCMRIN030000UK06Message {
+public class RCMRIN030000UK06Message implements RCMRIN030000UKMessage {
 
     @XmlElement(required = true)
     protected II id;

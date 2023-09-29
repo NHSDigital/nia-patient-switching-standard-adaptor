@@ -23,6 +23,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRIN030000UK07Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
@@ -88,81 +89,7 @@ public class BundleMapperService {
     private final SpecimenMapper specimenMapper;
     private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
-    public Bundle mapToBundle(RCMRIN030000UK07Message xmlMessage, String losingPracticeOdsCode,
-                              List<PatientAttachmentLog> attachments) throws BundleMappingException {
-        try {
-
-            Bundle bundle = generator.generateBundle();
-            final RCMRMT030101UK04EhrExtract ehrExtract = getEhrExtract(xmlMessage);
-            final RCMRMT030101UK04EhrFolder ehrFolder = getEhrFolder(xmlMessage);
-
-            var locations = mapLocations(ehrFolder, losingPracticeOdsCode);
-
-            var agents = mapAgentDirectories(ehrFolder);
-            var patient = mapPatient(getEhrExtract(xmlMessage), getPatientOrganization(agents));
-            addEntry(bundle, patient);
-
-            Organization authorOrg = organizationMapper.mapAuthorOrganization(losingPracticeOdsCode, agents);
-            if (documentReferenceMapper.hasDocumentReferences(ehrExtract) && organisationIsNotDuplicate(authorOrg, agents)) {
-                addEntry(bundle, authorOrg);
-            }
-            addEntries(bundle, agents);
-
-            var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, losingPracticeOdsCode, locations);
-            var encounters = handleMappedEncounterResources(mappedEncounterEhrCompositions, bundle);
-
-            addEntries(bundle, locations);
-
-            var procedureRequests = procedureRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, procedureRequests);
-
-            var referralRequests = referralRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, referralRequests);
-
-            var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, medicationResources);
-
-            var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, bloodPressures);
-
-            var observations = observationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, observations);
-
-            var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, immunizations);
-
-            var conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, conditions);
-
-            var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-
-            var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg, attachments);
-            addEntries(bundle, documentReferences);
-
-            var templates = templateMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, templates);
-
-            var allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, allergyIntolerances);
-
-            mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, losingPracticeOdsCode);
-
-            conditionMapper.addReferences(bundle, conditions, ehrExtract);
-            conditionMapper.addHierarchyReferencesToConditions(conditions, ehrExtract);
-            unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
-            templateMapper.addReferences(templates, observations, ehrExtract);
-
-
-            LOGGER.debug("Mapped Bundle with [{}] entries", bundle.getEntry().size());
-
-            return bundle;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new BundleMappingException(e.getMessage());
-        }
-    }
-
-    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage, String losingPracticeOdsCode,
+    public Bundle mapToBundle(RCMRIN030000UKMessage xmlMessage, String losingPracticeOdsCode,
                               List<PatientAttachmentLog> attachments) throws BundleMappingException {
         try {
 
@@ -318,20 +245,20 @@ public class BundleMapperService {
             .orElse(null);
     }
 
-    private RCMRMT030101UK04EhrFolder getEhrFolder(RCMRIN030000UK06Message xmlMessage) {
-        return xmlMessage.getControlActEvent().getSubject().getEhrExtract().getComponent().get(0).getEhrFolder();
+    private RCMRMT030101UK04EhrFolder getEhrFolder(RCMRIN030000UKMessage xmlMessage) {
+        if(xmlMessage instanceof RCMRIN030000UK07Message) {
+            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract().getComponent().get(0).getEhrFolder();
+        } else {
+            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract().getComponent().get(0).getEhrFolder();
+        }
     }
 
-    private RCMRMT030101UK04EhrFolder getEhrFolder(RCMRIN030000UK07Message xmlMessage) {
-        return xmlMessage.getControlActEvent().getSubject().getEhrExtract().getComponent().get(0).getEhrFolder();
-    }
-
-    private RCMRMT030101UK04EhrExtract getEhrExtract(RCMRIN030000UK06Message xmlMessage) {
-        return xmlMessage.getControlActEvent().getSubject().getEhrExtract();
-    }
-
-    private RCMRMT030101UK04EhrExtract getEhrExtract(RCMRIN030000UK07Message xmlMessage) {
-        return xmlMessage.getControlActEvent().getSubject().getEhrExtract();
+    private RCMRMT030101UK04EhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
+        if(xmlMessage instanceof RCMRIN030000UK07Message) {
+            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
+        } else {
+            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
+        }
     }
 
     private <T extends DomainResource> void addEntries(Bundle bundle, Collection<T> resources) {

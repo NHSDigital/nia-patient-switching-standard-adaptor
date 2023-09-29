@@ -153,7 +153,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
                 .thenReturn(MESSAGE_ID);
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID, null);
 
@@ -184,7 +184,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
                 .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
         // mapped item is private to the class, so we cannot test an exact object
         verify(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), any());
@@ -208,7 +208,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
                 .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
         verify(attachmentHandlerService).storeAttachments(inboundMessage.getAttachments(), CONVERSATION_ID);
     }
@@ -231,7 +231,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
                 .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
         verify(attachmentReferenceUpdaterService).updateReferenceToAttachment(
                 inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload());
@@ -270,7 +270,7 @@ public class EhrExtractMessageHandlerTest {
         prepareMigrationRequestAndMigrationStatusMocks();
 
         EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
-        ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
         verify(ehrExtractMessageHandlerSpy).sendContinueRequest(
             any(RCMRIN030000UK06Message.class),
@@ -300,7 +300,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
                 .thenReturn(MESSAGE_ID);
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
             CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED, MESSAGE_ID);
@@ -328,7 +328,7 @@ public class EhrExtractMessageHandlerTest {
             .when(attachmentHandlerService).storeAttachments(any(), any());
 
         assertThrows(InlineAttachmentProcessingException.class, () ->
-                        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
+                        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class));
     }
 
     @Test
@@ -353,7 +353,7 @@ public class EhrExtractMessageHandlerTest {
             .when(attachmentHandlerService).storeAttachments(any(), any());
 
         assertThrows(InlineAttachmentProcessingException.class, () ->
-            ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
+            ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class));
 
         verify(nackAckPreparationServiceMock, times(1))
             .sendNackMessage(eq(UNEXPECTED_CONDITION), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID));
@@ -381,7 +381,8 @@ public class EhrExtractMessageHandlerTest {
         doThrow(new BundleMappingException("Test Exception"))
             .when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), any());
 
-        assertThrows(BundleMappingException.class, () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
+        assertThrows(BundleMappingException.class,
+                     () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class));
     }
 
     @Test
@@ -408,7 +409,8 @@ public class EhrExtractMessageHandlerTest {
 
         doThrow(new DataFormatException()).when(fhirParser).encodeToJson(bundle);
 
-        assertThrows(DataFormatException.class, () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
+        assertThrows(DataFormatException.class,
+                     () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class));
     }
 
     @Test
@@ -439,7 +441,7 @@ public class EhrExtractMessageHandlerTest {
                 )).thenReturn(inboundMessage.getPayload());
 
         EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
-        ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
         verify(ehrExtractMessageHandlerSpy, times(0)).sendContinueRequest(
                 any(RCMRIN030000UK06Message.class),
@@ -486,7 +488,7 @@ public class EhrExtractMessageHandlerTest {
                 inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
             )).thenReturn(inboundMessage.getPayload());
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
         verify(skeletonProcessingService, times(1)).updateInboundMessageWithSkeleton(any(), any(), any());
     }
 
@@ -501,8 +503,7 @@ public class EhrExtractMessageHandlerTest {
             SAXException, TransformerException, UnsupportedFileTypeException {
 
         InboundMessage inboundMessage = new InboundMessage();
-        var attachment = new InboundMessage.Attachment("text/xml",
-                "true", "test.txt", "abcdefghi");
+        var attachment = new InboundMessage.Attachment("text/xml", "true", "test.txt", "abcdefghi");
 
         var attachmentList = new ArrayList<InboundMessage.Attachment>();
         attachmentList.add(attachment);
@@ -519,7 +520,7 @@ public class EhrExtractMessageHandlerTest {
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
                 )).thenReturn(inboundMessage.getPayload());
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
         verify(patientAttachmentLogService, times(1)).addAttachmentLog(patientAttachmentLogCaptor.capture());
         PatientAttachmentLog log = patientAttachmentLogCaptor.getValue();
@@ -564,8 +565,8 @@ public class EhrExtractMessageHandlerTest {
 
         prepareMigrationRequestAndMigrationStatusMocks();
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-        verify(bundleMapperService, times(0)).mapToBundle(RCMRIN030000UK06Message.class.newInstance(), any(), any());
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        verify(bundleMapperService, times(0)).mapToBundle(any(), any(), any());
     }
 
     @Test
@@ -626,7 +627,7 @@ public class EhrExtractMessageHandlerTest {
 
         prepareMigrationRequestAndMigrationStatusMocks();
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
         verify(patientAttachmentLogService, times(externalAttachmentsTestList.size())).addAttachmentLog(any());
     }
 
@@ -656,7 +657,7 @@ public class EhrExtractMessageHandlerTest {
         doThrow(WebClientRequestException.class)
             .when(sendContinueRequestHandler).prepareAndSendRequest(any());
 
-        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID))
+        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class))
             .isInstanceOf(WebClientRequestException.class);
     }
     @Test
@@ -685,7 +686,7 @@ public class EhrExtractMessageHandlerTest {
         doThrow(ConnectionException.class)
             .when(sendContinueRequestHandler).prepareAndSendRequest(any());
 
-        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID))
+        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class))
             .isInstanceOf(ConnectionException.class);
     }
 
@@ -716,7 +717,7 @@ public class EhrExtractMessageHandlerTest {
         doThrow(MhsServerErrorException.class)
             .when(sendContinueRequestHandler).prepareAndSendRequest(any());
 
-        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID))
+        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class))
             .isInstanceOf(MhsServerErrorException.class);
 
         verify(nackAckPreparationServiceMock).sendNackMessage(eq(UNEXPECTED_CONDITION), any(RCMRIN030000UK06Message.class), anyString());
@@ -752,22 +753,25 @@ public class EhrExtractMessageHandlerTest {
             .thenReturn(null)
                 .thenReturn(patientAttachmentLog);
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
         verify(patientAttachmentLogService, times(1)).addAttachmentLog(any());
     }
 
     @Test
     @SneakyThrows
-    public void When_HandleMessage_With_ProcessHasFailed_Expect_FailureHandled() {
+    public void When_HandleMessage_With_ProcessHasFailed_Expect_FailureHandled()
+        throws AttachmentNotFoundException, JAXBException, UnsupportedFileTypeException, BundleMappingException, ParseException,
+               JsonProcessingException, TransformerException, SAXException {
+
         when(failedProcessHandlingService.hasProcessFailed(CONVERSATION_ID))
             .thenReturn(true);
 
         InboundMessage inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
         verify(failedProcessHandlingService, times(1))
             .handleFailedProcess(any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID));
@@ -777,7 +781,7 @@ public class EhrExtractMessageHandlerTest {
     }
 
     @SneakyThrows
-    private void prepareMocks(InboundMessage inboundMessage) {
+    private void prepareMocks(InboundMessage inboundMessage) throws BundleMappingException {
         inboundMessage.setPayload("payload");
         Bundle bundle = new Bundle();
         bundle.setId("Test");

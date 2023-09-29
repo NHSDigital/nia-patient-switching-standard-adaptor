@@ -79,9 +79,9 @@ public class MhsQueueMessageHandler {
             if (ACKNOWLEDGEMENT_INTERACTION_ID.equals(interactionId)) {
                 acknowledgmentMessageHandler.handleMessage(inboundMessage, conversationId);
             } else if (EHR_EXTRACT_INTERACTION_ID.equals(interactionId)) {
-                ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
-            }else if (EHR_EXTRACT_INTERACTION_ID07.equals(interactionId)) {
-                ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
+                ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId, RCMRIN030000UK06Message.class);
+            } else if (EHR_EXTRACT_INTERACTION_ID07.equals(interactionId)) {
+                ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId, RCMRIN030000UK07Message.class);
             } else if (CONTINUE_ATTACHMENT_INTERACTION_ID.equals(interactionId)) {
                 continueMessageHandler.handleMessage(inboundMessage, conversationId);
             } else {
