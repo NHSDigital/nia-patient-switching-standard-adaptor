@@ -59,7 +59,12 @@ pipeline {
                                         docker-compose -f docker/docker-compose.yml up -d ps_db
                                         docker-compose -f docker/docker-compose.yml up db_migration
                                         aws s3 cp s3://snomed-schema/uk_sct2mo_36.0.0_20230412000001Z.zip ./snomed-database-loader/uk_sct2mo_36.0.0_20230412000001Z.zip
-                                        docker-compose -f docker/docker-compose.yml run snomed_schema uk_sct2mo_36.0.0_20230412000001Z.zip
+                                        # As Jenkins is running inside of Docker too, can't just reference the snomed file as a volume as part of the docker run command
+                                        # Instead copy the file into a named volume first as a separate docker command
+                                        docker volume create --name snomed
+                                        cat ./snomed-database-loader/uk_sct2mo_36.0.0_20230412000001Z.zip | docker run --rm --interactive -v snomed:/snomed alpine sh -c "cat > /snomed/uk_sct2mo_36.0.0_20230412000001Z.zip"
+                                        docker-compose -f docker/docker-compose.yml run --rm --volume snomed:/snomed snomed_schema /snomed/uk_sct2mo_36.0.0_20230412000001Z.zip
+                                        docker volume rm snomed
                                         docker-compose -f docker/docker-compose.yml up snomed_immunization
                                     '''
                                 }
