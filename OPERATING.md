@@ -78,6 +78,22 @@ $ docker run --rm -e PS_DB_OWNER_NAME=postgres -e POSTGRES_PASSWORD=super5ecret 
 
 ## Message broker requirements
 
+* The broker must be configured with a limited number of retries and dead-letter queues
+* It is the responsibility of the GP supplier to configure adequate monitoring against the dead-letter queues that allows ALL undeliverable messages to be investigated fully.
+* The broker must use persistent queues to avoid loss of data
+* The Adaptor has been assured against ActiveMQ, the use of other MQ implementations is the responsibility of the GP supplier to test
+
+**Using AmazonMQ**
+
+* A persistent broker (not in-memory) must be used to avoid data loss.
+* A configuration profile that includes settings for [retry and dead-lettering](https://activemq.apache.org/message-redelivery-and-dlq-handling.html) and placing non persistent messages onto the dead letter queue must be applied.
+* AmazonMQ uses the scheme `amqp+ssl://` but this **MUST** be changed to `amqps://` when configuring the adaptor.
+
+**Using Azure Service Bus**
+
+* The ASB must use [MaxDeliveryCount and dead-lettering](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues#exceeding-maxdeliverycount)
+* Azure Service Bus may require some parameters as part of the URL configuration. For example: `PS_AMQP_BROKER=amqps://<NAME>.servicebus.windows.net/;SharedAccessKeyName=<KEY NAME>;SharedAccessKey=<KEY VALUE>`
+
 ## Object storage
 Data stored:
     EhrExtract attachments of MHS Inbound, pre-signed S3 url is generated for stored attachments      
