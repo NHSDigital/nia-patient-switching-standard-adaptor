@@ -50,6 +50,7 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 @DirtiesContext
 @AutoConfigureMockMvc
 public class EhrExtractHandlingIT {
+
     private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
@@ -113,7 +114,20 @@ public class EhrExtractHandlingIT {
         sendInboundMessageToQueue("/xml/RCMR_IN030000UK06/payload_part.xml", EBXML_PART_PATH);
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        await().until(this::isEhrMigrationCompleted);
+        waitAtMost(Duration.ofSeconds(10)).until(this::isEhrMigrationCompleted);
+
+        // verify generated bundle resource
+        verifyBundle("/json/expectedBundle.json");
+    }
+
+    @Test
+    public void handleEhrExtractWithConfidentialitySchemaFromQueue() throws JSONException {
+        final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK07/ebxml_part.xml";
+        // process starts with consuming a message from MHS queue
+        sendInboundMessageToQueue("/xml/RCMR_IN030000UK07/payload_part.xml", EBXML_PART_PATH);
+
+        // wait until EHR extract is translated to bundle resource and saved to the DB
+        waitAtMost(Duration.ofSeconds(10)).until(this::isEhrMigrationCompleted);
 
         // verify generated bundle resource
         verifyBundle("/json/expectedBundle.json");
@@ -123,10 +137,10 @@ public class EhrExtractHandlingIT {
     public void handleEhrExtractWithConfidentialityCodeFromQueue() throws JSONException {
         final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK07/ebxml_part.xml";
         // process starts with consuming a message from MHS queue
-        sendInboundMessageToQueue("/xml/RCMR_IN030000UK07/payload_part.xml", EBXML_PART_PATH);
+        sendInboundMessageToQueue("/xml/RCMR_IN030000UK07/payload_part_with_confidentiality_code.xml", EBXML_PART_PATH);
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        waitAtMost(Duration.ofSeconds(250)).until(this::isEhrMigrationCompleted);
+        waitAtMost(Duration.ofSeconds(10)).until(this::isEhrMigrationCompleted);
 
         // verify generated bundle resource
         verifyBundle("/json/expectedBundle.json");

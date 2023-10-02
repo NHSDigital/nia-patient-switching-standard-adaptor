@@ -192,7 +192,7 @@ public class EhrExtractMessageHandler {
 
         // now we have the transformed payload, lets create our bundle
         Bundle bundle = null;
-        if(destinationClass.isInstance(RCMRIN030000UK07Message.class)) {
+        if(destinationClass.getCanonicalName().contains("RCMRIN030000UK07Message")) {
             var payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK07Message.class);
             bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode(), attachments);
         } else {
