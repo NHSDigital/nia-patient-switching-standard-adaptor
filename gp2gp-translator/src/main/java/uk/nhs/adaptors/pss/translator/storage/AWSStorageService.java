@@ -16,10 +16,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
-import org.springframework.stereotype.Service;
 
-
-@Service
 public class AWSStorageService implements StorageService {
 
     private static final long SIXY_MINUTES = 1000 * 60 * 60;
@@ -95,10 +92,10 @@ public class AWSStorageService implements StorageService {
 
     private boolean accessKeyProvided(StorageServiceConfiguration configuration) {
 
-        if (configuration.getAccountSecret() != null || configuration.getAccountSecret().isBlank()) {
+        if (configuration.getAccountSecret() == null || configuration.getAccountSecret().isBlank()) {
             return false;
         }
 
-        return configuration.getAccountReference() == null && !configuration.getAccountReference().isBlank();
+        return configuration.getAccountReference() != null && !configuration.getAccountReference().isBlank();
     }
 }

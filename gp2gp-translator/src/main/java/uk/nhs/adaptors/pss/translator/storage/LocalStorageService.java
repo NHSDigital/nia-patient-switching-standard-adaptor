@@ -1,14 +1,12 @@
 package uk.nhs.adaptors.pss.translator.storage;
 
-import org.apache.commons.io.IOUtils;
-import org.springframework.stereotype.Service;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
+import org.apache.commons.io.IOUtils;
+
 public class LocalStorageService implements StorageService {
 
     // Configuration singleton parameters
