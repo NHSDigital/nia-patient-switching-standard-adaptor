@@ -50,6 +50,11 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [Config
     - KEY_PASSWORD: server private key password
     - TRUST_STORE: path to the truststore
     - TRUST_STORE_PASSWORD: truststore password
+    - STORAGE_TYPE: the type of object storage to use for attachments (S3, Azure or LocalMock)
+    - STORAGE_REGION: The AWS region (leave undefined if using an AWS instance role)
+    - CONTAINER_NAME: The name of the Azure Storage container or Amazon S3 Bucket
+    - STORAGE_REFERENCE: The Azure account name or AWS Access Key ID (leave undefined if using an AWS instance role)
+    - STORAGE_SECRET: The Azure account key or the access key for Amazon S3. (leave undefined if using an AWS instance role)
 
    The following variables are used determine if a migration has timed out:
     - SDS_BASE_URL: url of the SDS FHIR API (default is the Production environment)
