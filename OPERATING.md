@@ -26,9 +26,10 @@ yyyy-mm-dd HH:mm:ss.SSS Level=DEBUG Logger=u.n.a.p.t.s.BundleMapperService Conve
 * The adaptor stores the identifiers, status, and metadata for each patient transfer
 * The adaptor uses the database as a source of SNOMED information
 * Deleting the database, or its records will cause any in-progress transfers to fail
-* The database can be used to monitor for any failed or incomplete transfers
+* In addition to the [/Patient/$gpc.migratestructuredrecord][migratestructuredrecord] endpoint, the database can be used to monitor for any failed or incomplete transfers
 
 [PostgreSQL]: https://www.postgresql.org/
+[migratestructuredrecord]: README.md#patientgpcmigratestructuredrecord
 
 ### Updating the application schema
 
