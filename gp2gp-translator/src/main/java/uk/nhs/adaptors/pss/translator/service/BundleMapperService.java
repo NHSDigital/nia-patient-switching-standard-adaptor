@@ -246,7 +246,7 @@ public class BundleMapperService {
     }
 
     private RCMRMT030101UK04EhrFolder getEhrFolder(RCMRIN030000UKMessage xmlMessage) {
-        if(xmlMessage instanceof RCMRIN030000UK07Message) {
+        if (xmlMessage instanceof RCMRIN030000UK07Message) {
             return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract().getComponent().get(0).getEhrFolder();
         } else {
             return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract().getComponent().get(0).getEhrFolder();

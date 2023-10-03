@@ -87,7 +87,7 @@ public class XmlParseUtilService {
     }
 
     public static String parseNhsNumber(RCMRIN030000UKMessage payload) {
-        if(payload instanceof RCMRIN030000UK06Message) {
+        if (payload instanceof RCMRIN030000UK06Message) {
             return ((RCMRIN030000UK06Message) payload)
                 .getControlActEvent()
                 .getSubject()
@@ -199,7 +199,7 @@ public class XmlParseUtilService {
     }
 
     public static String parseFromAsid(RCMRIN030000UKMessage payload) {
-        if(payload instanceof RCMRIN030000UK06Message) {
+        if (payload instanceof RCMRIN030000UK06Message) {
             return ((RCMRIN030000UK06Message) payload).getCommunicationFunctionRcv()
                 .get(0)
                 .getDevice()
@@ -226,7 +226,7 @@ public class XmlParseUtilService {
     }
 
     public static String parseToOdsCode(RCMRIN030000UKMessage payload) {
-        if(payload instanceof RCMRIN030000UK07Message) {
+        if (payload instanceof RCMRIN030000UK07Message) {
             return ((RCMRIN030000UK07Message) payload).getControlActEvent()
                 .getSubject()
                 .getEhrExtract()
@@ -237,13 +237,13 @@ public class XmlParseUtilService {
                 .getExtension();
         } else {
            return ((RCMRIN030000UK06Message) payload).getControlActEvent()
-                .getSubject()
-                .getEhrExtract()
-                .getAuthor()
-                .getAgentOrgSDS()
-                .getAgentOrganizationSDS()
-                .getId()
-                .getExtension();
+                                                     .getSubject()
+                                                     .getEhrExtract()
+                                                     .getAuthor()
+                                                     .getAgentOrgSDS()
+                                                     .getAgentOrganizationSDS()
+                                                     .getId()
+                                                     .getExtension();
         }
     }
 

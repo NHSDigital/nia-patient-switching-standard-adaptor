@@ -110,7 +110,8 @@ public class EhrExtractMessageHandler {
 
             if (!hasExternalAttachment) {
                 // If there are no external attachments, process the entire message now
-                processAndCompleteEHRMessage(inboundMessage, conversationId, skeletonCIDAttachmentLog, migrationRequest, messageId, destinationClass);
+                processAndCompleteEHRMessage(inboundMessage, conversationId, skeletonCIDAttachmentLog,
+                                             migrationRequest, messageId, destinationClass);
             } else {
                 //process MID messages and send continue message if external messages exist
                 processExternalAttachmentsAndSendContinueMessage(inboundMessage,
@@ -168,7 +169,8 @@ public class EhrExtractMessageHandler {
 
     private void processAndCompleteEHRMessage(InboundMessage inboundMessage,
         String conversationId, PatientAttachmentLog skeletonCIDAttachmentLog,
-        PatientMigrationRequest migrationRequest, String messageId, Class<? extends RCMRIN030000UKMessage> destinationClass) throws JAXBException, TransformerException,
+        PatientMigrationRequest migrationRequest, String messageId, Class<? extends RCMRIN030000UKMessage> destinationClass)
+        throws JAXBException, TransformerException,
         SAXException, AttachmentNotFoundException, InlineAttachmentProcessingException,
         BundleMappingException, JsonProcessingException {
 
@@ -192,7 +194,7 @@ public class EhrExtractMessageHandler {
 
         // now we have the transformed payload, lets create our bundle
         Bundle bundle = null;
-        if(destinationClass.getCanonicalName().contains("RCMRIN030000UK07Message")) {
+        if (destinationClass.getCanonicalName().contains("RCMRIN030000UK07Message")) {
             var payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK07Message.class);
             bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode(), attachments);
         } else {
@@ -213,9 +215,12 @@ public class EhrExtractMessageHandler {
     }
 
     private void processExternalAttachmentsAndSendContinueMessage(InboundMessage inboundMessage,
-                                                                  PatientMigrationRequest migrationRequest, MigrationStatusLog migrationStatusLog,
-                                                                  RCMRIN030000UKMessage payload, String conversationId, String messageId)
-        throws ParseException, JsonProcessingException {
+                                                                  PatientMigrationRequest migrationRequest,
+                                                                  MigrationStatusLog migrationStatusLog,
+                                                                  RCMRIN030000UKMessage payload,
+                                                                  String conversationId,
+                                                                  String messageId)
+                                                                  throws ParseException, JsonProcessingException {
 
         for (InboundMessage.ExternalAttachment externalAttachment: inboundMessage.getExternalAttachments()) {
             PatientAttachmentLog patientAttachmentLog;

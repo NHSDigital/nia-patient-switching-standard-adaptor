@@ -10,7 +10,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.IOUtils;
-import org.hl7.v3.RCMRIN030000UKMessage;
 
 public class XmlUnmarshallUtil {
     public static <T> T unmarshallFile(File xmlFile, Class<T> destinationClass) throws JAXBException {

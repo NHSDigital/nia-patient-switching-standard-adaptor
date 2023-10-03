@@ -19,8 +19,6 @@ import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
-import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
 import org.hl7.v3.RCMRMT030101UKInterpretationRange;
 import org.hl7.v3.RCMRMT030101UKReferenceRange;
 import org.hl7.v3.TS;
