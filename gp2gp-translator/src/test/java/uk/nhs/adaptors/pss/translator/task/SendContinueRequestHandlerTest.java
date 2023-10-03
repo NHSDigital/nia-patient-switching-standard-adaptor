@@ -3,6 +3,8 @@ package uk.nhs.adaptors.pss.translator.task;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,19 +16,23 @@ import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.mhs.MhsRequestBuilder;
+import uk.nhs.adaptors.pss.translator.mhs.model.OutboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.service.ContinueRequestService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 @Slf4j
@@ -39,6 +45,7 @@ public class SendContinueRequestHandlerTest {
     private static final String TO_ASID = "715373337545";
     private static final String FROM_ASID = "276827251543";
     private static final String MCCI_IN010000UK13_CREATIONTIME = "20220407194614";
+    private static final String MESSAGE_ID = "message-id";
 
     @Mock
     private MhsRequestBuilder requestBuilder;
@@ -57,9 +64,16 @@ public class SendContinueRequestHandlerTest {
 
     @Mock
     private HttpHeaders headers;
+    @Mock
+    private IdGeneratorService idGeneratorService;
 
     @InjectMocks
     private SendContinueRequestHandler sendContinueRequestHandler;
+
+    @BeforeEach
+    public void setup() {
+        when(idGeneratorService.generateUuid()).thenReturn(MESSAGE_ID);
+    }
 
     @Test
     public void When_PrepareAndSendRequest_ToMhsAndGetError_Expect_ThrowError() {
@@ -78,9 +92,9 @@ public class SendContinueRequestHandlerTest {
             "test body".getBytes(UTF_8), UTF_8))
             .when(mhsClientService).send(any());
 
-        assertThrows(WebClientResponseException.class, () -> {
-            sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
-        });
+        assertThrows(WebClientResponseException.class, () ->
+            sendContinueRequestHandler.prepareAndSendRequest(continueRequestData)
+        );
     }
 
     @Test
@@ -184,5 +198,29 @@ public class SendContinueRequestHandlerTest {
 
         assertThatThrownBy(() -> sendContinueRequestHandler.prepareAndSendRequest(continueRequestData))
             .isInstanceOf(MhsServerErrorException.class);
+    }
+
+    @Test
+    public void When_SendRequest_Expect_BuildRequestCalledWithCorrectParams() throws IOException {
+        ContinueRequestData continueRequestData = ContinueRequestData
+            .builder()
+            .conversationId(CONVERSATION_ID)
+            .fromAsid(FROM_ASID)
+            .toAsid(TO_ASID)
+            .nhsNumber(NHS_NUMBER)
+            .fromOdsCode(WINNING_ODS_CODE)
+            .toOdsCode(LOSING_ODS_CODE)
+            .mcciIN010000UK13creationTime(MCCI_IN010000UK13_CREATIONTIME)
+            .build();
+
+        String testPayload = "test-payload";
+        var outboundMessage = new OutboundMessage(testPayload);
+
+        when(continueRequestService.buildContinueRequest(any(), any())).thenReturn(testPayload);
+
+        sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
+        verify(continueRequestService).buildContinueRequest(eq(continueRequestData), eq(MESSAGE_ID.toUpperCase()));
+        verify(requestBuilder).buildSendContinueRequest(eq(CONVERSATION_ID), eq(LOSING_ODS_CODE), eq(outboundMessage),
+            eq(MESSAGE_ID.toUpperCase()));
     }
 }

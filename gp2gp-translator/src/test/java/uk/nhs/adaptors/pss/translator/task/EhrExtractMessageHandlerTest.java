@@ -83,7 +83,9 @@ public class EhrExtractMessageHandlerTest {
     private static final String LOSING_ODE_CODE = "G543";
     private static final String WINNING_ODE_CODE = "B943";
     private static final String MESSAGE_ID = randomUUID().toString();
+    private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
     public static final int MIGRATION_REQUEST_ID = 999;
+
 
     @Mock
     private ObjectMapper objectMapper;
@@ -268,16 +270,18 @@ public class EhrExtractMessageHandlerTest {
         inboundMessage.setExternalAttachments(externalAttachmentsTestList);
 
         prepareMigrationRequestAndMigrationStatusMocks();
+        when(xPathService.getNodeValue(any(), eq(MESSAGE_ID_PATH))).thenReturn(MESSAGE_ID);
 
         EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
         ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
         verify(ehrExtractMessageHandlerSpy).sendContinueRequest(
             any(RCMRIN030000UK06Message.class),
-            any(String.class),
-            any(String.class),
-            any(String.class),
-            any(Instant.class)
+            anyString(),
+            anyString(),
+            anyString(),
+            any(Instant.class),
+            anyString()
         );
     }
 
@@ -445,10 +449,11 @@ public class EhrExtractMessageHandlerTest {
 
         verify(ehrExtractMessageHandlerSpy, times(0)).sendContinueRequest(
                 any(RCMRIN030000UK06Message.class),
-                any(String.class),
-                any(String.class),
-                any(String.class),
-                any(Instant.class)
+                anyString(),
+                anyString(),
+                anyString(),
+                any(Instant.class),
+                anyString()
         );
     }
 
@@ -531,7 +536,7 @@ public class EhrExtractMessageHandlerTest {
         assertEquals(attachment.getContentType(), log.getContentType());
         assertFalse(log.getCompressed());
         assertFalse(log.getLargeAttachment());
-        assertTrue(!log.getOriginalBase64());
+        assertFalse(log.getOriginalBase64());
         assertFalse(log.getSkeleton());
         assertTrue(log.getUploaded());
         assertEquals(0, log.getLengthNum());

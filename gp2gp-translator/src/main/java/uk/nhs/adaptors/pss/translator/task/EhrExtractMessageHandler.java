@@ -241,8 +241,9 @@ public class EhrExtractMessageHandler {
             conversationId,
             patientNhsNumber,
             migrationRequest.getWinningPracticeOdsCode(),
-            migrationStatusLog.getDate().toInstant()
-                           );
+            migrationStatusLog.getDate().toInstant(),
+            messageId
+        );
     }
 
     // Parent MID should be null against an EHR message so that they are not detected in the merge process
@@ -314,10 +315,18 @@ public class EhrExtractMessageHandler {
         String conversationId,
         String patientNhsNumber,
         String winningPracticeOdsCode,
-        Instant mcciIN010000UK13creationTime
+        Instant mcciIN010000UK13creationTime,
+        String ehrExtractId
     ) {
         sendContinueRequestHandler.prepareAndSendRequest(
-            prepareContinueRequestData(payload, conversationId, patientNhsNumber, winningPracticeOdsCode, mcciIN010000UK13creationTime)
+            prepareContinueRequestData(
+                payload,
+                conversationId,
+                patientNhsNumber,
+                winningPracticeOdsCode,
+                mcciIN010000UK13creationTime,
+                ehrExtractId
+            )
         );
     }
 
@@ -326,7 +335,8 @@ public class EhrExtractMessageHandler {
         String conversationId,
         String patientNhsNumber,
         String winningPracticeOdsCode,
-        Instant mcciIN010000UK13creationTime
+        Instant mcciIN010000UK13creationTime,
+        String ehrExtractId
     ) {
         var fromAsid = XmlParseUtilService.parseFromAsid(payload);
         var toAsid = XmlParseUtilService.parseToAsid(payload);
@@ -341,6 +351,7 @@ public class EhrExtractMessageHandler {
             .toOdsCode(toOdsCode)
             .fromOdsCode(winningPracticeOdsCode)
             .mcciIN010000UK13creationTime(mcciIN010000UK13creationTimeToHl7Format)
+            .ehrExtractId(ehrExtractId)
             .build();
     }
 

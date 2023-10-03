@@ -1,0 +1,6 @@
+## Avoid accidently redistributing SNOMED data within the built docker images
+# The SNOMED database loader generates temporary files which contain SNOMED CT data
+snomed-database-loader/tmp_*
+# The SNOMED database is distributed as a ZIP
+snomed-database-loader/*.zip
+
