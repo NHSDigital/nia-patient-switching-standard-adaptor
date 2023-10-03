@@ -48,10 +48,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlType(name = "RCMR_MT030101UK04.ReferenceRange", propOrder = {
     "referenceInterpretationRange"
 })
-public class RCMRMT030101UK04ReferenceRange {
+public class RCMRMT030101UK04ReferenceRange implements RCMRMT030101UKReferenceRange {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04InterpretationRange referenceInterpretationRange;
+    @XmlElement(required = true, type = RCMRMT030101UK04InterpretationRange.class)
+    protected RCMRMT030101UKInterpretationRange referenceInterpretationRange;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -73,7 +73,7 @@ public class RCMRMT030101UK04ReferenceRange {
      *     {@link RCMRMT030101UK04InterpretationRange }
      *     
      */
-    public RCMRMT030101UK04InterpretationRange getReferenceInterpretationRange() {
+    public RCMRMT030101UKInterpretationRange getReferenceInterpretationRange() {
         return referenceInterpretationRange;
     }
 
@@ -85,7 +85,7 @@ public class RCMRMT030101UK04ReferenceRange {
      *     {@link RCMRMT030101UK04InterpretationRange }
      *     
      */
-    public void setReferenceInterpretationRange(RCMRMT030101UK04InterpretationRange value) {
+    public void setReferenceInterpretationRange(RCMRMT030101UKInterpretationRange value) {
         this.referenceInterpretationRange = value;
     }
 

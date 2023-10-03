@@ -50,7 +50,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "text",
     "value"
 })
-public class RCMRMT030101UK04InterpretationRange {
+public class RCMRMT030101UK04InterpretationRange implements RCMRMT030101UKInterpretationRange {
 
     protected String text;
     protected IVLPQ value;
