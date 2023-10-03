@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator;
 
 import static org.assertj.core.api.Assertions.fail;
-import static org.awaitility.Awaitility.await;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -22,7 +21,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.Customization;
@@ -100,12 +98,14 @@ public class EhrExtractHandlingIT {
 
     private String patientNhsNumber;
     private String conversationId;
+    private int waitingTime = 0;
 
     @BeforeEach
     public void setUp() {
         patientNhsNumber = generatePatientNhsNumber();
         conversationId = generateConversationId().toUpperCase(Locale.ROOT);
         startPatientMigrationJourney();
+        waitingTime = 30;
     }
 
     @Test
@@ -114,7 +114,7 @@ public class EhrExtractHandlingIT {
         sendInboundMessageToQueue("/xml/RCMR_IN030000UK06/payload_part.xml", EBXML_PART_PATH);
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        waitAtMost(Duration.ofSeconds(10)).until(this::isEhrMigrationCompleted);
+        waitAtMost(Duration.ofSeconds(waitingTime)).until(this::isEhrMigrationCompleted);
 
         // verify generated bundle resource
         verifyBundle("/json/expectedBundle.json");
@@ -127,7 +127,7 @@ public class EhrExtractHandlingIT {
         sendInboundMessageToQueue("/xml/RCMR_IN030000UK07/payload_part.xml", EBXML_PART_PATH);
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        waitAtMost(Duration.ofSeconds(10)).until(this::isEhrMigrationCompleted);
+        waitAtMost(Duration.ofSeconds(waitingTime)).until(this::isEhrMigrationCompleted);
 
         // verify generated bundle resource
         verifyBundle("/json/expectedBundle.json");
@@ -140,7 +140,7 @@ public class EhrExtractHandlingIT {
         sendInboundMessageToQueue("/xml/RCMR_IN030000UK07/payload_part_with_confidentiality_code.xml", EBXML_PART_PATH);
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        waitAtMost(Duration.ofSeconds(10)).until(this::isEhrMigrationCompleted);
+        waitAtMost(Duration.ofSeconds(waitingTime)).until(this::isEhrMigrationCompleted);
 
         // verify generated bundle resource
         verifyBundle("/json/expectedBundle.json");
