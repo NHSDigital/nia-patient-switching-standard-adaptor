@@ -54,7 +54,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "signatureText",
     "agentOrgSDS"
 })
-public class RCMRMT030101UK04Author2 {
+public class RCMRMT030101UK04Author2 implements RCMRMT030101UKAuthor2 {
 
     @XmlElement(required = true)
     protected TS time;
