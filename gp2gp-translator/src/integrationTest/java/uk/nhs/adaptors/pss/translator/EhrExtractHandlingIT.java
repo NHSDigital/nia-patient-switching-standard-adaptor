@@ -51,7 +51,7 @@ public class EhrExtractHandlingIT {
 
     private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
-    private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
+    private static final String ebxmlPartPath = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
     private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
     private static final String LOSING_ODS_CODE = "D5445";
@@ -98,20 +98,19 @@ public class EhrExtractHandlingIT {
 
     private String patientNhsNumber;
     private String conversationId;
-    private int waitingTime = 0;
+    static final int waitingTime = 30;
 
     @BeforeEach
     public void setUp() {
         patientNhsNumber = generatePatientNhsNumber();
         conversationId = generateConversationId().toUpperCase(Locale.ROOT);
         startPatientMigrationJourney();
-        waitingTime = 30;
     }
 
     @Test
     public void handleEhrExtractFromQueue() throws JSONException {
         // process starts with consuming a message from MHS queue
-        sendInboundMessageToQueue("/xml/RCMR_IN030000UK06/payload_part.xml", EBXML_PART_PATH);
+        sendInboundMessageToQueue("/xml/RCMR_IN030000UK06/payload_part.xml", ebxmlPartPath);
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
         waitAtMost(Duration.ofSeconds(waitingTime)).until(this::isEhrMigrationCompleted);
@@ -122,9 +121,9 @@ public class EhrExtractHandlingIT {
 
     @Test
     public void handleEhrExtractWithConfidentialitySchemaFromQueue() throws JSONException {
-        final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK07/ebxml_part.xml";
+        final String ebxmlPartPath = "/xml/RCMR_IN030000UK07/ebxml_part.xml";
         // process starts with consuming a message from MHS queue
-        sendInboundMessageToQueue("/xml/RCMR_IN030000UK07/payload_part.xml", EBXML_PART_PATH);
+        sendInboundMessageToQueue("/xml/RCMR_IN030000UK07/payload_part.xml", ebxmlPartPath);
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
         waitAtMost(Duration.ofSeconds(waitingTime)).until(this::isEhrMigrationCompleted);
@@ -135,9 +134,9 @@ public class EhrExtractHandlingIT {
 
     @Test
     public void handleEhrExtractWithConfidentialityCodeFromQueue() throws JSONException {
-        final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK07/ebxml_part.xml";
+        final String ebxmlPartPath = "/xml/RCMR_IN030000UK07/ebxml_part.xml";
         // process starts with consuming a message from MHS queue
-        sendInboundMessageToQueue("/xml/RCMR_IN030000UK07/payload_part_with_confidentiality_code.xml", EBXML_PART_PATH);
+        sendInboundMessageToQueue("/xml/RCMR_IN030000UK07/payload_part_with_confidentiality_code.xml", ebxmlPartPath);
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
         waitAtMost(Duration.ofSeconds(waitingTime)).until(this::isEhrMigrationCompleted);
