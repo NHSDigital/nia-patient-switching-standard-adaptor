@@ -51,7 +51,7 @@ public class EhrExtractHandlingIT {
 
     private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
-    private static final String ebxmlPartPath = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
+    private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
     private static final String CONVERSATION_ID_PLACEHOLDER = "{{conversationId}}";
     private static final String LOSING_ODS_CODE = "D5445";
@@ -98,7 +98,7 @@ public class EhrExtractHandlingIT {
 
     private String patientNhsNumber;
     private String conversationId;
-    static final int waitingTime = 30;
+    static final int WAITING_TIME = 30;
 
     @BeforeEach
     public void setUp() {
@@ -110,7 +110,7 @@ public class EhrExtractHandlingIT {
     @Test
     public void handleEhrExtractFromQueue() throws JSONException {
         // process starts with consuming a message from MHS queue
-        sendInboundMessageToQueue("/xml/RCMR_IN030000UK06/payload_part.xml", ebxmlPartPath);
+        sendInboundMessageToQueue("/xml/RCMR_IN030000UK06/payload_part.xml", EBXML_PART_PATH);
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
         waitAtMost(Duration.ofSeconds(waitingTime)).until(this::isEhrMigrationCompleted);
@@ -158,15 +158,15 @@ public class EhrExtractHandlingIT {
         return UUID.randomUUID().toString();
     }
 
-    private void sendInboundMessageToQueue(String payloadPartPath, String EBXML_PART_PATH) {
-        var inboundMessage = createInboundMessage(payloadPartPath, EBXML_PART_PATH);
+    private void sendInboundMessageToQueue(String payloadPartPath, String ebxmlPartPath) {
+        var inboundMessage = createInboundMessage(payloadPartPath, ebxmlPartPath);
         mhsJmsTemplate.send(session -> session.createTextMessage(parseMessageToString(inboundMessage)));
     }
 
-    private InboundMessage createInboundMessage(String payloadPartPath, String EBXML_PART_PATH) {
+    private InboundMessage createInboundMessage(String payloadPartPath, String ebxmlPartPath) {
         var inboundMessage = new InboundMessage();
         var payload = readResourceAsString(payloadPartPath).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
-        var ebXml = readResourceAsString(EBXML_PART_PATH).replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
+        var ebXml = readResourceAsString(ebxmlPartPath).replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
         inboundMessage.setPayload(payload);
         inboundMessage.setEbXML(ebXml);
         return inboundMessage;
