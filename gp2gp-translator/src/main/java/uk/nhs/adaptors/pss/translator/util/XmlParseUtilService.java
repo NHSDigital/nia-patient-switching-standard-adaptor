@@ -236,14 +236,15 @@ public class XmlParseUtilService {
                 .getId()
                 .getExtension();
         } else {
-           return ((RCMRIN030000UK06Message) payload).getControlActEvent()
-                                                     .getSubject()
-                                                     .getEhrExtract()
-                                                     .getAuthor()
-                                                     .getAgentOrgSDS()
-                                                     .getAgentOrganizationSDS()
-                                                     .getId()
-                                                     .getExtension();
+            return ((RCMRIN030000UK06Message) payload)
+                    .getControlActEvent()
+                    .getSubject()
+                    .getEhrExtract()
+                    .getAuthor()
+                    .getAgentOrgSDS()
+                    .getAgentOrganizationSDS()
+                    .getId()
+                    .getExtension();
         }
     }
 
