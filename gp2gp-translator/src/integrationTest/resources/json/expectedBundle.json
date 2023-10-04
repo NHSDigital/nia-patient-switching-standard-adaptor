@@ -30538,27 +30538,17 @@
         "code": {
           "coding": [
             {
-              "extension": [
-                {
-                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                  "extension": [
-                    {
-                      "url": "descriptionId",
-                      "valueId": "250208012"
-                    },
-                    {
-                      "url": "descriptionDisplay",
-                      "valueString": "Civil state unknown"
-                    }
-                  ]
-                }
-              ],
               "system": "http://snomed.info/sct",
-              "code": "160504008",
-              "display": "Marital state unknown"
+              "code": "41891011000001106",
+              "display": "Azelaic acid 20% cream"
+            },
+            {
+              "system": "2.16.840.1.113883.2.1.6.4",
+              "code": "00254001",
+              "display": "Azelaic acid 20% cream"
             }
           ],
-          "text": "Adverse reaction to Mebeverine Hydrochloride"
+          "text": "Azelaic acid 20% cream"
         },
         "patient": {
           "reference": "Patient/e2cf4cc1-08da-4971-845f-35b8447cabdd"
@@ -30573,7 +30563,10 @@
         },
         "note": [
           {
-            "text": "Status: Active"
+            "text": "Skin Allergy"
+          },
+          {
+            "text": "Allergy Code: Allergy to drug"
           }
         ]
       }
