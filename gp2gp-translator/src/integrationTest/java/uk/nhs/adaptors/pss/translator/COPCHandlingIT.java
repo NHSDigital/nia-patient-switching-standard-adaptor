@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
 import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
@@ -21,6 +22,8 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_ATTACHM
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.COPC_MESSAGE_PROCESSING;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
+
+import java.util.List;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})
@@ -167,14 +170,23 @@ public class COPCHandlingIT extends BaseEhrHandler {
 
         await().until(this::isEhrMigrationCompleted);
 
-        var indexFragmentLog = patientAttachmentLogService
-            .findAttachmentLog("fa0d1c31-4aa0-4268-8952-9498f2e6d3ae@spine.nhs.uk", getConversationId());
+        List<PatientAttachmentLog> attachmentLogs = patientAttachmentLogService.findAttachmentLogs(getConversationId());
 
-        var copc0FragmentLog = patientAttachmentLogService
-            .findAttachmentLog("06137384-9f73-4723-a101-4f83cff7c72e", getConversationId());
+        var indexFragmentLog = attachmentLogs.stream()
+            .filter(attachmentLog -> attachmentLog.getMid().startsWith("ADAPTOR_GENERATED_"))
+            .findFirst()
+            .orElseThrow();
 
-        var mergedAttachmentLog = patientAttachmentLogService
-            .findAttachmentLog("8c73ac84-57cc-4f11-8f0c-e0b2e9cf31fe", getConversationId());
+        var copc0FragmentLog = attachmentLogs.stream()
+            .filter(attachmentLog -> attachmentLog.getMid().equals("06137384-9f73-4723-a101-4f83cff7c72e"))
+            .findFirst()
+            .orElseThrow();
+
+
+        var mergedAttachmentLog = attachmentLogs.stream()
+            .filter(attachmentLog -> attachmentLog.getMid().equals("8c73ac84-57cc-4f11-8f0c-e0b2e9cf31fe"))
+            .findFirst()
+            .orElseThrow();
 
         assertThat(indexFragmentLog.getIsBase64()).isFalse();
         assertThat(copc0FragmentLog.getIsBase64()).isFalse();
