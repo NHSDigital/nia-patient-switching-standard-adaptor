@@ -98,7 +98,7 @@ public class EhrExtractHandlingIT {
 
     private String patientNhsNumber;
     private String conversationId;
-    static final int WAITING_TIME = 30;
+    static final int WAITING_TIME = 10;
 
     @BeforeEach
     public void setUp() {
