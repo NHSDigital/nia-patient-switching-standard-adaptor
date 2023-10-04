@@ -12,7 +12,6 @@ import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 
 public class ResourceFilterUtil {
     private static final List<String> ALLERGY_CODES = List.of("SN53.00", "14L..00");
-    private static final String IMMUNIZATION_SNOMED_CODE = "2.16.840.1.113883.2.1.3.2.3.15";
     private static final String CODE_SYSTEM_READ_CODE_V2 = "2.16.840.1.113883.2.1.6.2";
     private static final String PATHOLOGY_CODE = "16488004";
     private static final String SPECIMEN_CODE = "123038009";
