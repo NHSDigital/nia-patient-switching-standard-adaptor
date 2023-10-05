@@ -19,8 +19,8 @@ import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UKInterpretationRange;
-import org.hl7.v3.RCMRMT030101UKReferenceRange;
+import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
+import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
 import org.hl7.v3.TS;
 
 import org.springframework.stereotype.Component;
@@ -76,11 +76,11 @@ public class ObservationUtil {
     }
 
     public static List<Observation.ObservationReferenceRangeComponent> getReferenceRange(
-        List<? extends RCMRMT030101UKReferenceRange> referenceRangeList) {
+        List<RCMRMT030101UK04ReferenceRange> referenceRangeList) {
 
         var outputReferenceRanges = new ArrayList<Observation.ObservationReferenceRangeComponent>();
 
-        for (RCMRMT030101UKReferenceRange referenceRange : referenceRangeList) {
+        for (RCMRMT030101UK04ReferenceRange referenceRange : referenceRangeList) {
             var referenceRangeComponent = new Observation.ObservationReferenceRangeComponent();
             referenceRangeComponent.setText(referenceRange.getReferenceInterpretationRange().getText());
 
@@ -176,7 +176,7 @@ public class ObservationUtil {
         };
     }
 
-    private static boolean referenceInterpretationRangeHasValue(RCMRMT030101UKInterpretationRange referenceInterpretationRange) {
+    private static boolean referenceInterpretationRangeHasValue(RCMRMT030101UK04InterpretationRange referenceInterpretationRange) {
         return referenceInterpretationRange != null && referenceInterpretationRange.getValue() != null;
     }
 

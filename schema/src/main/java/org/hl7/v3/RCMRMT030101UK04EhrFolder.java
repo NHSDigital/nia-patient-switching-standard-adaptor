@@ -72,7 +72,7 @@ public class RCMRMT030101UK04EhrFolder {
     @XmlElement(required = true)
     protected TS availabilityTime;
     @XmlElement(required = true, type = RCMRMT030101UK04Author2.class)
-    protected RCMRMT030101UKAuthor2 author;
+    protected RCMRMT030101UK04Author2 author;
     @XmlElement(required = true)
     protected RCMRMT030101UK04ResponsibleParty responsibleParty;
     @XmlElement(required = true)
@@ -196,7 +196,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link RCMRMT030101UK04Author2 }
      *     
      */
-    public RCMRMT030101UKAuthor2 getAuthor() {
+    public RCMRMT030101UK04Author2 getAuthor() {
         return author;
     }
 
@@ -208,7 +208,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link RCMRMT030101UK04Author2 }
      *     
      */
-    public void setAuthor(RCMRMT030101UKAuthor2 value) {
+    public void setAuthor(RCMRMT030101UK04Author2 value) {
         this.author = value;
     }
 

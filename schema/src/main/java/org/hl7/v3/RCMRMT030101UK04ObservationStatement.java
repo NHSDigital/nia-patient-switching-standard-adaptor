@@ -106,7 +106,7 @@ public class RCMRMT030101UK04ObservationStatement {
     protected List<RCMRMT030101UK04Specimen> specimen;
     protected List<RCMRMT030101UK04PertinentInformation02> pertinentInformation;
     @XmlElement(type=RCMRMT030101UK04ReferenceRange.class)
-    protected List<? extends RCMRMT030101UKReferenceRange> referenceRange;
+    protected List<RCMRMT030101UK04ReferenceRange> referenceRange;
     protected List<RCMRMT030101UK04Informant> informant;
     @XmlElement(name = "Participant")
     protected List<RCMRMT030101UK04Participant> participant;
@@ -440,7 +440,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<? extends RCMRMT030101UKReferenceRange> getReferenceRange() {
+    public List<RCMRMT030101UK04ReferenceRange> getReferenceRange() {
         if (referenceRange == null) {
             referenceRange = new ArrayList<RCMRMT030101UK04ReferenceRange>();
         }
