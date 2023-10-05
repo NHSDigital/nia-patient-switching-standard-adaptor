@@ -22,6 +22,8 @@ import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UK07Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
@@ -87,7 +89,7 @@ public class BundleMapperService {
     private final SpecimenMapper specimenMapper;
     private final SpecimenCompoundsMapper specimenCompoundsMapper;
 
-    public Bundle mapToBundle(RCMRIN030000UK06Message xmlMessage, String losingPracticeOdsCode,
+    public Bundle mapToBundle(RCMRIN030000UKMessage xmlMessage, String losingPracticeOdsCode,
                               List<PatientAttachmentLog> attachments) throws BundleMappingException {
         try {
 
@@ -243,12 +245,30 @@ public class BundleMapperService {
             .orElse(null);
     }
 
-    private RCMRMT030101UK04EhrFolder getEhrFolder(RCMRIN030000UK06Message xmlMessage) {
-        return xmlMessage.getControlActEvent().getSubject().getEhrExtract().getComponent().get(0).getEhrFolder();
+    private RCMRMT030101UK04EhrFolder getEhrFolder(RCMRIN030000UKMessage xmlMessage) {
+        if (xmlMessage instanceof RCMRIN030000UK07Message) {
+            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent()
+                                                         .getSubject()
+                                                         .getEhrExtract()
+                                                         .getComponent()
+                                                         .get(0)
+                                                         .getEhrFolder();
+        } else {
+            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent()
+                                                         .getSubject()
+                                                         .getEhrExtract()
+                                                         .getComponent()
+                                                         .get(0)
+                                                         .getEhrFolder();
+        }
     }
 
-    private RCMRMT030101UK04EhrExtract getEhrExtract(RCMRIN030000UK06Message xmlMessage) {
-        return xmlMessage.getControlActEvent().getSubject().getEhrExtract();
+    private RCMRMT030101UK04EhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
+        if (xmlMessage instanceof RCMRIN030000UK07Message) {
+            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
+        } else {
+            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
+        }
     }
 
     private <T extends DomainResource> void addEntries(Bundle bundle, Collection<T> resources) {

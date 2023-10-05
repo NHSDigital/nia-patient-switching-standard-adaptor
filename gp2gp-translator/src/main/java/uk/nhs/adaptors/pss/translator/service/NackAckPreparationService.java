@@ -5,6 +5,7 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.FINAL_ACK_SENT;
 
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,7 +89,7 @@ public class NackAckPreparationService {
     }
 
 
-    public NACKMessageData prepareNackMessageData(NACKReason reason, RCMRIN030000UK06Message payload,
+    public NACKMessageData prepareNackMessageData(NACKReason reason, RCMRIN030000UKMessage payload,
                                                   String conversationId) {
 
         String toOdsCode = XmlParseUtilService.parseToOdsCode(payload);
@@ -126,7 +127,7 @@ public class NackAckPreparationService {
                 .build();
     }
 
-    public boolean sendNackMessage(NACKReason reason, RCMRIN030000UK06Message payload, String conversationId) {
+    public boolean sendNackMessage(NACKReason reason, RCMRIN030000UKMessage payload, String conversationId) {
 
         LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
                 payload.getId().getRoot());
