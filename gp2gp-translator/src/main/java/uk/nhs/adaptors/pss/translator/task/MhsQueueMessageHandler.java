@@ -41,7 +41,7 @@ import java.util.Locale;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MhsQueueMessageHandler {
-    private static final String EHR_EXTRACT_INTERACTION_ID = "RCMR_IN030000UK06";
+    private static final String EHR_EXTRACT_INTERACTION_ID06 = "RCMR_IN030000UK06";
     private static final String EHR_EXTRACT_INTERACTION_ID07 = "RCMR_IN030000UK07";
     private static final String ACKNOWLEDGEMENT_INTERACTION_ID = "MCCI_IN010000UK13";
     private static final String CONTINUE_ATTACHMENT_INTERACTION_ID = "COPC_IN000001UK01";
@@ -78,7 +78,7 @@ public class MhsQueueMessageHandler {
 
             if (ACKNOWLEDGEMENT_INTERACTION_ID.equals(interactionId)) {
                 acknowledgmentMessageHandler.handleMessage(inboundMessage, conversationId);
-            } else if (EHR_EXTRACT_INTERACTION_ID.equals(interactionId)) {
+            } else if (EHR_EXTRACT_INTERACTION_ID06.equals(interactionId)) {
                 ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId, RCMRIN030000UK06Message.class);
             } else if (EHR_EXTRACT_INTERACTION_ID07.equals(interactionId)) {
                 ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId, RCMRIN030000UK07Message.class);
