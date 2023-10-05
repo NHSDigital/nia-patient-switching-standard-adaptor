@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+* Documented database requirements in [OPERATING.md](/OPERATING.md#database-requirements)
+* New docker image published as [nhsdev/nia-ps-db-migration](https://hub.docker.com/r/nhsdev/nia-ps-db-migration)
+
 ### Fixed
 
 * Fix issue where continue message was not accepted by EMIS.
@@ -15,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 * Add details about object storage to operating documentation.
+* Enable AWS Instance Roles to be used for connecting to S3
 
 ### Fixed
 
