@@ -28,6 +28,7 @@ public class ObjectFactory {
     private final static QName _EhrExtract_QNAME = new QName("urn:hl7-org:v3", "EhrExtract");
     private final static QName _Message_QNAME = new QName("urn:hl7-org:v3", "Message");
     private final static QName _RCMRIN030000UK06_QNAME = new QName("urn:hl7-org:v3", "RCMR_IN030000UK06");
+    private final static QName _RCMRIN030000UK07_QNAME = new QName("urn:hl7-org:v3", "RCMR_IN030000UK07");
     private final static QName _COPCIN000001UK01_QNAME = new QName("urn:hl7-org:v3", "COPC_IN000001UK01");
     private final static QName _IVLINTLow_QNAME = new QName("urn:hl7-org:v3", "low");
     private final static QName _IVLINTHigh_QNAME = new QName("urn:hl7-org:v3", "high");
@@ -1838,6 +1839,11 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "RCMR_IN030000UK06")
     public JAXBElement<RCMRIN030000UK06Message> createRCMRIN030000UK06(RCMRIN030000UK06Message value) {
         return new JAXBElement<RCMRIN030000UK06Message>(_RCMRIN030000UK06_QNAME, RCMRIN030000UK06Message.class, null, value);
+    }
+
+    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "RCMR_IN030000UK07")
+    public JAXBElement<RCMRIN030000UK07Message> createRCMRIN030000UK07(RCMRIN030000UK07Message value) {
+        return new JAXBElement<RCMRIN030000UK07Message>(_RCMRIN030000UK07_QNAME, RCMRIN030000UK07Message.class, null, value);
     }
 
     /**
