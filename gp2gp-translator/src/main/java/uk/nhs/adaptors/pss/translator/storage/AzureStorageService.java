@@ -1,19 +1,17 @@
 package uk.nhs.adaptors.pss.translator.storage;
 
-import com.azure.storage.blob.BlobContainerClient;
-import com.azure.storage.blob.BlobServiceClient;
-import com.azure.storage.blob.BlobServiceClientBuilder;
-import com.azure.storage.blob.specialized.BlockBlobClient;
-import com.azure.storage.common.StorageSharedKeyCredential;
-import org.springframework.stereotype.Service;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-@Service
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.blob.specialized.BlockBlobClient;
+import com.azure.storage.common.StorageSharedKeyCredential;
+
 public class AzureStorageService implements StorageService {
 
     // Consistent objects

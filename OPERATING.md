@@ -76,7 +76,84 @@ $ docker run --rm -e PS_DB_OWNER_NAME=postgres -e POSTGRES_PASSWORD=super5ecret 
     nhsdev/nia-ps-snomed-schema /snomed/uk_sct2mo_36.3.0_20230705000001Z.zip
 ```
 
-## Message broker requirements
+## Message broker
+
+### PS Queue
+
+The patient switching service uses a queue for communication between the HTTP facade, and GP2GP translator.
+
+### MHS incoming message flows diagram
+
+The MHS Inbound adaptor accepts incoming HTTPS spine messages, and pushes them onto ActiveMQ.
+
+```mermaid
+%%{ init: { 'flowchart': { 'nodeSpacing': 80, 'rankSpacing': 80, 'curve': 'stepBefore' } } }%%
+graph LR
+   ActiveMQ[(ActiveMQ)];
+   style ActiveMQ fill:#000080,color:#fff
+   PSAdaptor[Patient Switching Adaptor];
+   GP2GPAdaptor[GP2GP Adaptor];
+   MHSInbound[MHS Inbound Adaptor];
+   ActiveMQ -- MHS Inbound Queue --> PSAdaptor
+   PSAdaptor -- GP2GP Inbound Queue --> ActiveMQ
+   ActiveMQ -- GP2GP Inbound Queue --> GP2GPAdaptor
+   MHSInbound -- MHS Inbound Queue --> ActiveMQ
+```
+
+The set up shown above is described as the daisy-chaining configuration.
+In this mode, the PS Adaptor and [GP2GP Adaptor] execute against a single instance of the MHS Adaptor.
+Messages received by the PS Adaptor with a conversation ID it doesn't recognise are forwarded to the GP2GP Adaptor queue.
+
+When the daisy-chaining configuration is disabled, the adaptor will put messages it doesn't recognise into the dead letter queue.
+
+In the diagram above there is a single broker for all queues, but the adaptor supports having separate brokers for each queue.
+
+[GP2GP Adaptor]: https://github.com/nhsconnect/integration-adaptor-gp2gp
+
+Required environment variables:
+
+- `PS_AMQP_BROKER`: the location of the PS Adaptors queue. This should be set to the url of a single JMS broker
+  (the PS Adaptor does not support concurrent PS Adaptor brokers) - default = `amqp://localhost:5672`
+- `PS_AMQP_USERNAME`: The username for accessing the PS broker
+- `PS_AMQP_PASSWORD`: The password for accessing the PS broker
+- `MHS_AMQP_BROKER`: the location of the MHS Adaptors inbound queue. This should be set to the url of a single JMS broker
+  (the PS Adaptor does not support concurrent MHS Adaptor brokers) - default = `amqp://localhost:5672`
+- `MHS_AMQP_USERNAME`: The username for accessing the MHS broker
+- `MHS_AMQP_PASSWORD`: The password for accessing the MHS broker
+
+Optional environment variables:
+
+- `PS_DAISY_CHAINING_ACTIVE`: set to `true` to enable daisy-chaining - default = `false`
+- `PS_QUEUE_NAME`: The name of the PS queue, default = `pssQueue`
+- `PS_AMQP_MAX_REDELIVERIES`: default = `3`
+- `MHS_QUEUE_NAME`: The name of the MHS Adaptors inbound queue, default = `mhsQueue`
+- `MHS_AMQP_MAX_REDELIVERIES`: default = `3`
+- `MHS_DLQ_PREFIX`: default = `DLQ.`
+- `GP2GP_AMQP_BROKERS`: the location of the GP2GP Adaptors inbound queue. This should be set to the url of a single JMS broker
+  (the PS Adaptor does not support concurrent GP2GP Adaptor brokers) - default = `amqp://localhost:5672`
+- `GP2GP_MHS_INBOUND_QUEUE`: The name of the GP2GP Adaptors inbound queue, default = `gp2gpInboundQueue`
+- `GP2GP_AMQP_USERNAME`: The username for accessing the GP2GP broker
+- `GP2GP_AMQP_PASSWORD`: The password for accessing the GP2GP broker
+
+An example daisy chaining environment is provided in [/test-suite/daisy-chaining/](/test-suite/daisy-chaining/).
+
+### Broker Requirements
+
+* The broker must be configured with a limited number of retries and dead-letter queues
+* It is the responsibility of the GP supplier to configure adequate monitoring against the dead-letter queues that allows ALL undeliverable messages to be investigated fully.
+* The broker must use persistent queues to avoid loss of data
+* The Adaptor has been assured against ActiveMQ, the use of other MQ implementations is the responsibility of the GP supplier to test
+
+**Using AmazonMQ**
+
+* A persistent broker (not in-memory) must be used to avoid data loss.
+* A configuration profile that includes settings for [retry and dead-lettering](https://activemq.apache.org/message-redelivery-and-dlq-handling.html) and placing non persistent messages onto the dead letter queue must be applied.
+* AmazonMQ uses the scheme `amqp+ssl://` but this **MUST** be changed to `amqps://` when configuring the adaptor.
+
+**Using Azure Service Bus**
+
+* The ASB must use [MaxDeliveryCount and dead-lettering](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues#exceeding-maxdeliverycount)
+* Azure Service Bus may require some parameters as part of the URL configuration. For example: `PS_AMQP_BROKER=amqps://<NAME>.servicebus.windows.net/;SharedAccessKeyName=<KEY NAME>;SharedAccessKey=<KEY VALUE>`
 
 ## Object storage
 Data stored:
