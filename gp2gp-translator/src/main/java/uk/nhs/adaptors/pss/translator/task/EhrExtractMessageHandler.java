@@ -194,13 +194,13 @@ public class EhrExtractMessageHandler {
 
         // now we have the transformed payload, lets create our bundle
         Bundle bundle = null;
+        RCMRIN030000UKMessage payload = null;
         if (destinationClass.getCanonicalName().contains("RCMRIN030000UK07Message")) {
-            var payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK07Message.class);
-            bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode(), attachments);
+            payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK07Message.class);
         } else {
-            var payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
-            bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode(), attachments);
+            payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
         }
+        bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode(), attachments);
 
         // update the db migration request
         migrationStatusLogService.updatePatientMigrationRequestAndAddMigrationStatusLog(
