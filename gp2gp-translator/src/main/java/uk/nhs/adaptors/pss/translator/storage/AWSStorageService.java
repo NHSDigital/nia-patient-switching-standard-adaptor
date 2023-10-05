@@ -16,29 +16,31 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
-import org.springframework.stereotype.Service;
 
-
-@Service
 public class AWSStorageService implements StorageService {
 
     private static final long SIXY_MINUTES = 1000 * 60 * 60;
     private final AmazonS3 s3Client;
-    private String bucketName;
+    private final String bucketName;
 
     public AWSStorageService(StorageServiceConfiguration configuration) {
 
-        bucketName = configuration.getContainerName();
+        var clientBuilder = AmazonS3ClientBuilder.standard();
 
-        AWSCredentials credentials = new BasicAWSCredentials(
+        if (accessKeyProvided(configuration)) {
+
+            AWSCredentials credentials = new BasicAWSCredentials(
                 configuration.getAccountReference(),
                 configuration.getAccountSecret()
-        );
+            );
 
-        s3Client = AmazonS3ClientBuilder.standard()
+            clientBuilder
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withRegion(configuration.getRegion())
-                .build();
+                .withRegion(configuration.getRegion());
+        }
+
+        bucketName = configuration.getContainerName();
+        s3Client = clientBuilder.build();
     }
 
     public void uploadFile(String filename, byte[] fileAsString) throws StorageException {
@@ -86,5 +88,14 @@ public class AWSStorageService implements StorageService {
         } catch (Exception exception) {
             throw new StorageException("Error occurred downloading from S3 Bucket", exception);
         }
+    }
+
+    private boolean accessKeyProvided(StorageServiceConfiguration configuration) {
+
+        if (configuration.getAccountSecret() == null || configuration.getAccountSecret().isBlank()) {
+            return false;
+        }
+
+        return configuration.getAccountReference() != null && !configuration.getAccountReference().isBlank();
     }
 }
