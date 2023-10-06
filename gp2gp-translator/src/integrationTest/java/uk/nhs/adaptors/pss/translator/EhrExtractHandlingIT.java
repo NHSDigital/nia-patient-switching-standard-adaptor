@@ -1,7 +1,7 @@
 package uk.nhs.adaptors.pss.translator;
 
 import static org.assertj.core.api.Assertions.fail;
-import static org.awaitility.Awaitility.await;
+import static org.awaitility.Awaitility.waitAtMost;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
@@ -11,6 +11,7 @@ import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonP
 
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -47,6 +48,7 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 @DirtiesContext
 @AutoConfigureMockMvc
 public class EhrExtractHandlingIT {
+
     private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
@@ -96,6 +98,7 @@ public class EhrExtractHandlingIT {
 
     private String patientNhsNumber;
     private String conversationId;
+    static final int WAITING_TIME = 10;
 
     @BeforeEach
     public void setUp() {
@@ -107,10 +110,23 @@ public class EhrExtractHandlingIT {
     @Test
     public void handleEhrExtractFromQueue() throws JSONException {
         // process starts with consuming a message from MHS queue
-        sendInboundMessageToQueue("/xml/RCMR_IN030000UK06/payload_part.xml");
+        sendInboundMessageToQueue("/xml/RCMR_IN030000UK06/payload_part.xml", EBXML_PART_PATH);
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        await().until(this::isEhrMigrationCompleted);
+        waitAtMost(Duration.ofSeconds(WAITING_TIME)).until(this::isEhrMigrationCompleted);
+
+        // verify generated bundle resource
+        verifyBundle("/json/expectedBundle.json");
+    }
+
+    @Test
+    public void handleEhrExtractWithConfidentialityCodeFromQueue() throws JSONException {
+        final String ebxmlPartPath = "/xml/RCMR_IN030000UK07/ebxml_part.xml";
+        // process starts with consuming a message from MHS queue
+        sendInboundMessageToQueue("/xml/RCMR_IN030000UK07/payload_part_with_confidentiality_code.xml", ebxmlPartPath);
+
+        // wait until EHR extract is translated to bundle resource and saved to the DB
+        waitAtMost(Duration.ofSeconds(WAITING_TIME)).until(this::isEhrMigrationCompleted);
 
         // verify generated bundle resource
         verifyBundle("/json/expectedBundle.json");
@@ -129,15 +145,15 @@ public class EhrExtractHandlingIT {
         return UUID.randomUUID().toString();
     }
 
-    private void sendInboundMessageToQueue(String payloadPartPath) {
-        var inboundMessage = createInboundMessage(payloadPartPath);
+    private void sendInboundMessageToQueue(String payloadPartPath, String ebxmlPartPath) {
+        var inboundMessage = createInboundMessage(payloadPartPath, ebxmlPartPath);
         mhsJmsTemplate.send(session -> session.createTextMessage(parseMessageToString(inboundMessage)));
     }
 
-    private InboundMessage createInboundMessage(String payloadPartPath) {
+    private InboundMessage createInboundMessage(String payloadPartPath, String ebxmlPartPath) {
         var inboundMessage = new InboundMessage();
         var payload = readResourceAsString(payloadPartPath).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
-        var ebXml = readResourceAsString(EBXML_PART_PATH).replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
+        var ebXml = readResourceAsString(ebxmlPartPath).replace(CONVERSATION_ID_PLACEHOLDER, conversationId);
         inboundMessage.setPayload(payload);
         inboundMessage.setEbXML(ebXml);
         return inboundMessage;

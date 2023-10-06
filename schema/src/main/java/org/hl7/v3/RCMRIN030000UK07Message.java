@@ -53,7 +53,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_IN030000UK06.Message", propOrder = {
+@XmlType(name = "RCMR_IN030000UK07.Message", propOrder = {
     "id",
     "creationTime",
     "versionCode",
@@ -65,7 +65,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "communicationFunctionSnd",
     "controlActEvent"
 })
-public class RCMRIN030000UK06Message implements RCMRIN030000UKMessage {
+public class RCMRIN030000UK07Message implements RCMRIN030000UKMessage {
 
     @XmlElement(required = true)
     protected II id;
@@ -86,7 +86,7 @@ public class RCMRIN030000UK06Message implements RCMRIN030000UKMessage {
     @XmlElement(required = true)
     protected MCCIMT010101UK12CommunicationFunctionSnd communicationFunctionSnd;
     @XmlElement(name = "ControlActEvent", required = true)
-    protected RCMRIN030000UK06ControlActEvent controlActEvent;
+    protected RCMRIN030000UK07ControlActEvent controlActEvent;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -327,7 +327,7 @@ public class RCMRIN030000UK06Message implements RCMRIN030000UKMessage {
      *     {@link RCMRIN030000UK06ControlActEvent }
      *     
      */
-    public RCMRIN030000UK06ControlActEvent getControlActEvent() {
+    public RCMRIN030000UK07ControlActEvent getControlActEvent() {
         return controlActEvent;
     }
 
@@ -336,10 +336,10 @@ public class RCMRIN030000UK06Message implements RCMRIN030000UKMessage {
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRIN030000UK06ControlActEvent }
+     *     {@link RCMRIN030000UK07ControlActEvent }
      *     
      */
-    public void setControlActEvent(RCMRIN030000UK06ControlActEvent value) {
+    public void setControlActEvent(RCMRIN030000UK07ControlActEvent value) {
         this.controlActEvent = value;
     }
 

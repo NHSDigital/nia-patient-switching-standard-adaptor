@@ -77,6 +77,7 @@ public class ObservationUtil {
 
     public static List<Observation.ObservationReferenceRangeComponent> getReferenceRange(
         List<RCMRMT030101UK04ReferenceRange> referenceRangeList) {
+
         var outputReferenceRanges = new ArrayList<Observation.ObservationReferenceRangeComponent>();
 
         for (RCMRMT030101UK04ReferenceRange referenceRange : referenceRangeList) {
