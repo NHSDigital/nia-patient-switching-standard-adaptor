@@ -35,7 +35,6 @@ import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
-import uk.nhs.adaptors.pss.translator.config.SupportedFileTypes;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
@@ -48,6 +47,7 @@ import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -71,11 +71,12 @@ public class COPCMessageHandler {
     private final InboundMessageMergingService inboundMessageMergingService;
     private final XPathService xPathService;
     private final XmlParseUtilService xmlParseUtilService;
-    private final SupportedFileTypes supportedFileTypes;
     private final FailedProcessHandlingService failedProcessHandlingService;
     private final OutboundMessageUtil outboundMessageUtil;
     private final InboundMessageUtil inboundMessageUtil;
     private final SendNACKMessageHandler sendNACKMessageHandler;
+
+    private final IdGeneratorService idGeneratorService;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId)
             throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
@@ -183,7 +184,7 @@ public class COPCMessageHandler {
         // Logic below manages that case to make sure index COPC messages trigger the merge check
         var indexMidReference = currentAttachmentLog.getMid();
         if (currentAttachmentLog.getParentMid() == null) {
-            // it could also be an index file folowing design changes, check to see if it has any child attachments before returning
+            // it could also be an index file following design changes, check to see if it has any child attachments before returning
             var childFragments = conversationAttachmentLogs.stream()
                 .filter(log -> (log.getParentMid() != null) && log.getParentMid().equals(indexMidReference))
                 .toList();
@@ -400,7 +401,8 @@ public class COPCMessageHandler {
 
             // in this instance there should only ever be one CID on a fragment index file
             if (payloadReference.getHref().contains("cid:")) {
-                messageId = payloadReference.getHref().substring(payloadReference.getHref().indexOf("cid:") + "cid:".length());
+                // EMIS does not use unique IDs for cid references, so we have to generate our own
+                messageId = "ADAPTOR_GENERATED_" + idGeneratorService.generateUuid().toUpperCase();
                 descriptionString = message.getAttachments().get(0).getDescription();
 
                 isBase64 = Boolean.parseBoolean(message.getAttachments().get(0).getIsBase64());
