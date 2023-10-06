@@ -160,7 +160,7 @@ public class COPCHandlingIT extends BaseEhrHandler {
     }
 
     @Test
-    public void When_HandleCOPC_With_ManifestWithInlineFragment_Expect_FragmentsMerged() {
+    public void When_HandleCOPC_With_ManifestWithDecodedInlineFragment_Expect_FragmentsMerged() {
         sendInboundMessageToQueue(DECODED_MESSAGES_DIRECTORY + "index-message-with-cid/uk06.json");
 
         await().until(this::hasContinueMessageBeenReceived);
