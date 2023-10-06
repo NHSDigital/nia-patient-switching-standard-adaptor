@@ -12,7 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-* Fix issue where continue message was not accepted by EMIS. 
+* Fix issue where continue message was not accepted by EMIS.
+* Fixed issue where EMIS `cid` references caused large message merging to fail.  
 
 ## [0.13] - 2023-09-13
 

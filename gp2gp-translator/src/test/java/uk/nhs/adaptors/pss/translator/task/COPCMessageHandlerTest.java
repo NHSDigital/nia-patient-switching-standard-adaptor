@@ -71,6 +71,7 @@ import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
 import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
@@ -124,6 +125,8 @@ class COPCMessageHandlerTest {
     private InboundMessageUtil inboundMessageUtil;
     @Mock
     private SendNACKMessageHandler sendNACKMessageHandler;
+    @Mock
+    private IdGeneratorService idGeneratorService;
     @InjectMocks
     private COPCMessageHandler copcMessageHandler;
     @Captor
@@ -290,15 +293,17 @@ class COPCMessageHandlerTest {
             AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
-        var childCid = "435B1171-31F6-4EF2-AD7F-C7E64EEFF357";
+        var generatedCid = "ADAPTOR_GENERATED_TEST-ID";
         InboundMessage message = new InboundMessage();
         prepareFragmentIndexWithCidMocks(message);
+
+        when(idGeneratorService.generateUuid()).thenReturn("test-id");
 
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", null, true));
         when(patientAttachmentLogService.findAttachmentLog(childMid, CONVERSATION_ID))
             .thenReturn(null);
-        when(patientAttachmentLogService.findAttachmentLog(childCid, CONVERSATION_ID))
+        when(patientAttachmentLogService.findAttachmentLog(generatedCid, CONVERSATION_ID))
             .thenReturn(null);
         when(patientAttachmentLogService.findAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
@@ -323,7 +328,7 @@ class COPCMessageHandlerTest {
         PatientAttachmentLog actualCidAttachmentLog = patientLogCaptor.getAllValues().get(0);
         PatientAttachmentLog actualMidAttachmentLog = patientLogCaptor.getAllValues().get(1);
 
-        assertEquals(childCid, actualCidAttachmentLog.getMid());
+        assertEquals(generatedCid, actualCidAttachmentLog.getMid());
         assertEquals(childMid, actualMidAttachmentLog.getMid());
     }
 
