@@ -105,6 +105,7 @@ public class RCMRMT030101UK04ObservationStatement {
     protected RCMRMT030101UK04Subject subject;
     protected List<RCMRMT030101UK04Specimen> specimen;
     protected List<RCMRMT030101UK04PertinentInformation02> pertinentInformation;
+    @XmlElement(type=RCMRMT030101UK04ReferenceRange.class)
     protected List<RCMRMT030101UK04ReferenceRange> referenceRange;
     protected List<RCMRMT030101UK04Informant> informant;
     @XmlElement(name = "Participant")

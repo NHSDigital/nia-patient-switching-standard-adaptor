@@ -13,25 +13,22 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.EhrFolder complex type.
+ * &lt;p&gt;Java class for RCMR_IN030000UK06.ControlActEvent complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.EhrFolder"&amp;gt;
+ * &amp;lt;complexType name="RCMR_IN030000UK06.ControlActEvent"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="id" type="{urn:hl7-org:v3}II"/&amp;gt;
- *         &amp;lt;element name="statusCode" type="{urn:hl7-org:v3}CS"/&amp;gt;
- *         &amp;lt;element name="effectiveTime" type="{urn:hl7-org:v3}IVL_TS"/&amp;gt;
- *         &amp;lt;element name="availabilityTime" type="{urn:hl7-org:v3}TS"/&amp;gt;
- *         &amp;lt;element name="author" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Author2"/&amp;gt;
- *         &amp;lt;element name="responsibleParty" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ResponsibleParty"/&amp;gt;
- *         &amp;lt;element name="component" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Component3" maxOccurs="unbounded"/&amp;gt;
+ *         &amp;lt;element name="author" type="{urn:hl7-org:v3}MCAI_MT040101UK03.Author" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="author1" type="{urn:hl7-org:v3}MCAI_MT040101UK03.Author2" maxOccurs="2"/&amp;gt;
+ *         &amp;lt;element name="reason" type="{urn:hl7-org:v3}MCAI_MT040101UK03.Reason" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="subject" type="{urn:hl7-org:v3}RCMR_IN030000UK06.Subject"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
- *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ActHeir" /&amp;gt;
- *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="FOLDER" /&amp;gt;
+ *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ControlAct" /&amp;gt;
+ *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="CACT" /&amp;gt;
  *       &amp;lt;attribute name="moodCode" type="{urn:hl7-org:v3}ActMood" default="EVN" /&amp;gt;
  *       &amp;lt;attribute name="typeID"&amp;gt;
  *         &amp;lt;simpleType&amp;gt;
@@ -52,31 +49,20 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.EhrFolder", propOrder = {
-    "id",
-    "statusCode",
-    "effectiveTime",
-    "availabilityTime",
+@XmlType(name = "RCMR_IN030000UK07.ControlActEvent", propOrder = {
     "author",
-    "responsibleParty",
-    "component"
+    "author1",
+    "reason",
+    "subject"
 })
-public class RCMRMT030101UK04EhrFolder {
+public class RCMRIN030000UK07ControlActEvent {
 
+    protected MCAIMT040101UK03Author author;
     @XmlElement(required = true)
-    protected II id;
+    protected List<MCAIMT040101UK03Author2> author1;
+    protected List<MCAIMT040101UK03Reason> reason;
     @XmlElement(required = true)
-    protected CS statusCode;
-    @XmlElement(required = true)
-    protected IVLTS effectiveTime;
-    @XmlElement(required = true)
-    protected TS availabilityTime;
-    @XmlElement(required = true, type = RCMRMT030101UK04Author2.class)
-    protected RCMRMT030101UK04Author2 author;
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04ResponsibleParty responsibleParty;
-    @XmlElement(required = true)
-    protected List<RCMRMT030101UK04Component3> component;
+    protected RCMRIN030000UK07Subject subject;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -93,110 +79,14 @@ public class RCMRMT030101UK04EhrFolder {
     protected String nullFlavor;
 
     /**
-     * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link II }
-     *     
-     */
-    public II getId() {
-        return id;
-    }
-
-    /**
-     * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link II }
-     *     
-     */
-    public void setId(II value) {
-        this.id = value;
-    }
-
-    /**
-     * Gets the value of the statusCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link CS }
-     *     
-     */
-    public CS getStatusCode() {
-        return statusCode;
-    }
-
-    /**
-     * Sets the value of the statusCode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link CS }
-     *     
-     */
-    public void setStatusCode(CS value) {
-        this.statusCode = value;
-    }
-
-    /**
-     * Gets the value of the effectiveTime property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link IVLTS }
-     *     
-     */
-    public IVLTS getEffectiveTime() {
-        return effectiveTime;
-    }
-
-    /**
-     * Sets the value of the effectiveTime property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link IVLTS }
-     *     
-     */
-    public void setEffectiveTime(IVLTS value) {
-        this.effectiveTime = value;
-    }
-
-    /**
-     * Gets the value of the availabilityTime property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TS }
-     *     
-     */
-    public TS getAvailabilityTime() {
-        return availabilityTime;
-    }
-
-    /**
-     * Sets the value of the availabilityTime property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TS }
-     *     
-     */
-    public void setAvailabilityTime(TS value) {
-        this.availabilityTime = value;
-    }
-
-    /**
      * Gets the value of the author property.
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04Author2 }
+     *     {@link MCAIMT040101UK03Author }
      *     
      */
-    public RCMRMT030101UK04Author2 getAuthor() {
+    public MCAIMT040101UK03Author getAuthor() {
         return author;
     }
 
@@ -205,64 +95,93 @@ public class RCMRMT030101UK04EhrFolder {
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04Author2 }
+     *     {@link MCAIMT040101UK03Author }
      *     
      */
-    public void setAuthor(RCMRMT030101UK04Author2 value) {
+    public void setAuthor(MCAIMT040101UK03Author value) {
         this.author = value;
     }
 
     /**
-     * Gets the value of the responsibleParty property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link RCMRMT030101UK04ResponsibleParty }
-     *     
-     */
-    public RCMRMT030101UK04ResponsibleParty getResponsibleParty() {
-        return responsibleParty;
-    }
-
-    /**
-     * Sets the value of the responsibleParty property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link RCMRMT030101UK04ResponsibleParty }
-     *     
-     */
-    public void setResponsibleParty(RCMRMT030101UK04ResponsibleParty value) {
-        this.responsibleParty = value;
-    }
-
-    /**
-     * Gets the value of the component property.
+     * Gets the value of the author1 property.
      * 
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the component property.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the author1 property.
      * 
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
-     *    getComponent().add(newItem);
+     *    getAuthor1().add(newItem);
      * &lt;/pre&gt;
      * 
      * 
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04Component3 }
+     * {@link MCAIMT040101UK03Author2 }
      * 
      * 
      */
-    public List<RCMRMT030101UK04Component3> getComponent() {
-        if (component == null) {
-            component = new ArrayList<RCMRMT030101UK04Component3>();
+    public List<MCAIMT040101UK03Author2> getAuthor1() {
+        if (author1 == null) {
+            author1 = new ArrayList<MCAIMT040101UK03Author2>();
         }
-        return this.component;
+        return this.author1;
+    }
+
+    /**
+     * Gets the value of the reason property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the reason property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getReason().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link MCAIMT040101UK03Reason }
+     * 
+     * 
+     */
+    public List<MCAIMT040101UK03Reason> getReason() {
+        if (reason == null) {
+            reason = new ArrayList<MCAIMT040101UK03Reason>();
+        }
+        return this.reason;
+    }
+
+    /**
+     * Gets the value of the subject property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link RCMRIN030000UK07Subject }
+     *     
+     */
+    public RCMRIN030000UK07Subject getSubject() {
+        return subject;
+    }
+
+    /**
+     * Sets the value of the subject property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link RCMRIN030000UK07Subject }
+     *     
+     */
+    public void setSubject(RCMRIN030000UK07Subject value) {
+        this.subject = value;
     }
 
     /**
@@ -275,7 +194,7 @@ public class RCMRMT030101UK04EhrFolder {
      */
     public String getType() {
         if (type == null) {
-            return "ActHeir";
+            return "ControlAct";
         } else {
             return type;
         }
