@@ -1,12 +1,14 @@
 package uk.nhs.adaptors.pss.translator.service;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,6 +42,7 @@ public class AttachmentReferenceUpdaterServiceTests {
     private static final String PAYLOAD_XML = "payload.xml";
     private static final String FLAT_PAYLOAD_XML = "payload_flat.xml";
     private static final String ENCODED_PAYLOAD = "payload_encoded_urls.xml";
+    private static final String EXPECTED_OUTPUT_FOR_ENCODED_PAYLOAD = "expected_encoded_urls.xml";
     private static final String CONVERSATION_ID = "1";
     @Mock
     private StorageManagerService storageManagerService;
@@ -224,15 +227,20 @@ public class AttachmentReferenceUpdaterServiceTests {
         throws AttachmentNotFoundException, ValidationException, InlineAttachmentProcessingException {
 
         var content = getFileContent(ENCODED_PAYLOAD);
-        when(storageManagerService.getFileLocation(any(), any())).thenReturn("https://location.com");
+        var expectedOutput = getFileContent(EXPECTED_OUTPUT_FOR_ENCODED_PAYLOAD);
+
+        when(storageManagerService.getFileLocation(eq("277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE &59.txt"), any()))
+            .thenReturn("https://location.com/LICENCE.txt");
+        when(storageManagerService.getFileLocation(eq("7CCB6A77-360E-434E-8CF4-97C7C2B47D70_Hello Günter.txt"), any()))
+            .thenReturn("https://location.com/helloGunter.txt");
+        when(storageManagerService.getFileLocation(eq("8681AF4F-E577-4C8D-A2CE-43CABE3D5FB4_sample_mpeg4.mp4"), any()))
+            .thenReturn("https://location.com/sampleMpeg4.mp4");
 
         var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(mockEncodedAttachments, CONVERSATION_ID, content);
 
         verify(storageManagerService, times(mockEncodedAttachments.size())).getFileLocation(any(), any());
-        assertTrue(result.contains("https://location.com"));
-        assertFalse(result.contains("file://localhost/277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENCE%2059%25.txt"));
-        assertFalse(result.contains("file://localhost/7CCB6A77-360E-434E-8CF4-97C7C2B47D70_Hello%20G%C3%BCnter.txt"));
-        assertFalse(result.contains("file://localhost/8681AF4F-E577-4C8D-A2CE-43CABE3D5FB4_sample%5fmpeg4.mp4"));
+
+        assertThat(result).isEqualToIgnoringWhitespace(expectedOutput);
     }
 
     @Test

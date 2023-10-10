@@ -60,9 +60,10 @@ public class AttachmentReferenceUpdaterService {
             if (expectedFilenames.contains(decodedFilename)) {
 
                 String fileLocation = storageManagerService.getFileLocation(decodedFilename, conversationId);
+                String referenceElement = wrapWithReferenceElement(xmlEscape(fileLocation));
 
-                resultPayload = matcher.replaceAll(wrapWithReferenceElement(xmlEscape(fileLocation)));
-                matcher.reset();
+                resultPayload = resultPayload.replace(matcher.group(0), referenceElement);
+
                 expectedFilenames.remove(decodedFilename);
             }
         }
