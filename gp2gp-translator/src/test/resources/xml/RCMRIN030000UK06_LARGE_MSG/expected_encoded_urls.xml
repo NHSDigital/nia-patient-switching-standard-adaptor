@@ -260,7 +260,7 @@
                                                                     <translation code="37251000000104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Other digital signal"/>
                                                                 </code>
                                                                 <text mediaType="text/plain">
-                                                                    <reference value="file://localhost/277F29F1-FEAB-4D38-8266-FEB7A1E6227D_LICENSE%20%2659.txt"/>
+                                                                    <reference value="https://location.com/LICENCE.txt"/>
                                                                 </text>
                                                             </referredToExternalDocument>
                                                         </reference>
@@ -297,7 +297,7 @@
                                                                     <translation code="37251000000104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Other digital signal"/>
                                                                 </code>
                                                                 <text mediaType="text/plain">
-                                                                    <reference value="file://localhost/7CCB6A77-360E-434E-8CF4-97C7C2B47D70_Hello%20G%C3%BCnter.txt"/>
+                                                                    <reference value="https://location.com/helloGunter.txt"/>
                                                                 </text>
                                                             </referredToExternalDocument>
                                                         </reference>
@@ -334,7 +334,7 @@
                                                                     <translation code="37251000000104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Other digital signal"/>
                                                                 </code>
                                                                 <text mediaType="video/mpeg">
-                                                                    <reference value="file://localhost/8681AF4F-E577-4C8D-A2CE-43CABE3D5FB4_sample%5fmpeg4.mp4"/>
+                                                                    <reference value="https://location.com/sampleMpeg4.mp4"/>
                                                                 </text>
                                                             </referredToExternalDocument>
                                                         </reference>
