@@ -160,7 +160,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testMapAllergyWithOriginalTextInObservationCodeAndWithoutValue_MapsCodingTextFromCodeOriginalText() {
+    public void When_AllergyWithOriginalTextAndNoValue_Expect_MapsCodingTextFromCodeOriginalText() {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
             .thenReturn(defaultCodeableConcept())
             .thenReturn(secondaryCodeableConcept());
@@ -271,7 +271,7 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getNote().size()).isOne();
     }
 
-    @Test void testMapDrugAllergyWithValueElement_MapsCodingTextFromValueDescription() {
+    @Test void When_DrugAllergyWithValueElement_Expect_MapsCodingTextFromValueDescription() {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
             .thenReturn(defaultCodeableConcept())
             .thenReturn(secondaryCodeableConcept());
