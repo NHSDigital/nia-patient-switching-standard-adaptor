@@ -272,13 +272,7 @@ public class COPCMessageHandler {
 
     private List<InboundMessage.Attachment> createNewLargeAttachmentInList(PatientAttachmentLog largeFileLog, String payload) {
 
-        var fileDescription =
-            "Filename=" + "\"" + largeFileLog.getFilename()  + "\" "
-                + "ContentType=" + largeFileLog.getContentType() + " "
-                + "Compressed=" + largeFileLog.getCompressed().toString() + " "
-                + "LargeAttachment=" + largeFileLog.getLargeAttachment().toString() + " "
-                + "OriginalBase64=" + largeFileLog.getOriginalBase64().toString() + " "
-                + "Length=" + largeFileLog.getLengthNum();
+        var fileDescription = largeFileLog.getFileDescription();
 
         return Collections.singletonList(
                 InboundMessage.Attachment.builder()

@@ -158,17 +158,7 @@ public class AttachmentHandlerService {
         for (var  i = 0; i < attachmentLogs.size(); i++) {
             var log = attachmentLogs.get(i);
 
-            var fileDescription =
-                "Filename=" + "\"" + log.getFilename()  + "\" "
-                    + "ContentType=" + log.getContentType() + " "
-                    + "Compressed=" + log.getCompressed().toString() + " "
-                    + "LargeAttachment=" + log.getLargeAttachment().toString() + " "
-                    + "OriginalBase64=" + log.getOriginalBase64().toString() + " "
-                    + "Length=" + log.getLengthNum();
-
-            if (log.getSkeleton()) {
-                fileDescription += " DomainData=\\\"X-GP2GP-Skeleton:Yes\\\"";
-            }
+            var fileDescription = log.getFileDescription();
 
             var payload = "";
             if (payloads == null || payloads.get(i) == null) {
