@@ -28,15 +28,13 @@ public class PatientAttachmentLog {
     private Boolean isBase64;
 
     public String getFileDescription() {
-        String description = String.format(
-            "Filename=\"%s\" ContentType=%s Compressed=%s LargeAttachment=%s OriginalBase64=%s Length=%s",
-            getFilename(),
-            getContentType(),
-            getYesNoString(getCompressed()),
-            getYesNoString(getLargeAttachment()),
-            getYesNoString(getOriginalBase64()),
-            getLengthNum()
-        );
+        String description =
+            "Filename=\"" + getFilename() + "\""
+            + " ContentType=" + getContentType()
+            + " Compressed=" +  getYesNoString(getCompressed())
+            + " LargeAttachment=" + getYesNoString(getLargeAttachment())
+            + " OriginalBase64=" +  getYesNoString(getOriginalBase64())
+            + " Length=" + getLengthNum();
 
         if (getSkeleton()) {
             description += " DomainData=\"X-GP2GP-Skeleton: Yes\"";
