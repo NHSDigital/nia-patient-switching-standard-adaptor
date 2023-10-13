@@ -12,4 +12,5 @@
     </root>
 
     <logger name="uk.nhs.adaptors.pss.translator" level="${PS_LOGGING_LEVEL:-INFO}" />
+    <logger name="uk.nhs.adaptors.connector.service" level="${PS_LOGGING_LEVEL: -INFO}" />
 </configuration>
