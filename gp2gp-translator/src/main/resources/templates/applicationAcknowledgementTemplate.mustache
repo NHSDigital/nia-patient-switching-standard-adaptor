@@ -6,7 +6,6 @@ https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm-->
 <MCCI_IN010000UK13 xmlns="urn:hl7-org:v3"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="urn:hl7-org:v3 ../../../../../schema/src/main/resources/schema/MCCI_IN010000UK13.xsd"
-                   type="Message"
 >
     <id root="{{messageId}}"/>
     <creationTime value="{{creationTime}}"/>
@@ -20,20 +19,20 @@ https://data.developer.nhs.uk/dms/mim/4.2.00/Index.htm-->
             <id root="{{messageRef}}"/>
         </messageRef>
     </acknowledgement>
-    <communicationFunctionRcv typeCode="RCV" type="CommunicationFunction">
-        <device type="Device" classCode="DEV" determinerCode="INSTANCE">
+    <communicationFunctionRcv typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
             <id root="1.2.826.0.1285.0.2.0.107" extension="{{toAsid}}"/>
         </device>
     </communicationFunctionRcv>
-    <communicationFunctionSnd typeCode="SND" type="CommunicationFunction">
-        <device type="Device" classCode="SND">
+    <communicationFunctionSnd typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
             <id root="1.2.826.0.1285.0.2.0.107" extension="{{fromAsid}}"/>
         </device>
     </communicationFunctionSnd>
-    <ControlActEvent classCode="CACT" moodCode="EVN" type="ControlAct">
-        <author1 typeCode="AUT" type="Participation">
-            <AgentSystemSDS classCode="AGNT" type="RoleHeir">
-                <agentSystemSDS classCode="DEV" determinerCode="INSTANCE" type="Device">
+    <ControlActEvent classCode="CACT" moodCode="EVN">
+        <author1 typeCode="AUT">
+            <AgentSystemSDS classCode="AGNT">
+                <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
                     <id root="1.2.826.0.1285.0.2.0.107" extension="{{fromAsid}}"/>
                 </agentSystemSDS>
             </AgentSystemSDS>
