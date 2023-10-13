@@ -41,7 +41,7 @@ public class XmlParseUtilService {
 
     private static final String FILENAME_PATTERN = "Filename=\"([\\S]{1}[^\"]*)\"";
 
-    private static final String COMPRESSED_PATTERN = "Compressed=(Yes|No|true|false)";
+    private static final String COMPRESSED_PATTERN = "Compressed=(Yes|No)";
 
     public static boolean parseOriginalBase64(String description) throws ParseException {
         Pattern pattern = Pattern.compile("OriginalBase64=(Yes|No)");
