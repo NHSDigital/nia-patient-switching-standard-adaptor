@@ -115,7 +115,7 @@ public class SDSServiceTest {
 
     @Test
     public void When_GetNhsMhsPartyKey_WhenEHRExtractValidInput_Expect_CorrectNhsMhsPartyKey() {
-        //when(sdsClientService.send(any())).thenReturn(sdsResponseEHRExtract);
+
         when(fhirParser.parseResource(any(), eq(Bundle.class))).thenReturn(ehrResponseBundle);
 
         String nhsMhsPartyKey = sdsService.parseNhsMhsPartyKey(sdsResponseEHRExtract);
