@@ -18,6 +18,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.Annotation;
+import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
@@ -42,10 +43,10 @@ import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance> {
     private static final String DRUG_ALLERGY_CODE = "14L..00";
     private static final String NON_DRUG_ALLERGY_CODE = "SN53.00";
-    // the meta profile is pre processed with the url so only the final section is required here
+    // the meta profile is pre-processed with the url so only the final section is required here
     private static final String META_PROFILE = "AllergyIntolerance-1";
     private static final String ENCOUNTER_URL = "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter";
-    private static final String CODE_SYSTEM = "2.16.840.1.113883.2.1.6.3";
+    private static final String EGTON_CODE_SYSTEM = "2.16.840.1.113883.2.1.6.3";
     private static final String ALLERGY_TERM_TEXT = "H/O: drug allergy";
     private static final String ALLERGY_NOTE = "Allergy Code: %s";
 
@@ -111,9 +112,34 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         return compoundStatement.getCode().getCode().equals(DRUG_ALLERGY_CODE) ? MEDICATION : ENVIRONMENT;
     }
 
+    private Annotation getAllergyNote(CodeableConcept codeableConceptFromCode, CodeableConcept codeableConceptFromValue) {
+        var codeDisplayName = codeableConceptFromCode.getCodingFirstRep().getDisplay();
+        if (codeDisplayName != null
+            && !ALLERGY_TERM_TEXT.equals(codeDisplayName)
+            && !codeDisplayName.equals(codeableConceptFromValue.getCodingFirstRep().getDisplay())) {
+
+            return new Annotation().setText(ALLERGY_NOTE.formatted(codeDisplayName));
+        }
+        return null;
+    }
+
+    private CodeableConcept getCodeableConceptFromNonEgtonCodeValue(RCMRMT030101UK04ObservationStatement observationStatement) {
+        if (observationStatement.hasValue()
+            && observationStatement.getValue() instanceof CD value
+            && !EGTON_CODE_SYSTEM.equals(value.getCodeSystem())) {
+
+            return codeableConceptMapper.mapToCodeableConcept(value);
+        }
+        return null;
+    }
+
     private void buildCode(AllergyIntolerance allergyIntolerance, RCMRMT030101UK04CompoundStatement compoundStatement) {
-        var observationStatement =
-            compoundStatement.getComponent().stream().map(RCMRMT030101UK04Component02::getObservationStatement).findFirst().get();
+        var observationStatement = compoundStatement.getComponent()
+            .stream()
+            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .findFirst()
+            .get();
+
         var codeableConceptFromCode = codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode());
         var compoundCode = compoundStatement.getCode().getCode();
 
@@ -124,39 +150,43 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 return;
             }
 
-            DegradedCodeableConcepts.addDegradedEntryIfRequired(
-                    allergyIntolerance.getCode(),
-                    DegradedCodeableConcepts.DEGRADED_NON_DRUG_ALLERGY);
+            DegradedCodeableConcepts.addDegradedEntryIfRequired(allergyIntolerance.getCode(),
+                DegradedCodeableConcepts.DEGRADED_NON_DRUG_ALLERGY);
         }
 
         if (DRUG_ALLERGY_CODE.equals(compoundCode)) {
-            if (observationStatement.hasValue() && observationStatement.getValue() instanceof CD value) {
-                if (!CODE_SYSTEM.equals(value.getCodeSystem())) {
-                    var codeableConceptFromValue = codeableConceptMapper.mapToCodeableConcept(value);
-                    allergyIntolerance.setCode(codeableConceptFromValue);
-
-                    var codeDisplayName = codeableConceptFromCode.getCodingFirstRep().getDisplay();
-                    if (codeDisplayName != null && !ALLERGY_TERM_TEXT.equals(codeDisplayName)
-                        && !codeDisplayName.equals(codeableConceptFromValue.getCodingFirstRep().getDisplay())) {
-                        allergyIntolerance.getNote().add(new Annotation().setText(ALLERGY_NOTE.formatted(codeDisplayName)));
-                    }
-                } else {
-                    allergyIntolerance.setCode(codeableConceptFromCode);
-                }
-            } else {
-                allergyIntolerance.setCode(codeableConceptFromCode);
+            var codeableConceptFromValue = getCodeableConceptFromNonEgtonCodeValue(observationStatement);
+            if (codeableConceptFromValue == null && codeableConceptFromCode == null) {
+                return;
             }
+            if (codeableConceptFromValue == null) {
+                allergyIntolerance.setCode(codeableConceptFromCode);
 
-            if (allergyIntolerance.getCode() == null) {
+                buildAllergyIntoleranceText(observationStatement, allergyIntolerance);
+
+                DegradedCodeableConcepts.addDegradedEntryIfRequired(
+                    allergyIntolerance.getCode(),
+                    DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
                 return;
             }
 
-            DegradedCodeableConcepts.addDegradedEntryIfRequired(
-                    allergyIntolerance.getCode(),
-                    DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
+            allergyIntolerance.setCode(codeableConceptFromValue);
+
+            var allergyNote = getAllergyNote(codeableConceptFromCode, codeableConceptFromValue);
+            if (allergyNote != null) {
+                allergyIntolerance.getNote().add(allergyNote);
+            }
+        }
+
+        if (allergyIntolerance.getCode() == null) {
+            return;
         }
 
         buildAllergyIntoleranceText(observationStatement, allergyIntolerance);
+
+        DegradedCodeableConcepts.addDegradedEntryIfRequired(
+            allergyIntolerance.getCode(),
+            DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
     }
 
     private void buildOnset(RCMRMT030101UK04CompoundStatement compoundStatement, AllergyIntolerance allergyIntolerance) {
@@ -190,6 +220,13 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     private void buildAllergyIntoleranceText(RCMRMT030101UK04ObservationStatement observationStatement,
         AllergyIntolerance allergyIntolerance) {
         if (allergyIntolerance.getCode() != null) {
+            if (observationStatement.hasValue() && observationStatement.getValue() instanceof CD value) {
+                var valueDisplayName = value.getDisplayName();
+                if (!StringUtils.isEmpty(valueDisplayName)) {
+                    allergyIntolerance.getCode().setText(valueDisplayName);
+                    return;
+                }
+            }
             var originalTextFromCode = observationStatement.getCode().getOriginalText();
             if (!StringUtils.isEmpty(originalTextFromCode)) {
                 allergyIntolerance.getCode().setText(originalTextFromCode);
