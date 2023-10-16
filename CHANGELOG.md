@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 * Documented database requirements in [OPERATING.md](/OPERATING.md#database-requirements)
 * New docker image published as [nhsdev/nia-ps-db-migration](https://hub.docker.com/r/nhsdev/nia-ps-db-migration)
+* Querying SDS service using an addtional endpoint to fetch ODS code
 
 ### Fixed
 
