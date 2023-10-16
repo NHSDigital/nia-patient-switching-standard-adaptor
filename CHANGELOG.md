@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+* Fixed issue with coding text being set from incorrect place when mapping allergy intolerances.
+
 ### Added
 
 * Documented database requirements in [OPERATING.md](/OPERATING.md#database-requirements)
@@ -14,7 +16,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 * Fix issue where continue message was not accepted by EMIS.
 * Fixed issue where EMIS `cid` references caused large message merging to fail. 
-* Fix issue where documents were given the incorrect object storage URL.
+* Fix issue where attachments were given the incorrect object storage URL.
+* Fix issue where attachments were not de-compressed.
+* Enable logging of migration status updates when PS_LOGGING_LEVEL is set to DEBUG.
 
 ## [0.13] - 2023-09-13
 

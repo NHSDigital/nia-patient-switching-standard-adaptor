@@ -13,7 +13,6 @@ public class PatientAttachmentLog {
     @NonNull
     private String mid;
     private String parentMid;
-//  @NonNull filename required to create
     private String filename;
     private String contentType;
     private Boolean compressed;
@@ -22,10 +21,29 @@ public class PatientAttachmentLog {
     private Boolean skeleton;
     private Boolean uploaded;
     private Integer lengthNum;
-//  @NonNull patientMigrationReqId required to create
     private Integer patientMigrationReqId;
     private Integer orderNum;
     private Boolean deleted;
     private Integer postProcessedLengthNum;
     private Boolean isBase64;
+
+    public String getFileDescription() {
+        String description =
+            "Filename=\"" + getFilename() + "\""
+            + " ContentType=" + getContentType()
+            + " Compressed=" +  getYesNoString(getCompressed())
+            + " LargeAttachment=" + getYesNoString(getLargeAttachment())
+            + " OriginalBase64=" +  getYesNoString(getOriginalBase64())
+            + " Length=" + getLengthNum();
+
+        if (getSkeleton()) {
+            description += " DomainData=\"X-GP2GP-Skeleton: Yes\"";
+        }
+
+        return description;
+    }
+
+    private String getYesNoString(boolean bool) {
+        return bool ? "Yes" : "No";
+    }
 }

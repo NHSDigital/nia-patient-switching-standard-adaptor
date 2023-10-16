@@ -4,7 +4,7 @@ server:
 logging:
   level:
     uk.nhs.adaptors.pss.translator: ${PS_LOGGING_LEVEL:INFO}
-
+    uk.nhs.adaptors.connector.service: ${PS_LOGGING_LEVEL:INFO}
 spring:
   datasource:
     url: ${PS_DB_URL:jdbc:postgresql://localhost:5436}/patient_switching
