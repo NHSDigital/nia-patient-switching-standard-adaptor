@@ -176,8 +176,6 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
             if (allergyNote != null) {
                 allergyIntolerance.getNote().add(allergyNote);
             }
-        } else {
-            allergyIntolerance.setCode(codeableConceptFromCode);
         }
 
         if (allergyIntolerance.getCode() == null) {
