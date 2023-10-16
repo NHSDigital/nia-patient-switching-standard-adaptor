@@ -19,7 +19,7 @@ import uk.nhs.adaptors.pss.translator.service.RequestBuilderService;
 public class SdsRequestBuilder {
 
     private static final String ROUTING_AND_READABILITY_ENDPOINT = "/Endpoint";
-    private static final String ROUTING_AND_READABILITY_DEVICE_ENDPOINT = "/Device";
+    private static final String ACCREDITED_SYSTEMS_INFORMATION_DEVICE_ENDPOINT = "/Device";
     private static final String IDENTIFIER_HEADER = "identifier";
     private static final String INTERACTION_ID_IDENTIFIER =
         "https://fhir.nhs.uk/Id/nhsServiceInteractionId|urn:nhs:names:services:gp2gp:";
@@ -75,7 +75,7 @@ public class SdsRequestBuilder {
 
         WebClient.RequestBodySpec uri = client.method(GET).uri(
             uriBuilder -> uriBuilder
-                .path(ROUTING_AND_READABILITY_DEVICE_ENDPOINT)
+                .path(ACCREDITED_SYSTEMS_INFORMATION_DEVICE_ENDPOINT)
                 .queryParam(IDENTIFIER_HEADER, INTERACTION_ID_IDENTIFIER.concat(messageType))
                 .queryParam(ORGANISATION_HEADER, ORGANISATION_CODE_IDENTIFIER.concat(odsCode))
                 .build()
