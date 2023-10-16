@@ -1,11 +1,9 @@
 package uk.nhs.adaptors.pss.translator.service;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.hl7.fhir.dstu3.model.Base;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -39,8 +37,8 @@ public class SDSService {
 
     public Duration getPersistDurationFor(String messageType, String odsCode, String conversationId) throws SdsRetrievalException {
         String sdsResponseWithNhsMhsPartyKey = getNhsMhsPartyKeyFromSds(messageType, odsCode, conversationId);
-        String NhsMhsPartyKey = parseNhsMhsPartyKey(sdsResponseWithNhsMhsPartyKey);
-        String sdsResponse = getResponseFromSds(messageType, NhsMhsPartyKey, conversationId);
+        String nhsMhsPartyKey = parseNhsMhsPartyKey(sdsResponseWithNhsMhsPartyKey);
+        String sdsResponse = getResponseFromSds(messageType, nhsMhsPartyKey, conversationId);
         Duration duration = parsePersistDuration(sdsResponse);
 
         LOGGER.debug("Retrieved persist duration of [{}] for odscode [{}] and  messageType [{}]", duration, odsCode, messageType);
