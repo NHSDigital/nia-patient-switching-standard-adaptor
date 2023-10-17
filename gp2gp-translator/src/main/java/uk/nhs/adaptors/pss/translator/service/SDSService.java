@@ -61,6 +61,7 @@ public class SDSService {
         var request = requestBuilder.buildDeviceGetRequest(messageType, odsCode, conversationId);
 
         try {
+            LOGGER.debug("Sending party key request to SDS");
             return sdsClientService.send(request);
         } catch (WebClientResponseException e) {
             LOGGER.error("Received an ERROR response from SDS: [{}]", e.getMessage());
@@ -73,6 +74,7 @@ public class SDSService {
         var request = requestBuilder.buildEndpointGetRequestWithDoubleIdentifierParams(messageType, nhsMhsPartyKey, conversationId);
 
         try {
+            LOGGER.debug("Sending persist duration request to SDS");
             return sdsClientService.send(request);
         } catch (WebClientResponseException e) {
             LOGGER.error("Received an ERROR response from SDS: [{}]", e.getMessage());
