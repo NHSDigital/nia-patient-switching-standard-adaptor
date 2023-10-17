@@ -59,6 +59,7 @@ public class AllergyIntoleranceMapperTest {
     private static final int THREE = 3;
 
     private static final String ORIGINAL_TEXT_IN_CODE = "OriginalText from Code";
+    private static final String DISPLAY_NAME_IN_VALUE = "Value displayName";
     private static final String MULTILEX_CODE_SYSTEM = "2.16.840.1.113883.2.1.6.4";
     private static final String MULTILEX_COCONUT_OIL = "01142009";
     private static final String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";
@@ -159,7 +160,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testMapAllergyWithOriginalTextInObservationCode() {
+    public void When_AllergyWithOriginalTextAndNoValue_Expect_MapsCodingTextFromCodeOriginalText() {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
             .thenReturn(defaultCodeableConcept())
             .thenReturn(secondaryCodeableConcept());
@@ -270,6 +271,24 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getNote().size()).isOne();
     }
 
+    @Test void When_DrugAllergyWithValueElement_Expect_MapsCodingTextFromValueDescription() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+            .thenReturn(defaultCodeableConcept())
+            .thenReturn(secondaryCodeableConcept());
+        var ehrExtract = unmarshallEhrExtract("drug-allergy-with-value.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+            getEncounterList(), PRACTISE_CODE);
+
+        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertFixedValues(allergyIntolerance);
+
+        assertExtension(allergyIntolerance);
+
+        assertThat(allergyIntolerance.getCode().getText()).isEqualTo(DISPLAY_NAME_IN_VALUE);
+    }
+
     @ParameterizedTest
     @MethodSource("allergyStructuresWithTranslations")
     public void testTppNamedSchemaInValue(String filename) {
@@ -345,6 +364,7 @@ public class AllergyIntoleranceMapperTest {
         var codeableConcept = new CodeableConcept();
         var coding = new Coding();
         coding.setDisplay(CODING_DISPLAY_1);
+        coding.setSystem(SNOMED_CODE_SYSTEM);
         codeableConcept.addCoding(coding);
 
         return codeableConcept;
@@ -353,6 +373,7 @@ public class AllergyIntoleranceMapperTest {
     private CodeableConcept secondaryCodeableConcept() {
         var codeableConcept = new CodeableConcept();
         var coding = new Coding();
+        coding.setSystem(SNOMED_CODE_SYSTEM);
         coding.setDisplay(CODING_DISPLAY_2);
         codeableConcept.addCoding(coding);
 

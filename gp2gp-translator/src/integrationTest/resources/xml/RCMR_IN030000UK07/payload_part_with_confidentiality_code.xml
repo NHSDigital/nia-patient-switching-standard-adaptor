@@ -18062,34 +18062,27 @@
                                         </effectiveTime>
                                         <availabilityTime value="20100323" />
                                         <component typeCode="COMP" contextConductionInd="true">
-                                            <ObservationStatement classCode="OBS" moodCode="ENV">
-                                                <id root="BBB69294-9C3E-43CD-8A91-D4767E7CE4C8"/>
-                                                <code code="1020821000006116" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Adverse reaction to Mebeverine Hydrochloride">
-                                                    <originalText>Adverse reaction to Mebeverine Hydrochloride</originalText>
+                                            <ObservationStatement classCode="OBS" moodCode="EVN">
+                                                <id root="F9768902-2D68-45F5-8B42-D01373CF8BD7"/>
+                                                <code code="14L.." codeSystem="2.16.840.1.113883.2.1.3.2.4.14" displayName="H/O: drug allergy">
+                                                    <originalText>H/O: drug allergy</originalText>
+                                                    <translation code="416098002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Allergy to drug"/>
+                                                    <translation code="14L..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: drug allergy"/>
                                                 </code>
-                                                <value type="CD" code="250208012" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Civil state unknown">
-                                                </value>
                                                 <statusCode code="COMPLETE"/>
                                                 <effectiveTime>
-                                                    <center value="20100323"/>
+                                                    <low value="20230918"/>
                                                 </effectiveTime>
-                                                <availabilityTime value="20100323" />
+                                                <availabilityTime value="20230918"/>
+                                                <value code="00254001" codeSystem="2.16.840.1.113883.2.1.6.4" displayName="Azelaic acid 20% cream" xsi:type="CD">
+                                                    <translation code="41891011000001106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Azelaic acid 20% cream"/>
+                                                </value>
                                                 <pertinentInformation typeCode="PERT">
                                                     <sequenceNumber value="+1"/>
                                                     <pertinentAnnotation classCode="OBS" moodCode="EVN">
-                                                        <text>Status: Active</text>
+                                                        <text>Skin Allergy</text>
                                                     </pertinentAnnotation>
                                                 </pertinentInformation>
-                                                <Participant typeCode="AUT" contextControlCode="OP">
-                                                    <agentRef classCode="AGNT">
-                                                        <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
-                                                    </agentRef>
-                                                </Participant>
-                                                <Participant typeCode="PRF" contextControlCode="OP">
-                                                    <agentRef classCode="AGNT">
-                                                        <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
-                                                    </agentRef>
-                                                </Participant>
                                             </ObservationStatement>
                                         </component>
                                     </CompoundStatement>
