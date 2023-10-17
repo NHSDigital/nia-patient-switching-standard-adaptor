@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * Fix issue where attachments were given the incorrect object storage URL.
 * Fix issue where attachments were not de-compressed.
 * Enable logging of migration status updates when PS_LOGGING_LEVEL is set to DEBUG.
+* Fix acknowledgement message as it was not accepted by system one 
 
 ## [0.13] - 2023-09-13
 
