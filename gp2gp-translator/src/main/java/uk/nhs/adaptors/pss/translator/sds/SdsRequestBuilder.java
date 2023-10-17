@@ -32,25 +32,6 @@ public class SdsRequestBuilder {
     private final RequestBuilderService requestBuilderService;
     private final SdsConfiguration sdsConfiguration;
 
-    public WebClient.RequestHeadersSpec<?> buildEndpointGetRequestWithIdentifierAndOrgParams(String messageType,
-                                                                                             String odsCode,
-                                                                                             String conversationId) {
-        WebClient client = fetchWebClient();
-
-        WebClient.RequestBodySpec uri = client.method(GET).uri(
-            uriBuilder -> uriBuilder
-                .path(ROUTING_AND_READABILITY_ENDPOINT)
-                .queryParam(IDENTIFIER_HEADER, INTERACTION_ID_IDENTIFIER.concat(messageType))
-                .queryParam(ORGANISATION_HEADER, ORGANISATION_CODE_IDENTIFIER.concat(odsCode))
-                .build()
-        );
-
-        return uri
-            .accept(APPLICATION_JSON)
-            .header(CORRELATION_ID, conversationId)
-            .header(API_KEY_HEADER, sdsConfiguration.getApikey());
-    }
-
     public WebClient.RequestHeadersSpec<?> buildEndpointGetRequestWithDoubleIdentifierParams(String messageType,
                                                                                              String nhsMhsPartyKey,
                                                                                              String conversationId) {
