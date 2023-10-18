@@ -32,9 +32,7 @@ public class SdsRequestBuilder {
     private final RequestBuilderService requestBuilderService;
     private final SdsConfiguration sdsConfiguration;
 
-    public WebClient.RequestHeadersSpec<?> buildEndpointGetRequestWithDoubleIdentifierParams(String messageType,
-                                                                                             String nhsMhsPartyKey,
-                                                                                             String conversationId) {
+    public WebClient.RequestHeadersSpec<?> buildEndpointGetRequest(String messageType, String nhsMhsPartyKey, String conversationId) {
         WebClient client = fetchWebClient();
 
         WebClient.RequestBodySpec uri = client.method(GET).uri(

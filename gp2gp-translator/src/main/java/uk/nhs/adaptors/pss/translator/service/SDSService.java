@@ -75,7 +75,7 @@ public class SDSService {
             String nhsMhsPartyKey,
             String conversationId) throws SdsRetrievalException {
 
-        var request = requestBuilder.buildEndpointGetRequestWithDoubleIdentifierParams(messageType, nhsMhsPartyKey, conversationId);
+        var request = requestBuilder.buildEndpointGetRequest(messageType, nhsMhsPartyKey, conversationId);
 
         try {
             LOGGER.debug("Sending persist duration request to SDS");
