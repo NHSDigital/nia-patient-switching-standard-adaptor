@@ -81,7 +81,7 @@ public class CompoundStatementResourceExtractors {
         return Stream.concat(
             Stream.of(component4.getObservationStatement()),
             component4.hasCompoundStatement()
-                ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
+                ? CompoundStatementUtil.extractResourcesFromCompoundWithoutBloodPressures(component4.getCompoundStatement(),
                     RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement,
                     CompoundStatementResourceExtractors::isNotAllergy)
                 .stream()

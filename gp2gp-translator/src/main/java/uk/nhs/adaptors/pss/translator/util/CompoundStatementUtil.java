@@ -7,6 +7,8 @@ import java.util.stream.Stream;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 
+import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.containsValidBloodPressureTriple;
+
 public class CompoundStatementUtil {
 
     public static List<RCMRMT030101UK04CompoundStatement> extractCompoundsFromCompound(
@@ -67,6 +69,30 @@ public class CompoundStatementUtil {
                 .filter(checker::apply)
                 .map(extractor)
                 .toList();
+        }
+
+        return List.of();
+    }
+
+    public static List<?> extractResourcesFromCompoundWithoutBloodPressures(
+            RCMRMT030101UK04CompoundStatement compoundStatement,
+            Function<RCMRMT030101UK04Component02, Boolean> checker,
+            Function<RCMRMT030101UK04Component02, ?> extractor,
+            Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker
+    ) {
+        if (compoundStatementChecker.apply(compoundStatement)) {
+            if("BATTERY".equals(compoundStatement.getClassCode().get(0))
+                    && containsValidBloodPressureTriple(compoundStatement)) {
+                return List.of();
+            }
+
+            return compoundStatement
+                    .getComponent()
+                    .stream()
+                    .flatMap(component02 -> flatten(component02, compoundStatementChecker))
+                    .filter(checker::apply)
+                    .map(extractor)
+                    .toList();
         }
 
         return List.of();

@@ -119,6 +119,24 @@ public class ObservationMapperTest {
     }
 
     @Test
+    public void mapObservationWhichIsBloodPressureWithoutBatteryOrBloodPressureTriple_Expect_ObservationMapped() {
+        var ehrExtract = unmarshallEhrExtractElement(
+                "observation_is_blood_pressure_without_battery_or_triple.xml");
+        var observations = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
+
+        assertThat(observations).isNotEmpty();
+    }
+
+    @Test
+    public void When_mappingObservation_Which_isBloodPressure_Expect_ObservationNotMapped() {
+        var ehrExtract = unmarshallEhrExtractElement(
+                "observation_is_blood_pressure.xml");
+        var observations = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
+
+        assertThat(observations).isEmpty();
+    }
+
+    @Test
     public void mapObservationWithNoOptionalData() {
         //when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
         var ehrExtract = unmarshallEhrExtractElement("no_optional_data_observation_example.xml");

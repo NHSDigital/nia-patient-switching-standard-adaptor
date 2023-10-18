@@ -26,7 +26,6 @@ import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.hl7.v3.RCMRMT030101UK04Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
@@ -41,7 +40,6 @@ import java.util.stream.Stream;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
-import static uk.nhs.adaptors.pss.translator.util.CDUtil.extractSnomedCode;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatementsWithoutAllergies;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
@@ -85,7 +83,6 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                 mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
                 extractAllObservationStatementsWithoutAllergies(component)
                 .filter(Objects::nonNull)
-                .filter(this::isNotBloodPressure)
                 .filter(this::isNotImmunization)
                 .map(observationStatement
                     -> mapObservation(extract, composition, observationStatement, patient, encounters, practiseCode)))
@@ -145,18 +142,6 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                 getEffective(requestStatement.getEffectiveTime(), requestStatement.getAvailabilityTime()));
 
         return observation;
-    }
-
-    private boolean isNotBloodPressure(RCMRMT030101UK04ObservationStatement observationStatement) {
-        if (observationStatement.hasCode()) {
-            var code = extractSnomedCode(observationStatement.getCode());
-
-            if (code.isPresent()) {
-                return !BloodPressureValidatorUtil.isSystolicBloodPressure(code.orElseThrow())
-                    && !BloodPressureValidatorUtil.isDiastolicBloodPressure(code.orElseThrow());
-            }
-        }
-        return true;
     }
 
     private boolean isNotImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
