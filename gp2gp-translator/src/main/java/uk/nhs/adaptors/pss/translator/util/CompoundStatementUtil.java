@@ -8,6 +8,7 @@ import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.containsValidBloodPressureTriple;
+import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isBloodPressureWithBatteryAndBloodPressureTriple;
 
 public class CompoundStatementUtil {
 
@@ -81,18 +82,17 @@ public class CompoundStatementUtil {
             Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker
     ) {
         if (compoundStatementChecker.apply(compoundStatement)) {
-            if("BATTERY".equals(compoundStatement.getClassCode().get(0))
-                    && containsValidBloodPressureTriple(compoundStatement)) {
+            if (isBloodPressureWithBatteryAndBloodPressureTriple(compoundStatement)) {
                 return List.of();
             }
 
             return compoundStatement
-                    .getComponent()
-                    .stream()
-                    .flatMap(component02 -> flatten(component02, compoundStatementChecker))
-                    .filter(checker::apply)
-                    .map(extractor)
-                    .toList();
+                .getComponent()
+                .stream()
+                .flatMap(component02 -> flatten(component02, compoundStatementChecker))
+                .filter(checker::apply)
+                .map(extractor)
+                .toList();
         }
 
         return List.of();

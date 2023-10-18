@@ -41,6 +41,8 @@ public class BloodPressureValidatorUtil {
         Arrays.asList(HEADER_5, SYSTOLIC_4, DIASTOLIC_4),
         Arrays.asList(HEADER_6, SYSTOLIC_5, DIASTOLIC_5));
 
+    private static final String BATTERY_VALUE = "BATTERY";
+
     public static boolean validateBloodPressureTriple(String header, String observationStatement1, String observationStatement2) {
         return validateTriple(header, observationStatement1, observationStatement2);
     }
@@ -93,5 +95,11 @@ public class BloodPressureValidatorUtil {
         }
 
         return false;
+    }
+
+    public static boolean isBloodPressureWithBatteryAndBloodPressureTriple(
+        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        return BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0))
+            && containsValidBloodPressureTriple(compoundStatement);
     }
 }
