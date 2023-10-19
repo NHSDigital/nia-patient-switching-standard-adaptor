@@ -75,29 +75,6 @@ public class CompoundStatementUtil {
         return List.of();
     }
 
-    public static List<?> extractResourcesFromCompoundWithoutBloodPressures(
-            RCMRMT030101UK04CompoundStatement compoundStatement,
-            Function<RCMRMT030101UK04Component02, Boolean> checker,
-            Function<RCMRMT030101UK04Component02, ?> extractor,
-            Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker
-    ) {
-        if (compoundStatementChecker.apply(compoundStatement)) {
-            if (isBloodPressureWithBatteryAndBloodPressureTriple(compoundStatement)) {
-                return List.of();
-            }
-
-            return compoundStatement
-                .getComponent()
-                .stream()
-                .flatMap(component02 -> flatten(component02, compoundStatementChecker))
-                .filter(checker::apply)
-                .map(extractor)
-                .toList();
-        }
-
-        return List.of();
-    }
-
     private static Stream<RCMRMT030101UK04Component02> flatten(RCMRMT030101UK04Component02 component02) {
         return Stream.concat(
             Stream.of(component02),

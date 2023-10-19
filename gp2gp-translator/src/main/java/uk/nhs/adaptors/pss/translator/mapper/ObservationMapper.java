@@ -40,7 +40,7 @@ import java.util.stream.Stream;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
-import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatementsWithoutAllergies;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatementsWithoutAllergiesAndBloodPressures;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getInterpretation;
@@ -81,7 +81,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
 
         List<Observation> observations =
                 mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
-                extractAllObservationStatementsWithoutAllergies(component)
+                extractAllObservationStatementsWithoutAllergiesAndBloodPressures(component)
                 .filter(Objects::nonNull)
                 .filter(this::isNotImmunization)
                 .map(observationStatement

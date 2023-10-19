@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.util;
 
+import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isBloodPressureWithBatteryAndBloodPressureTriple;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isAllergyIntolerance;
 
 import java.util.Objects;
@@ -76,16 +77,18 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
-    public static Stream<RCMRMT030101UK04ObservationStatement> extractAllObservationStatementsWithoutAllergies(
+    public static Stream<RCMRMT030101UK04ObservationStatement> extractAllObservationStatementsWithoutAllergiesAndBloodPressures(
         RCMRMT030101UK04Component4 component4) {
         return Stream.concat(
             Stream.of(component4.getObservationStatement()),
-            component4.hasCompoundStatement()
-                ? CompoundStatementUtil.extractResourcesFromCompoundWithoutBloodPressures(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement,
-                    CompoundStatementResourceExtractors::isNotAllergy)
-                .stream()
-                .map(RCMRMT030101UK04ObservationStatement.class::cast)
+            component4.hasCompoundStatement() && !isBloodPressureWithBatteryAndBloodPressureTriple(component4.getCompoundStatement())
+                ? CompoundStatementUtil.extractResourcesFromCompound(
+                        component4.getCompoundStatement(),
+                        RCMRMT030101UK04Component02::hasObservationStatement,
+                        RCMRMT030101UK04Component02::getObservationStatement,
+                        CompoundStatementResourceExtractors::isNotAllergy
+                    ).stream()
+                    .map(RCMRMT030101UK04ObservationStatement.class::cast)
                 : Stream.empty()
         );
     }
