@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

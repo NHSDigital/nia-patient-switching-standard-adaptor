@@ -101,7 +101,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
 
         var recorderAndAsserter = fetchRecorderAndAsserter(ehrComposition);
 
-        if(recorderAndAsserter.get(RECORDER).isPresent() && recorderAndAsserter.get(AUTHOR).isPresent()) {
+        if (recorderAndAsserter.get(RECORDER).isPresent() && recorderAndAsserter.get(AUTHOR).isPresent()) {
             allergyIntolerance
                         .setRecorder(recorderAndAsserter.get(RECORDER).get())
                         .setAsserter(recorderAndAsserter.get(AUTHOR).get());
