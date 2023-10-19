@@ -6,7 +6,6 @@ import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCate
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -122,7 +121,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenAuthorAndAutParticipant2_AuthorAndRecorderPopulatedWithParticipant2() {
+    public void testGivenAuthorAndAutParticipant2AuthorAndRecorderPopulatedWithParticipant2() {
         // At this moment it is not very clear if this is the correct behavior.
         // We haven't seen a supplier send over a HL7 in this form, but we want to specify some behaviour.
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -141,7 +140,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenAuthorAndMultipleParticipant2sAndOneAutParticipant2_AuthorAndRecorderPopulatedWithAuthorAndParticipant2() {
+    public void testGivenAuthorAndMultipleParticipant2sAndOneAutParticipant2AuthorAndRecorderPopulatedWithAuthorAndParticipant2() {
         // At this moment it is not very clear if this is the correct behavior with such number of participants.
         // We haven't seen a supplier send over a HL7 in this form, but we want to specify some behaviour.
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
