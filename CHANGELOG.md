@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.14] - 2023-10-17
+
 * Fixed issue with coding text being set from incorrect place when mapping allergy intolerances.
 
 ### Added
@@ -15,12 +17,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-* Fix issue where continue message was not accepted by EMIS.
-* Fixed issue where EMIS `cid` references caused large message merging to fail. 
-* Fix issue where attachments were given the incorrect object storage URL.
-* Fix issue where attachments were not de-compressed.
-* Enable logging of migration status updates when PS_LOGGING_LEVEL is set to DEBUG.
+* Fix issue where continue message was not accepted by EMIS
+* Fixed issue where EMIS `cid` references caused large message merging to fail 
+* Fix issue where attachments were given the incorrect object storage URL
+* Fix issue where attachments were not de-compressed
+* Enable logging of migration status updates when PS_LOGGING_LEVEL is set to DEBUG
 * Fix acknowledgement message as it was not accepted by system one 
+* Fix SDS failing as part of GP2GP transfer process
 
 ## [0.13] - 2023-09-13
 
