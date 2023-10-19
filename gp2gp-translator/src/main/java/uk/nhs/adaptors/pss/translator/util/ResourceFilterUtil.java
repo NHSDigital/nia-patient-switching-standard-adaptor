@@ -25,8 +25,7 @@ public class ResourceFilterUtil {
     }
 
     public static boolean isBloodPressure(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return compoundStatement != null && BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0))
-            && BloodPressureValidatorUtil.containsValidBloodPressureTriple(compoundStatement);
+        return compoundStatement != null && BloodPressureValidatorUtil.isBloodPressureWithBatteryAndBloodPressureTriple(compoundStatement);
     }
 
     public static boolean isAllergyIntolerance(RCMRMT030101UK04CompoundStatement compoundStatement) {
