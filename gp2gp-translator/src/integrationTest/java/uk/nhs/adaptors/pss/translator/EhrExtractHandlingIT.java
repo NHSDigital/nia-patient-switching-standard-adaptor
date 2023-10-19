@@ -79,7 +79,9 @@ public class EhrExtractHandlingIT {
         "entry[60].resource.id",
         "entry[60].resource.identifier[0].value",
         "entry[502].resource.id",
-        "entry[502].resource.identifier[0].value"
+        "entry[502].resource.identifier[0].value",
+        "entry[504].resource.id",
+        "entry[504].resource.identifier[0].value"
     );
 
     @Autowired
