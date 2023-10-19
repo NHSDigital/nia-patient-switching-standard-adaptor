@@ -105,6 +105,7 @@ public class AllergyIntoleranceMapperTest {
 
     @Test
     public void testMapAuthorAndParticipantToRecorderAndAsserterAllergyIntolerance() {
+
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
             .thenReturn(defaultCodeableConcept())
             .thenReturn(secondaryCodeableConcept());
@@ -121,7 +122,9 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testMapTheSameAuthorToRecorderAndAsserterInCaseOfExistingInvalidParticipant() {
+    public void testGivenAuthorAndAutParticipant2_AuthorAndRecorderPopulatedWithParticipant2() {
+        // At this moment it is not very clear if this is the correct behavior.
+        // We haven't seen a supplier send over a HL7 in this form, but we want to specify some behaviour.
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
             .thenReturn(defaultCodeableConcept())
             .thenReturn(secondaryCodeableConcept());
@@ -135,6 +138,25 @@ public class AllergyIntoleranceMapperTest {
         assertExtension(allergyIntolerance);
         assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference());
         assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getAsserter().getReference());
+    }
+
+    @Test
+    public void testGivenAuthorAndMultipleParticipant2sAndOneAutParticipant2_AuthorAndRecorderPopulatedWithAuthorAndParticipant2() {
+        // At this moment it is not very clear if this is the correct behavior with such number of participants.
+        // We haven't seen a supplier send over a HL7 in this form, but we want to specify some behaviour.
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+            .thenReturn(defaultCodeableConcept())
+            .thenReturn(secondaryCodeableConcept());
+        var ehrExtract = unmarshallEhrExtract("allergy-structure-with-author-and-multiple-participants.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+                                                                                             getEncounterList(), PRACTISE_CODE);
+
+        assertEquals(1, allergyIntolerances.size());
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertExtension(allergyIntolerance);
+        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference());
+        assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C", allergyIntolerance.getAsserter().getReference());
     }
 
     @Test
