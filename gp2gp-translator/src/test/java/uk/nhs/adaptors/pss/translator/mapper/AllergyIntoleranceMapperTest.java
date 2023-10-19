@@ -5,6 +5,8 @@ import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCate
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.MEDICATION;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -102,29 +104,63 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
+    public void testMapAuthorAndParticipantToRecorderAndAsserterAllergyIntolerance() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+            .thenReturn(defaultCodeableConcept())
+            .thenReturn(secondaryCodeableConcept());
+        var ehrExtract = unmarshallEhrExtract("allergy-structure-with-valid-author-and-participant2.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+                                                                                             getEncounterList(), PRACTISE_CODE);
+
+        assertEquals(1, allergyIntolerances.size());
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertExtension(allergyIntolerance);
+        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference());
+        assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C", allergyIntolerance.getAsserter().getReference());
+    }
+
+    @Test
+    public void testMapTheSameAuthorToRecorderAndAsserterInCaseOfExistingInvalidParticipant() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+            .thenReturn(defaultCodeableConcept())
+            .thenReturn(secondaryCodeableConcept());
+        var ehrExtract = unmarshallEhrExtract("allergy-structure-with-participant-of-aut-typecode.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+                                                                                             getEncounterList(), PRACTISE_CODE);
+
+        assertEquals(1, allergyIntolerances.size());
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertExtension(allergyIntolerance);
+        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference());
+        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getAsserter().getReference());
+    }
+
+    @Test
     public void testMapNonDrugAllergyWithAllData() {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
             .thenReturn(defaultCodeableConcept())
             .thenReturn(secondaryCodeableConcept());
         var ehrExtract = unmarshallEhrExtract("non-drug-allergy-structure.xml");
-        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
-            getEncounterList(), PRACTISE_CODE);
+        List<AllergyIntolerance> allergyIntolerances
+                                    = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        assertEquals(1, allergyIntolerances.size());
         var allergyIntolerance = allergyIntolerances.get(0);
 
         assertFixedValues(allergyIntolerance);
 
         assertExtension(allergyIntolerance);
-        assertThat(allergyIntolerance.getCategory().get(0).getValue()).isEqualTo(ENVIRONMENT);
-        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("1978-12-31");
-        assertThat(allergyIntolerance.getRecorder().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
-        assertThat(allergyIntolerance.getOnsetDateTimeType()
-            .asStringValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
-        assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
-        assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
-        assertThat(allergyIntolerance.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_NON_DRUG_ALLERGY);
-        assertThat(allergyIntolerance.getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY_1);
+        assertEquals(ENVIRONMENT, allergyIntolerance.getCategory().get(0).getValue());
+        assertEquals("1978-12-31", allergyIntolerance.getAssertedDateElement().asStringValue());
+        assertEquals("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D", allergyIntolerance.getRecorder().getReference());
+        assertEquals(DateFormatUtil.parseToDateTimeType("19781231").asStringValue(),
+                                                    allergyIntolerance.getOnsetDateTimeType().asStringValue());
+        assertEquals("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D", allergyIntolerance.getAsserter().getReference());
+        assertEquals(NOTE_TEXT, allergyIntolerance.getNote().get(0).getText());
+        assertEquals(DegradedCodeableConcepts.DEGRADED_NON_DRUG_ALLERGY, allergyIntolerance.getCode().getCodingFirstRep());
+        assertEquals(CODING_DISPLAY_1, allergyIntolerance.getCode().getCoding().get(1).getDisplay());
     }
 
     @Test
@@ -202,10 +238,10 @@ public class AllergyIntoleranceMapperTest {
     public void testMapMultipleAllergies() {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
         var ehrExtract = unmarshallEhrExtract("allergy-structure-with-multiple-allergy.xml");
-        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
-            getEncounterList(), PRACTISE_CODE);
+        List<AllergyIntolerance> allergyIntolerances
+                                = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(THREE);
+        assertEquals(THREE, allergyIntolerances.size());
     }
 
     @Test

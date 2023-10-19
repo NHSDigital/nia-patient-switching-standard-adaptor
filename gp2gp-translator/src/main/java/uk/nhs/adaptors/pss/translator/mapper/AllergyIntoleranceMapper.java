@@ -5,13 +5,16 @@ import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCate
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
 
+import static uk.nhs.adaptors.pss.translator.util.AuthorUtil.getAuthorReference;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
+import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipant2Reference;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -49,6 +52,8 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     private static final String EGTON_CODE_SYSTEM = "2.16.840.1.113883.2.1.6.3";
     private static final String ALLERGY_TERM_TEXT = "H/O: drug allergy";
     private static final String ALLERGY_NOTE = "Allergy Code: %s";
+    public static final String AUTHOR = "author";
+    public static final String RECORDER = "recorder";
 
     private final CodeableConceptMapper codeableConceptMapper;
 
@@ -66,6 +71,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
 
     private AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
         RCMRMT030101UK04CompoundStatement compoundStatement, String practiseCode, List<Encounter> encounters, Patient patient) {
+
         AllergyIntolerance allergyIntolerance = new AllergyIntolerance();
 
         var id = compoundStatement.getComponent().get(0).getObservationStatement().getId().getRoot();
@@ -90,12 +96,29 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     }
 
     private void buildParticipantReferences(RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04CompoundStatement compoundStatement, AllergyIntolerance allergyIntolerance) {
-        var practitioner = Optional.ofNullable(getParticipantReference(compoundStatement.getParticipant(), ehrComposition));
+                                            RCMRMT030101UK04CompoundStatement compoundStatement,
+                                            AllergyIntolerance allergyIntolerance) {
 
-        practitioner.ifPresent(reference -> allergyIntolerance
-            .setRecorder(reference)
-            .setAsserter(reference));
+        var recorderAndAsserter = fetchRecorderAndAsserter(ehrComposition);
+
+        if(recorderAndAsserter.get(RECORDER).isPresent() && recorderAndAsserter.get(AUTHOR).isPresent()) {
+            allergyIntolerance
+                        .setRecorder(recorderAndAsserter.get(RECORDER).get())
+                        .setAsserter(recorderAndAsserter.get(AUTHOR).get());
+        } else {
+            var practitioner = Optional.ofNullable(getParticipantReference(compoundStatement.getParticipant(), ehrComposition));
+            practitioner.ifPresent(reference -> allergyIntolerance
+                        .setRecorder(reference)
+                        .setAsserter(reference));
+        }
+    }
+
+    private Map<String, Optional<Reference>> fetchRecorderAndAsserter(RCMRMT030101UK04EhrComposition ehrComposition) {
+
+        var practitioner = Optional.ofNullable(getParticipant2Reference(ehrComposition, "RESP"));
+        var author = getAuthorReference(ehrComposition);
+
+        return Map.of(RECORDER, practitioner, AUTHOR, author);
     }
 
     private void buildExtension(RCMRMT030101UK04EhrComposition ehrComposition, List<Encounter> encounters,
@@ -219,6 +242,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
 
     private void buildAllergyIntoleranceText(RCMRMT030101UK04ObservationStatement observationStatement,
         AllergyIntolerance allergyIntolerance) {
+
         if (allergyIntolerance.getCode() != null) {
             if (observationStatement.hasValue() && observationStatement.getValue() instanceof CD value) {
                 var valueDisplayName = value.getDisplayName();
@@ -232,6 +256,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 allergyIntolerance.getCode().setText(originalTextFromCode);
             }
         }
+
     }
 
     private void buildNote(AllergyIntolerance allergyIntolerance, RCMRMT030101UK04CompoundStatement compoundStatement) {
