@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.containsValidBloodPressureTriple;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isDiastolicBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isSystolicBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.CDUtil.extractSnomedCode;
@@ -44,13 +43,13 @@ import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @Service
 @AllArgsConstructor
 public class BloodPressureMapper extends AbstractMapper<Observation> {
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
-    private static final String BATTERY_VALUE = "BATTERY";
     private static final String SYSTOLIC_NOTE = "Systolic Note: ";
     private static final String DIASTOLIC_NOTE = "Diastolic Note: ";
     private static final String BP_NOTE = "BP Note: ";
@@ -62,8 +61,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllCompoundStatements(component)
                 .filter(Objects::nonNull)
-                .filter(compoundStatement -> BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0))
-                    && containsValidBloodPressureTriple(compoundStatement))
+                .filter(BloodPressureValidatorUtil::isBloodPressureWithBatteryAndBloodPressureTriple)
                 .filter(compoundStatement -> !isDiagnosticReport(compoundStatement)
                     && !hasDiagnosticReportParent(ehrExtract, compoundStatement))
                 .map(compoundStatement -> mapObservation(extract, composition, compoundStatement, patient, encounters, practiseCode)))
