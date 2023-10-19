@@ -7,9 +7,6 @@ import java.util.stream.Stream;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 
-import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.containsValidBloodPressureTriple;
-import static uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil.isBloodPressureWithBatteryAndBloodPressureTriple;
-
 public class CompoundStatementUtil {
 
     public static List<RCMRMT030101UK04CompoundStatement> extractCompoundsFromCompound(

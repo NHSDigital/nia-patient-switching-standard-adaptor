@@ -119,7 +119,7 @@ public class ObservationMapperTest {
     }
 
     @Test
-    public void mapObservationWhichIsBloodPressureWithoutBatteryOrBloodPressureTriple_Expect_ObservationMapped() {
+    public void mapObservationWhichIsBloodPressureWithoutBatteryOrBloodPressureTripleExpectObservationMapped() {
         var ehrExtract = unmarshallEhrExtractElement(
                 "observation_is_blood_pressure_without_battery_or_triple.xml");
         var observations = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
@@ -128,7 +128,7 @@ public class ObservationMapperTest {
     }
 
     @Test
-    public void When_mappingObservation_Which_isBloodPressure_Expect_ObservationNotMapped() {
+    public void mappingObservationWhichIsBloodPressureExpectObservationNotMapped() {
         var ehrExtract = unmarshallEhrExtractElement(
                 "observation_is_blood_pressure.xml");
         var observations = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
