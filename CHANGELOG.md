@@ -5,8 +5,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [0.14] - 2023-10-17
-
 * Fixed issue with coding text being set from incorrect place when mapping allergy intolerances.
 * Fixed issue with some blood pressure comments not being correctly mapped.
 
