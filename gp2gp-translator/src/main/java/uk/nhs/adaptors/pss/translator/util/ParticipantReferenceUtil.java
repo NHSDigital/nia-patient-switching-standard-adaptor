@@ -44,6 +44,7 @@ public class ParticipantReferenceUtil {
     }
 
     private static Optional<String> getParticipantReference(List<RCMRMT030101UK04Participant> participantList, String typeCode) {
+
         return participantList.stream()
             .filter(participant -> hasTypeCode(participant, typeCode))
             .filter(ParticipantReferenceUtil::hasAgentReference)
@@ -55,6 +56,7 @@ public class ParticipantReferenceUtil {
     }
 
     public static Reference getParticipant2Reference(RCMRMT030101UK04EhrComposition ehrComposition, String typeCode) {
+
         var participant2Reference = ehrComposition.getParticipant2().stream()
             .filter(participant2 -> participant2.getNullFlavor() == null)
             .filter(participant2 -> typeCode.equals(participant2.getTypeCode().get(0)))
@@ -63,6 +65,7 @@ public class ParticipantReferenceUtil {
             .filter(II::hasRoot)
             .map(II::getRoot)
             .findFirst();
+
         if (participant2Reference.isPresent()) {
             return new Reference(PRACTITIONER_REFERENCE_PREFIX.formatted(participant2Reference.get()));
         }
