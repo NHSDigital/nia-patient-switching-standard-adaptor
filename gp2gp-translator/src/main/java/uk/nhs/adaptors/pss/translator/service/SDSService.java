@@ -36,10 +36,10 @@ public class SDSService {
     private final FhirParser fhirParser;
 
     public Duration getPersistDurationFor(String messageType, String odsCode, String conversationId) throws SdsRetrievalException {
-        String sdsResponseWithNhsMhsPartyKey = getNhsMhsPartyKeyFromSds(messageType, odsCode, conversationId);
-        String nhsMhsPartyKey = parseNhsMhsPartyKey(sdsResponseWithNhsMhsPartyKey);
-        String sdsResponse = getResponseFromSds(messageType, nhsMhsPartyKey, conversationId);
-        Duration duration = parsePersistDuration(sdsResponse);
+        String partyKeyResponseFromSds = getPartyKeyResponseFromSds(messageType, odsCode, conversationId);
+        String partyKey = parseNhsMhsPartyKey(partyKeyResponseFromSds);
+        String persistDurationResponseFromSds = getPersistDurationResponseFromSds(messageType, partyKey, conversationId);
+        Duration duration = parsePersistDuration(persistDurationResponseFromSds);
 
         LOGGER.debug("Retrieved persist duration of [{}] for odscode [{}] and  messageType [{}]", duration, odsCode, messageType);
         return duration;
@@ -56,11 +56,12 @@ public class SDSService {
                                  .map(Identifier::getValue).get();
     }
 
-    private String getNhsMhsPartyKeyFromSds(String messageType, String odsCode, String conversationId) {
+    private String getPartyKeyResponseFromSds(String messageType, String odsCode, String conversationId) {
 
         var request = requestBuilder.buildDeviceGetRequest(messageType, odsCode, conversationId);
 
         try {
+            LOGGER.debug("Sending party key request to SDS");
             return sdsClientService.send(request);
         } catch (WebClientResponseException e) {
             LOGGER.error("Received an ERROR response from SDS: [{}]", e.getMessage());
@@ -69,10 +70,15 @@ public class SDSService {
 
     }
 
-    private String getResponseFromSds(String messageType, String nhsMhsPartyKey, String conversationId) throws SdsRetrievalException {
-        var request = requestBuilder.buildEndpointGetRequestWithDoubleIdentifierParams(messageType, nhsMhsPartyKey, conversationId);
+    private String getPersistDurationResponseFromSds(
+            String messageType,
+            String nhsMhsPartyKey,
+            String conversationId) throws SdsRetrievalException {
+
+        var request = requestBuilder.buildEndpointGetRequest(messageType, nhsMhsPartyKey, conversationId);
 
         try {
+            LOGGER.debug("Sending persist duration request to SDS");
             return sdsClientService.send(request);
         } catch (WebClientResponseException e) {
             LOGGER.error("Received an ERROR response from SDS: [{}]", e.getMessage());
