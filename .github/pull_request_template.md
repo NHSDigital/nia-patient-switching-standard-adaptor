@@ -23,3 +23,6 @@ Please delete options that are not relevant.
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] New and existing unit tests pass locally with my changes
 - [ ] I have updated the [Changelog](/CHANGELOG.md) with details of my change in the UNRELEASED section if this change will affect end users
+- [ ] A corresponding change has been made to the [Mapping Documentation repository][mapping-docs]
+
+[mapping-docs]: https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation
