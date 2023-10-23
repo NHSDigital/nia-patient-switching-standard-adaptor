@@ -28,13 +28,9 @@ The timeout
 datetime is calculated using the following formula and the *Persist Duration* (the minium time a message is persisted by spine) of the expected GP2GP messages.
 
 ```text
-
-Timeout [secs] = (A x persistDuration contract property of EHR Response
-[secs]) + (B x Number of COPC Common Point to Point EHR messages x
-persistDuration contract property of COPC Common Point to Point messages
-[secs])
-
-```
+Timeout [secs] = (A x persistDuration contract property of EHR Response [secs])
+               + (B x Number of COPC Common Point to Point EHR messages
+                    x persistDuration contract property of COPC Common Point to Point messages [secs])
 The formula includes adjustable weightings (A and B) to offset potential transmission delays. 
 
 From the documentation:
