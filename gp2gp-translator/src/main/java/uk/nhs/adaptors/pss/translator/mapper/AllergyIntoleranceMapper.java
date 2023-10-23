@@ -29,6 +29,7 @@ import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
+import org.hl7.v3.CR;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -53,6 +54,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     private static final String EGTON_CODE_SYSTEM = "2.16.840.1.113883.2.1.6.3";
     private static final String ALLERGY_TERM_TEXT = "H/O: drug allergy";
     private static final String ALLERGY_NOTE = "Allergy Code: %s";
+    public static final String EPISODICITY_NOTE = "Episodicity : %s";
     public static final String AUTHOR = "author";
     public static final String RECORDER = "recorder";
 
@@ -222,7 +224,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 codeableConceptFromValue,
                 codeableConceptFromCode));
 
-        if(allergyIntolerance.getCode() == null) {
+        if (allergyIntolerance.getCode() == null) {
             return;
         }
 
@@ -284,14 +286,44 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                            CodeableConcept codeableConceptFromCode,
                            CodeableConcept codeableConceptFromValue) {
 
+        var episodicityAnnotations = getEpisodicityAnnotations(observationStatement);
         var pertinentInformationAnnotations = getPertinentInformationAnnotations(observationStatement);
         var allergyAnnotation = getAllergyAnnotation(compoundCode, codeableConceptFromCode, codeableConceptFromValue);
 
         var allergyIntoleranceNotes = allergyAnnotation == null
-                ? pertinentInformationAnnotations
-                : Stream.concat(pertinentInformationAnnotations, allergyAnnotation);
+                ? Stream.concat(episodicityAnnotations, pertinentInformationAnnotations)
+                : Stream.of(episodicityAnnotations, pertinentInformationAnnotations, allergyAnnotation)
+                    .flatMap(ain -> ain);
 
         allergyIntolerance.setNote(allergyIntoleranceNotes.toList());
+    }
+
+    private Stream<Annotation> getEpisodicityAnnotations(RCMRMT030101UK04ObservationStatement observationStatement) {
+
+        return observationStatement
+                .getCode()
+                .getQualifier()
+                .stream()
+                .map(this::buildEpisodicityText)
+                .filter(Objects::nonNull)
+                .map(et -> new Annotation().setText(EPISODICITY_NOTE.formatted(et)));
+    }
+
+    private String buildEpisodicityText(CR qualifier) {
+        if (qualifier.getName() == null) {
+            return null;
+        }
+        var qualifierName = qualifier.getName();
+
+        if (qualifierName.hasDisplayName()) {
+            return qualifierName.hasOriginalText()
+                    ? qualifierName.getDisplayName() + ", " + qualifierName.getOriginalText()
+                    : qualifierName.getDisplayName();
+        }
+
+        return qualifierName.hasOriginalText()
+                ? qualifierName.getOriginalText()
+                : null;
     }
 
     private Stream<Annotation> getPertinentInformationAnnotations(
