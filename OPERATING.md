@@ -20,17 +20,17 @@ yyyy-mm-dd HH:mm:ss.SSS Level=DEBUG Logger=u.n.a.p.t.s.BundleMapperService Conve
 
 ## Timeout functionality
 
-The Adaptor conforms to the GP2GP large messaging specification (NPFIT-PC-BLOD-0170.03 v1.1)
-by timing out in-progress transfers (section 2.3.6). This ensures transfers are ended gracefully
-in the scenario a GP2GP message has not been received.
+The Adaptor conforms to the GP2GP specification by timing out in-progress transfers. This ensures transfers are ended 
+gracefully in the scenario a GP2GP message has not been received.
 
-The timeout 
-datetime is calculated using the following formula and the *Persist Duration* (the minium time a message is persisted by spine) of the expected GP2GP messages.
+The timeout datetime is calculated using the following formula:
 
 ```text
 Timeout [secs] = (A x persistDuration contract property of EHR Response [secs])
                + (B x Number of COPC Common Point to Point EHR messages
                     x persistDuration contract property of COPC Common Point to Point messages [secs])
+```
+
 The formula includes adjustable weightings (A and B) to offset potential transmission delays. 
 
 From the documentation:
@@ -38,9 +38,10 @@ From the documentation:
 > A & B are weighting factors associated with general message transmission delays and volume based
 throughput times to allow adjustment if required ....
 
-The *Persist Duration* of each message is unique to the sending organisation and is obtained from the Spine Directory Service (SDS) FHIR API. Responses for an organisations message type are cached by default. 
+The *Persist Duration* of each message is unique to the sending organisation and is obtained from the [Spine Directory Service (SDS) FHIR API](https://digital.nhs.uk/developer/api-catalogue/spine-directory-service-fhir). Responses for an organisation's message type are cached by default, the frequency the cache is
+updated is configurable via the environment variable `TIMEOUT_SDS_POLL_FREQUENCY`. 
 
-The adaptor checks for transfers periodically, the default is every six hours. However, this is configurable via the environment variables.
+The adaptor checks incomplete transfers periodically, at a default frequency of every six hours. However, this is configurable via the environment variable `TIMEOUT_CRON_TIME`. 
 
 Required environment variables:
 
