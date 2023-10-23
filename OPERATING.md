@@ -44,18 +44,20 @@ throughput times to allow adjustment if required ....
 
 The *Persist Duration* of each message is unique to the sending organisation and is obtained from the Spine Directory Service (SDS) FHIR API. Responses for an organisations message type are cached by default. 
 
-The adaptor checks for transfers periodically, the default is every six hours. However, this is configurable via the environment variables.  
+The adaptor checks for transfers periodically, the default is every six hours. However, this is configurable via the environment variables.
 
-The following environment should be used to configure the timeout:
+Required environment variables:
 
-| Environment variable          | Required | Description                                                                                                                                                              | Default value                                        |
-|-------------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
-| SDS_BASE_URL                  |          | The SDS FHIR API Base URL (default is production)                                                                                                                        | `https://api.service.nhs.uk/spine-directory/FHIR/R4` |
-| SDS_API_KEY                   | Yes      | Your SDS FHIR API Key                                                                                                                                                    |                                                      |
-| TIMEOUT_CRON_TIME             |          | The frequency of the timeout check specified as a Cron expression (default is every six hours). format = `<second> <minute> <hour> <day of month> <month> <day of week>` | `0 0 */6 * * * `                                     |
-| TIMEOUT_SDS_POLL_FREQUENCY    |          | The frequency the persist duration cache is updated (default 3) i.e. 1 = send request to SDS everytime,  3 = send request to SDS on the third call                       | `3`                                                  |
-| TIMEOUT_EHR_EXTRACT_WEIGHTING |          | The weighting factor A (as described above)                                                                                                                              | `1`                                                  |
-| TIMEOUT_COPC_WEIGHTING        |          | The weighting factor B (as described above)                                                                                                                              | `1`                                                  |
+- `SDS_API_KEY`: Your SDS FHIR API Key
+
+Optional environment variables:
+
+- `SDS_BASE_URL`: The SDS FHIR API Base URL (default is production) - default = `https://api.service.nhs.uk/spine-directory/FHIR/R4`
+- `TIMEOUT_CRON_TIME`: The frequency of the timeout check specified as a Cron expression (default is every six hours). 
+format = `<second> <minute> <hour> <day of month> <month> <day of week>` - default = `0 0 */6 * * * `
+- `TIMEOUT_SDS_POLL_FREQUENCY`: The frequency the persist duration cache is updated (default 3) i.e. 1 = send request to SDS everytime,  3 = send request to SDS on the third call - default = `3`
+- `TIMEOUT_EHR_EXTRACT_WEIGHTING`: The weighting factor A (as described above) - default = `1`
+- `TIMEOUT_COPC_WEIGHTING`: The weighting factor B (as described above) - default = `1`
 
 ## Database requirements
 
