@@ -51,6 +51,7 @@ public class AllergyIntoleranceMapperTest {
     private static final String CODING_DISPLAY_1 = "Ischaemic heart disease";
     private static final String CODING_DISPLAY_2 = "H/O: aspirin allergy";
     private static final String CODING_DISPLAY_3 = "H/O: drug allergy";
+    private static final String CODING_DISPLAY_4 = "Coconut oil";
     private static final String PATIENT_ID = "9A5D5A78-1F63-434C-9637-1D7E7843341B";
     private static final String META_PROFILE = "https://fhir.nhs"
         + ".uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1";
@@ -203,7 +204,7 @@ public class AllergyIntoleranceMapperTest {
     @Test
     public void testMapDegradedDrugAllergy() {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
-                .thenReturn(new CodeableConcept());
+                .thenReturn(nonSnomedCodeableConcept());
 
         var ehrExtract = unmarshallEhrExtract("degraded-drug-allergy-structure.xml");
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
@@ -362,14 +363,14 @@ public class AllergyIntoleranceMapperTest {
 
         assertThat(cd.getCode()).isEqualTo(MULTILEX_COCONUT_OIL);
         assertThat(cd.getCodeSystem()).isEqualTo(MULTILEX_CODE_SYSTEM);
-        assertThat(cd.getDisplayName()).isEqualTo("Coconut oil");
+        assertThat(cd.getDisplayName()).isEqualTo(CODING_DISPLAY_4);
         assertThat(cd.getTranslation().size()).isOne();
 
         var translation = cd.getTranslation().get(0);
 
         assertThat(translation.getCodeSystem()).isEqualTo(SNOMED_CODE_SYSTEM);
         assertThat(translation.getCode()).isEqualTo(SNOMED_COCONUT_OIL);
-        assertThat(translation.getDisplayName()).isEqualTo("Coconut oil");
+        assertThat(translation.getDisplayName()).isEqualTo(CODING_DISPLAY_4);
     }
 
     private static Stream<Arguments> allergyStructuresWithTranslations() {
@@ -441,6 +442,17 @@ public class AllergyIntoleranceMapperTest {
         var codeableConcept = new CodeableConcept();
         var coding = new Coding();
         coding.setDisplay(CODING_DISPLAY_3);
+        codeableConcept.addCoding(coding);
+
+        return codeableConcept;
+    }
+
+    private CodeableConcept nonSnomedCodeableConcept() {
+        var codeableConcept = new CodeableConcept();
+        var coding = new Coding();
+        coding.setSystem(MULTILEX_CODE_SYSTEM);
+        coding.setCode(MULTILEX_COCONUT_OIL);
+        coding.setDisplay(CODING_DISPLAY_4);
         codeableConcept.addCoding(coding);
 
         return codeableConcept;
