@@ -192,15 +192,48 @@ An example daisy chaining environment is provided in [/test-suite/daisy-chaining
 * Azure Service Bus may require some parameters as part of the URL configuration. For example: `PS_AMQP_BROKER=amqps://<NAME>.servicebus.windows.net/;SharedAccessKeyName=<KEY NAME>;SharedAccessKey=<KEY VALUE>`
 
 ## Object storage
-Data stored:
-    EhrExtract attachments of MHS Inbound, pre-signed S3 url is generated for stored attachments      
-Filename convention:
-    Attachment files are named as {conversationId}_{documentId} where documentId is the name of the file which includes an extension.
-    ConversationId - Task conversation ID
-Configuration:
-    The app uses a number of attempts to upload attachments. It is configured in retry policy. 
-    Generated stored attachments will be available for 60 min to be downloaded, after this time limit the download link will be invalidated
-    although no files will be deleted from S3 bucket.
+
+GP2GP messaging splits the patient's Electronic Health Record (EHR) into an EHR Extract and associated attachments. 
+The adaptor uses AWS / Azure object storage to manage the attachments.
+
+### Data stored
+It is the responsibility of the GP System Supplier to manage the data stored in object storage post transfer. 
+
+#### Incomplete transfers
+The sending GP2GP system can split attachments into multiple parts that the adaptor must reassemble. It could also send 
+the EHR Extract itself as a compressed attachment. Therefore, an incomplete / failed transfer could have both of these 
+uploaded to object storage. If a transfer fails they will not be deleted by the adaptor. 
+
+##### Complete transfers
+Assembled attachments will be uploaded to object storage. The adaptor obtains a URL for each attachment, which it inserts
+into the returned FHIR bundle. When using AWS S3 this URL is pre-signed and valid for 60 minutes. After this time, the 
+download link will be invalidated, although no files will be deleted from the S3 bucket.   
+
+The pre-assembled attachment parts are removed from storage when an attachment is assembled. However, if the transfer 
+contains a compressed EHR Extract this is not removed from storage automatically.
+
+### Filename convention
+Attachment files are named as `conversationId_documentId` where `documentId` is the name of the file (including extension)
+and `conversationId` is an identifier unique to transfer. 
+
+### Configuration
+In the event of an upload failure the adaptor will retry. By default, the retry limit 3 times. However, this is configurable 
+via the `STORAGE_RETRY_LIMIT`environment variable.
+
+The adaptor requires permission to read, write and delete from the object storage bucket / container. For example, in AWS
+the adaptor would require permission to perform the actions `s3:GetObject`, `s3:PutObject` and `s3:DeleteObject`.
+
+Required environment variables:
+
+`STORAGE_TYPE`: The object storage type (S3, Azure or LocalMock) - Default = `localMock` - local development only
+`STORAGE_REGION`: AWS Specific (leave blank if using Azure)
+`STORAGE_CONTAINER_NAME`: Name of the storage bucket / container
+`STORAGE_REFERENCE`: The access key ID (AWS) or account name (Azure) - leave undefined if using an AWS instance role
+`STORAGE_SECRET`: The access key (AWS) or account key (Azure) - leave undefined if using an AWS instance role 
+
+Optional environment variables:
+
+`STORAGE_RETRY_LIMIT`: The amount of times to retry uploading the attachment before failing the transfer - Default = 3
 
 ## AWS daisy chaining example
 
