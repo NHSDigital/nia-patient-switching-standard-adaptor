@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+* Added functionality to include episodicity qualifiers when mapping allergy intolerances.
+
 ## [0.15] - 2023-10-24
 
 * Fixed issue with some `ObservationStatement` coded as blood pressure readings not being output into Bundle.
