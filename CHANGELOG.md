@@ -5,8 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-* Fixed issue with some blood pressure comments not being correctly mapped.
-* Fixed issue with practitioner not being correctly populated.
+## [0.15] - 2023-10-24
+
+* Fixed issue with some `ObservationStatement` coded as blood pressure readings not being output into Bundle.
+* Fixed issue with `AllergyIntolerance` recorder and asserter fields mapping.
 
 ## [0.14] - 2023-10-17
 
