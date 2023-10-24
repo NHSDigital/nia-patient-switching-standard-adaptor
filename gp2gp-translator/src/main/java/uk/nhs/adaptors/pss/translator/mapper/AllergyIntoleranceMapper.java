@@ -341,30 +341,20 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
             CodeableConcept codeableConceptFromCode,
             CodeableConcept codeableConceptFromValue) {
 
-        var codeDisplayName = codeableConceptFromCode
-                .getCodingFirstRep()
-                .getDisplay();
-
-        if (shouldIncludeAllergyNote(compoundCode, codeDisplayName, codeableConceptFromValue)) {
-            var annotation = new Annotation().setText(ALLERGY_NOTE.formatted(codeDisplayName));
-            return Stream.of(annotation);
+        if (!DRUG_ALLERGY_CODE.equals(compoundCode)
+            || codeableConceptFromCode == null
+            || codeableConceptFromValue == null) {
+            return null;
         }
 
+        var codeDisplayName = codeableConceptFromCode.getCodingFirstRep().getDisplay();
+        if (codeDisplayName != null
+            && !ALLERGY_TERM_TEXT.equals(codeDisplayName)
+            && !codeDisplayName.equals(codeableConceptFromValue.getCodingFirstRep().getDisplay())) {
+
+            return Stream.of(new Annotation().setText(ALLERGY_NOTE.formatted(codeDisplayName)));
+        }
         return null;
-    }
-
-    private Boolean shouldIncludeAllergyNote(String compoundCode,
-                                             String codeDisplayName,
-                                             CodeableConcept codeableConceptFromValue) {
-
-        var valueDisplayName = codeableConceptFromValue != null && codeableConceptFromValue.hasCoding()
-                ? codeableConceptFromValue.getCodingFirstRep().getDisplay()
-                : null;
-
-        return DRUG_ALLERGY_CODE.equals(compoundCode)
-                && codeDisplayName != null
-                && !ALLERGY_TERM_TEXT.equals(codeDisplayName)
-                && !codeDisplayName.equals(valueDisplayName);
     }
 
     private RCMRMT030101UK04ObservationStatement extractObservationStatement(RCMRMT030101UK04CompoundStatement compoundStatement) {

@@ -2462,7 +2462,12 @@
         },
         "asserter": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
+        },
+        "note": [
+          {
+            "text": "Episodicity : First"
+          }
+        ]
       }
     },
     {
@@ -2521,7 +2526,12 @@
         },
         "asserter": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
+        },
+        "note": [
+          {
+            "text": "Episodicity : Ongoing, Review"
+          }
+        ]
       }
     },
     {
@@ -2584,7 +2594,12 @@
         },
         "asserter": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
+        },
+        "note": [
+          {
+            "text": "Episodicity : First"
+          }
+        ]
       }
     },
     {
@@ -2698,6 +2713,9 @@
         },
         "note": [
           {
+            "text": "Episodicity : First"
+          },
+          {
             "text": "This is a note for anitbiotic allergy NOS"
           }
         ]
@@ -2759,7 +2777,12 @@
         },
         "asserter": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
+        },
+        "note": [
+          {
+            "text": "Episodicity : First"
+          }
+        ]
       }
     },
     {
@@ -2822,7 +2845,12 @@
         },
         "asserter": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
+        },
+        "note": [
+          {
+            "text": "Episodicity : Undefined, Flare"
+          }
+        ]
       }
     },
     {
@@ -2887,6 +2915,9 @@
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
         "note": [
+          {
+            "text": "Episodicity : First"
+          },
           {
             "text": "asprin allergy"
           }
@@ -3021,7 +3052,12 @@
         },
         "asserter": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
+        },
+        "note": [
+          {
+            "text": "Episodicity : Undefined, End"
+          }
+        ]
       }
     },
     {
@@ -3084,7 +3120,12 @@
         },
         "asserter": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
+        },
+        "note": [
+          {
+            "text": "Episodicity : First"
+          }
+        ]
       }
     },
     {
@@ -3147,7 +3188,12 @@
         },
         "asserter": {
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-        }
+        },
+        "note": [
+          {
+            "text": "Episodicity : First"
+          }
+        ]
       }
     },
     {
