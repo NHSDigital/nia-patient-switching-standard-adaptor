@@ -86,7 +86,7 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [Config
 
 4. Follow the `README` in `snomed-database-loader` directory to load Snomed CT into database
 
-### Releasing a new version to Docker Hub
+## Releasing a new version to Docker Hub
 
 First identify which is the most recent commit within GitHub which contains only changes which are marked as Done within Jira.
 You can also review what commits have gone in by using the git log command or IDE.
@@ -96,8 +96,8 @@ Make a note of the most recent Release within GitHub, and identify what the next
 Create a new release within GitHub, specifying the tag as the version to use (e.g. 1.2.7), and the target being the commit you identified.
 Click on the "Generate release notes" button and this will list all the current changes from the recent commit.
 
-From the root of this repository, update the `/release.sh`, changing the `BUILD_TAG` value to match the release created above.
-Update the `CHANGELOG.md` file, copying the release information within the GitHub release.
+From the root of this repository, update the `/release-scripts/release.sh`, changing the `BUILD_TAG` value to match the release created above.
+Update the `CHANGELOG.md` file, moving the UNRELEASED entries into a line for the new release.
 Raise a PR for your changes.
 
 Once your changes have been merged, log into DockerHub using the credentials stored within our AWS accounts Secrets Manager, secret name `nhsdev-dockerhub-credentials` in London region.
@@ -109,7 +109,7 @@ Execute `./release.sh`.
 
 Log out of DockerHub.
 
-### Rebuilding services
+## Rebuilding services
 To rebuild the GPC Api Facade run
 ```shell script
  ./rebuild-and-restart-gpc-facade.sh

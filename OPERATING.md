@@ -20,6 +20,42 @@ yyyy-mm-dd HH:mm:ss.SSS Level=DEBUG Logger=u.n.a.p.t.s.BundleMapperService Conve
 
 ## Timeout functionality
 
+The Adaptor conforms to the GP2GP specification by timing out in-progress transfers. This ensures transfers are ended 
+gracefully in the scenario a GP2GP message has not been received.
+
+The timeout datetime is calculated using the following formula:
+
+```text
+Timeout [secs] = (A x persistDuration contract property of EHR Response [secs])
+               + (B x Number of COPC Common Point to Point EHR messages
+                    x persistDuration contract property of COPC Common Point to Point messages [secs])
+```
+
+The formula includes adjustable weightings (A and B) to offset potential transmission delays. 
+
+From the documentation:
+
+> A & B are weighting factors associated with general message transmission delays and volume based
+throughput times to allow adjustment if required ....
+
+The *Persist Duration* of each message is unique to the sending organisation and is obtained from the [Spine Directory Service (SDS) FHIR API](https://digital.nhs.uk/developer/api-catalogue/spine-directory-service-fhir). Responses for an organisation's message type are cached by default, the frequency the cache is
+updated is configurable via the environment variable `TIMEOUT_SDS_POLL_FREQUENCY`. 
+
+The adaptor checks incomplete transfers periodically, at a default frequency of every six hours. However, this is configurable via the environment variable `TIMEOUT_CRON_TIME`. 
+
+Required environment variables:
+
+- `SDS_API_KEY`: Your SDS FHIR API Key
+
+Optional environment variables:
+
+- `SDS_BASE_URL`: The SDS FHIR API Base URL (default is production) - default = `https://api.service.nhs.uk/spine-directory/FHIR/R4`
+- `TIMEOUT_CRON_TIME`: The frequency of the timeout check specified as a Cron expression (default is every six hours). 
+format = `<second> <minute> <hour> <day of month> <month> <day of week>` - default = `0 0 */6 * * * `
+- `TIMEOUT_SDS_POLL_FREQUENCY`: The frequency the persist duration cache is updated (default 3) i.e. 1 = send request to SDS everytime,  3 = send request to SDS on the third call - default = `3`
+- `TIMEOUT_EHR_EXTRACT_WEIGHTING`: The weighting factor A (as described above) - default = `1`
+- `TIMEOUT_COPC_WEIGHTING`: The weighting factor B (as described above) - default = `1`
+
 ## Database requirements
 
 * The adaptor requires a [PostgreSQL] database
