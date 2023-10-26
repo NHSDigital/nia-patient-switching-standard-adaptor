@@ -138,6 +138,10 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         verifyBundle(expectedBundleName);
     }
 
+    /**
+     * We've previously had the Adaptor consume large amounts of memory when processing 100 large attachments.
+     * See PR #344 AKA NIAD-2892 for details.
+     */
     @Test
     public void handleUk06withMultipleLargeCOPCMessages() {
         var ids = sendInboundMessageToQueueAndExtractMids("/json/LargeMessage/multiple-large-copc-messages/uk06.json");
