@@ -19,11 +19,17 @@ public class JmsListenerErrorHandler implements ErrorHandler {
     );
 
     @Override
-    public void handleError(Throwable t) {
+    public void handleError(Throwable t)  {
+
+        LOGGER.warn("Handling JMS message error due to [{}] with message [{}]", t.getClass(), t.getMessage());
+        t.printStackTrace();
 
         Throwable cause = t.getCause();
-        Class<? extends Throwable> classOfCause = cause.getClass();
+        if (cause == null) {
+            return;
+        }
 
+        Class<? extends Throwable> classOfCause = cause.getClass();
         LOGGER.warn("Caught Error cause of type: [{}], with message: [{}]", classOfCause.toString(), cause.getMessage());
 
         if (RETRYABLE_EXCEPTION_MESSAGES.containsKey(classOfCause)) {
