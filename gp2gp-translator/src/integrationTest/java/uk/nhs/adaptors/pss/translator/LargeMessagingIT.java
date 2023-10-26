@@ -7,7 +7,10 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.json.JSONException;
@@ -135,6 +138,21 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         verifyBundle(expectedBundleName);
     }
 
+    /**
+     * We've previously had the Adaptor consume large amounts of memory when processing 100 large attachments.
+     * See PR #344 AKA NIAD-2892 for details.
+     */
+    @Test
+    public void handleUk06withMultipleLargeCOPCMessages() {
+        var ids = sendInboundMessageToQueueAndExtractMids("/json/LargeMessage/multiple-large-copc-messages/uk06.json");
+
+        await().atMost(Duration.ofMinutes(1L)).until(this::hasContinueMessageBeenReceived);
+
+        sendCOPCMessagesToQueue("/json/LargeMessage/multiple-large-copc-messages/copc.json", ids);
+
+        await().atMost(Duration.ofMinutes(1L)).until(this::isEhrMigrationCompleted);
+    }
+
     private static Stream<Arguments> ehrAndCopcMessageResourceFiles() {
         return Stream.of(
             Arguments.of("handleUk06WithFragmentedMids", "/json/LargeMessage/Scenario_4/",
@@ -156,8 +174,39 @@ public final class LargeMessagingIT extends BaseEhrHandler {
             .replace(CONVERSATION_ID_PLACEHOLDER, getConversationId());
         getMhsJmsTemplate().send(session -> session.createTextMessage(jsonMessage));
     }
+
     private boolean hasContinueMessageBeenReceived() {
         var migrationStatusLog = getMigrationStatusLogService().getLatestMigrationStatusLog(getConversationId());
         return CONTINUE_REQUEST_ACCEPTED.equals(migrationStatusLog.getMigrationStatus());
+    }
+
+    private ArrayList<String> sendInboundMessageToQueueAndExtractMids(String filename) {
+        var jsonMessage = readResourceAsString(filename)
+            .replace(NHS_NUMBER_PLACEHOLDER, getPatientNhsNumber())
+            .replace(CONVERSATION_ID_PLACEHOLDER, getConversationId());
+
+        getMhsJmsTemplate().send(session -> session.createTextMessage(jsonMessage));
+
+        var ids = new ArrayList<String>();
+        var regex = "mid:([^\\\\]+)\\\\";
+        var pattern = Pattern.compile(regex);
+        var matcher = pattern.matcher(jsonMessage);
+
+        while (matcher.find()) {
+            ids.add(matcher.group(1));
+        }
+
+        return ids;
+    }
+
+    private void sendCOPCMessagesToQueue(String filepath, ArrayList<String> mids) {
+        var template = readResourceAsString(filepath)
+            .replace(CONVERSATION_ID_PLACEHOLDER, getConversationId());
+
+        for (String mid : mids) {
+            var jsonMessage = template
+                .replace("{{messageId}}", mid);
+            getMhsJmsTemplate().send(session -> session.createTextMessage(jsonMessage));
+        }
     }
 }
