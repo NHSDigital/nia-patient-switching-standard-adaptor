@@ -30716,6 +30716,21 @@
         "code": {
           "coding": [
             {
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "3074281000001113"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Azelaic acid 20% cream"
+                    }
+                  ]
+                }
+              ],
               "system": "http://snomed.info/sct",
               "code": "41891011000001106",
               "display": "Azelaic acid 20% cream"
