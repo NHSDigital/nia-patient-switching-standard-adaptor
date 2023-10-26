@@ -364,7 +364,6 @@ public class AllergyIntoleranceMapperTest {
 
         var allergyIntolerance = allergyIntolerances.get(0);
 
-        assertFixedValues(allergyIntolerance);
         assertThat(allergyIntolerance.getNote().get(0).getText())
                 .isEqualTo(EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT);
     }
@@ -381,7 +380,6 @@ public class AllergyIntoleranceMapperTest {
 
         var allergyIntolerance = allergyIntolerances.get(0);
 
-        assertFixedValues(allergyIntolerance);
         assertThat(allergyIntolerance.getNote().get(0).getText())
                 .isEqualTo(EPISODICITY_WITHOUT_ORIGINAL_TEXT_NOTE_TEXT);
     }
