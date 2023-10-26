@@ -7,9 +7,9 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.CONTINUE_REQUEST_ACCEPTED;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -142,11 +142,11 @@ public final class LargeMessagingIT extends BaseEhrHandler {
     public void handleUk06withMultipleLargeCOPCMessages() {
         var ids = sendInboundMessageToQueueAndExtractMids("/json/LargeMessage/multiple-large-copc-messages/uk06.json");
 
-        await().until(this::hasContinueMessageBeenReceived);
+        await().atMost(Duration.ofMinutes(1L)).until(this::hasContinueMessageBeenReceived);
 
         sendCOPCMessagesToQueue("/json/LargeMessage/multiple-large-copc-messages/copc.json", ids);
 
-        await().until(this::isEhrMigrationCompleted);
+        await().atMost(Duration.ofMinutes(1L)).until(this::isEhrMigrationCompleted);
     }
 
     private static Stream<Arguments> ehrAndCopcMessageResourceFiles() {
