@@ -290,9 +290,8 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         var pertinentInformationAnnotations = getPertinentInformationAnnotations(observationStatement);
         var allergyAnnotation = getAllergyAnnotation(compoundCode, codeableConceptFromCode, codeableConceptFromValue);
 
-        var allergyIntoleranceNotes = allergyAnnotation == null
-                ? Stream.concat(episodicityAnnotations, pertinentInformationAnnotations)
-                : Stream.of(episodicityAnnotations, pertinentInformationAnnotations, allergyAnnotation)
+        var allergyIntoleranceNotes =
+            Stream.of(episodicityAnnotations, pertinentInformationAnnotations, allergyAnnotation)
                     .flatMap(ain -> ain);
 
         allergyIntolerance.setNote(allergyIntoleranceNotes.toList());
@@ -344,7 +343,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         if (!DRUG_ALLERGY_CODE.equals(compoundCode)
             || codeableConceptFromCode == null
             || codeableConceptFromValue == null) {
-            return null;
+            return Stream.of();
         }
 
         var codeDisplayName = codeableConceptFromCode.getCodingFirstRep().getDisplay();
