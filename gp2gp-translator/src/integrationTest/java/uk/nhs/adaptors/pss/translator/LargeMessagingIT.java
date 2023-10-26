@@ -199,9 +199,9 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         var template = readResourceAsString(filepath)
             .replace(CONVERSATION_ID_PLACEHOLDER, getConversationId());
 
-        for (var i = 0; i < mids.size(); i++) {
+        for (String mid : mids) {
             var jsonMessage = template
-                .replace("{{messageId}}", mids.get(i));
+                .replace("{{messageId}}", mid);
             getMhsJmsTemplate().send(session -> session.createTextMessage(jsonMessage));
         }
     }
