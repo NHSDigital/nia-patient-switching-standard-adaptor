@@ -162,7 +162,7 @@ public class AcknowledgmentMessageHandlerTest {
     }
 
     @Test
-    public void When_handleMessage_With_AckTypeCodeAndFailedStatus_Expect_MigrationStatusNotUpdated() throws SAXException {
+    public void When_HandleMessage_With_AckTypeCodeAndFailedStatus_Expect_MigrationStatusNotUpdated() throws SAXException {
         prepareFailedProcessMocks(ACK_TYPE_CODE);
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
@@ -171,7 +171,7 @@ public class AcknowledgmentMessageHandlerTest {
     }
 
     @Test
-    public void When_handleMessage_With_NackTypeCodeAndFailedStatus_Expect_MigrationStatusNotUpdated() throws SAXException {
+    public void When_HandleMessage_With_NackTypeCodeAndFailedStatus_Expect_MigrationStatusNotUpdated() throws SAXException {
         prepareFailedProcessMocks(NACK_ERROR_TYPE_CODE);
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
