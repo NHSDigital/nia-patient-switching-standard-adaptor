@@ -89,7 +89,6 @@ public class AcknowledgmentMessageHandler {
                 case "18" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST;
                 case "19" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_NOT_PRIMARY_HEALTHCARE_PROVIDER;
                 case "24" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES;
-                case "99" -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
                 default -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
             };
             default -> null;
