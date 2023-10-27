@@ -3478,7 +3478,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "326324002",
-              "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
+              "display": "Ethinylestradiol 30 microgram and levonorgestrel 150 microgram oral tablet"
             },
             {
               "system": "2.16.840.1.113883.2.1.6.9",
@@ -7804,7 +7804,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "326324002",
-              "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
+              "display": "Ethinylestradiol 30 microgram and levonorgestrel 150 microgram oral tablet"
             },
             {
               "system": "2.16.840.1.113883.2.1.6.9",
