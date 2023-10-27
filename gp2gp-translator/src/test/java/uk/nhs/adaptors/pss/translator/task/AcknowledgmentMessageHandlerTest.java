@@ -26,6 +26,7 @@ import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.model.MigrationStatusLog;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,6 +50,9 @@ public class AcknowledgmentMessageHandlerTest {
     private Document ebXmlDocument;
     @Mock
     private MigrationStatusLog statusLog;
+
+    @Mock
+    private FailedProcessHandlingService failedProcessHandlingService;
 
     @InjectMocks
     private AcknowledgmentMessageHandler acknowledgmentMessageHandler;
@@ -149,8 +153,26 @@ public class AcknowledgmentMessageHandlerTest {
     @Test
     public void When_HandleMessage_With_AckTypeCodeAndFinalAckSent_Expect_MigrationStatusNotUpdated() throws SAXException {
         inboundMessage = new InboundMessage();
-        prepareXPathServiceMocks("AA", null);
+        prepareXPathServiceMocks(ACK_TYPE_CODE, null);
         prepareMigrationStatusMocks(FINAL_ACK_SENT);
+
+        acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any());
+    }
+
+    @Test
+    public void When_handleMessage_With_AckTypeCodeAndFailedStatus_Expect_MigrationStatusNotUpdated() throws SAXException {
+        prepareFailedProcessMocks(ACK_TYPE_CODE);
+
+        acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any());
+    }
+
+    @Test
+    public void When_handleMessage_With_NackTypeCodeAndFailedStatus_Expect_MigrationStatusNotUpdated() throws SAXException {
+        prepareFailedProcessMocks(NACK_ERROR_TYPE_CODE);
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
@@ -172,5 +194,14 @@ public class AcknowledgmentMessageHandlerTest {
     private void prepareMigrationStatusMocks(MigrationStatus latestMigrationStatus) {
         when(migrationStatusLogService.getLatestMigrationStatusLog(CONVERSATION_ID)).thenReturn(statusLog);
         when(statusLog.getMigrationStatus()).thenReturn(latestMigrationStatus);
+    }
+
+    @SneakyThrows
+    private void prepareFailedProcessMocks(String errorCode) {
+        inboundMessage = new InboundMessage();
+        inboundMessage.setPayload("payload");
+        when(xPathService.parseDocumentFromXml(inboundMessage.getPayload())).thenReturn(ebXmlDocument);
+        when(xPathService.getNodeValue(ebXmlDocument, ACK_TYPE_CODE_XPATH)).thenReturn(errorCode);
+        when(failedProcessHandlingService.hasProcessFailed(CONVERSATION_ID)).thenReturn(true);
     }
 }
