@@ -14,7 +14,9 @@ import uk.nhs.adaptors.connector.dao.SnomedCTDao;
 import uk.nhs.adaptors.connector.model.SnomedCTDescription;
 import uk.nhs.adaptors.pss.translator.util.CodeSystemsUtil;
 
+import java.util.Comparator;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -44,7 +46,7 @@ public class CodeableConceptMapper {
         var codeableConcept =  generateCodeableConcept(codedData, true);
         addNonSnomedCodesToCodeableConcept(codeableConcept, codedData);
 
-        return codeableConcept;
+        return sortCodeableConceptCoding(codedData, codeableConcept);
     }
 
     private CodeableConcept generateCodeableConceptWithoutSnomedCode(CD codedData) {
@@ -57,6 +59,7 @@ public class CodeableConceptMapper {
     }
 
     private CodeableConcept generateCodeableConcept(CD codedData, boolean isMedicationResource) {
+
         var isSnomedCodeInMainCode = codedData.hasCodeSystem()
             && SNOMED_SYSTEM_CODE.equals(codedData.getCodeSystem());
 
@@ -205,28 +208,23 @@ public class CodeableConceptMapper {
     }
 
     private void addNonSnomedCodesToCodeableConcept(CodeableConcept codeableConcept, CD codedData) {
-        if (codedData.hasCodeSystem() && !SNOMED_SYSTEM_CODE.equals(codedData.getCodeSystem())) {
-            var coding = mapNonSnomedCodes(codedData);
-            codeableConcept.getCoding().add(coding);
-        }
+        addNonSnomedCodeIfPresent(codeableConcept, codedData, 0);
+        var translationCodes = codedData.getTranslation();
 
-        var translationCodes = codedData
-                .getTranslation()
-                .stream()
-                .filter(cd -> !SNOMED_SYSTEM_CODE.equals(cd.getCodeSystem()))
-                .map(this::mapNonSnomedCodes)
-                .toList();
-
-        if (!translationCodes.isEmpty()) {
-            codeableConcept.getCoding().addAll(translationCodes);
+        for (int index = 0; index < translationCodes.size(); index++) {
+            addNonSnomedCodeIfPresent(codeableConcept, translationCodes.get(index), index + 1);
         }
     }
 
-    private Coding mapNonSnomedCodes(CD codedData) {
-        return new Coding()
-                .setCode(codedData.getCode())
-                .setSystem(CodeSystemsUtil.getFhirCodeSystem(codedData.getCodeSystem()))
-                .setDisplay(codedData.getDisplayName());
+    private void addNonSnomedCodeIfPresent(CodeableConcept codeableConcept, CD codedData, int index) {
+        if (codedData.hasCodeSystem() && !SNOMED_SYSTEM_CODE.equals(codedData.getCodeSystem())) {
+            var coding = new Coding()
+                    .setCode(codedData.getCode())
+                    .setSystem(CodeSystemsUtil.getFhirCodeSystem(codedData.getCodeSystem()))
+                    .setDisplay(codedData.getDisplayName());
+
+            codeableConcept.getCoding().add(index, coding);
+        }
     }
 
     private CodeableConcept createCodeableConcept(String code, String system, String display, String text, Extension extension) {
@@ -290,6 +288,18 @@ public class CodeableConceptMapper {
         return translation.getDisplayName() != null
             ? translation.getDisplayName()
             : codedData.getDisplayName();
+    }
+
+    private CodeableConcept sortCodeableConceptCoding(CD codedData, CodeableConcept codeableConcept) {
+        var codeOrder = Stream.concat(
+                Stream.of(codedData.getCode()),
+                codedData.getTranslation().stream().filter(Objects::nonNull)
+        ).toList();
+
+        codeableConcept.getCoding()
+                .sort(Comparator.comparingInt(o -> codeOrder.indexOf(o.getCode())));
+
+        return codeableConcept;
     }
 
     private String getPartitionIdentifier(String code) {

@@ -200,15 +200,15 @@ public class CodeableConceptMapperTest {
         var codedData = unmarshallCodeElementFromXMLString(XML_HEADER + inputXML);
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
 
-        assertThat(codeableConcept.getCoding().get(0).getCode())
+        assertThat(codeableConcept.getCoding().get(1).getCode())
             .isEqualTo(CONCEPT_ID);
-        assertThat(codeableConcept.getCoding().get(0).getDisplay())
+        assertThat(codeableConcept.getCoding().get(1).getDisplay())
             .isEqualTo(DISPLAY_NAME_1);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1)
+        assertThat(codeableConcept.getCoding().get(1).getExtension().get(0).getExtension().size() == 1)
             .isTrue();
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl())
+        assertThat(codeableConcept.getCoding().get(1).getExtension().get(0).getExtension().get(0).getUrl())
             .isEqualTo(DESCRIPTION_DISPLAY);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue().toString())
+        assertThat(codeableConcept.getCoding().get(1).getExtension().get(0).getExtension().get(0).getValue().toString())
             .isEqualTo((SNOMED_DESCRIPTION.getTerm()));
         assertThat(codeableConcept.getText())
             .isEqualTo(ORIGINAL_TEXT);
@@ -227,15 +227,15 @@ public class CodeableConceptMapperTest {
         var codedData = unmarshallCodeElementFromXMLString(XML_HEADER + inputXML);
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
 
-        assertThat(codeableConcept.getCoding().get(0).getCode())
+        assertThat(codeableConcept.getCoding().get(1).getCode())
             .isEqualTo(CONCEPT_ID);
-        assertThat(codeableConcept.getCoding().get(0).getDisplay())
+        assertThat(codeableConcept.getCoding().get(1).getDisplay())
             .isEqualTo(DISPLAY_NAME_1);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1)
+        assertThat(codeableConcept.getCoding().get(1).getExtension().get(0).getExtension().size() == 1)
             .isTrue();
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl())
+        assertThat(codeableConcept.getCoding().get(1).getExtension().get(0).getExtension().get(0).getUrl())
             .isEqualTo(DESCRIPTION_DISPLAY);
-        assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue().toString())
+        assertThat(codeableConcept.getCoding().get(1).getExtension().get(0).getExtension().get(0).getValue().toString())
             .isEqualTo((SNOMED_DESCRIPTION.getTerm()));
         assertThat(codeableConcept.getText())
             .isEqualTo(DISPLAY_NAME_2);
@@ -300,11 +300,11 @@ public class CodeableConceptMapperTest {
         var codedData = unmarshallCodeElementFromXMLString(XML_HEADER + inputXML);
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
 
-        assertThat(codeableConcept.getCoding().get(0).getCode())
+        assertThat(codeableConcept.getCoding().get(1).getCode())
             .isEqualTo(CONCEPT_ID);
-        assertThat(codeableConcept.getCoding().get(0).getDisplay())
+        assertThat(codeableConcept.getCoding().get(1).getDisplay())
             .isEqualTo(DISPLAY_NAME_2);
-        assertThat(codeableConcept.getCoding().get(0).getExtension())
+        assertThat(codeableConcept.getCoding().get(1).getExtension())
             .isNullOrEmpty();
     }
 
@@ -706,11 +706,11 @@ public class CodeableConceptMapperTest {
 
         assertThat(codeableConcept.hasText())
             .isFalse();
-        assertThat(codeableConcept.getCodingFirstRep().getCode())
+        assertThat(codeableConcept.getCoding().get(1).getCode())
             .isEqualTo("163020007");
-        assertThat(codeableConcept.getCodingFirstRep().getSystem())
+        assertThat(codeableConcept.getCoding().get(1).getSystem())
             .isEqualTo("http://snomed.info/sct");
-        assertThat(codeableConcept.getCodingFirstRep().getDisplay())
+        assertThat(codeableConcept.getCoding().get(1).getDisplay())
             .isEqualTo("O/E - blood pressure reading");
     }
 
@@ -731,11 +731,11 @@ public class CodeableConceptMapperTest {
 
         assertThat(codeableConcept.hasText())
             .isFalse();
-        assertThat(codeableConcept.getCodingFirstRep().getCode())
+        assertThat(codeableConcept.getCoding().get(1).getCode())
             .isEqualTo("163020007");
-        assertThat(codeableConcept.getCodingFirstRep().getSystem())
+        assertThat(codeableConcept.getCoding().get(1).getSystem())
             .isEqualTo("http://snomed.info/sct");
-        assertThat(codeableConcept.getCodingFirstRep().getDisplay())
+        assertThat(codeableConcept.getCoding().get(1).getDisplay())
             .isEqualTo("blood pressure reading");
     }
 
@@ -757,11 +757,11 @@ public class CodeableConceptMapperTest {
 
         assertThat(codeableConcept.getText())
             .isEqualTo("Inactive Problem, minor");
-        assertThat(codeableConcept.getCodingFirstRep().getCode())
+        assertThat(codeableConcept.getCoding().get(1).getCode())
             .isEqualTo("163020007");
-        assertThat(codeableConcept.getCodingFirstRep().getSystem())
+        assertThat(codeableConcept.getCoding().get(1).getSystem())
             .isEqualTo("http://snomed.info/sct");
-        assertThat(codeableConcept.getCodingFirstRep().getDisplay())
+        assertThat(codeableConcept.getCoding().get(1).getDisplay())
             .isEqualTo("blood pressure reading");
     }
 
@@ -994,6 +994,11 @@ public class CodeableConceptMapperTest {
             .isEqualTo("TEST_DISPLAY_NAME");
     }
 
+    /**
+     * This has been added as we have had a change in requirement to preserve the original ordering
+     * of the codes in the code block.
+     * See NIAD-2902 for details
+     */
     @Test
     public void When_MappingCodeableConcept_Expect_CodesToBeInTheProvidedOrder() {
         var inputXML = """
