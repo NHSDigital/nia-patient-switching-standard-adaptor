@@ -2,7 +2,7 @@ String tfProject             = "nia"
 String tfComponent           = "pss"
 Boolean publishGPC_FacadeImage  = true // true: to publsh gpc_facade image to AWS ECR gpc_facade
 Boolean publishGP2GP_TranslatorImage  = true // true: to publsh gp2gp_translator image to AWS ECR gp2gp-translator
-Boolean publishMhsMockImage  = true // true: to publsh mhs mock image to AWS ECR pss-mock-mhs 
+Boolean publishMhsMockImage  = true // true: to publsh mhs mock image to AWS ECR pss-mock-mhs
 
 
 pipeline {
@@ -18,16 +18,16 @@ pipeline {
 
     environment {
         BUILD_TAG = sh label: 'Generating build tag', returnStdout: true, script: 'python3 scripts/tag.py ${GIT_BRANCH} ${BUILD_NUMBER} ${GIT_COMMIT}'
-        
+
         GPC_FACADE_ECR_REPO_DIR = "pss_gpc_facade"
         GP2GP_TRANSLATOR_ECR_REPO_DIR = "pss_gp2gp-translator"
         MHS_MOCK_ECR_REPO_DIR = "pss-mock-mhs"
-        
+
         GPC_FACADE_DOCKER_IMAGE = "${DOCKER_REGISTRY}/${GPC_FACADE_ECR_REPO_DIR}:${BUILD_TAG}"
         GP2GP_TRANSLATOR_DOCKER_IMAGE = "${DOCKER_REGISTRY}/${GP2GP_TRANSLATOR_ECR_REPO_DIR}:${BUILD_TAG}"
         MHS_MOCK_DOCKER_IMAGE  = "${DOCKER_REGISTRY}/${MHS_MOCK_ECR_REPO_DIR}:${BUILD_TAG}"
     }
-    
+
     stages {
         stage('Build') {
             stages {
@@ -59,12 +59,12 @@ pipeline {
                                         source docker/vars.local.tests.sh
                                         docker-compose -f docker/docker-compose.yml up -d ps_db
                                         docker-compose -f docker/docker-compose.yml up db_migration
-                                        aws s3 cp s3://snomed-schema/uk_sct2mo_36.0.0_20230412000001Z.zip ./snomed-database-loader/uk_sct2mo_36.0.0_20230412000001Z.zip
+                                        aws s3 cp s3://snomed-schema/uk_sct2mo_37.0.0_20230927000001Z.zip ./snomed-database-loader/uk_sct2mo_37.0.0_20230927000001Z.zip
                                         # As Jenkins is running inside of Docker too, can't just reference the snomed file as a volume as part of the docker run command
                                         # Instead copy the file into a named volume first as a separate docker command
                                         docker volume create --name snomed
-                                        cat ./snomed-database-loader/uk_sct2mo_36.0.0_20230412000001Z.zip | docker run --rm --interactive -v snomed:/snomed alpine sh -c "cat > /snomed/uk_sct2mo_36.0.0_20230412000001Z.zip"
-                                        docker-compose -f docker/docker-compose.yml run --rm --volume snomed:/snomed snomed_schema /snomed/uk_sct2mo_36.0.0_20230412000001Z.zip
+                                        cat ./snomed-database-loader/uk_sct2mo_37.0.0_20230927000001Z.zip | docker run --rm --interactive -v snomed:/snomed alpine sh -c "cat > /snomed/uk_sct2mo_37.0.0_20230927000001Z.zip"
+                                        docker-compose -f docker/docker-compose.yml run --rm --volume snomed:/snomed snomed_schema /snomed/uk_sct2mo_37.0.0_20230927000001Z.zip
                                         docker volume rm snomed
                                         docker-compose -f docker/docker-compose.yml up snomed_immunization
                                     '''
@@ -145,7 +145,7 @@ pipeline {
                         }
                     }
                 }
-                
+
                 stage('Push Image') {
                     when {
                         expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
@@ -170,13 +170,13 @@ pipeline {
                     } // steps
                 } //stage push images
             } //stages
-        } //Stage Build 
+        } //Stage Build
     } //Stages
       post {
        always {
             sh label: 'Remove exited containers', script: 'docker container prune --force'
             sh label: 'Remove images tagged with current BUILD_TAG', script: 'docker image rm -f $(docker images "*/*:*${BUILD_TAG}" -q) $(docker images "*/*/*:*${BUILD_TAG}" -q) || true'
-            sh label: 'Delete Snomed CT database zip', script: 'rm ./snomed-database-loader/uk_sct2mo_36.0.0_20230412000001Z.zip'
+            sh label: 'Delete Snomed CT database zip', script: 'rm ./snomed-database-loader/uk_sct2mo_37.0.0_20230927000001Z.zip'
             sh label: 'clean up dangling images', script: 'docker image prune -f'
         } // always
       } // post
@@ -247,7 +247,7 @@ int terraformOutput(String tfStateBucket, String project, String environment, St
     psDbSecretsExtracted.put("export GPC_FACADE_USER_DB_PASSWORD",psDbSecrets.get('postgres_psdb_gpc_facade_user_password'))
 
     writeVariablesToFile("~/.psdbsecrets.tfvars",psDbSecretsExtracted)
-  
+
   String terraformBinPath = tfEnv()
   println("Terraform outputs for Environment: ${environment} Component: ${component} in region: ${region} using bucket: ${tfStateBucket}")
   String command = "${terraformBinPath} output > ~/.tfoutput.tfvars"
