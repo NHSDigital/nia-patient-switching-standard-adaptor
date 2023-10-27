@@ -26,7 +26,7 @@ public class JmsListenerErrorHandler implements ErrorHandler {
     @Override
     public void handleError(Throwable t) {
 
-        LOGGER.warn("Handling JMS message error due to [{}] with message [{}]", t.getClass(), t.getMessage());
+        LOGGER.error("Handling JMS message error due to [{}] with message [{}]", t.getClass(), t.getMessage());
         t.printStackTrace();
 
         Throwable cause = t.getCause();
@@ -35,7 +35,7 @@ public class JmsListenerErrorHandler implements ErrorHandler {
         }
 
         Class<? extends Throwable> classOfCause = cause.getClass();
-        LOGGER.warn("Caught Error cause of type: [{}], with message: [{}]", classOfCause.toString(), cause.getMessage());
+        LOGGER.error("Caught Error cause of type: [{}], with message: [{}]", classOfCause.toString(), cause.getMessage());
 
         // Rety these specific exceptions continuously until they stop happening.
         // These retries will happen until the associated transfer times out.
