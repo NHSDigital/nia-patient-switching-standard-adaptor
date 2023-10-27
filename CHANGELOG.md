@@ -5,8 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-* add additional error handling for unexpected exceptions
-* modify SQL statements to guard against out of memory errors 
+### Fixed
+
+* Add additional error handling for exceptions raised when processing PSS queue, and MHS queue messages.
+* Fix bug in some SQL statement which caused excessively large amounts of data to be returned, sometimes resulting in a PostgresSQL Out of Memory error.
 
 ## [0.15] - 2023-10-24
 
