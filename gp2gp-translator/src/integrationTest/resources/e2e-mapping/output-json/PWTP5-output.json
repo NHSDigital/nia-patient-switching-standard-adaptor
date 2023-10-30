@@ -2558,6 +2558,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "F45..00",
+              "display": "Glaucoma"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2575,11 +2580,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "23986001",
-              "display": "Glaucoma"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "F45..00",
               "display": "Glaucoma"
             }
           ],
@@ -2620,6 +2620,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "2469.00",
+              "display": "O/E - Systolic BP reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2637,11 +2642,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163030003",
-              "display": "O/E - Systolic BP reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "2469.00",
               "display": "O/E - Systolic BP reading"
             }
           ],
@@ -2693,6 +2693,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "246A.00",
+              "display": "O/E - Diastolic BP reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2710,11 +2715,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163031004",
-              "display": "O/E - Diastolic BP reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "246A.00",
               "display": "O/E - Diastolic BP reading"
             }
           ],
@@ -2766,6 +2766,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2784,11 +2789,6 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "PKyz500",
-              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -2828,6 +2828,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "9N43.00",
+              "display": "Patient too late"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2845,11 +2850,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "185328004",
-              "display": "Patient too late"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "9N43.00",
               "display": "Patient too late"
             }
           ],
@@ -2890,6 +2890,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2908,11 +2913,6 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "PKyz500",
-              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -2960,6 +2960,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1683.00",
+              "display": "Tired all the time"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2977,11 +2982,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "267032009",
-              "display": "Tired all the time"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1683.00",
               "display": "Tired all the time"
             }
           ],
@@ -3030,6 +3030,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7K20y00",
+              "display": "Total prosthetic replacement of hip joint using cement OS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3044,11 +3049,6 @@
               "system": "http://snomed.info/sct",
               "code": "265157000",
               "display": "Total prosthetic replacement of hip joint using cement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7K20y00",
-              "display": "Total prosthetic replacement of hip joint using cement OS"
             }
           ],
           "text": "Total prosthetic replacement of hip joint using cement OS"
@@ -3096,6 +3096,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7K20.00",
+              "display": "Total prosthetic replacement of hip joint using cement"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3113,11 +3118,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "265157000",
-              "display": "Total prosthetic replacement of hip joint using cement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7K20.00",
               "display": "Total prosthetic replacement of hip joint using cement"
             }
           ],
@@ -3166,6 +3166,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7K30.00",
+              "display": "Total prosthetic replacement of knee joint using cement"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3183,11 +3188,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "265170009",
-              "display": "Total prosthetic replacement of knee joint using cement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7K30.00",
               "display": "Total prosthetic replacement of knee joint using cement"
             }
           ],
@@ -3236,6 +3236,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "3....00",
+              "display": "Diagnostic procedures"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3250,11 +3255,6 @@
               "system": "http://snomed.info/sct",
               "code": "103693007",
               "display": "Diagnostic procedure"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "3....00",
-              "display": "Diagnostic procedures"
             }
           ],
           "text": "Diagnostic procedures"
@@ -3301,6 +3301,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "136Q.00",
+              "display": "Very heavy drinker"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3318,11 +3323,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "228279004",
-              "display": "Very heavy drinker"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "136Q.00",
               "display": "Very heavy drinker"
             }
           ],
@@ -3370,6 +3370,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "2469.00",
+              "display": "O/E - Systolic BP reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3387,11 +3392,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163030003",
-              "display": "O/E - Systolic BP reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "2469.00",
               "display": "O/E - Systolic BP reading"
             }
           ],
@@ -3443,6 +3443,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "246A.00",
+              "display": "O/E - Diastolic BP reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3460,11 +3465,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163031004",
-              "display": "O/E - Diastolic BP reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "246A.00",
               "display": "O/E - Diastolic BP reading"
             }
           ],
@@ -3559,6 +3559,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1334.00",
+              "display": "Divorced"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3576,11 +3581,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "20295000",
-              "display": "Divorced"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1334.00",
               "display": "Divorced"
             }
           ],
@@ -3617,6 +3617,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "93C0.00",
+              "display": "Consent given for upload to local shared electronic record"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3634,11 +3639,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "417528008",
-              "display": "Consent given for upload to local shared electronic record"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "93C0.00",
               "display": "Consent given for upload to local shared electronic record"
             }
           ],
@@ -3675,6 +3675,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "A661000",
+              "display": "Nairobi sheep disease"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3693,11 +3698,6 @@
               "system": "http://snomed.info/sct",
               "code": "24069003",
               "display": "Nairobi sheep virus disease"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "A661000",
-              "display": "Nairobi sheep disease"
             }
           ],
           "text": "Nairobi sheep disease"
@@ -3734,6 +3734,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "T508000",
+              "display": "Forced landing on takeoff - occupant of spacecraft injured"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3748,11 +3753,6 @@
               "system": "http://snomed.info/sct",
               "code": "215964002",
               "display": "Forced landing whilst taking off, occupant of spacecraft injured"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "T508000",
-              "display": "Forced landing on takeoff - occupant of spacecraft injured"
             }
           ],
           "text": "Forced landing on takeoff - occupant of spacecraft injured"
@@ -3789,6 +3789,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "8D6E.00",
+              "display": "Cystostomy bag fitting"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3803,11 +3808,6 @@
               "system": "http://snomed.info/sct",
               "code": "309848007",
               "display": "Urinary stoma bag fitting"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "8D6E.00",
-              "display": "Cystostomy bag fitting"
             }
           ],
           "text": "Cystostomy bag fitting"
@@ -3840,6 +3840,11 @@
             "valueCodeableConcept": {
               "coding": [
                 {
+                  "system": "http://read.info/readv2",
+                  "code": "65M1.00",
+                  "display": "Measles/mumps/rubella vaccn."
+                },
+                {
                   "extension": [
                     {
                       "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3854,11 +3859,6 @@
                   "system": "http://snomed.info/sct",
                   "code": "38598009",
                   "display": "Measles-mumps-rubella vaccination"
-                },
-                {
-                  "system": "http://read.info/readv2",
-                  "code": "65M1.00",
-                  "display": "Measles/mumps/rubella vaccn."
                 }
               ],
               "text": "Measles/mumps/rubella vaccn."
@@ -3949,6 +3949,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "A661000",
+              "display": "Nairobi sheep disease"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3967,11 +3972,6 @@
               "system": "http://snomed.info/sct",
               "code": "24069003",
               "display": "Nairobi sheep virus disease"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "A661000",
-              "display": "Nairobi sheep disease"
             }
           ],
           "text": "Nairobi sheep disease"
@@ -4036,6 +4036,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "T508000",
+              "display": "Forced landing on takeoff - occupant of spacecraft injured"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4050,11 +4055,6 @@
               "system": "http://snomed.info/sct",
               "code": "215964002",
               "display": "Forced landing whilst taking off, occupant of spacecraft injured"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "T508000",
-              "display": "Forced landing on takeoff - occupant of spacecraft injured"
             }
           ],
           "text": "Forced landing on takeoff - occupant of spacecraft injured"
@@ -4096,6 +4096,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "246..00",
+              "display": "O/E - blood pressure reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4113,11 +4118,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163020007",
-              "display": "O/E - blood pressure reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "246..00",
               "display": "O/E - blood pressure reading"
             }
           ],
@@ -4220,6 +4220,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4238,11 +4243,6 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "PKyz500",
-              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -4319,6 +4319,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "246..00",
+              "display": "O/E - blood pressure reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4336,11 +4341,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163020007",
-              "display": "O/E - blood pressure reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "246..00",
               "display": "O/E - blood pressure reading"
             }
           ],
@@ -4459,6 +4459,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "14L1.00",
+              "display": "H/O: penicillin allergy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4476,11 +4481,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "161591004",
-              "display": "H/O: penicillin allergy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "14L1.00",
               "display": "H/O: penicillin allergy"
             }
           ],

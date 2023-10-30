@@ -2685,6 +2685,11 @@
           {
             "coding": [
               {
+                "system": "http://read.info/readv2",
+                "code": "8H61.00",
+                "display": "Referral to private doctor"
+              },
+              {
                 "extension": [
                   {
                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2702,11 +2707,6 @@
                 ],
                 "system": "http://snomed.info/sct",
                 "code": "266747000",
-                "display": "Referral to private doctor"
-              },
-              {
-                "system": "http://read.info/readv2",
-                "code": "8H61.00",
                 "display": "Referral to private doctor"
               }
             ],
@@ -2757,6 +2757,11 @@
           {
             "coding": [
               {
+                "system": "http://read.info/readv2",
+                "code": "8H54.00",
+                "display": "Orthopaedic referral"
+              },
+              {
                 "extension": [
                   {
                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2775,11 +2780,6 @@
                 "system": "http://snomed.info/sct",
                 "code": "183545006",
                 "display": "Referral to orthopaedic service"
-              },
-              {
-                "system": "http://read.info/readv2",
-                "code": "8H54.00",
-                "display": "Orthopaedic referral"
               }
             ],
             "text": "Orthopaedic referral"
@@ -2829,6 +2829,11 @@
           {
             "coding": [
               {
+                "system": "http://read.info/readv2",
+                "code": "8Hh..00",
+                "display": "Self-referral"
+              },
+              {
                 "extension": [
                   {
                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2846,11 +2851,6 @@
                 ],
                 "system": "http://snomed.info/sct",
                 "code": "306098008",
-                "display": "Self-referral"
-              },
-              {
-                "system": "http://read.info/readv2",
-                "code": "8Hh..00",
                 "display": "Self-referral"
               }
             ],
@@ -2898,6 +2898,11 @@
           {
             "coding": [
               {
+                "system": "http://read.info/readv2",
+                "code": "8H3..00",
+                "display": "Non-urgent hospital admission"
+              },
+              {
                 "extension": [
                   {
                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2915,11 +2920,6 @@
                 ],
                 "system": "http://snomed.info/sct",
                 "code": "183481006",
-                "display": "Non-urgent hospital admission"
-              },
-              {
-                "system": "http://read.info/readv2",
-                "code": "8H3..00",
                 "display": "Non-urgent hospital admission"
               }
             ],
@@ -2948,14 +2948,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "330062008",
-              "display": "Allopurinol 300 mg oral tablet"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "ALTA78",
               "display": "Allopurinol 300mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "330062008",
+              "display": "Allopurinol 300 mg oral tablet"
             }
           ],
           "text": "Allopurinol 300mg tablets"
@@ -3097,6 +3097,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "8H62.00",
+              "display": "Referral to G.P."
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3115,11 +3120,6 @@
               "system": "http://snomed.info/sct",
               "code": "183561008",
               "display": "Referral to GP"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "8H62.00",
-              "display": "Referral to G.P."
             }
           ],
           "text": "Referral to G.P."
@@ -3173,6 +3173,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "H170.11",
+              "display": "Hay fever - pollens"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3187,11 +3192,6 @@
               "system": "http://snomed.info/sct",
               "code": "21719001",
               "display": "Allergic rhinitis due to pollen"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "H170.11",
-              "display": "Hay fever - pollens"
             }
           ],
           "text": "Hay fever - pollens"
@@ -3228,6 +3228,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "R1y3.00",
+              "display": "[D]Low blood pressure reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3245,11 +3250,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "501631000000108",
-              "display": "[D]Low blood pressure reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "R1y3.00",
               "display": "[D]Low blood pressure reading"
             }
           ],
@@ -3286,6 +3286,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1B88.00",
+              "display": "Dry eyes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3303,11 +3308,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "162290004",
-              "display": "Dry eyes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1B88.00",
               "display": "Dry eyes"
             }
           ],
@@ -3344,6 +3344,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1B88.00",
+              "display": "Dry eyes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3361,11 +3366,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "162290004",
-              "display": "Dry eyes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1B88.00",
               "display": "Dry eyes"
             }
           ],
@@ -3402,6 +3402,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "F4F1400",
+              "display": "Dry eye syndrome"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3420,11 +3425,6 @@
               "system": "http://snomed.info/sct",
               "code": "46152009",
               "display": "Tear film insufficiency"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "F4F1400",
-              "display": "Dry eye syndrome"
             }
           ],
           "text": "Dry eye syndrome"
@@ -3562,6 +3562,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "H170.11",
+              "display": "Hay fever - pollens"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3576,11 +3581,6 @@
               "system": "http://snomed.info/sct",
               "code": "21719001",
               "display": "Allergic rhinitis due to pollen"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "H170.11",
-              "display": "Hay fever - pollens"
             }
           ],
           "text": "Hay fever - pollens"
@@ -3651,6 +3651,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "R1y3.00",
+              "display": "[D]Low blood pressure reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3668,11 +3673,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "501631000000108",
-              "display": "[D]Low blood pressure reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "R1y3.00",
               "display": "[D]Low blood pressure reading"
             }
           ],
@@ -3759,6 +3759,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "F4F1400",
+              "display": "Dry eye syndrome"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3777,11 +3782,6 @@
               "system": "http://snomed.info/sct",
               "code": "46152009",
               "display": "Tear film insufficiency"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "F4F1400",
-              "display": "Dry eye syndrome"
             }
           ],
           "text": "Dry eye syndrome"
