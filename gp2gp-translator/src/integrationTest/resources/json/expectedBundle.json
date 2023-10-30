@@ -3125,6 +3125,11 @@
           {
             "coding": [
               {
+                "system": "http://read.info/ctv3",
+                "code": "8HV6.",
+                "display": "Reason Code"
+              },
+              {
                 "extension": [
                   {
                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3139,11 +3144,6 @@
                 "system": "http://snomed.info/sct",
                 "code": "183885007",
                 "display": "Private referral to obstetrician"
-              },
-              {
-                "system": "http://read.info/ctv3",
-                "code": "8HV6.",
-                "display": "Reason Code"
               },
               {
                 "system": "http://read.info/readv2",
@@ -3206,6 +3206,11 @@
           {
             "coding": [
               {
+                "system": "http://read.info/ctv3",
+                "code": "8HV6.",
+                "display": "Reason Code"
+              },
+              {
                 "extension": [
                   {
                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3220,11 +3225,6 @@
                 "system": "http://snomed.info/sct",
                 "code": "183885007",
                 "display": "Private referral to obstetrician"
-              },
-              {
-                "system": "http://read.info/ctv3",
-                "code": "8HV6.",
-                "display": "Reason Code"
               },
               {
                 "system": "http://read.info/readv2",
@@ -3287,6 +3287,11 @@
           {
             "coding": [
               {
+                "system": "http://read.info/ctv3",
+                "code": "8HV6.",
+                "display": "Reason Code"
+              },
+              {
                 "extension": [
                   {
                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3301,11 +3306,6 @@
                 "system": "http://snomed.info/sct",
                 "code": "183885007",
                 "display": "Private referral to obstetrician"
-              },
-              {
-                "system": "http://read.info/ctv3",
-                "code": "8HV6.",
-                "display": "Reason Code"
               },
               {
                 "system": "http://read.info/readv2",
@@ -29134,6 +29134,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "465..00",
+              "display": "Urine pregnancy Test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29152,11 +29157,6 @@
               "system": "http://snomed.info/sct",
               "code": "1003161000000106",
               "display": "Urine pregnancy test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "465..00",
-              "display": "Urine pregnancy Test"
             }
           ],
           "text": "Urine pregnancy test"
@@ -29215,6 +29215,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "4465.00",
+              "display": "Serum oestradiol level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29232,11 +29237,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "1010521000000102",
-              "display": "Serum oestradiol level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "4465.00",
               "display": "Serum oestradiol level"
             }
           ],
@@ -29305,6 +29305,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "4465.00",
+              "display": "Serum ACTH"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29323,11 +29328,6 @@
               "system": "http://snomed.info/sct",
               "code": "997201000000100",
               "display": "Serum ACTH (adrenocorticotrophic hormone) level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "4465.00",
-              "display": "Serum ACTH"
             }
           ],
           "text": "Serum ACTH (adrenocorticotrophic hormone) level"
@@ -29534,6 +29534,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "465..00",
+              "display": "Urine pregnancy Test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29552,11 +29557,6 @@
               "system": "http://snomed.info/sct",
               "code": "1003161000000106",
               "display": "Urine pregnancy test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "465..00",
-              "display": "Urine pregnancy Test"
             }
           ],
           "text": "Urine pregnancy test"
@@ -29626,6 +29626,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "465..00",
+              "display": "Urine pregnancy Test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29644,11 +29649,6 @@
               "system": "http://snomed.info/sct",
               "code": "1003161000000106",
               "display": "Urine pregnancy test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "465..00",
-              "display": "Urine pregnancy Test"
             }
           ],
           "text": "Urine pregnancy test"
@@ -29705,6 +29705,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1683.00",
+              "display": "Tired all the time"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29722,11 +29727,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "267032009",
-              "display": "Tired all the time"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1683.00",
               "display": "Tired all the time"
             }
           ],
@@ -30519,6 +30519,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -30537,11 +30542,6 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "PKyz500",
-              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -30600,6 +30600,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "14LK.00",
+              "display": "H/O: aspirin allergy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -30617,11 +30622,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "395102008",
-              "display": "H/O: aspirin allergy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "14LK.00",
               "display": "H/O: aspirin allergy"
             }
           ],
@@ -30716,6 +30716,11 @@
         "code": {
           "coding": [
             {
+              "system": "2.16.840.1.113883.2.1.6.4",
+              "code": "00254001",
+              "display": "Azelaic acid 20% cream"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -30733,11 +30738,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "41891011000001106",
-              "display": "Azelaic acid 20% cream"
-            },
-            {
-              "system": "2.16.840.1.113883.2.1.6.4",
-              "code": "00254001",
               "display": "Azelaic acid 20% cream"
             }
           ],
@@ -30757,9 +30757,6 @@
         "note": [
           {
             "text": "Skin Allergy"
-          },
-          {
-            "text": "Allergy Code: Allergy to drug"
           }
         ]
       }
@@ -30987,6 +30984,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "14LK.00",
+              "display": "H/O: aspirin allergy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -31004,11 +31006,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "395102008",
-              "display": "H/O: aspirin allergy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "14LK.00",
               "display": "H/O: aspirin allergy"
             }
           ],
@@ -32141,6 +32138,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "465..00",
+              "display": "Urine pregnancy Test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -32159,11 +32161,6 @@
               "system": "http://snomed.info/sct",
               "code": "1003161000000106",
               "display": "Urine pregnancy test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "465..00",
-              "display": "Urine pregnancy Test"
             }
           ],
           "text": "Urine pregnancy test"
