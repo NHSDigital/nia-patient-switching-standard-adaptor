@@ -1558,13 +1558,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "317378005",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "LOCA1691",
               "display": "Loperamide 2mg capsules"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "LOCA1691",
+              "system": "http://snomed.info/sct",
+              "code": "317378005",
               "display": "Loperamide 2mg capsules"
             }
           ],
@@ -1852,13 +1852,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "329526003",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "ASDI223",
               "display": "Aspirin 300mg dispersible tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "ASDI223",
+              "system": "http://snomed.info/sct",
+              "code": "329526003",
               "display": "Aspirin 300mg dispersible tablets"
             }
           ],
