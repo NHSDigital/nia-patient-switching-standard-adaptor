@@ -205,9 +205,12 @@ the EHR Extract itself as a compressed attachment. Therefore, an incomplete / fa
 uploaded to object storage. If a transfer fails they will not be deleted by the adaptor. 
 
 ##### Complete transfers
-Assembled attachments will be uploaded to object storage. The adaptor obtains a URL for each attachment, which it inserts
-into the returned FHIR bundle. When using AWS S3 this URL is pre-signed and valid for 60 minutes. After this time, the 
-download link will be invalidated, although no files will be deleted from the S3 bucket.   
+Assembled attachments will be uploaded to object storage.
+The adaptor obtains a URL for each attachment, which it inserts into the returned FHIR bundle.
+When using AWS S3 this URL is pre-signed and valid for 60 minutes from the point at which the bundle was generated.
+After this time, the [S3 download URL will expire][presigned-url-expire], but no files will be deleted from the S3 bucket.
+
+[presigned-url-expire]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrl-Expiration
 
 The pre-assembled attachment parts are removed from storage when an attachment is assembled. However, if the transfer 
 contains a compressed EHR Extract this is not removed from storage automatically.
