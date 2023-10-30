@@ -1952,6 +1952,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761D300",
+              "display": "Fibreoptic endoscopic sclerotherapy to lesion upper GI tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -1966,11 +1971,6 @@
               "system": "http://snomed.info/sct",
               "code": "173807009",
               "display": "Fibreoptic endoscopic sclerotherapy to lesion of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761D300",
-              "display": "Fibreoptic endoscopic sclerotherapy to lesion upper GI tract"
             }
           ],
           "text": "Fibreoptic endoscopic sclerotherapy to lesion upper GI tract"
@@ -2010,6 +2010,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761D400",
+              "display": "Fibreoptic endoscopic destruction lesion upper GI tract NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2024,11 +2029,6 @@
               "system": "http://snomed.info/sct",
               "code": "173803008",
               "display": "Fibreoptic endoscopic extirpation of lesion of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761D400",
-              "display": "Fibreoptic endoscopic destruction lesion upper GI tract NEC"
             }
           ],
           "text": "Fibreoptic endoscopic destruction lesion upper GI tract NEC"
@@ -2068,6 +2068,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761D500",
+              "display": "Endoscopic injection haemostasis of duodenal ulcer"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2085,11 +2090,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "314627002",
-              "display": "Endoscopic injection haemostasis of duodenal ulcer"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761D500",
               "display": "Endoscopic injection haemostasis of duodenal ulcer"
             }
           ],
@@ -2130,6 +2130,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761D600",
+              "display": "Endoscopic injection haemostasis of gastric ulcer"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2147,11 +2152,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "314629004",
-              "display": "Endoscopic injection haemostasis of gastric ulcer"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761D600",
               "display": "Endoscopic injection haemostasis of gastric ulcer"
             }
           ],
@@ -2192,6 +2192,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761D700",
+              "display": "Fibre endosc injec therapy les upper gastrointest tract NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2206,11 +2211,6 @@
               "system": "http://snomed.info/sct",
               "code": "173803008",
               "display": "Fibreoptic endoscopic extirpation of lesion of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761D700",
-              "display": "Fibre endosc injec therapy les upper gastrointest tract NEC"
             }
           ],
           "text": "Fibre endosc injec therapy les upper gastrointest tract NEC"
@@ -2250,6 +2250,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761D800",
+              "display": "Fibreopt endoscop rubber band ligation of upper GIT varices"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2264,11 +2269,6 @@
               "system": "http://snomed.info/sct",
               "code": "426841006",
               "display": "Fibreoptic endoscopic rubber band ligation of upper gastrointestinal tract varices"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761D800",
-              "display": "Fibreopt endoscop rubber band ligation of upper GIT varices"
             }
           ],
           "text": "Fibreopt endoscop rubber band ligation of upper GIT varices"
@@ -2308,6 +2308,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Dy00",
+              "display": "Fibreoptic endoscopic extirpation lesion upper GI tract OS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2322,11 +2327,6 @@
               "system": "http://snomed.info/sct",
               "code": "173803008",
               "display": "Fibreoptic endoscopic extirpation of lesion of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Dy00",
-              "display": "Fibreoptic endoscopic extirpation lesion upper GI tract OS"
             }
           ],
           "text": "Fibreoptic endoscopic extirpation lesion upper GI tract OS"
@@ -2366,6 +2366,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Dz00",
+              "display": "Fibreoptic endoscopic extirpation lesion upper GI tract NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2380,11 +2385,6 @@
               "system": "http://snomed.info/sct",
               "code": "173803008",
               "display": "Fibreoptic endoscopic extirpation of lesion of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Dz00",
-              "display": "Fibreoptic endoscopic extirpation lesion upper GI tract NOS"
             }
           ],
           "text": "Fibreoptic endoscopic extirpation lesion upper GI tract NOS"
@@ -2424,6 +2424,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E.00",
+              "display": "Other therapeutic fibreoptic endoscopy on upper GI tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2438,11 +2443,6 @@
               "system": "http://snomed.info/sct",
               "code": "450574008",
               "display": "Therapeutic fibreoptic endoscopic surgical procedure on upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E.00",
-              "display": "Other therapeutic fibreoptic endoscopy on upper GI tract"
             }
           ],
           "text": "Other therapeutic fibreoptic endoscopy on upper GI tract"
@@ -2482,6 +2482,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E.11",
+              "display": "Other therapeutic gastroscopy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2496,11 +2501,6 @@
               "system": "http://snomed.info/sct",
               "code": "450574008",
               "display": "Therapeutic fibreoptic endoscopic surgical procedure on upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E.11",
-              "display": "Other therapeutic gastroscopy"
             }
           ],
           "text": "Other therapeutic gastroscopy"
@@ -2540,6 +2540,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E000",
+              "display": "Fibreoptic endoscopic insertion prosthesis in upper GI tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2554,11 +2559,6 @@
               "system": "http://snomed.info/sct",
               "code": "173812005",
               "display": "Fibreoptic endoscopic insertion of prosthesis into upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E000",
-              "display": "Fibreoptic endoscopic insertion prosthesis in upper GI tract"
             }
           ],
           "text": "Fibreoptic endoscopic insertion prosthesis in upper GI tract"
@@ -2598,6 +2598,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E100",
+              "display": "Fibreoptic endoscopic removal of FB from upper GI tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2612,11 +2617,6 @@
               "system": "http://snomed.info/sct",
               "code": "173813000",
               "display": "Fibreoptic endoscopic removal of foreign body from upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E100",
-              "display": "Fibreoptic endoscopic removal of FB from upper GI tract"
             }
           ],
           "text": "Fibreoptic endoscopic removal of FB from upper GI tract"
@@ -2656,6 +2656,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E200",
+              "display": "Fibreoptic endoscopic dilation of upper GI tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2670,11 +2675,6 @@
               "system": "http://snomed.info/sct",
               "code": "265370000",
               "display": "Fibreoptic endoscopic dilation of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E200",
-              "display": "Fibreoptic endoscopic dilation of upper GI tract"
             }
           ],
           "text": "Fibreoptic endoscopic dilation of upper GI tract"
@@ -2714,6 +2714,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E211",
+              "display": "Fibreoptic dilation of oesophagus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2728,11 +2733,6 @@
               "system": "http://snomed.info/sct",
               "code": "235197007",
               "display": "Dilatation of oesophageal stricture"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E211",
-              "display": "Fibreoptic dilation of oesophagus"
             }
           ],
           "text": "Fibreoptic dilation of oesophagus"
@@ -2772,6 +2772,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E300",
+              "display": "Temporary percutaneous endoscopic gastrostomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2789,11 +2794,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "312340001",
-              "display": "Temporary percutaneous endoscopic gastrostomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E300",
               "display": "Temporary percutaneous endoscopic gastrostomy"
             }
           ],
@@ -2834,6 +2834,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E400",
+              "display": "Permanent percutaneous endoscopic gastrostomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2851,11 +2856,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "312341002",
-              "display": "Permanent percutaneous endoscopic gastrostomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E400",
               "display": "Permanent percutaneous endoscopic gastrostomy"
             }
           ],
@@ -2896,6 +2896,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E500",
+              "display": "Fibreop endoscop reduction intussusception gastroenterostomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2910,11 +2915,6 @@
               "system": "http://snomed.info/sct",
               "code": "426690009",
               "display": "Fibreoptic endoscopic reduction of intussusception of gastroenterostomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E500",
-              "display": "Fibreop endoscop reduction intussusception gastroenterostomy"
             }
           ],
           "text": "Fibreop endoscop reduction intussusception gastroenterostomy"
@@ -2954,6 +2954,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E600",
+              "display": "Fibreoptic endoscopic percutaneous insert gastrostomy (PEG)"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2968,11 +2973,6 @@
               "system": "http://snomed.info/sct",
               "code": "426267007",
               "display": "Fibreoptic endoscopic percutaneous insertion of gastrostomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E600",
-              "display": "Fibreoptic endoscopic percutaneous insert gastrostomy (PEG)"
             }
           ],
           "text": "Fibreoptic endoscopic percutaneous insert gastrostomy (PEG)"
@@ -3012,6 +3012,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E700",
+              "display": "Fib end pressure-controlled balloon dilat low oesoph sphinc"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3026,11 +3031,6 @@
               "system": "http://snomed.info/sct",
               "code": "426431003",
               "display": "Fibreoptic endoscopic pressure-controlled balloon dilatation of lower oesophageal sphincter"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E700",
-              "display": "Fib end pressure-controlled balloon dilat low oesoph sphinc"
             }
           ],
           "text": "Fib end pressure-controlled balloon dilat low oesoph sphinc"
@@ -3070,6 +3070,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E800",
+              "display": "Fibreoptic endoscopic dilation of upper GI tract NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3084,11 +3089,6 @@
               "system": "http://snomed.info/sct",
               "code": "265370000",
               "display": "Fibreoptic endoscopic dilation of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E800",
-              "display": "Fibreoptic endoscopic dilation of upper GI tract NEC"
             }
           ],
           "text": "Fibreoptic endoscopic dilation of upper GI tract NEC"
@@ -3128,6 +3128,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761E900",
+              "display": "Fibreoptic endoscopic removal of gastrostomy tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3145,11 +3150,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "427389003",
-              "display": "Fibreoptic endoscopic removal of gastrostomy tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761E900",
               "display": "Fibreoptic endoscopic removal of gastrostomy tube"
             }
           ],
@@ -3190,6 +3190,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761EA00",
+              "display": "Fibreoptic endoscopic percutaneous insertion of gastrostomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3207,11 +3212,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "426267007",
-              "display": "Fibreoptic endoscopic percutaneous insertion of gastrostomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761EA00",
               "display": "Fibreoptic endoscopic percutaneous insertion of gastrostomy"
             }
           ],
@@ -3252,6 +3252,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Ey00",
+              "display": "Other fibreoptic therapeutic endoscopy on upper GI tract OS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3266,11 +3271,6 @@
               "system": "http://snomed.info/sct",
               "code": "386831001",
               "display": "Endoscopy of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Ey00",
-              "display": "Other fibreoptic therapeutic endoscopy on upper GI tract OS"
             }
           ],
           "text": "Other fibreoptic therapeutic endoscopy on upper GI tract OS"
@@ -3310,6 +3310,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Ez00",
+              "display": "Other fibreoptic therapeutic endoscopy on upper GI tract NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3324,11 +3329,6 @@
               "system": "http://snomed.info/sct",
               "code": "386831001",
               "display": "Endoscopy of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Ez00",
-              "display": "Other fibreoptic therapeutic endoscopy on upper GI tract NOS"
             }
           ],
           "text": "Other fibreoptic therapeutic endoscopy on upper GI tract NOS"
@@ -3368,6 +3368,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761F.00",
+              "display": "Diagnostic fibreoptic endoscopic exam of upper GI tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3382,11 +3387,6 @@
               "system": "http://snomed.info/sct",
               "code": "265371001",
               "display": "Diagnostic fibreoptic endoscopic examination of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761F.00",
-              "display": "Diagnostic fibreoptic endoscopic exam of upper GI tract"
             }
           ],
           "text": "Diagnostic fibreoptic endoscopic exam of upper GI tract"
@@ -3426,6 +3426,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761F.11",
+              "display": "Diagnostic fibreoptic gastroscopy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3440,11 +3445,6 @@
               "system": "http://snomed.info/sct",
               "code": "265371001",
               "display": "Diagnostic fibreoptic endoscopic examination of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761F.11",
-              "display": "Diagnostic fibreoptic gastroscopy"
             }
           ],
           "text": "Diagnostic fibreoptic gastroscopy"
@@ -3484,6 +3484,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761F000",
+              "display": "Diagnostic fibreoptic endoscopy & biopsy of upper GI tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3498,11 +3503,6 @@
               "system": "http://snomed.info/sct",
               "code": "173820007",
               "display": "Fibreoptic endoscopic examination of upper gastrointestinal tract and biopsy of lesion of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761F000",
-              "display": "Diagnostic fibreoptic endoscopy & biopsy of upper GI tract"
             }
           ],
           "text": "Diagnostic fibreoptic endoscopy & biopsy of upper GI tract"
@@ -3542,6 +3542,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761F100",
+              "display": "Diagnostic gastroscopy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3556,11 +3561,6 @@
               "system": "http://snomed.info/sct",
               "code": "386831001",
               "display": "Endoscopy of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761F100",
-              "display": "Diagnostic gastroscopy NEC"
             }
           ],
           "text": "Diagnostic gastroscopy NEC"
@@ -3600,6 +3600,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761F200",
+              "display": "Diagnostic gastroscopy via stoma"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3617,11 +3622,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173822004",
-              "display": "Diagnostic gastroscopy via stoma"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761F200",
               "display": "Diagnostic gastroscopy via stoma"
             }
           ],
@@ -3662,6 +3662,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761F300",
+              "display": "Gastroesophagoscopy via gastrotomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3680,11 +3685,6 @@
               "system": "http://snomed.info/sct",
               "code": "173823009",
               "display": "Oesophagogastroscopy via gastrotomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761F300",
-              "display": "Gastroesophagoscopy via gastrotomy"
             }
           ],
           "text": "Gastroesophagoscopy via gastrotomy"
@@ -3724,6 +3724,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761F400",
+              "display": "Endoscopic upper gastrointestinal ultrasound"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3738,11 +3743,6 @@
               "system": "http://snomed.info/sct",
               "code": "169252006",
               "display": "Endoscopic ultrasound of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761F400",
-              "display": "Endoscopic upper gastrointestinal ultrasound"
             }
           ],
           "text": "Endoscopic upper gastrointestinal ultrasound"
@@ -3782,6 +3782,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761F500",
+              "display": "Fibreoptic endoscopic ultrasound examination of upper GIT"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3796,11 +3801,6 @@
               "system": "http://snomed.info/sct",
               "code": "169252006",
               "display": "Endoscopic ultrasound of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761F500",
-              "display": "Fibreoptic endoscopic ultrasound examination of upper GIT"
             }
           ],
           "text": "Fibreoptic endoscopic ultrasound examination of upper GIT"
@@ -3840,6 +3840,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761F600",
+              "display": "Diag fibre endos insert Bravo pH caps upper gastroint tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3854,11 +3859,6 @@
               "system": "http://snomed.info/sct",
               "code": "768976007",
               "display": "Endoscopic insertion of pH monitoring capsule into oesophagus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761F600",
-              "display": "Diag fibre endos insert Bravo pH caps upper gastroint tract"
             }
           ],
           "text": "Diag fibre endos insert Bravo pH caps upper gastroint tract"
@@ -3898,6 +3898,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761F700",
+              "display": "Fibr endos exam upp gastrointest tract stain gastric mucosa"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3912,11 +3917,6 @@
               "system": "http://snomed.info/sct",
               "code": "426011008",
               "display": "Fibreoptic endoscopic examination of upper gastrointestinal tract and staining of gastric mucosa"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761F700",
-              "display": "Fibr endos exam upp gastrointest tract stain gastric mucosa"
             }
           ],
           "text": "Fibr endos exam upp gastrointest tract stain gastric mucosa"
@@ -3956,6 +3956,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Fy00",
+              "display": "Diagnostic fibreoptic endoscopic exam upper GI tract OS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3970,11 +3975,6 @@
               "system": "http://snomed.info/sct",
               "code": "265371001",
               "display": "Diagnostic fibreoptic endoscopic examination of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Fy00",
-              "display": "Diagnostic fibreoptic endoscopic exam upper GI tract OS"
             }
           ],
           "text": "Diagnostic fibreoptic endoscopic exam upper GI tract OS"
@@ -4014,6 +4014,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Fz00",
+              "display": "Diagnostic fibreoptic endoscopic exam upper GI tract NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4028,11 +4033,6 @@
               "system": "http://snomed.info/sct",
               "code": "265371001",
               "display": "Diagnostic fibreoptic endoscopic examination of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Fz00",
-              "display": "Diagnostic fibreoptic endoscopic exam upper GI tract NOS"
             }
           ],
           "text": "Diagnostic fibreoptic endoscopic exam upper GI tract NOS"
@@ -4072,6 +4072,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Fz11",
+              "display": "Gastroscopy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4086,11 +4091,6 @@
               "system": "http://snomed.info/sct",
               "code": "386831001",
               "display": "Endoscopy of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Fz11",
-              "display": "Gastroscopy NEC"
             }
           ],
           "text": "Gastroscopy NEC"
@@ -4130,6 +4130,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Fz12",
+              "display": "Upper gastrointestinal endoscopy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4148,11 +4153,6 @@
               "system": "http://snomed.info/sct",
               "code": "76009000",
               "display": "Oesophagogastroduodenoscopy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Fz12",
-              "display": "Upper gastrointestinal endoscopy"
             }
           ],
           "text": "Upper Gastrointestinal endoscopy"
@@ -4192,6 +4192,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761G.00",
+              "display": "Intubation of stomach"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4209,11 +4214,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "33120003",
-              "display": "Intubation of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761G.00",
               "display": "Intubation of stomach"
             }
           ],
@@ -4254,6 +4254,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761G000",
+              "display": "Intubation of stomach for ph manometry"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4271,11 +4276,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173828000",
-              "display": "Intubation of stomach for ph manometry"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761G000",
               "display": "Intubation of stomach for ph manometry"
             }
           ],
@@ -4316,6 +4316,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761G100",
+              "display": "Intubation of stomach for pressure manometry"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4333,11 +4338,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173829008",
-              "display": "Intubation of stomach for pressure manometry"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761G100",
               "display": "Intubation of stomach for pressure manometry"
             }
           ],
@@ -4378,6 +4378,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761G200",
+              "display": "Irrigation of stomach"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4395,11 +4400,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173830003",
-              "display": "Irrigation of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761G200",
               "display": "Irrigation of stomach"
             }
           ],
@@ -4440,6 +4440,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761G211",
+              "display": "Lavage of stomach"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4454,11 +4459,6 @@
               "system": "http://snomed.info/sct",
               "code": "173830003",
               "display": "Irrigation of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761G211",
-              "display": "Lavage of stomach"
             }
           ],
           "text": "Lavage of stomach"
@@ -4498,6 +4498,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761G212",
+              "display": "Washout of stomach"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4512,11 +4517,6 @@
               "system": "http://snomed.info/sct",
               "code": "173830003",
               "display": "Irrigation of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761G212",
-              "display": "Washout of stomach"
             }
           ],
           "text": "Washout of stomach"
@@ -4556,6 +4556,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761G300",
+              "display": "Intubation of stomach for study of gastric secretion"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4573,11 +4578,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173831004",
-              "display": "Intubation of stomach for study of gastric secretion"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761G300",
               "display": "Intubation of stomach for study of gastric secretion"
             }
           ],
@@ -4618,6 +4618,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761G400",
+              "display": "Intubation of stomach NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4632,11 +4637,6 @@
               "system": "http://snomed.info/sct",
               "code": "33120003",
               "display": "Intubation of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761G400",
-              "display": "Intubation of stomach NEC"
             }
           ],
           "text": "Intubation of stomach NEC"
@@ -4676,6 +4676,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Gy00",
+              "display": "Other specified intubation of stomach"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4690,11 +4695,6 @@
               "system": "http://snomed.info/sct",
               "code": "33120003",
               "display": "Intubation of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Gy00",
-              "display": "Other specified intubation of stomach"
             }
           ],
           "text": "Other specified intubation of stomach"
@@ -4734,6 +4734,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Gz00",
+              "display": "Intubation of stomach NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4748,11 +4753,6 @@
               "system": "http://snomed.info/sct",
               "code": "33120003",
               "display": "Intubation of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Gz00",
-              "display": "Intubation of stomach NOS"
             }
           ],
           "text": "Intubation of stomach NOS"
@@ -4792,6 +4792,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761H.00",
+              "display": "Other operations on stomach"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4806,11 +4811,6 @@
               "system": "http://snomed.info/sct",
               "code": "16453004",
               "display": "Operation on stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761H.00",
-              "display": "Other operations on stomach"
             }
           ],
           "text": "Other operations on stomach"
@@ -4850,6 +4850,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761H000",
+              "display": "Insertion of gastric bubble"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4868,11 +4873,6 @@
               "system": "http://snomed.info/sct",
               "code": "20794002",
               "display": "Insertion of gastric balloon"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761H000",
-              "display": "Insertion of gastric bubble"
             }
           ],
           "text": "Insertion of gastric bubble"
@@ -4912,6 +4912,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761H011",
+              "display": "Insertion of gastric balloon"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4929,11 +4934,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "20794002",
-              "display": "Insertion of gastric balloon"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761H011",
               "display": "Insertion of gastric balloon"
             }
           ],
@@ -4974,6 +4974,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761H100",
+              "display": "Attention to gastric bubble"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4992,11 +4997,6 @@
               "system": "http://snomed.info/sct",
               "code": "173838005",
               "display": "Attention to gastric balloon"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761H100",
-              "display": "Attention to gastric bubble"
             }
           ],
           "text": "Attention to gastric bubble"
@@ -5036,6 +5036,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761H200",
+              "display": "Induction of emesis"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5053,11 +5058,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "133880003",
-              "display": "Induction of emesis"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761H200",
               "display": "Induction of emesis"
             }
           ],
@@ -5098,6 +5098,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761H300",
+              "display": "Administration of activated charcoal"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5115,11 +5120,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "226871000000103",
-              "display": "Administration of activated charcoal"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761H300",
               "display": "Administration of activated charcoal"
             }
           ],
@@ -5160,6 +5160,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761H411",
+              "display": "Removal of gastric bubble"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5174,11 +5179,6 @@
               "system": "http://snomed.info/sct",
               "code": "61784001",
               "display": "Removal of gastric balloon"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761H411",
-              "display": "Removal of gastric bubble"
             }
           ],
           "text": "Removal of gastric bubble"
@@ -5218,6 +5218,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761H400",
+              "display": "Removal of gastric balloon"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5235,11 +5240,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "61784001",
-              "display": "Removal of gastric balloon"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761H400",
               "display": "Removal of gastric balloon"
             }
           ],
@@ -5280,6 +5280,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761H500",
+              "display": "Insertion of gastric balloon"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5297,11 +5302,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "20794002",
-              "display": "Insertion of gastric balloon"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761H500",
               "display": "Insertion of gastric balloon"
             }
           ],
@@ -5342,6 +5342,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761H600",
+              "display": "Attention to gastric balloon"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5359,11 +5364,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173838005",
-              "display": "Attention to gastric balloon"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761H600",
               "display": "Attention to gastric balloon"
             }
           ],
@@ -5404,6 +5404,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Hy00",
+              "display": "Other specified other operation on stomach"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5418,11 +5423,6 @@
               "system": "http://snomed.info/sct",
               "code": "16453004",
               "display": "Operation on stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Hy00",
-              "display": "Other specified other operation on stomach"
             }
           ],
           "text": "Other specified other operation on stomach"
@@ -5462,6 +5462,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Hz00",
+              "display": "Other operation on stomach NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5476,11 +5481,6 @@
               "system": "http://snomed.info/sct",
               "code": "16453004",
               "display": "Operation on stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Hz00",
-              "display": "Other operation on stomach NOS"
             }
           ],
           "text": "Other operation on stomach NOS"
@@ -5520,6 +5520,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761J.00",
+              "display": "Operations on gastric ulcer"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5538,11 +5543,6 @@
               "system": "http://snomed.info/sct",
               "code": "173841001",
               "display": "Gastric ulcer operation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761J.00",
-              "display": "Operations on gastric ulcer"
             }
           ],
           "text": "Operations on gastric ulcer"
@@ -5582,6 +5582,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761J.11",
+              "display": "Stomach ulcer operations"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5600,11 +5605,6 @@
               "system": "http://snomed.info/sct",
               "code": "173841001",
               "display": "Gastric ulcer operation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761J.11",
-              "display": "Stomach ulcer operations"
             }
           ],
           "text": "Stomach ulcer operations"
@@ -5644,6 +5644,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761J000",
+              "display": "Closure of perforated gastric ulcer"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5661,11 +5666,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173842008",
-              "display": "Closure of perforated gastric ulcer"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761J000",
               "display": "Closure of perforated gastric ulcer"
             }
           ],
@@ -5706,6 +5706,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761J100",
+              "display": "Closure of gastric ulcer NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5720,11 +5725,6 @@
               "system": "http://snomed.info/sct",
               "code": "173841001",
               "display": "Gastric ulcer operation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761J100",
-              "display": "Closure of gastric ulcer NEC"
             }
           ],
           "text": "Closure of gastric ulcer NEC"
@@ -5764,6 +5764,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761J111",
+              "display": "Suture of ulcer of stomach NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5778,11 +5783,6 @@
               "system": "http://snomed.info/sct",
               "code": "307259004",
               "display": "Suture of gastric ulcer"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761J111",
-              "display": "Suture of ulcer of stomach NEC"
             }
           ],
           "text": "Suture of ulcer of stomach NEC"
@@ -5822,6 +5822,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Jy00",
+              "display": "Other specified operation on gastric ulcer"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5836,11 +5841,6 @@
               "system": "http://snomed.info/sct",
               "code": "173841001",
               "display": "Gastric ulcer operation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Jy00",
-              "display": "Other specified operation on gastric ulcer"
             }
           ],
           "text": "Other specified operation on gastric ulcer"
@@ -5880,6 +5880,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Jz00",
+              "display": "Operation on gastric ulcer NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5894,11 +5899,6 @@
               "system": "http://snomed.info/sct",
               "code": "173841001",
               "display": "Gastric ulcer operation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Jz00",
-              "display": "Operation on gastric ulcer NOS"
             }
           ],
           "text": "Operation on gastric ulcer NOS"
@@ -5938,6 +5938,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761K.00",
+              "display": "Fibreoptic endoscopic extirpation of lesion of stomach"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5955,11 +5960,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "425632006",
-              "display": "Fibreoptic endoscopic extirpation of lesion of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761K.00",
               "display": "Fibreoptic endoscopic extirpation of lesion of stomach"
             }
           ],
@@ -6000,6 +6000,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761K000",
+              "display": "Fibreoptic endoscopic submucosal resection lesion of stomach"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6014,11 +6019,6 @@
               "system": "http://snomed.info/sct",
               "code": "425494001",
               "display": "Fibreoptic endoscopic submucosal resection of lesion of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761K000",
-              "display": "Fibreoptic endoscopic submucosal resection lesion of stomach"
             }
           ],
           "text": "Fibreoptic endoscopic submucosal resection lesion of stomach"
@@ -6058,6 +6058,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761K100",
+              "display": "Fibreoptic endoscopic photodynamic therapy lesion of stomach"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6072,11 +6077,6 @@
               "system": "http://snomed.info/sct",
               "code": "425889008",
               "display": "Fibreoptic endoscopic photodynamic therapy of lesion of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761K100",
-              "display": "Fibreoptic endoscopic photodynamic therapy lesion of stomach"
             }
           ],
           "text": "Fibreoptic endoscopic photodynamic therapy lesion of stomach"
@@ -6116,6 +6116,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Ky00",
+              "display": "OS fibreoptic endoscopic extirpation of lesion of stomach"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6130,11 +6135,6 @@
               "system": "http://snomed.info/sct",
               "code": "425632006",
               "display": "Fibreoptic endoscopic extirpation of lesion of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Ky00",
-              "display": "OS fibreoptic endoscopic extirpation of lesion of stomach"
             }
           ],
           "text": "OS fibreoptic endoscopic extirpation of lesion of stomach"
@@ -6174,6 +6174,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Kz00",
+              "display": "Fibreoptic endoscopic extirpation of lesion of stomach NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6188,11 +6193,6 @@
               "system": "http://snomed.info/sct",
               "code": "425632006",
               "display": "Fibreoptic endoscopic extirpation of lesion of stomach"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Kz00",
-              "display": "Fibreoptic endoscopic extirpation of lesion of stomach NOS"
             }
           ],
           "text": "Fibreoptic endoscopic extirpation of lesion of stomach NOS"
@@ -6232,6 +6232,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761L.00",
+              "display": "Therap fibr endos operations on upper gastrointestinal tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6246,11 +6251,6 @@
               "system": "http://snomed.info/sct",
               "code": "76009000",
               "display": "Oesophagogastroduodenoscopy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761L.00",
-              "display": "Therap fibr endos operations on upper gastrointestinal tract"
             }
           ],
           "text": "Therap fibr endos operations on upper gastrointestinal tract"
@@ -6290,6 +6290,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761L000",
+              "display": "Fibr endos endoluminal plication gastro-oesophageal junction"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6304,11 +6309,6 @@
               "system": "http://snomed.info/sct",
               "code": "427421001",
               "display": "Fibreoptic endoscopic endoluminal plication of gastro-oesophageal junction"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761L000",
-              "display": "Fibr endos endoluminal plication gastro-oesophageal junction"
             }
           ],
           "text": "Fibr endos endoluminal plication gastro-oesophageal junction"
@@ -6348,6 +6348,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Ly00",
+              "display": "OS ther fibr endoscopic ops on upper gastrointestinal tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6362,11 +6367,6 @@
               "system": "http://snomed.info/sct",
               "code": "385423007",
               "display": "Therapeutic endoscopic procedure"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Ly00",
-              "display": "OS ther fibr endoscopic ops on upper gastrointestinal tract"
             }
           ],
           "text": "OS ther fibr endoscopic ops on upper gastrointestinal tract"
@@ -6406,6 +6406,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Lz00",
+              "display": "Ther fibr endoscopic ops on upper gastrointestinal tract NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6420,11 +6425,6 @@
               "system": "http://snomed.info/sct",
               "code": "385423007",
               "display": "Therapeutic endoscopic procedure"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Lz00",
-              "display": "Ther fibr endoscopic ops on upper gastrointestinal tract NOS"
             }
           ],
           "text": "Ther fibr endoscopic ops on upper gastrointestinal tract NOS"
@@ -6464,6 +6464,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761M.00",
+              "display": "Other fibre endos extirp lesion upper gastrointestinal tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6478,11 +6483,6 @@
               "system": "http://snomed.info/sct",
               "code": "173803008",
               "display": "Fibreoptic endoscopic extirpation of lesion of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761M.00",
-              "display": "Other fibre endos extirp lesion upper gastrointestinal tract"
             }
           ],
           "text": "Other fibre endos extirp lesion upper gastrointestinal tract"
@@ -6522,6 +6522,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761M000",
+              "display": "Fibr end submucosal resect les upper gastrointestinal tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6536,11 +6541,6 @@
               "system": "http://snomed.info/sct",
               "code": "426889002",
               "display": "Fibreoptic endoscopic submucosal resection of lesion of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761M000",
-              "display": "Fibr end submucosal resect les upper gastrointestinal tract"
             }
           ],
           "text": "Fibr end submucosal resect les upper gastrointestinal tract"
@@ -6580,6 +6580,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761M100",
+              "display": "Fibr end photodynamic thera les upper gastrointestinal tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6594,11 +6599,6 @@
               "system": "http://snomed.info/sct",
               "code": "427240005",
               "display": "Fibreoptic endoscopic photodynamic therapy of lesion of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761M100",
-              "display": "Fibr end photodynamic thera les upper gastrointestinal tract"
             }
           ],
           "text": "Fibr end photodynamic thera les upper gastrointestinal tract"
@@ -6638,6 +6638,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761My00",
+              "display": "OS other fibre endos extirp les upper gastrointestinal tract"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6652,11 +6657,6 @@
               "system": "http://snomed.info/sct",
               "code": "173803008",
               "display": "Fibreoptic endoscopic extirpation of lesion of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761My00",
-              "display": "OS other fibre endos extirp les upper gastrointestinal tract"
             }
           ],
           "text": "OS other fibre endos extirp les upper gastrointestinal tract"
@@ -6696,6 +6696,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761Mz00",
+              "display": "Oth fib endos extirp lesion upper gastrointestinal tract NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6710,11 +6715,6 @@
               "system": "http://snomed.info/sct",
               "code": "173803008",
               "display": "Fibreoptic endoscopic extirpation of lesion of upper gastrointestinal tract"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761Mz00",
-              "display": "Oth fib endos extirp lesion upper gastrointestinal tract NOS"
             }
           ],
           "text": "Oth fib endos extirp lesion upper gastrointestinal tract NOS"
@@ -6754,6 +6754,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761y.00",
+              "display": "Other specified operations on stomach or pylorus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6768,11 +6773,6 @@
               "system": "http://snomed.info/sct",
               "code": "173712002",
               "display": "Stomach and pylorus operations"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761y.00",
-              "display": "Other specified operations on stomach or pylorus"
             }
           ],
           "text": "Other specified operations on stomach or pylorus"
@@ -6812,6 +6812,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "761z.00",
+              "display": "Stomach and pylorus operations NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6826,11 +6831,6 @@
               "system": "http://snomed.info/sct",
               "code": "173712002",
               "display": "Stomach and pylorus operations"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "761z.00",
-              "display": "Stomach and pylorus operations NOS"
             }
           ],
           "text": "Stomach and pylorus operations NOS"
@@ -6870,6 +6870,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "762..00",
+              "display": "Duodenum operations"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6884,11 +6889,6 @@
               "system": "http://snomed.info/sct",
               "code": "82764005",
               "display": "Operation on duodenum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "762..00",
-              "display": "Duodenum operations"
             }
           ],
           "text": "Duodenum operations"
@@ -6928,6 +6928,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7620.11",
+              "display": "Duodenectomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6945,11 +6950,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "73759005",
-              "display": "Duodenectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7620.11",
               "display": "Duodenectomy"
             }
           ],
@@ -6990,6 +6990,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7620.00",
+              "display": "Excision of duodenum"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7004,11 +7009,6 @@
               "system": "http://snomed.info/sct",
               "code": "73759005",
               "display": "Duodenectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7620.00",
-              "display": "Excision of duodenum"
             }
           ],
           "text": "Excision of duodenum"
@@ -7048,6 +7048,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7620000",
+              "display": "Gastroduodenectomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7065,11 +7070,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "83857006",
-              "display": "Gastroduodenectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7620000",
               "display": "Gastroduodenectomy"
             }
           ],
@@ -7110,6 +7110,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7620100",
+              "display": "Total excision of duodenum"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7127,11 +7132,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173848007",
-              "display": "Total excision of duodenum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7620100",
               "display": "Total excision of duodenum"
             }
           ],
@@ -7172,6 +7172,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7620200",
+              "display": "Partial excision of duodenum"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7189,11 +7194,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173849004",
-              "display": "Partial excision of duodenum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7620200",
               "display": "Partial excision of duodenum"
             }
           ],
@@ -7234,6 +7234,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7620y00",
+              "display": "Other specified excision of duodenum"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7248,11 +7253,6 @@
               "system": "http://snomed.info/sct",
               "code": "73759005",
               "display": "Duodenectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7620y00",
-              "display": "Other specified excision of duodenum"
             }
           ],
           "text": "Other specified excision of duodenum"
@@ -7292,6 +7292,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7620z11",
+              "display": "Duodenectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7306,11 +7311,6 @@
               "system": "http://snomed.info/sct",
               "code": "73759005",
               "display": "Duodenectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7620z11",
-              "display": "Duodenectomy NEC"
             }
           ],
           "text": "Duodenectomy NEC"
@@ -7350,6 +7350,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7620z00",
+              "display": "Excision of duodenum NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7364,11 +7369,6 @@
               "system": "http://snomed.info/sct",
               "code": "73759005",
               "display": "Duodenectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7620z00",
-              "display": "Excision of duodenum NOS"
             }
           ],
           "text": "Excision of duodenum NOS"
@@ -7408,6 +7408,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7621.00",
+              "display": "Open extirpation of lesion of duodenum"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7425,11 +7430,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173852007",
-              "display": "Open extirpation of lesion of duodenum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7621.00",
               "display": "Open extirpation of lesion of duodenum"
             }
           ],
@@ -7470,6 +7470,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7621000",
+              "display": "Excision of lesion of duodenum"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7487,11 +7492,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "88888008",
-              "display": "Excision of lesion of duodenum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7621000",
               "display": "Excision of lesion of duodenum"
             }
           ],
@@ -7532,6 +7532,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7621100",
+              "display": "Open destruction of lesion of duodenum"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7549,11 +7554,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173853002",
-              "display": "Open destruction of lesion of duodenum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7621100",
               "display": "Open destruction of lesion of duodenum"
             }
           ],
@@ -7594,6 +7594,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7621y00",
+              "display": "Other specified open extirpation of lesion of duodenum"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7608,11 +7613,6 @@
               "system": "http://snomed.info/sct",
               "code": "173852007",
               "display": "Open extirpation of lesion of duodenum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7621y00",
-              "display": "Other specified open extirpation of lesion of duodenum"
             }
           ],
           "text": "Other specified open extirpation of lesion of duodenum"
@@ -7652,6 +7652,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7621z00",
+              "display": "Open extirpation of lesion of duodenum NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7666,11 +7671,6 @@
               "system": "http://snomed.info/sct",
               "code": "173852007",
               "display": "Open extirpation of lesion of duodenum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7621z00",
-              "display": "Open extirpation of lesion of duodenum NOS"
             }
           ],
           "text": "Open extirpation of lesion of duodenum NOS"
@@ -7710,6 +7710,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7622.00",
+              "display": "Bypass of duodenum"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7727,11 +7732,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173856005",
-              "display": "Bypass of duodenum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7622.00",
               "display": "Bypass of duodenum"
             }
           ],
@@ -7772,6 +7772,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7622000",
+              "display": "Bypass of duodenum by anastomosis of stomach to jejunum"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7789,11 +7794,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173857001",
-              "display": "Bypass of duodenum by anastomosis of stomach to jejunum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7622000",
               "display": "Bypass of duodenum by anastomosis of stomach to jejunum"
             }
           ],
@@ -7834,6 +7834,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7622100",
+              "display": "Bypass of duodenum by anastomosis of duodenum to duodenum"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7851,11 +7856,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "173858006",
-              "display": "Bypass of duodenum by anastomosis of duodenum to duodenum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7622100",
               "display": "Bypass of duodenum by anastomosis of duodenum to duodenum"
             }
           ],
@@ -7896,6 +7896,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0FA00",
+              "display": "Focused ultrasound to lesion of uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7910,11 +7915,6 @@
               "system": "http://snomed.info/sct",
               "code": "448350000",
               "display": "High intensity focused ultrasound ablation of lesion of uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0FA00",
-              "display": "Focused ultrasound to lesion of uterus"
             }
           ],
           "text": "Focused ultrasound to lesion of uterus"
@@ -7954,6 +7954,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0Fy00",
+              "display": "Other specified operation on uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7968,11 +7973,6 @@
               "system": "http://snomed.info/sct",
               "code": "176884007",
               "display": "Miscellaneous operations on uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0Fy00",
-              "display": "Other specified operation on uterus"
             }
           ],
           "text": "Other specified operation on uterus"
@@ -8012,6 +8012,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0Fz00",
+              "display": "Operation on uterus NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8026,11 +8031,6 @@
               "system": "http://snomed.info/sct",
               "code": "176884007",
               "display": "Miscellaneous operations on uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0Fz00",
-              "display": "Operation on uterus NOS"
             }
           ],
           "text": "Operation on uterus NOS"
@@ -8070,6 +8070,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0G.00",
+              "display": "Other vaginal operations on uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8084,11 +8089,6 @@
               "system": "http://snomed.info/sct",
               "code": "176884007",
               "display": "Miscellaneous operations on uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0G.00",
-              "display": "Other vaginal operations on uterus"
             }
           ],
           "text": "Other vaginal operations on uterus"
@@ -8128,6 +8128,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0G000",
+              "display": "Vaginal excision of lesion of uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8145,11 +8150,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176895001",
-              "display": "Vaginal excision of lesion of uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0G000",
               "display": "Vaginal excision of lesion of uterus"
             }
           ],
@@ -8190,6 +8190,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0G100",
+              "display": "Endometrial balloon ablation"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8207,11 +8212,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "313187005",
-              "display": "Endometrial balloon ablation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0G100",
               "display": "Endometrial balloon ablation"
             }
           ],
@@ -8252,6 +8252,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0G200",
+              "display": "Microwave ablation of endometrium NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8266,11 +8271,6 @@
               "system": "http://snomed.info/sct",
               "code": "407610007",
               "display": "Endometrial microwave ablation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0G200",
-              "display": "Microwave ablation of endometrium NEC"
             }
           ],
           "text": "Microwave ablation of endometrium NEC"
@@ -8310,6 +8310,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0G300",
+              "display": "Free circulating saline ablation of endometrium"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8328,11 +8333,6 @@
               "system": "http://snomed.info/sct",
               "code": "427499007",
               "display": "Endometrial ablation using free heated saline"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0G300",
-              "display": "Free circulating saline ablation of endometrium"
             }
           ],
           "text": "Free circulating saline ablation of endometrium"
@@ -8372,6 +8372,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0G400",
+              "display": "Radiofrequency endometrial ablation"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8389,11 +8394,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "236900009",
-              "display": "Radiofrequency endometrial ablation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0G400",
               "display": "Radiofrequency endometrial ablation"
             }
           ],
@@ -8434,6 +8434,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0G500",
+              "display": "Photodynamic ablation of endometrium"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8451,11 +8456,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "429386000",
-              "display": "Photodynamic ablation of endometrium"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0G500",
               "display": "Photodynamic ablation of endometrium"
             }
           ],
@@ -8496,6 +8496,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0Gy00",
+              "display": "Other specified other vaginal operation on uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8510,11 +8515,6 @@
               "system": "http://snomed.info/sct",
               "code": "176884007",
               "display": "Miscellaneous operations on uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0Gy00",
-              "display": "Other specified other vaginal operation on uterus"
             }
           ],
           "text": "Other specified other vaginal operation on uterus"
@@ -8554,6 +8554,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0Gz00",
+              "display": "Other vaginal operation on uterus NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8568,11 +8573,6 @@
               "system": "http://snomed.info/sct",
               "code": "176884007",
               "display": "Miscellaneous operations on uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0Gz00",
-              "display": "Other vaginal operation on uterus NOS"
             }
           ],
           "text": "Other vaginal operation on uterus NOS"
@@ -8612,6 +8612,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0H.00",
+              "display": "Plastic operations on uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8626,11 +8631,6 @@
               "system": "http://snomed.info/sct",
               "code": "763781000000102",
               "display": "Plastic operation on uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0H.00",
-              "display": "Plastic operations on uterus"
             }
           ],
           "text": "Plastic operations on uterus"
@@ -8670,6 +8670,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0H000",
+              "display": "Connection of uterus to vagina"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8687,11 +8692,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "761001000000109",
-              "display": "Connection of uterus to vagina"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0H000",
               "display": "Connection of uterus to vagina"
             }
           ],
@@ -8732,6 +8732,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0Hy00",
+              "display": "Other specified plastic operations on uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8746,11 +8751,6 @@
               "system": "http://snomed.info/sct",
               "code": "763781000000102",
               "display": "Plastic operation on uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0Hy00",
-              "display": "Other specified plastic operations on uterus"
             }
           ],
           "text": "Other specified plastic operations on uterus"
@@ -8790,6 +8790,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0Hz00",
+              "display": "Plastic operations on uterus NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8804,11 +8809,6 @@
               "system": "http://snomed.info/sct",
               "code": "763781000000102",
               "display": "Plastic operation on uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0Hz00",
-              "display": "Plastic operations on uterus NOS"
             }
           ],
           "text": "Plastic operations on uterus NOS"
@@ -8848,6 +8848,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0J.00",
+              "display": "Other introduction of gamete into uterine cavity"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8862,11 +8867,6 @@
               "system": "http://snomed.info/sct",
               "code": "176843009",
               "display": "Gamete intrauterine transfer"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0J.00",
-              "display": "Other introduction of gamete into uterine cavity"
             }
           ],
           "text": "Other introduction of gamete into uterine cavity"
@@ -8906,6 +8906,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0J000",
+              "display": "Transmyometrial transfer of embryo to uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8923,11 +8928,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "448543003",
-              "display": "Transmyometrial transfer of embryo to uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0J000",
               "display": "Transmyometrial transfer of embryo to uterus"
             }
           ],
@@ -8968,6 +8968,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0y.00",
+              "display": "Other specified operations on uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8982,11 +8987,6 @@
               "system": "http://snomed.info/sct",
               "code": "176884007",
               "display": "Miscellaneous operations on uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0y.00",
-              "display": "Other specified operations on uterus"
             }
           ],
           "text": "Other specified operations on uterus"
@@ -9026,6 +9026,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E0z.00",
+              "display": "Uterus operations NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9040,11 +9045,6 @@
               "system": "http://snomed.info/sct",
               "code": "79876008",
               "display": "Operation on uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E0z.00",
-              "display": "Uterus operations NOS"
             }
           ],
           "text": "Uterus operations NOS"
@@ -9084,6 +9084,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E1..00",
+              "display": "Fallopian tube operations"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9102,11 +9107,6 @@
               "system": "http://snomed.info/sct",
               "code": "392250009",
               "display": "Operation on fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E1..00",
-              "display": "Fallopian tube operations"
             }
           ],
           "text": "Fallopian tube operations"
@@ -9146,6 +9146,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E1..11",
+              "display": "Tubal operations - fallopian"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9164,11 +9169,6 @@
               "system": "http://snomed.info/sct",
               "code": "392250009",
               "display": "Operation on fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E1..11",
-              "display": "Tubal operations - fallopian"
             }
           ],
           "text": "Tubal operations - fallopian"
@@ -9208,6 +9208,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E10.00",
+              "display": "Bilateral excision of adnexa of uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9225,11 +9230,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176901003",
-              "display": "Bilateral excision of adnexa of uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E10.00",
               "display": "Bilateral excision of adnexa of uterus"
             }
           ],
@@ -9270,6 +9270,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E10000",
+              "display": "Bilateral salpingoophorectomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9284,11 +9289,6 @@
               "system": "http://snomed.info/sct",
               "code": "29827000",
               "display": "Excision of bilateral fallopian tubes and ovaries"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E10000",
-              "display": "Bilateral salpingoophorectomy"
             }
           ],
           "text": "Bilateral salpingoophorectomy"
@@ -9328,6 +9328,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E10100",
+              "display": "Bilateral salpingectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9342,11 +9347,6 @@
               "system": "http://snomed.info/sct",
               "code": "25811000",
               "display": "Total excision of bilateral fallopian tubes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E10100",
-              "display": "Bilateral salpingectomy NEC"
             }
           ],
           "text": "Bilateral salpingectomy NEC"
@@ -9386,6 +9386,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E10200",
+              "display": "Bilateral oophorectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9400,11 +9405,6 @@
               "system": "http://snomed.info/sct",
               "code": "76876009",
               "display": "Excision of bilateral ovaries"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E10200",
-              "display": "Bilateral oophorectomy NEC"
             }
           ],
           "text": "Bilateral oophorectomy NEC"
@@ -9444,6 +9444,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E10y00",
+              "display": "Other specified bilateral excision of adnexa of uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9458,11 +9463,6 @@
               "system": "http://snomed.info/sct",
               "code": "176901003",
               "display": "Bilateral excision of adnexa of uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E10y00",
-              "display": "Other specified bilateral excision of adnexa of uterus"
             }
           ],
           "text": "Other specified bilateral excision of adnexa of uterus"
@@ -9502,6 +9502,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E10z00",
+              "display": "Bilateral excision of adnexa of uterus NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9516,11 +9521,6 @@
               "system": "http://snomed.info/sct",
               "code": "176901003",
               "display": "Bilateral excision of adnexa of uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E10z00",
-              "display": "Bilateral excision of adnexa of uterus NOS"
             }
           ],
           "text": "Bilateral excision of adnexa of uterus NOS"
@@ -9560,6 +9560,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11.00",
+              "display": "Unilateral excision of adnexa of uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9577,11 +9582,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176907004",
-              "display": "Unilateral excision of adnexa of uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11.00",
               "display": "Unilateral excision of adnexa of uterus"
             }
           ],
@@ -9622,6 +9622,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11000",
+              "display": "Unilateral salpingoophorectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9636,11 +9641,6 @@
               "system": "http://snomed.info/sct",
               "code": "116028008",
               "display": "Salpingo-oophorectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11000",
-              "display": "Unilateral salpingoophorectomy NEC"
             }
           ],
           "text": "Unilateral salpingoophorectomy NEC"
@@ -9680,6 +9680,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11100",
+              "display": "Salpingoophorectomy remaining solitary fallop tube and ovary"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9694,11 +9699,6 @@
               "system": "http://snomed.info/sct",
               "code": "116028008",
               "display": "Salpingo-oophorectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11100",
-              "display": "Salpingoophorectomy remaining solitary fallop tube and ovary"
             }
           ],
           "text": "Salpingoophorectomy remaining solitary fallop tube and ovary"
@@ -9738,6 +9738,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11200",
+              "display": "Unilateral salpingectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9752,11 +9757,6 @@
               "system": "http://snomed.info/sct",
               "code": "120053002",
               "display": "Fallopian tube excision"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11200",
-              "display": "Unilateral salpingectomy NEC"
             }
           ],
           "text": "Unilateral salpingectomy NEC"
@@ -9796,6 +9796,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11300",
+              "display": "Salpingectomy of remaining solitary fallopian tube NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9810,11 +9815,6 @@
               "system": "http://snomed.info/sct",
               "code": "120053002",
               "display": "Fallopian tube excision"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11300",
-              "display": "Salpingectomy of remaining solitary fallopian tube NEC"
             }
           ],
           "text": "Salpingectomy of remaining solitary fallopian tube NEC"
@@ -9854,6 +9854,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11400",
+              "display": "Unilateral oophorectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9868,11 +9873,6 @@
               "system": "http://snomed.info/sct",
               "code": "33159007",
               "display": "Unilateral oophorectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11400",
-              "display": "Unilateral oophorectomy NEC"
             }
           ],
           "text": "Unilateral oophorectomy NEC"
@@ -9912,6 +9912,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11500",
+              "display": "Oophorectomy of remaining solitary ovary NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9926,11 +9931,6 @@
               "system": "http://snomed.info/sct",
               "code": "302376006",
               "display": "Right oophorectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11500",
-              "display": "Oophorectomy of remaining solitary ovary NEC"
             }
           ],
           "text": "Oophorectomy of remaining solitary ovary NEC"
@@ -9970,6 +9970,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11600",
+              "display": "Right salpingoophorectomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9984,11 +9989,6 @@
               "system": "http://snomed.info/sct",
               "code": "176914002",
               "display": "Right salpingo-oophorectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11600",
-              "display": "Right salpingoophorectomy"
             }
           ],
           "text": "Right salpingoophorectomy"
@@ -10028,6 +10028,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11700",
+              "display": "Left salpingoophorectomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10042,11 +10047,6 @@
               "system": "http://snomed.info/sct",
               "code": "176915001",
               "display": "Left salpingo-oophorectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11700",
-              "display": "Left salpingoophorectomy"
             }
           ],
           "text": "Left salpingoophorectomy"
@@ -10086,6 +10086,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11800",
+              "display": "Right salpingectomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10103,11 +10108,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176916000",
-              "display": "Right salpingectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11800",
               "display": "Right salpingectomy"
             }
           ],
@@ -10148,6 +10148,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11900",
+              "display": "Left salpingectomy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10165,11 +10170,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176917009",
-              "display": "Left salpingectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11900",
               "display": "Left salpingectomy"
             }
           ],
@@ -10210,6 +10210,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11y00",
+              "display": "Other specified unilateral excision of adnexa of uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10224,11 +10229,6 @@
               "system": "http://snomed.info/sct",
               "code": "176757001",
               "display": "Upper female genital tract operation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11y00",
-              "display": "Other specified unilateral excision of adnexa of uterus"
             }
           ],
           "text": "Other specified unilateral excision of adnexa of uterus"
@@ -10268,6 +10268,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E11z00",
+              "display": "Unilateral excision of adnexa of uterus NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10282,11 +10287,6 @@
               "system": "http://snomed.info/sct",
               "code": "176907004",
               "display": "Unilateral excision of adnexa of uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E11z00",
-              "display": "Unilateral excision of adnexa of uterus NOS"
             }
           ],
           "text": "Unilateral excision of adnexa of uterus NOS"
@@ -10326,6 +10326,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E12.00",
+              "display": "Other excision of adnexa of uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10340,11 +10345,6 @@
               "system": "http://snomed.info/sct",
               "code": "176757001",
               "display": "Upper female genital tract operation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E12.00",
-              "display": "Other excision of adnexa of uterus"
             }
           ],
           "text": "Other excision of adnexa of uterus"
@@ -10384,6 +10384,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E12000",
+              "display": "Salpingoophorectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10398,11 +10403,6 @@
               "system": "http://snomed.info/sct",
               "code": "116028008",
               "display": "Salpingo-oophorectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E12000",
-              "display": "Salpingoophorectomy NEC"
             }
           ],
           "text": "Salpingoophorectomy NEC"
@@ -10442,6 +10442,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E12100",
+              "display": "Salpingectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10456,11 +10461,6 @@
               "system": "http://snomed.info/sct",
               "code": "120053002",
               "display": "Fallopian tube excision"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E12100",
-              "display": "Salpingectomy NEC"
             }
           ],
           "text": "Salpingectomy NEC"
@@ -10500,6 +10500,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E12200",
+              "display": "Oophorectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10514,11 +10519,6 @@
               "system": "http://snomed.info/sct",
               "code": "83152002",
               "display": "Oophorectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E12200",
-              "display": "Oophorectomy NEC"
             }
           ],
           "text": "Oophorectomy NEC"
@@ -10558,6 +10558,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E12300",
+              "display": "Right oophorectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10572,11 +10577,6 @@
               "system": "http://snomed.info/sct",
               "code": "302376006",
               "display": "Right oophorectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E12300",
-              "display": "Right oophorectomy NEC"
             }
           ],
           "text": "Right oophorectomy NEC"
@@ -10616,6 +10616,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E12400",
+              "display": "Left oophorectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10630,11 +10635,6 @@
               "system": "http://snomed.info/sct",
               "code": "302377002",
               "display": "Left oophorectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E12400",
-              "display": "Left oophorectomy NEC"
             }
           ],
           "text": "Left oophorectomy NEC"
@@ -10674,6 +10674,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E12y00",
+              "display": "Other specified other excision of adnexa of uterus"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10688,11 +10693,6 @@
               "system": "http://snomed.info/sct",
               "code": "176757001",
               "display": "Upper female genital tract operation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E12y00",
-              "display": "Other specified other excision of adnexa of uterus"
             }
           ],
           "text": "Other specified other excision of adnexa of uterus"
@@ -10732,6 +10732,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E12z00",
+              "display": "Other excision of adnexa of uterus NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10746,11 +10751,6 @@
               "system": "http://snomed.info/sct",
               "code": "176757001",
               "display": "Upper female genital tract operation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E12z00",
-              "display": "Other excision of adnexa of uterus NOS"
             }
           ],
           "text": "Other excision of adnexa of uterus NOS"
@@ -10790,6 +10790,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E13.00",
+              "display": "Partial excision of fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10808,11 +10813,6 @@
               "system": "http://snomed.info/sct",
               "code": "62692004",
               "display": "Partial salpingectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E13.00",
-              "display": "Partial excision of fallopian tube"
             }
           ],
           "text": "Partial excision of fallopian tube"
@@ -10852,6 +10852,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E13000",
+              "display": "Excision of lesion of fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10869,11 +10874,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "44793005",
-              "display": "Excision of lesion of fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E13000",
               "display": "Excision of lesion of fallopian tube"
             }
           ],
@@ -10914,6 +10914,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E13100",
+              "display": "Excision of ectopic ovarian pregnancy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10931,11 +10936,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176928008",
-              "display": "Excision of ectopic ovarian pregnancy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E13100",
               "display": "Excision of ectopic ovarian pregnancy"
             }
           ],
@@ -10976,6 +10976,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E13300",
+              "display": "Excision of ruptured ectopic tubal pregnancy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10993,11 +10998,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176929000",
-              "display": "Excision of ruptured ectopic tubal pregnancy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E13300",
               "display": "Excision of ruptured ectopic tubal pregnancy"
             }
           ],
@@ -11038,6 +11038,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E13y00",
+              "display": "Other specified partial excision of fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11052,11 +11057,6 @@
               "system": "http://snomed.info/sct",
               "code": "62692004",
               "display": "Partial salpingectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E13y00",
-              "display": "Other specified partial excision of fallopian tube"
             }
           ],
           "text": "Other specified partial excision of fallopian tube"
@@ -11096,6 +11096,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E13z11",
+              "display": "Partial salpingectomy NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11110,11 +11115,6 @@
               "system": "http://snomed.info/sct",
               "code": "62692004",
               "display": "Partial salpingectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E13z11",
-              "display": "Partial salpingectomy NEC"
             }
           ],
           "text": "Partial salpingectomy NEC"
@@ -11154,6 +11154,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E13z00",
+              "display": "Partial excision of fallopian tube NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11168,11 +11173,6 @@
               "system": "http://snomed.info/sct",
               "code": "62692004",
               "display": "Partial salpingectomy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E13z00",
-              "display": "Partial excision of fallopian tube NOS"
             }
           ],
           "text": "Partial excision of fallopian tube NOS"
@@ -11212,6 +11212,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E14.00",
+              "display": "Placement of prosthesis in fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11226,11 +11231,6 @@
               "system": "http://snomed.info/sct",
               "code": "38043007",
               "display": "Implantation of prosthesis into fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E14.00",
-              "display": "Placement of prosthesis in fallopian tube"
             }
           ],
           "text": "Placement of prosthesis in fallopian tube"
@@ -11270,6 +11270,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E14000",
+              "display": "Insertion of tubal prosthesis into fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11284,11 +11289,6 @@
               "system": "http://snomed.info/sct",
               "code": "38043007",
               "display": "Implantation of prosthesis into fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E14000",
-              "display": "Insertion of tubal prosthesis into fallopian tube"
             }
           ],
           "text": "Insertion of tubal prosthesis into fallopian tube"
@@ -11328,6 +11328,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E14100",
+              "display": "Revision of tubal prosthesis in fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11342,11 +11347,6 @@
               "system": "http://snomed.info/sct",
               "code": "176933007",
               "display": "Revision of prosthesis in fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E14100",
-              "display": "Revision of tubal prosthesis in fallopian tube"
             }
           ],
           "text": "Revision of tubal prosthesis in fallopian tube"
@@ -11386,6 +11386,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E14200",
+              "display": "Removal of tubal prosthesis from fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11400,11 +11405,6 @@
               "system": "http://snomed.info/sct",
               "code": "5460001",
               "display": "Removal of prosthesis from fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E14200",
-              "display": "Removal of tubal prosthesis from fallopian tube"
             }
           ],
           "text": "Removal of tubal prosthesis from fallopian tube"
@@ -11444,6 +11444,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E14y00",
+              "display": "Other specified placement of prosthesis in fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11458,11 +11463,6 @@
               "system": "http://snomed.info/sct",
               "code": "271414005",
               "display": "Fallopian tube prosthesis operation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E14y00",
-              "display": "Other specified placement of prosthesis in fallopian tube"
             }
           ],
           "text": "Other specified placement of prosthesis in fallopian tube"
@@ -11502,6 +11502,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E14z00",
+              "display": "Placement of prosthesis in fallopian tube NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11516,11 +11521,6 @@
               "system": "http://snomed.info/sct",
               "code": "271414005",
               "display": "Fallopian tube prosthesis operation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E14z00",
-              "display": "Placement of prosthesis in fallopian tube NOS"
             }
           ],
           "text": "Placement of prosthesis in fallopian tube NOS"
@@ -11560,6 +11560,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E15.00",
+              "display": "Open bilateral occlusion of fallopian tubes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11577,11 +11582,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176936004",
-              "display": "Open bilateral occlusion of fallopian tubes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E15.00",
               "display": "Open bilateral occlusion of fallopian tubes"
             }
           ],
@@ -11622,6 +11622,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E15.11",
+              "display": "Open bilateral female sterilisation"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11640,11 +11645,6 @@
               "system": "http://snomed.info/sct",
               "code": "176936004",
               "display": "Open bilateral occlusion of fallopian tubes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E15.11",
-              "display": "Open bilateral female sterilisation"
             }
           ],
           "text": "Open bilateral female sterilisation"
@@ -11684,6 +11684,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E15000",
+              "display": "Open bilateral ligation of fallopian tubes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11701,11 +11706,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176937008",
-              "display": "Open bilateral ligation of fallopian tubes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E15000",
               "display": "Open bilateral ligation of fallopian tubes"
             }
           ],
@@ -11746,6 +11746,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E15011",
+              "display": "Pomeroy open bilateral ligation of fallopian tubes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11764,11 +11769,6 @@
               "system": "http://snomed.info/sct",
               "code": "176937008",
               "display": "Open bilateral ligation of fallopian tubes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E15011",
-              "display": "Pomeroy open bilateral ligation of fallopian tubes"
             }
           ],
           "text": "Pomeroy open bilateral ligation of fallopian tubes"
@@ -11808,6 +11808,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E15100",
+              "display": "Open bilateral clipping of fallopian tubes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11825,11 +11830,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "265071006",
-              "display": "Open bilateral clipping of fallopian tubes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E15100",
               "display": "Open bilateral clipping of fallopian tubes"
             }
           ],
@@ -11870,6 +11870,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E15111",
+              "display": "Open bilateral ringing of fallopian tubes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11887,11 +11892,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "274975009",
-              "display": "Open bilateral ringing of fallopian tubes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E15111",
               "display": "Open bilateral ringing of fallopian tubes"
             }
           ],
@@ -11932,6 +11932,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E15y00",
+              "display": "Other specified open bilateral occlusion of fallopian tubes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11946,11 +11951,6 @@
               "system": "http://snomed.info/sct",
               "code": "176936004",
               "display": "Open bilateral occlusion of fallopian tubes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E15y00",
-              "display": "Other specified open bilateral occlusion of fallopian tubes"
             }
           ],
           "text": "Other specified open bilateral occlusion of fallopian tubes"
@@ -11990,6 +11990,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E15z00",
+              "display": "Open bilateral occlusion of fallopian tubes NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12004,11 +12009,6 @@
               "system": "http://snomed.info/sct",
               "code": "176936004",
               "display": "Open bilateral occlusion of fallopian tubes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E15z00",
-              "display": "Open bilateral occlusion of fallopian tubes NOS"
             }
           ],
           "text": "Open bilateral occlusion of fallopian tubes NOS"
@@ -12048,6 +12048,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16.00",
+              "display": "Other open occlusion of fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12062,11 +12067,6 @@
               "system": "http://snomed.info/sct",
               "code": "300896003",
               "display": "Open tubal occlusion"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16.00",
-              "display": "Other open occlusion of fallopian tube"
             }
           ],
           "text": "Other open occlusion of fallopian tube"
@@ -12106,6 +12106,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16.11",
+              "display": "Other open female sterilisation"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12120,11 +12125,6 @@
               "system": "http://snomed.info/sct",
               "code": "292002002",
               "display": "Open unilateral occlusion of fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16.11",
-              "display": "Other open female sterilisation"
             }
           ],
           "text": "Other open female sterilisation"
@@ -12164,6 +12164,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16.12",
+              "display": "Unilateral occlusion of fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12181,11 +12186,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "274977001",
-              "display": "Unilateral occlusion of fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16.12",
               "display": "Unilateral occlusion of fallopian tube"
             }
           ],
@@ -12226,6 +12226,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16000",
+              "display": "Open ligation of remaining solitary fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12243,11 +12248,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176942000",
-              "display": "Open ligation of remaining solitary fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16000",
               "display": "Open ligation of remaining solitary fallopian tube"
             }
           ],
@@ -12288,6 +12288,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16100",
+              "display": "Open ligation of fallopian tube NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12302,11 +12307,6 @@
               "system": "http://snomed.info/sct",
               "code": "300896003",
               "display": "Open tubal occlusion"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16100",
-              "display": "Open ligation of fallopian tube NEC"
             }
           ],
           "text": "Open ligation of fallopian tube NEC"
@@ -12346,6 +12346,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16200",
+              "display": "Open clipping of remaining solitary fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12363,11 +12368,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "265073009",
-              "display": "Open clipping of remaining solitary fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16200",
               "display": "Open clipping of remaining solitary fallopian tube"
             }
           ],
@@ -12408,6 +12408,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16211",
+              "display": "Open clipping of residual solitary fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12426,11 +12431,6 @@
               "system": "http://snomed.info/sct",
               "code": "265073009",
               "display": "Open clipping of remaining solitary fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16211",
-              "display": "Open clipping of residual solitary fallopian tube"
             }
           ],
           "text": "Open clipping of residual solitary fallopian tube"
@@ -12470,6 +12470,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16212",
+              "display": "Open ringing of remaining solitary fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12487,11 +12492,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "307301008",
-              "display": "Open ringing of remaining solitary fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16212",
               "display": "Open ringing of remaining solitary fallopian tube"
             }
           ],
@@ -12532,6 +12532,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16300",
+              "display": "Open clipping of fallopian tube NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12546,11 +12551,6 @@
               "system": "http://snomed.info/sct",
               "code": "300896003",
               "display": "Open tubal occlusion"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16300",
-              "display": "Open clipping of fallopian tube NEC"
             }
           ],
           "text": "Open clipping of fallopian tube NEC"
@@ -12590,6 +12590,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16311",
+              "display": "Open ringing of fallopian tube NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12604,11 +12609,6 @@
               "system": "http://snomed.info/sct",
               "code": "300896003",
               "display": "Open tubal occlusion"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16311",
-              "display": "Open ringing of fallopian tube NEC"
             }
           ],
           "text": "Open ringing of fallopian tube NEC"
@@ -12648,6 +12648,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16400",
+              "display": "Open clipping of right fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12665,11 +12670,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "265075002",
-              "display": "Open clipping of right fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16400",
               "display": "Open clipping of right fallopian tube"
             }
           ],
@@ -12710,6 +12710,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16411",
+              "display": "Open ringing of right fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12727,11 +12732,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "274979003",
-              "display": "Open ringing of right fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16411",
               "display": "Open ringing of right fallopian tube"
             }
           ],
@@ -12772,6 +12772,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16500",
+              "display": "Open clipping of left fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12789,11 +12794,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "265076001",
-              "display": "Open clipping of left fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16500",
               "display": "Open clipping of left fallopian tube"
             }
           ],
@@ -12834,6 +12834,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16511",
+              "display": "Open ringing of left fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12851,11 +12856,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "274980000",
-              "display": "Open ringing of left fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16511",
               "display": "Open ringing of left fallopian tube"
             }
           ],
@@ -12896,6 +12896,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16600",
+              "display": "Open ligation of right fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12913,11 +12918,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176948001",
-              "display": "Open ligation of right fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16600",
               "display": "Open ligation of right fallopian tube"
             }
           ],
@@ -12958,6 +12958,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16700",
+              "display": "Open ligation of left fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12975,11 +12980,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176949009",
-              "display": "Open ligation of left fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16700",
               "display": "Open ligation of left fallopian tube"
             }
           ],
@@ -13020,6 +13020,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16y00",
+              "display": "Other specified other open occlusion of fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13034,11 +13039,6 @@
               "system": "http://snomed.info/sct",
               "code": "300896003",
               "display": "Open tubal occlusion"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16y00",
-              "display": "Other specified other open occlusion of fallopian tube"
             }
           ],
           "text": "Other specified other open occlusion of fallopian tube"
@@ -13078,6 +13078,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E16z00",
+              "display": "Other open occlusion of fallopian tube NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13092,11 +13097,6 @@
               "system": "http://snomed.info/sct",
               "code": "300896003",
               "display": "Open tubal occlusion"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E16z00",
-              "display": "Other open occlusion of fallopian tube NOS"
             }
           ],
           "text": "Other open occlusion of fallopian tube NOS"
@@ -13136,6 +13136,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E17.00",
+              "display": "Open reversal of female sterilisation"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13153,11 +13158,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176952001",
-              "display": "Open reversal of female sterilisation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E17.00",
               "display": "Open reversal of female sterilisation"
             }
           ],
@@ -13198,6 +13198,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E17.12",
+              "display": "Open reversal of female sterilisation"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13215,11 +13220,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176952001",
-              "display": "Open reversal of female sterilisation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E17.12",
               "display": "Open reversal of female sterilisation"
             }
           ],
@@ -13260,6 +13260,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E17.11",
+              "display": "Open reversal of tubal ligation"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13278,11 +13283,6 @@
               "system": "http://snomed.info/sct",
               "code": "176952001",
               "display": "Open reversal of female sterilisation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E17.11",
-              "display": "Open reversal of tubal ligation"
             }
           ],
           "text": "Open reversal of tubal ligation"
@@ -13322,6 +13322,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E17000",
+              "display": "Reanastomosis of fallopian tube NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13336,11 +13341,6 @@
               "system": "http://snomed.info/sct",
               "code": "391993002",
               "display": "Tubotubal anastomosis"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E17000",
-              "display": "Reanastomosis of fallopian tube NEC"
             }
           ],
           "text": "Reanastomosis of fallopian tube NEC"
@@ -13380,6 +13380,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E17100",
+              "display": "Open removal of clip from fallopian tube NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13394,11 +13399,6 @@
               "system": "http://snomed.info/sct",
               "code": "236927008",
               "display": "Removal of clip from fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E17100",
-              "display": "Open removal of clip from fallopian tube NEC"
             }
           ],
           "text": "Open removal of clip from fallopian tube NEC"
@@ -13438,6 +13438,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E17111",
+              "display": "Open removal of ring from fallopian tube NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13452,11 +13457,6 @@
               "system": "http://snomed.info/sct",
               "code": "236928003",
               "display": "Removal of ring from fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E17111",
-              "display": "Open removal of ring from fallopian tube NEC"
             }
           ],
           "text": "Open removal of ring from fallopian tube NEC"
@@ -13496,6 +13496,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E17y00",
+              "display": "Other specified open reversal of female sterilisation"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13510,11 +13515,6 @@
               "system": "http://snomed.info/sct",
               "code": "128312004",
               "display": "Procedure on female genital organ"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E17y00",
-              "display": "Other specified open reversal of female sterilisation"
             }
           ],
           "text": "Other specified open reversal of female sterilisation"
@@ -13554,6 +13554,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E17z00",
+              "display": "Open reversal of female sterilisation NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13568,11 +13573,6 @@
               "system": "http://snomed.info/sct",
               "code": "128312004",
               "display": "Procedure on female genital organ"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E17z00",
-              "display": "Open reversal of female sterilisation NOS"
             }
           ],
           "text": "Open reversal of female sterilisation NOS"
@@ -13612,6 +13612,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E18.00",
+              "display": "Other repair of fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13626,11 +13631,6 @@
               "system": "http://snomed.info/sct",
               "code": "392250009",
               "display": "Operation on fallopian tube"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E18.00",
-              "display": "Other repair of fallopian tube"
             }
           ],
           "text": "Other repair of fallopian tube"
@@ -13670,6 +13670,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E18000",
+              "display": "Reconstruction of fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13688,11 +13693,6 @@
               "system": "http://snomed.info/sct",
               "code": "120062000",
               "display": "Fallopian tube reconstruction"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E18000",
-              "display": "Reconstruction of fallopian tube"
             }
           ],
           "text": "Reconstruction of fallopian tube"
@@ -13732,6 +13732,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E18100",
+              "display": "Replantation of fallopian tube"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13746,11 +13751,6 @@
               "system": "http://snomed.info/sct",
               "code": "399158005",
               "display": "Repair of fallopian tube by reimplantation into uterus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E18100",
-              "display": "Replantation of fallopian tube"
             }
           ],
           "text": "Replantation of fallopian tube"
@@ -13790,6 +13790,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7E18200",
+              "display": "Anastomosis of fallopian tube NEC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13804,11 +13809,6 @@
               "system": "http://snomed.info/sct",
               "code": "391993002",
               "display": "Tubotubal anastomosis"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7E18200",
-              "display": "Anastomosis of fallopian tube NEC"
             }
           ],
           "text": "Anastomosis of fallopian tube NEC"
