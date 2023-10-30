@@ -14,9 +14,7 @@ import uk.nhs.adaptors.connector.dao.SnomedCTDao;
 import uk.nhs.adaptors.connector.model.SnomedCTDescription;
 import uk.nhs.adaptors.pss.translator.util.CodeSystemsUtil;
 
-import java.util.Comparator;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -46,7 +44,7 @@ public class CodeableConceptMapper {
         var codeableConcept =  generateCodeableConcept(codedData, true);
         addNonSnomedCodesToCodeableConcept(codeableConcept, codedData);
 
-        return sortCodeableConceptCoding(codedData, codeableConcept);
+        return codeableConcept;
     }
 
     private CodeableConcept generateCodeableConceptWithoutSnomedCode(CD codedData) {
@@ -288,18 +286,6 @@ public class CodeableConceptMapper {
         return translation.getDisplayName() != null
             ? translation.getDisplayName()
             : codedData.getDisplayName();
-    }
-
-    private CodeableConcept sortCodeableConceptCoding(CD codedData, CodeableConcept codeableConcept) {
-        var codeOrder = Stream.concat(
-                Stream.of(codedData.getCode()),
-                codedData.getTranslation().stream().filter(Objects::nonNull)
-        ).toList();
-
-        codeableConcept.getCoding()
-                .sort(Comparator.comparingInt(o -> codeOrder.indexOf(o.getCode())));
-
-        return codeableConcept;
     }
 
     private String getPartitionIdentifier(String code) {
