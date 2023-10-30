@@ -1002,10 +1002,12 @@ public class CodeableConceptMapperTest {
     @Test
     public void When_MappingCodeableConcept_Expect_CodesToBeInTheProvidedOrder() {
         var inputXML = """
-                <code xmlns="urn:hl7-org:v3" code="22K.." codeSystem="2.16.840.1.113883.2.1.3.2.4.14" displayName="Body mass index - observation">
-                	<originalText>Body mass index</originalText>
-                	<translation code="60621009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Body mass index"/>
-                	<translation code="22K..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Body Mass Index"/>
+                <code xmlns="urn:hl7-org:v3" code="22K.." codeSystem="2.16.840.1.113883.2.1.3.2.4.14"
+                displayName="Body mass index - observation">
+                <originalText>Body mass index</originalText>
+                <translation code="60621009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                    displayName="Body mass index"/>
+                    <translation code="22K..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Body Mass Index"/>
                 </code>
                 """;
 
