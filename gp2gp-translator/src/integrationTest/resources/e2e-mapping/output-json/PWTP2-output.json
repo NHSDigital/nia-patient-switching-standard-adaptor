@@ -11604,7 +11604,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : First"
+            "text": "Episodicity : code=255217005, displayName=First"
           },
           {
             "text": "Drug Allergy - Apsrin"
@@ -11671,7 +11671,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : First"
+            "text": "Episodicity : code=255217005, displayName=First"
           },
           {
             "text": "This is a peanut allergy, (Evolved into H/O: aspirin allergy 13-Jan-2010)"
@@ -11742,7 +11742,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : First"
+            "text": "Episodicity : code=255217005, displayName=First"
           },
           {
             "text": "This is text for a warfarin allergy"

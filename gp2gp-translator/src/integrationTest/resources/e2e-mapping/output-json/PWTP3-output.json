@@ -2465,7 +2465,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : First"
+            "text": "Episodicity : code=255217005, displayName=First"
           }
         ]
       }
@@ -2529,7 +2529,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : Ongoing, Review"
+            "text": "Episodicity : code=303350001, displayName=Ongoing, originalText=Review"
           }
         ]
       }
@@ -2597,7 +2597,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : First"
+            "text": "Episodicity : code=255217005, displayName=First"
           }
         ]
       }
@@ -2713,7 +2713,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : First"
+            "text": "Episodicity : code=255217005, displayName=First"
           },
           {
             "text": "This is a note for anitbiotic allergy NOS"
@@ -2780,7 +2780,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : First"
+            "text": "Episodicity : code=255217005, displayName=First"
           }
         ]
       }
@@ -2848,7 +2848,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : Undefined, Flare"
+            "text": "Episodicity : code=394846009, displayName=Undefined, originalText=Flare"
           }
         ]
       }
@@ -2916,7 +2916,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : First"
+            "text": "Episodicity : code=255217005, displayName=First"
           },
           {
             "text": "asprin allergy"
@@ -3055,7 +3055,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : Undefined, End"
+            "text": "Episodicity : code=394846009, displayName=Undefined, originalText=End"
           }
         ]
       }
@@ -3123,7 +3123,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : First"
+            "text": "Episodicity : code=255217005, displayName=First"
           }
         ]
       }
@@ -3191,7 +3191,7 @@
         },
         "note": [
           {
-            "text": "Episodicity : First"
+            "text": "Episodicity : code=255217005, displayName=First"
           }
         ]
       }

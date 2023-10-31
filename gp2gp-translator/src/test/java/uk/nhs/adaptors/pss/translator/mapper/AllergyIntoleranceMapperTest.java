@@ -57,10 +57,13 @@ public class AllergyIntoleranceMapperTest {
     private static final String META_PROFILE = "https://fhir.nhs"
         + ".uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
-    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT = "Episodicity : Ongoing, Review";
-    private static final String EPISODICITY_WITHOUT_ORIGINAL_TEXT_NOTE_TEXT = "Episodicity : Ongoing";
-    private static final String PERTINENT_NOTE_TEXT = "Reason Ended: Patient reports no subsequent recurrence on same medication Status:"
-        + " Resolved Type: Allergy Criticality: Low Risk Last Occurred: 1978-12-31 Example note text";
+    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT =
+            "Episodicity : code=303350001, displayName=Ongoing, originalText=Review";
+    private static final String EPISODICITY_WITHOUT_ORIGINAL_TEXT_NOTE_TEXT =
+            "Episodicity : code=303350001, displayName=Ongoing";
+    private static final String PERTINENT_NOTE_TEXT =
+            "Reason Ended: Patient reports no subsequent recurrence on same medication Status:"
+                    + " Resolved Type: Allergy Criticality: Low Risk Last Occurred: 1978-12-31 Example note text";
     private static final String ALLERGY_NOTE_TEXT = "Allergy Code: " + CODING_DISPLAY_1;
     private static final int THREE = 3;
     private static final String ORIGINAL_TEXT_IN_CODE = "OriginalText from Code";

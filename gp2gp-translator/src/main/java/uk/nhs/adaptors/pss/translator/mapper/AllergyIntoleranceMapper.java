@@ -309,20 +309,20 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     }
 
     private String buildEpisodicityText(CR qualifier) {
-        if (qualifier.getName() == null) {
-            return null;
-        }
         var qualifierName = qualifier.getName();
 
-        if (qualifierName.hasDisplayName()) {
-            return qualifierName.hasOriginalText()
-                    ? qualifierName.getDisplayName() + ", " + qualifierName.getOriginalText()
-                    : qualifierName.getDisplayName();
+        if (qualifierName == null) {
+            return null;
         }
 
-        return qualifierName.hasOriginalText()
-                ? qualifierName.getOriginalText()
-                : null;
+        var text = "code=" + qualifierName.getCode()
+                + ", displayName=" + qualifierName.getDisplayName();
+
+        if (qualifierName.hasOriginalText()) {
+            return text + ", originalText=" + qualifierName.getOriginalText();
+        }
+
+        return text;
     }
 
     private Stream<Annotation> getPertinentInformationAnnotations(

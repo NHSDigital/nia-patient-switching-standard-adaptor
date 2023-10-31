@@ -26,7 +26,7 @@
                                     <id root="394559384658936"/>
                                     <code code="ZVu6M00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="[X]Personal history of allergy to other antibiotic agents">
                                         <qualifier inverted="false">
-                                            <name code="255217005" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Ongoing">
+                                            <name code="303350001" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Ongoing">
                                                 <originalText>Review</originalText>
                                             </name>
                                         </qualifier>
