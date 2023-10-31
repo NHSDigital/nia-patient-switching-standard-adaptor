@@ -57,6 +57,7 @@ public class CodeableConceptMapper {
     }
 
     private CodeableConcept generateCodeableConcept(CD codedData, boolean isMedicationResource) {
+
         var isSnomedCodeInMainCode = codedData.hasCodeSystem()
             && SNOMED_SYSTEM_CODE.equals(codedData.getCodeSystem());
 
@@ -205,28 +206,23 @@ public class CodeableConceptMapper {
     }
 
     private void addNonSnomedCodesToCodeableConcept(CodeableConcept codeableConcept, CD codedData) {
-        if (codedData.hasCodeSystem() && !SNOMED_SYSTEM_CODE.equals(codedData.getCodeSystem())) {
-            var coding = mapNonSnomedCodes(codedData);
-            codeableConcept.getCoding().add(coding);
-        }
+        addNonSnomedCodeIfPresent(codeableConcept, codedData, 0);
+        var translationCodes = codedData.getTranslation();
 
-        var translationCodes = codedData
-                .getTranslation()
-                .stream()
-                .filter(cd -> !SNOMED_SYSTEM_CODE.equals(cd.getCodeSystem()))
-                .map(this::mapNonSnomedCodes)
-                .toList();
-
-        if (!translationCodes.isEmpty()) {
-            codeableConcept.getCoding().addAll(translationCodes);
+        for (int index = 0; index < translationCodes.size(); index++) {
+            addNonSnomedCodeIfPresent(codeableConcept, translationCodes.get(index), index + 1);
         }
     }
 
-    private Coding mapNonSnomedCodes(CD codedData) {
-        return new Coding()
-                .setCode(codedData.getCode())
-                .setSystem(CodeSystemsUtil.getFhirCodeSystem(codedData.getCodeSystem()))
-                .setDisplay(codedData.getDisplayName());
+    private void addNonSnomedCodeIfPresent(CodeableConcept codeableConcept, CD codedData, int index) {
+        if (codedData.hasCodeSystem() && !SNOMED_SYSTEM_CODE.equals(codedData.getCodeSystem())) {
+            var coding = new Coding()
+                    .setCode(codedData.getCode())
+                    .setSystem(CodeSystemsUtil.getFhirCodeSystem(codedData.getCodeSystem()))
+                    .setDisplay(codedData.getDisplayName());
+
+            codeableConcept.getCoding().add(index, coding);
+        }
     }
 
     private CodeableConcept createCodeableConcept(String code, String system, String display, String text, Extension extension) {
