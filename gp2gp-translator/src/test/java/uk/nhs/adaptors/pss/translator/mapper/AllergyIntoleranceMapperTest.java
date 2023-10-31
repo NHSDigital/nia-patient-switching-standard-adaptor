@@ -27,6 +27,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -51,14 +52,20 @@ public class AllergyIntoleranceMapperTest {
     private static final String CODING_DISPLAY_1 = "Ischaemic heart disease";
     private static final String CODING_DISPLAY_2 = "H/O: aspirin allergy";
     private static final String CODING_DISPLAY_3 = "H/O: drug allergy";
+    private static final String CODING_DISPLAY_4 = "Coconut oil";
     private static final String PATIENT_ID = "9A5D5A78-1F63-434C-9637-1D7E7843341B";
     private static final String META_PROFILE = "https://fhir.nhs"
         + ".uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
-    private static final String NOTE_TEXT = "Reason Ended: Patient reports no subsequent recurrence on same medication Status:"
-        + " Resolved Type: Allergy Criticality: Low Risk Last Occurred: 1978-12-31 Example note text";
+    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT =
+            "Episodicity : code=303350001, displayName=Ongoing, originalText=Review";
+    private static final String EPISODICITY_WITHOUT_ORIGINAL_TEXT_NOTE_TEXT =
+            "Episodicity : code=303350001, displayName=Ongoing";
+    private static final String PERTINENT_NOTE_TEXT =
+            "Reason Ended: Patient reports no subsequent recurrence on same medication Status:"
+                    + " Resolved Type: Allergy Criticality: Low Risk Last Occurred: 1978-12-31 Example note text";
+    private static final String ALLERGY_NOTE_TEXT = "Allergy Code: " + CODING_DISPLAY_1;
     private static final int THREE = 3;
-
     private static final String ORIGINAL_TEXT_IN_CODE = "OriginalText from Code";
     private static final String DISPLAY_NAME_IN_VALUE = "Value displayName";
     private static final String MULTILEX_CODE_SYSTEM = "2.16.840.1.113883.2.1.6.4";
@@ -96,10 +103,11 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue())
             .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
-        assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
+        assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT);
+        assertThat(allergyIntolerance.getNote().get(1).getText()).isEqualTo(PERTINENT_NOTE_TEXT);
+        assertThat(allergyIntolerance.getNote().get(2).getText()).isEqualTo(ALLERGY_NOTE_TEXT);
         assertThat(allergyIntolerance.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
         assertThat(allergyIntolerance.getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY_2);
-        assertThat(allergyIntolerance.getNote().get(1).getText()).isEqualTo("Allergy Code: " + CODING_DISPLAY_1);
     }
 
     @Test
@@ -179,7 +187,7 @@ public class AllergyIntoleranceMapperTest {
         assertEquals(DateFormatUtil.parseToDateTimeType("19781231").asStringValue(),
                                                     allergyIntolerance.getOnsetDateTimeType().asStringValue());
         assertEquals("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D", allergyIntolerance.getAsserter().getReference());
-        assertEquals(NOTE_TEXT, allergyIntolerance.getNote().get(0).getText());
+        assertEquals(PERTINENT_NOTE_TEXT, allergyIntolerance.getNote().get(0).getText());
         assertEquals(DegradedCodeableConcepts.DEGRADED_NON_DRUG_ALLERGY, allergyIntolerance.getCode().getCodingFirstRep());
         assertEquals(CODING_DISPLAY_1, allergyIntolerance.getCode().getCoding().get(1).getDisplay());
     }
@@ -203,7 +211,7 @@ public class AllergyIntoleranceMapperTest {
     @Test
     public void testMapDegradedDrugAllergy() {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
-                .thenReturn(new CodeableConcept());
+                .thenReturn(nonSnomedCodeableConcept());
 
         var ehrExtract = unmarshallEhrExtract("degraded-drug-allergy-structure.xml");
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
@@ -295,7 +303,7 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue())
             .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
-        assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
+        assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(PERTINENT_NOTE_TEXT);
         assertThat(allergyIntolerance.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
         assertThat(allergyIntolerance.getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY_1);
         assertThat(allergyIntolerance.getNote().size()).isOne();
@@ -322,13 +330,14 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getOnsetDateTimeType().asStringValue())
             .isEqualTo(DateFormatUtil.parseToDateTimeType("19781231").asStringValue());
         assertThat(allergyIntolerance.getAsserter().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
-        assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
+        assertThat(allergyIntolerance.getNote().get(0).getText()).isEqualTo(PERTINENT_NOTE_TEXT);
         assertThat(allergyIntolerance.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
         assertThat(allergyIntolerance.getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY_3);
         assertThat(allergyIntolerance.getNote().size()).isOne();
     }
 
-    @Test void When_DrugAllergyWithValueElement_Expect_MapsCodingTextFromValueDescription() {
+    @Test
+    public void When_DrugAllergyWithValueElement_Expect_MapsCodingTextFromValueDescription() {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
             .thenReturn(defaultCodeableConcept())
             .thenReturn(secondaryCodeableConcept());
@@ -346,6 +355,40 @@ public class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getCode().getText()).isEqualTo(DISPLAY_NAME_IN_VALUE);
     }
 
+    @Test
+    public void When_AllergyIntoleranceWithQualifierAndOriginalText_Expect_NotesContainsEpisodicity() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+                .thenReturn(defaultCodeableConcept());
+
+        var ehrExtract = unmarshallEhrExtract("drug_allergy_with_qualifier_and_original_text.xml");
+
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+                getEncounterList(), PRACTISE_CODE);
+
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertThat(allergyIntolerance.getNote().get(0).getText())
+                .isEqualTo(EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT);
+    }
+
+    @Test
+    public void When_AllergyIntoleranceWithQualifierAndWithoutOriginalText_Expect_NotesContainsEpisodicity() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+                .thenReturn(defaultCodeableConcept());
+
+        var ehrExtract = unmarshallEhrExtract("drug_allergy_with_qualifier_without_original_text.xml");
+
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+                getEncounterList(), PRACTISE_CODE);
+
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertThat(allergyIntolerance.getNote().get(0).getText())
+                .isEqualTo(EPISODICITY_WITHOUT_ORIGINAL_TEXT_NOTE_TEXT);
+    }
+
+
+
     @ParameterizedTest
     @MethodSource("allergyStructuresWithTranslations")
     public void testTppNamedSchemaInValue(String filename) {
@@ -362,14 +405,14 @@ public class AllergyIntoleranceMapperTest {
 
         assertThat(cd.getCode()).isEqualTo(MULTILEX_COCONUT_OIL);
         assertThat(cd.getCodeSystem()).isEqualTo(MULTILEX_CODE_SYSTEM);
-        assertThat(cd.getDisplayName()).isEqualTo("Coconut oil");
+        assertThat(cd.getDisplayName()).isEqualTo(CODING_DISPLAY_4);
         assertThat(cd.getTranslation().size()).isOne();
 
         var translation = cd.getTranslation().get(0);
 
         assertThat(translation.getCodeSystem()).isEqualTo(SNOMED_CODE_SYSTEM);
         assertThat(translation.getCode()).isEqualTo(SNOMED_COCONUT_OIL);
-        assertThat(translation.getDisplayName()).isEqualTo("Coconut oil");
+        assertThat(translation.getDisplayName()).isEqualTo(CODING_DISPLAY_4);
     }
 
     private static Stream<Arguments> allergyStructuresWithTranslations() {
@@ -441,6 +484,17 @@ public class AllergyIntoleranceMapperTest {
         var codeableConcept = new CodeableConcept();
         var coding = new Coding();
         coding.setDisplay(CODING_DISPLAY_3);
+        codeableConcept.addCoding(coding);
+
+        return codeableConcept;
+    }
+
+    private CodeableConcept nonSnomedCodeableConcept() {
+        var codeableConcept = new CodeableConcept();
+        var coding = new Coding();
+        coding.setSystem(MULTILEX_CODE_SYSTEM);
+        coding.setCode(MULTILEX_COCONUT_OIL);
+        coding.setDisplay(CODING_DISPLAY_4);
         codeableConcept.addCoding(coding);
 
         return codeableConcept;

@@ -11604,6 +11604,9 @@
         },
         "note": [
           {
+            "text": "Episodicity : code=255217005, displayName=First"
+          },
+          {
             "text": "Drug Allergy - Apsrin"
           }
         ]
@@ -11667,6 +11670,9 @@
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
         "note": [
+          {
+            "text": "Episodicity : code=255217005, displayName=First"
+          },
           {
             "text": "This is a peanut allergy, (Evolved into H/O: aspirin allergy 13-Jan-2010)"
           }
@@ -11735,6 +11741,9 @@
           "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
         "note": [
+          {
+            "text": "Episodicity : code=255217005, displayName=First"
+          },
           {
             "text": "This is text for a warfarin allergy"
           }

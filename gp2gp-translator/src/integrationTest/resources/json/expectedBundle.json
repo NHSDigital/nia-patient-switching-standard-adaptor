@@ -30640,6 +30640,9 @@
         },
         "note": [
           {
+            "text": "Episodicity : code=255217005, displayName=First"
+          },
+          {
             "text": "Drug Allergy - Apsrin"
           }
         ]
@@ -31023,6 +31026,9 @@
           "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
         },
         "note": [
+          {
+            "text": "Episodicity : code=255217005, displayName=First"
+          },
           {
             "text": "Drug Allergy - Apsrin"
           }

@@ -24,8 +24,15 @@
                         <component typeCode="COMP" contextConductionInd="true">
                             <ObservationStatement classCode="OBS" moodCode="ENV">
                                 <id root="394559384658936"/>
-                                <code code="ALLERGY-READ2-14LK" codeSystem="2.16.840.1.113883.2.1.6.3"
-                                      displayName="H/O: aspirin allergy"/>
+                                <code code="ALLERGY-READ2-14LK"
+                                      codeSystem="2.16.840.1.113883.2.1.6.3"
+                                      displayName="H/O: aspirin allergy">
+                                        <qualifier inverted="false">
+                                            <name code="303350001" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Ongoing">
+                                                <originalText>Review</originalText>
+                                            </name>
+                                        </qualifier>
+                                </code>
                                 <value type="CD" codeSystem="1.3.6.1.4.1.17340.1.5" code="9006113"
                                        displayName="Propranolol 10mg tablets (Almus Pharmaceuticals Ltd) @ 28 tablet(s)">
                                 </value>
