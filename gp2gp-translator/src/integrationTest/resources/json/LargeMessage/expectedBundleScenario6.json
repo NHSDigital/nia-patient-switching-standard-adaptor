@@ -455,6 +455,16 @@
         "code": {
           "coding": [
             {
+              "system": "2.16.840.1.113883.2.1.6.10",
+              "code": "229..00",
+              "display": "O/E - height"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "229..00",
+              "display": "O/E - height"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -472,16 +482,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "162755006",
-              "display": "O/E - height"
-            },
-            {
-              "system": "2.16.840.1.113883.2.1.6.10",
-              "code": "229..00",
-              "display": "O/E - height"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "229..00",
               "display": "O/E - height"
             }
           ],
@@ -527,6 +527,16 @@
         "code": {
           "coding": [
             {
+              "system": "2.16.840.1.113883.2.1.6.10",
+              "code": "22A..00",
+              "display": "O/E - weight"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "22A..00",
+              "display": "O/E - weight"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -544,16 +554,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "162763007",
-              "display": "O/E - weight"
-            },
-            {
-              "system": "2.16.840.1.113883.2.1.6.10",
-              "code": "22A..00",
-              "display": "O/E - weight"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "22A..00",
               "display": "O/E - weight"
             }
           ],
@@ -599,6 +599,16 @@
         "code": {
           "coding": [
             {
+              "system": "2.16.840.1.113883.2.1.6.10",
+              "code": "136..00",
+              "display": "Alcohol consumption"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "136..00",
+              "display": "Alcohol consumption"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -617,16 +627,6 @@
               "system": "http://snomed.info/sct",
               "code": "160573003",
               "display": "Alcohol intake"
-            },
-            {
-              "system": "2.16.840.1.113883.2.1.6.10",
-              "code": "136..00",
-              "display": "Alcohol consumption"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "136..00",
-              "display": "Alcohol consumption"
             }
           ],
           "text": "Alcohol consumption"
@@ -679,6 +679,16 @@
         "code": {
           "coding": [
             {
+              "system": "2.16.840.1.113883.2.1.6.10",
+              "code": "137K.00",
+              "display": "Stopped smoking"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "137K.00",
+              "display": "Stopped smoking"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -696,16 +706,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160617001",
-              "display": "Stopped smoking"
-            },
-            {
-              "system": "2.16.840.1.113883.2.1.6.10",
-              "code": "137K.00",
-              "display": "Stopped smoking"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "137K.00",
               "display": "Stopped smoking"
             }
           ],
@@ -753,6 +753,16 @@
         "code": {
           "coding": [
             {
+              "system": "2.16.840.1.113883.2.1.6.10",
+              "code": "2469.00",
+              "display": "O/E - Systolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "2469.00",
+              "display": "O/E - Systolic BP reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -770,16 +780,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163030003",
-              "display": "O/E - Systolic BP reading"
-            },
-            {
-              "system": "2.16.840.1.113883.2.1.6.10",
-              "code": "2469.00",
-              "display": "O/E - Systolic BP reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "2469.00",
               "display": "O/E - Systolic BP reading"
             }
           ],
@@ -833,6 +833,16 @@
         "code": {
           "coding": [
             {
+              "system": "2.16.840.1.113883.2.1.6.10",
+              "code": "246A.00",
+              "display": "O/E - Diastolic BP reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246A.00",
+              "display": "O/E - Diastolic BP reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -850,16 +860,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163031004",
-              "display": "O/E - Diastolic BP reading"
-            },
-            {
-              "system": "2.16.840.1.113883.2.1.6.10",
-              "code": "246A.00",
-              "display": "O/E - Diastolic BP reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "246A.00",
               "display": "O/E - Diastolic BP reading"
             }
           ],
@@ -913,6 +913,16 @@
         "type": {
           "coding": [
             {
+              "system": "2.16.840.1.113883.2.1.6.10",
+              "code": "9b36.00",
+              "display": "Other digital signal"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "9b36.00",
+              "display": "Other digital signal"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -930,16 +940,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "37251000000104",
-              "display": "Other digital signal"
-            },
-            {
-              "system": "2.16.840.1.113883.2.1.6.10",
-              "code": "9b36.00",
-              "display": "Other digital signal"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "9b36.00",
               "display": "Other digital signal"
             }
           ],
@@ -993,6 +993,16 @@
         "code": {
           "coding": [
             {
+              "system": "2.16.840.1.113883.2.1.6.10",
+              "code": "136..00",
+              "display": "Alcohol consumption"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "136..00",
+              "display": "Alcohol consumption"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -1011,16 +1021,6 @@
               "system": "http://snomed.info/sct",
               "code": "160573003",
               "display": "Alcohol intake"
-            },
-            {
-              "system": "2.16.840.1.113883.2.1.6.10",
-              "code": "136..00",
-              "display": "Alcohol consumption"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "136..00",
-              "display": "Alcohol consumption"
             }
           ],
           "text": "Alcohol consumption"
@@ -1067,6 +1067,16 @@
         "code": {
           "coding": [
             {
+              "system": "2.16.840.1.113883.2.1.6.10",
+              "code": "137S.00",
+              "display": "Ex smoker"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "137S.00",
+              "display": "Ex smoker"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -1081,16 +1091,6 @@
               "system": "http://snomed.info/sct",
               "code": "8517006",
               "display": "Ex-smoker"
-            },
-            {
-              "system": "2.16.840.1.113883.2.1.6.10",
-              "code": "137S.00",
-              "display": "Ex smoker"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "137S.00",
-              "display": "Ex smoker"
             }
           ],
           "text": "Ex smoker"
@@ -1137,6 +1137,16 @@
         "code": {
           "coding": [
             {
+              "system": "2.16.840.1.113883.2.1.6.10",
+              "code": "246..00",
+              "display": "O/E - blood pressure reading"
+            },
+            {
+              "system": "http://read.info/readv2",
+              "code": "246..00",
+              "display": "O/E - blood pressure reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -1154,16 +1164,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163020007",
-              "display": "O/E - blood pressure reading"
-            },
-            {
-              "system": "2.16.840.1.113883.2.1.6.10",
-              "code": "246..00",
-              "display": "O/E - blood pressure reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "246..00",
               "display": "O/E - blood pressure reading"
             }
           ],

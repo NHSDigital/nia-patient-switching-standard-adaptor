@@ -41,20 +41,9 @@ throughput times to allow adjustment if required ....
 The *Persist Duration* of each message is unique to the sending organisation and is obtained from the [Spine Directory Service (SDS) FHIR API](https://digital.nhs.uk/developer/api-catalogue/spine-directory-service-fhir). Responses for an organisation's message type are cached by default, the frequency the cache is
 updated is configurable via the environment variable `TIMEOUT_SDS_POLL_FREQUENCY`. 
 
-The adaptor checks incomplete transfers periodically, at a default frequency of every six hours. However, this is configurable via the environment variable `TIMEOUT_CRON_TIME`. 
+The adaptor checks incomplete transfers periodically, at a default frequency of every six hours. However, this is configurable via the environment variable `TIMEOUT_CRON_TIME`.
 
-Required environment variables:
-
-- `SDS_API_KEY`: Your SDS FHIR API Key
-
-Optional environment variables:
-
-- `SDS_BASE_URL`: The SDS FHIR API Base URL (default is production) - default = `https://api.service.nhs.uk/spine-directory/FHIR/R4`
-- `TIMEOUT_CRON_TIME`: The frequency of the timeout check specified as a Cron expression (default is every six hours). 
-format = `<second> <minute> <hour> <day of month> <month> <day of week>` - default = `0 0 */6 * * * `
-- `TIMEOUT_SDS_POLL_FREQUENCY`: The frequency the persist duration cache is updated (default 3) i.e. 1 = send request to SDS everytime,  3 = send request to SDS on the third call - default = `3`
-- `TIMEOUT_EHR_EXTRACT_WEIGHTING`: The weighting factor A (as described above) - default = `1`
-- `TIMEOUT_COPC_WEIGHTING`: The weighting factor B (as described above) - default = `1`
+For more configuration see the [Migration timeout variables](#migration-timeout-variables) section.
 
 ## Database requirements
 
@@ -118,6 +107,8 @@ $ docker run --rm -e PS_DB_OWNER_NAME=postgres -e POSTGRES_PASSWORD=super5ecret 
 
 The patient switching service uses a queue for communication between the HTTP facade, and GP2GP translator.
 
+For this communication to be successful, each service [needs to be configured](#ps-queue-variables) to communicate to the same queue. 
+
 ### MHS incoming message flows diagram
 
 The MHS Inbound adaptor accepts incoming HTTPS spine messages, and pushes them onto ActiveMQ.
@@ -144,34 +135,10 @@ When the daisy-chaining configuration is disabled, the adaptor will put messages
 
 In the diagram above there is a single broker for all queues, but the adaptor supports having separate brokers for each queue.
 
+An example daisy chaining environment is provided in [/test-suite/daisy-chaining/](/test-suite/daisy-chaining/),
+and each environment variable described within [Inbound message queue variables](#inbound-message-queue-variables).
+
 [GP2GP Adaptor]: https://github.com/nhsconnect/integration-adaptor-gp2gp
-
-Required environment variables:
-
-- `PS_AMQP_BROKER`: the location of the PS Adaptors queue. This should be set to the url of a single JMS broker
-  (the PS Adaptor does not support concurrent PS Adaptor brokers) - default = `amqp://localhost:5672`
-- `PS_AMQP_USERNAME`: The username for accessing the PS broker
-- `PS_AMQP_PASSWORD`: The password for accessing the PS broker
-- `MHS_AMQP_BROKER`: the location of the MHS Adaptors inbound queue. This should be set to the url of a single JMS broker
-  (the PS Adaptor does not support concurrent MHS Adaptor brokers) - default = `amqp://localhost:5672`
-- `MHS_AMQP_USERNAME`: The username for accessing the MHS broker
-- `MHS_AMQP_PASSWORD`: The password for accessing the MHS broker
-
-Optional environment variables:
-
-- `PS_DAISY_CHAINING_ACTIVE`: set to `true` to enable daisy-chaining - default = `false`
-- `PS_QUEUE_NAME`: The name of the PS queue, default = `pssQueue`
-- `PS_AMQP_MAX_REDELIVERIES`: default = `3`
-- `MHS_QUEUE_NAME`: The name of the MHS Adaptors inbound queue, default = `mhsQueue`
-- `MHS_AMQP_MAX_REDELIVERIES`: default = `3`
-- `MHS_DLQ_PREFIX`: default = `DLQ.`
-- `GP2GP_AMQP_BROKERS`: the location of the GP2GP Adaptors inbound queue. This should be set to the url of a single JMS broker
-  (the PS Adaptor does not support concurrent GP2GP Adaptor brokers) - default = `amqp://localhost:5672`
-- `GP2GP_MHS_INBOUND_QUEUE`: The name of the GP2GP Adaptors inbound queue, default = `gp2gpInboundQueue`
-- `GP2GP_AMQP_USERNAME`: The username for accessing the GP2GP broker
-- `GP2GP_AMQP_PASSWORD`: The password for accessing the GP2GP broker
-
-An example daisy chaining environment is provided in [/test-suite/daisy-chaining/](/test-suite/daisy-chaining/).
 
 ### Broker Requirements
 
@@ -191,19 +158,171 @@ An example daisy chaining environment is provided in [/test-suite/daisy-chaining
 * The ASB must use [MaxDeliveryCount and dead-lettering](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues#exceeding-maxdeliverycount)
 * Azure Service Bus may require some parameters as part of the URL configuration. For example: `PS_AMQP_BROKER=amqps://<NAME>.servicebus.windows.net/;SharedAccessKeyName=<KEY NAME>;SharedAccessKey=<KEY VALUE>`
 
-## Object storage
-Data stored:
-    EhrExtract attachments of MHS Inbound, pre-signed S3 url is generated for stored attachments      
-Filename convention:
-    Attachment files are named as {conversationId}_{documentId} where documentId is the name of the file which includes an extension.
-    ConversationId - Task conversation ID
-Configuration:
-    The app uses a number of attempts to upload attachments. It is configured in retry policy. 
-    Generated stored attachments will be available for 60 min to be downloaded, after this time limit the download link will be invalidated
-    although no files will be deleted from S3 bucket.
+## Attachment storage
+
+GP2GP messaging splits the patient's Electronic Health Record (EHR) into an EHR Extract and associated attachments. 
+The adaptor uses AWS / Azure object storage to manage the attachments.
+
+### Data stored
+It is the responsibility of the GP System Supplier to manage the data stored in object storage post transfer. 
+
+#### Incomplete transfers
+The sending GP2GP system can split attachments into multiple parts that the adaptor must reassemble. It could also send 
+the EHR Extract itself as a compressed attachment. Therefore, an incomplete / failed transfer could have both of these 
+uploaded to object storage. If a transfer fails they will not be deleted by the adaptor. 
+
+##### Complete transfers
+Assembled attachments will be uploaded to object storage.
+The adaptor obtains a URL for each attachment, which it inserts into the returned FHIR bundle.
+When using AWS S3 this URL is pre-signed and valid for 60 minutes from the point at which the bundle was generated.
+After this time, the [S3 download URL will expire][presigned-url-expire], but no files will be deleted from the S3 bucket.
+
+[presigned-url-expire]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html#PresignedUrl-Expiration
+
+The pre-assembled attachment parts are removed from storage when an attachment is assembled. However, if the transfer 
+contains a compressed EHR Extract this is not removed from storage automatically.
+
+### Filename convention
+Attachment files are named as `conversationId_documentId` where `documentId` is the name of the file (including extension)
+and `conversationId` is an identifier unique to transfer. 
+
+### Configuration
+In the event of an upload failure the adaptor will retry. By default, the retry limit 3 times. However, this is configurable 
+via the `STORAGE_RETRY_LIMIT` environment variable.
+
+The adaptor requires permission to read, write and delete from the object storage bucket / container. For example, in AWS
+the adaptor would require permission to perform the actions `s3:GetObject`, `s3:PutObject` and `s3:DeleteObject`.
+
+The adaptor defaults to the `LocalMock` storage option which MUST NOT be used in production, and is designed only for
+testing. Attachments are not stored in a long term storage area when using `LocalMock`.
+
+For more configuration see the [Attachment storage variables](#attachment-storage-variables) section.
 
 ## AWS daisy chaining example
 
+TODO
+
 ## Environment variables
 
+### Common variables
 
+#### PS queue variables
+
+These queue variables need to be the same between the translator and facade containers, as this is how the two services
+communicate.
+
+**Required**
+  - `PS_AMQP_BROKER`: the location of the PS Adaptors queue. This should be set to the url of a single JMS broker
+    (the PS Adaptor does not support concurrent PS Adaptor brokers), default = `amqp://localhost:5672`
+  - `PS_AMQP_USERNAME`: The username for accessing the PS broker
+  - `PS_AMQP_PASSWORD`: The password for accessing the PS broker
+
+**Optional**
+  - `PS_QUEUE_NAME`: The name of the patient switching queue, default = `pssQueue`
+  - `PS_AMQP_MAX_REDELIVERIES`: Number of times a message on the `PS_QUEUE_NAME` queue will be retried before being abandoned, default = `3`
+
+#### Logging configuration
+
+**Optional**
+  - `PS_LOGGING_LEVEL`: Spring logging level for facade use `DEBUG` for diagnosing problems in test environments, default = `INFO`
+
+#### DB
+
+**Required**
+  - `PS_DB_URL`: JDBC URL for Translator service, default = `jdbc:postgresql://localhost:5436`
+
+### Facade
+
+#### HTTP
+
+**Optional**
+  - `GPC_FACADE_SERVER_PORT`: HTTP server port for the [services endpoints](README.md#endpoints), default = `8081` 
+
+#### SSL/TLS
+
+Optional configuration for enabling Transport Layer Security for the HTTP server.
+See also the [Apache Tomcat SSL/TLS guidance](https://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html).
+
+**Optional**
+  - `SSL_ENABLED`: Provide `true` to enable TLS, default = `false`
+  - `KEY_STORE`: Path to the keystore
+  - `KEY_PASSWORD`: Server private key password
+  - `KEY_STORE_PASSWORD`: Keystore password 
+  - `TRUST_STORE`: Path to the truststore
+  - `TRUST_STORE_PASSWORD`: Truststore password
+
+#### DB
+
+**Required**
+  - `GPC_FACADE_USER_DB_PASSWORD`: DB password for the `gpc_user` user
+
+### Translator
+
+#### HTTP
+
+**Optional**
+  - `GP2GP_TRANSLATOR_SERVER_PORT`: HTTP server port exposing a `/healthcheck` endpoint, default = `8085`
+
+#### DB
+
+**Required**
+  - `GP2GP_TRANSLATOR_USER_DB_PASSWORD`: DB password for the `gp2gp_user` user
+
+#### Inbound message queue variables
+
+**Required**
+  - `MHS_AMQP_BROKER`: the location of the MHS Adaptors inbound queue. This should be set to the url of a single JMS broker
+    (the PS Adaptor does not support concurrent MHS Adaptor brokers), default = `amqp://localhost:5672`
+  - `MHS_AMQP_USERNAME`: The username for accessing the MHS broker
+  - `MHS_AMQP_PASSWORD`: The password for accessing the MHS broker
+
+**Optional**
+  - `MHS_QUEUE_NAME`: The name of the MHS Adaptors inbound queue, default = `mhsQueue`
+  - `MHS_AMQP_MAX_REDELIVERIES`: Number of times a message on the MHS Queue will be retried before being abandoned, default = `3`
+  - `MHS_DLQ_PREFIX`: Prefix added to `MHS_QUEUE_NAME` for unprocessable messages, default = `DLQ.`
+  - `PS_DAISY_CHAINING_ACTIVE`: set to `true` to enable daisy-chaining, default = `false`
+  - `GP2GP_AMQP_BROKERS`: the location of the GP2GP Adaptors inbound queue. This should be set to the url of a single JMS broker
+    (the PS Adaptor does not support concurrent GP2GP Adaptor brokers), default = `amqp://localhost:5672`
+  - `GP2GP_MHS_INBOUND_QUEUE`: The name of the GP2GP Adaptors inbound queue, default = `gp2gpInboundQueue`
+  - `GP2GP_AMQP_USERNAME`: The username for accessing the GP2GP broker
+  - `GP2GP_AMQP_PASSWORD`: The password for accessing the GP2GP broker
+
+#### Message handling system
+
+**Required**
+  - `MHS_BASE_URL`: URL of [MHS Outbound Adaptor][mhs-adaptor], default = `http://localhost:8080`
+
+#### Attachment storage variables
+
+The following variables are used for [storing attachments](#attachment-storage).
+
+**Required**
+  - `STORAGE_TYPE`: The type of object storage to use for attachments (S3, Azure or LocalMock), default = `LocalMock`
+  - `STORAGE_REGION`: The AWS region of the S3 bucket, leave blank if using Azure
+  - `STORAGE_CONTAINER_NAME`: The name of the Azure Storage container or Amazon S3 Bucket
+  - `STORAGE_REFERENCE`: The Azure account name or AWS Access Key ID (leave undefined if using an AWS instance role)
+  - `STORAGE_SECRET`: The Azure account key or the Amazon Access Key. (leave undefined if using an AWS instance role)
+  - `SUPPORTED_FILE_TYPES`: List of attachment mime file types which the Adaptor accepts, e.g. `image/jpeg,image/png`
+
+**Optional**
+  - `STORAGE_RETRY_LIMIT`: The number of retries that are performed when uploading an attachment to storage before
+    failing the transfer, default = `3`
+
+#### Migration timeout variables
+
+The following variables are used determine if a [migration has timed out](#timeout-functionality):
+
+**Required**
+  - `SDS_API_KEY`: Your SDS FHIR API Key
+
+**Optional**
+  - `SDS_BASE_URL`: The URL of the SDS FHIR API, default = `https://api.service.nhs.uk/spine-directory/FHIR/R4`
+  - `TIMEOUT_CRON_TIME`: The frequency of the timeout check specified as a [Cron expression][spring-cron-expression].
+     Format = `<second> <minute> <hour> <day of month> <month> <day of week>`, default = `0 0 */6 * * *` (AKA every 6 hours)
+  - `TIMEOUT_SDS_POLL_FREQUENCY`: The frequency at which SDS is polled for updated message persist durations, 
+    defined in terms of the number of times a migration has been identified by the timeout cron, default = `3`
+  - `TIMEOUT_EHR_EXTRACT_WEIGHTING`: The weighting factor A, to account transmission delays and volume throughput times of the RCMR_IN030000UK06 message, default = `1`
+  - `TIMEOUT_COPC_WEIGHTING`: The weighting factor B, to account transmission delays and volume throughput times of the COPC_IN000001UK01 message, default = `1`
+
+[spring-cron-expression]: https://spring.io/blog/2020/11/10/new-in-spring-5-3-improved-cron-expressions
+[mhs-adaptor]: https://github.com/nhsconnect/integration-adaptor-mhs/

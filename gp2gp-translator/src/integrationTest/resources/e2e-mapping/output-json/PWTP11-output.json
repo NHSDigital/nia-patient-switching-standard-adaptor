@@ -2645,6 +2645,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "H13..00",
+              "display": "Chronic sinusitis"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2662,11 +2667,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "40055000",
-              "display": "Chronic sinusitis"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "H13..00",
               "display": "Chronic sinusitis"
             }
           ],
@@ -2704,13 +2704,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "3154411000001105",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "LAEY3811",
               "display": "Lacri-lube eye ointment (Allergan Ltd)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "LAEY3811",
+              "system": "http://snomed.info/sct",
+              "code": "3154411000001105",
               "display": "Lacri-lube eye ointment (Allergan Ltd)"
             }
           ],
@@ -2851,14 +2851,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "320139002",
-              "display": "Salbutamol 100micrograms CFC-free inhaler"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "SACF26553EMIS",
               "display": "Salbutamol 100micrograms/dose inhaler CFC free"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "320139002",
+              "display": "Salbutamol 100micrograms CFC-free inhaler"
             }
           ],
           "text": "Salbutamol 100micrograms/dose inhaler CFC free"
@@ -2984,7 +2984,7 @@
     {
       "resource": {
         "resourceType": "Medication",
-        "id": "6c98bd9f-5048-4f16-9f8e-d8e083f6bb30",
+        "id": "79f588e9-3769-452e-b9f5-7c93b83fd558",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1"
@@ -2993,14 +2993,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "329653008",
-              "display": "Ibuprofen 400mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "IBTA1430",
               "display": "Ibuprofen 400mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "329653008",
+              "display": "Ibuprofen 400 mg oral tablet"
             }
           ],
           "text": "Ibuprofen 400mg tablets"
@@ -3142,6 +3142,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "F425412",
+              "display": "Macular hole"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3159,11 +3164,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "232006002",
-              "display": "Macular hole"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "F425412",
               "display": "Macular hole"
             }
           ],
@@ -3203,6 +3203,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "ZV72000",
+              "display": "[V]Examination of eyes and vision"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3220,11 +3225,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "426411000000105",
-              "display": "[V]Examination of eyes and vision"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "ZV72000",
               "display": "[V]Examination of eyes and vision"
             }
           ],
@@ -3264,6 +3264,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "F484.00",
+              "display": "Visual field defects"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3282,11 +3287,6 @@
               "system": "http://snomed.info/sct",
               "code": "12184005",
               "display": "Visual field defect"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "F484.00",
-              "display": "Visual field defects"
             }
           ],
           "text": "Visual field defects"
@@ -3325,6 +3325,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "2B67.00",
+              "display": "O/E - visual acuity R-eye=6/36"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3342,11 +3347,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163942006",
-              "display": "O/E - visual acuity R-eye=6/36"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "2B67.00",
               "display": "O/E - visual acuity R-eye=6/36"
             }
           ],
@@ -3386,6 +3386,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "12A1.00",
+              "display": "FH: Glaucoma"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3403,11 +3408,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160347007",
-              "display": "FH: Glaucoma"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "12A1.00",
               "display": "FH: Glaucoma"
             }
           ],
@@ -3448,6 +3448,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1228.00",
+              "display": "No family history diabetes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3465,11 +3470,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160274005",
-              "display": "No family history diabetes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1228.00",
               "display": "No family history diabetes"
             }
           ],
@@ -3509,6 +3509,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3526,11 +3531,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
-              "display": "Gout"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "C34..00",
               "display": "Gout"
             }
           ],
@@ -3571,6 +3571,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "168..00",
+              "display": "Tiredness symptom"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3588,11 +3593,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "267031002",
-              "display": "Tiredness symptom"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "168..00",
               "display": "Tiredness symptom"
             }
           ],
@@ -3633,6 +3633,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "22A..00",
+              "display": "O/E - weight"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3650,11 +3655,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "162763007",
-              "display": "O/E - weight"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "22A..00",
               "display": "O/E - weight"
             }
           ],
@@ -3700,6 +3700,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "H13..00",
+              "display": "Chronic sinusitis"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3717,11 +3722,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "40055000",
-              "display": "Chronic sinusitis"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "H13..00",
               "display": "Chronic sinusitis"
             }
           ],
@@ -3762,6 +3762,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "7K30.15",
+              "display": "Cavendish total replacement of knee joint using cement"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3776,11 +3781,6 @@
               "system": "http://snomed.info/sct",
               "code": "265170009",
               "display": "Total prosthetic replacement of knee joint using cement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "7K30.15",
-              "display": "Cavendish total replacement of knee joint using cement"
             }
           ],
           "text": "Cavendish total replacement of knee joint using cement"
@@ -3819,6 +3819,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "N040.00",
+              "display": "Rheumatoid arthritis"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3836,11 +3841,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "69896004",
-              "display": "Rheumatoid arthritis"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "N040.00",
               "display": "Rheumatoid arthritis"
             }
           ],
@@ -3881,6 +3881,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "229..00",
+              "display": "O/E - height"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3898,11 +3903,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "162755006",
-              "display": "O/E - height"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "229..00",
               "display": "O/E - height"
             }
           ],
@@ -3947,6 +3947,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "12D2.00",
+              "display": "FH: Asthma"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3965,11 +3970,6 @@
               "system": "http://snomed.info/sct",
               "code": "160377001",
               "display": "Family history of asthma"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "12D2.00",
-              "display": "FH: Asthma"
             }
           ],
           "text": "FH: Asthma"
@@ -4009,6 +4009,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "K05..00",
+              "display": "Chronic renal failure"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4026,11 +4031,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90688005",
-              "display": "Chronic renal failure"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "K05..00",
               "display": "Chronic renal failure"
             }
           ],
@@ -4071,6 +4071,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4088,11 +4093,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
-              "display": "Gout"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "C34..00",
               "display": "Gout"
             }
           ],
@@ -4133,6 +4133,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "H13..00",
+              "display": "Chronic sinusitis"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4150,11 +4155,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "40055000",
-              "display": "Chronic sinusitis"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "H13..00",
               "display": "Chronic sinusitis"
             }
           ],
@@ -4195,6 +4195,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4212,11 +4217,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
-              "display": "Gout"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "C34..00",
               "display": "Gout"
             }
           ],
@@ -4257,6 +4257,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "9h12.00",
+              "display": "Excepted from LVD quality indicators: Informed dissent"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4271,11 +4276,6 @@
               "system": "http://snomed.info/sct",
               "code": "717281000000100",
               "display": "Excepted from LVD quality indicators - informed dissent"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "9h12.00",
-              "display": "Excepted from LVD quality indicators: Informed dissent"
             }
           ],
           "text": "Excepted from LVD quality indicators: Informed dissent"
@@ -4314,6 +4314,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4331,11 +4336,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
-              "display": "Gout"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "C34..00",
               "display": "Gout"
             }
           ],
@@ -4376,6 +4376,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "12C1.00",
+              "display": "FH: Hypertension"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4393,11 +4398,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160357008",
-              "display": "FH: Hypertension"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "12C1.00",
               "display": "FH: Hypertension"
             }
           ],
@@ -4438,6 +4438,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4455,11 +4460,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
-              "display": "Gout"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "C34..00",
               "display": "Gout"
             }
           ],
@@ -4500,6 +4500,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "PKyz511",
+              "display": "Angelman syndrome"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4517,11 +4522,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "76880004",
-              "display": "Angelman syndrome"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "PKyz511",
               "display": "Angelman syndrome"
             }
           ],
@@ -4558,6 +4558,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "N245100",
+              "display": "Foot pain"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4575,11 +4580,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "47933007",
-              "display": "Foot pain"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "N245100",
               "display": "Foot pain"
             }
           ],
@@ -4616,6 +4616,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "A661000",
+              "display": "Nairobi sheep disease"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4634,11 +4639,6 @@
               "system": "http://snomed.info/sct",
               "code": "24069003",
               "display": "Nairobi sheep virus disease"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "A661000",
-              "display": "Nairobi sheep disease"
             }
           ],
           "text": "Nairobi sheep disease"
@@ -4675,6 +4675,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "PKyz511",
+              "display": "Angelman syndrome"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4692,11 +4697,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "76880004",
-              "display": "Angelman syndrome"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "PKyz511",
               "display": "Angelman syndrome"
             }
           ],
@@ -4733,6 +4733,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "F4J7200",
+              "display": "Strabismus due to other neuromuscular disorder"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4747,11 +4752,6 @@
               "system": "http://snomed.info/sct",
               "code": "22066006",
               "display": "Strabismus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "F4J7200",
-              "display": "Strabismus due to other neuromuscular disorder"
             }
           ],
           "text": "Strabismus due to other neuromuscular disorder"
@@ -4788,6 +4788,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "29LD.00",
+              "display": "Disorder of gait and/or balance present"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4805,11 +4810,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "299031000000106",
-              "display": "Disorder of gait and/or balance present"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "29LD.00",
               "display": "Disorder of gait and/or balance present"
             }
           ],
@@ -4846,6 +4846,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "R072000",
+              "display": "[D]Difficulty in swallowing"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4863,11 +4868,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "498481000000105",
-              "display": "[D]Difficulty in swallowing"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "R072000",
               "display": "[D]Difficulty in swallowing"
             }
           ],
@@ -4905,6 +4905,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1926.00",
+              "display": "Dribbling from mouth"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4922,11 +4927,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "62718007",
-              "display": "Dribbling from mouth"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1926.00",
               "display": "Dribbling from mouth"
             }
           ],
@@ -4964,6 +4964,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1B22.11",
+              "display": "Tremor symptom"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4978,11 +4983,6 @@
               "system": "http://snomed.info/sct",
               "code": "26079004",
               "display": "Tremor"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1B22.11",
-              "display": "Tremor symptom"
             }
           ],
           "text": "Tremor symptom"
@@ -5018,6 +5018,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "C380500",
+              "display": "Generalised obesity"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5035,11 +5040,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "238134004",
-              "display": "Generalised obesity"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "C380500",
               "display": "Generalised obesity"
             }
           ],
@@ -5077,6 +5077,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "N245100",
+              "display": "Foot pain"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5094,11 +5099,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "47933007",
-              "display": "Foot pain"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "N245100",
               "display": "Foot pain"
             }
           ],
@@ -5136,6 +5136,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "K05..00",
+              "display": "Chronic renal failure"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5153,11 +5158,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90688005",
-              "display": "Chronic renal failure"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "K05..00",
               "display": "Chronic renal failure"
             }
           ],
@@ -5218,6 +5218,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "F425412",
+              "display": "Macular hole"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5235,11 +5240,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "232006002",
-              "display": "Macular hole"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "F425412",
               "display": "Macular hole"
             }
           ],
@@ -5329,6 +5329,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5346,11 +5351,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
-              "display": "Gout"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "C34..00",
               "display": "Gout"
             }
           ],
@@ -5426,6 +5426,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "H13..00",
+              "display": "Chronic sinusitis"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5443,11 +5448,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "40055000",
-              "display": "Chronic sinusitis"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "H13..00",
               "display": "Chronic sinusitis"
             }
           ],
@@ -5516,6 +5516,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "N040.00",
+              "display": "Rheumatoid arthritis"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5533,11 +5538,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "69896004",
-              "display": "Rheumatoid arthritis"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "N040.00",
               "display": "Rheumatoid arthritis"
             }
           ],
@@ -5657,6 +5657,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "PKyz511",
+              "display": "Angelman syndrome"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5674,11 +5679,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "76880004",
-              "display": "Angelman syndrome"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "PKyz511",
               "display": "Angelman syndrome"
             }
           ],
@@ -5747,6 +5747,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "N245100",
+              "display": "Foot pain"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5764,11 +5769,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "47933007",
-              "display": "Foot pain"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "N245100",
               "display": "Foot pain"
             }
           ],
@@ -5832,6 +5832,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "A661000",
+              "display": "Nairobi sheep disease"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5850,11 +5855,6 @@
               "system": "http://snomed.info/sct",
               "code": "24069003",
               "display": "Nairobi sheep virus disease"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "A661000",
-              "display": "Nairobi sheep disease"
             }
           ],
           "text": "Nairobi sheep disease"
@@ -5934,6 +5934,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "F4J7200",
+              "display": "Strabismus due to other neuromuscular disorder"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5948,11 +5953,6 @@
               "system": "http://snomed.info/sct",
               "code": "22066006",
               "display": "Strabismus"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "F4J7200",
-              "display": "Strabismus due to other neuromuscular disorder"
             }
           ],
           "text": "Strabismus due to other neuromuscular disorder"
@@ -6056,6 +6056,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "29LD.00",
+              "display": "Disorder of gait and/or balance present"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6073,11 +6078,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "299031000000106",
-              "display": "Disorder of gait and/or balance present"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "29LD.00",
               "display": "Disorder of gait and/or balance present"
             }
           ],
@@ -6165,6 +6165,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "R072000",
+              "display": "[D]Difficulty in swallowing"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6182,11 +6187,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "498481000000105",
-              "display": "[D]Difficulty in swallowing"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "R072000",
               "display": "[D]Difficulty in swallowing"
             }
           ],
@@ -6270,6 +6270,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1926.00",
+              "display": "Dribbling from mouth"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6287,11 +6292,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "62718007",
-              "display": "Dribbling from mouth"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1926.00",
               "display": "Dribbling from mouth"
             }
           ],
@@ -6378,6 +6378,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1B22.11",
+              "display": "Tremor symptom"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6392,11 +6397,6 @@
               "system": "http://snomed.info/sct",
               "code": "26079004",
               "display": "Tremor"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1B22.11",
-              "display": "Tremor symptom"
             }
           ],
           "text": "Tremor symptom"
@@ -6468,6 +6468,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "K05..00",
+              "display": "Chronic renal failure"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6485,11 +6490,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90688005",
-              "display": "Chronic renal failure"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "K05..00",
               "display": "Chronic renal failure"
             }
           ],

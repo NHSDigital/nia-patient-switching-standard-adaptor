@@ -4872,6 +4872,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4890,11 +4895,6 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "PKyz500",
-              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -4945,6 +4945,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42QE.00",
+              "display": "International normalised ratio"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4963,11 +4968,6 @@
               "system": "http://snomed.info/sct",
               "code": "165581004",
               "display": "INR - international normalised ratio"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42QE.00",
-              "display": "International normalised ratio"
             }
           ],
           "text": "International normalised ratio"
@@ -5033,6 +5033,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "467A.00",
+              "display": "24 hour urine protein output"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5051,11 +5056,6 @@
               "system": "http://snomed.info/sct",
               "code": "19518008",
               "display": "Protein measurement, urine, quantitative 24 hour"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "467A.00",
-              "display": "24 hour urine protein output"
             }
           ],
           "text": "24 hour urine protein output"
@@ -5114,6 +5114,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42T..00",
+              "display": "Serum vitamin B12"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5128,11 +5133,6 @@
               "system": "http://snomed.info/sct",
               "code": "271216009",
               "display": "Serum vitamin B12 measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42T..00",
-              "display": "Serum vitamin B12"
             }
           ],
           "text": "Serum vitamin B12"
@@ -5217,6 +5217,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42U4.00",
+              "display": "Red blood cell folate"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5231,11 +5236,6 @@
               "system": "http://snomed.info/sct",
               "code": "69152001",
               "display": "Folic acid measurement, RBC"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42U4.00",
-              "display": "Red blood cell folate"
             }
           ],
           "text": "Red blood cell folate"
@@ -5303,6 +5303,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44WB.00",
+              "display": "Serum paracetamol level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -5321,11 +5326,6 @@
               "system": "http://snomed.info/sct",
               "code": "269874008",
               "display": "Serum paracetamol measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44WB.00",
-              "display": "Serum paracetamol level"
             }
           ],
           "text": "Serum paracetamol level"
@@ -6363,6 +6363,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44I5.00",
+              "display": "Serum sodium"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6381,11 +6386,6 @@
               "system": "http://snomed.info/sct",
               "code": "104934005",
               "display": "Sodium measurement, serum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44I5.00",
-              "display": "Serum sodium"
             }
           ],
           "text": "Serum sodium"
@@ -6539,6 +6539,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44J3.00",
+              "display": "Serum creatinine"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6557,11 +6562,6 @@
               "system": "http://snomed.info/sct",
               "code": "113075003",
               "display": "Creatinine measurement, serum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44J3.00",
-              "display": "Serum creatinine"
             }
           ],
           "text": "Serum creatinine"
@@ -6637,6 +6637,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44P..00",
+              "display": "Serum cholesterol"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6651,11 +6656,6 @@
               "system": "http://snomed.info/sct",
               "code": "270996006",
               "display": "Serum cholesterol measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44P..00",
-              "display": "Serum cholesterol"
             }
           ],
           "text": "Serum cholesterol"
@@ -6819,6 +6819,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44P5.00",
+              "display": "Serum HDL cholesterol level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6837,11 +6842,6 @@
               "system": "http://snomed.info/sct",
               "code": "166832000",
               "display": "Serum HDL cholesterol measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44P5.00",
-              "display": "Serum HDL cholesterol level"
             }
           ],
           "text": "Serum HDL cholesterol level"
@@ -6926,6 +6926,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44P6.00",
+              "display": "Serum LDL cholesterol level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -6944,11 +6949,6 @@
               "system": "http://snomed.info/sct",
               "code": "166833005",
               "display": "Serum LDL cholesterol measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44P6.00",
-              "display": "Serum LDL cholesterol level"
             }
           ],
           "text": "Serum LDL cholesterol level"
@@ -7035,6 +7035,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44TK.00",
+              "display": "Fasting blood glucose level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7053,11 +7058,6 @@
               "system": "http://snomed.info/sct",
               "code": "271062006",
               "display": "Fasting blood glucose measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44TK.00",
-              "display": "Fasting blood glucose level"
             }
           ],
           "text": "Fasting blood glucose level"
@@ -7125,6 +7125,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "423..00",
+              "display": "Haemoglobin estimation"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7139,11 +7144,6 @@
               "system": "http://snomed.info/sct",
               "code": "275806002",
               "display": "Hb estimation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "423..00",
-              "display": "Haemoglobin estimation"
             }
           ],
           "text": "Haemoglobin estimation"
@@ -7219,6 +7219,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42H..00",
+              "display": "Total white cell count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7233,11 +7238,6 @@
               "system": "http://snomed.info/sct",
               "code": "767002",
               "display": "White blood cell count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42H..00",
-              "display": "Total white cell count"
             }
           ],
           "text": "Total white cell count"
@@ -7313,6 +7313,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42P..00",
+              "display": "Platelet count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7330,11 +7335,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "61928009",
-              "display": "Platelet count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42P..00",
               "display": "Platelet count"
             }
           ],
@@ -7421,6 +7421,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42A..00",
+              "display": "Mean corpuscular volume (MCV)"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7435,11 +7440,6 @@
               "system": "http://snomed.info/sct",
               "code": "104133003",
               "display": "Erythrocyte mean corpuscular volume determination"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42A..00",
-              "display": "Mean corpuscular volume (MCV)"
             }
           ],
           "text": "Mean corpuscular volume (MCV)"
@@ -7515,6 +7515,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "426..00",
+              "display": "Red blood cell (RBC) count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7529,11 +7534,6 @@
               "system": "http://snomed.info/sct",
               "code": "14089001",
               "display": "Red blood cell count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "426..00",
-              "display": "Red blood cell (RBC) count"
             }
           ],
           "text": "Red blood cell (RBC) count"
@@ -7609,6 +7609,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "4257.00",
+              "display": "Packed cell volume"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7627,11 +7632,6 @@
               "system": "http://snomed.info/sct",
               "code": "250231008",
               "display": "Packed cell volume measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "4257.00",
-              "display": "Packed cell volume"
             }
           ],
           "text": "Packed cell volume"
@@ -7707,6 +7707,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "428..00",
+              "display": "Mean corpusc. haemoglobin(MCH)"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7721,11 +7726,6 @@
               "system": "http://snomed.info/sct",
               "code": "54706004",
               "display": "Mean corpuscular haemoglobin determination"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "428..00",
-              "display": "Mean corpusc. haemoglobin(MCH)"
             }
           ],
           "text": "Mean corpusc. haemoglobin(MCH)"
@@ -7879,6 +7879,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42M..00",
+              "display": "Lymphocyte count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7896,11 +7901,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "74765001",
-              "display": "Lymphocyte count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42M..00",
               "display": "Lymphocyte count"
             }
           ],
@@ -8055,6 +8055,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42K..00",
+              "display": "Eosinophil count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8072,11 +8077,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "71960002",
-              "display": "Eosinophil count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42K..00",
               "display": "Eosinophil count"
             }
           ],
@@ -8153,6 +8153,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42L..00",
+              "display": "Basophil count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8170,11 +8175,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "42351005",
-              "display": "Basophil count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42L..00",
               "display": "Basophil count"
             }
           ],
@@ -8251,6 +8251,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44M3.00",
+              "display": "Serum total protein"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8265,11 +8270,6 @@
               "system": "http://snomed.info/sct",
               "code": "270992008",
               "display": "Serum total protein measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44M3.00",
-              "display": "Serum total protein"
             }
           ],
           "text": "Serum total protein"
@@ -8345,6 +8345,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44M4.00",
+              "display": "Serum albumin"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8363,11 +8368,6 @@
               "system": "http://snomed.info/sct",
               "code": "104485008",
               "display": "Albumin measurement, serum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44M4.00",
-              "display": "Serum albumin"
             }
           ],
           "text": "Serum albumin"
@@ -8443,6 +8443,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44I8.00",
+              "display": "Serum calcium"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8457,11 +8462,6 @@
               "system": "http://snomed.info/sct",
               "code": "271240001",
               "display": "Serum calcium measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44I8.00",
-              "display": "Serum calcium"
             }
           ],
           "text": "Serum calcium"
@@ -8537,6 +8537,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44IC.00",
+              "display": "Corrected serum calcium level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8555,11 +8560,6 @@
               "system": "http://snomed.info/sct",
               "code": "166708003",
               "display": "Corrected serum calcium measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44IC.00",
-              "display": "Corrected serum calcium level"
             }
           ],
           "text": "Corrected serum calcium level"
@@ -8644,6 +8644,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44I9.00",
+              "display": "Serum inorganic phosphate"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8658,11 +8663,6 @@
               "system": "http://snomed.info/sct",
               "code": "271241002",
               "display": "Serum inorganic phosphate measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44I9.00",
-              "display": "Serum inorganic phosphate"
             }
           ],
           "text": "Serum inorganic phosphate"
@@ -8734,6 +8734,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44F..00",
+              "display": "Serum alkaline phosphatase"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8748,11 +8753,6 @@
               "system": "http://snomed.info/sct",
               "code": "271234008",
               "display": "Serum alkaline phosphatase measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44F..00",
-              "display": "Serum alkaline phosphatase"
             }
           ],
           "text": "Serum alkaline phosphatase"
@@ -8827,6 +8827,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44J9.00",
+              "display": "Serum urea level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8845,11 +8850,6 @@
               "system": "http://snomed.info/sct",
               "code": "273967009",
               "display": "Serum urea measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44J9.00",
-              "display": "Serum urea level"
             }
           ],
           "text": "Serum urea level"
@@ -8925,6 +8925,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44I5.00",
+              "display": "Serum sodium"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8943,11 +8948,6 @@
               "system": "http://snomed.info/sct",
               "code": "104934005",
               "display": "Sodium measurement, serum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44I5.00",
-              "display": "Serum sodium"
             }
           ],
           "text": "Serum sodium"
@@ -9032,6 +9032,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44I4.00",
+              "display": "Serum potassium"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9046,11 +9051,6 @@
               "system": "http://snomed.info/sct",
               "code": "271236005",
               "display": "Serum potassium measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44I4.00",
-              "display": "Serum potassium"
             }
           ],
           "text": "Serum potassium"
@@ -9112,6 +9112,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44J3.00",
+              "display": "Serum creatinine"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9130,11 +9135,6 @@
               "system": "http://snomed.info/sct",
               "code": "113075003",
               "display": "Creatinine measurement, serum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44J3.00",
-              "display": "Serum creatinine"
             }
           ],
           "text": "Serum creatinine"
@@ -9210,6 +9210,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44CS.00",
+              "display": "Serum C reactive protein level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9227,11 +9232,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "135842001",
-              "display": "Serum C reactive protein level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44CS.00",
               "display": "Serum C reactive protein level"
             }
           ],
@@ -9318,6 +9318,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42R7.00",
+              "display": "Serum iron level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9336,11 +9341,6 @@
               "system": "http://snomed.info/sct",
               "code": "250216004",
               "display": "Serum iron measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42R7.00",
-              "display": "Serum iron level"
             }
           ],
           "text": "Serum iron level"
@@ -9426,6 +9426,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42R5.00",
+              "display": "Serum TIBC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9444,11 +9449,6 @@
               "system": "http://snomed.info/sct",
               "code": "271027001",
               "display": "Serum TIBC measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42R5.00",
-              "display": "Serum TIBC"
             }
           ],
           "text": "Serum TIBC"
@@ -9534,6 +9534,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44CU.00",
+              "display": "Plasma alkaline phosphatase level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9551,11 +9556,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "390962007",
-              "display": "Plasma alkaline phosphatase level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44CU.00",
               "display": "Plasma alkaline phosphatase level"
             }
           ],
@@ -9631,6 +9631,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44MI.00",
+              "display": "Plasma albumin level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9648,11 +9653,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "390955003",
-              "display": "Plasma albumin level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44MI.00",
               "display": "Plasma albumin level"
             }
           ],
@@ -9729,6 +9729,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44MA.00",
+              "display": "Plasma total protein"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9743,11 +9748,6 @@
               "system": "http://snomed.info/sct",
               "code": "270995005",
               "display": "Plasma total protein measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44MA.00",
-              "display": "Plasma total protein"
             }
           ],
           "text": "Plasma total protein"
@@ -9823,6 +9823,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44GA.00",
+              "display": "Plasma alanine aminotransferase level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9840,11 +9845,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "390961000",
-              "display": "Plasma alanine aminotransferase level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44GA.00",
               "display": "Plasma alanine aminotransferase level"
             }
           ],
@@ -9930,6 +9930,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44E9.00",
+              "display": "Plasma total bilirubin level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -9948,11 +9953,6 @@
               "system": "http://snomed.info/sct",
               "code": "313951004",
               "display": "Plasma total bilirubin measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44E9.00",
-              "display": "Plasma total bilirubin level"
             }
           ],
           "text": "Plasma total bilirubin level"
@@ -10028,6 +10028,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44G7.00",
+              "display": "Plasma gamma-glutamyl transferase level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10046,11 +10051,6 @@
               "system": "http://snomed.info/sct",
               "code": "313850004",
               "display": "Plasma gamma-glutamyl transferase measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44G7.00",
-              "display": "Plasma gamma-glutamyl transferase level"
             }
           ],
           "text": "Plasma gamma-glutamyl transferase level"
@@ -10135,6 +10135,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44CC.00",
+              "display": "Plasma C reactive protein"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10149,11 +10154,6 @@
               "system": "http://snomed.info/sct",
               "code": "270980008",
               "display": "Plasma C-reactive protein measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44CC.00",
-              "display": "Plasma C reactive protein"
             }
           ],
           "text": "Plasma C reactive protein"
@@ -10293,6 +10293,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "442c.00",
+              "display": "Plasma free T4 level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10311,11 +10316,6 @@
               "system": "http://snomed.info/sct",
               "code": "313838005",
               "display": "Plasma free T4 measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "442c.00",
-              "display": "Plasma free T4 level"
             }
           ],
           "text": "Plasma free T4 level"
@@ -10383,6 +10383,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "442X.00",
+              "display": "Plasma TSH level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10401,11 +10406,6 @@
               "system": "http://snomed.info/sct",
               "code": "313441007",
               "display": "Plasma TSH measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "442X.00",
-              "display": "Plasma TSH level"
             }
           ],
           "text": "Plasma TSH level"
@@ -10473,6 +10473,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "423..00",
+              "display": "Haemoglobin estimation"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10487,11 +10492,6 @@
               "system": "http://snomed.info/sct",
               "code": "275806002",
               "display": "Hb estimation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "423..00",
-              "display": "Haemoglobin estimation"
             }
           ],
           "text": "Haemoglobin estimation"
@@ -10567,6 +10567,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42H..00",
+              "display": "Total white cell count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10581,11 +10586,6 @@
               "system": "http://snomed.info/sct",
               "code": "767002",
               "display": "White blood cell count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42H..00",
-              "display": "Total white cell count"
             }
           ],
           "text": "Total white cell count"
@@ -10661,6 +10661,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42P..00",
+              "display": "Platelet count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10678,11 +10683,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "61928009",
-              "display": "Platelet count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42P..00",
               "display": "Platelet count"
             }
           ],
@@ -10759,6 +10759,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42A..00",
+              "display": "Mean corpuscular volume (MCV)"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10773,11 +10778,6 @@
               "system": "http://snomed.info/sct",
               "code": "104133003",
               "display": "Erythrocyte mean corpuscular volume determination"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42A..00",
-              "display": "Mean corpuscular volume (MCV)"
             }
           ],
           "text": "Mean corpuscular volume (MCV)"
@@ -10932,6 +10932,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "426..00",
+              "display": "Red blood cell (RBC) count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -10946,11 +10951,6 @@
               "system": "http://snomed.info/sct",
               "code": "14089001",
               "display": "Red blood cell count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "426..00",
-              "display": "Red blood cell (RBC) count"
             }
           ],
           "text": "Red blood cell (RBC) count"
@@ -11026,6 +11026,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "428..00",
+              "display": "Mean corpusc. haemoglobin(MCH)"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11040,11 +11045,6 @@
               "system": "http://snomed.info/sct",
               "code": "54706004",
               "display": "Mean corpuscular haemoglobin determination"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "428..00",
-              "display": "Mean corpusc. haemoglobin(MCH)"
             }
           ],
           "text": "Mean corpusc. haemoglobin(MCH)"
@@ -11120,6 +11120,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "429..00",
+              "display": "Mean corpusc. Hb. conc. (MCHC)"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11134,11 +11139,6 @@
               "system": "http://snomed.info/sct",
               "code": "37254006",
               "display": "Mean corpuscular haemoglobin concentration determination"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "429..00",
-              "display": "Mean corpusc. Hb. conc. (MCHC)"
             }
           ],
           "text": "Mean corpusc. Hb. conc. (MCHC)"
@@ -11214,6 +11214,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42Z7.00",
+              "display": "Red blood cell distribution width"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11232,11 +11237,6 @@
               "system": "http://snomed.info/sct",
               "code": "66842004",
               "display": "Red cell distribution width determination"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42Z7.00",
-              "display": "Red blood cell distribution width"
             }
           ],
           "text": "Red blood cell distribution width"
@@ -11391,6 +11391,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42M..00",
+              "display": "Lymphocyte count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11408,11 +11413,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "74765001",
-              "display": "Lymphocyte count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42M..00",
               "display": "Lymphocyte count"
             }
           ],
@@ -11489,6 +11489,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42N..00",
+              "display": "Monocyte count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11506,11 +11511,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "67776007",
-              "display": "Monocyte count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42N..00",
               "display": "Monocyte count"
             }
           ],
@@ -11587,6 +11587,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42K..00",
+              "display": "Eosinophil count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11604,11 +11609,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "71960002",
-              "display": "Eosinophil count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42K..00",
               "display": "Eosinophil count"
             }
           ],
@@ -11760,6 +11760,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "4266.00",
+              "display": "Nucleated red blood cell count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11778,11 +11783,6 @@
               "system": "http://snomed.info/sct",
               "code": "165426009",
               "display": "Nucleated red blood cell count procedure"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "4266.00",
-              "display": "Nucleated red blood cell count"
             }
           ],
           "text": "Nucleated red blood cell count"
@@ -11848,6 +11848,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "43A..00",
+              "display": "Infectious mononucleosis test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11865,11 +11870,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "269831005",
-              "display": "Infectious mononucleosis test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "43A..00",
               "display": "Infectious mononucleosis test"
             }
           ],
@@ -11940,6 +11940,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42I..00",
+              "display": "Differential white cell count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -11954,11 +11959,6 @@
               "system": "http://snomed.info/sct",
               "code": "165511009",
               "display": "Differential white blood cell count procedure"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42I..00",
-              "display": "Differential white cell count"
             }
           ],
           "text": "Differential white cell count"
@@ -12029,6 +12029,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "43G1.00",
+              "display": "Anti-nuclear factor"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12043,11 +12048,6 @@
               "system": "http://snomed.info/sct",
               "code": "45530001",
               "display": "Antinuclear antibody"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "43G1.00",
-              "display": "Anti-nuclear factor"
             }
           ],
           "text": "Anti-nuclear factor"
@@ -12118,6 +12118,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "43F..00",
+              "display": "Rheumatoid factor"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12132,11 +12137,6 @@
               "system": "http://snomed.info/sct",
               "code": "54921001",
               "display": "Rheumatoid factor measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "43F..00",
-              "display": "Rheumatoid factor"
             }
           ],
           "text": "Rheumatoid factor"
@@ -12198,6 +12198,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "43Gv.00",
+              "display": "dsDNA binding autoantibody level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12216,11 +12221,6 @@
               "system": "http://snomed.info/sct",
               "code": "87978006",
               "display": "Antibody to double stranded DNA measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "43Gv.00",
-              "display": "dsDNA binding autoantibody level"
             }
           ],
           "text": "dsDNA binding autoantibody level"
@@ -12274,6 +12274,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "43a4.00",
+              "display": "Mitochondrial antibody level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12291,11 +12296,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "313710005",
-              "display": "Mitochondrial antibody level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "43a4.00",
               "display": "Mitochondrial antibody level"
             }
           ],
@@ -12350,6 +12350,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "43ma.00",
+              "display": "Liver autoantibody level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12367,11 +12372,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "408217001",
-              "display": "Liver autoantibody level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "43ma.00",
               "display": "Liver autoantibody level"
             }
           ],
@@ -12426,6 +12426,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "43G3.00",
+              "display": "Anti smooth muscle autoantibod"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12440,11 +12445,6 @@
               "system": "http://snomed.info/sct",
               "code": "50744001",
               "display": "Smooth muscle antibody measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "43G3.00",
-              "display": "Anti smooth muscle autoantibod"
             }
           ],
           "text": "Anti smooth muscle autoantibod"
@@ -12498,6 +12498,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "43G6.00",
+              "display": "Adrenal autoantibodies"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12516,11 +12521,6 @@
               "system": "http://snomed.info/sct",
               "code": "33303007",
               "display": "Antibody to adrenal antigen measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "43G6.00",
-              "display": "Adrenal autoantibodies"
             }
           ],
           "text": "Adrenal autoantibodies"
@@ -12686,6 +12686,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "43G4.00",
+              "display": "Parietal cell autoantibodies"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12704,11 +12709,6 @@
               "system": "http://snomed.info/sct",
               "code": "30521008",
               "display": "Antibody to gastric parietal cell measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "43G4.00",
-              "display": "Parietal cell autoantibodies"
             }
           ],
           "text": "Parietal cell autoantibodies"
@@ -12874,6 +12874,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44I5.00",
+              "display": "Serum sodium"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12892,11 +12897,6 @@
               "system": "http://snomed.info/sct",
               "code": "104934005",
               "display": "Sodium measurement, serum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44I5.00",
-              "display": "Serum sodium"
             }
           ],
           "text": "Serum sodium"
@@ -12972,6 +12972,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44I4.00",
+              "display": "Serum potassium"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -12986,11 +12991,6 @@
               "system": "http://snomed.info/sct",
               "code": "271236005",
               "display": "Serum potassium measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44I4.00",
-              "display": "Serum potassium"
             }
           ],
           "text": "Serum potassium"
@@ -13066,6 +13066,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44J9.00",
+              "display": "Serum urea level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13084,11 +13089,6 @@
               "system": "http://snomed.info/sct",
               "code": "273967009",
               "display": "Serum urea measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44J9.00",
-              "display": "Serum urea level"
             }
           ],
           "text": "Serum urea level"
@@ -13164,6 +13164,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44J3.00",
+              "display": "Serum creatinine"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13182,11 +13187,6 @@
               "system": "http://snomed.info/sct",
               "code": "113075003",
               "display": "Creatinine measurement, serum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44J3.00",
-              "display": "Serum creatinine"
             }
           ],
           "text": "Serum creatinine"
@@ -13262,6 +13262,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44P..00",
+              "display": "Serum cholesterol"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13276,11 +13281,6 @@
               "system": "http://snomed.info/sct",
               "code": "270996006",
               "display": "Serum cholesterol measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44P..00",
-              "display": "Serum cholesterol"
             }
           ],
           "text": "Serum cholesterol"
@@ -13346,6 +13346,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44P5.00",
+              "display": "Serum HDL cholesterol level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13364,11 +13369,6 @@
               "system": "http://snomed.info/sct",
               "code": "166832000",
               "display": "Serum HDL cholesterol measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44P5.00",
-              "display": "Serum HDL cholesterol level"
             }
           ],
           "text": "Serum HDL cholesterol level"
@@ -13441,6 +13441,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44PF.00",
+              "display": "Total cholesterol:HDL ratio"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13459,11 +13464,6 @@
               "system": "http://snomed.info/sct",
               "code": "166842003",
               "display": "Total cholesterol:HDL ratio measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44PF.00",
-              "display": "Total cholesterol:HDL ratio"
             }
           ],
           "text": "Total cholesterol:HDL ratio"
@@ -13530,6 +13530,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "442W.00",
+              "display": "Serum TSH level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13548,11 +13553,6 @@
               "system": "http://snomed.info/sct",
               "code": "313440008",
               "display": "Serum TSH measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "442W.00",
-              "display": "Serum TSH level"
             }
           ],
           "text": "Serum TSH level"
@@ -13610,6 +13610,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44Z2.00",
+              "display": "Bone profile"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13627,11 +13632,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "167036008",
-              "display": "Bone profile"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44Z2.00",
               "display": "Bone profile"
             }
           ],
@@ -13672,6 +13672,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44M3.00",
+              "display": "Serum total protein"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13686,11 +13691,6 @@
               "system": "http://snomed.info/sct",
               "code": "270992008",
               "display": "Serum total protein measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44M3.00",
-              "display": "Serum total protein"
             }
           ],
           "text": "Serum total protein"
@@ -13734,6 +13734,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44M4.00",
+              "display": "Serum albumin"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13752,11 +13757,6 @@
               "system": "http://snomed.info/sct",
               "code": "104485008",
               "display": "Albumin measurement, serum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44M4.00",
-              "display": "Serum albumin"
             }
           ],
           "text": "Serum albumin"
@@ -13800,6 +13800,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44I8.00",
+              "display": "Serum calcium"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13814,11 +13819,6 @@
               "system": "http://snomed.info/sct",
               "code": "271240001",
               "display": "Serum calcium measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44I8.00",
-              "display": "Serum calcium"
             }
           ],
           "text": "Serum calcium"
@@ -13862,6 +13862,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44IC.00",
+              "display": "Corrected serum calcium level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13880,11 +13885,6 @@
               "system": "http://snomed.info/sct",
               "code": "166708003",
               "display": "Corrected serum calcium measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44IC.00",
-              "display": "Corrected serum calcium level"
             }
           ],
           "text": "Corrected serum calcium level"
@@ -13928,6 +13928,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44I9.00",
+              "display": "Serum inorganic phosphate"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -13942,11 +13947,6 @@
               "system": "http://snomed.info/sct",
               "code": "271241002",
               "display": "Serum inorganic phosphate measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44I9.00",
-              "display": "Serum inorganic phosphate"
             }
           ],
           "text": "Serum inorganic phosphate"
@@ -13991,6 +13991,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44F..00",
+              "display": "Serum alkaline phosphatase"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14005,11 +14010,6 @@
               "system": "http://snomed.info/sct",
               "code": "271234008",
               "display": "Serum alkaline phosphatase measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44F..00",
-              "display": "Serum alkaline phosphatase"
             }
           ],
           "text": "Serum alkaline phosphatase"
@@ -14053,6 +14053,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44F2.00",
+              "display": "Serum alk. phos. raised"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14071,11 +14076,6 @@
               "system": "http://snomed.info/sct",
               "code": "166627004",
               "display": "Serum alkaline phosphatase above reference range"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44F2.00",
-              "display": "Serum alk. phos. raised"
             }
           ],
           "text": "Serum alk. phos. raised"
@@ -14114,6 +14114,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44JB.00",
+              "display": "Urea and electrolytes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14131,11 +14136,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "252167001",
-              "display": "Urea and electrolytes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44JB.00",
               "display": "Urea and electrolytes"
             }
           ],
@@ -14176,6 +14176,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44J9.00",
+              "display": "Serum urea level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14194,11 +14199,6 @@
               "system": "http://snomed.info/sct",
               "code": "273967009",
               "display": "Serum urea measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44J9.00",
-              "display": "Serum urea level"
             }
           ],
           "text": "Serum urea level"
@@ -14242,6 +14242,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44I5.00",
+              "display": "Serum sodium"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14260,11 +14265,6 @@
               "system": "http://snomed.info/sct",
               "code": "104934005",
               "display": "Sodium measurement, serum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44I5.00",
-              "display": "Serum sodium"
             }
           ],
           "text": "Serum sodium"
@@ -14308,6 +14308,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44I4.00",
+              "display": "Serum potassium"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14322,11 +14327,6 @@
               "system": "http://snomed.info/sct",
               "code": "271236005",
               "display": "Serum potassium measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44I4.00",
-              "display": "Serum potassium"
             }
           ],
           "text": "Serum potassium"
@@ -14371,6 +14371,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44J3.00",
+              "display": "Serum creatinine"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14389,11 +14394,6 @@
               "system": "http://snomed.info/sct",
               "code": "113075003",
               "display": "Creatinine measurement, serum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44J3.00",
-              "display": "Serum creatinine"
             }
           ],
           "text": "Serum creatinine"
@@ -14437,6 +14437,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44CS.00",
+              "display": "Serum C reactive protein level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14454,11 +14459,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "135842001",
-              "display": "Serum C reactive protein level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44CS.00",
               "display": "Serum C reactive protein level"
             }
           ],
@@ -14503,6 +14503,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42R7.00",
+              "display": "Serum iron level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14521,11 +14526,6 @@
               "system": "http://snomed.info/sct",
               "code": "250216004",
               "display": "Serum iron measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42R7.00",
-              "display": "Serum iron level"
             }
           ],
           "text": "Serum iron level"
@@ -14569,6 +14569,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42R5.00",
+              "display": "Serum TIBC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14587,11 +14592,6 @@
               "system": "http://snomed.info/sct",
               "code": "271027001",
               "display": "Serum TIBC measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42R5.00",
-              "display": "Serum TIBC"
             }
           ],
           "text": "Serum TIBC"
@@ -14635,6 +14635,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44G3.00",
+              "display": "ALT/SGPT serum level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14653,11 +14658,6 @@
               "system": "http://snomed.info/sct",
               "code": "34608000",
               "display": "Alanine aminotransferase measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44G3.00",
-              "display": "ALT/SGPT serum level"
             }
           ],
           "text": "ALT/SGPT serum level"
@@ -14701,6 +14701,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44P..00",
+              "display": "Serum cholesterol"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14715,11 +14720,6 @@
               "system": "http://snomed.info/sct",
               "code": "270996006",
               "display": "Serum cholesterol measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44P..00",
-              "display": "Serum cholesterol"
             }
           ],
           "text": "Serum cholesterol"
@@ -14768,6 +14768,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44Q..00",
+              "display": "Serum triglycerides"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14782,11 +14787,6 @@
               "system": "http://snomed.info/sct",
               "code": "271245006",
               "display": "Measurement of serum triglyceride level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44Q..00",
-              "display": "Serum triglycerides"
             }
           ],
           "text": "Serum triglycerides"
@@ -14835,6 +14835,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44E..00",
+              "display": "Serum bilirubin level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14853,11 +14858,6 @@
               "system": "http://snomed.info/sct",
               "code": "166610007",
               "display": "Serum bilirubin measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44E..00",
-              "display": "Serum bilirubin level"
             }
           ],
           "text": "Serum bilirubin level"
@@ -14916,6 +14916,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44F..00",
+              "display": "Serum alkaline phosphatase"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -14930,11 +14935,6 @@
               "system": "http://snomed.info/sct",
               "code": "271234008",
               "display": "Serum alkaline phosphatase measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44F..00",
-              "display": "Serum alkaline phosphatase"
             }
           ],
           "text": "Serum alkaline phosphatase"
@@ -14992,6 +14992,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44G3.00",
+              "display": "ALT/SGPT serum level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15010,11 +15015,6 @@
               "system": "http://snomed.info/sct",
               "code": "34608000",
               "display": "Alanine aminotransferase measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44G3.00",
-              "display": "ALT/SGPT serum level"
             }
           ],
           "text": "ALT/SGPT serum level"
@@ -15072,6 +15072,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44M4.00",
+              "display": "Serum albumin"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15090,11 +15095,6 @@
               "system": "http://snomed.info/sct",
               "code": "104485008",
               "display": "Albumin measurement, serum"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44M4.00",
-              "display": "Serum albumin"
             }
           ],
           "text": "Serum albumin"
@@ -15153,6 +15153,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42T..00",
+              "display": "Serum vitamin B12"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15167,11 +15172,6 @@
               "system": "http://snomed.info/sct",
               "code": "271216009",
               "display": "Serum vitamin B12 measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42T..00",
-              "display": "Serum vitamin B12"
             }
           ],
           "text": "Serum vitamin B12"
@@ -15230,6 +15230,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42UE.00",
+              "display": "Plasma folate level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15248,11 +15253,6 @@
               "system": "http://snomed.info/sct",
               "code": "250212002",
               "display": "Plasma folate measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42UE.00",
-              "display": "Plasma folate level"
             }
           ],
           "text": "Plasma folate level"
@@ -15311,6 +15311,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "4I16.00",
+              "display": "Microscopy, culture and sensitivities"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15328,11 +15333,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "168132005",
-              "display": "Microscopy, culture and sensitivities"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "4I16.00",
               "display": "Microscopy, culture and sensitivities"
             }
           ],
@@ -15370,6 +15370,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42H..00",
+              "display": "Total white cell count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15384,11 +15389,6 @@
               "system": "http://snomed.info/sct",
               "code": "767002",
               "display": "White blood cell count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42H..00",
-              "display": "Total white cell count"
             }
           ],
           "text": "Total white cell count"
@@ -15447,6 +15447,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "426..00",
+              "display": "Red blood cell (RBC) count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15461,11 +15466,6 @@
               "system": "http://snomed.info/sct",
               "code": "14089001",
               "display": "Red blood cell count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "426..00",
-              "display": "Red blood cell (RBC) count"
             }
           ],
           "text": "Red blood cell (RBC) count"
@@ -15534,6 +15534,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "423..00",
+              "display": "Haemoglobin estimation"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15548,11 +15553,6 @@
               "system": "http://snomed.info/sct",
               "code": "275806002",
               "display": "Hb estimation"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "423..00",
-              "display": "Haemoglobin estimation"
             }
           ],
           "text": "Haemoglobin estimation"
@@ -15611,6 +15611,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "4258.00",
+              "display": "Haematocrit"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15629,11 +15634,6 @@
               "system": "http://snomed.info/sct",
               "code": "28317006",
               "display": "Haematocrit determination"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "4258.00",
-              "display": "Haematocrit"
             }
           ],
           "text": "Haematocrit"
@@ -15702,6 +15702,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42A..00",
+              "display": "Mean corpuscular volume (MCV)"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15716,11 +15721,6 @@
               "system": "http://snomed.info/sct",
               "code": "104133003",
               "display": "Erythrocyte mean corpuscular volume determination"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42A..00",
-              "display": "Mean corpuscular volume (MCV)"
             }
           ],
           "text": "Mean corpuscular volume (MCV)"
@@ -15789,6 +15789,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "428..00",
+              "display": "Mean corpusc. haemoglobin(MCH)"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15803,11 +15808,6 @@
               "system": "http://snomed.info/sct",
               "code": "54706004",
               "display": "Mean corpuscular haemoglobin determination"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "428..00",
-              "display": "Mean corpusc. haemoglobin(MCH)"
             }
           ],
           "text": "Mean corpusc. haemoglobin(MCH)"
@@ -15876,6 +15876,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "429..00",
+              "display": "Mean corpusc. Hb. conc. (MCHC)"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15890,11 +15895,6 @@
               "system": "http://snomed.info/sct",
               "code": "37254006",
               "display": "Mean corpuscular haemoglobin concentration determination"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "429..00",
-              "display": "Mean corpusc. Hb. conc. (MCHC)"
             }
           ],
           "text": "Mean corpusc. Hb. conc. (MCHC)"
@@ -15953,6 +15953,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42P..00",
+              "display": "Platelet count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -15970,11 +15975,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "61928009",
-              "display": "Platelet count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42P..00",
               "display": "Platelet count"
             }
           ],
@@ -16034,6 +16034,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42J..00",
+              "display": "Neutrophil count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16051,11 +16056,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "30630007",
-              "display": "Neutrophil count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42J..00",
               "display": "Neutrophil count"
             }
           ],
@@ -16115,6 +16115,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42M..00",
+              "display": "Lymphocyte count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16132,11 +16137,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "74765001",
-              "display": "Lymphocyte count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42M..00",
               "display": "Lymphocyte count"
             }
           ],
@@ -16196,6 +16196,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42N..00",
+              "display": "Monocyte count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16213,11 +16218,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "67776007",
-              "display": "Monocyte count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42N..00",
               "display": "Monocyte count"
             }
           ],
@@ -16277,6 +16277,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42K..00",
+              "display": "Eosinophil count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16294,11 +16299,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "71960002",
-              "display": "Eosinophil count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42K..00",
               "display": "Eosinophil count"
             }
           ],
@@ -16359,6 +16359,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42L..00",
+              "display": "Basophil count"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16376,11 +16381,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "42351005",
-              "display": "Basophil count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42L..00",
               "display": "Basophil count"
             }
           ],
@@ -16440,6 +16440,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44E..00",
+              "display": "Serum bilirubin level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16458,11 +16463,6 @@
               "system": "http://snomed.info/sct",
               "code": "166610007",
               "display": "Serum bilirubin measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44E..00",
-              "display": "Serum bilirubin level"
             }
           ],
           "text": "Serum bilirubin level"
@@ -16512,6 +16512,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44h8.00",
+              "display": "Plasma potassium level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16529,11 +16534,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "390964008",
-              "display": "Plasma potassium level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44h8.00",
               "display": "Plasma potassium level"
             }
           ],
@@ -16586,6 +16586,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "42B..00",
+              "display": "Plasma viscosity"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16604,11 +16609,6 @@
               "system": "http://snomed.info/sct",
               "code": "271214007",
               "display": "Plasma viscosity measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "42B..00",
-              "display": "Plasma viscosity"
             }
           ],
           "text": "Plasma viscosity"
@@ -16660,6 +16660,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44T2.00",
+              "display": "Fasting blood sugar"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16674,11 +16679,6 @@
               "system": "http://snomed.info/sct",
               "code": "271062006",
               "display": "Fasting blood glucose measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44T2.00",
-              "display": "Fasting blood sugar"
             }
           ],
           "text": "Fasting blood sugar"
@@ -16738,6 +16738,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44G3.00",
+              "display": "ALT/SGPT serum level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16756,11 +16761,6 @@
               "system": "http://snomed.info/sct",
               "code": "34608000",
               "display": "Alanine aminotransferase measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44G3.00",
-              "display": "ALT/SGPT serum level"
             }
           ],
           "text": "ALT/SGPT serum level"
@@ -16809,6 +16809,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44GA.00",
+              "display": "Plasma alanine aminotransferase level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16826,11 +16831,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "390961000",
-              "display": "Plasma alanine aminotransferase level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44GA.00",
               "display": "Plasma alanine aminotransferase level"
             }
           ],
@@ -16880,6 +16880,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44dA.00",
+              "display": "Plasma HDL cholesterol level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16898,11 +16903,6 @@
               "system": "http://snomed.info/sct",
               "code": "314035000",
               "display": "Plasma HDL cholesterol measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44dA.00",
-              "display": "Plasma HDL cholesterol level"
             }
           ],
           "text": "Plasma HDL cholesterol level"
@@ -16951,6 +16951,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44e..00",
+              "display": "Plasma triglyceride level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -16969,11 +16974,6 @@
               "system": "http://snomed.info/sct",
               "code": "167082000",
               "display": "Plasma triglyceride measurement"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44e..00",
-              "display": "Plasma triglyceride level"
             }
           ],
           "text": "Plasma triglyceride level"
@@ -17030,6 +17030,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44O..00",
+              "display": "Serum lipids"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -17044,11 +17049,6 @@
               "system": "http://snomed.info/sct",
               "code": "271244005",
               "display": "Measurement of serum lipid level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44O..00",
-              "display": "Serum lipids"
             }
           ],
           "text": "(EMISTest) - No Action,Interpretation      Desirable  Borderline  Increased Risk,Total cholesterol     <5.2       5.2-6.5     >6.5   mmol/l,Triglyceride reference range, Fasting 0.5-1.8 mmol/l, Non-fasting usually <4.0 mmol/l"
@@ -17098,6 +17098,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44D6.00",
+              "display": "Liver function test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -17116,11 +17121,6 @@
               "system": "http://snomed.info/sct",
               "code": "26958001",
               "display": "Hepatic function panel"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44D6.00",
-              "display": "Liver function test"
             }
           ],
           "text": "(EMISTest) - Abnormal - Contact Patient"
@@ -17234,6 +17234,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "424..00",
+              "display": "Full blood count - FBC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -17248,11 +17253,6 @@
               "system": "http://snomed.info/sct",
               "code": "26604007",
               "display": "Full blood count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "424..00",
-              "display": "Full blood count - FBC"
             }
           ],
           "text": "(EMISTest) - No Action"
@@ -19881,6 +19881,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44V..00",
+              "display": "Glucose tolerance test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -19898,11 +19903,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "113076002",
-              "display": "Glucose tolerance test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44V..00",
               "display": "Glucose tolerance test"
             }
           ],
@@ -19983,6 +19983,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44V..00",
+              "display": "Glucose tolerance test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -20000,11 +20005,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "113076002",
-              "display": "Glucose tolerance test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44V..00",
               "display": "Glucose tolerance test"
             }
           ],
@@ -20085,6 +20085,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44V..00",
+              "display": "Glucose tolerance test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -20102,11 +20107,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "113076002",
-              "display": "Glucose tolerance test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44V..00",
               "display": "Glucose tolerance test"
             }
           ],
@@ -20193,6 +20193,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "451..00",
+              "display": "Renal function tests"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -20211,11 +20216,6 @@
               "system": "http://snomed.info/sct",
               "code": "44277000",
               "display": "Renal function study"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "451..00",
-              "display": "Renal function tests"
             }
           ],
           "text": "Renal function tests"
@@ -20288,6 +20288,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44O..00",
+              "display": "Serum lipids"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -20302,11 +20307,6 @@
               "system": "http://snomed.info/sct",
               "code": "271244005",
               "display": "Measurement of serum lipid level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44O..00",
-              "display": "Serum lipids"
             }
           ],
           "text": "Serum lipids"
@@ -20385,6 +20385,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "424..00",
+              "display": "Full blood count - FBC"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -20399,11 +20404,6 @@
               "system": "http://snomed.info/sct",
               "code": "26604007",
               "display": "Full blood count"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "424..00",
-              "display": "Full blood count - FBC"
             }
           ],
           "text": "Full blood count - FBC"
@@ -20530,6 +20530,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44Z2.00",
+              "display": "Bone profile"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -20547,11 +20552,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "167036008",
-              "display": "Bone profile"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44Z2.00",
               "display": "Bone profile"
             }
           ],
@@ -20649,6 +20649,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44JB.00",
+              "display": "Urea and electrolytes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -20666,11 +20671,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "252167001",
-              "display": "Urea and electrolytes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44JB.00",
               "display": "Urea and electrolytes"
             }
           ],
@@ -20756,6 +20756,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44D6.00",
+              "display": "Liver function test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -20774,11 +20779,6 @@
               "system": "http://snomed.info/sct",
               "code": "26958001",
               "display": "Hepatic function panel"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44D6.00",
-              "display": "Liver function test"
             }
           ],
           "text": "Liver function test"
@@ -21022,6 +21022,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "43GG.00",
+              "display": "Autoimmune profile"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -21040,11 +21045,6 @@
               "system": "http://snomed.info/sct",
               "code": "165877005",
               "display": "Autoimmunity profile"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "43GG.00",
-              "display": "Autoimmune profile"
             }
           ],
           "text": "Autoimmune profile"
@@ -21112,6 +21112,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "44JB.00",
+              "display": "Urea and electrolytes"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -21129,11 +21134,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "252167001",
-              "display": "Urea and electrolytes"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "44JB.00",
               "display": "Urea and electrolytes"
             }
           ],

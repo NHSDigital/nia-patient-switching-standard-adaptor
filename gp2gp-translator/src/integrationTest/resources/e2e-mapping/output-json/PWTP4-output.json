@@ -2292,6 +2292,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "8B31400",
+              "display": "Medication review"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2310,11 +2315,6 @@
               "system": "http://snomed.info/sct",
               "code": "182836005",
               "display": "Review of medication"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "8B31400",
-              "display": "Medication review"
             }
           ],
           "text": "Medication review"
@@ -2354,6 +2354,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "8B31400",
+              "display": "Medication review"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2372,11 +2377,6 @@
               "system": "http://snomed.info/sct",
               "code": "182836005",
               "display": "Review of medication"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "8B31400",
-              "display": "Medication review"
             }
           ],
           "text": "Medication review"
@@ -2408,14 +2408,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "330062008",
-              "display": "Allopurinol 300mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "ALTA78",
               "display": "Allopurinol 300mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "330062008",
+              "display": "Allopurinol 300 mg oral tablet"
             }
           ],
           "text": "Allopurinol 300mg tablets"
@@ -2504,14 +2504,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "325443009",
-              "display": "Prednisolone 5mg gastro-resistant tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "PREN8412EGTON",
               "display": "Prednisolone 5mg gastro-resistant tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "325443009",
+              "display": "Prednisolone 5 mg gastro-resistant oral tablet"
             }
           ],
           "text": "Prednisolone 5mg gastro-resistant tablets"
@@ -2600,14 +2600,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "324059006",
-              "display": "Doxycycline 100mg capsules"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "DOCA17639NEMIS",
               "display": "Doxycycline 100mg capsules"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "324059006",
+              "display": "Doxycycline 100 mg oral capsule"
             }
           ],
           "text": "Doxycycline 100mg capsules"
@@ -2696,13 +2696,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "319773006",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "ASDI224",
               "display": "Aspirin 75mg dispersible tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "ASDI224",
+              "system": "http://snomed.info/sct",
+              "code": "319773006",
               "display": "Aspirin 75mg dispersible tablets"
             }
           ],
@@ -2792,13 +2792,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "573711000001104",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "BECA12523NEMIS",
               "display": "Bedranol SR 80mg capsules (Sandoz Ltd)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "BECA12523NEMIS",
+              "system": "http://snomed.info/sct",
+              "code": "573711000001104",
               "display": "Bedranol SR 80mg capsules (Sandoz Ltd)"
             }
           ],
@@ -2893,13 +2893,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "322225002",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "ASE/24522EMIS",
               "display": "Aspirin 300mg gastro-resistant tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "ASE/24522EMIS",
+              "system": "http://snomed.info/sct",
+              "code": "322225002",
               "display": "Aspirin 300mg gastro-resistant tablets"
             }
           ],
@@ -2994,13 +2994,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "636011000001100",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "PODI27089EMIS",
               "display": "PostMI 75 dispersible tablets (Ashbourne Pharmaceuticals Ltd)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "PODI27089EMIS",
+              "system": "http://snomed.info/sct",
+              "code": "636011000001100",
               "display": "PostMI 75 dispersible tablets (Ashbourne Pharmaceuticals Ltd)"
             }
           ],
@@ -3140,14 +3140,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "325278007",
-              "display": "Metformin 500mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "META1787",
               "display": "Metformin 500mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "325278007",
+              "display": "Metformin hydrochloride 500 mg oral tablet"
             }
           ],
           "text": "Metformin 500mg tablets"
@@ -3291,13 +3291,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "319284000",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "AMTA17006NEMIS",
               "display": "Amlodipine 10mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "AMTA17006NEMIS",
+              "system": "http://snomed.info/sct",
+              "code": "319284000",
               "display": "Amlodipine 10mg tablets"
             }
           ],
@@ -3437,14 +3437,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "327438003",
-              "display": "Ferrous sulfate 200mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "FETA1173",
               "display": "Ferrous sulphate 200mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "327438003",
+              "display": "Ferrous sulfate 200 mg oral tablet"
             }
           ],
           "text": "Ferrous sulphate 200mg tablets"
@@ -3583,13 +3583,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "321745007",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "AMTA8386EGTON",
               "display": "Amitriptyline 10mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "AMTA8386EGTON",
+              "system": "http://snomed.info/sct",
+              "code": "321745007",
               "display": "Amitriptyline 10mg tablets"
             }
           ],
@@ -3734,13 +3734,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "317971007",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "FUTA17675NEMIS",
               "display": "Furosemide 20mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "FUTA17675NEMIS",
+              "system": "http://snomed.info/sct",
+              "code": "317971007",
               "display": "Furosemide 20mg tablets"
             }
           ],
@@ -3880,13 +3880,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "42111000001107",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "MITA1828",
               "display": "Microgynon 30 tablets (Bayer Plc)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "MITA1828",
+              "system": "http://snomed.info/sct",
+              "code": "42111000001107",
               "display": "Microgynon 30 tablets (Bayer Plc)"
             }
           ],
@@ -4026,13 +4026,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "318421004",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "ATTA230",
               "display": "Atenolol 100mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "ATTA230",
+              "system": "http://snomed.info/sct",
+              "code": "318421004",
               "display": "Atenolol 100mg tablets"
             }
           ],
@@ -4168,14 +4168,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "321197008",
-              "display": "Diazepam 5mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "DITA881",
               "display": "Diazepam 5mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "321197008",
+              "display": "Diazepam 5 mg oral tablet"
             }
           ],
           "text": "Diazepam 5mg tablets"
@@ -4314,13 +4314,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "178011000001104",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "ZITA29570EMIS",
               "display": "Zimovane LS 3.75mg tablets (Sanofi)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "ZITA29570EMIS",
+              "system": "http://snomed.info/sct",
+              "code": "178011000001104",
               "display": "Zimovane LS 3.75mg tablets (Sanofi)"
             }
           ],
@@ -4639,13 +4639,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "318906001",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "RACA57NEMIS",
               "display": "Ramipril 10mg capsules"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "RACA57NEMIS",
+              "system": "http://snomed.info/sct",
+              "code": "318906001",
               "display": "Ramipril 10mg capsules"
             }
           ],
@@ -4802,14 +4802,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "322366004",
-              "display": "Co-codamol 30mg/500mg capsules"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "COCA27288EMIS",
               "display": "Co-codamol 30mg/500mg capsules"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "322366004",
+              "display": "Codeine phosphate 30 mg and paracetamol 500 mg oral capsule"
             }
           ],
           "text": "Co-codamol 30mg/500mg capsules"
@@ -4960,14 +4960,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "322311000",
-              "display": "Co-dydramol 10mg/500mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "COTA687",
               "display": "Co-dydramol 10mg/500mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "322311000",
+              "display": "Dihydrocodeine tartrate 10 mg and paracetamol 500 mg oral tablet"
             }
           ],
           "text": "Co-dydramol 10mg/500mg tablets"
@@ -5102,13 +5102,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "800511000001106",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "ANTA9568BRIDL",
               "display": "Angettes 75 tablets (Bristol-Myers Squibb Pharmaceuticals Ltd)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "ANTA9568BRIDL",
+              "system": "http://snomed.info/sct",
+              "code": "800511000001106",
               "display": "Angettes 75 tablets (Bristol-Myers Squibb Pharmaceuticals Ltd)"
             }
           ],
@@ -5276,13 +5276,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "327550006",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "FOTA1220",
               "display": "Folic acid 5mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "FOTA1220",
+              "system": "http://snomed.info/sct",
+              "code": "327550006",
               "display": "Folic acid 5mg tablets"
             }
           ],
@@ -5434,13 +5434,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "321989000",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "CITA32611EMIS",
               "display": "Citalopram 10mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "CITA32611EMIS",
+              "system": "http://snomed.info/sct",
+              "code": "321989000",
               "display": "Citalopram 10mg tablets"
             }
           ],
@@ -5608,14 +5608,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "545211000001106",
-              "display": "E45 cream (Karo Pharma)"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "E4CR1018",
               "display": "E45 cream (Forum Health Products Ltd)"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "545211000001106",
+              "display": "E45 cream (Karo Pharma)"
             }
           ],
           "text": "E45 cream (Forum Health Products Ltd)"
@@ -5750,14 +5750,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "326524001",
-              "display": "Tamsulosin hydrochloride 400micrograms m/r capsule"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "TAM/28659EMIS",
               "display": "Tamsulosin 400microgram modified-release capsules"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "326524001",
+              "display": "Tamsulosin hydrochloride 400micrograms m/r capsule"
             }
           ],
           "text": "Tamsulosin 400microgram modified-release capsules"
@@ -6062,13 +6062,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "7111411000001109",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "SHAD23252EMIS",
               "display": "Adjustable ostomy belt NSI 23 25mm (A H Shaw and Partners Ltd)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "SHAD23252EMIS",
+              "system": "http://snomed.info/sct",
+              "code": "7111411000001109",
               "display": "Adjustable ostomy belt NSI 23 25mm (A H Shaw and Partners Ltd)"
             }
           ],
@@ -6220,14 +6220,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "318783003",
-              "display": "Doxazosin 4mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "DOTA9440HILLI",
               "display": "Doxazosin 4mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "318783003",
+              "display": "Doxazosin (as doxazosin mesilate) 4 mg oral tablet"
             }
           ],
           "text": "Doxazosin 4mg tablets"
@@ -6374,13 +6374,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "196421000000109",
+              "system": "http://read.info/readv2",
+              "code": "9bJ0.00",
               "display": "Transfer-degraded medication entry"
             },
             {
-              "system": "http://read.info/readv2",
-              "code": "9bJ0.00",
+              "system": "http://snomed.info/sct",
+              "code": "196421000000109",
               "display": "Transfer-degraded medication entry"
             }
           ],
@@ -6532,14 +6532,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "400877001",
-              "display": "Insulin glargine 100units/mL injection solution 3mL prefilled disposable injection device"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "INPR13809NEMIS",
               "display": "Insulin glargine 100units/ml solution for injection 3ml pre-filled disposable devices"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "400877001",
+              "display": "Insulin glargine 100units/mL injection solution 3mL prefilled disposable injection device"
             }
           ],
           "text": "Insulin glargine 100units/ml solution for injection 3ml pre-filled disposable devices"
@@ -6690,13 +6690,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "316011000001100",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "MITA8471BRID",
               "display": "Micropore tape 5cm (3M Health Care Ltd)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "MITA8471BRID",
+              "system": "http://snomed.info/sct",
+              "code": "316011000001100",
               "display": "Micropore tape 5cm (3M Health Care Ltd)"
             }
           ],
@@ -7076,14 +7076,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "123711000001109",
-              "display": "Nasonex 50micrograms/dose nasal spray (Organon Pharma (UK) Ltd)"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "NANA30769EMIS",
               "display": "Nasonex 50micrograms/dose nasal spray (Merck Sharp & Dohme Ltd)"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "123711000001109",
+              "display": "Nasonex 50micrograms/dose nasal spray (Organon Pharma (UK) Ltd)"
             }
           ],
           "text": "Nasonex 50micrograms/dose nasal spray (Merck Sharp & Dohme Ltd)"
@@ -7230,13 +7230,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "2940411000001108",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "BENAEGTON7181",
               "display": "Beconase Aqueous 50micrograms/dose nasal spray (GlaxoSmithKline UK Ltd)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "BENAEGTON7181",
+              "system": "http://snomed.info/sct",
+              "code": "2940411000001108",
               "display": "Beconase Aqueous 50micrograms/dose nasal spray (GlaxoSmithKline UK Ltd)"
             }
           ],
@@ -7388,13 +7388,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "318923005",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "CITA21966EMIS",
               "display": "Cilazapril 5mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "CITA21966EMIS",
+              "system": "http://snomed.info/sct",
+              "code": "318923005",
               "display": "Cilazapril 5mg tablets"
             }
           ],
@@ -7539,14 +7539,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "323358004",
-              "display": "Methylphenidate 5mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "META4114NEMIS",
               "display": "Methylphenidate 5mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "323358004",
+              "display": "Methylphenidate hydrochloride 5 mg oral tablet"
             }
           ],
           "text": "Methylphenidate 5mg tablets"
@@ -7690,14 +7690,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "320818006",
-              "display": "Cetirizine 10mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "CETA8573EGTON",
               "display": "Cetirizine 10mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "320818006",
+              "display": "Cetirizine hydrochloride 10 mg oral tablet"
             }
           ],
           "text": "Cetirizine 10mg tablets"
@@ -8018,14 +8018,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "320139002",
-              "display": "Salbutamol 100micrograms CFC-free inhaler"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "SACF26553EMIS",
               "display": "Salbutamol 100micrograms/dose inhaler CFC free"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "320139002",
+              "display": "Salbutamol 100micrograms CFC-free inhaler"
             }
           ],
           "text": "Salbutamol 100micrograms/dose inhaler CFC free"
@@ -8729,14 +8729,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "318406005",
-              "display": "Propranolol hydrochloride 160mg m/r capsule"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "PRM/20660EMIS",
               "display": "Propranolol 160mg modified-release capsules"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "318406005",
+              "display": "Propranolol hydrochloride 160mg m/r capsule"
             }
           ],
           "text": "Propranolol 160mg modified-release capsules"
@@ -8887,14 +8887,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "643911000001108",
-              "display": "Lipitor 10mg tablets (Upjohn UK Ltd)"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "LITA30124EMIS",
               "display": "Lipitor 10mg tablets (Pfizer Ltd)"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "643911000001108",
+              "display": "Lipitor 10mg tablets (Upjohn UK Ltd)"
             }
           ],
           "text": "Lipitor 10mg tablets (Pfizer Ltd)"
@@ -9045,13 +9045,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "330295009",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "CHEY4714",
               "display": "Chloramphenicol 1% eye ointment"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "CHEY4714",
+              "system": "http://snomed.info/sct",
+              "code": "330295009",
               "display": "Chloramphenicol 1% eye ointment"
             }
           ],
@@ -9203,14 +9203,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "69711000001105",
-              "display": "Neoclarityn 5mg tablets (Organon Pharma (UK) Ltd)"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "NETA6262NEMIS",
               "display": "Neoclarityn 5mg tablets (Merck Sharp & Dohme Ltd)"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "69711000001105",
+              "display": "Neoclarityn 5mg tablets (Organon Pharma (UK) Ltd)"
             }
           ],
           "text": "Neoclarityn 5mg tablets (Merck Sharp & Dohme Ltd)"
@@ -9361,14 +9361,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "936411000001108",
-              "display": "Lustral 50mg tablets (Upjohn UK Ltd)"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "LUTA9305EMIS",
               "display": "Lustral 50mg tablets (Pfizer Ltd)"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "936411000001108",
+              "display": "Lustral 50mg tablets (Upjohn UK Ltd)"
             }
           ],
           "text": "Lustral 50mg tablets (Pfizer Ltd)"
@@ -9672,13 +9672,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "317161009",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "META1734",
               "display": "Mebeverine 135mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "META1734",
+              "system": "http://snomed.info/sct",
+              "code": "317161009",
               "display": "Mebeverine 135mg tablets"
             }
           ],
@@ -9846,13 +9846,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "549611000001106",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "BECA8448EGTON",
               "display": "Bedranol SR 160mg capsules (Sandoz Ltd)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "BECA8448EGTON",
+              "system": "http://snomed.info/sct",
+              "code": "549611000001106",
               "display": "Bedranol SR 160mg capsules (Sandoz Ltd)"
             }
           ],
@@ -10130,14 +10130,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "320537007",
-              "display": "Beclometasone dipropionate 100 microgram/actuation pressurised solution for inhalation"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "BEIN17538NEMIS",
               "display": "Beclometasone 100micrograms/dose inhaler"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "320537007",
+              "display": "Beclometasone dipropionate 100 microgram/actuation pressurised solution for inhalation"
             }
           ],
           "text": "Beclometasone 100micrograms/dose inhaler"
@@ -10288,13 +10288,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "374667004",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "PETA14419NEMIS",
               "display": "Perindopril erbumine 8mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "PETA14419NEMIS",
+              "system": "http://snomed.info/sct",
+              "code": "374667004",
               "display": "Perindopril erbumine 8mg tablets"
             }
           ],
@@ -10451,14 +10451,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "326583009",
-              "display": "Propiverine 15mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "PRTA34040EMIS",
               "display": "Propiverine 15mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "326583009",
+              "display": "Propiverine hydrochloride 15 mg oral tablet"
             }
           ],
           "text": "Propiverine 15mg tablets"
@@ -10597,14 +10597,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "329607001",
-              "display": "Diclofenac sodium 75mg m/r tablet"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "DIM/19795EMIS",
               "display": "Diclofenac sodium 75mg modified-release tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "329607001",
+              "display": "Diclofenac sodium 75mg m/r tablet"
             }
           ],
           "text": "Diclofenac sodium 75mg modified-release tablets"
@@ -10748,13 +10748,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "323510009",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "AMCA17511NEMIS",
               "display": "Amoxicillin 500mg capsules"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "AMCA17511NEMIS",
+              "system": "http://snomed.info/sct",
+              "code": "323510009",
               "display": "Amoxicillin 500mg capsules"
             }
           ],
@@ -11010,13 +11010,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "3048811000001105",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "FETAEGTON7749",
               "display": "Femodene tablets (Bayer Plc)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "FETAEGTON7749",
+              "system": "http://snomed.info/sct",
+              "code": "3048811000001105",
               "display": "Femodene tablets (Bayer Plc)"
             }
           ],
@@ -11300,13 +11300,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "321949006",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "FLCA10829BRIDL",
               "display": "Fluoxetine 20mg capsules"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "FLCA10829BRIDL",
+              "system": "http://snomed.info/sct",
+              "code": "321949006",
               "display": "Fluoxetine 20mg capsules"
             }
           ],
@@ -11454,13 +11454,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "325444003",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "PRSO10225BRIDL",
               "display": "Prednisolone 5mg soluble tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "PRSO10225BRIDL",
+              "system": "http://snomed.info/sct",
+              "code": "325444003",
               "display": "Prednisolone 5mg soluble tablets"
             }
           ],
@@ -11612,14 +11612,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "322546007",
-              "display": "Dihydrocodeine tartrate 60mg m/r tablet"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "DITA912",
               "display": "Dihydrocodeine 60mg modified-release tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "322546007",
+              "display": "Dihydrocodeine tartrate 60mg m/r tablet"
             }
           ],
           "text": "Dihydrocodeine 60mg modified-release tablets"
@@ -11770,13 +11770,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "327313009",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "TATA5414",
               "display": "Tamoxifen 20mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "TATA5414",
+              "system": "http://snomed.info/sct",
+              "code": "327313009",
               "display": "Tamoxifen 20mg tablets"
             }
           ],
@@ -11928,13 +11928,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "374296008",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "LETA17796NEMIS",
               "display": "Levothyroxine sodium 100microgram tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "LETA17796NEMIS",
+              "system": "http://snomed.info/sct",
+              "code": "374296008",
               "display": "Levothyroxine sodium 100microgram tablets"
             }
           ],
@@ -12074,14 +12074,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "325242002",
-              "display": "Gliclazide 80mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "GLTA4960",
               "display": "Gliclazide 80mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "325242002",
+              "display": "Gliclazide 80 mg oral tablet"
             }
           ],
           "text": "Gliclazide 80mg tablets"
@@ -12220,13 +12220,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "317291008",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "OMCA10940BRIDL",
               "display": "Omeprazole 20mg gastro-resistant capsules"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "OMCA10940BRIDL",
+              "system": "http://snomed.info/sct",
+              "code": "317291008",
               "display": "Omeprazole 20mg gastro-resistant capsules"
             }
           ],
@@ -12366,13 +12366,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "317249006",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "RATA2432",
               "display": "Ranitidine 150mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "RATA2432",
+              "system": "http://snomed.info/sct",
+              "code": "317249006",
               "display": "Ranitidine 150mg tablets"
             }
           ],
@@ -12512,14 +12512,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "321152004",
-              "display": "Temazepam 10mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "TETA8749BRIDL",
               "display": "Temazepam 10mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "321152004",
+              "display": "Temazepam 10 mg oral tablet"
             }
           ],
           "text": "Temazepam 10mg tablets"
@@ -12654,13 +12654,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "319799004",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "CLTA34068EMIS",
               "display": "Clopidogrel 75mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "CLTA34068EMIS",
+              "system": "http://snomed.info/sct",
+              "code": "319799004",
               "display": "Clopidogrel 75mg tablets"
             }
           ],
@@ -12800,14 +12800,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "317896006",
-              "display": "Digoxin 125microgram tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "DITA905",
               "display": "Digoxin 125microgram tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "317896006",
+              "display": "Digoxin 125 microgram oral tablet"
             }
           ],
           "text": "Digoxin 125microgram tablets"
@@ -12946,14 +12946,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "365611000001101",
-              "display": "Xalatan 50micrograms/ml eye drops (Upjohn UK Ltd)"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "XAEY30154EMIS",
               "display": "Xalatan 50micrograms/ml eye drops (Pfizer Ltd)"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "365611000001101",
+              "display": "Xalatan 50micrograms/ml eye drops (Upjohn UK Ltd)"
             }
           ],
           "text": "Xalatan 50micrograms/ml eye drops (Pfizer Ltd)"
@@ -13092,14 +13092,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "322623000",
-              "display": "Tramadol 50mg capsules"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "TRCA24798EMIS",
               "display": "Tramadol 50mg capsules"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "322623000",
+              "display": "Tramadol hydrochloride 50 mg oral capsule"
             }
           ],
           "text": "Tramadol 50mg capsules"
@@ -13238,13 +13238,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "318859000",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "LITA8608EGTON",
               "display": "Lisinopril 10mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "LITA8608EGTON",
+              "system": "http://snomed.info/sct",
+              "code": "318859000",
               "display": "Lisinopril 10mg tablets"
             }
           ],
@@ -13384,13 +13384,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "318136009",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "COTA9149BRIDL",
               "display": "Co-amilofruse 5mg/40mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "COTA9149BRIDL",
+              "system": "http://snomed.info/sct",
+              "code": "318136009",
               "display": "Co-amilofruse 5mg/40mg tablets"
             }
           ],
@@ -13646,13 +13646,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "320006003",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "SITA3663NEMIS",
               "display": "Simvastatin 80mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "SITA3663NEMIS",
+              "system": "http://snomed.info/sct",
+              "code": "320006003",
               "display": "Simvastatin 80mg tablets"
             }
           ],
@@ -13944,13 +13944,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "320023007",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "FLCA24126EMIS",
               "display": "Fluvastatin 40mg capsules"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "FLCA24126EMIS",
+              "system": "http://snomed.info/sct",
+              "code": "320023007",
               "display": "Fluvastatin 40mg capsules"
             }
           ],
@@ -14102,14 +14102,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "318407001",
-              "display": "Propranolol hydrochloride 80mg m/r capsule"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "PRTA10180BRIDL",
               "display": "Propranolol 80mg modified-release capsules"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "318407001",
+              "display": "Propranolol hydrochloride 80mg m/r capsule"
             }
           ],
           "text": "Propranolol 80mg modified-release capsules"
@@ -14276,13 +14276,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "183311000001101",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "NUTA2039",
               "display": "Nu-Seals 300 gastro-resistant tablets (Alliance Pharmaceuticals Ltd)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "NUTA2039",
+              "system": "http://snomed.info/sct",
+              "code": "183311000001101",
               "display": "Nu-Seals 300 gastro-resistant tablets (Alliance Pharmaceuticals Ltd)"
             }
           ],
@@ -14437,13 +14437,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "324607004",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "CITA6845",
               "display": "Ciprofloxacin 250mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "CITA6845",
+              "system": "http://snomed.info/sct",
+              "code": "324607004",
               "display": "Ciprofloxacin 250mg tablets"
             }
           ],
@@ -15648,14 +15648,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "321177003",
-              "display": "Zopiclone 3.75mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "ZOTA29572EMIS",
               "display": "Zopiclone 3.75mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "321177003",
+              "display": "Zopiclone 3.75 mg oral tablet"
             }
           ],
           "text": "Zopiclone 3.75mg tablets"
@@ -17049,13 +17049,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "2940411000001108",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "BENAEGTON7181",
               "display": "Beconase Aqueous 50micrograms/dose nasal spray (GlaxoSmithKline UK Ltd)"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "BENAEGTON7181",
+              "system": "http://snomed.info/sct",
+              "code": "2940411000001108",
               "display": "Beconase Aqueous 50micrograms/dose nasal spray (GlaxoSmithKline UK Ltd)"
             }
           ],
@@ -18296,14 +18296,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "69711000001105",
-              "display": "Neoclarityn 5mg tablets (Organon Pharma (UK) Ltd)"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "NETA6262NEMIS",
               "display": "Neoclarityn 5mg tablets (Merck Sharp & Dohme Ltd)"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "69711000001105",
+              "display": "Neoclarityn 5mg tablets (Organon Pharma (UK) Ltd)"
             }
           ],
           "text": "Neoclarityn 5mg tablets (Schering-Plough Ltd)"
@@ -23172,6 +23172,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "8B3x.00",
+              "display": "Medication review with patient"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -23189,11 +23194,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "88551000000109",
-              "display": "Medication review with patient"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "8B3x.00",
               "display": "Medication review with patient"
             }
           ],
@@ -23233,6 +23233,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "8B31400",
+              "display": "Medication review"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -23251,11 +23256,6 @@
               "system": "http://snomed.info/sct",
               "code": "182836005",
               "display": "Review of medication"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "8B31400",
-              "display": "Medication review"
             }
           ],
           "text": "Medication review"
@@ -23294,6 +23294,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -23311,11 +23316,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
-              "display": "Gout"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "C34..00",
               "display": "Gout"
             }
           ],
@@ -23356,6 +23356,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -23373,11 +23378,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
-              "display": "Gout"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "C34..00",
               "display": "Gout"
             }
           ],
@@ -23417,6 +23417,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "C12y100",
+              "display": "Haemorrhage of parathyroid"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -23434,11 +23439,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "190460008",
-              "display": "Haemorrhage of parathyroid"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "C12y100",
               "display": "Haemorrhage of parathyroid"
             }
           ],
@@ -23479,6 +23479,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "133F.11",
+              "display": "Civil state unknown"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -23497,11 +23502,6 @@
               "system": "http://snomed.info/sct",
               "code": "160504008",
               "display": "Marital state unknown"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "133F.11",
-              "display": "Civil state unknown"
             }
           ],
           "text": "Civil state unknown"
@@ -23578,6 +23578,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "C34..00",
+              "display": "Gout"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -23595,11 +23600,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "90560007",
-              "display": "Gout"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "C34..00",
               "display": "Gout"
             }
           ],

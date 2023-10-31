@@ -2696,6 +2696,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "G200.00",
+              "display": "Malignant essential hypertension"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2713,11 +2718,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "78975002",
-              "display": "Malignant essential hypertension"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "G200.00",
               "display": "Malignant essential hypertension"
             }
           ],
@@ -2758,6 +2758,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "G2z..00",
+              "display": "Hypertensive disease NOS"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -2775,11 +2780,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "599341000000105",
-              "display": "Hypertensive disease NOS"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "G2z..00",
               "display": "Hypertensive disease NOS"
             }
           ],
@@ -2817,13 +2817,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "319775004",
+              "system": "2.16.840.1.113883.2.1.6.9",
+              "code": "ASTA4609",
               "display": "Aspirin 75mg tablets"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.9",
-              "code": "ASTA4609",
+              "system": "http://snomed.info/sct",
+              "code": "319775004",
               "display": "Aspirin 75mg tablets"
             }
           ],
@@ -2959,14 +2959,14 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "318783003",
-              "display": "Doxazosin 4mg tablets"
-            },
-            {
               "system": "2.16.840.1.113883.2.1.6.9",
               "code": "DOTA9440HILLI",
               "display": "Doxazosin 4mg tablets"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "318783003",
+              "display": "Doxazosin (as doxazosin mesilate) 4 mg oral tablet"
             }
           ],
           "text": "Doxazosin 4mg tablets"
@@ -3125,6 +3125,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "G33..00",
+              "display": "Angina pectoris"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3142,11 +3147,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "194828000",
-              "display": "Angina pectoris"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "G33..00",
               "display": "Angina pectoris"
             }
           ],
@@ -3232,6 +3232,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "G20..11",
+              "display": "High blood pressure"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3250,11 +3255,6 @@
               "system": "http://snomed.info/sct",
               "code": "38341003",
               "display": "Hypertension"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "G20..11",
-              "display": "High blood pressure"
             }
           ],
           "text": "High blood pressure"
@@ -3293,6 +3293,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "13X..00",
+              "display": "History of foreign travel"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3311,11 +3316,6 @@
               "system": "http://snomed.info/sct",
               "code": "161085007",
               "display": "Detail of history of foreign travel"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "13X..00",
-              "display": "History of foreign travel"
             }
           ],
           "text": "History of foreign travel"
@@ -3354,6 +3354,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "116..13",
+              "display": "Poor historian"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3371,11 +3376,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "272054000",
-              "display": "Poor historian"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "116..13",
               "display": "Poor historian"
             }
           ],
@@ -3415,6 +3415,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "H17..00",
+              "display": "Allergic rhinitis"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3432,11 +3437,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "61582004",
-              "display": "Allergic rhinitis"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "H17..00",
               "display": "Allergic rhinitis"
             }
           ],
@@ -3476,6 +3476,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "2469.00",
+              "display": "O/E - Systolic BP reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3493,11 +3498,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163030003",
-              "display": "O/E - Systolic BP reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "2469.00",
               "display": "O/E - Systolic BP reading"
             }
           ],
@@ -3549,6 +3549,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "246A.00",
+              "display": "O/E - Diastolic BP reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3566,11 +3571,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163031004",
-              "display": "O/E - Diastolic BP reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "246A.00",
               "display": "O/E - Diastolic BP reading"
             }
           ],
@@ -3622,6 +3622,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "229..00",
+              "display": "O/E - height"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3639,11 +3644,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "162755006",
-              "display": "O/E - height"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "229..00",
               "display": "O/E - height"
             }
           ],
@@ -3688,6 +3688,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "22A..00",
+              "display": "O/E - weight"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3705,11 +3710,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "162763007",
-              "display": "O/E - weight"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "22A..00",
               "display": "O/E - weight"
             }
           ],
@@ -3754,6 +3754,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "12C1.00",
+              "display": "FH: Hypertension"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3771,11 +3776,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160357008",
-              "display": "FH: Hypertension"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "12C1.00",
               "display": "FH: Hypertension"
             }
           ],
@@ -3816,6 +3816,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "12D2.00",
+              "display": "FH: Asthma"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3834,11 +3839,6 @@
               "system": "http://snomed.info/sct",
               "code": "160377001",
               "display": "Family history of asthma"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "12D2.00",
-              "display": "FH: Asthma"
             }
           ],
           "text": "FH: Asthma"
@@ -3877,6 +3877,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1221.00",
+              "display": "No FH: Glaucoma"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3894,11 +3899,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160267000",
-              "display": "No FH: Glaucoma"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1221.00",
               "display": "No FH: Glaucoma"
             }
           ],
@@ -3938,6 +3938,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1378.00",
+              "display": "Ex-light smoker (1-9/day)"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3952,11 +3957,6 @@
               "system": "http://snomed.info/sct",
               "code": "266922007",
               "display": "Ex-light cigarette smoker (1-9/day)"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1378.00",
-              "display": "Ex-light smoker (1-9/day)"
             }
           ],
           "text": "Ex-light smoker (1-9/day)"
@@ -3995,6 +3995,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1363.00",
+              "display": "Light drinker - 1-2u/day"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4012,11 +4017,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160575005",
-              "display": "Light drinker - 1-2u/day"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1363.00",
               "display": "Light drinker - 1-2u/day"
             }
           ],
@@ -4056,6 +4056,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "136F.00",
+              "display": "Spirit drinker"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4073,11 +4078,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160588008",
-              "display": "Spirit drinker"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "136F.00",
               "display": "Spirit drinker"
             }
           ],
@@ -4118,6 +4118,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "66CC.00",
+              "display": "Wants to lose weight"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4135,11 +4140,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "170805002",
-              "display": "Wants to lose weight"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "66CC.00",
               "display": "Wants to lose weight"
             }
           ],
@@ -4179,6 +4179,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "N142.11",
+              "display": "Low back pain"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4196,11 +4201,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "279039007",
-              "display": "Low back pain"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "N142.11",
               "display": "Low back pain"
             }
           ],
@@ -4240,6 +4240,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "16C5.00",
+              "display": "C/O - low back pain"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4258,11 +4263,6 @@
               "system": "http://snomed.info/sct",
               "code": "161894002",
               "display": "Complaining of low back pain"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "16C5.00",
-              "display": "C/O - low back pain"
             }
           ],
           "text": "C/O - low back pain"
@@ -4301,6 +4301,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "R022800",
+              "display": "[D]Lump on back"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4318,11 +4323,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "496561000000103",
-              "display": "[D]Lump on back"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "R022800",
               "display": "[D]Lump on back"
             }
           ],
@@ -4362,6 +4362,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1291.00",
+              "display": "FH: Huntington's chorea"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4379,11 +4384,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "160336000",
-              "display": "FH: Huntington's chorea"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1291.00",
               "display": "FH: Huntington's chorea"
             }
           ],
@@ -4447,6 +4447,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "G20..11",
+              "display": "High blood pressure"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4465,11 +4470,6 @@
               "system": "http://snomed.info/sct",
               "code": "38341003",
               "display": "Hypertension"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "G20..11",
-              "display": "High blood pressure"
             }
           ],
           "text": "High blood pressure"
@@ -4534,6 +4534,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "N142.11",
+              "display": "Low back pain"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4551,11 +4556,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "279039007",
-              "display": "Low back pain"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "N142.11",
               "display": "Low back pain"
             }
           ],
@@ -4601,6 +4601,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "246..00",
+              "display": "O/E - blood pressure reading"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4618,11 +4623,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163020007",
-              "display": "O/E - blood pressure reading"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "246..00",
               "display": "O/E - blood pressure reading"
             }
           ],
@@ -4688,6 +4688,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "TJ94400",
+              "display": "Adverse reaction to diazepam"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4706,11 +4711,6 @@
               "system": "http://snomed.info/sct",
               "code": "292360004",
               "display": "Diazepam adverse reaction"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "TJ94400",
-              "display": "Adverse reaction to diazepam"
             }
           ],
           "text": "Adverse reaction to diazepam"
@@ -4759,6 +4759,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "SN53100",
+              "display": "Latex allergy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -4777,11 +4782,6 @@
               "system": "http://snomed.info/sct",
               "code": "300916003",
               "display": "Allergy to latex"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "SN53100",
-              "display": "Latex allergy"
             }
           ],
           "text": "Latex allergy"

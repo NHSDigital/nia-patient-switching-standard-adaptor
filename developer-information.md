@@ -28,47 +28,7 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [Config
     - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
     - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
 
-   There is an option to set following env variables when needed:
-    - PS_DB_URL: Database URL required to run migrations (for local environment set 'jdbc:postgresql://localhost:5436/patient_switching')
-    - PS_DB_OWNER_NAME: Username of user used to run migrations.
-    - POSTGRES_PASSWORD: Password to be set for the user used to run migrations. Also set for the default postgres user.
-      This user is used to run the init script on the database. It is required during database creation.
-    - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
-    - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
-    - PS_AMQP_BROKER: Address of the broker with the pss queue
-    - MHS_AMQP_BROKER: Address of the broker with the mhs queue
-    - PS_QUEUE_NAME: Name of the pss queue
-    - MHS_QUEUE_NAME: Name of the mhs queue
-    - PS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on pss queue
-    - MHS_AMQP_MAX_REDELIVERIES: How many times message should be retried in case of fail on mhs queue
-    - GPC_FACADE_SERVER_PORT: port of the GPC API Facade application
-    - GP2GP_TRANSLATOR_SERVER_PORT: port of the GP2GP Translator application
-    - MHS_BASE_URL: base URL of the MHS Adapter
-    - SSL_ENABLED: is SS: enabled (default is false)
-    - KEY_STORE: path to the keystore
-    - KEY_STORE_PASSWORD: keystore password
-    - KEY_PASSWORD: server private key password
-    - TRUST_STORE: path to the truststore
-    - TRUST_STORE_PASSWORD: truststore password
-    - STORAGE_TYPE: the type of object storage to use for attachments (S3, Azure or LocalMock)
-    - STORAGE_REGION: The AWS region (leave undefined if using an AWS instance role)
-    - CONTAINER_NAME: The name of the Azure Storage container or Amazon S3 Bucket
-    - STORAGE_REFERENCE: The Azure account name or AWS Access Key ID (leave undefined if using an AWS instance role)
-    - STORAGE_SECRET: The Azure account key or the access key for Amazon S3. (leave undefined if using an AWS instance role)
-
-   The following variables are used determine if a migration has timed out:
-    - SDS_BASE_URL: url of the SDS FHIR API (default is the Production environment)
-    - SDS_API_KEY: authentication for the SDS FHIR API
-    - TIMEOUT_EHR_EXTRACT_WEIGHTING: weighting factor to account transmission delays and volume throughput times of the RCMR_IN030000UK06 message (default is 1).
-    - TIMEOUT_COPC_WEIGHTING: weighting factor to account transmission delays and volume throughput times of the COPC_IN000001UK01 message (default is 1).
-    - TIMEOUT_CRON_TIME: cron schedule for the timeout check (default is every six hours)
-    - TIMEOUT_SDS_POLL_FREQUENCY: The frequency SDS is polled for message persist durations (default is every 3 cron jobs).
-
-   If you plan to use external queues (like ActiveMQ on AWS), you also need to set credentials for those queues:
-    - PS_AMQP_USERNAME
-    - PS_AMQP_PASSWORD
-    - MHS_AMQP_USERNAME
-    - MHS_AMQP_PASSWORD
+    For the description and purpose of other environment variables, refer to the [end user OPERATING guidance](OPERATING.md#environment-variables).
 
 
 3. Run `start-local-environment.sh` script:

@@ -3125,6 +3125,11 @@
           {
             "coding": [
               {
+                "system": "http://read.info/ctv3",
+                "code": "8HV6.",
+                "display": "Reason Code"
+              },
+              {
                 "extension": [
                   {
                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3139,11 +3144,6 @@
                 "system": "http://snomed.info/sct",
                 "code": "183885007",
                 "display": "Private referral to obstetrician"
-              },
-              {
-                "system": "http://read.info/ctv3",
-                "code": "8HV6.",
-                "display": "Reason Code"
               },
               {
                 "system": "http://read.info/readv2",
@@ -3206,6 +3206,11 @@
           {
             "coding": [
               {
+                "system": "http://read.info/ctv3",
+                "code": "8HV6.",
+                "display": "Reason Code"
+              },
+              {
                 "extension": [
                   {
                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3220,11 +3225,6 @@
                 "system": "http://snomed.info/sct",
                 "code": "183885007",
                 "display": "Private referral to obstetrician"
-              },
-              {
-                "system": "http://read.info/ctv3",
-                "code": "8HV6.",
-                "display": "Reason Code"
               },
               {
                 "system": "http://read.info/readv2",
@@ -3287,6 +3287,11 @@
           {
             "coding": [
               {
+                "system": "http://read.info/ctv3",
+                "code": "8HV6.",
+                "display": "Reason Code"
+              },
+              {
                 "extension": [
                   {
                     "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -3301,11 +3306,6 @@
                 "system": "http://snomed.info/sct",
                 "code": "183885007",
                 "display": "Private referral to obstetrician"
-              },
-              {
-                "system": "http://read.info/ctv3",
-                "code": "8HV6.",
-                "display": "Reason Code"
               },
               {
                 "system": "http://read.info/readv2",
@@ -3343,7 +3343,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "330062008",
-              "display": "Allopurinol 300mg tablets"
+              "display": "Allopurinol 300 mg oral tablet"
             }
           ],
           "text": "Allopurinol 300mg tablets"
@@ -3439,7 +3439,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "325443009",
-              "display": "Prednisolone 5mg gastro-resistant tablets"
+              "display": "Prednisolone 5 mg gastro-resistant oral tablet"
             }
           ],
           "text": "Prednisolone 5mg gastro-resistant tablets"
@@ -3535,7 +3535,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "324059006",
-              "display": "Doxycycline 100mg capsules"
+              "display": "Doxycycline 100 mg oral capsule"
             }
           ],
           "text": "Doxycycline 100mg capsules"
@@ -4867,7 +4867,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "318783003",
-              "display": "Doxazosin 4mg tablets"
+              "display": "Doxazosin (as doxazosin mesilate) 4 mg oral tablet"
             }
           ],
           "text": "Doxazosin 4mg tablets"
@@ -6401,7 +6401,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "322311000",
-              "display": "Co-dydramol 10mg/500mg tablets"
+              "display": "Dihydrocodeine tartrate 10 mg and paracetamol 500 mg oral tablet"
             }
           ],
           "text": "Co-dydramol 10mg/500mg tablets"
@@ -6568,7 +6568,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "322366004",
-              "display": "Co-codamol 30mg/500mg capsules"
+              "display": "Codeine phosphate 30 mg and paracetamol 500 mg oral capsule"
             }
           ],
           "text": "Co-codamol 30mg/500mg capsules"
@@ -7193,7 +7193,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "321197008",
-              "display": "Diazepam 5mg tablets"
+              "display": "Diazepam 5 mg oral tablet"
             }
           ],
           "text": "Diazepam 5mg tablets"
@@ -8272,7 +8272,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "327438003",
-              "display": "Ferrous sulfate 200mg tablets"
+              "display": "Ferrous sulfate 200 mg oral tablet"
             }
           ],
           "text": "Ferrous sulphate 200mg tablets"
@@ -8728,7 +8728,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "325278007",
-              "display": "Metformin 500mg tablets"
+              "display": "Metformin hydrochloride 500 mg oral tablet"
             }
           ],
           "text": "Metformin 500mg tablets"
@@ -10220,7 +10220,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "321177003",
-              "display": "Zopiclone 3.75mg tablets"
+              "display": "Zopiclone 3.75 mg oral tablet"
             }
           ],
           "text": "Zopiclone 3.75mg tablets"
@@ -12296,7 +12296,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "320818006",
-              "display": "Cetirizine 10mg tablets"
+              "display": "Cetirizine hydrochloride 10 mg oral tablet"
             }
           ],
           "text": "Cetirizine 10mg tablets"
@@ -12471,7 +12471,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "323358004",
-              "display": "Methylphenidate 5mg tablets"
+              "display": "Methylphenidate hydrochloride 5 mg oral tablet"
             }
           ],
           "text": "Methylphenidate 5mg tablets"
@@ -17273,7 +17273,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "326583009",
-              "display": "Propiverine 15mg tablets"
+              "display": "Propiverine hydrochloride 15 mg oral tablet"
             }
           ],
           "text": "Propiverine 15mg tablets"
@@ -21630,7 +21630,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "322623000",
-              "display": "Tramadol 50mg capsules"
+              "display": "Tramadol hydrochloride 50 mg oral capsule"
             }
           ],
           "text": "Tramadol 50mg capsules"
@@ -22086,7 +22086,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "317896006",
-              "display": "Digoxin 125microgram tablets"
+              "display": "Digoxin 125 microgram oral tablet"
             }
           ],
           "text": "Digoxin 125microgram tablets"
@@ -22748,7 +22748,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "321152004",
-              "display": "Temazepam 10mg tablets"
+              "display": "Temazepam 10 mg oral tablet"
             }
           ],
           "text": "Temazepam 10mg tablets"
@@ -23345,7 +23345,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "325242002",
-              "display": "Gliclazide 80mg tablets"
+              "display": "Gliclazide 80 mg oral tablet"
             }
           ],
           "text": "Gliclazide 80mg tablets"
@@ -29134,6 +29134,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "465..00",
+              "display": "Urine pregnancy Test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29152,11 +29157,6 @@
               "system": "http://snomed.info/sct",
               "code": "1003161000000106",
               "display": "Urine pregnancy test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "465..00",
-              "display": "Urine pregnancy Test"
             }
           ],
           "text": "Urine pregnancy test"
@@ -29215,6 +29215,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "4465.00",
+              "display": "Serum oestradiol level"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29232,11 +29237,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "1010521000000102",
-              "display": "Serum oestradiol level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "4465.00",
               "display": "Serum oestradiol level"
             }
           ],
@@ -29305,6 +29305,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "4465.00",
+              "display": "Serum ACTH"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29323,11 +29328,6 @@
               "system": "http://snomed.info/sct",
               "code": "997201000000100",
               "display": "Serum ACTH (adrenocorticotrophic hormone) level"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "4465.00",
-              "display": "Serum ACTH"
             }
           ],
           "text": "Serum ACTH (adrenocorticotrophic hormone) level"
@@ -29534,6 +29534,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "465..00",
+              "display": "Urine pregnancy Test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29552,11 +29557,6 @@
               "system": "http://snomed.info/sct",
               "code": "1003161000000106",
               "display": "Urine pregnancy test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "465..00",
-              "display": "Urine pregnancy Test"
             }
           ],
           "text": "Urine pregnancy test"
@@ -29626,6 +29626,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "465..00",
+              "display": "Urine pregnancy Test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29644,11 +29649,6 @@
               "system": "http://snomed.info/sct",
               "code": "1003161000000106",
               "display": "Urine pregnancy test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "465..00",
-              "display": "Urine pregnancy Test"
             }
           ],
           "text": "Urine pregnancy test"
@@ -29705,6 +29705,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "1683.00",
+              "display": "Tired all the time"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -29722,11 +29727,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "267032009",
-              "display": "Tired all the time"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "1683.00",
               "display": "Tired all the time"
             }
           ],
@@ -30519,6 +30519,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "PKyz500",
+              "display": "Happy puppet syndrome"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -30537,11 +30542,6 @@
               "system": "http://snomed.info/sct",
               "code": "76880004",
               "display": "Angelman syndrome"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "PKyz500",
-              "display": "Happy puppet syndrome"
             }
           ],
           "text": "Happy puppet syndrome"
@@ -30600,6 +30600,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "14LK.00",
+              "display": "H/O: aspirin allergy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -30617,11 +30622,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "395102008",
-              "display": "H/O: aspirin allergy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "14LK.00",
               "display": "H/O: aspirin allergy"
             }
           ],
@@ -30719,13 +30719,28 @@
         "code": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "41891011000001106",
+              "system": "2.16.840.1.113883.2.1.6.4",
+              "code": "00254001",
               "display": "Azelaic acid 20% cream"
             },
             {
-              "system": "2.16.840.1.113883.2.1.6.4",
-              "code": "00254001",
+              "extension": [
+                {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                  "extension": [
+                    {
+                      "url": "descriptionId",
+                      "valueId": "3074281000001113"
+                    },
+                    {
+                      "url": "descriptionDisplay",
+                      "valueString": "Azelaic acid 20% cream"
+                    }
+                  ]
+                }
+              ],
+              "system": "http://snomed.info/sct",
+              "code": "41891011000001106",
               "display": "Azelaic acid 20% cream"
             }
           ],
@@ -30745,9 +30760,6 @@
         "note": [
           {
             "text": "Skin Allergy"
-          },
-          {
-            "text": "Allergy Code: Allergy to drug"
           }
         ]
       }
@@ -30975,6 +30987,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "14LK.00",
+              "display": "H/O: aspirin allergy"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -30992,11 +31009,6 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "395102008",
-              "display": "H/O: aspirin allergy"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "14LK.00",
               "display": "H/O: aspirin allergy"
             }
           ],
@@ -32132,6 +32144,11 @@
         "code": {
           "coding": [
             {
+              "system": "http://read.info/readv2",
+              "code": "465..00",
+              "display": "Urine pregnancy Test"
+            },
+            {
               "extension": [
                 {
                   "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -32150,11 +32167,6 @@
               "system": "http://snomed.info/sct",
               "code": "1003161000000106",
               "display": "Urine pregnancy test"
-            },
-            {
-              "system": "http://read.info/readv2",
-              "code": "465..00",
-              "display": "Urine pregnancy Test"
             }
           ],
           "text": "Urine pregnancy test"
