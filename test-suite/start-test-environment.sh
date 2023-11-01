@@ -40,11 +40,26 @@ docker-compose -f docker-compose.yml up -d activemq redis dynamodb ps_db outboun
 docker-compose -f docker-compose.yml up db_migration
 docker-compose -f docker-compose.yml rm -f db_migration
 
-cd docker/snomed-database-loader
-./load_release-postgresql.sh ${SNOMED_FILE_LOCATION}
-cd ../..
-cd docker/snomed-immunization-loader
-./load_immunization_codes.sh
-cd ../..
+snomedexists=$(docker-compose exec -u postgres ps_db psql -d patient_switching -AXqtc "SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name='snomedct'")
+
+if [ $snomedexists == '0' ]
+then
+  cd docker/snomed-database-loader
+  ./load_release-postgresql.sh ${SNOMED_FILE_LOCATION}
+  cd ../..
+else
+  echo "SNOMED CT schema already exists, skipping loading"
+fi
+
+immunizationcodesexist=$(docker-compose exec -u postgres ps_db psql -d patient_switching -AXqtc "SELECT COUNT(*) FROM snomedct.immunization_codes")
+
+if [ $immunizationcodesexist == '0' ]
+then
+  cd docker/snomed-immunization-loader
+  ./load_immunization_codes.sh
+  cd ../..
+else
+  echo "Immunization codes already exist, skipping loading"
+fi
 
 docker-compose -f docker-compose.yml up -d ps_gp2gp_translator gpc_facade mock-spine-mhs

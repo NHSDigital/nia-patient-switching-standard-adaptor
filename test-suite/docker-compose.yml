@@ -145,6 +145,8 @@ services:
       - PS_DB_OWNER_NAME
     networks:
       - nia-ps
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   db_migration:
     image: ${PS_DB_MIGRATION_VERSION}
@@ -200,3 +202,6 @@ services:
       - MOCK_SPINE_MHS_OUTBOUND_LOG_LEVEL
     networks:
       - nia-ps
+
+volumes:
+  pgdata:
