@@ -10,11 +10,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+* Fix invalid state transition bug which caused the adaptor to move from a failed state to an in-progress state when a
+  positive acknowledgement was received.
+
+## [0.16] - 2023-10-31
+
 * Add additional error handling for exceptions raised when processing PSS queue, and MHS queue messages.
 * Fix bug in some SQL statements which caused excessively large amounts of data to be returned, sometimes resulting in 
 a PostgresSQL Out of Memory error.
-* Fix invalid state transition bug which caused the adaptor to move from a failed state to an in-progress state when a 
-positive acknowledgement was received.
 
 ## [0.15] - 2023-10-24
 
