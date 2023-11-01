@@ -36,6 +36,10 @@
     ```
 </details>
 
+The test-suite creates a Docker volume called `test-suite_pgdata` to store PostgreSQL data between executions of `start-test-environment.sh`.
+This is especially useful for the SNOMED data which takes a long time to import.
+If you want to start from a fresh DB, delete the volume with `docker volume rm test-suite_pgdata` and then run `./start-test-environment.sh`.
+
 ## Running the translator and facade in your IDE for debugging
 1. Ensure test-suite environment is setup from steps above
 2. Turn off both the `ps_gp2gp_transaltor-1` and `gpc_facade-1` in docker desktop
