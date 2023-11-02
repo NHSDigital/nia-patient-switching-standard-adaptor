@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.gpc.util.fhir;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueSeverity.ERROR;
 import static org.hl7.fhir.dstu3.model.OperationOutcome.IssueType.NOTSUPPORTED;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.OperationOutcome;
@@ -21,10 +22,10 @@ public class OperationOutcomeUtilsTest {
         OperationOutcome result = OperationOutcomeUtils.createOperationOutcome(NOTSUPPORTED, ERROR, details, diagnostics);
 
         assertThat(result.getMeta().getProfile().get(0).equals(URI_TYPE)).isTrue();
-        assertThat(result.getIssueFirstRep().getCode()).isEqualTo(NOTSUPPORTED);
-        assertThat(result.getIssueFirstRep().getSeverity()).isEqualTo(ERROR);
-        assertThat(result.getIssueFirstRep().getDetails()).isEqualTo(details);
-        assertThat(result.getIssueFirstRep().getDiagnostics()).isEqualTo(diagnostics);
+        assertEquals(NOTSUPPORTED, result.getIssueFirstRep().getCode());
+        assertEquals(ERROR, result.getIssueFirstRep().getSeverity());
+        assertEquals(details, result.getIssueFirstRep().getDetails());
+        assertEquals(diagnostics, result.getIssueFirstRep().getDiagnostics());
     }
 
     private CodeableConcept createCodeableConcept() {
