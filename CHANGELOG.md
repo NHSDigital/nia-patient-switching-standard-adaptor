@@ -5,8 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+
+## [1.0.0] - 2023-11-01 🎉
+
+### Added
+
 * Added functionality to include episodicity qualifiers when mapping allergy intolerances.
-* Added feature to preserve the ordering of code / translation elements when mapping Codeable Concepts.
+
+### Changed
+
+* Preserve the ordering of code / translation elements when mapping Codeable Concepts.
 
 ### Fixed
 
@@ -14,6 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   positive acknowledgement was received.
 
 ## [0.16] - 2023-10-31
+
+### Fixed
 
 * Add additional error handling for exceptions raised when processing PSS queue, and MHS queue messages.
 * Fix bug in some SQL statements which caused excessively large amounts of data to be returned, sometimes resulting in 
