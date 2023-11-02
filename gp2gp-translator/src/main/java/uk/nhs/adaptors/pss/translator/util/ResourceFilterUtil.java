@@ -6,11 +6,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResourceFilterUtil {
+
     private static final List<String> ALLERGY_CODES = List.of("SN53.00", "14L..00");
     private static final String CODE_SYSTEM_READ_CODE_V2 = "2.16.840.1.113883.2.1.6.2";
     private static final String PATHOLOGY_CODE = "16488004";
