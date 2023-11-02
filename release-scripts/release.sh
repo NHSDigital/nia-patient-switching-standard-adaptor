@@ -9,7 +9,13 @@ git checkout $BUILD_TAG
 
 cd ..
 
-docker buildx build -f docker/gp2gp-translator/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-adaptor:${BUILD_TAG} --push
-docker buildx build -f docker/gpc-facade/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-facade:${BUILD_TAG} --push
-docker buildx build -f docker/db-migration/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-db-migration:${BUILD_TAG} --push
-docker buildx build -f docker/snomed-schema/Dockerfile . --platform linux/arm64/v8,linux/amd64 --tag nhsdev/nia-ps-snomed-schema:${BUILD_TAG} --push
+export BASE_GIT_URL="https://github.com/NHSDigital/nia-patient-switching-standard-adaptor/blob/${BUILD_TAG}/"
+
+function build() {
+  docker buildx build -f ${1} . --platform linux/arm64/v8,linux/amd64 --tag ${2}:${BUILD_TAG} --label "org.opencontainers.image.source=${BASE_GIT_URL}${1}" --push
+}
+
+build docker/gp2gp-translator/Dockerfile nhsdev/nia-ps-adaptor
+build docker/gpc-facade/Dockerfile nhsdev/nia-ps-facade
+build docker/db-migration/Dockerfile nhsdev/nia-ps-db-migration
+build docker/snomed-schema/Dockerfile nhsdev/nia-ps-snomed-schema
