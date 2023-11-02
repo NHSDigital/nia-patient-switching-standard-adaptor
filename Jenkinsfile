@@ -1,8 +1,8 @@
 String tfProject             = "nia"
 String tfComponent           = "pss"
-Boolean publishGPC_FacadeImage  = true // true: to publsh gpc_facade image to AWS ECR gpc_facade
-Boolean publishGP2GP_TranslatorImage  = true // true: to publsh gp2gp_translator image to AWS ECR gp2gp-translator
-Boolean publishMhsMockImage  = true // true: to publsh mhs mock image to AWS ECR pss-mock-mhs
+Boolean publishGPC_FacadeImage  = true // true: to publish gpc_facade image to AWS ECR gpc_facade
+Boolean publishGP2GP_TranslatorImage  = true // true: to publish gp2gp_translator image to AWS ECR gp2gp-translator
+Boolean publishMhsMockImage  = true // true: to publish mhs mock image to AWS ECR pss-mock-mhs
 
 
 pipeline {
@@ -66,6 +66,16 @@ pipeline {
                                         cat ./snomed-database-loader/uk_sct2mo_37.0.0_20230927000001Z.zip | docker run --rm --interactive -v snomed:/snomed alpine sh -c "cat > /snomed/uk_sct2mo_37.0.0_20230927000001Z.zip"
                                         docker-compose -f docker/docker-compose.yml run --rm --volume snomed:/snomed snomed_schema /snomed/uk_sct2mo_37.0.0_20230927000001Z.zip
                                         docker volume rm snomed
+                                    '''
+                                }
+                            }
+                        }
+                        stage('Immunisations Check') {
+                            steps {
+                                script {
+                                    sh '''
+                                        source docker/vars.local.tests.sh
+                                        ./snomed-database-loader/test-load-immunization-codes.sh
                                     '''
                                 }
                             }
