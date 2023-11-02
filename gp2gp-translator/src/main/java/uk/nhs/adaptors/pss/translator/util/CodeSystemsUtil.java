@@ -1,10 +1,13 @@
 package uk.nhs.adaptors.pss.translator.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
 @Component
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CodeSystemsUtil {
 
     private static final Map<String, String> SYSTEM_CODES = Map.of(
