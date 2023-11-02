@@ -121,8 +121,11 @@ To do this:-
 
 1. Log in to https://isd.digital.nhs.uk/
 2. Download the newest version of the SNOMED Monolith edition.
-3. Before continuing, please be aware that the database will be unavailable whilst being rebuilt, so this should be completed during a maintenance window.
+3. Before continuing, please be aware that the SNOMED database will be unavailable whilst being rebuilt.
+   All instances of the patient switching translator service should be stopped before performing the SNOMED update, any in progress GP2GP transfers will be on hold while the translator is stopped.
+   The patient switching facade does not need to be stopped, so API requests can continue to be made.
 4. Run the loader script as described above.
+5. Start the translator service again, which will resume processing any in progress transfers.
 
 ## Message broker
 
