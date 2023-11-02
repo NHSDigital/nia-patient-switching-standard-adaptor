@@ -122,35 +122,6 @@ If you receive a 500 response, you can retry again at any point, however, it sho
 
 Note: To improve reliability on this endpoint we are currently looking at a polling change, the documentation will be updated once this has been updated.
 
-## Configuring the SNOMED Database
-
-### First  installation
-
-As part of the installation of the adaptor, we do not provide the SNOMED database files as they are updated regularly under TRUD (Technology Reference Update Distribution).
-To acquire the most recent SNOMED database:-
-
-1. Head to https://isd.digital.nhs.uk/ and create a new account.
-2. Log in
-3. Search for the following: SNOMED CT UK Monolith Edition, RF2: Snapshot (https://isd.digital.nhs.uk/trud/users/authenticated/filters/0/categories/26/items/1799/releases). We recommend the full Monolith edition, not the delta version.
-4. Subscribe to the data store.
-5. Once subscribed you will be able to download the most recent version of the SNOMED DB, at the time of writing this is release 36.0.0. (uk_sct2mo_36.0.0_20230412000001Z.zip)
-6. During the setup of the adaptor you will now need to set the environment variable “SNOMED_FILE_LOCATION” to the root location of the zip file that you’ve downloaded e.g. export SNOMED_FILE_LOCATION=“/root/uk_sct2mo_36.0.0_20230412000001Z.zip
-7. Now when you run our startup scripts for the first time, the SNOMED database will be installed for you.
-
-### Updating the SNOMED Database
-
-You will now receive email notifications from TRUD once the subscribed data source is updated. We recommend updating your SNOMED version as soon as you receive the notification. To do this:-
-
-1. Log in to https://isd.digital.nhs.uk/
-2. Download the newest version of the SNOMED Monolith edition.
-3. Navigate to directory 'snomed-database-loader'.
-4. Before continuing, please be aware that the database will be unavailable whilst being rebuilt, so this should be completed during a maintenance window.
-5. Execute the script 'load_release-postgresql.sh' followed by the path to the root location of the zip file that you have downloaded. For example:
-
-   ``` 
-   ./load_release_postgresql.sh /root/uk_sct2mo_36.0.0_20230412000001Z.zip
-   ```
-
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).
 Any new work added to this repository must conform to the conditions of these licenses.
