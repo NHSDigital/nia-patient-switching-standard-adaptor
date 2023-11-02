@@ -89,7 +89,7 @@ Required environment variables:
 - PS_DB_PORT e.g. 5432
 
 The docker container has a required argument which is the path to a zipped SnomedCT RF2 file.
-The container does not come bundled with any Snomed data itself.
+The container does not come bundled with any SNOMED data itself.
 You will need to provide this file to the container.
 
 *When passing passwords into this script it is the responsibility of the supplier to ensure that passwords are being kept secure by using appropriate controls within their infrastructure.*
@@ -100,6 +100,29 @@ $ docker run --rm -e PS_DB_OWNER_NAME=postgres -e POSTGRES_PASSWORD=super5ecret 
     -v /path/to/uk_sct2mo_36.3.0_20230705000001Z.zip:/snomed/uk_sct2mo_36.3.0_20230705000001Z.zip \
     nhsdev/nia-ps-snomed-schema /snomed/uk_sct2mo_36.3.0_20230705000001Z.zip
 ```
+
+#### First installation
+
+As part of the installation of the adaptor, we do not provide the SNOMED database files as they are updated regularly under TRUD (Technology Reference Update Distribution).
+To acquire the most recent SNOMED database:-
+
+1. Head to https://isd.digital.nhs.uk/ and create a new account.
+2. Log in
+3. Search for the following: [SNOMED CT UK Monolith Edition, RF2: Snapshot](https://isd.digital.nhs.uk/trud/users/authenticated/filters/0/categories/26/items/1799/releases). We recommend the full Monolith edition, not the delta version.
+4. Subscribe to the data store.
+5. Once subscribed you will be able to download the most recent version of the SNOMED DB, at the time of writing this is release 36.0.0. (uk_sct2mo_36.0.0_20230412000001Z.zip)
+7. Now run the loader script as described above, and the SNOMED database will be installed for you.
+
+#### Updating the SNOMED Database
+
+You will now receive email notifications from TRUD once the subscribed data source is updated.
+We recommend updating your SNOMED version as soon as you receive the notification.
+To do this:-
+
+1. Log in to https://isd.digital.nhs.uk/
+2. Download the newest version of the SNOMED Monolith edition.
+3. Before continuing, please be aware that the database will be unavailable whilst being rebuilt, so this should be completed during a maintenance window.
+4. Run the loader script as described above.
 
 ## Message broker
 
