@@ -1,8 +1,8 @@
 String tfProject             = "nia"
 String tfComponent           = "pss"
-Boolean publishGPC_FacadeImage  = true // true: to publsh gpc_facade image to AWS ECR gpc_facade
-Boolean publishGP2GP_TranslatorImage  = true // true: to publsh gp2gp_translator image to AWS ECR gp2gp-translator
-Boolean publishMhsMockImage  = true // true: to publsh mhs mock image to AWS ECR pss-mock-mhs
+Boolean publishGPC_FacadeImage  = true // true: to publish gpc_facade image to AWS ECR gpc_facade
+Boolean publishGP2GP_TranslatorImage  = true // true: to publish gp2gp_translator image to AWS ECR gp2gp-translator
+Boolean publishMhsMockImage  = true // true: to publish mhs mock image to AWS ECR pss-mock-mhs
 
 
 pipeline {
@@ -70,6 +70,16 @@ pipeline {
                                 }
                             }
                         }
+                                                stage('Immunisations Check') {
+                                                    steps {
+                                                        script {
+                                                            sh '''
+                                                                source docker/vars.local.tests.sh
+                                                                ./snomed-database-loader/test-load-immunisation-codes.sh
+                                                            '''
+                                                        }
+                                                    }
+                                                }
                         stage('GPC API Facade Check') {
                             steps {
                                 script {
