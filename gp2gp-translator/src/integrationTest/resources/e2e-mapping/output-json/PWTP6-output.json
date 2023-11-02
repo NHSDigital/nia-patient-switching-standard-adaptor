@@ -3557,130 +3557,6 @@
     {
       "resource": {
         "resourceType": "Observation",
-        "id": "F1E7A50E-3108-4D49-AE96-1F655B515AF9",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/B83002",
-            "value": "F1E7A50E-3108-4D49-AE96-1F655B515AF9"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://read.info/readv2",
-              "code": "657L.00",
-              "display": "First pneumococcal conjugated vaccination"
-            },
-            {
-              "extension": [
-                {
-                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                  "extension": [
-                    {
-                      "url": "descriptionId",
-                      "valueId": "405281000000118"
-                    },
-                    {
-                      "url": "descriptionDisplay",
-                      "valueString": "First pneumococcal conjugated vaccination"
-                    }
-                  ]
-                }
-              ],
-              "system": "http://snomed.info/sct",
-              "code": "247631000000101",
-              "display": "First pneumococcal conjugated vaccination"
-            }
-          ],
-          "text": "First pneumococcal conjugated vaccination"
-        },
-        "subject": {
-          "reference": "Patient/611430dd-0c98-4e99-8cac-a5deb1b60677"
-        },
-        "context": {
-          "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
-        },
-        "effectiveDateTime": "2010-01-18T11:41:00+00:00",
-        "issued": "2010-01-18T11:39:45.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ],
-        "comment": "[Manufacturer: Medi-Pete], [Expiry Date: 29-Jan-2010], [Batch Number: 654321], Injection site: Right arm"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "CE457204-22DC-4790-A022-C24D5DF8C8D7",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/B83002",
-            "value": "CE457204-22DC-4790-A022-C24D5DF8C8D7"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://read.info/readv2",
-              "code": "657M.00",
-              "display": "Second pneumococcal conjugated vaccination"
-            },
-            {
-              "extension": [
-                {
-                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                  "extension": [
-                    {
-                      "url": "descriptionId",
-                      "valueId": "405301000000117"
-                    },
-                    {
-                      "url": "descriptionDisplay",
-                      "valueString": "Second pneumococcal conjugated vaccination"
-                    }
-                  ]
-                }
-              ],
-              "system": "http://snomed.info/sct",
-              "code": "247641000000105",
-              "display": "Second pneumococcal conjugated vaccination"
-            }
-          ],
-          "text": "Second pneumococcal conjugated vaccination"
-        },
-        "subject": {
-          "reference": "Patient/611430dd-0c98-4e99-8cac-a5deb1b60677"
-        },
-        "context": {
-          "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
-        },
-        "effectiveDateTime": "2010-01-18T11:41:00+00:00",
-        "issued": "2010-01-18T11:39:45.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-          }
-        ],
-        "comment": "[Manufacturer: Pete-medicines], [Expiry Date: 07-Feb-2010], [Batch Number: rere2323], Injection site: Right buttock"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
         "id": "4D10FF79-FF48-4370-BABE-56A031B55AD5",
         "meta": {
           "profile": [
@@ -7669,6 +7545,11 @@
             "valueCodeableConcept": {
               "coding": [
                 {
+                  "system": "http://read.info/readv2",
+                  "code": "657L.00",
+                  "display": "First pneumococcal conjugated vaccination"
+                },
+                {
                   "extension": [
                     {
                       "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -7686,11 +7567,6 @@
                   ],
                   "system": "http://snomed.info/sct",
                   "code": "247631000000101",
-                  "display": "First pneumococcal conjugated vaccination"
-                },
-                {
-                  "system": "http://read.info/readv2",
-                  "code": "657L.00",
                   "display": "First pneumococcal conjugated vaccination"
                 }
               ],
@@ -8005,6 +7881,11 @@
             "valueCodeableConcept": {
               "coding": [
                 {
+                  "system": "http://read.info/readv2",
+                  "code": "657M.00",
+                  "display": "Second pneumococcal conjugated vaccination"
+                },
+                {
                   "extension": [
                     {
                       "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
@@ -8022,11 +7903,6 @@
                   ],
                   "system": "http://snomed.info/sct",
                   "code": "247641000000105",
-                  "display": "Second pneumococcal conjugated vaccination"
-                },
-                {
-                  "system": "http://read.info/readv2",
-                  "code": "657M.00",
                   "display": "Second pneumococcal conjugated vaccination"
                 }
               ],
