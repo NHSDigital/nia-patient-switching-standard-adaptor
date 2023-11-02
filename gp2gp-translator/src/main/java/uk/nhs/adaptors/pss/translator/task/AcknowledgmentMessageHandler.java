@@ -41,6 +41,7 @@ public class AcknowledgmentMessageHandler {
     private final FailedProcessHandlingService failedProcessHandlingService;
 
     public void handleMessage(InboundMessage inboundMessage, String conversationId) throws SAXException {
+
         Document document = xPathService.parseDocumentFromXml(inboundMessage.getPayload());
         String ackTypeCode = xPathService.getNodeValue(document, ACK_TYPE_CODE_XPATH);
         String nackReasonCode = null;
@@ -50,7 +51,7 @@ public class AcknowledgmentMessageHandler {
             return;
         }
 
-        if (ackTypeCode.equals(NACK_ERROR_TYPE_CODE) || ackTypeCode.equals(NACK_REJECT_TYPE_CODE)) {
+        if (NACK_ERROR_TYPE_CODE.equals(ackTypeCode) || NACK_REJECT_TYPE_CODE.equals(ackTypeCode)) {
             nackReasonCode = xPathService.getNodeValue(document, NACK_REASON_CODE_PATH);
             if (nackReasonCode == null) {
                 nackReasonCode = "";
@@ -65,10 +66,10 @@ public class AcknowledgmentMessageHandler {
             return;
         }
 
-        if (currentMigrationStatus.equals(FINAL_ACK_SENT) || currentMigrationStatus.equals(MIGRATION_COMPLETED)) {
+        if (FINAL_ACK_SENT.equals(currentMigrationStatus) || MIGRATION_COMPLETED.equals(currentMigrationStatus)) {
             var loggerMessage = "Received an ack with type code {}, but the migration is complete";
 
-            if (currentMigrationStatus.equals(FINAL_ACK_SENT)) {
+            if (FINAL_ACK_SENT.equals(currentMigrationStatus)) {
                 loggerMessage = loggerMessage + " and the EHR has been accepted";
             }
 
