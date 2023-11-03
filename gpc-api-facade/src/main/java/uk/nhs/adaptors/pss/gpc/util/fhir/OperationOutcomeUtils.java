@@ -2,6 +2,8 @@ package uk.nhs.adaptors.pss.gpc.util.fhir;
 
 import java.util.Collections;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.OperationOutcome;
@@ -11,7 +13,9 @@ import org.hl7.fhir.dstu3.model.OperationOutcome.IssueSeverity;
 
 import org.hl7.fhir.dstu3.model.UriType;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OperationOutcomeUtils {
+
     private static final String URI_TYPE = "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-OperationOutcome-1";
 
     public static OperationOutcome createOperationOutcome(

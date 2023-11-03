@@ -7,10 +7,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BloodPressureValidatorUtil {
+
     private static final List<String> HEADER_1 = Arrays.asList("163020007", "254063019", "254065014", "254064013", "2667419011");
     private static final List<String> HEADER_2 = Arrays.asList("386534000", "1480679010");
     private static final List<String> HEADER_3 = Arrays.asList("7536700", "125176019");
