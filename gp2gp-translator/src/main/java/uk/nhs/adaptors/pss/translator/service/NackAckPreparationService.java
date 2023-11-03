@@ -33,7 +33,7 @@ public class NackAckPreparationService {
         LOGGER.debug("Sending Final ACK message for Conversation ID: [{}]", conversationId);
 
         migrationStatusLogService.
-                addMigrationStatusLog(FINAL_ACK_SENT, conversationId, null);
+                addMigrationStatusLog(FINAL_ACK_SENT, conversationId, null, null);
 
         return sendACKMessageHandler.prepareAndSendMessage(prepareAckMessageData(
                 payload,
@@ -46,7 +46,7 @@ public class NackAckPreparationService {
         LOGGER.debug("Sending ACK message for COPC message with Conversation ID: [{}]", conversationId);
 
         migrationStatusLogService.
-                addMigrationStatusLog(COPC_ACKNOWLEDGED, conversationId, null);
+                addMigrationStatusLog(COPC_ACKNOWLEDGED, conversationId, null, null);
 
         return sendACKMessageHandler.prepareAndSendMessage(prepareAckMessageData(
                 payload,
@@ -132,7 +132,7 @@ public class NackAckPreparationService {
         LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message EHR Extract message [{}]", reason.getCode(),
                 payload.getId().getRoot());
 
-        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null, reason.getCode());
 
         return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
                 reason,
@@ -146,7 +146,7 @@ public class NackAckPreparationService {
         LOGGER.debug("Sending NACK message with acknowledgement code [{}] for message COPC message [{}]", reason.getCode(),
                 payload.getId().getRoot());
 
-        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null, reason.getCode());
 
         return sendNACKMessageHandler.prepareAndSendMessage(prepareNackMessageData(
                 reason,

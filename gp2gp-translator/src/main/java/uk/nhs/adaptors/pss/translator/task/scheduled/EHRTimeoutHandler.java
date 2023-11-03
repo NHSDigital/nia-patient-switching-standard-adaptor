@@ -124,7 +124,7 @@ public class EHRTimeoutHandler {
 
             if (timeoutDateTime.isBefore(currentTime)) {
                 LOGGER.info("Migration Request timed out at [{}]", timeoutDateTime);
-                migrationStatusLogService.addMigrationStatusLog(ERROR_REQUEST_TIMEOUT, conversationId, null);
+                migrationStatusLogService.addMigrationStatusLog(ERROR_REQUEST_TIMEOUT, conversationId, null, null);
             }
 
         } catch (SdsRetrievalException e) {
@@ -171,7 +171,7 @@ public class EHRTimeoutHandler {
             LOGGER.error("Error retrieving persist duration: [{}]", e.getMessage());
         } catch (JsonProcessingException | SAXException | DateTimeParseException | JAXBException e) {
             LOGGER.error("Error parsing inbound message from database");
-            migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null);
+            migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null, "99");
         } finally {
             mdcService.applyConversationId("");
         }
@@ -196,9 +196,9 @@ public class EHRTimeoutHandler {
 
             if (reason == LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED) {
                 migrationStatusLogService
-                    .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+                    .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null, reason.getCode());
             } else {
-                migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null);
+                migrationStatusLogService.addMigrationStatusLog(reason.getMigrationStatus(), conversationId, null, reason.getCode());
             }
         }
     }

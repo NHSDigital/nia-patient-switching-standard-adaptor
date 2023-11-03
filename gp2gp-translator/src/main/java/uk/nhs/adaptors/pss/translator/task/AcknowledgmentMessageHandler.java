@@ -51,7 +51,8 @@ public class AcknowledgmentMessageHandler {
             return;
         }
 
-        if (NACK_ERROR_TYPE_CODE.equals(ackTypeCode) || NACK_REJECT_TYPE_CODE.equals(ackTypeCode)) {
+        var negativeAckError = isNegativeAckError(ackTypeCode);
+        if (negativeAckError) {
             nackReasonCode = xPathService.getNodeValue(document, NACK_REASON_CODE_PATH);
             if (nackReasonCode == null) {
                 nackReasonCode = "";
@@ -77,7 +78,15 @@ public class AcknowledgmentMessageHandler {
             return;
         }
 
-        migrationStatusLogService.addMigrationStatusLog(newMigrationStatus, conversationId, null);
+        if(negativeAckError) {
+            migrationStatusLogService.addMigrationStatusLog(newMigrationStatus, conversationId, null, nackReasonCode);
+        } else {
+            migrationStatusLogService.addMigrationStatusLog(newMigrationStatus, conversationId, null, null);
+        }
+    }
+
+    private static boolean isNegativeAckError(String ackTypeCode) {
+        return NACK_ERROR_TYPE_CODE.equals(ackTypeCode) || NACK_REJECT_TYPE_CODE.equals(ackTypeCode);
     }
 
     private MigrationStatus getMigrationStatus(String ackTypeCode, String reasonCode) {

@@ -43,12 +43,12 @@ public class SendEhrExtractRequestHandler {
             LOGGER.debug(response);
         } catch (WebClientResponseException wcre) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", wcre.getMessage());
-            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.EHR_EXTRACT_REQUEST_ERROR, conversationId, null);
+            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.EHR_EXTRACT_REQUEST_ERROR, conversationId, null, "2");
             return false;
         }
 
         LOGGER.info("Got response from MHS - 202 Accepted");
-        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED, conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED, conversationId, null, null);
         return true;
     }
 }

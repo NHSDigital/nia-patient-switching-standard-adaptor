@@ -68,7 +68,7 @@ public class AcknowledgmentMessageHandlerTest {
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService)
-            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACKNOWLEDGED, CONVERSATION_ID, null);
+            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACKNOWLEDGED, CONVERSATION_ID, null, null);
     }
 
     @Test
@@ -79,11 +79,12 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN, CONVERSATION_ID, null, "");
     }
 
     @Test
     public void handleMessageWithNackErrorTypeCodeAndErrorCode() throws SAXException {
+
         inboundMessage = new InboundMessage();
         prepareXPathServiceMocks(NACK_ERROR_TYPE_CODE, "06");
         prepareMigrationStatusMocks(EHR_EXTRACT_REQUEST_ACCEPTED);
@@ -91,7 +92,7 @@ public class AcknowledgmentMessageHandlerTest {
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService)
-            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED, CONVERSATION_ID, null);
+            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED, CONVERSATION_ID, null, "06");
     }
 
     @Test
@@ -102,7 +103,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN, CONVERSATION_ID, null,"");
     }
 
     @Test
@@ -114,7 +115,7 @@ public class AcknowledgmentMessageHandlerTest {
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService)
-            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED, CONVERSATION_ID, null);
+            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED, CONVERSATION_ID, null, "06");
     }
 
     @Test
@@ -125,7 +126,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
     }
 
     @Test
@@ -136,7 +137,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
     }
 
     @Test
@@ -147,7 +148,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
     }
 
     @Test
@@ -158,7 +159,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
     }
 
     @Test
@@ -167,7 +168,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
     }
 
     @Test
@@ -176,7 +177,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
     }
 
     @SneakyThrows

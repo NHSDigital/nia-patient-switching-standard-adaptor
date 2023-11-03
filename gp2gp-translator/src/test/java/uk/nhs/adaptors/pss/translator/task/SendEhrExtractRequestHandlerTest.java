@@ -86,6 +86,7 @@ public class SendEhrExtractRequestHandlerTest {
         verify(migrationStatusLogService).addMigrationStatusLog(
             MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED,
             CONVERSATION_ID,
+            null,
             null
         );
     }
@@ -107,7 +108,8 @@ public class SendEhrExtractRequestHandlerTest {
         verify(migrationStatusLogService).addMigrationStatusLog(
             MigrationStatus.EHR_EXTRACT_REQUEST_ERROR,
             CONVERSATION_ID,
-            null
+            null,
+            "2"
         );
     }
 }

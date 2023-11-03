@@ -38,6 +38,7 @@ import java.nio.charset.Charset;
 @Slf4j
 @ExtendWith(MockitoExtension.class)
 public class SendContinueRequestHandlerTest {
+
     private static final String NHS_NUMBER = "9446363101";
     private static final String CONVERSATION_ID = "6E242658-3D8E-11E3-A7DC-172BDA00FA67";
     private static final String LOSING_ODS_CODE = "B83002"; //to odds code
@@ -118,7 +119,7 @@ public class SendContinueRequestHandlerTest {
         } catch (Exception e) {
         }
 
-        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, CONVERSATION_ID, null, "8");
     }
 
     @Test
@@ -171,7 +172,7 @@ public class SendContinueRequestHandlerTest {
                 .build();
 
         sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
-        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, CONVERSATION_ID, null, null);
     }
 
     @Test
@@ -219,8 +220,7 @@ public class SendContinueRequestHandlerTest {
         when(continueRequestService.buildContinueRequest(any(), any())).thenReturn(testPayload);
 
         sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
-        verify(continueRequestService).buildContinueRequest(eq(continueRequestData), eq(MESSAGE_ID.toUpperCase()));
-        verify(requestBuilder).buildSendContinueRequest(eq(CONVERSATION_ID), eq(LOSING_ODS_CODE), eq(outboundMessage),
-            eq(MESSAGE_ID.toUpperCase()));
+        verify(continueRequestService).buildContinueRequest(continueRequestData, MESSAGE_ID.toUpperCase());
+        verify(requestBuilder).buildSendContinueRequest(CONVERSATION_ID, LOSING_ODS_CODE, outboundMessage, MESSAGE_ID.toUpperCase());
     }
 }

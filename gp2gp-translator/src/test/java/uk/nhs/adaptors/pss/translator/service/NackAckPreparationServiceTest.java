@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -67,7 +68,7 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(true);
 
         assertTrue(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null, "30");
     }
 
     @Test
@@ -78,7 +79,7 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(false);
 
         assertFalse(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null, "30");
     }
 
     @Test
@@ -214,7 +215,7 @@ class NackAckPreparationServiceTest {
                 payload,
                 CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull());
+        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull(), anyString());
 
         assertEquals(MigrationStatus.ERROR_EXTRACT_CANNOT_BE_PROCESSED, migrationStatusCaptor.getValue());
     }
@@ -227,7 +228,7 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(true);
 
         assertTrue(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null, "30");
     }
 
     @Test
@@ -238,7 +239,7 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(false);
 
         assertFalse(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null, "30");
     }
 
     @Test
@@ -374,7 +375,7 @@ class NackAckPreparationServiceTest {
                 payload,
                 CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull());
+        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull(), anyString());
 
         assertEquals(ERROR_EXTRACT_CANNOT_BE_PROCESSED, migrationStatusCaptor.getValue());
     }

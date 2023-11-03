@@ -83,7 +83,7 @@ public abstract class BaseEhrHandler {
 
     protected void startPatientMigrationJourney() {
         patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, losingODSCode, winingODSCode);
-        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId, null, null);
     }
 
     protected boolean isEhrExtractTranslated() {

@@ -216,7 +216,7 @@ public class EHRTimeoutHandlerTest {
         verify(sendNACKMessageHandler, times(0)).prepareAndSendMessage(any());
 
         verify(migrationStatusLogService, times(1))
-            .addMigrationStatusLog(eq(ERROR_REQUEST_TIMEOUT), eq(conversationId), eq(null));
+            .addMigrationStatusLog(ERROR_REQUEST_TIMEOUT, conversationId, null, null);
     }
 
     @Test
@@ -227,7 +227,7 @@ public class EHRTimeoutHandlerTest {
 
         callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_PROCESSING, TEN_DAYS_AGO, 0, conversationId);
         verify(migrationStatusLogService, times(0))
-            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null, "25");
     }
 
     @Test
@@ -241,7 +241,7 @@ public class EHRTimeoutHandlerTest {
             .isInstanceOf(MhsServerErrorException.class);
 
         verify(migrationStatusLogService, times(0))
-            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null, "25");
     }
 
     @Test
@@ -252,7 +252,7 @@ public class EHRTimeoutHandlerTest {
 
         callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_PROCESSING, TEN_DAYS_AGO, 0, conversationId);
         verify(migrationStatusLogService, times(1))
-            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null, "31");
     }
 
     @Test
@@ -263,7 +263,7 @@ public class EHRTimeoutHandlerTest {
 
         callCheckForTimeoutsWithOneRequest(COPC_MESSAGE_RECEIVED, TEN_DAYS_AGO, 2, conversationId);
         verify(migrationStatusLogService, times(1))
-            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null, "31");
     }
 
     @Test
@@ -274,7 +274,7 @@ public class EHRTimeoutHandlerTest {
 
         callCheckForTimeoutsWithOneRequest(COPC_MESSAGE_PROCESSING, TEN_DAYS_AGO, 2, conversationId);
         verify(migrationStatusLogService, times(1))
-            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null, "31");
     }
 
     @Test
@@ -285,7 +285,7 @@ public class EHRTimeoutHandlerTest {
 
         callCheckForTimeoutsWithOneRequest(COPC_ACKNOWLEDGED, TEN_DAYS_AGO, 2, conversationId);
         verify(migrationStatusLogService, times(1))
-            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null, "31");
     }
 
     @Test
@@ -296,7 +296,7 @@ public class EHRTimeoutHandlerTest {
 
         callCheckForTimeoutsWithOneRequest(EHR_EXTRACT_PROCESSING, TEN_DAYS_AGO, 2, conversationId);
         verify(migrationStatusLogService, times(1))
-            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null);
+            .addMigrationStatusLog(LARGE_MESSAGE_TIMEOUT.getMigrationStatus(), conversationId, null, "31");
     }
 
     @Test
@@ -341,7 +341,7 @@ public class EHRTimeoutHandlerTest {
 
         ehrTimeoutHandler.checkForTimeouts();
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), isNull());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), isNull(), any());
     }
 
     @Test
@@ -356,7 +356,8 @@ public class EHRTimeoutHandlerTest {
 
         ehrTimeoutHandler.checkForTimeouts();
 
-        verify(migrationStatusLogService, times(1)).addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null);
+        verify(migrationStatusLogService, times(1))
+                                    .addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null, "99");
     }
 
     @Test
@@ -372,7 +373,8 @@ public class EHRTimeoutHandlerTest {
 
         ehrTimeoutHandler.checkForTimeouts();
 
-        verify(migrationStatusLogService, times(1)).addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null);
+        verify(migrationStatusLogService, times(1))
+                                    .addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null, "99");
     }
 
     @Test
@@ -388,7 +390,8 @@ public class EHRTimeoutHandlerTest {
 
         ehrTimeoutHandler.checkForTimeouts();
 
-        verify(migrationStatusLogService, times(1)).addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null);
+        verify(migrationStatusLogService, times(1))
+                                                 .addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null, "99");
     }
 
     private void callCheckForTimeoutsWithOneRequest(MigrationStatus migrationStatus, ZonedDateTime requestTimestamp,

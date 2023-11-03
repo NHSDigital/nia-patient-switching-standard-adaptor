@@ -114,7 +114,7 @@ public class InboundMessageMergingService {
                     EHR_EXTRACT_TRANSLATED,
                     null
             );
-            migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId, null);
+            migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId, null, null);
 
         } catch (InlineAttachmentProcessingException | SAXException | TransformerException
                  | JAXBException | AttachmentNotFoundException | JsonProcessingException e) {

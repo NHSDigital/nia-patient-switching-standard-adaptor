@@ -157,7 +157,7 @@ public class EhrExtractMessageHandlerTest {
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID, null, null);
 
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
             CONVERSATION_ID,
@@ -782,7 +782,7 @@ public class EhrExtractMessageHandlerTest {
             .handleFailedProcess(any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID));
 
         verify(migrationStatusLogService, times(0))
-            .addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID, null);
+            .addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID, null, null);
     }
 
     @SneakyThrows

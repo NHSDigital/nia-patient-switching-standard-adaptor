@@ -1095,7 +1095,7 @@ class COPCMessageHandlerTest {
             .handleFailedProcess(any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID));
 
         verify(migrationStatusLogService, times(0))
-            .addMigrationStatusLog(COPC_MESSAGE_RECEIVED, CONVERSATION_ID, null);
+            .addMigrationStatusLog(COPC_MESSAGE_RECEIVED, CONVERSATION_ID, null, null);
     }
 
     @Test
@@ -1280,7 +1280,7 @@ class COPCMessageHandlerTest {
             assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode());
 
             verify(migrationStatusLogService, times(1))
-                .addMigrationStatusLog(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(), CONVERSATION_ID, null);
+                .addMigrationStatusLog(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(), CONVERSATION_ID, null, "31");
 
         } finally {
             mockedXmlUnmarshall.close();

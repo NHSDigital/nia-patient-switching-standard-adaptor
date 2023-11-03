@@ -95,7 +95,7 @@ public class EhrExtractMessageHandler {
             return;
         }
 
-        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_RECEIVED, conversationId, null, null);
 
         try {
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
@@ -211,7 +211,7 @@ public class EhrExtractMessageHandler {
             messageId
         );
 
-        migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId, null, null);
     }
 
     private void processExternalAttachmentsAndSendContinueMessage(InboundMessage inboundMessage,

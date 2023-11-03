@@ -94,7 +94,7 @@ public class MhsQueueMessageHandler {
             // Current child try catch blocks do not detect this condition so no failed migration log is added...
             // We are however unlikely to have a payload at this point so cannot send a NACK
             if (conversationId != null && !conversationId.isEmpty()) {
-                migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null);
+                migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null, "99");
             }
             return false;
         } catch (JsonProcessingException | DataFormatException e) {

@@ -41,7 +41,7 @@ public class SendContinueRequestHandler {
             mhsClientService.send(request);
         } catch (WebClientResponseException webClientResponseException) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", webClientResponseException.getMessage());
-            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getConversationId(), null);
+            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getConversationId(), null, "8");
 
             if (webClientResponseException.getStatusCode().is5xxServerError()) {
                 throw new MhsServerErrorException("Unable to sent continue message");
@@ -51,6 +51,10 @@ public class SendContinueRequestHandler {
         }
 
         LOGGER.info("Got response from MHS - 202 Accepted");
-        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, data.getConversationId(), null);
+        migrationStatusLogService.addMigrationStatusLog(
+                MigrationStatus.CONTINUE_REQUEST_ACCEPTED,
+                data.getConversationId(),
+                null,
+                null);
     }
 }

@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.gpc.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -99,7 +100,7 @@ public class PatientTransferServiceTest {
 
         MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);
 
-        assertThat(patientMigrationRequest).isEqualTo(null);
+        assertThat(patientMigrationRequest).isNull();
         verify(pssQueuePublisher).sendToPssQueue(expectedPssQueueMessage);
         verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, CONVERSATION_ID, LOSING_ODS_CODE, WINNING_ODS_CODE);
         verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId, null);
@@ -125,7 +126,7 @@ public class PatientTransferServiceTest {
 
         MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);
 
-        assertThat(patientMigrationRequest).isEqualTo(null);
+        assertThat(patientMigrationRequest).isNull();
         verify(pssQueuePublisher).sendToPssQueue(expectedPssQueueMessage);
         verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, CONVERSATION_ID, LOSING_ODS_CODE, WINNING_ODS_CODE);
         verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId, null);
@@ -143,7 +144,7 @@ public class PatientTransferServiceTest {
 
         MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);
 
-        assertThat(patientMigrationRequest).isEqualTo(expectedMigrationStatusLog);
+        assertEquals(expectedMigrationStatusLog, patientMigrationRequest);
         verifyNoInteractions(pssQueuePublisher);
         verify(patientMigrationRequestDao).getMigrationRequest(CONVERSATION_ID);
         verifyNoMoreInteractions(patientMigrationRequestDao);
@@ -162,7 +163,7 @@ public class PatientTransferServiceTest {
 
         MigrationStatusLog patientMigrationRequest = service.handlePatientMigrationRequest(parameters, HEADERS);
 
-        assertThat(patientMigrationRequest).isEqualTo(expectedMigrationStatusLog);
+        assertEquals(expectedMigrationStatusLog, patientMigrationRequest);
         verifyNoInteractions(pssQueuePublisher);
         verify(patientMigrationRequestDao).getMigrationRequest(CONVERSATION_ID);
         verifyNoMoreInteractions(patientMigrationRequestDao);
@@ -212,7 +213,7 @@ public class PatientTransferServiceTest {
         var existingConversationId = service.checkExistingPatientMigrationRequestInProgress(parameters);
 
         assertThat(existingConversationId).isNotNull();
-        assertThat(existingConversationId).isEqualTo(CONVERSATION_ID);
+        assertEquals(CONVERSATION_ID, existingConversationId);
     }
 
     @ParameterizedTest

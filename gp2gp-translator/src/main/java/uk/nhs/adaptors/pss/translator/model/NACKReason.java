@@ -17,6 +17,7 @@ import uk.nhs.adaptors.common.enums.MigrationStatus;
 
 @RequiredArgsConstructor
 public enum NACKReason {
+
     LARGE_MESSAGE_REASSEMBLY_FAILURE("29"),
     LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED("31"),
     LARGE_MESSAGE_GENERAL_FAILURE("30"),

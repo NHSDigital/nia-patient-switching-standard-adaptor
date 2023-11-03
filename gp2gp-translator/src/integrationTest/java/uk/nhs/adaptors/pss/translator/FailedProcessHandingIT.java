@@ -107,7 +107,7 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
 
     @Test
     public void When_ProcessFailedByNME_With_EhrExtract_Expect_NotProcessed() {
-        migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, getConversationId(), null);
+        migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, getConversationId(), null, "99");
 
         sendEhrExtractToQueue();
 
@@ -133,7 +133,7 @@ public class FailedProcessHandingIT extends BaseEhrHandler {
 
         await().until(this::isContinueRequestAccepted);
 
-        migrationStatusLogService.addMigrationStatusLog(preCopcMigrationStatus, getConversationId(), null);
+        migrationStatusLogService.addMigrationStatusLog(preCopcMigrationStatus, getConversationId(), null, null);
 
         sendCopcToQueue();
 
