@@ -40,7 +40,7 @@ public class MigrationStatusLogServiceTest {
         when(patientMigrationRequestDao.getMigrationRequestId(nhsNumber)).thenReturn(MIGRATION_REQUEST_ID);
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
 
-        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, nhsNumber, null);
+        migrationStatusLogService.addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, nhsNumber, null, null);
 
         verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, now, MIGRATION_REQUEST_ID, null);
     }
