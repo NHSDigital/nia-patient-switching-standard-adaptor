@@ -2,11 +2,15 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.v3.CsTelecommunicationAddressUse;
 import org.hl7.v3.TEL;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TelecomUtil {
+
     private static final String WORK_PLACE = "WP";
     private static final int TELECOM_RANK = 1;
     private static final int TEL_PREFIX_INT = 4;

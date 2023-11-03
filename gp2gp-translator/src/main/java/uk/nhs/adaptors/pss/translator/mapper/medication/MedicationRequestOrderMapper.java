@@ -41,6 +41,7 @@ public class MedicationRequestOrderMapper {
 
     public MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
         RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Prescribe supplyPrescribe, String practiseCode) {
+
         var ehrSupplyPrescribeIdExtract = extractEhrSupplyPrescribeId(supplyPrescribe);
         var inFulfillmentOfId = extractInFulfillmentOfId(supplyPrescribe);
 

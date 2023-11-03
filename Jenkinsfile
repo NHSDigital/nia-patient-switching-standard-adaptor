@@ -70,16 +70,16 @@ pipeline {
                                 }
                             }
                         }
-                                                stage('Immunisations Check') {
-                                                    steps {
-                                                        script {
-                                                            sh '''
-                                                                source docker/vars.local.tests.sh
-                                                                ./snomed-database-loader/test-load-immunisation-codes.sh
-                                                            '''
-                                                        }
-                                                    }
-                                                }
+                        stage('Immunisations Check') {
+                            steps {
+                                script {
+                                    sh '''
+                                        source docker/vars.local.tests.sh
+                                        ./snomed-database-loader/test-load-immunisation-codes.sh
+                                    '''
+                                }
+                            }
+                        }
                         stage('GPC API Facade Check') {
                             steps {
                                 script {

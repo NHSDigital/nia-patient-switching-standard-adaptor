@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
@@ -18,7 +20,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JsonPathIgnoreGeneratorUtil {
+
     private static final String CONSULTATION_DISPLAY = "Consultation";
     private static final String TOPIC_DISPLAY = "Topic (EHR)";
     private static final String UNKNOWN_USER = "Unknown User";

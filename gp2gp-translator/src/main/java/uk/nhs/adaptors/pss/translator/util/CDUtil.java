@@ -2,8 +2,11 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.Optional;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hl7.v3.CD;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CDUtil {
 
     private static final String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";

@@ -2,6 +2,8 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -11,6 +13,7 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResourceUtil {
 
     private static final String META_PROFILE_TEMPLATE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-%s";

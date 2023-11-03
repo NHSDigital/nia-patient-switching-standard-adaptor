@@ -3,11 +3,14 @@ package uk.nhs.adaptors.pss.translator.util;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.ResourceType;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrganizationUtil {
 
     private static final String ORG_IDENTIFIER_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
