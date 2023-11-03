@@ -137,10 +137,10 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         List<Reference> childResourceReferences = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromTemplate(compoundStatement, childResourceReferences);
-        childResourceReferences.forEach(reference -> {
+        childResourceReferences.forEach(reference ->
             questionnaireResponse.addItem().addAnswer(
-                new QuestionnaireResponse.QuestionnaireResponseItemAnswerComponent().setValue(reference));
-        });
+                new QuestionnaireResponse.QuestionnaireResponseItemAnswerComponent().setValue(reference))
+        );
     }
 
     private Optional<Reference> getEncounter(List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
