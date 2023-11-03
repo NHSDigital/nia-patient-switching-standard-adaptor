@@ -141,6 +141,6 @@ public class AcknowledgeRecordControllerIT {
     private void addMigrationRequestAndLogWithStatus(String conversationId, MigrationStatus status) {
         patientMigrationRequestDao.addNewRequest(PATIENT_NUMBER, conversationId, LOSING_PRACTICE_ODS, WINNING_PRACTICE_ODS);
         patientMigrationRequestDao.saveBundleAndInboundMessageData(conversationId, BUNDLE_VALUE, INBOUND_MESSAGE_VALUE);
-        migrationStatusLogService.addMigrationStatusLog(status, conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(status, conversationId, null, null);
     }
 }
