@@ -3,6 +3,8 @@ package uk.nhs.adaptors.pss.translator.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.BooleanType;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -28,7 +30,9 @@ import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.mapper.QuantityMapper;
 
 @Component
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ObservationUtil {
+
     private static final String VALUE_QUANTITY_EXTENSION = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ValueApproximation-1";
     private static final String CODING_SYSTEM = "http://hl7.org/fhir/v2/0078";

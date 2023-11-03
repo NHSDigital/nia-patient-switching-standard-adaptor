@@ -2,9 +2,12 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.regex.Pattern;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.intellij.lang.annotations.RegExp;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TextUtil {
 
     @RegExp
