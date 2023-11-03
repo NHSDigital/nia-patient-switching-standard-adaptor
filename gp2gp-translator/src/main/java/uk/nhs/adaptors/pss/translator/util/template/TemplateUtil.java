@@ -3,12 +3,16 @@ package uk.nhs.adaptors.pss.translator.util.template;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TemplateUtil {
+
     private static final String TEMPLATES_DIRECTORY = "templates";
 
     public static Mustache loadTemplate(String templateName) {

@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompoundStatementUtil {
 
     public static List<RCMRMT030101UK04CompoundStatement> extractCompoundsFromCompound(
