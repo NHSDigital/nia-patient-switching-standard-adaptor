@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.task;
 import static java.util.UUID.randomUUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -126,7 +127,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), anyString());
     }
 
     @Test
@@ -137,7 +138,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), anyString());
     }
 
     @Test
@@ -148,7 +149,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), anyString());
     }
 
     @Test
@@ -159,7 +160,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), anyString());
     }
 
     @Test
@@ -168,7 +169,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), anyString());
     }
 
     @Test
@@ -177,7 +178,7 @@ public class AcknowledgmentMessageHandlerTest {
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), any(), anyString());
     }
 
     @SneakyThrows

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
@@ -341,7 +342,7 @@ public class EHRTimeoutHandlerTest {
 
         ehrTimeoutHandler.checkForTimeouts();
 
-        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), isNull(), any());
+        verify(migrationStatusLogService, times(0)).addMigrationStatusLog(any(), any(), isNull(), anyString());
     }
 
     @Test
