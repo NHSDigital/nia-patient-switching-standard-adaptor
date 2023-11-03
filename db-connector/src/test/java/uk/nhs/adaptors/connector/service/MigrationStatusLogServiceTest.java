@@ -42,6 +42,6 @@ public class MigrationStatusLogServiceTest {
 
         migrationStatusLogService.addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, nhsNumber, null, null);
 
-        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, now, MIGRATION_REQUEST_ID, null);
+        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.MIGRATION_COMPLETED, now, MIGRATION_REQUEST_ID, null, null);
     }
 }
