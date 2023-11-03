@@ -103,7 +103,7 @@ public class PatientTransferServiceTest {
         assertThat(patientMigrationRequest).isNull();
         verify(pssQueuePublisher).sendToPssQueue(expectedPssQueueMessage);
         verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, CONVERSATION_ID, LOSING_ODS_CODE, WINNING_ODS_CODE);
-        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId, null);
+        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId, null, null);
     }
 
     @Test
@@ -129,7 +129,7 @@ public class PatientTransferServiceTest {
         assertThat(patientMigrationRequest).isNull();
         verify(pssQueuePublisher).sendToPssQueue(expectedPssQueueMessage);
         verify(patientMigrationRequestDao).addNewRequest(PATIENT_NHS_NUMBER, CONVERSATION_ID, LOSING_ODS_CODE, WINNING_ODS_CODE);
-        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId, null);
+        verify(migrationStatusLogDao).addMigrationStatusLog(MigrationStatus.REQUEST_RECEIVED, now, migrationRequestId, null, null);
     }
 
     @Test
