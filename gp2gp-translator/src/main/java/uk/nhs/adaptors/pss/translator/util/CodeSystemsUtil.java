@@ -2,8 +2,6 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
-
 import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
