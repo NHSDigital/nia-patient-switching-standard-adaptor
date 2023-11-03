@@ -78,7 +78,7 @@ public class AcknowledgmentMessageHandler {
             return;
         }
 
-        if(negativeAckError) {
+        if (negativeAckError) {
             migrationStatusLogService.addMigrationStatusLog(newMigrationStatus, conversationId, null, nackReasonCode);
         } else {
             migrationStatusLogService.addMigrationStatusLog(newMigrationStatus, conversationId, null, null);

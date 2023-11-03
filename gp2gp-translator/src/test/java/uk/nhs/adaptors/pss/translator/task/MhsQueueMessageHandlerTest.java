@@ -164,7 +164,8 @@ public class MhsQueueMessageHandlerTest {
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
         assertFalse(result);
-        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, CONVERSATION_ID_UPPER, null, "99");
+        verify(migrationStatusLogService)
+            .addMigrationStatusLog(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, CONVERSATION_ID_UPPER, null, "99");
 
     }
 
