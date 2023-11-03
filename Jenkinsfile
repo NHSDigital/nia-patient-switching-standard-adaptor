@@ -66,7 +66,7 @@ pipeline {
                                         cat ./snomed-database-loader/uk_sct2mo_37.0.0_20230927000001Z.zip | docker run --rm --interactive -v snomed:/snomed alpine sh -c "cat > /snomed/uk_sct2mo_37.0.0_20230927000001Z.zip"
                                         cat ./snomed-database-loader/test-load-immunisation-codes.sh |  docker run --rm --interactive -v snomed:/snomed alpine sh -c "cat > /snomed/test-load-immunisation-codes.sh"
                                         docker-compose -f docker/docker-compose.yml run --rm --volume snomed:/snomed snomed_schema /snomed/uk_sct2mo_37.0.0_20230927000001Z.zip
-                                        docker-compose -f docker/docker-compose.yml run --entrypoint "sh /snomed/test-load-immunisation-codes.sh" --rm --volume snomed:/snomed snomed_schema
+                                        docker-compose -f docker/docker-compose.yml run --entrypoint "bash /snomed/test-load-immunisation-codes.sh" --rm --volume snomed:/snomed snomed_schema
                                         docker volume rm snomed
                                     '''
                                 }
