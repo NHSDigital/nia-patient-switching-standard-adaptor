@@ -64,9 +64,7 @@ pipeline {
                                         # Instead copy the file into a named volume first as a separate docker command
                                         docker volume create --name snomed
                                         cat ./snomed-database-loader/uk_sct2mo_37.0.0_20230927000001Z.zip | docker run --rm --interactive -v snomed:/snomed alpine sh -c "cat > /snomed/uk_sct2mo_37.0.0_20230927000001Z.zip"
-                                        cat ./snomed-database-loader/test-load-immunization-codes.sh |  docker run --rm --interactive -v snomed:/snomed alpine sh -c "cat > /snomed/test-load-immunization-codes.sh"
                                         docker-compose -f docker/docker-compose.yml run --rm --volume snomed:/snomed snomed_schema /snomed/uk_sct2mo_37.0.0_20230927000001Z.zip
-                                        docker-compose -f docker/docker-compose.yml run --entrypoint "bash /snomed/test-load-immunization-codes.sh" --rm --volume snomed:/snomed snomed_schema
                                         docker volume rm snomed
                                     '''
                                 }
@@ -76,8 +74,8 @@ pipeline {
                             steps {
                                 script {
                                     sh '''
-                                        source docker/vars.local.tests.sh
-                                        ./snomed-database-loader/test-load-immunization-codes.sh
+                                        cat ./snomed-database-loader/test-load-immunization-codes.sh |  docker run --rm --interactive -v snomed:/snomed alpine sh -c "cat > /snomed/test-load-immunization-codes.sh"
+                                        docker-compose -f docker/docker-compose.yml run --entrypoint "bash /snomed/test-load-immunization-codes.sh" --rm --volume snomed:/snomed snomed_schema
                                     '''
                                 }
                             }
