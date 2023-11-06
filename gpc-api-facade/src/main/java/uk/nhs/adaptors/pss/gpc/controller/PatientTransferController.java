@@ -217,7 +217,8 @@ public class PatientTransferController {
         }
 
         CodeableConcept details = CodeableConceptUtils.
-                createCodeableConcept(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage, null);
+                                        createCodeableConcept(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage, null);
+
         return createOperationOutcome(EXCEPTION, ERROR, details, "");
     }
 

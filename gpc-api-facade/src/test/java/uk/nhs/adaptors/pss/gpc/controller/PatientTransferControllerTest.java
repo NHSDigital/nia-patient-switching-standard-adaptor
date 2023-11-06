@@ -109,7 +109,7 @@ public class PatientTransferControllerTest {
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertThat(response.getBody()).isEqualTo(RESPONSE_BODY);
+        assertEquals(RESPONSE_BODY, response.getBody());
     }
 
     @Test
