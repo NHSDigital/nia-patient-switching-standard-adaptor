@@ -171,7 +171,8 @@ public class EHRTimeoutHandler {
             LOGGER.error("Error retrieving persist duration: [{}]", e.getMessage());
         } catch (JsonProcessingException | SAXException | DateTimeParseException | JAXBException e) {
             LOGGER.error("Error parsing inbound message from database");
-            migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null, "99");
+            migrationStatusLogService
+                .addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null, UNEXPECTED_CONDITION.getCode());
         } finally {
             mdcService.applyConversationId("");
         }

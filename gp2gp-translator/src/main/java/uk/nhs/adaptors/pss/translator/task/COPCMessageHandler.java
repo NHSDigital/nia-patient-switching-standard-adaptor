@@ -149,8 +149,10 @@ public class COPCMessageHandler {
                 failMigration(conversationId, UNEXPECTED_CONDITION);
             } else {
                 failMigration(conversationId, LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED);
-                migrationStatusLogService.addMigrationStatusLog(
-                    LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(), conversationId, null, "31");
+                migrationStatusLogService.addMigrationStatusLog(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(),
+                                                                conversationId,
+                                                                null,
+                                                                LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode());
             }
 
         } catch (ExternalAttachmentProcessingException e) {

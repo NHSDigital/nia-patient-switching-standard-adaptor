@@ -12,7 +12,7 @@
 
     <changeSet id="14" author="ole4ryb">
         <addColumn schemaName="public" tableName="migration_status_log">
-            <column name="error_code" type="varchar(255)">
+            <column name="gp2gp_error_code" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
         </addColumn>

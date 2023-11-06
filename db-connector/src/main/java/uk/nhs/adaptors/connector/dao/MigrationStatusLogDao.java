@@ -17,7 +17,7 @@ public interface MigrationStatusLogDao {
     @UseClasspathSqlLocator
     void addMigrationStatusLog(@Bind("status") MigrationStatus status,
         @Bind("date") OffsetDateTime date, @Bind("migrationRequestId") int migrationRequestId,
-        @Bind("messageId") String messageId, @Bind("errorCode") String errorCode
+        @Bind("messageId") String messageId, @Bind("gp2gpErrorCode") String gp2gpErrorCode
     );
 
     @SqlQuery("select_migration_status_log")

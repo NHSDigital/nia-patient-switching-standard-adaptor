@@ -16,6 +16,7 @@ import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.service.ContinueRequestService;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 
 @Slf4j
 @Component
@@ -41,7 +42,10 @@ public class SendContinueRequestHandler {
             mhsClientService.send(request);
         } catch (WebClientResponseException webClientResponseException) {
             LOGGER.error("Received an ERROR response from MHS: [{}]", webClientResponseException.getMessage());
-            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, data.getConversationId(), null, "8");
+            migrationStatusLogService.addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR,
+                                                            data.getConversationId(),
+                                                            null,
+                                                            UNEXPECTED_CONDITION.getCode());
 
             if (webClientResponseException.getStatusCode().is5xxServerError()) {
                 throw new MhsServerErrorException("Unable to sent continue message");

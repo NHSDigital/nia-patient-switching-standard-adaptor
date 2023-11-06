@@ -30,6 +30,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -118,7 +119,11 @@ public class SendContinueRequestHandlerTest {
         } catch (Exception e) {
         }
 
-        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, CONVERSATION_ID, null, "8");
+        verify(migrationStatusLogService)
+            .addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR,
+                                   CONVERSATION_ID,
+                                   null,
+                                   UNEXPECTED_CONDITION.getCode());
     }
 
     @Test

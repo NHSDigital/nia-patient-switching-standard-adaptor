@@ -33,6 +33,7 @@ import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 
 import java.text.ParseException;
 import java.util.Locale;
@@ -94,7 +95,10 @@ public class MhsQueueMessageHandler {
             // Current child try catch blocks do not detect this condition so no failed migration log is added...
             // We are however unlikely to have a payload at this point so cannot send a NACK
             if (conversationId != null && !conversationId.isEmpty()) {
-                migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR, conversationId, null, "99");
+                migrationStatusLogService.addMigrationStatusLog(EHR_GENERAL_PROCESSING_ERROR,
+                                                                conversationId,
+                                                                null,
+                                                                UNEXPECTED_CONDITION.getCode());
             }
             return false;
         } catch (JsonProcessingException | DataFormatException e) {

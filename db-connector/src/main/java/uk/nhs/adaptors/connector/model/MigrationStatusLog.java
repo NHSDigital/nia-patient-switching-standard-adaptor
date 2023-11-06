@@ -13,11 +13,12 @@ import uk.nhs.adaptors.common.enums.MigrationStatus;
 @Setter
 @Builder
 public class MigrationStatusLog {
+
     private int id;
     @EnumByName
     private MigrationStatus migrationStatus;
     private OffsetDateTime date;
     private int migrationRequestId;
     private String messageId;
-    private String errorCode;
+    private String gp2gpErrorCode;
 }

@@ -22,7 +22,7 @@ public class MigrationStatusLogService {
     private final MigrationStatusLogDao migrationStatusLogDao;
     private final DateUtils dateUtils;
 
-    public void addMigrationStatusLog(MigrationStatus migrationStatus, String conversationId, String messageId, String errorCode) {
+    public void addMigrationStatusLog(MigrationStatus migrationStatus, String conversationId, String messageId, String gp2gpErrorCode) {
 
         int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
         migrationStatusLogDao.addMigrationStatusLog(
@@ -30,7 +30,7 @@ public class MigrationStatusLogService {
             dateUtils.getCurrentOffsetDateTime(),
             migrationRequestId,
             messageId,
-            errorCode
+            gp2gpErrorCode
         );
 
         LOGGER.debug("Changed MigrationStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, migrationStatus.name());

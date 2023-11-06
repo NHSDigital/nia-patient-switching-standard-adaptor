@@ -13,6 +13,7 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_A
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.FINAL_ACK_SENT;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.PATIENT_NOT_AT_SURGERY;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -87,13 +88,16 @@ public class AcknowledgmentMessageHandlerTest {
     public void handleMessageWithNackErrorTypeCodeAndErrorCode() throws SAXException {
 
         inboundMessage = new InboundMessage();
-        prepareXPathServiceMocks(NACK_ERROR_TYPE_CODE, "06");
+        prepareXPathServiceMocks(NACK_ERROR_TYPE_CODE, PATIENT_NOT_AT_SURGERY.getCode());
         prepareMigrationStatusMocks(EHR_EXTRACT_REQUEST_ACCEPTED);
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService)
-            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED, CONVERSATION_ID, null, "06");
+            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED,
+                                   CONVERSATION_ID,
+                                   null,
+                                   PATIENT_NOT_AT_SURGERY.getCode());
     }
 
     @Test
@@ -110,13 +114,16 @@ public class AcknowledgmentMessageHandlerTest {
     @Test
     public void handleMessageWithNackRejectTypeCodeAndErrorCode() throws SAXException {
         inboundMessage = new InboundMessage();
-        prepareXPathServiceMocks(NACK_REJECT_TYPE_CODE, "06");
+        prepareXPathServiceMocks(NACK_REJECT_TYPE_CODE, PATIENT_NOT_AT_SURGERY.getCode());
         prepareMigrationStatusMocks(EHR_EXTRACT_REQUEST_ACCEPTED);
 
         acknowledgmentMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService)
-            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED, CONVERSATION_ID, null, "06");
+            .addMigrationStatusLog(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED,
+                                   CONVERSATION_ID,
+                                   null,
+                                   PATIENT_NOT_AT_SURGERY.getCode());
     }
 
     @Test

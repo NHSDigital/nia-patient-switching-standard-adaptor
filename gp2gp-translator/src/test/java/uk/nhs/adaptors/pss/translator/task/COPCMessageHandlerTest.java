@@ -1277,11 +1277,13 @@ class COPCMessageHandlerTest {
                 .sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, mockCOPCMessage, CONVERSATION_ID);
 
             verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
-            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode());
+            assertEquals(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode(), nackMessageDataCaptor.getValue().getNackCode());
 
             verify(migrationStatusLogService, times(1))
-                .addMigrationStatusLog(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(), CONVERSATION_ID, null, "31");
-
+                .addMigrationStatusLog(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(),
+                                       CONVERSATION_ID,
+                                       null,
+                                       LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode());
         } finally {
             mockedXmlUnmarshall.close();
         }

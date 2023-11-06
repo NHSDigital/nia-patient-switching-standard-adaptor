@@ -4,6 +4,7 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_NEGATIVE_
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_NEGATIVE_ACK_FAILED_TO_INTEGRATE;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_NEGATIVE_ACK_NON_ABA_INCORRECT_PATIENT;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_NEGATIVE_ACK_SUPPRESSED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_EXTRACT_CANNOT_BE_PROCESSED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED;
@@ -27,6 +28,7 @@ public enum NACKReason {
     UNEXPECTED_CONDITION("99"),
     ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT("17"),
     ABA_EHR_EXTRACT_SUPPRESSED("15"),
+    PATIENT_NOT_AT_SURGERY("06"),
     NON_ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT("28");
 
     @Getter
@@ -44,6 +46,7 @@ public enum NACKReason {
             case ABA_EHR_EXTRACT_SUPPRESSED  ->  EHR_EXTRACT_NEGATIVE_ACK_SUPPRESSED;
             case ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT -> EHR_EXTRACT_NEGATIVE_ACK_ABA_INCORRECT_PATIENT;
             case NON_ABA_EHR_EXTRACT_REJECTED_WRONG_PATIENT -> EHR_EXTRACT_NEGATIVE_ACK_NON_ABA_INCORRECT_PATIENT;
+            case PATIENT_NOT_AT_SURGERY -> EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_PATIENT_NOT_REGISTERED;
         };
     }
 }
