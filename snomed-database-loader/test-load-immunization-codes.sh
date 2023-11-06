@@ -49,12 +49,16 @@ function checkImmunizationCodesAreLoaded() {
 
 allCodesLoaded=true
 
+echo "Checking immunizationCodes have loaded..."
 checkImmunizationCodesAreLoaded "${rootImmunizationCodes[@]}"
 checkImmunizationCodesAreLoaded "${childImmunizationCodes[@]}"
 checkImmunizationCodesAreLoaded "${immunizationCodesNotInImmunizationHierarchy[@]}"
+
 
 if [ "${allCodesLoaded}" = false ]
 then
   echo "All immunization codes have not loaded successfully"
   exit 1
+else
+  echo "All immunization codes have loaded successfully"
 fi
