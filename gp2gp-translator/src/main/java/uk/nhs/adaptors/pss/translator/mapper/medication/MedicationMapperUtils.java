@@ -166,17 +166,17 @@ public class MedicationMapperUtils {
 
         if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasHigh()) {
 
-                String effectiveTimeValue = supplyAuthorise.getEffectiveTime().getHigh().getValue();
-                String effectiveTimeValueSuffix = "000000"; //GP2GP can malform the value and add this suffix.
+            String effectiveTimeValue = supplyAuthorise.getEffectiveTime().getHigh().getValue();
+            String effectiveTimeValueSuffix = "000000"; //GP2GP can malform the value and add this suffix.
 
-                String effectiveTimeEnd =
-                        effectiveTimeValue.endsWith(effectiveTimeValueSuffix)
-                            ? effectiveTimeValue.substring(0, effectiveTimeValue.length() - effectiveTimeValueSuffix.length())
-                                    : effectiveTimeValue;
+            String effectiveTimeEnd =
+                    effectiveTimeValue.endsWith(effectiveTimeValueSuffix)
+                        ? effectiveTimeValue.substring(0, effectiveTimeValue.length() - effectiveTimeValueSuffix.length())
+                                : effectiveTimeValue;
 
-                return new Period().setEndElement(
-                    DateFormatUtil.parseToDateTimeType(effectiveTimeEnd));
-            }
+            return new Period().setEndElement(
+                DateFormatUtil.parseToDateTimeType(effectiveTimeEnd));
+        }
 
         if (medicationStatement.hasEffectiveTime() && medicationStatement.getEffectiveTime().hasHigh()) {
             return new Period().setEndElement(

@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.DERIVEDFROM;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.HASMEMBER;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
-import static org.hl7.fhir.dstu3.model.QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED;
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
@@ -13,7 +12,6 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.hasDiagnost
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
