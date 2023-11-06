@@ -44,10 +44,8 @@ import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TemplateMapper extends AbstractMapper<DomainResource> {
+    
     private static final String OBSERVATION_META_PROFILE = "Observation-1";
-    private static final String QUESTIONNAIRE_META_PROFILE = "QuestionnaireResponse-1";
-    private static final String QUESTIONNAIRE_REFERENCE = "%s-QRSP";
-
     private final CodeableConceptMapper codeableConceptMapper;
     private final ResourceReferenceUtil resourceReferenceUtil;
 
