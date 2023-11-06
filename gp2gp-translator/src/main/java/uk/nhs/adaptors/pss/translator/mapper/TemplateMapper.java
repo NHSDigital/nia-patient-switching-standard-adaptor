@@ -24,7 +24,6 @@ import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.QuestionnaireResponse;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UK04Component02;
@@ -38,7 +37,6 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
-import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
@@ -54,10 +52,10 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
     private final ResourceReferenceUtil resourceReferenceUtil;
 
     @Override
-    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
+    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+                                             List<Encounter> encounters, String practiseCode) {
 
-        var mappings = mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+        return  mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllCompoundStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isTemplate)
@@ -65,7 +63,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
                 .map(compoundStatement -> mapTemplate(extract, composition, compoundStatement, patient, encounters, practiseCode))
                 .flatMap(List::stream)
         ).toList();
-        return mappings;
+
     }
 
     public void addReferences(List<DomainResource> templates, List<Observation> observations, RCMRMT030101UK04EhrExtract ehrExtract) {
@@ -123,11 +121,6 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
         var parentObservation = createParentObservation(compoundStatement, practiseCode, patient, encounter,
             ehrComposition, ehrExtract);
 
-//      The following have been disabled as Questionnares have been dropped from the PS Specification. NIAD-2190
-//        var questionnaireResponse = createQuestionnaireResponse(compoundStatement, practiseCode, patient,
-//            encounter, parentObservation, ehrComposition, ehrExtract);
-//        addChildReferencesToQuestionnaireResponse(questionnaireResponse, compoundStatement);
-//        return List.of(questionnaireResponse, parentObservation);
         return List.of(parentObservation);
     }
 
@@ -178,18 +171,6 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
             return parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
         }
         return parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
-    }
-
-    private QuestionnaireResponse.QuestionnaireResponseItemComponent createdLinkedId(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return compoundStatement.getCode().hasOriginalText()
-            ? new QuestionnaireResponse.QuestionnaireResponseItemComponent().setLinkId(compoundStatement.getCode().getOriginalText())
-            : new QuestionnaireResponse.QuestionnaireResponseItemComponent().setLinkId(compoundStatement.getCode().getDisplayName());
-    }
-
-    private DateTimeType getAuthored(RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04EhrExtract ehrExtract) {
-        return ehrComposition.getAuthor().getTime().hasValue()
-            ? DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue())
-            : DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
     }
 
     private List<RCMRMT030101UK04CompoundStatement> getCompoundStatementsByIds(RCMRMT030101UK04EhrExtract ehrExtract, List<String> ids) {
