@@ -54,6 +54,7 @@ import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 @Validated
 public class PatientTransferController {
 
+    public static final String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
     private static final String ISSUE_SYSTEM = "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1";
     private final PatientTransferService patientTransferService;
     private final FhirParser fhirParser;
@@ -124,14 +125,14 @@ public class PatientTransferController {
     }
 
     private OperationOutcome createErrorBodyForInProgressRequest(String conversationId) {
-        var operationErrorCode = "INTERNAL_SERVER_ERROR";
+        var operationErrorCode = INTERNAL_SERVER_ERROR;
         var operationErrorMessage = "PS - The Given NHS number is already being processed against Conversation ID: "
             + conversationId + ", you cannot start a new request until the current request has completed or failed.";
 
-        CodeableConcept details = CodeableConceptUtils.
-                createCodeableConcept(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage, null);
+        var details = CodeableConceptUtils.createCodeableConcept(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage, null);
         return createOperationOutcome(EXCEPTION, ERROR, details, "");
     }
+
     private OperationOutcome createErrorBodyFromMigrationStatus(MigrationStatus migrationStatus) {
 
         String operationErrorCode;
@@ -152,15 +153,16 @@ public class PatientTransferController {
                     + "not the patient’s current primary healthcare provider";
                 break;
             case EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_EHR_GENERATION_ERROR:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
+
                 operationErrorMessage = "GP2GP - Failed to successfully generate the EHR";
                 break;
             case EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MULTI_OR_NO_RESPONSES:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "GP2GP - SDS lookup provided zero or more than one result to the query for each interaction.";
                 break;
             case EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "GP2GP - This is a code that should only be used in circumstances where no other codes can"
                     + " be used to accurately describe the condition.";
                 break;
@@ -169,47 +171,47 @@ public class PatientTransferController {
                 operationErrorMessage = "GP2GP - End Point setup but GP2GP configuration switched OFF";
                 break;
             case ERROR_LRG_MSG_REASSEMBLY_FAILURE:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "PS - The Adaptor was unable to recombine the parts of a received attachment";
                 break;
             case ERROR_LRG_MSG_ATTACHMENTS_NOT_RECEIVED:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "PS - At least one attachment has not been received or could not be processed";
                 break;
             case ERROR_LRG_MSG_GENERAL_FAILURE:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "PS - A general processing error has occurred";
                 break;
             case ERROR_LRG_MSG_TIMEOUT:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "PS - An attachment was not received before a timeout condition occurred";
                 break;
             case ERROR_REQUEST_TIMEOUT:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "PS - The EHR record was not received within the given timeout timeframe";
                 break;
             case EHR_EXTRACT_NEGATIVE_ACK_ABA_INCORRECT_PATIENT:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "PS - A-B-A EHR Extract Received and rejected due to wrong record or wrong patient";
                 break;
             case EHR_EXTRACT_NEGATIVE_ACK_NON_ABA_INCORRECT_PATIENT:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "PS - Non A-B-A EHR Extract Received and rejected due to wrong record or wrong patient";
                 break;
             case EHR_EXTRACT_NEGATIVE_ACK_FAILED_TO_INTEGRATE:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "PS - Failed to successfully integrate EHR Extract";
                 break;
             case EHR_EXTRACT_NEGATIVE_ACK_SUPPRESSED:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "PS - A-B-A EHR Extract Received and Stored As Suppressed Record";
                 break;
             case ERROR_EXTRACT_CANNOT_BE_PROCESSED:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "PS - EHR Extract message not well-formed or not able to be processed";
                 break;
             default:
-                operationErrorCode = "INTERNAL_SERVER_ERROR";
+                operationErrorCode = INTERNAL_SERVER_ERROR;
                 operationErrorMessage = "PS - A general error has occurred";
                 break;
         }

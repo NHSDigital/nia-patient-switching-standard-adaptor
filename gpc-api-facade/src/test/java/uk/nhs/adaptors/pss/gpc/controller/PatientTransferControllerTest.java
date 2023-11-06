@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.gpc.controller;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -39,6 +40,7 @@ import uk.nhs.adaptors.pss.gpc.service.PatientTransferService;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferControllerTest {
+
     private static final String RESPONSE_BODY = "{responseBody}";
     private static final Parameters PARAMETERS = new Parameters();
     private static final String TO_ASID_VALUE = "123";
@@ -68,7 +70,8 @@ public class PatientTransferControllerTest {
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.ACCEPTED);
+
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
         assertThat(response.getBody()).isNull();
     }
 
@@ -79,7 +82,8 @@ public class PatientTransferControllerTest {
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertThat(response.getBody()).isNull();
     }
 
@@ -90,7 +94,8 @@ public class PatientTransferControllerTest {
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertThat(response.getBody()).isNull();
     }
 
@@ -102,7 +107,8 @@ public class PatientTransferControllerTest {
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertThat(response.getBody()).isEqualTo(RESPONSE_BODY);
     }
 
@@ -113,7 +119,8 @@ public class PatientTransferControllerTest {
 
         Exception exception = assertThrows(IllegalStateException.class, () -> controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE));
-        assertThat(exception.getMessage()).isEqualTo("Unsupported transfer status: EHR_EXTRACT_REQUEST_ERROR");
+
+        assertEquals("Unsupported transfer status: EHR_EXTRACT_REQUEST_ERROR", exception.getMessage());
     }
 
     @Test
@@ -126,7 +133,8 @@ public class PatientTransferControllerTest {
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
     @Test
@@ -139,7 +147,8 @@ public class PatientTransferControllerTest {
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_IMPLEMENTED);
+
+        assertEquals(HttpStatus.NOT_IMPLEMENTED, response.getStatusCode());
     }
 
     @Test
@@ -152,7 +161,8 @@ public class PatientTransferControllerTest {
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
@@ -165,7 +175,8 @@ public class PatientTransferControllerTest {
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
@@ -178,7 +189,8 @@ public class PatientTransferControllerTest {
 
         ResponseEntity<String> response = controller.migratePatientStructuredRecord(
             PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
     @Test
@@ -189,7 +201,7 @@ public class PatientTransferControllerTest {
         var response = controller.migratePatientStructuredRecord(
                 PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 
     }
 

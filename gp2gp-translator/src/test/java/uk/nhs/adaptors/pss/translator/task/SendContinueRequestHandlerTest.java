@@ -25,12 +25,12 @@ import uk.nhs.adaptors.pss.translator.service.MhsClientService;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -38,6 +38,7 @@ import java.nio.charset.Charset;
 @Slf4j
 @ExtendWith(MockitoExtension.class)
 public class SendContinueRequestHandlerTest {
+
     private static final String NHS_NUMBER = "9446363101";
     private static final String CONVERSATION_ID = "6E242658-3D8E-11E3-A7DC-172BDA00FA67";
     private static final String LOSING_ODS_CODE = "B83002"; //to odds code
@@ -118,7 +119,11 @@ public class SendContinueRequestHandlerTest {
         } catch (Exception e) {
         }
 
-        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR, CONVERSATION_ID, null);
+        verify(migrationStatusLogService)
+            .addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ERROR,
+                                   CONVERSATION_ID,
+                                   null,
+                                   UNEXPECTED_CONDITION.getCode());
     }
 
     @Test
@@ -171,7 +176,7 @@ public class SendContinueRequestHandlerTest {
                 .build();
 
         sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
-        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, CONVERSATION_ID, null);
+        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.CONTINUE_REQUEST_ACCEPTED, CONVERSATION_ID, null, null);
     }
 
     @Test
@@ -219,8 +224,7 @@ public class SendContinueRequestHandlerTest {
         when(continueRequestService.buildContinueRequest(any(), any())).thenReturn(testPayload);
 
         sendContinueRequestHandler.prepareAndSendRequest(continueRequestData);
-        verify(continueRequestService).buildContinueRequest(eq(continueRequestData), eq(MESSAGE_ID.toUpperCase()));
-        verify(requestBuilder).buildSendContinueRequest(eq(CONVERSATION_ID), eq(LOSING_ODS_CODE), eq(outboundMessage),
-            eq(MESSAGE_ID.toUpperCase()));
+        verify(continueRequestService).buildContinueRequest(continueRequestData, MESSAGE_ID.toUpperCase());
+        verify(requestBuilder).buildSendContinueRequest(CONVERSATION_ID, LOSING_ODS_CODE, outboundMessage, MESSAGE_ID.toUpperCase());
     }
 }

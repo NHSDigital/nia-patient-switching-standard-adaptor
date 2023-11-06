@@ -338,6 +338,6 @@ public class PatientTransferControllerIT {
         patientMigrationRequestDao.addNewRequest(MOCK_PATIENT_NUMBER, conversationId, LOSING_PRACTICE_ODS, WINNING_PRACTICE_ODS);
         patientMigrationRequestDao.saveBundleAndInboundMessageData(conversationId, readResourceAsString(EXAMPLE_JSON_BUNDLE),
             StringUtils.EMPTY);
-        migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId, null, null);
     }
 }

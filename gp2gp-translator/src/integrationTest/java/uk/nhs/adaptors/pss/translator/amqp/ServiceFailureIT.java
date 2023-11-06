@@ -319,7 +319,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
         getPatientMigrationRequestDao()
             .addNewRequest(patientNhsNumber, conversationId, getLosingODSCode(), getWiningODSCode());
         getMigrationStatusLogService()
-            .addMigrationStatusLog(REQUEST_RECEIVED, conversationId, null);
+            .addMigrationStatusLog(REQUEST_RECEIVED, conversationId, null, null);
 
         var transferRequestMessage = TransferRequestMessage.builder()
             .patientNhsNumber(patientNhsNumber)

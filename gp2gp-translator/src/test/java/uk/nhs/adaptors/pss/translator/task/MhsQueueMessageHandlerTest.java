@@ -12,6 +12,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 
 import java.text.ParseException;
 import java.util.Locale;
@@ -50,6 +51,7 @@ import uk.nhs.adaptors.pss.translator.service.XPathService;
 
 @ExtendWith(MockitoExtension.class)
 public class MhsQueueMessageHandlerTest {
+
     private static final String NHS_NUMBER = "123456";
     private static final String INBOUND_MESSAGE_STRING = "{hi i'm inbound message}";
     private static final String EHR_EXTRACT_INTERACTION_ID = "RCMR_IN030000UK06";
@@ -164,7 +166,11 @@ public class MhsQueueMessageHandlerTest {
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
         assertFalse(result);
-        verify(migrationStatusLogService).addMigrationStatusLog(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR, CONVERSATION_ID_UPPER, null);
+        verify(migrationStatusLogService)
+            .addMigrationStatusLog(MigrationStatus.EHR_GENERAL_PROCESSING_ERROR,
+                                   CONVERSATION_ID_UPPER,
+                                   null,
+                                   UNEXPECTED_CONDITION.getCode());
 
     }
 

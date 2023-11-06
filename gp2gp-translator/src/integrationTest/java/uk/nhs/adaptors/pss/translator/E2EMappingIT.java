@@ -1,14 +1,11 @@
 package uk.nhs.adaptors.pss.translator;
 
-import static org.assertj.core.api.Assertions.fail;
 import static org.awaitility.Awaitility.await;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -21,10 +18,6 @@ import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.skyscreamer.jsonassert.Customization;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.skyscreamer.jsonassert.comparator.CustomComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -47,7 +40,6 @@ import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 public class E2EMappingIT extends BaseEhrHandler {
 
     private static final boolean OVERWRITE_EXPECTED_JSON = false;
-    private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String PSS_ADAPTOR_URL = "https://PSSAdaptor/";
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     //these are programming language special characters, not to be confused with line endings
@@ -348,28 +340,4 @@ public class E2EMappingIT extends BaseEhrHandler {
         return expectedBundle.substring(startIndex, endIndex);
     }
 
-    private String getLocationToBeReplaced(String expectedBundle) {
-        var startIndex = expectedBundle.toLowerCase().indexOf(PSS_ADAPTOR_URL.toLowerCase()) + PSS_ADAPTOR_URL.length();
-        var endIndex = expectedBundle.toLowerCase().indexOf("\"", startIndex);
-
-        return expectedBundle.substring(startIndex, endIndex);
-    }
-
-    @SneakyThrows
-    private void overwriteExpectJson(String newExpected) {
-        try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/json/expectedBundle.json", StandardCharsets.UTF_8)) {
-            printWriter.print(newExpected);
-        }
-        fail("Re-run the tests with OVERWRITE_EXPECTED_JSON=false");
-    }
-
-    private void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
-        // when comparing json objects, this will ignore various json paths that contain random values like ids or timestamps
-        var customizations = ignoredPaths.stream()
-                .map(jsonPath -> new Customization(jsonPath, (o1, o2) -> true))
-                .toArray(Customization[]::new);
-
-        JSONAssert.assertEquals(expected, actual,
-                new CustomComparator(JSONCompareMode.STRICT, customizations));
-    }
 }
