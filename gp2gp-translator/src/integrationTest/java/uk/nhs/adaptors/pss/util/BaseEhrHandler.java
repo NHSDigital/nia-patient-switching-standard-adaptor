@@ -83,7 +83,7 @@ public abstract class BaseEhrHandler {
 
     protected void startPatientMigrationJourney() {
         patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, losingODSCode, winingODSCode);
-        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId, null, null);
     }
 
     protected boolean isEhrExtractTranslated() {
@@ -118,14 +118,14 @@ public abstract class BaseEhrHandler {
     }
 
     @SneakyThrows
-    private void overwriteExpectJson(String newExpected) {
+    protected void overwriteExpectJson(String newExpected) {
         try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/json/expectedBundle.json", StandardCharsets.UTF_8)) {
             printWriter.print(newExpected);
         }
         fail("Re-run the tests with OVERWRITE_EXPECTED_JSON=false");
     }
 
-    private void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
+    protected void assertBundleContent(String actual, String expected, List<String> ignoredPaths) throws JSONException {
         // when comparing json objects, this will ignore various json paths that contain random values like ids or timestamps
         var customizations = ignoredPaths.stream()
             .map(jsonPath -> new Customization(jsonPath, (o1, o2) -> true))

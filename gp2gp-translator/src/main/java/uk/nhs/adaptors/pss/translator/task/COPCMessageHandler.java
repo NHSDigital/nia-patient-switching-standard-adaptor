@@ -90,13 +90,13 @@ public class COPCMessageHandler {
         }
 
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
-        migrationStatusLogService.addMigrationStatusLog(COPC_MESSAGE_RECEIVED, conversationId, null);
+        migrationStatusLogService.addMigrationStatusLog(COPC_MESSAGE_RECEIVED, conversationId, null, null);
 
         try {
             Document ebXmlDocument = getEbXmlDocument(inboundMessage);
             String messageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
             PatientAttachmentLog patientAttachmentLog = patientAttachmentLogService.findAttachmentLog(messageId, conversationId);
-            migrationStatusLogService.addMigrationStatusLog(COPC_MESSAGE_PROCESSING, conversationId, messageId);
+            migrationStatusLogService.addMigrationStatusLog(COPC_MESSAGE_PROCESSING, conversationId, messageId, null);
 
             // If there is no PatientAttachmentLog for this message then we have received a message out of order
             if (patientAttachmentLog == null) {
@@ -149,8 +149,10 @@ public class COPCMessageHandler {
                 failMigration(conversationId, UNEXPECTED_CONDITION);
             } else {
                 failMigration(conversationId, LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED);
-                migrationStatusLogService.addMigrationStatusLog(
-                    LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(), conversationId, null);
+                migrationStatusLogService.addMigrationStatusLog(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getMigrationStatus(),
+                                                                conversationId,
+                                                                null,
+                                                                LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode());
             }
 
         } catch (ExternalAttachmentProcessingException e) {

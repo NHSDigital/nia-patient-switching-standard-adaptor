@@ -17,18 +17,22 @@ import java.util.List;
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class MigrationStatusLogService {
+
     private final PatientMigrationRequestDao patientMigrationRequestDao;
     private final MigrationStatusLogDao migrationStatusLogDao;
     private final DateUtils dateUtils;
 
-    public void addMigrationStatusLog(MigrationStatus migrationStatus, String conversationId, String messageId) {
+    public void addMigrationStatusLog(MigrationStatus migrationStatus, String conversationId, String messageId, String gp2gpErrorCode) {
+
         int migrationRequestId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
         migrationStatusLogDao.addMigrationStatusLog(
             migrationStatus,
             dateUtils.getCurrentOffsetDateTime(),
             migrationRequestId,
-            messageId
+            messageId,
+            gp2gpErrorCode
         );
+
         LOGGER.debug("Changed MigrationStatus of PatientMigrationRequest with id=[{}] to [{}]", migrationRequestId, migrationStatus.name());
     }
 
@@ -45,6 +49,6 @@ public class MigrationStatusLogService {
     public void updatePatientMigrationRequestAndAddMigrationStatusLog(String conversationId, String bundle, String inboundMessage,
         MigrationStatus migrationStatus, String messageId) {
         patientMigrationRequestDao.saveBundleAndInboundMessageData(conversationId, bundle, inboundMessage);
-        addMigrationStatusLog(migrationStatus, conversationId, messageId);
+        addMigrationStatusLog(migrationStatus, conversationId, messageId, null);
     }
 }

@@ -46,7 +46,7 @@ public class PatientTransferService {
             patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, headers.get(TO_ODS), headers.get(FROM_ODS));
 
             int addedId = patientMigrationRequestDao.getMigrationRequestId(conversationId);
-            migrationStatusLogDao.addMigrationStatusLog(REQUEST_RECEIVED, dateUtils.getCurrentOffsetDateTime(), addedId, null);
+            migrationStatusLogDao.addMigrationStatusLog(REQUEST_RECEIVED, dateUtils.getCurrentOffsetDateTime(), addedId, null, null);
 
             var pssMessage = createTransferRequestMessage(patientNhsNumber, headers, conversationId);
             pssQueuePublisher.sendToPssQueue(pssMessage);

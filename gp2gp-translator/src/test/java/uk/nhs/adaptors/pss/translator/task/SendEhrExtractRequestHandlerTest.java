@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.common.enums.MigrationStatus;
@@ -86,6 +87,7 @@ public class SendEhrExtractRequestHandlerTest {
         verify(migrationStatusLogService).addMigrationStatusLog(
             MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED,
             CONVERSATION_ID,
+            null,
             null
         );
     }
@@ -107,7 +109,8 @@ public class SendEhrExtractRequestHandlerTest {
         verify(migrationStatusLogService).addMigrationStatusLog(
             MigrationStatus.EHR_EXTRACT_REQUEST_ERROR,
             CONVERSATION_ID,
-            null
+            null,
+            UNEXPECTED_CONDITION.getCode()
         );
     }
 }

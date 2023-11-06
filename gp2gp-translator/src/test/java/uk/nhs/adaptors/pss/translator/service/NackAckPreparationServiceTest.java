@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,7 +14,14 @@ import static org.mockito.Mockito.when;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_EXTRACT_CANNOT_BE_PROCESSED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_LRG_MSG_GENERAL_FAILURE;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_TIMEOUT;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.CLINICAL_SYSTEM_INTEGRATION_FAILURE;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_REASSEMBLY_FAILURE;
+import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
 
 import javax.xml.bind.JAXBException;
 
@@ -36,6 +44,7 @@ import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 
 @ExtendWith(MockitoExtension.class)
 class NackAckPreparationServiceTest {
+
     private static final String NHS_NUMBER = "123456";
     private static final String CONVERSATION_ID = randomUUID().toString();
     private static final String TEST_TO_ODS = "M85019";
@@ -66,8 +75,9 @@ class NackAckPreparationServiceTest {
 
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(true);
 
-        assertTrue(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
+        assertTrue(nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
+        verify(migrationStatusLogService)
+            .addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null, LARGE_MESSAGE_GENERAL_FAILURE.getCode());
     }
 
     @Test
@@ -78,7 +88,8 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(false);
 
         assertFalse(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
+        verify(migrationStatusLogService)
+            .addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null, LARGE_MESSAGE_GENERAL_FAILURE.getCode());
     }
 
     @Test
@@ -144,7 +155,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("30", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(LARGE_MESSAGE_GENERAL_FAILURE.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -158,7 +169,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("25", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(LARGE_MESSAGE_TIMEOUT.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -172,7 +183,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("11", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(CLINICAL_SYSTEM_INTEGRATION_FAILURE.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -186,7 +197,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("21", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(EHR_EXTRACT_CANNOT_BE_PROCESSED.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -200,7 +211,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("99", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(UNEXPECTED_CONDITION.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -214,7 +225,7 @@ class NackAckPreparationServiceTest {
                 payload,
                 CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull());
+        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull(), anyString());
 
         assertEquals(MigrationStatus.ERROR_EXTRACT_CANNOT_BE_PROCESSED, migrationStatusCaptor.getValue());
     }
@@ -227,7 +238,8 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(true);
 
         assertTrue(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
+        verify(migrationStatusLogService)
+            .addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null, LARGE_MESSAGE_GENERAL_FAILURE.getCode());
     }
 
     @Test
@@ -238,7 +250,8 @@ class NackAckPreparationServiceTest {
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(false);
 
         assertFalse(nackAckPreparationService.sendNackMessage(NACKReason.LARGE_MESSAGE_GENERAL_FAILURE, payload, CONVERSATION_ID));
-        verify(migrationStatusLogService).addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null);
+        verify(migrationStatusLogService)
+            .addMigrationStatusLog(ERROR_LRG_MSG_GENERAL_FAILURE, CONVERSATION_ID, null, LARGE_MESSAGE_GENERAL_FAILURE.getCode());
     }
 
     @Test
@@ -276,7 +289,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("29", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(LARGE_MESSAGE_REASSEMBLY_FAILURE.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -290,7 +303,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("31", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -304,7 +317,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("30", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(LARGE_MESSAGE_GENERAL_FAILURE.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -318,7 +331,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("25", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(LARGE_MESSAGE_TIMEOUT.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -332,7 +345,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("11", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(CLINICAL_SYSTEM_INTEGRATION_FAILURE.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -346,7 +359,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("21", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(EHR_EXTRACT_CANNOT_BE_PROCESSED.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -360,7 +373,7 @@ class NackAckPreparationServiceTest {
                 CONVERSATION_ID);
 
         verify(sendNACKMessageHandler).prepareAndSendMessage(ackMessageDataCaptor.capture());
-        assertEquals("99", ackMessageDataCaptor.getValue().getNackCode());
+        assertEquals(UNEXPECTED_CONDITION.getCode(), ackMessageDataCaptor.getValue().getNackCode());
     }
 
     @Test
@@ -374,7 +387,7 @@ class NackAckPreparationServiceTest {
                 payload,
                 CONVERSATION_ID);
 
-        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull());
+        verify(migrationStatusLogService).addMigrationStatusLog(migrationStatusCaptor.capture(), any(), isNull(), anyString());
 
         assertEquals(ERROR_EXTRACT_CANNOT_BE_PROCESSED, migrationStatusCaptor.getValue());
     }
