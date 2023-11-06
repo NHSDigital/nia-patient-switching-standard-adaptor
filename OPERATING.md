@@ -92,6 +92,13 @@ The docker container has a required argument which is the path to a zipped Snome
 The container does not come bundled with any SNOMED data itself.
 You will need to provide this file to the container.
 
+The SNOMED loader script is also responsible for populating the materialised view `immunization_codes` which is used to
+identify which `Observations` are to be treated as `Immunizations`. Details of how these are built are provided in the 
+documentation snomed database loader documentation [README.md](snomed-database-loader/README.md).
+
+To test immunization codes are loaded correctly the script [test-load-immunization-codes.sh](snomed-database-loader/test-load-immunization-codes.sh)
+can be executed against the database using the required environment variables listed above.
+
 *When passing passwords into this script it is the responsibility of the supplier to ensure that passwords are being kept secure by using appropriate controls within their infrastructure.*
 
 Example usage:
@@ -153,7 +160,7 @@ graph LR
    MHSInbound -- MHS Inbound Queue --> ActiveMQ
 ```
 
-The set up shown above is described as the daisy-chaining configuration.
+The set-up shown above is described as the daisy-chaining configuration.
 In this mode, the PS Adaptor and [GP2GP Adaptor] execute against a single instance of the MHS Adaptor.
 Messages received by the PS Adaptor with a conversation ID it doesn't recognise are forwarded to the GP2GP Adaptor queue.
 
@@ -161,7 +168,7 @@ When the daisy-chaining configuration is disabled, the adaptor will put messages
 
 In the diagram above there is a single broker for all queues, but the adaptor supports having separate brokers for each queue.
 
-An example daisy chaining environment is provided in [/test-suite/daisy-chaining/](/test-suite/daisy-chaining/),
+An example daisy chaining environment is provided in [/test-suite/daisy-chaining/](/test-suite/daisy-chaining),
 and each environment variable described within [Inbound message queue variables](#inbound-message-queue-variables).
 
 [GP2GP Adaptor]: https://github.com/nhsconnect/integration-adaptor-gp2gp

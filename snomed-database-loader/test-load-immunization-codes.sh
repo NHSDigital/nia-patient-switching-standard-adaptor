@@ -4,9 +4,9 @@ set -e;
 dbName=patient_switching
 snomedCtSchema=snomedct
 
-rootImmunisationCodes=('787859002' '127785005' '304250009' '90351000119108' '713404003' '127785005')
-childImmunisationCodes=('787859002')
-immunisationCodesNotInImmunisationHierarchy=('127785005' '123456')
+rootImmunizationCodes=('787859002' '127785005' '304250009' '90351000119108' '713404003')
+childImmunizationCodes=('2997511000001102' '308101000000104' '1036721000000101' '1373691000000102' '945831000000105')
+immunizationCodesNotInImmunizationHierarchy=('542931000000103' '735981009' '90640007' '571631000119106' '764141000000106' '170399005' )
 
 
 if [ -z ${PS_DB_OWNER_NAME} ]
@@ -35,13 +35,13 @@ fi
 
 databaseUri="postgresql://${PS_DB_OWNER_NAME}:${POSTGRES_PASSWORD}@${PS_DB_HOST}:${PS_DB_PORT}/${dbName}"
 
-function checkImmunisationCodesAreLoaded() {
+function checkImmunizationCodesAreLoaded() {
   for immunizationCode;
   do
     count=$(psql "${databaseUri}" -t -A -c "SELECT COUNT(conceptId) FROM ${snomedCtSchema}.immunization_codes WHERE conceptId ='${immunizationCode}'")
     if [ "${count}" != 1 ]
     then
-      echo "Immunisation code not loaded: ${immunizationCode}"
+      echo "immunization code not loaded: ${immunizationCode}"
       allCodesLoaded=false
     fi
   done
@@ -49,12 +49,12 @@ function checkImmunisationCodesAreLoaded() {
 
 allCodesLoaded=true
 
-checkImmunisationCodesAreLoaded "${rootImmunisationCodes[@]}"
-checkImmunisationCodesAreLoaded "${childImmunisationCodes[@]}"
-checkImmunisationCodesAreLoaded "${immunisationCodesNotInImmunisationHierarchy[@]}"
+checkImmunizationCodesAreLoaded "${rootImmunizationCodes[@]}"
+checkImmunizationCodesAreLoaded "${childImmunizationCodes[@]}"
+checkImmunizationCodesAreLoaded "${immunizationCodesNotInImmunizationHierarchy[@]}"
 
 if [ "${allCodesLoaded}" = false ]
 then
-  echo "All immunisation codes have not loaded successfully"
+  echo "All immunization codes have not loaded successfully"
   exit 1
 fi

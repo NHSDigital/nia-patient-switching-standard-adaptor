@@ -12,6 +12,10 @@ docker-compose -f docker-compose-arm.yml up -d ps_db mhs-adaptor-mock activemq;
 
 cd ../db-connector
 ./gradlew update
+
+cd ../snomed-database-loader
+./load_release-postgresql.sh "$SNOMED_CT_TERMINOLOGY_FILE"
+
 cd ../docker
 
 docker-compose -f docker-compose-arm.yml build gpc_facade gp2gp_translator;
