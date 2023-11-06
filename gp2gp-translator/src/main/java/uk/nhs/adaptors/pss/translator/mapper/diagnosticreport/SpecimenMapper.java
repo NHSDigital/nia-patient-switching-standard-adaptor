@@ -119,12 +119,11 @@ public class SpecimenMapper {
         var specimenRoleOpt = getSpecimenRole(specimenCompoundStatement);
         if (specimenRoleOpt.isPresent()) {
             var specimenMaterialOpt = Optional.ofNullable(specimenRoleOpt.get().getSpecimenSpecimenMaterial());
-            if (specimenMaterialOpt.isPresent()) {
-                if (specimenMaterialOpt.get().getDesc() != null) {
+            if (specimenMaterialOpt.isPresent() && specimenMaterialOpt.get().getDesc() != null) {
                     return Optional.of(new CodeableConcept().setText(specimenMaterialOpt.get().getDesc()));
                 }
             }
-        }
+
         return Optional.empty();
     }
 

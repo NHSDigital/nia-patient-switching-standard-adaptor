@@ -49,8 +49,7 @@ public class StorageManagerService {
     public byte[] downloadFile(String filename, String conversationId) throws StorageException {
         try {
             var clashPreventionFilename = createFilename(filename, conversationId);
-            byte[] byteResponse = storageService.downloadFile(clashPreventionFilename);
-            return byteResponse;
+            return storageService.downloadFile(clashPreventionFilename);
         } catch (Exception e) {
             throw new StorageException("Error occurred downloading from Storage", e);
         }

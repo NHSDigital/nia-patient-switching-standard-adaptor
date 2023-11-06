@@ -72,7 +72,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
 
     public void addReferences(List<DomainResource> templates, List<Observation> observations, RCMRMT030101UK04EhrExtract ehrExtract) {
         List<Observation> parentObservations = templates.stream()
-            .filter(template -> template instanceof Observation)
+            .filter(Observation.class::isInstance)
             .map(Observation.class::cast)
             .toList();
 
@@ -133,16 +133,6 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
         return List.of(parentObservation);
     }
 
-    private void addChildReferencesToQuestionnaireResponse(QuestionnaireResponse questionnaireResponse,
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
-        List<Reference> childResourceReferences = new ArrayList<>();
-        resourceReferenceUtil.extractChildReferencesFromTemplate(compoundStatement, childResourceReferences);
-        childResourceReferences.forEach(reference ->
-            questionnaireResponse.addItem().addAnswer(
-                new QuestionnaireResponse.QuestionnaireResponseItemAnswerComponent().setValue(reference))
-        );
-    }
-
     private Optional<Reference> getEncounter(List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
         return encounters
             .stream()
@@ -190,28 +180,6 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
             return parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
         }
         return parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
-    }
-
-    private QuestionnaireResponse createQuestionnaireResponse(RCMRMT030101UK04CompoundStatement compoundStatement, String practiseCode,
-        Patient patient, Optional<Reference> encounter, Observation parentObservation,
-        RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04EhrExtract ehrExtract) {
-
-        var questionnaireResponse = new QuestionnaireResponse();
-        var id = compoundStatement.getId().get(0).getRoot();
-
-        questionnaireResponse
-            .addItem(createdLinkedId(compoundStatement))
-            .setAuthoredElement(getAuthored(ehrComposition, ehrExtract))
-            .setSubject(new Reference(patient))
-            .setStatus(COMPLETED)
-            .setParent(List.of(new Reference(parentObservation)))
-            .setIdentifier(buildIdentifier(id, practiseCode))
-            .setMeta(generateMeta(QUESTIONNAIRE_META_PROFILE))
-            .setId(QUESTIONNAIRE_REFERENCE.formatted(id));
-
-        encounter.ifPresent(questionnaireResponse::setContext);
-
-        return questionnaireResponse;
     }
 
     private QuestionnaireResponse.QuestionnaireResponseItemComponent createdLinkedId(RCMRMT030101UK04CompoundStatement compoundStatement) {

@@ -162,9 +162,9 @@ public class MedicationMapperUtils {
     }
 
     public static Period buildDispenseRequestPeriodEnd(RCMRMT030101UK04Authorise supplyAuthorise,
-        RCMRMT030101UK04MedicationStatement medicationStatement) {
-        if (supplyAuthorise.hasEffectiveTime()) {
-            if (supplyAuthorise.getEffectiveTime().hasHigh()) {
+                                                       RCMRMT030101UK04MedicationStatement medicationStatement) {
+
+        if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasHigh()) {
 
                 String effectiveTimeValue = supplyAuthorise.getEffectiveTime().getHigh().getValue();
                 String effectiveTimeValueSuffix = "000000"; //GP2GP can malform the value and add this suffix.
@@ -177,7 +177,7 @@ public class MedicationMapperUtils {
                 return new Period().setEndElement(
                     DateFormatUtil.parseToDateTimeType(effectiveTimeEnd));
             }
-        }
+
         if (medicationStatement.hasEffectiveTime() && medicationStatement.getEffectiveTime().hasHigh()) {
             return new Period().setEndElement(
                 DateFormatUtil.parseToDateTimeType(medicationStatement.getEffectiveTime().getHigh().getValue()));
