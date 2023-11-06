@@ -44,7 +44,6 @@ import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TemplateMapper extends AbstractMapper<DomainResource> {
-    
     private static final String OBSERVATION_META_PROFILE = "Observation-1";
     private final CodeableConceptMapper codeableConceptMapper;
     private final ResourceReferenceUtil resourceReferenceUtil;
