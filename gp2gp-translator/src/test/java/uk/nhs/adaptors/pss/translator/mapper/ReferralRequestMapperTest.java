@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -10,6 +11,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
@@ -20,6 +22,9 @@ import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -269,7 +274,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void mapReferralRequestWithPriorityNoteUsingDisplayName() {
+    public void mapReferralRequestWithPriorityNoteWithUsingDisplayName() {
         var inputXml = """
                 <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
                     <id root="72A39454-299F-432E-993E-5A6232B4E099" />
@@ -329,6 +334,42 @@ public class ReferralRequestMapperTest {
 
         assertThat(referralRequest.getReasonCode().get(0).getCoding().get(0))
                 .isEqualTo(DegradedCodeableConcepts.DEGRADED_REFERRAL);
+    }
+
+    @ParameterizedTest
+    @MethodSource("priorityCodes")
+    public void mapReferralRequestPriority(String code, String display, String expectedDisplay) {
+        var inputXml = """
+                <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
+                    <id root="72A39454-299F-432E-993E-5A6232B4E099" />
+                    <availabilityTime value="20190708143500"/>
+                    <component typeCode="COMP" >
+                        <RequestStatement classCode="OBS" moodCode="RQO">
+                            <id root="B4303C92-4D1C-11E3-A2DD-010000000161"/>
+                            <statusCode code="COMPLETE"/>
+                            <priorityCode code="{{code}}"
+                            displayName="{{display}}"
+                            codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                        </RequestStatement>
+                    </component>
+                </ehrComposition>
+                """
+                .replace("{{code}}", code)
+                .replace("{{display}}", display);
+
+        var ehrComposition = unmarshallStringToEhrCompositionElement(inputXml);
+
+        var referralRequest = mapReferralRequest(ehrComposition);
+
+        assertThat(referralRequest.getPriority().getDisplay())
+                .isEqualTo(expectedDisplay);
+    }
+
+    private static Stream<Arguments> priorityCodes() {
+        return Stream.of(
+                arguments("394848005", "routine", "Routine"),
+                arguments("394849002", "urgent", "Urgent"),
+                arguments("88694003", "asap", "ASAP"));
     }
 
     private void assertFixedValues(ReferralRequest referralRequest) {
