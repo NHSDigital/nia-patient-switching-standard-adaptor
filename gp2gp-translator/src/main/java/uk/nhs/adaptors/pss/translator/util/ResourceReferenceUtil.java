@@ -4,8 +4,6 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isAllergyIn
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isBloodPressure;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDiagnosticReport;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDocumentReference;
-import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isTemplate;
-
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.IdType;
@@ -57,14 +55,6 @@ public class ResourceReferenceUtil {
                 addDiagnosticReportEntry(compoundStatement, entryReferences);
             } else {
 
-                // NIAD_2190 the section below appears to be for Questionnaire Response links and the observation
-                // created that goes with it. Since Questionnaires have been removed, the contents of the addTemplateEntry function has
-                // been commented out while it is tested more in depth. It can be removed following the effect investigation
-                // - Scott Alexander 21072022
-                if (isTemplate(compoundStatement)) {
-                    addTemplateEntry(compoundStatement, entryReferences);
-                }
-
                 compoundStatement.getComponent().forEach(component -> {
                     addObservationStatementEntry(
                         component.getObservationStatement(), entryReferences, compoundStatement);
@@ -106,14 +96,6 @@ public class ResourceReferenceUtil {
             || references.contains(QUESTIONNAIRE_ID.formatted(QUESTIONNAIRE_REFERENCE.formatted(
             compoundStatement.getId().get(0).getRoot())))
             || !references.contains(OBSERVATION_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot()));
-    }
-
-    private static void addTemplateEntry(RCMRMT030101UK04CompoundStatement compoundStatement,
-                                         List<Reference> entryReferences) {
-//        entryReferences.add(createResourceReference(ResourceType.QuestionnaireResponse.name(),
-//            QUESTIONNAIRE_ID.formatted(compoundStatement.getId().get(0).getRoot())));
-//        entryReferences.add(createResourceReference(ResourceType.Observation.name(),
-//            compoundStatement.getId().get(0).getRoot()));
     }
 
     private void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement,

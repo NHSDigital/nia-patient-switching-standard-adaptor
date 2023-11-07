@@ -138,10 +138,8 @@ public class ObservationUtil {
                 effectivePeriod.setEndElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()));
             }
 
-            if (availabilityTimeHasValue(availabilityTime) && effectivePeriod.getStart() == null) {
-                if (effectivePeriod.getEnd() != null) {
-                    effectivePeriod.setStartElement(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()));
-                }
+            if (availabilityTimeHasValue(availabilityTime) && effectivePeriod.getStart() == null && effectivePeriod.getEnd() != null) {
+                effectivePeriod.setStartElement(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()));
             }
 
             if (effectivePeriod.hasStart() || effectivePeriod.hasEnd()) {
