@@ -30,11 +30,48 @@ create table langrefset_s(
 CREATE INDEX langrefset_referencedcomponentid_idx ON snomedct.langrefset_s
     USING btree (referencedcomponentid);
 
-CREATE TABLE immunization_codes(
-                              conceptid varchar(18) not null,
-                              description text not null,
-                              safetycode varchar(18) not null
+CREATE table relationship_s(
+                            id varchar(18) not null,
+                            effectivetime char(8) not null,
+                            active char(1) not null,
+                            moduleid varchar(18) not null,
+                            sourceId varchar(18) not null,
+                            destinationId varchar(18) not null,
+                            relationshipGroup char(8) not null,
+                            typeId varchar(18) not null,
+                            characteristicTypeId varchar(18) not null,
+                            modifierId varchar(18) not null,
+                            PRIMARY KEY(id, effectivetime)
 );
+CREATE INDEX relationship_sourceId_idx ON snomedct.relationship_s
+    USING btree (sourceId);
+CREATE INDEX relationship_destinationId_idx ON snomedct.relationship_s
+    USING btree (destinationId);
+CREATE INDEX relationship_typeId_idx ON snomedct.relationship_s
+    USING btree (typeId);
+
+CREATE MATERIALIZED VIEW immunization_codes AS
+WITH RECURSIVE immunization_heirarchy AS (
+    -- Start with the root conceptIds for immunizations
+    SELECT DISTINCT sourceId AS conceptId
+    FROM snomedct.relationship_s
+    WHERE typeId = '116680003' -- relationshipType (typeId) = 'IsA' (meaning child of)
+    AND (
+            -- these are the root conceptIds
+            destinationId IN ('787859002','127785005','304250009','90351000119108','713404003')
+            OR
+            -- ensure the original root conceptIds are also included
+            sourceId IN ('787859002','127785005','304250009','90351000119108','713404003'))
+    UNION
+    -- Recursively find child records
+    -- if no records are found then the maximum depth for this recursion has been reached
+    SELECT r.sourceId
+    FROM snomedct.relationship_s r
+             JOIN immunization_heirarchy i ON r.destinationId = i.conceptId
+    WHERE r.typeId = '116680003' -- relationshipType (typeId) is 'IsA' (child of)
+)
+SELECT conceptId
+FROM immunization_heirarchy;
 
 GRANT USAGE ON SCHEMA snomedct TO application_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA snomedct TO application_user;
