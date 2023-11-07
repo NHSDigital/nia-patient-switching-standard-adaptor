@@ -43,6 +43,7 @@ import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 
 @ExtendWith(MockitoExtension.class)
 public class PatientTransferServiceTest {
+
     private static final String PATIENT_NHS_NUMBER = "123456789";
     private static final String CONVERSATION_ID = UUID.randomUUID().toString().toUpperCase(Locale.ROOT);
     private static final String LOSING_ODS_CODE = "D443";
@@ -82,6 +83,7 @@ public class PatientTransferServiceTest {
 
     @Test
     public void handlePatientMigrationRequestWhenRequestIsNew() {
+
         var expectedPssQueueMessage = TransferRequestMessage.builder()
             .conversationId(CONVERSATION_ID)
             .patientNhsNumber(PATIENT_NHS_NUMBER)
@@ -91,6 +93,7 @@ public class PatientTransferServiceTest {
             .fromOds(HEADERS.get(FROM_ODS))
             .messageType(TRANSFER_REQUEST)
             .build();
+
         var migrationRequestId = 1;
         OffsetDateTime now = OffsetDateTime.now();
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
@@ -117,6 +120,7 @@ public class PatientTransferServiceTest {
             .fromOds(HEADERS.get(FROM_ODS))
             .messageType(TRANSFER_REQUEST)
             .build();
+
         var migrationRequestId = 1;
         OffsetDateTime now = OffsetDateTime.now();
         when(dateUtils.getCurrentOffsetDateTime()).thenReturn(now);
@@ -171,8 +175,8 @@ public class PatientTransferServiceTest {
 
     @Test
     public void checkExistingPatientMigrationRequestInProgressWhenNoExistingRequest() {
-        when(mdcService.getConversationId())
-                .thenReturn(CONVERSATION_ID);
+
+        when(mdcService.getConversationId()).thenReturn(CONVERSATION_ID);
         when(patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(PATIENT_NHS_NUMBER))
                         .thenReturn(null);
 
@@ -219,28 +223,27 @@ public class PatientTransferServiceTest {
     @ParameterizedTest
     @MethodSource("generateCompletedStatuses")
     public void checkExistingPatientMigrationRequestInProgressWhenPreviousMigrationCompleted(MigrationStatus status) {
+
         final String newConversationId = UUID.randomUUID().toString();
         final PatientMigrationRequest patientMigrationRequest = createPatientMigrationRequest();
         final MigrationStatusLog migrationStatusLog = createMigrationStatusLog(status);
 
-        when(mdcService.getConversationId())
-                .thenReturn(newConversationId);
+        when(mdcService.getConversationId()).thenReturn(newConversationId);
         when(patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(PATIENT_NHS_NUMBER))
                 .thenReturn(patientMigrationRequest);
-        when(migrationStatusLogDao.getLatestMigrationStatusLog(1))
-                .thenReturn(migrationStatusLog);
+        when(migrationStatusLogDao.getLatestMigrationStatusLog(1)).thenReturn(migrationStatusLog);
 
         var existingConversationId = service.checkExistingPatientMigrationRequestInProgress(parameters);
 
         assertThat(existingConversationId).isNull();
     }
 
-    @Test public void checkExistingPatientMigrationRequestInProgressWhenConversationIdsMatch() {
+    @Test
+    public void checkExistingPatientMigrationRequestInProgressWhenConversationIdsMatch() {
         final PatientMigrationRequest patientMigrationRequest = createPatientMigrationRequest();
         final MigrationStatusLog migrationStatusLog = createMigrationStatusLog();
 
-        when(mdcService.getConversationId())
-                .thenReturn(CONVERSATION_ID);
+        when(mdcService.getConversationId()).thenReturn(CONVERSATION_ID);
         when(patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(PATIENT_NHS_NUMBER))
                 .thenReturn(patientMigrationRequest);
         when(migrationStatusLogDao.getLatestMigrationStatusLog(1))
@@ -274,6 +277,7 @@ public class PatientTransferServiceTest {
             .migrationStatus(MigrationStatus.REQUEST_RECEIVED)
             .date(OffsetDateTime.now())
             .migrationRequestId(1)
+            .gp2gpErrorCode("99")
             .build();
     }
 
@@ -283,6 +287,8 @@ public class PatientTransferServiceTest {
                 .migrationStatus(status)
                 .date(OffsetDateTime.now())
                 .migrationRequestId(1)
+                .gp2gpErrorCode("99")
                 .build();
     }
+
 }

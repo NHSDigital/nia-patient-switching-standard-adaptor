@@ -195,11 +195,11 @@ public class PatientTransferControllerTest {
 
     @Test
     public void migratePatientStructureRecordWhenExistingPatientMigrationRequestInProgress() {
-        when(patientTransferService.checkExistingPatientMigrationRequestInProgress(PARAMETERS))
-                .thenReturn(CONVERSATION_ID);
 
-        var response = controller.migratePatientStructuredRecord(
-                PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
+        when(patientTransferService.checkExistingPatientMigrationRequestInProgress(PARAMETERS))
+            .thenReturn(CONVERSATION_ID);
+
+        var response = controller.migratePatientStructuredRecord(PARAMETERS, TO_ASID_VALUE, FROM_ASID_VALUE, TO_ODS_VALUE, FROM_ODS_VALUE);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 

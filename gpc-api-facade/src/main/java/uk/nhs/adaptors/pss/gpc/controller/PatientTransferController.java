@@ -86,6 +86,7 @@ public class PatientTransferController {
         }
 
         MigrationStatusLog request = patientTransferService.handlePatientMigrationRequest(body, headers);
+
         if (request == null) {
             return new ResponseEntity<>(ACCEPTED);
         } else if (IN_PROGRESS_STATUSES.contains(request.getMigrationStatus())) {
@@ -95,7 +96,7 @@ public class PatientTransferController {
             return new ResponseEntity<>(patientTransferService.getBundleResource(), OK);
         } else {
 
-            OperationOutcome operationOutcome = createErrorBodyFromMigrationStatus(request.getMigrationStatus());
+            OperationOutcome operationOutcome = createErrorBodyFromMigrationStatus(request);
             String errorBody = fhirParser.encodeToJson(operationOutcome);
             MigrationStatus currentMigrationStatus = request.getMigrationStatus();
 
@@ -133,10 +134,11 @@ public class PatientTransferController {
         return createOperationOutcome(EXCEPTION, ERROR, details, "");
     }
 
-    private OperationOutcome createErrorBodyFromMigrationStatus(MigrationStatus migrationStatus) {
+    private OperationOutcome createErrorBodyFromMigrationStatus(MigrationStatusLog migrationStatusLog) {
 
         String operationErrorCode;
         String operationErrorMessage;
+        MigrationStatus migrationStatus = migrationStatusLog.getMigrationStatus();
 
         switch (migrationStatus) {
             case EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST:
