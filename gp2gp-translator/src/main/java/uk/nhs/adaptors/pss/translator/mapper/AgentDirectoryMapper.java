@@ -63,7 +63,7 @@ public class AgentDirectoryMapper {
             return agentResources;
         }
 
-        return null;
+        return List.of();
     }
 
     private void mapAgent(RCCTMT120101UK01Agent agent, List<DomainResource> agentResourceList) {
