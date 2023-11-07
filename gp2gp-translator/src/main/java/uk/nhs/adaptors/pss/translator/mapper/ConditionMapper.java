@@ -65,14 +65,11 @@ import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 @Slf4j
 public class ConditionMapper extends AbstractMapper<Condition> {
     private static final String META_PROFILE = "ProblemHeader-Condition-1";
-    private static final String RELATED_CLINICAL_CONTENT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
-        + "-RelatedClinicalContent-1";
-    private static final String PROBLEM_HEADER_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
-        + "-RelatedProblemHeader-1";
-    private static final String ACTUAL_PROBLEM_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
-        + "-ActualProblem-1";
-    private static final String PROBLEM_SIGNIFICANCE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
-        + "-ProblemSignificance-1";
+    public static final String EXTENSION_CARE_CONNECT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect";
+    private static final String RELATED_CLINICAL_CONTENT_URL = EXTENSION_CARE_CONNECT_URL + "-RelatedClinicalContent-1";
+    private static final String PROBLEM_HEADER_URL = EXTENSION_CARE_CONNECT_URL + "-RelatedProblemHeader-1";
+    private static final String ACTUAL_PROBLEM_URL = EXTENSION_CARE_CONNECT_URL + "-ActualProblem-1";
+    private static final String PROBLEM_SIGNIFICANCE_URL = EXTENSION_CARE_CONNECT_URL + "-ProblemSignificance-1";
     private static final String MAJOR_CODE = "386134007";
     private static final String CLINICAL_STATUS_ACTIVE_CODE = "394774009";
     private static final String CLINICAL_STATUS_INACTIVE_CODE = "394775005";

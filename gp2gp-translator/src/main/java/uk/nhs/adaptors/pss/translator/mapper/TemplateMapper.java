@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.DERIVEDFROM;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.HASMEMBER;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
-import static org.hl7.fhir.dstu3.model.QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED;
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
@@ -13,7 +12,6 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.hasDiagnost
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -26,7 +24,6 @@ import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.QuestionnaireResponse;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UK04Component02;
@@ -40,7 +37,6 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
-import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
@@ -49,17 +45,14 @@ import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TemplateMapper extends AbstractMapper<DomainResource> {
     private static final String OBSERVATION_META_PROFILE = "Observation-1";
-    private static final String QUESTIONNAIRE_META_PROFILE = "QuestionnaireResponse-1";
-    private static final String QUESTIONNAIRE_REFERENCE = "%s-QRSP";
-
     private final CodeableConceptMapper codeableConceptMapper;
     private final ResourceReferenceUtil resourceReferenceUtil;
 
     @Override
-    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
+    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+                                             List<Encounter> encounters, String practiseCode) {
 
-        var mappings = mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+        return  mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllCompoundStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isTemplate)
@@ -67,12 +60,12 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
                 .map(compoundStatement -> mapTemplate(extract, composition, compoundStatement, patient, encounters, practiseCode))
                 .flatMap(List::stream)
         ).toList();
-        return mappings;
+
     }
 
     public void addReferences(List<DomainResource> templates, List<Observation> observations, RCMRMT030101UK04EhrExtract ehrExtract) {
         List<Observation> parentObservations = templates.stream()
-            .filter(template -> template instanceof Observation)
+            .filter(Observation.class::isInstance)
             .map(Observation.class::cast)
             .toList();
 
@@ -125,22 +118,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
         var parentObservation = createParentObservation(compoundStatement, practiseCode, patient, encounter,
             ehrComposition, ehrExtract);
 
-//      The following have been disabled as Questionnares have been dropped from the PS Specification. NIAD-2190
-//        var questionnaireResponse = createQuestionnaireResponse(compoundStatement, practiseCode, patient,
-//            encounter, parentObservation, ehrComposition, ehrExtract);
-//        addChildReferencesToQuestionnaireResponse(questionnaireResponse, compoundStatement);
-//        return List.of(questionnaireResponse, parentObservation);
         return List.of(parentObservation);
-    }
-
-    private void addChildReferencesToQuestionnaireResponse(QuestionnaireResponse questionnaireResponse,
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
-        List<Reference> childResourceReferences = new ArrayList<>();
-        resourceReferenceUtil.extractChildReferencesFromTemplate(compoundStatement, childResourceReferences);
-        childResourceReferences.forEach(reference ->
-            questionnaireResponse.addItem().addAnswer(
-                new QuestionnaireResponse.QuestionnaireResponseItemAnswerComponent().setValue(reference))
-        );
     }
 
     private Optional<Reference> getEncounter(List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
@@ -190,40 +168,6 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
             return parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
         }
         return parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
-    }
-
-    private QuestionnaireResponse createQuestionnaireResponse(RCMRMT030101UK04CompoundStatement compoundStatement, String practiseCode,
-        Patient patient, Optional<Reference> encounter, Observation parentObservation,
-        RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04EhrExtract ehrExtract) {
-
-        var questionnaireResponse = new QuestionnaireResponse();
-        var id = compoundStatement.getId().get(0).getRoot();
-
-        questionnaireResponse
-            .addItem(createdLinkedId(compoundStatement))
-            .setAuthoredElement(getAuthored(ehrComposition, ehrExtract))
-            .setSubject(new Reference(patient))
-            .setStatus(COMPLETED)
-            .setParent(List.of(new Reference(parentObservation)))
-            .setIdentifier(buildIdentifier(id, practiseCode))
-            .setMeta(generateMeta(QUESTIONNAIRE_META_PROFILE))
-            .setId(QUESTIONNAIRE_REFERENCE.formatted(id));
-
-        encounter.ifPresent(questionnaireResponse::setContext);
-
-        return questionnaireResponse;
-    }
-
-    private QuestionnaireResponse.QuestionnaireResponseItemComponent createdLinkedId(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return compoundStatement.getCode().hasOriginalText()
-            ? new QuestionnaireResponse.QuestionnaireResponseItemComponent().setLinkId(compoundStatement.getCode().getOriginalText())
-            : new QuestionnaireResponse.QuestionnaireResponseItemComponent().setLinkId(compoundStatement.getCode().getDisplayName());
-    }
-
-    private DateTimeType getAuthored(RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04EhrExtract ehrExtract) {
-        return ehrComposition.getAuthor().getTime().hasValue()
-            ? DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue())
-            : DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
     }
 
     private List<RCMRMT030101UK04CompoundStatement> getCompoundStatementsByIds(RCMRMT030101UK04EhrExtract ehrExtract, List<String> ids) {

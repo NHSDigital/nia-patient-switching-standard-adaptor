@@ -9,9 +9,13 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.io.IOUtils;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class XmlUnmarshallUtil {
+
     public static <T> T unmarshallFile(File xmlFile, Class<T> destinationClass) throws JAXBException {
         Unmarshaller unmarshaller = createUnmarshaller(destinationClass);
         JAXBElement<T> unmarshalledMessage = (JAXBElement) unmarshaller.unmarshal(xmlFile);

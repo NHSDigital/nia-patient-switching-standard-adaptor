@@ -265,7 +265,7 @@ public class COPCMessageHandler {
 
         if (containsBase64Fragments && !allFragmentsAreBase64) {
             throw new ExternalAttachmentProcessingException(
-                String.format("Received both encoded and decoded fragments for message" + parentLogFile.getMid())
+                String.format("Received both encoded and decoded fragments for message %s", parentLogFile.getMid())
             );
         }
 

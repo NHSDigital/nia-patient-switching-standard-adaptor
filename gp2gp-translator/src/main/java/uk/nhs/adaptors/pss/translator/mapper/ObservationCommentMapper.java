@@ -40,7 +40,7 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
     private static final String CODING_DISPLAY = "Comment note";
 
     public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
+                                          String practiseCode) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllNarrativeStatements(component)
