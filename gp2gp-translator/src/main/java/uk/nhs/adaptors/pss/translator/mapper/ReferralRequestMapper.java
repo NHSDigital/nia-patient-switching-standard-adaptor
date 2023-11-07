@@ -44,11 +44,10 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     private static final String PRACTITIONER_REFERENCE = "Practitioner/%s";
     private static final String RESP_PARTY_TYPE_CODE = "RESP";
     private static final String SELF_REFERRAL = "SelfReferral";
-
-    private static Map<String, String> priorityCodes = Map.of(
+    private static final Map<String, String> PRIORITY_CODES = Map.of(
             "394848005", "routine",
             "394849002", "urgent",
-            "88694003", "stat"
+            "88694003", "asap"
     );
 
     private CodeableConceptMapper codeableConceptMapper;
@@ -242,8 +241,8 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             return null;
         }
 
-        if (priorityCodes.containsKey(priorityCode)) {
-            return priorityCodes.get(priorityCode);
+        if (PRIORITY_CODES.containsKey(priorityCode)) {
+            return PRIORITY_CODES.get(priorityCode);
         }
 
         throw new IllegalArgumentException("Unknown ReferralPriority code '" + priorityCode + "'");
