@@ -17,11 +17,13 @@ Adaptor consists of two main components:
 
 Both are Java Spring Boot applications, released as separate docker images.
 
-## Developer Information
 
-See [Operating The Patient Switching Adaptor](./OPERATING.md) for Guidance on operating the Patient Switching Adaptor in production.
+## Table of contents
 
-Information for contributors and running the adaptor locally is available in [Developer Information](./developer-information.md).   
+1. [Guidance for operating the adaptor as a New Market Entrant](/OPERATING.md)
+1. [Guidance on integrating with the adaptors APIs](#endpoints)
+1. [Guidance for developing the adaptor](/developer-information.md)
+1. [Guidance for developing the adaptor on Windows](/getting-started-with-windows.md)
 
 ## Endpoints
 
