@@ -6,6 +6,7 @@ import org.apache.qpid.jms.JmsConnectionFactory;
 import org.apache.qpid.jms.JmsDestination;
 import org.apache.qpid.jms.message.JmsMessageSupport;
 import org.apache.qpid.jms.policy.JmsRedeliveryPolicy;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -94,19 +95,17 @@ public class AmqpConfiguration {
     @Bean("pssQueueJmsListenerFactory")
     public JmsListenerContainerFactory<?> jmsListenerContainerFactoryPssQueue(
         @Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
-        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setSessionTransacted(true);
-        factory.setCacheLevel(CACHE_CONSUMER);
-        factory.setConnectionFactory(connectionFactory);
-        factory.setErrorHandler(listenerErrorHandler);
-        factory.setRecoveryInterval(TEN_SECONDS);
-
-        return factory;
+        return getDefaultJmsListenerContainerFactory(connectionFactory);
     }
 
     @Bean("mhsQueueJmsListenerFactory")
     public JmsListenerContainerFactory<?> jmsListenerContainerFactoryMhsQueue(
         @Qualifier("mhsQueueConnectionFactory") JmsConnectionFactory connectionFactory) {
+        return getDefaultJmsListenerContainerFactory(connectionFactory);
+    }
+
+    @NotNull
+    private DefaultJmsListenerContainerFactory getDefaultJmsListenerContainerFactory(JmsConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setSessionTransacted(true);
         factory.setCacheLevel(CACHE_CONSUMER);
