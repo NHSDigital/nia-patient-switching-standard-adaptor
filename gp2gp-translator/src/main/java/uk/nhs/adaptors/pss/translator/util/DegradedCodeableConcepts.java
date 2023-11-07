@@ -1,10 +1,13 @@
 package uk.nhs.adaptors.pss.translator.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DegradedCodeableConcepts {
 
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
