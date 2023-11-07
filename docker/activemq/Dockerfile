@@ -1,5 +1,4 @@
-FROM openjdk:17-jdk-alpine
-#FROM bellsoft/liberica-openjdk-alpine-musl:17 - ARM build
+FROM eclipse-temurin:21-jdk-alpine
 
 ENV ACTIVEMQ_VERSION 5.16.3
 ENV ACTIVEMQ apache-activemq-$ACTIVEMQ_VERSION
@@ -27,7 +26,7 @@ RUN if [ "$SHA512_VAL" != "$(sha512sum $ACTIVEMQ-bin.tar.gz | awk '{print($1)}')
 
 RUN tar xzf $ACTIVEMQ-bin.tar.gz -C  /opt && \
     ln -s /opt/$ACTIVEMQ $ACTIVEMQ_HOME && \
-    addgroup -S activemq && adduser -S -H -G activemq -h $ACTIVEMQ_HOME activemq && \
+    addgroup --system activemq && adduser --system --no-create-home --ingroup activemq --home $ACTIVEMQ_HOME activemq && \
     chown -R activemq:activemq /opt/$ACTIVEMQ && \
     chown -h activemq:activemq $ACTIVEMQ_HOME && \
     apk del build-dependencies && \
