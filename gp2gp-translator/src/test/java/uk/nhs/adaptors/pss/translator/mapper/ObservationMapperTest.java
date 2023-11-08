@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Observation;
@@ -37,9 +36,11 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
 
 @ExtendWith(MockitoExtension.class)
 public class ObservationMapperTest {
+
     private static final String XML_RESOURCES_BASE = "xml/Observation/";
     private static final String EXAMPLE_ID = "263B2A9F-0B1D-4697-943A-328F70E068DE";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
@@ -303,11 +304,8 @@ public class ObservationMapperTest {
 
     @Test
     public void When_MapObservation_WithoutSnomedCodeInCode_Expect_DegradedCodeableConcept() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding()
-            .setDisplay(CODING_DISPLAY_MOCK)
-            .setSystem("1.2.3.4.5");
-        codeableConcept.addCoding(coding);
+
+        var codeableConcept = createCodeableConceptWithCoding("1.2.3.4.5", null, CODING_DISPLAY_MOCK);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
@@ -319,11 +317,8 @@ public class ObservationMapperTest {
 
     @Test
     public void When_MapObservation_WithSnomedCodeInCode_Expect_MappedWithoutDegrading() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding()
-            .setDisplay(CODING_DISPLAY_MOCK)
-            .setSystem(SNOMED_SYSTEM);
-        codeableConcept.addCoding(coding);
+
+        var codeableConcept = createCodeableConceptWithCoding(SNOMED_SYSTEM, null,CODING_DISPLAY_MOCK);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");

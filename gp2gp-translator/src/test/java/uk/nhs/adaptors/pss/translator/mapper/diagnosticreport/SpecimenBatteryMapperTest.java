@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -150,11 +149,8 @@ public class SpecimenBatteryMapperTest {
 
     @Test
     public void When_MappingObservationFromBatteryCompoundStatementWithoutSnomedCode_Expect_DegradedCode() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding()
-            .setDisplay(CODING_DISPLAY_MOCK)
-            .setSystem("1.2.3.4.5");
-        codeableConcept.addCoding(coding);
+
+        var codeableConcept = createCodeableConceptWithCoding("1.2.3.4.5", null, CODING_DISPLAY_MOCK);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");

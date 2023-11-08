@@ -12,7 +12,6 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
@@ -30,9 +29,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
 
 @ExtendWith(MockitoExtension.class)
 public class ProcedureRequestMapperTest {
+
     private static final String XML_RESOURCES_BASE = "xml/ProcedureRequest/";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
@@ -216,12 +217,7 @@ public class ProcedureRequestMapperTest {
     }
 
     private void setUpCodeableConceptMock() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding()
-                .setCode(CODING_CODE)
-                .setSystem(CODING_SYSTEM)
-                .setDisplay(CODING_DISPLAY);
-        codeableConcept.addCoding(coding);
+        var codeableConcept = createCodeableConceptWithCoding(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
     }
 

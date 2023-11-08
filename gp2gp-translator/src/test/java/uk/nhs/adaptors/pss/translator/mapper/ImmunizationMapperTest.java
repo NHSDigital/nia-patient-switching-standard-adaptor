@@ -14,7 +14,6 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Immunization;
@@ -26,13 +25,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
 
 @ExtendWith(MockitoExtension.class)
 public class ImmunizationMapperTest {
+
     private static final String XML_RESOURCES_BASE = "xml/Immunization/";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Immunization-1";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
@@ -217,10 +217,8 @@ public class ImmunizationMapperTest {
     }
 
     private void setUpCodeableConceptMock() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding();
-        coding.setDisplay(CODING_DISPLAY);
-        codeableConcept.addCoding(coding);
+
+        var codeableConcept = createCodeableConceptWithCoding(null, null, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(immunizationChecker.isImmunization(any())).thenReturn(true);
     }
