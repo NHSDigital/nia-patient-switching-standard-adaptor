@@ -77,6 +77,23 @@ public class ObservationCommentMapperTest {
     }
 
     @Test
+    public void When_mappingObservationsWithBloodPressureTriple_Expect_ObservationCommentNotToBeCreated() {
+        var ehrExtract = unmarshallEhrExtract("full_valid_data_bp_example.xml");
+
+        var encounter = new Encounter();
+        encounter.setId(ENCOUNTER_ID);
+
+        List<Observation> observations = observationCommentMapper.mapResources(
+                ehrExtract,
+                patient,
+                Collections.singletonList(encounter),
+                PRACTISE_CODE);
+
+        assertThat(observations)
+                .hasSize(0);
+    }
+
+    @Test
     public void mapObservationsWithFullDataMultipleObservations() {
         var ehrExtract = unmarshallEhrExtract("multiple_narrative_statements.xml");
 

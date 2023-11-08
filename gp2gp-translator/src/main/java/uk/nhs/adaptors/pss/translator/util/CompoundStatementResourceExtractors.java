@@ -120,15 +120,22 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
-    public static Stream<RCMRMT030101UK04NarrativeStatement> extractAllNarrativeStatements(RCMRMT030101UK04Component4 component4) {
-        return Stream.concat(
-            Stream.of(component4.getNarrativeStatement()),
-            component4.hasCompoundStatement() ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasNarrativeStatement, RCMRMT030101UK04Component02::getNarrativeStatement)
-                .stream()
-                .map(RCMRMT030101UK04NarrativeStatement.class::cast)
-                : Stream.empty()
-        );
+    public static Stream<RCMRMT030101UK04NarrativeStatement> extractAllNarrativeStatements(
+            RCMRMT030101UK04Component4 component4) {
+
+        // as blood pressures already map their own NarrativeStatements, we do not want to map these again if the
+        // provided component contains a blood pressure triple.
+        Stream<RCMRMT030101UK04NarrativeStatement> childNarrativeStatements =
+                hasCompoundStatementAndIsNotBloodPressure(component4)
+                        ? CompoundStatementUtil.extractResourcesFromCompound(
+                                component4.getCompoundStatement(),
+                                RCMRMT030101UK04Component02::hasNarrativeStatement,
+                                RCMRMT030101UK04Component02::getNarrativeStatement)
+                            .stream()
+                            .map(RCMRMT030101UK04NarrativeStatement.class::cast)
+                        : Stream.empty();
+
+        return Stream.concat(Stream.of(component4.getNarrativeStatement()), childNarrativeStatements);
     }
 
     public static Stream<RCMRMT030101UK04MedicationStatement> extractAllMedications(RCMRMT030101UK04Component4 component4) {
@@ -148,5 +155,10 @@ public class CompoundStatementResourceExtractors {
             return !isAllergyIntolerance(compoundStatement);
         }
         return true;
+    }
+
+    private static boolean hasCompoundStatementAndIsNotBloodPressure(RCMRMT030101UK04Component4 component4) {
+        return component4.hasCompoundStatement()
+                && !isBloodPressureWithBatteryAndBloodPressureTriple(component4.getCompoundStatement());
     }
 }
