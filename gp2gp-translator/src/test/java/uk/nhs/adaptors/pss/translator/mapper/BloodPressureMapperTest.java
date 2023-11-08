@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -14,7 +15,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Observation;
@@ -33,10 +33,12 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 public class BloodPressureMapperTest {
+
     private static final String XML_RESOURCES_BASE = "xml/BloodPressure/";
     private static final String EXAMPLE_ID = "FE739904-2AAB-4B3F-9718-84BE019FD483";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
@@ -60,8 +62,7 @@ public class BloodPressureMapperTest {
     private static final String COMPONENT_2_INTERPRETATION_TEXT = "Low Text";
     private static final String COMPONENT_2_REFERENCE_RANGE_TEXT = "Test Range 2";
 
-    private static final CodeableConcept CODEABLE_CONCEPT = new CodeableConcept()
-        .addCoding(new Coding().setDisplay(CODING_DISPLAY_MOCK));
+    private static final CodeableConcept CODEABLE_CONCEPT = createCodeableConceptWithCoding(null, null, CODING_DISPLAY_MOCK);
     private static final List<Encounter> ENCOUNTER_LIST = List.of(
         (Encounter) new Encounter().setId("TEST_ID_MATCHING_ENCOUNTER")
     );
@@ -266,22 +267,16 @@ public class BloodPressureMapperTest {
 
     @Test
     public void mapBloodPressureWithSnomedCodeInCoding() {
-        var codeableConcept = new CodeableConcept()
-            .addCoding(new Coding()
-                .setSystem("http://snomed.info/sct")
-                .setDisplay("Display")
-                .setCode("123456"));
+
+        var codeableConcept = createCodeableConceptWithCoding("http://snomed.info/sct", "123456", "Display");
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_bp_example.xml");
 
         var bloodPressure = bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(bloodPressure.getCode())
-            .isEqualTo(codeableConcept);
-        assertThat(bloodPressure.getComponent().get(0).getCode())
-            .isEqualTo(codeableConcept);
-        assertThat(bloodPressure.getComponent().get(1).getCode())
-            .isEqualTo(codeableConcept);
+        assertEquals(codeableConcept, bloodPressure.getCode());
+        assertEquals(codeableConcept, bloodPressure.getComponent().get(0).getCode());
+        assertEquals(codeableConcept, bloodPressure.getComponent().get(1).getCode());
     }
 }

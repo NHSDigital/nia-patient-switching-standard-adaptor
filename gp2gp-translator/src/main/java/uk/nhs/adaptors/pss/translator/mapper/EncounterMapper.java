@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterLocationComponent;
@@ -50,10 +49,12 @@ import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EncounterMapper {
+
     private static final List<String> INVALID_CODES = List.of("196401000000100", "196391000000103");
     private static final String ENCOUNTER_META_PROFILE = "Encounter-1";
     private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/";
@@ -333,10 +334,9 @@ public class EncounterMapper {
 
     private EncounterParticipantComponent getRecorder(RCMRMT030101UK04Author author) {
         var recorder = new EncounterParticipantComponent();
-        var coding = new Coding(RECORDER_SYSTEM, RECORDER_CODE, RECORDER_DISPLAY);
 
         return recorder
-            .addType(new CodeableConcept(coding))
+            .addType(createCodeableConceptWithCoding(RECORDER_SYSTEM, RECORDER_CODE, RECORDER_DISPLAY))
             .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + author.getAgentRef().getId().getRoot()));
     }
 
@@ -346,15 +346,9 @@ public class EncounterMapper {
 
     private EncounterParticipantComponent getPerformer(RCMRMT030101UK04Participant2 participant2) {
         var performer = new EncounterParticipantComponent();
-        var coding = new Coding();
-
-        coding
-            .setSystem(PERFORMER_SYSTEM)
-            .setCode(PERFORMER_CODE)
-            .setDisplay(PERFORMER_DISPLAY);
 
         return performer
-            .addType(new CodeableConcept(coding))
+            .addType(createCodeableConceptWithCoding(PERFORMER_SYSTEM, PERFORMER_CODE, PERFORMER_DISPLAY))
             .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + participant2.getAgentRef().getId().getRoot()));
     }
 

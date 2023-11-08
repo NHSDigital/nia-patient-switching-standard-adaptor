@@ -8,13 +8,11 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObser
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
@@ -29,6 +27,7 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
 
 @Service
 @AllArgsConstructor
@@ -95,10 +94,6 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
     }
 
     private CodeableConcept createCodeableConcept() {
-        var codeableConcept = new CodeableConcept();
-        codeableConcept.setCoding(
-            Collections.singletonList(new Coding(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY)));
-
-        return codeableConcept;
+        return createCodeableConceptWithCoding(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY);
     }
 }

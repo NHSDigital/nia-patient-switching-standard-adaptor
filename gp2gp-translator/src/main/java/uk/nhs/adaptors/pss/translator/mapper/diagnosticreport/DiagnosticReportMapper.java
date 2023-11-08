@@ -40,6 +40,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 import uk.nhs.adaptors.pss.translator.util.TextUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
@@ -218,13 +219,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     }
 
     private CodeableConcept createCode() {
-        var codeableConcept = new CodeableConcept();
-        codeableConcept
-            .getCodingFirstRep()
-            .setCode("721981007")
-            .setSystem("http://snomed.info/sct")
-            .setDisplay("Diagnostic studies report");
-        return codeableConcept;
+        return createCodeableConcept("721981007", "http://snomed.info/sct", "Diagnostic studies report", null);
     }
 
     private static boolean containsReference(List<Reference> references, String id) {

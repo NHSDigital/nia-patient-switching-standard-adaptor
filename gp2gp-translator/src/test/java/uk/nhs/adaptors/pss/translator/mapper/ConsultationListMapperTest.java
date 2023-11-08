@@ -34,9 +34,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
 
 @ExtendWith(MockitoExtension.class)
 public class ConsultationListMapperTest {
+
     private static final String XML_RESOURCES_BASE = "xml/ConsultationList/";
     private static final String ENCOUNTER_ID = "823ACEB0-90C2-11EC-B1E5-0800200C9A66";
     private static final String CONSULTATION_ID_SUFFIX = "-CONS";
@@ -217,10 +219,8 @@ public class ConsultationListMapperTest {
             period.setEndElement(DateFormatUtil.parseToDateTimeType(endDate));
         }
 
-        CodeableConcept type = new CodeableConcept();
-        var coding = new Coding();
-        coding.setDisplay(display);
-        type.addCoding(coding).setText(text);
+        CodeableConcept type = createCodeableConceptWithCoding(null, null, display);
+        type.setText(text);
 
         encounter
             .setType(List.of(type))
@@ -286,10 +286,7 @@ public class ConsultationListMapperTest {
     }
 
     private void setUpCodeableConceptMock(String display, String text) {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding();
-        coding.setDisplay(display);
-        codeableConcept.addCoding(coding);
+        var codeableConcept = createCodeableConceptWithCoding(null, null, display);
         codeableConcept.setText(text);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
     }

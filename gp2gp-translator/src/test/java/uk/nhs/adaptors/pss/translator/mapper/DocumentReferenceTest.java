@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hl7.fhir.dstu3.model.Enumerations.DocumentReferenceStatus;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -12,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -30,9 +29,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
 
 @ExtendWith(MockitoExtension.class)
 public class DocumentReferenceTest {
+
     private static final String XML_RESOURCES_BASE = "xml/DocumentReference/";
     private static final String NARRATIVE_STATEMENT_ROOT_ID = "5E496953-065B-41F2-9577-BE8F2FBD0757";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1";
@@ -144,11 +145,7 @@ public class DocumentReferenceTest {
 
     @Test
     public void mapNarrativeStatementWithSnomedCode() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding()
-            .setDisplay(CODING_DISPLAY)
-            .setSystem(SNOMED_SYSTEM);
-        codeableConcept.addCoding(coding);
+        var codeableConcept = createCodeableConceptWithCoding(SNOMED_SYSTEM, null, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtract("nested_narrative_statements.xml");
@@ -157,16 +154,12 @@ public class DocumentReferenceTest {
             getEncounterList(), AUTHOR_ORG, createAttachmentList());
         var documentReference = documentReferences.get(0);
 
-        assertThat(documentReference.getType()).isEqualTo(codeableConcept);
+        assertEquals(codeableConcept, documentReference.getType());
     }
 
     @Test
     public void mapNarrativeStatementWithoutSnomedCode() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding()
-            .setDisplay(CODING_DISPLAY)
-            .setSystem("not-a-snomed-system");
-        codeableConcept.addCoding(coding);
+        var codeableConcept = createCodeableConceptWithCoding("not-a-snomed-system", null, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtract("nested_narrative_statements.xml");
@@ -268,11 +261,7 @@ public class DocumentReferenceTest {
     }
 
     private void setUpCodeableConceptMock() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding()
-            .setDisplay(CODING_DISPLAY)
-            .setSystem(SNOMED_SYSTEM);
-        codeableConcept.addCoding(coding);
+        var codeableConcept = createCodeableConceptWithCoding(SNOMED_SYSTEM, null, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
     }
 

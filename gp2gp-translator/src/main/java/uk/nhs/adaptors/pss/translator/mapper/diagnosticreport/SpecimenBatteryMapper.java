@@ -49,6 +49,7 @@ import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.TextUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -196,13 +197,7 @@ public class SpecimenBatteryMapper {
     }
 
     private CodeableConcept createCategory() {
-        var codeableConcept = new CodeableConcept();
-        codeableConcept
-            .getCodingFirstRep()
-            .setCode("laboratory")
-            .setSystem("http://hl7.org/fhir/observation-category")
-            .setDisplay("Laboratory");
-        return codeableConcept;
+        return createCodeableConcept("laboratory", "http://hl7.org/fhir/observation-category", "Laboratory", null);
     }
 
     private Reference createSpecimenReference(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {
