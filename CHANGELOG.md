@@ -9,7 +9,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 release rather than the outdated CSV file.
 * Changed ReferralRequest mapping to use `ASAP` instead of `Stat`.
 
-
 ## [1.0.0] - 2023-11-01 🎉
 
 ### Added
