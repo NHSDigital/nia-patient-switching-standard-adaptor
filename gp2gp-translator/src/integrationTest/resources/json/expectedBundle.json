@@ -31677,44 +31677,6 @@
     {
       "resource": {
         "resourceType": "Observation",
-        "id": "EC913E83-7610-4FBD-9A60-1769D42E9DEB",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/D5445",
-            "value": "EC913E83-7610-4FBD-9A60-1769D42E9DEB"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/e2cf4cc1-08da-4971-845f-35b8447cabdd"
-        },
-        "effectiveDateTime": "2006-04-25T15:30:00+00:00",
-        "issued": "2020-01-01T01:01:01.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
-          }
-        ],
-        "comment": "Systolic Measurement Absent: Unknown"
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
         "id": "6035E061-EEEE-444B-8171-DBEE153FDE2E",
         "meta": {
           "profile": [
@@ -31845,47 +31807,6 @@
             }
           }
         ]
-      }
-    },
-    {
-      "resource": {
-        "resourceType": "Observation",
-        "id": "B27EB734-741C-4152-9E41-7BAB5EF9DD5E",
-        "meta": {
-          "profile": [
-            "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://PSSAdaptor/D5445",
-            "value": "B27EB734-741C-4152-9E41-7BAB5EF9DD5E"
-          }
-        ],
-        "status": "final",
-        "code": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "37331000000100",
-              "display": "Comment note"
-            }
-          ]
-        },
-        "subject": {
-          "reference": "Patient/e2cf4cc1-08da-4971-845f-35b8447cabdd"
-        },
-        "context": {
-          "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
-        },
-        "effectiveDateTime": "2006-04-25T15:30:00+00:00",
-        "issued": "2010-01-13T15:13:32.000+00:00",
-        "performer": [
-          {
-            "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
-          }
-        ],
-        "comment": "Systolic Measurement Absent: Unknown"
       }
     },
     {
