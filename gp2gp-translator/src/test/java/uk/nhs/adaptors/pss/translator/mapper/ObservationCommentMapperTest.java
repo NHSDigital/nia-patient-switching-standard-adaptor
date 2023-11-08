@@ -77,7 +77,7 @@ public class ObservationCommentMapperTest {
     }
 
     @Test
-    public void When_mappingObservationsWithBloodPressureTriple_Expect_ObservationCommentNotToBeCreated() {
+    public void When_MappingObservationsWithBloodPressureTriple_Expect_ObservationCommentNotToBeCreated() {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_in_blood_pressure.xml");
 
         var encounter = new Encounter();
