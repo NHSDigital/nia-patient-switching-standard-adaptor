@@ -47,7 +47,7 @@ public class CodeableConceptUtilsTest {
         assertEquals(CODE, result.getCodingFirstRep().getCode());
         assertEquals(ISSUE_SYSTEM, result.getCodingFirstRep().getSystem());
         assertEquals(DISPLAY, result.getCodingFirstRep().getDisplay());
-        assertEquals(EXTENSION_URL, result.getExtension().get(0).getUrlElement().getValue());
+        assertEquals(EXTENSION_URL, result.getCoding().get(0).getExtension().get(0).getUrlElement().getValue());
         assertThat(result.getText()).isNull();
     }
 }
