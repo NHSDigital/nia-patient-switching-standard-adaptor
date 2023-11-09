@@ -28,7 +28,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class ImmunizationMapperTest {
@@ -218,7 +218,7 @@ public class ImmunizationMapperTest {
 
     private void setUpCodeableConceptMock() {
 
-        var codeableConcept = createCodeableConceptWithCoding(null, null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(null, null, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(immunizationChecker.isImmunization(any())).thenReturn(true);
     }

@@ -29,7 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class ProcedureRequestMapperTest {
@@ -217,7 +217,7 @@ public class ProcedureRequestMapperTest {
     }
 
     private void setUpCodeableConceptMock() {
-        var codeableConcept = createCodeableConceptWithCoding(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
     }
 

@@ -31,7 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class ReferralRequestMapperTest {
@@ -58,7 +58,7 @@ public class ReferralRequestMapperTest {
     @Test
     public void mapReferralRequestWithValidData() {
 
-        var codeableConcept = createCodeableConceptWithCoding(SNOMED_SYSTEM, REASON_CODE_1, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, REASON_CODE_1, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any()))
                 .thenReturn(codeableConcept);
 

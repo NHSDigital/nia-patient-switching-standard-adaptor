@@ -20,7 +20,7 @@ public class CodeableConceptUtils {
         return codeableConcept;
     }
 
-    public static CodeableConcept createCodeableConceptWithCoding(String system, String code, String display) {
+    public static CodeableConcept createCodeableConcept(String system, String code, String display) {
         var codeableConcept = new CodeableConcept();
         Coding coding = new Coding();
         coding.setSystem(system);
@@ -32,8 +32,8 @@ public class CodeableConceptUtils {
     }
 
 
-    public static CodeableConcept createCodeableConceptWithExtension(String code, String system, String display,
-                                                                     String text, Extension extension) {
+    public static CodeableConcept createCodeableConcept(String code, String system, String display,
+                                                        String text, Extension extension) {
         var codeableConcept = new CodeableConcept();
         codeableConcept
             .setText(text)

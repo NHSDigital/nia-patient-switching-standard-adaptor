@@ -41,7 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class ConditionMapperTest {
@@ -252,7 +252,7 @@ public class ConditionMapperTest {
     @Test
     public void mapConditionWithSnomedCodeInCoding() {
 
-        var codeableConcept = createCodeableConceptWithCoding("http://snomed.info/sct", "123456", "Display");
+        var codeableConcept = createCodeableConcept("http://snomed.info/sct", "123456", "Display");
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
 

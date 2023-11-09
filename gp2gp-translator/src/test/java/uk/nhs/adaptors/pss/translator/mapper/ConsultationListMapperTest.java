@@ -34,7 +34,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class ConsultationListMapperTest {
@@ -219,7 +219,7 @@ public class ConsultationListMapperTest {
             period.setEndElement(DateFormatUtil.parseToDateTimeType(endDate));
         }
 
-        CodeableConcept type = createCodeableConceptWithCoding(null, null, display);
+        CodeableConcept type = createCodeableConcept(null, null, display);
         type.setText(text);
 
         encounter
@@ -286,7 +286,7 @@ public class ConsultationListMapperTest {
     }
 
     private void setUpCodeableConceptMock(String display, String text) {
-        var codeableConcept = createCodeableConceptWithCoding(null, null, display);
+        var codeableConcept = createCodeableConcept(null, null, display);
         codeableConcept.setText(text);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
     }

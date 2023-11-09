@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.connector.dao.SnomedCTDao;
 import uk.nhs.adaptors.connector.model.SnomedCTDescription;
 import uk.nhs.adaptors.pss.translator.util.CodeSystemsUtil;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithExtension;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 import java.util.Objects;
 
@@ -150,7 +150,7 @@ public class CodeableConceptMapper {
         var extension = createExtension(description.getId(), descriptionDisplay);
         var textFieldValue = getTextFieldValue(originalText, text);
 
-        return createCodeableConceptWithExtension(code, SNOMED_SYSTEM, display, textFieldValue, extension);
+        return createCodeableConcept(code, SNOMED_SYSTEM, display, textFieldValue, extension);
     }
 
     private CodeableConcept generateCodeableConceptUsingConceptId(CD mainCode, CD translationMainCode, boolean isMedicationResource) {
@@ -204,7 +204,7 @@ public class CodeableConceptMapper {
             ? null
             : createExtension(extensionId, extensionDisplay);
 
-        return createCodeableConceptWithExtension(conceptId, SNOMED_SYSTEM, display, text, extension);
+        return createCodeableConcept(conceptId, SNOMED_SYSTEM, display, text, extension);
     }
 
     private void addNonSnomedCodesToCodeableConcept(CodeableConcept codeableConcept, CD codedData) {

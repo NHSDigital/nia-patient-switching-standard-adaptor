@@ -41,7 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class AllergyIntoleranceMapperTest {
@@ -462,19 +462,19 @@ public class AllergyIntoleranceMapperTest {
     }
 
     private CodeableConcept defaultCodeableConcept() {
-        return createCodeableConceptWithCoding(SNOMED_CODE_SYSTEM, null, CODING_DISPLAY_1);
+        return createCodeableConcept(SNOMED_CODE_SYSTEM, null, CODING_DISPLAY_1);
     }
 
     private CodeableConcept secondaryCodeableConcept() {
-        return createCodeableConceptWithCoding(SNOMED_CODE_SYSTEM, null, CODING_DISPLAY_2);
+        return createCodeableConcept(SNOMED_CODE_SYSTEM, null, CODING_DISPLAY_2);
     }
 
     private CodeableConcept tertiaryCodeableConcept() {
-        return createCodeableConceptWithCoding(null, null, CODING_DISPLAY_3);
+        return createCodeableConcept(null, null, CODING_DISPLAY_3);
     }
 
     private CodeableConcept nonSnomedCodeableConcept() {
-        return createCodeableConceptWithCoding(MULTILEX_CODE_SYSTEM, MULTILEX_COCONUT_OIL, CODING_DISPLAY_4);
+        return createCodeableConcept(MULTILEX_CODE_SYSTEM, MULTILEX_COCONUT_OIL, CODING_DISPLAY_4);
     }
 
     @SneakyThrows

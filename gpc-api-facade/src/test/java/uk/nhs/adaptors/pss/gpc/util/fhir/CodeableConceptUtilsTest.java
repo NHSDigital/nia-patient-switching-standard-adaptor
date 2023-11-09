@@ -42,7 +42,7 @@ public class CodeableConceptUtilsTest {
 
         final String EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid";
         final Extension extension = new Extension().setUrl(EXTENSION_URL);
-        CodeableConcept result = CodeableConceptUtils.createCodeableConceptWithExtension(CODE, ISSUE_SYSTEM, DISPLAY, null, extension);
+        CodeableConcept result = CodeableConceptUtils.createCodeableConcept(CODE, ISSUE_SYSTEM, DISPLAY, null, extension);
 
         assertEquals(CODE, result.getCodingFirstRep().getCode());
         assertEquals(ISSUE_SYSTEM, result.getCodingFirstRep().getSystem());

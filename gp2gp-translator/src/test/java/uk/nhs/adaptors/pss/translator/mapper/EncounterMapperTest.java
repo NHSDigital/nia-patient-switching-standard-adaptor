@@ -41,7 +41,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class EncounterMapperTest {
@@ -179,7 +179,7 @@ public class EncounterMapperTest {
     @Test
     public void testMapValidEncounterWithoutSnomedCode() {
 
-        var codeableConcept = createCodeableConceptWithCoding("1.2.3.4.5", null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept("1.2.3.4.5", null, CODING_DISPLAY);
 
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
@@ -550,7 +550,7 @@ public class EncounterMapperTest {
 
     private void setUpCodeableConceptMock() {
 
-        var codeableConcept = createCodeableConceptWithCoding(SNOMED_SYSTEM, null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
             @Override

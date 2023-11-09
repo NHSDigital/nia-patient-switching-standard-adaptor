@@ -25,9 +25,10 @@ import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 @AllArgsConstructor
@@ -94,6 +95,6 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
     }
 
     private CodeableConcept createCodeableConcept() {
-        return createCodeableConceptWithCoding(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY);
+        return CodeableConceptUtils.createCodeableConcept(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY);
     }
 }

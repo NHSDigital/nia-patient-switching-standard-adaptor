@@ -29,7 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class DocumentReferenceTest {
@@ -145,7 +145,7 @@ public class DocumentReferenceTest {
 
     @Test
     public void mapNarrativeStatementWithSnomedCode() {
-        var codeableConcept = createCodeableConceptWithCoding(SNOMED_SYSTEM, null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtract("nested_narrative_statements.xml");
@@ -159,7 +159,7 @@ public class DocumentReferenceTest {
 
     @Test
     public void mapNarrativeStatementWithoutSnomedCode() {
-        var codeableConcept = createCodeableConceptWithCoding("not-a-snomed-system", null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept("not-a-snomed-system", null, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtract("nested_narrative_statements.xml");
@@ -261,7 +261,7 @@ public class DocumentReferenceTest {
     }
 
     private void setUpCodeableConceptMock() {
-        var codeableConcept = createCodeableConceptWithCoding(SNOMED_SYSTEM, null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
     }
 

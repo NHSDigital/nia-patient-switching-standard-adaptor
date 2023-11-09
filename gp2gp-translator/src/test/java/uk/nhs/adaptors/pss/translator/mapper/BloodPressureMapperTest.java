@@ -33,7 +33,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
@@ -62,7 +62,7 @@ public class BloodPressureMapperTest {
     private static final String COMPONENT_2_INTERPRETATION_TEXT = "Low Text";
     private static final String COMPONENT_2_REFERENCE_RANGE_TEXT = "Test Range 2";
 
-    private static final CodeableConcept CODEABLE_CONCEPT = createCodeableConceptWithCoding(null, null, CODING_DISPLAY_MOCK);
+    private static final CodeableConcept CODEABLE_CONCEPT = createCodeableConcept(null, null, CODING_DISPLAY_MOCK);
     private static final List<Encounter> ENCOUNTER_LIST = List.of(
         (Encounter) new Encounter().setId("TEST_ID_MATCHING_ENCOUNTER")
     );
@@ -268,7 +268,7 @@ public class BloodPressureMapperTest {
     @Test
     public void mapBloodPressureWithSnomedCodeInCoding() {
 
-        var codeableConcept = createCodeableConceptWithCoding("http://snomed.info/sct", "123456", "Display");
+        var codeableConcept = createCodeableConcept("http://snomed.info/sct", "123456", "Display");
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_bp_example.xml");

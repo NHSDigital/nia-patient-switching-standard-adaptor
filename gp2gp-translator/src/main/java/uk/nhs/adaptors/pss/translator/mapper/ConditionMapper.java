@@ -58,7 +58,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -318,9 +318,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private CodeableConcept generateCategory() {
-        return createCodeableConceptWithCoding("https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-                                        "problem-list-item",
-                                        "Problem List Item");
+        return createCodeableConcept("https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
+                                     "problem-list-item",
+                                     "Problem List Item");
     }
 
     private List<Extension> buildRelatedClinicalContent(Bundle bundle,

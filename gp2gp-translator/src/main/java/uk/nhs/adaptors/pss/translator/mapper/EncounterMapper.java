@@ -49,7 +49,7 @@ import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -336,7 +336,7 @@ public class EncounterMapper {
         var recorder = new EncounterParticipantComponent();
 
         return recorder
-            .addType(createCodeableConceptWithCoding(RECORDER_SYSTEM, RECORDER_CODE, RECORDER_DISPLAY))
+            .addType(createCodeableConcept(RECORDER_SYSTEM, RECORDER_CODE, RECORDER_DISPLAY))
             .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + author.getAgentRef().getId().getRoot()));
     }
 
@@ -348,7 +348,7 @@ public class EncounterMapper {
         var performer = new EncounterParticipantComponent();
 
         return performer
-            .addType(createCodeableConceptWithCoding(PERFORMER_SYSTEM, PERFORMER_CODE, PERFORMER_DISPLAY))
+            .addType(createCodeableConcept(PERFORMER_SYSTEM, PERFORMER_CODE, PERFORMER_DISPLAY))
             .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + participant2.getAgentRef().getId().getRoot()));
     }
 

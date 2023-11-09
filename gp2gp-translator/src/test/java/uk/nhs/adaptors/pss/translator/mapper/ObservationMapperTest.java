@@ -36,7 +36,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConceptWithCoding;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class ObservationMapperTest {
@@ -305,7 +305,7 @@ public class ObservationMapperTest {
     @Test
     public void When_MapObservation_WithoutSnomedCodeInCode_Expect_DegradedCodeableConcept() {
 
-        var codeableConcept = createCodeableConceptWithCoding("1.2.3.4.5", null, CODING_DISPLAY_MOCK);
+        var codeableConcept = createCodeableConcept("1.2.3.4.5", null, CODING_DISPLAY_MOCK);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
@@ -318,7 +318,7 @@ public class ObservationMapperTest {
     @Test
     public void When_MapObservation_WithSnomedCodeInCode_Expect_MappedWithoutDegrading() {
 
-        var codeableConcept = createCodeableConceptWithCoding(SNOMED_SYSTEM, null, CODING_DISPLAY_MOCK);
+        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY_MOCK);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
