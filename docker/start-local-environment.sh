@@ -21,10 +21,6 @@ cd ../db-connector
 cd ../snomed-database-loader
 ./load_release-postgresql.sh "$SNOMED_CT_TERMINOLOGY_FILE"
 
-
-cd ../snomed-immunization-loader
-./load_immunization_codes.sh snomed_immunization_codes.csv
-
 #####
 
 cd ../docker

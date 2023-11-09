@@ -83,6 +83,7 @@ chmod +x ${generatedLoadScript}
 if [[ $isMonolith == true ]]; then
 	addLoadScript sct2_Description_TYPE-en_GB_DATE.txt MONOSnapshot description $releaseDateMonoGb
 	addLoadScript der2_cRefset_LanguageTYPE-en_GB_DATE.txt MONOSnapshot langrefset $releaseDateMonoGb
+	addLoadScript sct2_Relationship_TYPE_GB_DATE.txt MONOSnapshot relationship $releaseDateMonoGb
 else
 	addLoadScript sct2_Description_TYPE-en_GB_DATE.txt UKEDSnapshot description $releaseDateUK
 	addLoadScript sct2_Description_TYPE-en_INT_DATE.txt Snapshot description $releaseDateINT
@@ -96,6 +97,9 @@ EOF
 
 #load data
 ./${generatedLoadScript}
+
+#refresh materialized view
+psql "${databaseUri}" -c "REFRESH MATERIALIZED VIEW ${snomedCtSchema}.immunization_codes"
 
 #cleanup
 rm -rf $localExtract

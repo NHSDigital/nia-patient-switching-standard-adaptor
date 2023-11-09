@@ -82,23 +82,21 @@ public class AzureStorageService implements StorageService {
     }
 
     private void addFileStringToMainContainer(String filename, byte[] fileAsString) throws StorageException, IOException {
-        try {
+        try (InputStream dataStream = new ByteArrayInputStream(fileAsString)) {
             BlockBlobClient blobClient = createBlobBlockClient(filename);
-            InputStream dataStream = new ByteArrayInputStream(fileAsString);
             blobClient.upload(dataStream, fileAsString.length);
-            dataStream.close();
         } catch (IOException e) {
             throw new StorageException("Failed to upload blob to Azure Blob storage", e);
         }
     }
 
     private ByteArrayOutputStream downloadFileToStream(String filename) throws StorageException {
-        try {
-            BlockBlobClient blobClient = createBlobBlockClient(filename);
-            int dataSize = (int) blobClient.getProperties().getBlobSize();
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(dataSize);
+
+        BlockBlobClient blobClient = createBlobBlockClient(filename);
+        int dataSize = (int) blobClient.getProperties().getBlobSize();
+
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream(dataSize)) {
             blobClient.downloadStream(outputStream);
-            outputStream.close();
             return outputStream;
         } catch (IOException e) {
             throw new StorageException("Failed to download blob from Azure Blob storage", e);

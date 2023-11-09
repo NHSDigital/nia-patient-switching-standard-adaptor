@@ -47,8 +47,6 @@ docker-compose rm -f db_migration
 
 cd ../docker/snomed-database-loader
 ./load_release-postgresql.sh ${SNOMED_FILE_LOCATION}
-cd ../snomed-immunization-loader
-./load_immunization_codes.sh
 cd ../../daisy-chaining
 
 docker-compose build ps_gp2gp_translator gpc_facade

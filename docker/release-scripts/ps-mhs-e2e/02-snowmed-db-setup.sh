@@ -12,6 +12,3 @@ source vars.sh
 cd snomed-database-loader
 ./load_release-postgresql.sh ${SNOMED_FILE_LOCATION}
 cd ..
-cd snomed-immunization-loader
-./load_immunization_codes.sh
-cd ..

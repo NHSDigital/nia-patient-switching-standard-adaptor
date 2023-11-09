@@ -92,17 +92,15 @@ public class ObservationUtil {
                                                     referenceRange.getReferenceInterpretationRange().getValue());
 
             var referenceInterpretationRange = referenceRange.getReferenceInterpretationRange();
-            if (referenceInterpretationRangeHasValue(referenceInterpretationRange)) {
-                if (referenceInterpretationRange.getValue() != null) {
-                    if (referenceInterpretationRange.getValue().getLow() != null) {
-                        referenceRangeComponent.setLow(getSimpleQuantityFromQuantity(quantity,
-                            referenceRange.getReferenceInterpretationRange().getValue().getLow().getValue()));
-                    }
+            if (referenceInterpretationRangeHasValue(referenceInterpretationRange) && referenceInterpretationRange.getValue() != null) {
+                if (referenceInterpretationRange.getValue().getLow() != null) {
+                    referenceRangeComponent.setLow(getSimpleQuantityFromQuantity(quantity,
+                        referenceRange.getReferenceInterpretationRange().getValue().getLow().getValue()));
+                }
 
-                    if (referenceInterpretationRange.getValue().getHigh() != null) {
-                        referenceRangeComponent.setHigh(getSimpleQuantityFromQuantity(quantity,
-                            referenceRange.getReferenceInterpretationRange().getValue().getHigh().getValue()));
-                    }
+                if (referenceInterpretationRange.getValue().getHigh() != null) {
+                    referenceRangeComponent.setHigh(getSimpleQuantityFromQuantity(quantity,
+                        referenceRange.getReferenceInterpretationRange().getValue().getHigh().getValue()));
                 }
             }
 
@@ -140,18 +138,15 @@ public class ObservationUtil {
                 effectivePeriod.setEndElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()));
             }
 
-            if (availabilityTimeHasValue(availabilityTime)) {
-                if (effectivePeriod.getStart() == null) {
-                    if (effectivePeriod.getEnd() != null) {
-                        effectivePeriod.setStartElement(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()));
-                    }
-                }
+            if (availabilityTimeHasValue(availabilityTime) && effectivePeriod.getStart() == null && effectivePeriod.getEnd() != null) {
+                effectivePeriod.setStartElement(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()));
             }
 
             if (effectivePeriod.hasStart() || effectivePeriod.hasEnd()) {
                 return effectivePeriod;
             }
         }
+
         if (availabilityTimeHasValue(availabilityTime)) {
             return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         }
