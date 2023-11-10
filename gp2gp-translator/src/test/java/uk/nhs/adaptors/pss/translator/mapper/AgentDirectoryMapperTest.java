@@ -149,7 +149,7 @@ public class AgentDirectoryMapperTest {
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
-        assertThat(mappedAgents.size()).isEqualTo(1);
+        assertThat(mappedAgents).hasSize(1);
 
         var practitioner = (Practitioner) mappedAgents.get(0);
         assertEquals("95D00D99-0601-4A8E-AD1D-1B564307B0A6", practitioner.getId());
@@ -166,7 +166,7 @@ public class AgentDirectoryMapperTest {
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
-        assertThat(mappedAgents.size()).isEqualTo(1);
+        assertThat(mappedAgents).hasSize(1);
 
         var practitioner = (Practitioner) mappedAgents.get(0);
         assertThat(practitioner.getId()).isEqualTo("95D00D99-0601-4A8E-AD1D-1B564307B0A6");
@@ -183,7 +183,7 @@ public class AgentDirectoryMapperTest {
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
-        assertThat(mappedAgents.size()).isEqualTo(1);
+        assertThat(mappedAgents).hasSize(1);
 
         var practitioner = (Practitioner) mappedAgents.get(0);
         assertThat(practitioner.getId()).isEqualTo("95D00D99-0601-4A8E-AD1D-1B564307B0A6");
@@ -200,7 +200,7 @@ public class AgentDirectoryMapperTest {
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
-        assertThat(mappedAgents.size()).isEqualTo(1);
+        assertThat(mappedAgents).hasSize(1);
 
         var organization = (Organization) mappedAgents.get(0);
         assertThat(organization.getId()).isEqualTo("1D9BDC28-50AB-440D-B421-0E5E049526FA");
@@ -217,7 +217,7 @@ public class AgentDirectoryMapperTest {
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
-        assertThat(mappedAgents.size()).isEqualTo(1);
+        assertThat(mappedAgents).hasSize(1);
 
         var organization = (Organization) mappedAgents.get(0);
         assertThat(organization.getId()).isEqualTo("1D9BDC28-50AB-440D-B421-0E5E049526FA");
