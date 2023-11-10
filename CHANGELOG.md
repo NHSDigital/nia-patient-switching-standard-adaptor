@@ -5,9 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+
+* Changed `ReferralRequest` mapping to use `ASAP` instead of the `Stat` value.
+
+### Fixed
+
 * Updated the way immunization codes are loaded to build these from the relationships reference set in the SNOMED CT 
-release rather than the outdated CSV file.
-* Changed ReferralRequest mapping to use `ASAP` instead of `Stat`.
+  release rather than a static set of values.
+
+> [!NOTE]
+> **Upgrade information** Subsequent to deploying the updated version of the facade and translator images, users will need to
+> perform an [update of their patient switching SNOMED database](OPERATING.md#updating-the-snomed-database).
 
 ## [1.0.0] - 2023-11-01 🎉
 
