@@ -120,7 +120,7 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
-    public static Stream<RCMRMT030101UK04NarrativeStatement> extractAllNarrativeStatements(
+    public static Stream<RCMRMT030101UK04NarrativeStatement> extractAllNonBloodPressureNarrativeStatements(
             RCMRMT030101UK04Component4 component4) {
 
         /*

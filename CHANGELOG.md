@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+* Updated the way Observation comments are mapped so that blood pressure NarrativeStatements are not duplicated into 
+  in a separate observation.
 * Updated the way immunization codes are loaded to build these from the relationships reference set in the SNOMED CT 
 release rather than the outdated CSV file.
 * Changed ReferralRequest mapping to use `ASAP` instead of `Stat`.
