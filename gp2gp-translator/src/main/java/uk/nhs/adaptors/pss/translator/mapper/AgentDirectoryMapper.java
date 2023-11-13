@@ -99,10 +99,12 @@ public class AgentDirectoryMapper {
         practitioner.setMeta(generateMeta(PRACT_META_PROFILE));
         practitioner.setName(getPractitionerName(agentPerson.getName()));
 
-        Identifier identifier = new Identifier()
-                                        .setSystem("https://fhir.hl7.org.uk/Id/gmp-number")
-                                        .setValue(gpNumber);
-        practitioner.setIdentifier(List.of(identifier));
+        if (gpNumber != null && !"".equals(gpNumber)) {
+            Identifier identifier = new Identifier()
+                .setSystem("https://fhir.hl7.org.uk/Id/gmp-number")
+                .setValue(gpNumber);
+            practitioner.setIdentifier(List.of(identifier));
+        }
 
         return practitioner;
     }
