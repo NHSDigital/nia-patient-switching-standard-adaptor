@@ -17,7 +17,7 @@
     └── mhs-adaptor-mock            # Dockerfile and required files for mock of MHS Adaptor
 
 ## Snomed CT Database
-Please make sure to load the latest release of Snomed CT UK Edition. See [Configuring the SNOMED Database](./OPERATING.md#updating-the-snomed-database) and [snomed-database-loader](/snomed-database-loader/README.md) for more information.
+Please make sure to load the latest release of Snomed CT UK Edition. See [Configuring the SNOMED Database](./OPERATING.md#populating-the-snomed-database) and [snomed-database-loader](/snomed-database-loader/README.md) for more information.
 
 ## Local development
 ### How to start local environment

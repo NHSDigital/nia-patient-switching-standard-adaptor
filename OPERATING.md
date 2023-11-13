@@ -73,7 +73,7 @@ Required environment variables:
 
 *When passing passwords into this script it is the responsibility of the supplier to ensure that passwords are being kept secure by using appropriate controls within their infrastructure.*
 
-### Updating the SNOMED Database
+### Populating the SNOMED database
 
 The adaptor requires an up to date copy of the SNOMED DB as part of translating FHIR `CodableConcepts`.
 
