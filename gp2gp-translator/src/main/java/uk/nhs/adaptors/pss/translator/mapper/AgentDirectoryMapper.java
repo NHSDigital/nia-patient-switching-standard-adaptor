@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 import static uk.nhs.adaptors.pss.translator.util.OrganizationUtil.findDuplicateOrganisation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -99,7 +100,7 @@ public class AgentDirectoryMapper {
         practitioner.setMeta(generateMeta(PRACT_META_PROFILE));
         practitioner.setName(getPractitionerName(agentPerson.getName()));
 
-        if (gpNumber != null && !"".equals(gpNumber)) {
+        if (isNotEmpty(gpNumber)) {
             Identifier identifier = new Identifier()
                 .setSystem("https://fhir.hl7.org.uk/Id/gmp-number")
                 .setValue(gpNumber);
