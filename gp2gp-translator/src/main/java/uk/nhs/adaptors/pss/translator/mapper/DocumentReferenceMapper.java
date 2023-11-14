@@ -2,7 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.Enumerations.DocumentReferenceStatus;
 
-import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllNarrativeStatements;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllNonBloodPressureNarrativeStatements;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
@@ -38,7 +38,7 @@ import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 @AllArgsConstructor
 public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
-    // TODO: Add file Size using the uncompressed/unencoded size of the document (NIAD-2030)
+    // TODO: Add file Size using the uncompressed/un-encoded size of the document (NIAD-2030)
 
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1";
     private static final String ABSENT_ATTACHMENT = "AbsentAttachment";
@@ -51,7 +51,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         List<Encounter> encounterList, Organization organization, List<PatientAttachmentLog> attachments) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
-            extractAllNarrativeStatements(component)
+            extractAllNonBloodPressureNarrativeStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isDocumentReference)
                 .map(narrativeStatement -> mapDocumentReference(narrativeStatement, composition, patient, encounterList,
@@ -60,12 +60,12 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     }
 
     public boolean hasDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract) {
-        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
-            extractAllNarrativeStatements(component)
-                .filter(Objects::nonNull)
-                .filter(ResourceFilterUtil::isDocumentReference)
-                .map(narrativeStatement -> new DocumentReference())
-        ).toList().size() > 0;
+        return !mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+            extractAllNonBloodPressureNarrativeStatements(component)
+               .filter(Objects::nonNull)
+               .filter(ResourceFilterUtil::isDocumentReference)
+               .map(narrativeStatement -> new DocumentReference())
+        ).toList().isEmpty();
     }
 
     private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement,
