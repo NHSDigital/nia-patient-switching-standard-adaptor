@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 * Changed `ReferralRequest` mapping to use `ASAP` instead of the `Stat` value.
+* Updated postman collection to include attachment tests.
 
 ## [1.1.0] - 2023-11-09
 
