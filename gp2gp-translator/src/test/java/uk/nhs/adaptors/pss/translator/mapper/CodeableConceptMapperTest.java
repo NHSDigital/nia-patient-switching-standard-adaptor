@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -22,6 +23,7 @@ import uk.nhs.adaptors.connector.model.SnomedCTDescription;
 
 @ExtendWith(MockitoExtension.class)
 public class CodeableConceptMapperTest {
+
     private static final String CONCEPT_ID = "22298006";
     private static final String DISPLAY_NAME_1 = "Myocardial infarction";
     private static final String DISPLAY_NAME_2 = "Heart attack";
@@ -364,6 +366,7 @@ public class CodeableConceptMapperTest {
 
     @Test
     public void mapSnomedCodeWithDescriptionIdPreferredTermDisplayDoesNotMatchTermNoOriginalText() {
+
         when(snomedCTDao.getSnomedDescriptionUsingDescriptionId(any())).thenReturn(SNOMED_PREFERRED);
         when(snomedCTDao.getSnomedDescriptionPreferredTermUsingConceptId(any())).thenReturn(SNOMED_PREFERRED);
         var inputXML = """
@@ -374,10 +377,8 @@ public class CodeableConceptMapperTest {
         var codedData = unmarshallCodeElementFromXMLString(XML_HEADER + inputXML);
         CodeableConcept codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
 
-        assertThat(codeableConcept.getCoding().get(0).getCode())
-            .isEqualTo(SNOMED_PREFERRED.getConceptid());
-        assertThat(codeableConcept.getCoding().get(0).getDisplay())
-            .isEqualTo(SNOMED_PREFERRED.getTerm());
+        assertEquals(SNOMED_PREFERRED.getConceptid(), codeableConcept.getCoding().get(0).getCode());
+        assertEquals(SNOMED_PREFERRED.getTerm(), codeableConcept.getCoding().get(0).getDisplay());
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().size() == 1)
             .isTrue();
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getUrl())
