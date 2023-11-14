@@ -2,7 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
-import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllNarrativeStatements;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllNonBloodPressureNarrativeStatements;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDocumentReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -43,7 +43,7 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
                                           String practiseCode) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
-            extractAllNarrativeStatements(component)
+            extractAllNonBloodPressureNarrativeStatements(component)
                 .filter(Objects::nonNull)
                 .filter(narrativeStatement -> !isDocumentReference(narrativeStatement))
                 .map(narrativeStatement -> mapObservation(ehrExtract, composition, narrativeStatement, patient, encounters, practiseCode)))
