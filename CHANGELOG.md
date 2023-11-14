@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Updated
+
+* Updated the way Observation comments are mapped so that blood pressure NarrativeStatements are not duplicated into
+  in a separate observation.
+
 ### Changed
 
 * Changed `ReferralRequest` mapping to use `ASAP` instead of the `Stat` value.
