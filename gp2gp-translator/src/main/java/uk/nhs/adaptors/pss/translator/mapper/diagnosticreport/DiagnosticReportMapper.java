@@ -48,6 +48,9 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     private static final String EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
     private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
     private static final String LAB_REPORT_COMMENT_TYPE = "CommentType:LABORATORY RESULT COMMENT(E141)";
+    public static final String CODING_CODE = "721981007";
+    public static final String CODING_SYSTEM = "http://snomed.info/sct";
+    public static final String CODING_DISPLAY = "Diagnostic studies report";
 
     public static void addResultToDiagnosticReport(Observation observation, DiagnosticReport diagnosticReport) {
         if (!containsReference(diagnosticReport.getResult(), observation.getId())) {
@@ -219,7 +222,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     }
 
     private CodeableConcept createCode() {
-        return createCodeableConcept("721981007", "http://snomed.info/sct", "Diagnostic studies report", null);
+        return createCodeableConcept(CODING_CODE, CODING_SYSTEM, CODING_DISPLAY, null);
     }
 
     private static boolean containsReference(List<Reference> references, String id) {

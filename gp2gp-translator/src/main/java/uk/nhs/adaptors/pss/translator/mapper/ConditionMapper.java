@@ -82,6 +82,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private static final String HIERARCHY_TYPE_CHILD = "child";
     private static final String MEDICATION_MOOD_ORDER = "ORD";
     private static final String MEDICATION_MOOD_INTENTION = "INT";
+    public static final String CARE_CONNECT_URL = "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1";
+    public static final String PROBLEM_LIST_ITEM_CODE = "problem-list-item";
+    public static final String PROBLEM_LIST_ITEM_DISPLAY = "Problem List Item";
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
@@ -318,9 +321,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private CodeableConcept generateCategory() {
-        return createCodeableConcept("https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1",
-                                     "problem-list-item",
-                                     "Problem List Item");
+        return createCodeableConcept(CARE_CONNECT_URL,
+                                     PROBLEM_LIST_ITEM_CODE,
+                                     PROBLEM_LIST_ITEM_DISPLAY);
     }
 
     private List<Extension> buildRelatedClinicalContent(Bundle bundle,

@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -275,8 +276,10 @@ public class BloodPressureMapperTest {
 
         var bloodPressure = bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertEquals(codeableConcept, bloodPressure.getCode());
-        assertEquals(codeableConcept, bloodPressure.getComponent().get(0).getCode());
-        assertEquals(codeableConcept, bloodPressure.getComponent().get(1).getCode());
+        assertAll(
+            () -> assertEquals(codeableConcept, bloodPressure.getCode()),
+            () -> assertEquals(codeableConcept, bloodPressure.getComponent().get(0).getCode()),
+            () -> assertEquals(codeableConcept, bloodPressure.getComponent().get(1).getCode())
+        );
     }
 }

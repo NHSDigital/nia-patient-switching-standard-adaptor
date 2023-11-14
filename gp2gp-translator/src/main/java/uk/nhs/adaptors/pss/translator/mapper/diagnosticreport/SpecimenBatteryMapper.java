@@ -59,6 +59,9 @@ public class SpecimenBatteryMapper {
     private static final String USER_COMMENT_HEADER = "USER COMMENT";
     private static final String TYPECODE_PRF = "PRF";
     private static final String TYPECODE_PPRF = "PPRF";
+    public static final String CODING_CODE = "laboratory";
+    public static final String CODING_SYSTEM = "http://hl7.org/fhir/observation-category";
+    public static final String CODING_DISPLAY = "Laboratory";
 
     private final CodeableConceptMapper codeableConceptMapper;
 
@@ -197,7 +200,7 @@ public class SpecimenBatteryMapper {
     }
 
     private CodeableConcept createCategory() {
-        return createCodeableConcept("laboratory", "http://hl7.org/fhir/observation-category", "Laboratory", null);
+        return createCodeableConcept(CODING_CODE, CODING_SYSTEM, CODING_DISPLAY, null);
     }
 
     private Reference createSpecimenReference(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {

@@ -41,6 +41,9 @@ public class SpecimenCompoundsMapper {
     private static final String BATTERY_CLASSCODE = "BATTERY";
     private static final String CLUSTER_CLASSCODE = "CLUSTER";
     private static final String USER_COMMENT_HEADER = "USER COMMENT";
+    public static final String CODING_CODE = "laboratory";
+    public static final String CODING_SYSTEM = "http://hl7.org/fhir/observation-category";
+    public static final String CODING_DISPLAY = "Laboratory";
 
     private final SpecimenBatteryMapper batteryMapper;
 
@@ -236,7 +239,7 @@ public class SpecimenCompoundsMapper {
     }
 
     private CodeableConcept createCategory() {
-        return createCodeableConcept("laboratory", "http://hl7.org/fhir/observation-category", "Laboratory", null);
+        return createCodeableConcept(CODING_CODE, CODING_SYSTEM, CODING_DISPLAY, null);
     }
 
     private List<RCMRMT030101UK04CompoundStatement> getSpecimenCompoundStatements(

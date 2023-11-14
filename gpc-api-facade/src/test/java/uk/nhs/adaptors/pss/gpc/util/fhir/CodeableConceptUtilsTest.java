@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.gpc.util.fhir;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -20,10 +21,12 @@ public class CodeableConceptUtilsTest {
     public void testCreateCodeableConcept() {
         CodeableConcept result = CodeableConceptUtils.createCodeableConcept(CODE, ISSUE_SYSTEM, DISPLAY, TEXT);
 
-        assertEquals(CODE, result.getCodingFirstRep().getCode());
-        assertEquals(ISSUE_SYSTEM, result.getCodingFirstRep().getSystem());
-        assertEquals(DISPLAY, result.getCodingFirstRep().getDisplay());
-        assertEquals(TEXT, result.getText());
+        assertAll(
+            () -> assertEquals(CODE, result.getCodingFirstRep().getCode()),
+            () -> assertEquals(ISSUE_SYSTEM, result.getCodingFirstRep().getSystem()),
+            () -> assertEquals(DISPLAY, result.getCodingFirstRep().getDisplay()),
+            () -> assertEquals(TEXT, result.getText())
+        );
     }
 
     @Test
@@ -31,10 +34,12 @@ public class CodeableConceptUtilsTest {
 
         CodeableConcept result = CodeableConceptUtils.createCodeableConcept(CODE, ISSUE_SYSTEM, DISPLAY, null);
 
-        assertEquals(CODE, result.getCodingFirstRep().getCode());
-        assertEquals(ISSUE_SYSTEM, result.getCodingFirstRep().getSystem());
-        assertEquals(DISPLAY, result.getCodingFirstRep().getDisplay());
-        assertThat(result.getText()).isNull();
+        assertAll(
+            () -> assertEquals(CODE, result.getCodingFirstRep().getCode()),
+            () -> assertEquals(ISSUE_SYSTEM, result.getCodingFirstRep().getSystem()),
+            () -> assertEquals(DISPLAY, result.getCodingFirstRep().getDisplay()),
+            () -> assertThat(result.getText()).isNull()
+        );
     }
 
     @Test
