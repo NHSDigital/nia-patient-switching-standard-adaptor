@@ -55,7 +55,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     private static final String ALLERGY_TERM_TEXT = "H/O: drug allergy";
     private static final String ALLERGY_NOTE = "Allergy Code: %s";
     public static final String EPISODICITY_NOTE = "Episodicity : %s";
-    public static final String AUTHOR = "author";
+    public static final String ASSERTER = "asserter";
     public static final String RECORDER = "recorder";
 
     private final CodeableConceptMapper codeableConceptMapper;
@@ -131,10 +131,10 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
 
         var recorderAndAsserter = fetchRecorderAndAsserter(ehrComposition);
 
-        if (recorderAndAsserter.get(RECORDER).isPresent() && recorderAndAsserter.get(AUTHOR).isPresent()) {
+        if (recorderAndAsserter.get(RECORDER).isPresent() && recorderAndAsserter.get(ASSERTER).isPresent()) {
             allergyIntolerance
                     .setRecorder(recorderAndAsserter.get(RECORDER).get())
-                    .setAsserter(recorderAndAsserter.get(AUTHOR).get());
+                    .setAsserter(recorderAndAsserter.get(ASSERTER).get());
         } else {
             var practitioner = Optional.ofNullable(getParticipantReference(
                     compoundStatement.getParticipant(),
@@ -151,7 +151,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         var practitioner = Optional.ofNullable(getParticipant2Reference(ehrComposition, "RESP"));
         var author = getAuthorReference(ehrComposition);
 
-        return Map.of(RECORDER, practitioner, AUTHOR, author);
+        return Map.of(RECORDER, author, ASSERTER, practitioner);
     }
 
     private void buildExtension(RCMRMT030101UK04EhrComposition ehrComposition, List<Encounter> encounters,
