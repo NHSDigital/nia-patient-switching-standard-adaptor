@@ -26,7 +26,6 @@ import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.dstu3.model.CodeType;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -59,11 +58,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class ConditionMapper extends AbstractMapper<Condition> {
+
     private static final String META_PROFILE = "ProblemHeader-Condition-1";
     public static final String EXTENSION_CARE_CONNECT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect";
     private static final String RELATED_CLINICAL_CONTENT_URL = EXTENSION_CARE_CONNECT_URL + "-RelatedClinicalContent-1";
@@ -81,6 +82,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private static final String HIERARCHY_TYPE_CHILD = "child";
     private static final String MEDICATION_MOOD_ORDER = "ORD";
     private static final String MEDICATION_MOOD_INTENTION = "INT";
+    public static final String CARE_CONNECT_URL = "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1";
+    public static final String PROBLEM_LIST_ITEM_CODE = "problem-list-item";
+    public static final String PROBLEM_LIST_ITEM_DISPLAY = "Problem List Item";
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
@@ -317,13 +321,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private CodeableConcept generateCategory() {
-        Coding coding = new Coding();
-        coding.setSystem("https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1");
-        coding.setCode("problem-list-item");
-        coding.setDisplay("Problem List Item");
-
-        return new CodeableConcept()
-            .addCoding(coding);
+        return createCodeableConcept(CARE_CONNECT_URL,
+                                     PROBLEM_LIST_ITEM_CODE,
+                                     PROBLEM_LIST_ITEM_DISPLAY);
     }
 
     private List<Extension> buildRelatedClinicalContent(Bundle bundle,

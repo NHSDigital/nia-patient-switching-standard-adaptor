@@ -40,6 +40,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 import uk.nhs.adaptors.pss.translator.util.TextUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
@@ -47,6 +48,9 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     private static final String EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
     private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
     private static final String LAB_REPORT_COMMENT_TYPE = "CommentType:LABORATORY RESULT COMMENT(E141)";
+    public static final String CODING_CODE = "721981007";
+    public static final String CODING_SYSTEM = "http://snomed.info/sct";
+    public static final String CODING_DISPLAY = "Diagnostic studies report";
 
     public static void addResultToDiagnosticReport(Observation observation, DiagnosticReport diagnosticReport) {
         if (!containsReference(diagnosticReport.getResult(), observation.getId())) {
@@ -218,13 +222,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     }
 
     private CodeableConcept createCode() {
-        var codeableConcept = new CodeableConcept();
-        codeableConcept
-            .getCodingFirstRep()
-            .setCode("721981007")
-            .setSystem("http://snomed.info/sct")
-            .setDisplay("Diagnostic studies report");
-        return codeableConcept;
+        return createCodeableConcept(CODING_CODE, CODING_SYSTEM, CODING_DISPLAY, null);
     }
 
     private static boolean containsReference(List<Reference> references, String id) {

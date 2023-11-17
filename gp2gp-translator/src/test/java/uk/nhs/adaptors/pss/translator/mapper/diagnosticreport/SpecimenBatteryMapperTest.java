@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -37,6 +36,7 @@ import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMapper.SpecimenBatteryParameters;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class SpecimenBatteryMapperTest {
@@ -60,11 +60,7 @@ public class SpecimenBatteryMapperTest {
     private static final DateTimeType OBSERVATION_EFFECTIVE = parseToDateTimeType("20100223000000");
     private static final String CODING_DISPLAY_MOCK = "Test Display";
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
-
-    private static final CodeableConcept CODEABLE_CONCEPT = new CodeableConcept()
-        .addCoding(new Coding()
-            .setDisplay(CODING_DISPLAY_MOCK)
-            .setSystem(SNOMED_SYSTEM));
+    private static final CodeableConcept CODEABLE_CONCEPT = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY_MOCK);
     private final List<Encounter> encounters = generateEncounters();
 
     @Mock
@@ -153,11 +149,8 @@ public class SpecimenBatteryMapperTest {
 
     @Test
     public void When_MappingObservationFromBatteryCompoundStatementWithoutSnomedCode_Expect_DegradedCode() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding()
-            .setDisplay(CODING_DISPLAY_MOCK)
-            .setSystem("1.2.3.4.5");
-        codeableConcept.addCoding(coding);
+
+        var codeableConcept = createCodeableConcept("1.2.3.4.5", null, CODING_DISPLAY_MOCK);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");

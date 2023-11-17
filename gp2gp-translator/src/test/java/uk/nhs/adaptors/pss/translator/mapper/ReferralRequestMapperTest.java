@@ -31,9 +31,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class ReferralRequestMapperTest {
+
     private static final String XML_RESOURCES_BASE = "xml/RequestStatement/";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ReferralRequest-1";
     private static final String PRACTISE_CODE = "TEST_PRACTISE_CODE";
@@ -55,11 +57,8 @@ public class ReferralRequestMapperTest {
 
     @Test
     public void mapReferralRequestWithValidData() {
-        var coding = new Coding()
-                .setCode(REASON_CODE_1)
-                .setSystem(SNOMED_SYSTEM)
-                .setDisplay(CODING_DISPLAY);
-        var codeableConcept = new CodeableConcept(coding);
+
+        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, REASON_CODE_1, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any()))
                 .thenReturn(codeableConcept);
 
@@ -411,8 +410,10 @@ public class ReferralRequestMapperTest {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrComposition.class);
     }
 
+
     @SneakyThrows
     private RCMRMT030101UK04EhrComposition unmarshallStringToEhrCompositionElement(String inputXml) {
         return unmarshallString(inputXml, RCMRMT030101UK04EhrComposition.class);
     }
+
 }

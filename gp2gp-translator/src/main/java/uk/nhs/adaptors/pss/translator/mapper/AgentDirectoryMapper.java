@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import static org.apache.logging.log4j.util.Strings.isNotEmpty;
 import static uk.nhs.adaptors.pss.translator.util.OrganizationUtil.findDuplicateOrganisation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -71,9 +72,10 @@ public class AgentDirectoryMapper {
         var agentOrganization = agent.getAgentOrganization();
         var representedOrganization = agent.getRepresentedOrganization();
         var resourceId = agent.getId().get(0).getRoot();
+        var gpNumber = agent.getId().size() > 1 ? agent.getId().get(1).getExtension() : "";
 
         if (agentPerson != null && representedOrganization != null) {
-            agentResourceList.add(createPractitioner(agentPerson, resourceId));
+            agentResourceList.add(createPractitioner(agentPerson, resourceId, gpNumber));
 
             var representedOrganisation = createRepresentedOrganization(representedOrganization, resourceId);
             Optional<Organization> duplicateOrganisation = findDuplicateOrganisation(representedOrganisation, agentResourceList);
@@ -85,18 +87,25 @@ public class AgentDirectoryMapper {
                 agentResourceList.add(createPractitionerRole(resourceId, agent.getCode(), duplicateOrganisation.orElseThrow().getId()));
             }
         } else if (agentPerson != null && agentOrganization == null) {
-            agentResourceList.add(createPractitioner(agentPerson, resourceId));
+            agentResourceList.add(createPractitioner(agentPerson, resourceId, gpNumber));
         } else if (agentPerson == null && agentOrganization != null) {
             agentResourceList.add(createAgentOrganization(agentOrganization, resourceId, agent.getCode()));
         }
     }
 
-    private Practitioner createPractitioner(RCCTMT120101UK01Person agentPerson, String id) {
+    private Practitioner createPractitioner(RCCTMT120101UK01Person agentPerson, String id, String gpNumber) {
         var practitioner = new Practitioner();
 
         practitioner.setId(id);
         practitioner.setMeta(generateMeta(PRACT_META_PROFILE));
         practitioner.setName(getPractitionerName(agentPerson.getName()));
+
+        if (isNotEmpty(gpNumber)) {
+            Identifier identifier = new Identifier()
+                .setSystem("https://fhir.hl7.org.uk/Id/gmp-number")
+                .setValue(gpNumber);
+            practitioner.setIdentifier(List.of(identifier));
+        }
 
         return practitioner;
     }

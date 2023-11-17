@@ -2,19 +2,17 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
-import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllNarrativeStatements;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllNonBloodPressureNarrativeStatements;
 import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.isDocumentReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
@@ -27,8 +25,10 @@ import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 @AllArgsConstructor
@@ -43,7 +43,7 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
                                           String practiseCode) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
-            extractAllNarrativeStatements(component)
+            extractAllNonBloodPressureNarrativeStatements(component)
                 .filter(Objects::nonNull)
                 .filter(narrativeStatement -> !isDocumentReference(narrativeStatement))
                 .map(narrativeStatement -> mapObservation(ehrExtract, composition, narrativeStatement, patient, encounters, practiseCode)))
@@ -95,10 +95,6 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
     }
 
     private CodeableConcept createCodeableConcept() {
-        var codeableConcept = new CodeableConcept();
-        codeableConcept.setCoding(
-            Collections.singletonList(new Coding(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY)));
-
-        return codeableConcept;
+        return CodeableConceptUtils.createCodeableConcept(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY);
     }
 }
