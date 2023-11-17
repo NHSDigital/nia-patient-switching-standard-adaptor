@@ -6,14 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Updated
+*
 
+### Changed
+*
+
+### Fixed
+
+* Changed 'author' to be used as Recorder and 'practitioner' to be used as Asserter in AllergyIntolerance.
+
+## [1.2.0] - 2023-11-17
+
+### Updated
+* Updated Practitioner resource type to include gmp numbers.
 * Updated the way Observation comments are mapped so that blood pressure NarrativeStatements are not duplicated into
   in a separate observation.
 
 ### Changed
 
 * Changed `ReferralRequest` mapping to use `ASAP` instead of the `Stat` value.
-* Changed 'author' to be used as Recorder and 'practitioner' to be used as Asserter in AllergyIntolerance
 
 ## [1.1.0] - 2023-11-09
 
