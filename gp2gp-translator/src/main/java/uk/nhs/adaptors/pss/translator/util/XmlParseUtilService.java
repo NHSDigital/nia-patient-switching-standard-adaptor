@@ -174,7 +174,6 @@ public class XmlParseUtilService {
         return payload.getId().getRoot();
     }
 
-
     public static String parseToOdsCode(COPCIN000001UK01Message payload) {
 
         Element gp2gpElement = payload.getControlActEvent()
@@ -264,14 +263,11 @@ public class XmlParseUtilService {
     }
 
     public static String parseFragmentFilename(String description) {
-        try {
-            return Arrays.stream(description.split(" "))
-                    .filter(desc -> desc.contains("Filename"))
-                    .map(desc -> desc.replace("Filename=", "").replace("\"", ""))
-                    .toList().get(0);
-        } catch (IndexOutOfBoundsException e) {
-            return "";
-        }
+        return Arrays.stream(description.split(" "))
+            .filter(desc -> desc.contains("Filename"))
+            .map(desc -> desc.replace("Filename=", "").replace("\"", ""))
+            .findFirst()
+            .orElse(description);
     }
 
     public List<EbxmlReference> getEbxmlAttachmentsData(InboundMessage inboundMessage) throws SAXException {

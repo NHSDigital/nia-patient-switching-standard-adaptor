@@ -97,6 +97,8 @@ class COPCMessageHandlerTest {
 
     private static final Integer ATTACH_LENGTH = 8;
 
+    private static final String TEST_ID = "TEST-ID";
+
     @Mock
     private PatientMigrationRequestDao migrationRequestDao;
     @Mock
@@ -166,6 +168,7 @@ class COPCMessageHandlerTest {
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
         when(patientAttachmentLogService.findAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
+        when(idGeneratorService.generateUuid()).thenReturn(TEST_ID);
 
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
@@ -180,7 +183,7 @@ class COPCMessageHandlerTest {
 
         assertThat(actual.getUploaded()).isTrue();
         assertEquals("047C22B4-613F-47D3-9A72-44A1758464FB", actual.getMid());
-        assertEquals("E39E79A2-FA96-48FF-9373-7BBCB9D036E7_1.messageattachment", actual.getFilename());
+        assertEquals(TEST_ID + "_E39E79A2-FA96-48FF-9373-7BBCB9D036E7_1.messageattachment", actual.getFilename());
         assertEquals("xml/text", actual.getContentType());
         assertEquals(1, actual.getPatientMigrationReqId());
     }
@@ -230,6 +233,7 @@ class COPCMessageHandlerTest {
         attachmentReferenceDescription.add(reference2);
         when(xmlParseUtilService.getEbxmlAttachmentsData(any()))
             .thenReturn(attachmentReferenceDescription);
+        when(idGeneratorService.generateUuid()).thenReturn(TEST_ID);
 
         // ACT
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
@@ -261,7 +265,7 @@ class COPCMessageHandlerTest {
             .thenReturn(null);
         when(patientAttachmentLogService.findAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
-
+        when(idGeneratorService.generateUuid()).thenReturn(TEST_ID);
 
         EbxmlReference reference = new EbxmlReference("First instance is always a payload", "mid:xxxx-xxxx-xxxx-xxxx", "docId");
         EbxmlReference reference2 = new EbxmlReference("desc", "mid:28B31-4245-4AFC-8DA2-8A40623A5101", "docId");
@@ -277,7 +281,7 @@ class COPCMessageHandlerTest {
         PatientAttachmentLog actual = patientLogCaptor.getValue();
 
         assertEquals(childMid, actual.getMid());
-        assertEquals("E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment", actual.getFilename());
+        assertEquals(TEST_ID + "_E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment", actual.getFilename());
         assertEquals("047C22B4-613F-47D3-9A72-44A1758464FB", actual.getParentMid());
         assertEquals(1, actual.getPatientMigrationReqId());
         assertEquals("text/plain", actual.getContentType());
@@ -297,7 +301,7 @@ class COPCMessageHandlerTest {
         InboundMessage message = new InboundMessage();
         prepareFragmentIndexWithCidMocks(message);
 
-        when(idGeneratorService.generateUuid()).thenReturn("test-id");
+        when(idGeneratorService.generateUuid()).thenReturn(TEST_ID);
 
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", null, true));
@@ -307,7 +311,6 @@ class COPCMessageHandlerTest {
             .thenReturn(null);
         when(patientAttachmentLogService.findAttachmentLog("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
-
 
         EbxmlReference reference = new EbxmlReference("First instance is always a payload", "mid:xxxx-xxxx-xxxx-xxxx", "docId");
         EbxmlReference reference1 = new EbxmlReference("desc", "cid:435B1171-31F6-4EF2-AD7F-C7E64EEFF357", "doc1Id");
@@ -321,7 +324,7 @@ class COPCMessageHandlerTest {
 
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
         verify(attachmentHandlerService)
-            .storeAttachmentWithoutProcessing("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1_0.messageattachment",
+            .storeAttachmentWithoutProcessing(TEST_ID + "_CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1_0.messageattachment",
                 "ABC Not Required", CONVERSATION_ID, "text/plain");
         verify(patientAttachmentLogService, times(2)).addAttachmentLog(patientLogCaptor.capture());
 
@@ -1426,6 +1429,8 @@ class COPCMessageHandlerTest {
         var attachmentArray = Arrays.asList(attachmentLog1, attachmentLog2);
         lenient().when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
             .thenReturn(attachmentArray);
+
+        when(idGeneratorService.generateUuid()).thenReturn(TEST_ID);
     }
 
     private void prepareMocks() {
