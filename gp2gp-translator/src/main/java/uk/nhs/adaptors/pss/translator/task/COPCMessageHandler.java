@@ -437,12 +437,11 @@ public class COPCMessageHandler {
                 PatientAttachmentLog newFragmentLog = buildPatientAttachmentLog(
                     messageId,
                     descriptionString,
-                    parentAttachmentLog.getMid(),
                     migrationRequest.getId(),
                     index - 1,
                     fileUpload,
-                    parentAttachmentLog.getLargeAttachment(),
-                    filename
+                    filename,
+                    parentAttachmentLog
                 );
 
                 if (fileUpload) {
@@ -464,17 +463,17 @@ public class COPCMessageHandler {
         childLog.setOrderNum(orderNum);
     }
 
-    private PatientAttachmentLog buildPatientAttachmentLog(String mid, String description, String parentMid, Integer patientId,
-        Integer attachmentOrder, boolean uploaded, Boolean isLargeAttachment, String filename) throws ParseException {
+    private PatientAttachmentLog buildPatientAttachmentLog(String mid, String description, Integer patientId,
+        Integer attachmentOrder, boolean uploaded, String filename, PatientAttachmentLog parentAttachmentLog) throws ParseException {
 
         return PatientAttachmentLog.builder()
             .mid(mid)
             .filename(filename)
-            .parentMid(parentMid)
+            .parentMid(parentAttachmentLog.getMid())
             .patientMigrationReqId(patientId)
             .contentType(XmlParseUtilService.parseContentType(description))
             .compressed(XmlParseUtilService.parseCompressed(description))
-            .largeAttachment(isLargeAttachment)
+            .largeAttachment(parentAttachmentLog.getLargeAttachment())
             .originalBase64(XmlParseUtilService.parseOriginalBase64(description))
             .skeleton(false)
             .uploaded(uploaded)
