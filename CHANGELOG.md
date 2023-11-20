@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 * Changed `ReferralRequest` mapping to use `ASAP` instead of the `Stat` value.
+* Changed 'author' to be used as Recorder and 'practitioner' to be used as Asserter in AllergyIntolerance
 
 ## [1.1.0] - 2023-11-09
 
