@@ -65,11 +65,12 @@ public class PatientTransferController {
         produces = {APPLICATION_FHIR_JSON_VALUE}
     )
     public ResponseEntity<String> migratePatientStructuredRecord(
-        @RequestBody @PatientTransferRequest Parameters body,
-        @RequestHeader(TO_ASID) @NotBlank String toAsid,
-        @RequestHeader(FROM_ASID) @NotBlank String fromAsid,
-        @RequestHeader(TO_ODS) @NotBlank String toOds,
-        @RequestHeader(FROM_ODS) @NotBlank String fromOds) {
+                                    @RequestBody @PatientTransferRequest Parameters body,
+                                    @RequestHeader(TO_ASID) @NotBlank String toAsid,
+                                    @RequestHeader(FROM_ASID) @NotBlank String fromAsid,
+                                    @RequestHeader(TO_ODS) @NotBlank String toOds,
+                                    @RequestHeader(FROM_ODS) @NotBlank String fromOds) {
+
         LOGGER.info("Received patient transfer request");
         Map<String, String> headers = Map.of(
             TO_ASID, toAsid,
@@ -219,7 +220,8 @@ public class PatientTransferController {
         }
 
         CodeableConcept details = CodeableConceptUtils.
-                                        createCodeableConcept(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage, null);
+            createCodeableConceptWithDoubleCoding(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage,
+                                                  null, migrationStatusLog.getGp2gpErrorCode());
 
         return createOperationOutcome(EXCEPTION, ERROR, details, "");
     }

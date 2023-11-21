@@ -38,6 +38,7 @@ import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 @DirtiesContext
 @AutoConfigureMockMvc
 public class PatientTransferControllerIT {
+
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String APPLICATION_FHIR_JSON_VALUE = "application/fhir+json";
     private static final String MIGRATE_PATIENT_RECORD_ENDPOINT = "/Patient/$gpc.migratestructuredrecord";
