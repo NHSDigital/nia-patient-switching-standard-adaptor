@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 * Changed 'author' to be used as Recorder and 'practitioner' to be used as Asserter in AllergyIntolerance.
+* A SystmOne attachment split into multiple chunks can arrive with the same filename "Untitled".
+  Previously each fragment would be stored using the filename provided, which in the case of SystmOne caused chunks to overwrite each other.
+  The adaptor now generates a UUID which is prepended to the filename of a provided chunk to ensure uniqueness.
 
 ## [1.2.0] - 2023-11-17
 
@@ -38,6 +41,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 > **Upgrade information** This release includes a [database migration](OPERATING.md#updating-the-application-schema).
 > This database migration will need to be performed first, followed by deploying the updated version of the facade and translator images.
 > Finally users will need to perform an [update of their patient switching SNOMED database](OPERATING.md#updating-the-snomed-database).
+
+## [1.0.1] - 2023-11-21
+
+This release backported the following fix to the v1.0 release.
+
+### Fixed
+
+* A SystmOne attachment split into multiple chunks can arrive with the same filename "Untitled".
+  Previously each fragment would be stored using the filename provided, which in the case of SystmOne caused chunks to overwrite each other.
+  The adaptor now generates a UUID which is prepended to the filename of a provided chunk to ensure uniqueness.
 
 ## [1.0.0] - 2023-11-01 🎉
 
