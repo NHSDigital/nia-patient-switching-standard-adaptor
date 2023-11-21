@@ -5,15 +5,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Updated
+### Fixed
 
-* Updated the way Observation comments are mapped so that blood pressure NarrativeStatements are not duplicated into
-  in a separate observation.
+* Changed 'author' to be used as Recorder and 'practitioner' to be used as Asserter in AllergyIntolerance.
+
+## [1.2.0] - 2023-11-17
+
+### Added
+
+* Populate `identifier` field for `Practitioner` resources using the General Practitioner (GMP) number if available.
+
+### Fixed
+
+* Prevent `NarrativeStatement / text` sat within a blood pressure `CompoundStatement` from being mapped
+  into separate "Comment note" Observation resources. This information is already populated within
+  the blood pressure `Observation.comment` field, so creating a separate resource was duplicating this info.
 
 ### Changed
 
 * Changed `ReferralRequest` mapping to use `ASAP` instead of the `Stat` value.
-* Changed 'author' to be used as Recorder and 'practitioner' to be used as Asserter in AllergyIntolerance
 
 ## [1.1.0] - 2023-11-09
 
