@@ -1391,11 +1391,11 @@ class COPCMessageHandlerTest {
         message.setEbXML(ebxml);
 
         InboundMessage.ExternalAttachment extAttachment = new InboundMessage.ExternalAttachment("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",
-            "28B31-4245-4AFC-8DA2-8A40623A5101", "E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment", "Filename=E39E79A2-FA96-48FF"
-            + "-9373-7BBCB9D036E7_0.messageattachment ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes");
+            "28B31-4245-4AFC-8DA2-8A40623A5101", "E39E79A2-FA96-48FF-9373-7BBCB9D036E7_0.messageattachment", "Filename=\"E39E79A2-FA96-48FF"
+            + "-9373-7BBCB9D036E7_0.messageattachment\" ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes");
         InboundMessage.ExternalAttachment extAttachment1 = new InboundMessage.ExternalAttachment("CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1",
-            "28B31-4245-4AFC-8DA2-8A40623A5101", "E39E79A2-FA96-48FF-9373-7BBCB9D036E7_1.messageattachment", "Filename=E39E79A2-FA96-48FF"
-            + "-9373-7BBCB9D036E7_0.messageattachment ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes");
+            "28B31-4245-4AFC-8DA2-8A40623A5101", "E39E79A2-FA96-48FF-9373-7BBCB9D036E7_1.messageattachment", "\"Filename=E39E79A2-FA96-48FF"
+            + "-9373-7BBCB9D036E7_0.messageattachment\" ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes");
 
         message.setExternalAttachments(Arrays.asList(extAttachment, extAttachment1));
 
@@ -1414,8 +1414,8 @@ class COPCMessageHandlerTest {
 
         inboundMessage.setPayload(readXmlFile("inbound_message_payload_fragment_index.xml"));
         inboundMessage.setEbXML(readXmlFile("inbound_message_ebxml_fragment_index.xml"));
-        inboundMessage.setAttachments(Arrays.asList(new InboundMessage.Attachment("xml/text", "Yes", "Filename=E39E79A2-FA96-48FF-9373"
-            + "-7BBCB9D036E7_1.messageattachment ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes", "")));
+        inboundMessage.setAttachments(Arrays.asList(new InboundMessage.Attachment("xml/text", "Yes", "Filename=\"E39E79A2-FA96-48FF-9373"
+            + "-7BBCB9D036E7_1.messageattachment\" ContentType=text/plain Compressed=No LargeAttachment=No OriginalBase64=Yes", "")));
         inboundMessage.getAttachments().get(0).setPayload("This is a payload");
 
         when(xPathService.parseDocumentFromXml(inboundMessage.getEbXML())).thenReturn(ebXmlDocument);
