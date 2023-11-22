@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.util;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -263,11 +262,11 @@ public class XmlParseUtilService {
     }
 
     public static String parseFragmentFilename(String description) {
-        return Arrays.stream(description.split(" "))
-            .filter(desc -> desc.contains("Filename"))
-            .map(desc -> desc.replace("Filename=", "").replace("\"", ""))
-            .findFirst()
-            .orElse(description);
+        try {
+            return parseFilename(description);
+        } catch (ParseException e) {
+            return description;
+        }
     }
 
     public List<EbxmlReference> getEbxmlAttachmentsData(InboundMessage inboundMessage) throws SAXException {
