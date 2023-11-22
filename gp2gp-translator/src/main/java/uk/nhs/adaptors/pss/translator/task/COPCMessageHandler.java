@@ -117,8 +117,8 @@ public class COPCMessageHandler {
                     patientAttachmentLog.setUploaded(true);
 
                     var size = (Integer) inboundMessage.getAttachments()
-                            .stream()
-                            .mapToInt(a -> a.getPayload().length()).sum();
+                        .stream()
+                        .mapToInt(a -> a.getPayload().length()).sum();
 
                     patientAttachmentLog.setPostProcessedLengthNum(size);
                     patientAttachmentLogService.updateAttachmentLog(patientAttachmentLog, conversationId);
@@ -297,7 +297,8 @@ public class COPCMessageHandler {
         String fileName = getFileNameForFragment(inboundMessage, payload);
         var attachment = inboundMessage.getAttachments().get(0);
 
-        PatientAttachmentLog fragmentAttachmentLog = buildFragmentAttachmentLog(attachment, fragmentMid, fileName, patientId);
+        PatientAttachmentLog fragmentAttachmentLog = buildFragmentAttachmentLog(attachment, fragmentMid,
+            createFilenameForFragment(fileName), patientId);
 
         storeCOPCAttachment(fragmentAttachmentLog, inboundMessage, conversationId);
         fragmentAttachmentLog.setUploaded(true);
@@ -306,9 +307,8 @@ public class COPCMessageHandler {
     }
 
     private void storeCOPCAttachment(PatientAttachmentLog fragmentAttachmentLog, InboundMessage inboundMessage,
-                                     String conversationId)
+        String conversationId)
         throws ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
-
 
         if (inboundMessage.getAttachments().isEmpty()) {
             throw new InlineAttachmentProcessingException("COPC message does not contain an inline attachment");
@@ -394,18 +394,19 @@ public class COPCMessageHandler {
             var messageId = "";
             var fileUpload = false;
             boolean isBase64 = true;
+            String filename;
 
             // in this instance there should only ever be one CID on a fragment index file
             if (payloadReference.getHref().contains("cid:")) {
                 // EMIS does not use unique IDs for cid references, so we have to generate our own
                 messageId = "ADAPTOR_GENERATED_" + idGeneratorService.generateUuid().toUpperCase();
                 descriptionString = message.getAttachments().get(0).getDescription();
-
+                filename = createFilenameForFragment(XmlParseUtilService.parseFragmentFilename(descriptionString));
                 isBase64 = Boolean.parseBoolean(message.getAttachments().get(0).getIsBase64());
 
                 // upload the file
                 attachmentHandlerService.storeAttachmentWithoutProcessing(
-                    XmlParseUtilService.parseFragmentFilename(descriptionString),
+                    filename,
                     message.getAttachments().get(0).getPayload(),
                     conversationId,
                     message.getAttachments().get(0).getContentType()
@@ -426,6 +427,7 @@ public class COPCMessageHandler {
 
                 var externalAttachment = externalAttachmentResult.get();
                 descriptionString = externalAttachment.getDescription();
+                filename = createFilenameForFragment(XmlParseUtilService.parseFragmentFilename(descriptionString));
             }
 
             PatientAttachmentLog fragmentLog = patientAttachmentLogService.findAttachmentLog(messageId, conversationId);
@@ -435,13 +437,13 @@ public class COPCMessageHandler {
                 patientAttachmentLogService.updateAttachmentLog(fragmentLog, conversationId);
             } else {
                 PatientAttachmentLog newFragmentLog = buildPatientAttachmentLog(
-                        messageId,
-                        descriptionString,
-                        parentAttachmentLog.getMid(),
-                        migrationRequest.getId(),
-                        index - 1,
-                        fileUpload,
-                        parentAttachmentLog.getLargeAttachment()
+                    messageId,
+                    descriptionString,
+                    migrationRequest.getId(),
+                    index - 1,
+                    fileUpload,
+                    filename,
+                    parentAttachmentLog
                 );
 
                 if (fileUpload) {
@@ -463,17 +465,17 @@ public class COPCMessageHandler {
         childLog.setOrderNum(orderNum);
     }
 
-    private PatientAttachmentLog buildPatientAttachmentLog(String mid, String description, String parentMid, Integer patientId,
-                Integer attachmentOrder, boolean uploaded, Boolean isLargeAttachment) throws ParseException {
+    private PatientAttachmentLog buildPatientAttachmentLog(String mid, String description, Integer patientId,
+        Integer attachmentOrder, boolean uploaded, String filename, PatientAttachmentLog parentAttachmentLog) throws ParseException {
 
         return PatientAttachmentLog.builder()
             .mid(mid)
-            .filename(XmlParseUtilService.parseFragmentFilename(description))
-            .parentMid(parentMid)
+            .filename(filename)
+            .parentMid(parentAttachmentLog.getMid())
             .patientMigrationReqId(patientId)
             .contentType(XmlParseUtilService.parseContentType(description))
             .compressed(XmlParseUtilService.parseCompressed(description))
-            .largeAttachment(isLargeAttachment)
+            .largeAttachment(parentAttachmentLog.getLargeAttachment())
             .originalBase64(XmlParseUtilService.parseOriginalBase64(description))
             .skeleton(false)
             .uploaded(uploaded)
@@ -502,5 +504,19 @@ public class COPCMessageHandler {
             ehrExtractMessageId, reason.getCode());
 
         sendNACKMessageHandler.prepareAndSendMessage(messageData);
+    }
+
+    /**
+     * System one can send fragments with non-unique filenames. We expect the filenames to be unique. This method offers a workaround by
+     * prepending the filename with a unique UUID. (Should not be used with parent filenames as it will break the link replacement process)
+     *
+     * @param filename - the original filename
+     * @return String - the original filename prepended with a unique UUID
+     */
+    private String createFilenameForFragment(String filename) {
+
+        String uniqueId = idGeneratorService.generateUuid().toUpperCase();
+
+        return String.format("%s_%s", uniqueId, filename);
     }
 }
