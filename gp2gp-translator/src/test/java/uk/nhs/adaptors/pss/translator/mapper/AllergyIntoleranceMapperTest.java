@@ -5,6 +5,7 @@ import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCate
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.MEDICATION;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -124,9 +125,11 @@ public class AllergyIntoleranceMapperTest {
         assertEquals(1, allergyIntolerances.size());
         var allergyIntolerance = allergyIntolerances.get(0);
 
-        assertExtension(allergyIntolerance);
-        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference());
-        assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C", allergyIntolerance.getAsserter().getReference());
+        assertAll(
+            () -> assertExtension(allergyIntolerance),
+            () -> assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getAsserter().getReference()),
+            () -> assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C", allergyIntolerance.getRecorder().getReference())
+        );
     }
 
     @Test
@@ -143,9 +146,11 @@ public class AllergyIntoleranceMapperTest {
         assertEquals(1, allergyIntolerances.size());
         var allergyIntolerance = allergyIntolerances.get(0);
 
-        assertExtension(allergyIntolerance);
-        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference());
-        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getAsserter().getReference());
+        assertAll(
+            () -> assertExtension(allergyIntolerance),
+            () -> assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference()),
+            () -> assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getAsserter().getReference())
+        );
     }
 
     @Test
@@ -162,9 +167,11 @@ public class AllergyIntoleranceMapperTest {
         assertEquals(1, allergyIntolerances.size());
         var allergyIntolerance = allergyIntolerances.get(0);
 
-        assertExtension(allergyIntolerance);
-        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference());
-        assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C", allergyIntolerance.getAsserter().getReference());
+        assertAll(
+            () -> assertExtension(allergyIntolerance),
+            () -> assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getAsserter().getReference()),
+            () -> assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C", allergyIntolerance.getRecorder().getReference())
+        );
     }
 
     @Test
