@@ -59,7 +59,6 @@ public class CodeableConceptUtilsTest {
     @Test
     public void testCreateCodeableConceptWithDoubleCodingSections() throws URISyntaxException {
         final String EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid";
-        final Extension extension = new Extension().setUrl(EXTENSION_URL);
         var result = CodeableConceptUtils.createCodeableConceptWithDoubleCoding(CODE, ISSUE_SYSTEM, DISPLAY, null, "99");
 
         assertAll(
