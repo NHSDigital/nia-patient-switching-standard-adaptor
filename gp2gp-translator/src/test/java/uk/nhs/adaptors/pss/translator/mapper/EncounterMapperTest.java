@@ -14,9 +14,6 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
@@ -44,9 +41,11 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class EncounterMapperTest {
+
     private static final String XML_RESOURCES_BASE = "xml/Encounter/";
     private static final String ENCOUNTER_ID = "5EB5D070-8FE1-11EC-B1E5-0800200C9A66";
     private static final String ENCOUNTER_ID_2 = "6EB5D070-8FE1-11EC-B1E5-0800200C9A66";
@@ -179,11 +178,8 @@ public class EncounterMapperTest {
 
     @Test
     public void testMapValidEncounterWithoutSnomedCode() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding()
-            .setDisplay(CODING_DISPLAY)
-            .setSystem("1.2.3.4.5");
-        codeableConcept.addCoding(coding);
+
+        var codeableConcept = createCodeableConcept("1.2.3.4.5", null, CODING_DISPLAY);
 
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
@@ -553,11 +549,8 @@ public class EncounterMapperTest {
     }
 
     private void setUpCodeableConceptMock() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding()
-            .setDisplay(CODING_DISPLAY)
-            .setSystem(SNOMED_SYSTEM);
-        codeableConcept.addCoding(coding);
+
+        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
             @Override

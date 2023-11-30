@@ -24,6 +24,7 @@ Both are Java Spring Boot applications, released as separate docker images.
 1. [Guidance on integrating with the adaptors APIs](#endpoints)
 1. [Guidance for developing the adaptor](/developer-information.md)
 1. [Guidance for developing the adaptor on Windows](/getting-started-with-windows.md)
+1. [Documentation on how this adaptor maps GP2GP concepts to GPConnect concepts](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation)
 
 ## Endpoints
 

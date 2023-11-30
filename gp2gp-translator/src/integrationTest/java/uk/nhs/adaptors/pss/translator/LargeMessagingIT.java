@@ -153,6 +153,20 @@ public final class LargeMessagingIT extends BaseEhrHandler {
         await().atMost(Duration.ofMinutes(1L)).until(this::isEhrMigrationCompleted);
     }
 
+    @Test
+    public void handleEhrAndCopcWithNonUniqueFilenames() {
+        String testDirectory = "/json/LargeMessage/non-unique-fragment-names/";
+
+        sendInboundMessageToQueue(testDirectory + "uk06.json");
+
+        await().atMost(Duration.ofMinutes(1L)).until(this::hasContinueMessageBeenReceived);
+
+        sendInboundMessageToQueue(testDirectory + "copc1.json");
+        sendInboundMessageToQueue(testDirectory + "copc2.json");
+
+        await().atMost(Duration.ofMinutes(1L)).until(this::isEhrMigrationCompleted);
+    }
+
     private static Stream<Arguments> ehrAndCopcMessageResourceFiles() {
         return Stream.of(
             Arguments.of("handleUk06WithFragmentedMids", "/json/LargeMessage/Scenario_4/",

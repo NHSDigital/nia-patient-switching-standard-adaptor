@@ -13,12 +13,14 @@ import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.connector.dao.SnomedCTDao;
 import uk.nhs.adaptors.connector.model.SnomedCTDescription;
 import uk.nhs.adaptors.pss.translator.util.CodeSystemsUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CodeableConceptMapper {
+
     private static final String SNOMED_SYSTEM_CODE = "2.16.840.1.113883.2.1.3.2.4.15";
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
     private static final String EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid";
@@ -223,20 +225,6 @@ public class CodeableConceptMapper {
 
             codeableConcept.getCoding().add(index, coding);
         }
-    }
-
-    private CodeableConcept createCodeableConcept(String code, String system, String display, String text, Extension extension) {
-        var codeableConcept = new CodeableConcept()
-            .setText(text);
-
-        codeableConcept
-            .getCodingFirstRep()
-            .setCode(code)
-            .setSystem(system)
-            .setDisplay(display)
-            .addExtension(extension);
-
-        return codeableConcept;
     }
 
     private Extension createExtension(String descriptionId, String descriptionDisplay) {

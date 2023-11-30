@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.util;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -174,7 +173,6 @@ public class XmlParseUtilService {
         return payload.getId().getRoot();
     }
 
-
     public static String parseToOdsCode(COPCIN000001UK01Message payload) {
 
         Element gp2gpElement = payload.getControlActEvent()
@@ -265,12 +263,9 @@ public class XmlParseUtilService {
 
     public static String parseFragmentFilename(String description) {
         try {
-            return Arrays.stream(description.split(" "))
-                    .filter(desc -> desc.contains("Filename"))
-                    .map(desc -> desc.replace("Filename=", "").replace("\"", ""))
-                    .toList().get(0);
-        } catch (IndexOutOfBoundsException e) {
-            return "";
+            return parseFilename(description);
+        } catch (ParseException e) {
+            return description;
         }
     }
 

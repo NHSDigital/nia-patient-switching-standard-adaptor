@@ -63,7 +63,11 @@
               "Dr"
             ]
           }
-        ]
+        ],
+        "identifier": [ {
+          "system": "https://fhir.hl7.org.uk/Id/gmp-number",
+          "value": "7882315"
+        } ]
       }
     },
     {
@@ -132,7 +136,11 @@
               "Dr"
             ]
           }
-        ]
+        ],
+        "identifier": [ {
+          "system": "https://fhir.hl7.org.uk/Id/gmp-number",
+          "value": "7889233"
+        } ]
       }
     },
     {

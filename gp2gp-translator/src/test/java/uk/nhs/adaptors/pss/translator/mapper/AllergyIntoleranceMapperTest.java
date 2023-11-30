@@ -5,6 +5,7 @@ import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCate
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.MEDICATION;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -19,7 +20,6 @@ import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -42,9 +42,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class AllergyIntoleranceMapperTest {
+
     private static final String XML_RESOURCES_BASE = "xml/AllergyIntolerance/";
     private static final String COMPOUND_STATEMENT_ROOT_ID = "394559384658936";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
@@ -123,9 +125,11 @@ public class AllergyIntoleranceMapperTest {
         assertEquals(1, allergyIntolerances.size());
         var allergyIntolerance = allergyIntolerances.get(0);
 
-        assertExtension(allergyIntolerance);
-        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference());
-        assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C", allergyIntolerance.getAsserter().getReference());
+        assertAll(
+            () -> assertExtension(allergyIntolerance),
+            () -> assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getAsserter().getReference()),
+            () -> assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C", allergyIntolerance.getRecorder().getReference())
+        );
     }
 
     @Test
@@ -142,9 +146,11 @@ public class AllergyIntoleranceMapperTest {
         assertEquals(1, allergyIntolerances.size());
         var allergyIntolerance = allergyIntolerances.get(0);
 
-        assertExtension(allergyIntolerance);
-        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference());
-        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getAsserter().getReference());
+        assertAll(
+            () -> assertExtension(allergyIntolerance),
+            () -> assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference()),
+            () -> assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getAsserter().getReference())
+        );
     }
 
     @Test
@@ -161,9 +167,11 @@ public class AllergyIntoleranceMapperTest {
         assertEquals(1, allergyIntolerances.size());
         var allergyIntolerance = allergyIntolerances.get(0);
 
-        assertExtension(allergyIntolerance);
-        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getRecorder().getReference());
-        assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C", allergyIntolerance.getAsserter().getReference());
+        assertAll(
+            () -> assertExtension(allergyIntolerance),
+            () -> assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A", allergyIntolerance.getAsserter().getReference()),
+            () -> assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C", allergyIntolerance.getRecorder().getReference())
+        );
     }
 
     @Test
@@ -461,43 +469,19 @@ public class AllergyIntoleranceMapperTest {
     }
 
     private CodeableConcept defaultCodeableConcept() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding();
-        coding.setDisplay(CODING_DISPLAY_1);
-        coding.setSystem(SNOMED_CODE_SYSTEM);
-        codeableConcept.addCoding(coding);
-
-        return codeableConcept;
+        return createCodeableConcept(SNOMED_CODE_SYSTEM, null, CODING_DISPLAY_1);
     }
 
     private CodeableConcept secondaryCodeableConcept() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding();
-        coding.setSystem(SNOMED_CODE_SYSTEM);
-        coding.setDisplay(CODING_DISPLAY_2);
-        codeableConcept.addCoding(coding);
-
-        return codeableConcept;
+        return createCodeableConcept(SNOMED_CODE_SYSTEM, null, CODING_DISPLAY_2);
     }
 
     private CodeableConcept tertiaryCodeableConcept() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding();
-        coding.setDisplay(CODING_DISPLAY_3);
-        codeableConcept.addCoding(coding);
-
-        return codeableConcept;
+        return createCodeableConcept(null, null, CODING_DISPLAY_3);
     }
 
     private CodeableConcept nonSnomedCodeableConcept() {
-        var codeableConcept = new CodeableConcept();
-        var coding = new Coding();
-        coding.setSystem(MULTILEX_CODE_SYSTEM);
-        coding.setCode(MULTILEX_COCONUT_OIL);
-        coding.setDisplay(CODING_DISPLAY_4);
-        codeableConcept.addCoding(coding);
-
-        return codeableConcept;
+        return createCodeableConcept(MULTILEX_CODE_SYSTEM, MULTILEX_COCONUT_OIL, CODING_DISPLAY_4);
     }
 
     @SneakyThrows
