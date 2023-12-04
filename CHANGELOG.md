@@ -8,9 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 * Added code section with specific GP2GP error into Codeable Concept response section
 
+## [1.2.1] - 2023-11-23
+
 ### Fixed
 
-* Changed 'author' to be used as Recorder and 'practitioner' to be used as Asserter in AllergyIntolerance.
+* Swapped the mixed-up population of 'author' and 'practitioner' fields in AllergyIntolerance.
 * A SystmOne attachment split into multiple chunks can arrive with the same filename "Untitled".
   Previously each fragment would be stored using the filename provided, which in the case of SystmOne caused chunks to overwrite each other.
   The adaptor now generates a UUID which is prepended to the filename of a provided chunk to ensure uniqueness.
