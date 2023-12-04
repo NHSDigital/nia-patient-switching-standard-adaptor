@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+* Added code section with specific GP2GP error into Codeable Concept response section
+
 ### Fixed
 
 * Changed 'author' to be used as Recorder and 'practitioner' to be used as Asserter in AllergyIntolerance.
