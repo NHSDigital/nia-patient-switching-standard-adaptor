@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMapper.SpecimenBatteryParameters;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -40,6 +41,9 @@ public class SpecimenCompoundsMapper {
     private static final String BATTERY_CLASSCODE = "BATTERY";
     private static final String CLUSTER_CLASSCODE = "CLUSTER";
     private static final String USER_COMMENT_HEADER = "USER COMMENT";
+    public static final String CODING_CODE = "laboratory";
+    public static final String CODING_SYSTEM = "http://hl7.org/fhir/observation-category";
+    public static final String CODING_DISPLAY = "Laboratory";
 
     private final SpecimenBatteryMapper batteryMapper;
 
@@ -235,13 +239,7 @@ public class SpecimenCompoundsMapper {
     }
 
     private CodeableConcept createCategory() {
-        var codeableConcept = new CodeableConcept();
-        codeableConcept
-            .getCodingFirstRep()
-            .setCode("laboratory")
-            .setSystem("http://hl7.org/fhir/observation-category")
-            .setDisplay("Laboratory");
-        return codeableConcept;
+        return createCodeableConcept(CODING_CODE, CODING_SYSTEM, CODING_DISPLAY, null);
     }
 
     private List<RCMRMT030101UK04CompoundStatement> getSpecimenCompoundStatements(

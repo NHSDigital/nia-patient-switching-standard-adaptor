@@ -46,7 +46,11 @@
               "Dr"
             ]
           }
-        ]
+        ],
+        "identifier": [ {
+          "system": "https://fhir.hl7.org.uk/Id/gmp-number",
+          "value": "7882315"
+        } ]
       }
     },
     {
@@ -69,7 +73,11 @@
               "Dr"
             ]
           }
-        ]
+        ],
+        "identifier": [ {
+          "system": "https://fhir.hl7.org.uk/Id/gmp-number",
+          "value": "7889233"
+        } ]
       }
     },
     {
@@ -4721,10 +4729,10 @@
         "onsetDateTime": "2010-02-06T12:41:00+00:00",
         "assertedDate": "2010-02-06T12:41:00+00:00",
         "recorder": {
-          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
         "asserter": {
-          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
         }
       }
     },
@@ -4792,10 +4800,10 @@
         "onsetDateTime": "2010-02-06T12:41:00+00:00",
         "assertedDate": "2010-02-06T12:41:00+00:00",
         "recorder": {
-          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
         },
         "asserter": {
-          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
         }
       }
     },

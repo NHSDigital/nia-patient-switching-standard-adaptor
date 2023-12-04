@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -40,6 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class ConditionMapperTest {
@@ -249,11 +251,8 @@ public class ConditionMapperTest {
 
     @Test
     public void mapConditionWithSnomedCodeInCoding() {
-        var codeableConcept = new CodeableConcept()
-            .addCoding(new Coding()
-                .setSystem("http://snomed.info/sct")
-                .setDisplay("Display")
-                .setCode("123456"));
+
+        var codeableConcept = createCodeableConcept("http://snomed.info/sct", "123456", "Display");
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
 
@@ -262,7 +261,7 @@ public class ConditionMapperTest {
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
         assertThat(conditions).isNotEmpty();
-        assertThat(conditions.get(0).getCode()).isEqualTo(codeableConcept);
+        assertEquals(codeableConcept, conditions.get(0).getCode());
     }
 
     private void addMedicationRequestsToBundle(Bundle bundle) {
