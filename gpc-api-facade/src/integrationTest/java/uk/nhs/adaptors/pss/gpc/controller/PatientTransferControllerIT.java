@@ -180,7 +180,7 @@ public class PatientTransferControllerIT {
                     .header(CONVERSATION_ID_HEADER, conversationId)
                     .content(requestBody))
             .andExpect(status().is5xxServerError())
-            .andExpect(content().json(expectedErrorResponseBody))
+            .andExpect(content().json(expectedErrorResponseBody, true))
             .andReturn();
     }
 

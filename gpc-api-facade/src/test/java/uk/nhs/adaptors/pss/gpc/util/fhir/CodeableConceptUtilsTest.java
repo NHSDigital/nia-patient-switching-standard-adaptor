@@ -67,7 +67,7 @@ public class CodeableConceptUtilsTest {
             () -> assertEquals(DISPLAY, result.getCoding().get(0).getDisplay())
         );
         assertAll(
-            () -> assertEquals("urn:oid:2.16.840.1.113883.2.1.3.2.4.17.101", result.getCoding().get(1).getSystem()),
+            () -> assertEquals("2.16.840.1.113883.2.1.3.2.4.17.101", result.getCoding().get(1).getSystem()),
             () -> assertEquals("99", result.getCoding().get(1).getCode()),
             () -> assertEquals(DISPLAY, result.getCoding().get(1).getDisplay())
         );

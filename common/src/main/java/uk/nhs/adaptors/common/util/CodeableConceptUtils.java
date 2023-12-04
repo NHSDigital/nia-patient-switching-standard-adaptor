@@ -34,7 +34,7 @@ public class CodeableConceptUtils {
                                                                         String text, String gp2gpSpecificCode) {
         var codeableConcept = new CodeableConcept().setText(text);
         var coding = new Coding(system, code, display);
-        var codingWithGP2GPSpecificCode = new Coding("urn:oid:2.16.840.1.113883.2.1.3.2.4.17.101", gp2gpSpecificCode, display);
+        var codingWithGP2GPSpecificCode = new Coding("2.16.840.1.113883.2.1.3.2.4.17.101", gp2gpSpecificCode, display);
         codeableConcept.setCoding(List.of(coding, codingWithGP2GPSpecificCode));
 
         return codeableConcept;
