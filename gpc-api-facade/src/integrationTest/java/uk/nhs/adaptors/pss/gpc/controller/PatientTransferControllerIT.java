@@ -166,7 +166,7 @@ public class PatientTransferControllerIT {
     }
 
     @Test
-    public void sendPatientTransferRequestWhenPreviousTransferForThatNhsNumberHasCompleted2() throws Exception {
+    public void sendPatientTransferRequestAndExpectTimeErrorResponseBody() throws Exception {
         var conversationId = generateConversationId();
         var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
         var expectedErrorResponseBody = readResourceAsString("/responses/migrate-patient-record/badMigrationStatusResponseBody.json");

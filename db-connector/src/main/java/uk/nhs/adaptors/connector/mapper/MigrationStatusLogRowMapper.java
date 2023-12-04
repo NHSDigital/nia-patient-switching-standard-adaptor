@@ -22,6 +22,7 @@ public class MigrationStatusLogRowMapper implements RowMapper<MigrationStatusLog
             .date(rs.getObject("date", OffsetDateTime.class))
             .migrationRequestId(rs.getInt("migration_request_id"))
             .messageId(rs.getString("message_id"))
+            .gp2gpErrorCode(rs.getString("gp2gp_error_code"))
             .build();
     }
 }
