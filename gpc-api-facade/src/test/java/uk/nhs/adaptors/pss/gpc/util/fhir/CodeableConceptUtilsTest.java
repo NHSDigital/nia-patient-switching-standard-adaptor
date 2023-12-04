@@ -57,9 +57,10 @@ public class CodeableConceptUtilsTest {
     }
 
     @Test
-    public void testCreateCodeableConceptWithDoubleCodingSections() throws URISyntaxException {
+    public void testCreateCodeableConceptWithEhrRequestAckOIDCodeSections() throws URISyntaxException {
+        final var EHR_REQUEST_ACK_OID_CODE = "2.16.840.1.113883.2.1.3.2.4.17.101";
         final String EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid";
-        var result = CodeableConceptUtils.createCodeableConceptWithDoubleCoding(CODE, ISSUE_SYSTEM, DISPLAY, null, "99");
+        var result = CodeableConceptUtils.createCodeableConceptWithEhrRequestAckOidCode(CODE, ISSUE_SYSTEM, DISPLAY, null, "99");
 
         assertAll(
             () -> assertEquals(ISSUE_SYSTEM, result.getCoding().get(0).getSystem()),
@@ -67,7 +68,7 @@ public class CodeableConceptUtilsTest {
             () -> assertEquals(DISPLAY, result.getCoding().get(0).getDisplay())
         );
         assertAll(
-            () -> assertEquals("2.16.840.1.113883.2.1.3.2.4.17.101", result.getCoding().get(1).getSystem()),
+            () -> assertEquals(EHR_REQUEST_ACK_OID_CODE, result.getCoding().get(1).getSystem()),
             () -> assertEquals("99", result.getCoding().get(1).getCode()),
             () -> assertEquals(DISPLAY, result.getCoding().get(1).getDisplay())
         );

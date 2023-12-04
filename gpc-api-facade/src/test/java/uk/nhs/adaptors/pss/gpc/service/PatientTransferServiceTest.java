@@ -176,7 +176,8 @@ public class PatientTransferServiceTest {
     @Test
     public void checkExistingPatientMigrationRequestInProgressWhenNoExistingRequest() {
 
-        when(mdcService.getConversationId()).thenReturn(CONVERSATION_ID);
+        when(mdcService.getConversationId())
+            .thenReturn(CONVERSATION_ID);
         when(patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(PATIENT_NHS_NUMBER))
                         .thenReturn(null);
 
@@ -228,10 +229,12 @@ public class PatientTransferServiceTest {
         final PatientMigrationRequest patientMigrationRequest = createPatientMigrationRequest();
         final MigrationStatusLog migrationStatusLog = createMigrationStatusLog(status);
 
-        when(mdcService.getConversationId()).thenReturn(newConversationId);
+        when(mdcService.getConversationId())
+            .thenReturn(newConversationId);
         when(patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(PATIENT_NHS_NUMBER))
                 .thenReturn(patientMigrationRequest);
-        when(migrationStatusLogDao.getLatestMigrationStatusLog(1)).thenReturn(migrationStatusLog);
+        when(migrationStatusLogDao.getLatestMigrationStatusLog(1))
+            .thenReturn(migrationStatusLog);
 
         var existingConversationId = service.checkExistingPatientMigrationRequestInProgress(parameters);
 
@@ -243,7 +246,8 @@ public class PatientTransferServiceTest {
         final PatientMigrationRequest patientMigrationRequest = createPatientMigrationRequest();
         final MigrationStatusLog migrationStatusLog = createMigrationStatusLog();
 
-        when(mdcService.getConversationId()).thenReturn(CONVERSATION_ID);
+        when(mdcService.getConversationId())
+            .thenReturn(CONVERSATION_ID);
         when(patientMigrationRequestDao.getLatestMigrationRequestByPatientNhsNumber(PATIENT_NHS_NUMBER))
                 .thenReturn(patientMigrationRequest);
         when(migrationStatusLogDao.getLatestMigrationStatusLog(1))

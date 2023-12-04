@@ -10,6 +10,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CodeableConceptUtils {
 
+    public static final String EHR_REQUEST_ACK_CODE = "2.16.840.1.113883.2.1.3.2.4.17.101";
+
     /**
      *
      * @param system holds the SNOMED CT system identifier (http://snomed.info/sct)
@@ -30,11 +32,11 @@ public class CodeableConceptUtils {
         return codeableConcept;
     }
 
-    public static CodeableConcept createCodeableConceptWithDoubleCoding(String code, String system, String display,
-                                                                        String text, String gp2gpSpecificCode) {
+    public static CodeableConcept createCodeableConceptWithEhrRequestAckOidCode(String code, String system, String display,
+                                                                                String text, String gp2gpSpecificCode) {
         var codeableConcept = new CodeableConcept().setText(text);
         var coding = new Coding(system, code, display);
-        var codingWithGP2GPSpecificCode = new Coding("2.16.840.1.113883.2.1.3.2.4.17.101", gp2gpSpecificCode, display);
+        var codingWithGP2GPSpecificCode = new Coding(EHR_REQUEST_ACK_CODE, gp2gpSpecificCode, display);
         codeableConcept.setCoding(List.of(coding, codingWithGP2GPSpecificCode));
 
         return codeableConcept;

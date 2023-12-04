@@ -220,8 +220,8 @@ public class PatientTransferController {
         }
 
         CodeableConcept details = CodeableConceptUtils.
-            createCodeableConceptWithDoubleCoding(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage,
-                                                  null, migrationStatusLog.getGp2gpErrorCode());
+            createCodeableConceptWithEhrRequestAckOidCode(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage,
+                                                          null, migrationStatusLog.getGp2gpErrorCode());
 
         return createOperationOutcome(EXCEPTION, ERROR, details, "");
     }
