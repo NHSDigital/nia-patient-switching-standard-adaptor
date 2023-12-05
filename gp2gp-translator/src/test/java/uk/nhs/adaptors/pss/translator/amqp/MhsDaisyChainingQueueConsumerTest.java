@@ -22,6 +22,7 @@ import uk.nhs.adaptors.pss.translator.task.MhsQueueMessageHandler;
 
 @ExtendWith(MockitoExtension.class)
 public class MhsDaisyChainingQueueConsumerTest {
+
     private static final int MAX_REDELIVERIES = 3;
     private static final int FIRST_DELIVERY = 1;
 

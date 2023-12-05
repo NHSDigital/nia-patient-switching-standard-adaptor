@@ -65,11 +65,12 @@ public class PatientTransferController {
         produces = {APPLICATION_FHIR_JSON_VALUE}
     )
     public ResponseEntity<String> migratePatientStructuredRecord(
-        @RequestBody @PatientTransferRequest Parameters body,
-        @RequestHeader(TO_ASID) @NotBlank String toAsid,
-        @RequestHeader(FROM_ASID) @NotBlank String fromAsid,
-        @RequestHeader(TO_ODS) @NotBlank String toOds,
-        @RequestHeader(FROM_ODS) @NotBlank String fromOds) {
+                                    @RequestBody @PatientTransferRequest Parameters body,
+                                    @RequestHeader(TO_ASID) @NotBlank String toAsid,
+                                    @RequestHeader(FROM_ASID) @NotBlank String fromAsid,
+                                    @RequestHeader(TO_ODS) @NotBlank String toOds,
+                                    @RequestHeader(FROM_ODS) @NotBlank String fromOds) {
+
         LOGGER.info("Received patient transfer request");
         Map<String, String> headers = Map.of(
             TO_ASID, toAsid,
@@ -86,6 +87,7 @@ public class PatientTransferController {
         }
 
         MigrationStatusLog request = patientTransferService.handlePatientMigrationRequest(body, headers);
+
         if (request == null) {
             return new ResponseEntity<>(ACCEPTED);
         } else if (IN_PROGRESS_STATUSES.contains(request.getMigrationStatus())) {
@@ -95,7 +97,7 @@ public class PatientTransferController {
             return new ResponseEntity<>(patientTransferService.getBundleResource(), OK);
         } else {
 
-            OperationOutcome operationOutcome = createErrorBodyFromMigrationStatus(request.getMigrationStatus());
+            OperationOutcome operationOutcome = createErrorBodyFromMigrationStatus(request);
             String errorBody = fhirParser.encodeToJson(operationOutcome);
             MigrationStatus currentMigrationStatus = request.getMigrationStatus();
 
@@ -133,10 +135,11 @@ public class PatientTransferController {
         return createOperationOutcome(EXCEPTION, ERROR, details, "");
     }
 
-    private OperationOutcome createErrorBodyFromMigrationStatus(MigrationStatus migrationStatus) {
+    private OperationOutcome createErrorBodyFromMigrationStatus(MigrationStatusLog migrationStatusLog) {
 
         String operationErrorCode;
         String operationErrorMessage;
+        MigrationStatus migrationStatus = migrationStatusLog.getMigrationStatus();
 
         switch (migrationStatus) {
             case EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST:
@@ -217,7 +220,9 @@ public class PatientTransferController {
         }
 
         CodeableConcept details = CodeableConceptUtils.
-                createCodeableConcept(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage, null);
+            createCodeableConceptWithEhrRequestAckOidCode(operationErrorCode, ISSUE_SYSTEM, operationErrorMessage,
+                                                          null, migrationStatusLog.getGp2gpErrorCode());
+
         return createOperationOutcome(EXCEPTION, ERROR, details, "");
     }
 
