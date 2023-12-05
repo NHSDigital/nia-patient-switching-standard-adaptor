@@ -28,10 +28,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@DirtiesContext
 public class BundleMapperServiceIT {
 
     private static final String XML_RESOURCES_BASE = "xml/mapping/ehr-extract/";
