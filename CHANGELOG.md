@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 * Added code section with specific GP2GP error into Codeable Concept response section
+* Additional information (code, display and system) will be provided in PractionionerRole and Organization resources via Codeable Concept  
 
 ## [1.2.1] - 2023-11-23
 
