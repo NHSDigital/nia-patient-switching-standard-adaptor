@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
+import static uk.nhs.adaptors.common.enums.MigrationStatus.ERROR_REQUEST_TIMEOUT;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -38,6 +39,7 @@ import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 @DirtiesContext
 @AutoConfigureMockMvc
 public class PatientTransferControllerIT {
+
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String APPLICATION_FHIR_JSON_VALUE = "application/fhir+json";
     private static final String MIGRATE_PATIENT_RECORD_ENDPOINT = "/Patient/$gpc.migratestructuredrecord";
@@ -161,6 +163,25 @@ public class PatientTransferControllerIT {
                                 .header(CONVERSATION_ID_HEADER, secondConversationId)
                                 .content(requestBody))
                 .andExpect(status().isAccepted());
+    }
+
+    @Test
+    public void sendPatientTransferRequestAndExpectTimeErrorResponseBody() throws Exception {
+        var conversationId = generateConversationId();
+        var requestBody = getRequestBody(VALID_REQUEST_BODY_PATH);
+        var expectedErrorResponseBody = readResourceAsString("/responses/migrate-patient-record/badMigrationStatusResponseBody.json");
+
+        completePatientMigrationJourneyWithError(conversationId);
+
+        mockMvc.perform(
+                post(MIGRATE_PATIENT_RECORD_ENDPOINT)
+                    .contentType(APPLICATION_FHIR_JSON_VALUE)
+                    .headers(REQUIRED_HEADERS)
+                    .header(CONVERSATION_ID_HEADER, conversationId)
+                    .content(requestBody))
+            .andExpect(status().is5xxServerError())
+            .andExpect(content().json(expectedErrorResponseBody, true))
+            .andReturn();
     }
 
     @Test
@@ -339,5 +360,12 @@ public class PatientTransferControllerIT {
         patientMigrationRequestDao.saveBundleAndInboundMessageData(conversationId, readResourceAsString(EXAMPLE_JSON_BUNDLE),
             StringUtils.EMPTY);
         migrationStatusLogService.addMigrationStatusLog(MIGRATION_COMPLETED, conversationId, null, null);
+    }
+
+    private void completePatientMigrationJourneyWithError(String conversationId) {
+        patientMigrationRequestDao.addNewRequest(MOCK_PATIENT_NUMBER, conversationId, LOSING_PRACTICE_ODS, WINNING_PRACTICE_ODS);
+        patientMigrationRequestDao.saveBundleAndInboundMessageData(conversationId, readResourceAsString(EXAMPLE_JSON_BUNDLE),
+                                                                   StringUtils.EMPTY);
+        migrationStatusLogService.addMigrationStatusLog(ERROR_REQUEST_TIMEOUT, conversationId, null, "25");
     }
 }
