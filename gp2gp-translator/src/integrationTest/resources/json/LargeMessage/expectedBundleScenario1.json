@@ -61,11 +61,13 @@
             "value": "B83002"
           }
         ],
-        "type": [
-          {
-            "text": "General practice (organisation)"
-          }
-        ],
+        "type": [ {
+          "coding": [ {
+            "system": "394745000",
+            "code": "2.16.840.1.113883.2.1.3.2.4.15",
+            "display": "General practice (organisation)"
+          } ]
+        } ],
         "name": "Ilkley and  Wharfedale Medical Practice",
         "telecom": [
           {
@@ -119,11 +121,13 @@
         "organization": {
           "reference": "Organization/9C3AB881-FCDE-48EC-8028-37B20E0AE893"
         },
-        "code": [
-          {
-            "text": "Partner"
-          }
-        ]
+        "code": [ {
+          "coding": [ {
+            "code": "309394004",
+            "display": "General Practitioner Principal"
+          } ],
+          "text": "Partner"
+        } ]
       }
     },
     {
@@ -164,11 +168,13 @@
         "organization": {
           "reference": "Organization/9C3AB881-FCDE-48EC-8028-37B20E0AE893"
         },
-        "code": [
-          {
-            "text": "Administrator"
-          }
-        ]
+        "code": [ {
+          "coding": [ {
+            "code": "309394004",
+            "display": "General Practitioner Principal"
+          } ],
+          "text": "Administrator"
+        } ]
       }
     },
     {
@@ -236,11 +242,13 @@
         "organization": {
           "reference": "Organization/9C3AB881-FCDE-48EC-8028-37B20E0AE893"
         },
-        "code": [
-          {
-            "text": "Partner"
-          }
-        ]
+        "code": [ {
+          "coding": [ {
+            "code": "309394004",
+            "display": "General Practitioner Principal"
+          } ],
+          "text": "Partner"
+        } ]
       }
     },
     {
