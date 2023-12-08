@@ -336,7 +336,7 @@ public class EncounterMapper {
         var recorder = new EncounterParticipantComponent();
 
         return recorder
-            .addType(createCodeableConcept(RECORDER_SYSTEM, RECORDER_CODE, RECORDER_DISPLAY))
+            .addType(createCodeableConcept(RECORDER_CODE, RECORDER_SYSTEM, RECORDER_DISPLAY))
             .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + author.getAgentRef().getId().getRoot()));
     }
 
@@ -348,7 +348,7 @@ public class EncounterMapper {
         var performer = new EncounterParticipantComponent();
 
         return performer
-            .addType(createCodeableConcept(PERFORMER_SYSTEM, PERFORMER_CODE, PERFORMER_DISPLAY))
+            .addType(createCodeableConcept(PERFORMER_CODE, PERFORMER_SYSTEM, PERFORMER_DISPLAY))
             .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + participant2.getAgentRef().getId().getRoot()));
     }
 

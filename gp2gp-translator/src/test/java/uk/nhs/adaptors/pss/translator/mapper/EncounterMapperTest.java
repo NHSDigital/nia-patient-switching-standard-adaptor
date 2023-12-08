@@ -550,7 +550,7 @@ public class EncounterMapperTest {
 
     private void setUpCodeableConceptMock() {
 
-        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(null, SNOMED_SYSTEM, CODING_DISPLAY);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
             @Override

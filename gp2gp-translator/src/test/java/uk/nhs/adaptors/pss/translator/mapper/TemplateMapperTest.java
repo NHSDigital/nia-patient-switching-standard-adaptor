@@ -32,6 +32,7 @@ import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableCon
 
 @ExtendWith(MockitoExtension.class)
 public class TemplateMapperTest {
+
     private static final String XML_RESOURCES_BASE = "xml/Template/";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String COMPOUND_ID = "C8B1BEAF-FB71-45D1-89DA-298148C00CE1";
@@ -45,7 +46,7 @@ public class TemplateMapperTest {
     private static final String IDENTIFIER = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final int THREE = 3;
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
-    private static final CodeableConcept CODEABLE_CONCEPT = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY_MOCK);
+    private static final CodeableConcept CODEABLE_CONCEPT = createCodeableConcept(null, SNOMED_SYSTEM, CODING_DISPLAY_MOCK);
 
     private static final List<Encounter> ENCOUNTER_LIST = List.of(
         (Encounter) new Encounter().setId(ENCOUNTER_ID)

@@ -63,8 +63,8 @@
         ],
         "type": [ {
           "coding": [ {
-            "system": "394745000",
-            "code": "2.16.840.1.113883.2.1.3.2.4.15",
+            "system": "2.16.840.1.113883.2.1.3.2.4.15",
+            "code": "394745000",
             "display": "General practice (organisation)"
           } ]
         } ],

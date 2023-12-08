@@ -321,8 +321,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private CodeableConcept generateCategory() {
-        return createCodeableConcept(CARE_CONNECT_URL,
-                                     PROBLEM_LIST_ITEM_CODE,
+        return createCodeableConcept(PROBLEM_LIST_ITEM_CODE,
+                                     CARE_CONNECT_URL,
                                      PROBLEM_LIST_ITEM_DISPLAY);
     }
 

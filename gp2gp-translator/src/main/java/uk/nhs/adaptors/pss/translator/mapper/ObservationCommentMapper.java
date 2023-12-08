@@ -94,6 +94,6 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
     }
 
     private CodeableConcept createCodeableConcept() {
-        return CodeableConceptUtils.createCodeableConcept(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY);
+        return CodeableConceptUtils.createCodeableConcept(CODING_CODE, CODING_SYSTEM, CODING_DISPLAY);
     }
 }
