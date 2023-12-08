@@ -26,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ResourceReferenceUtil {
-    private static final String MEDICATION_STATEMENT_REFERENCE = "%s-MS";
     private static final String QUESTIONNAIRE_ID = "%s-QRSP";
     private static final String OBSERVATION_REFERENCE = "Observation/%s";
     private static final String QUESTIONNAIRE_REFERENCE = "QuestionnaireResponse/%s";
@@ -133,8 +132,6 @@ public class ResourceReferenceUtil {
             medicationStatement.getComponent().forEach(component -> {
                 if (component.hasEhrSupplyAuthorise()) {
                     var id = component.getEhrSupplyAuthorise().getId().getRoot();
-                    entryReferences.add(createResourceReference(ResourceType.MedicationStatement.name(),
-                        MEDICATION_STATEMENT_REFERENCE.formatted(id)));
                     entryReferences.add(createResourceReference(ResourceType.MedicationRequest.name(), id));
                 } else if (component.hasEhrSupplyPrescribe()) {
                     entryReferences.add(createResourceReference(ResourceType.MedicationRequest.name(),
