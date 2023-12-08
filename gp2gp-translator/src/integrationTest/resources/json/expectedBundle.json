@@ -2619,11 +2619,6 @@
           },
           {
             "item": {
-              "reference": "MedicationStatement/D019A247-B567-4892-842E-818145A7EA20-MS"
-            }
-          },
-          {
-            "item": {
               "reference": "MedicationRequest/D019A247-B567-4892-842E-818145A7EA20"
             }
           },
@@ -2817,11 +2812,6 @@
           {
             "item": {
               "reference": "Condition/linkset-id"
-            }
-          },
-          {
-            "item": {
-              "reference": "MedicationStatement/authorise-id-MS"
             }
           },
           {
