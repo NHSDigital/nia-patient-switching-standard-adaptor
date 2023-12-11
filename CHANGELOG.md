@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+* Fixed issue where mapping failed due to a Referral Request Priority not being found. 
+
 ### Added
 * Added code section with specific GP2GP error into Codeable Concept response section
 
