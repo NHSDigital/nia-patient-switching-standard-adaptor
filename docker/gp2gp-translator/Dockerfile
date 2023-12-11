@@ -9,7 +9,7 @@ COPY --chown=gradle:gradle ./config /home/gradle/service/config
 WORKDIR /home/gradle/service/gp2gp-translator
 RUN ./gradlew --build-cache bootJar
 
-FROM openjdk:17
+FROM eclipse-temurin:17
 
 EXPOSE 8085
 
