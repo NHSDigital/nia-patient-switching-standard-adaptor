@@ -2,12 +2,12 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.hl7.fhir.dstu3.model.ReferralRequest.ReferralPriority;
 import static org.hl7.fhir.dstu3.model.ReferralRequest.ReferralPriorityEnumFactory;
+
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -25,8 +25,6 @@ import org.hl7.v3.CD;
 import org.hl7.v3.CR;
 import org.hl7.v3.CV;
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
@@ -53,6 +51,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             "394849002", "urgent",
             "88694003", "asap"
     );
+    private static final String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";
 
     private CodeableConceptMapper codeableConceptMapper;
 
@@ -76,7 +75,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         var identifier = buildIdentifier(id, practiseCode);
         var agent = ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(), ehrComposition);
         var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
-        var referralPriority = getReferralPriorityFromEhrComposition(ehrComposition);
+        var referralPriority = getReferralPriority(requestStatement);
 
         referralRequest.setId(id);
         referralRequest.setMeta(generateMeta(META_PROFILE));
@@ -177,85 +176,24 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         return ACTION_DATE_PREFIX + effectiveTimeValue.asStringValue();
     }
 
-    private ReferralPriority getReferralPriorityFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private ReferralPriority getReferralPriority(RCMRMT030101UK04RequestStatement requestStatement) {
 
-        if (ehrComposition == null || ehrComposition.getComponent().isEmpty()) {
+        var priorityCode = requestStatement.getPriorityCode();
+        if (snomedCodeNotPresent(priorityCode)) {
             return null;
         }
 
-        var topLevelComponents = ehrComposition.getComponent();
-
-        var priorityCode = getPriorityCodesFromTopLevelComponents(topLevelComponents);
-
-        if (priorityCode == null) {
-            priorityCode = getReferralPriorityCodeFromChildComponents(topLevelComponents.get(0));
+        var hl7Code = priorityCode.getCode();
+        if (PRIORITY_CODES.containsKey(hl7Code)) {
+            return new ReferralPriorityEnumFactory().fromCode(PRIORITY_CODES.get(hl7Code));
         }
 
-        return new ReferralPriorityEnumFactory()
-                .fromCode(priorityCode);
+        return null;
     }
 
-    private String getPriorityCodesFromTopLevelComponents(List<RCMRMT030101UK04Component4> components) {
-        return components
-                .stream()
-                .filter(ReferralRequestMapper::hasPriorityCode)
-                .map(component4 -> component4.getRequestStatement().getPriorityCode().getCode())
-                .findFirst()
-                .map(this::getReferralPriorityCode)
-                .orElse(null);
-    }
-
-    private String getReferralPriorityCode(String priorityCode) {
-        if (PRIORITY_CODES.containsKey(priorityCode)) {
-            return PRIORITY_CODES.get(priorityCode);
-        }
-        throw new IllegalArgumentException("Unknown ReferralPriority code '" + priorityCode + "'");
-    }
-
-    private String getReferralPriorityCodeFromChildComponents(RCMRMT030101UK04Component4 topComponent) {
-        if (!topComponent.hasCompoundStatement()) {
-            return null;
-        }
-
-        var childComponents = topComponent.getCompoundStatement().getComponent();
-
-        if (childComponents == null) {
-            return null;
-        }
-
-        // We pass the child component to a recursive function, so it finds the priority code for each nested child
-        var priorityCode = getPriorityCode(childComponents);
-        return getReferralPriorityCode(priorityCode);
-    }
-
-    private String getPriorityCode(List<RCMRMT030101UK04Component02> components) {
-
-        var priorityCode = components
-                .stream()
-                .map(RCMRMT030101UK04Component02::getRequestStatement)
-                .filter(Objects::nonNull)
-                .map(RCMRMT030101UK04RequestStatement::getPriorityCode)
-                .filter(Objects::nonNull)
-                .map(CD::getCode)
-                .filter(StringUtils::isNotEmpty)
-                .findFirst()
-                .orElse(null);
-
-        if (priorityCode != null) {
-            return priorityCode;
-        }
-
-        var childComponents = components
-                .stream()
-                .filter(ReferralRequestMapper::hasComponentInCompoundStatement)
-                .map(c -> c.getCompoundStatement().getComponent())
-                .filter(c -> !c.isEmpty())
-                .findFirst()
-                .orElse(Collections.emptyList());
-
-        return childComponents.isEmpty()
-                ? null
-                : getPriorityCode(childComponents);
+    private boolean snomedCodeNotPresent(CV codeElement) {
+        return codeElement == null || !codeElement.hasCode() || !codeElement.hasCodeSystem()
+            || !SNOMED_CODE_SYSTEM.equals(codeElement.getCodeSystem());
     }
 
     private boolean hasIdValue(RCMRMT030101UK04ResponsibleParty3 responsibleParty) {
@@ -269,18 +207,6 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         return effectiveTime != null
                 && effectiveTime.getCenter() != null
                 && effectiveTime.getCenter().getValue() != null;
-    }
-
-    private static boolean hasPriorityCode(RCMRMT030101UK04Component4 component) {
-        return component.getRequestStatement() != null
-                && component.getRequestStatement().getPriorityCode() != null
-                && component.getRequestStatement().getPriorityCode().getCode() != null;
-    }
-
-    private static boolean hasComponentInCompoundStatement(RCMRMT030101UK04Component02 component) {
-        return component.hasCompoundStatement()
-                && component.getCompoundStatement().getComponent() != null
-                && !component.getCompoundStatement().getComponent().isEmpty();
     }
 
     private boolean isNotSelfReferral(RCMRMT030101UK04RequestStatement requestStatement) {
