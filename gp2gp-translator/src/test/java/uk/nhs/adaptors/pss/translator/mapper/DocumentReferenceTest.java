@@ -145,7 +145,7 @@ public class DocumentReferenceTest {
 
     @Test
     public void mapNarrativeStatementWithSnomedCode() {
-        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(null, SNOMED_SYSTEM, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtract("nested_narrative_statements.xml");
@@ -159,7 +159,7 @@ public class DocumentReferenceTest {
 
     @Test
     public void mapNarrativeStatementWithoutSnomedCode() {
-        var codeableConcept = createCodeableConcept("not-a-snomed-system", null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(null, "not-a-snomed-system", CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtract("nested_narrative_statements.xml");
@@ -261,7 +261,7 @@ public class DocumentReferenceTest {
     }
 
     private void setUpCodeableConceptMock() {
-        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(null, SNOMED_SYSTEM, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
     }
 

@@ -179,7 +179,7 @@ public class EncounterMapperTest {
     @Test
     public void testMapValidEncounterWithoutSnomedCode() {
 
-        var codeableConcept = createCodeableConcept("1.2.3.4.5", null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(null, "1.2.3.4.5", CODING_DISPLAY);
 
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
