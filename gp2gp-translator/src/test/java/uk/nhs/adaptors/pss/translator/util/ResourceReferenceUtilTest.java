@@ -33,8 +33,8 @@ public class ResourceReferenceUtilTest {
 
     private static final String XML_RESOURCES_COMPOSITION = "xml/ResourceReference/EhrComposition/";
     private static final String XML_RESOURCES_COMPOUND = "xml/ResourceReference/CompoundStatement/";
-    private static final int THREE = 3;
-    private static final int FOUR = 4;
+    private static final int TWO = 2;
+
 
     @Mock
     private DatabaseImmunizationChecker immunizationChecker;
@@ -49,10 +49,9 @@ public class ResourceReferenceUtilTest {
         List<Reference> references = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
 
-        assertThat(references.size()).isEqualTo(THREE);
-        assertThat(references.get(0).getReference()).isEqualTo("MedicationStatement/A0A70B62-2649-4C8F-B3AB-618B8257C942-MS");
-        assertThat(references.get(1).getReference()).isEqualTo("MedicationRequest/A0A70B62-2649-4C8F-B3AB-618B8257C942");
-        assertThat(references.get(2).getReference()).isEqualTo("MedicationRequest/9B4B797A-D674-4362-B666-2ADC8551EEDA");
+        assertThat(references.size()).isEqualTo(TWO);
+        assertThat(references.get(0).getReference()).isEqualTo("MedicationRequest/A0A70B62-2649-4C8F-B3AB-618B8257C942");
+        assertThat(references.get(1).getReference()).isEqualTo("MedicationRequest/9B4B797A-D674-4362-B666-2ADC8551EEDA");
     }
 
     @Test
@@ -62,10 +61,9 @@ public class ResourceReferenceUtilTest {
         List<Reference> references = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
 
-        assertThat(references.size()).isEqualTo(THREE);
-        assertThat(references.get(0).getReference()).isEqualTo("MedicationStatement/A0A70B62-2649-4C8F-B3AB-618B8257C942-MS");
-        assertThat(references.get(1).getReference()).isEqualTo("MedicationRequest/A0A70B62-2649-4C8F-B3AB-618B8257C942");
-        assertThat(references.get(2).getReference()).isEqualTo("MedicationRequest/9B4B797A-D674-4362-B666-2ADC8551EEDA");
+        assertThat(references.size()).isEqualTo(TWO);
+        assertThat(references.get(0).getReference()).isEqualTo("MedicationRequest/A0A70B62-2649-4C8F-B3AB-618B8257C942");
+        assertThat(references.get(1).getReference()).isEqualTo("MedicationRequest/9B4B797A-D674-4362-B666-2ADC8551EEDA");
     }
 
 //    removed as part of NIAD_2190

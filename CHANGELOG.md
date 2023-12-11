@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * A SystmOne attachment split into multiple chunks can arrive with the same filename "Untitled".
   Previously each fragment would be stored using the filename provided, which in the case of SystmOne caused chunks to overwrite each other.
   The adaptor now generates a UUID which is prepended to the filename of a provided chunk to ensure uniqueness.
+* Removed surplus references to Medication Statements from the Topic and Category entry arrays. The 
+[GP Connect documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_consultation_guidance.html#clinical-item-references) states Medications should be referenced using the Medication Request resource, which is already done. 
 
 ## [1.2.0] - 2023-11-17
 
