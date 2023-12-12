@@ -1,0 +1,133 @@
+<ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
+    <id root="2227B72A-B855-4E2F-BD8C-5B678184CAF5"/>
+    <code code="25671000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Surgery Consultation Note">
+        <originalText>GP Surgery</originalText>
+    </code>
+    <statusCode code="COMPLETE"/>
+    <effectiveTime>
+        <center nullFlavor="NI"/>
+    </effectiveTime>
+    <availabilityTime value="202312061049"/>
+    <author contextControlCode="OP" typeCode="AUT">
+        <time value="20231206105525"/>
+        <agentRef classCode="AGNT">
+            <id root="80A11057-899F-4B8E-90C1-6BF982144ADB"/>
+        </agentRef>
+    </author>
+    <location typeCode="LOC">
+        <locatedEntity classCode="LOCE">
+            <code code="1101121000000108" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                  displayName="Healthcare related organisation"/>
+            <locatedPlace classCode="PLC" determinerCode="INSTANCE">
+                <name>Charnock</name>
+            </locatedPlace>
+        </locatedEntity>
+    </location>
+    <Participant2 contextControlCode="OP" typeCode="RESP">
+        <agentRef classCode="AGNT">
+            <id root="80A11057-899F-4B8E-90C1-6BF982144ADB"/>
+        </agentRef>
+    </Participant2>
+    <component typeCode="COMP">
+        <CompoundStatement classCode="TOPIC" moodCode="EVN">
+            <id root="0AB92E72-02E6-4AF7-8B93-172B6507CD55"/>
+            <code code="252311015" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Backache"/>
+            <statusCode code="COMPLETE"/>
+            <effectiveTime>
+                <center nullFlavor="NI"/>
+            </effectiveTime>
+            <availabilityTime value="202312061049"/>
+            <component contextConductionInd="true" typeCode="COMP">
+                <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                    <id root="2A762CEB-1868-4FA1-9823-B72DC608682D"/>
+                    <code code="1672341000006108" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Medication"/>
+                    <statusCode code="COMPLETE"/>
+                    <effectiveTime>
+                        <center nullFlavor="NI"/>
+                    </effectiveTime>
+                    <availabilityTime value="202312061049"/>
+                    <component contextConductionInd="true" typeCode="COMP">
+                        <MedicationStatement classCode="SBADM" moodCode="ORD">
+                            <id root="B42B824C-1979-49F3-A919-C80BBE56CB26"/>
+                            <statusCode code="COMPLETE"/>
+                            <effectiveTime>
+                                <center nullFlavor="NI"/>
+                            </effectiveTime>
+                            <availabilityTime value="20231206"/>
+                            <consumable typeCode="CSM">
+                                <manufacturedProduct classCode="MANU">
+                                    <manufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                        <code code="MITA31478EMIS" codeSystem="2.16.840.1.113883.2.1.6.9" displayName="Mirtazapine 30mg tablets">
+                                            <translation code="321998002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
+                                        </code>
+                                        <quantity unit="1" value="28">
+                                            <translation value="28">
+                                                <originalText>tablet</originalText>
+                                            </translation>
+                                        </quantity>
+                                    </manufacturedMaterial>
+                                </manufacturedProduct>
+                            </consumable>
+                            <component typeCode="COMP">
+                                <ehrSupplyPrescribe classCode="SPLY" moodCode="ORD">
+                                    <id root="1E782F3E-4B6F-49C5-BFA3-73854B47AACB"/>
+                                    <code code="9bG0.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="NHS prescription"/>
+                                    <statusCode code="COMPLETE"/>
+                                    <availabilityTime value="20231206"/>
+                                    <quantity unit="1" value="28">
+                                        <translation value="28">
+                                            <originalText>tablet</originalText>
+                                        </translation>
+                                    </quantity>
+                                    <inFulfillmentOf typeCode="FLFS">
+                                        <priorMedicationRef classCode="SBADM" moodCode="ORD">
+                                            <id root="A4C9F3E5-0A68-447C-9306-62D81761DA16"/>
+                                        </priorMedicationRef>
+                                    </inFulfillmentOf>
+                                </ehrSupplyPrescribe>
+                            </component>
+                            <pertinentInformation typeCode="PERT">
+                                <pertinentMedicationDosage classCode="SBADM" moodCode="RMD">
+                                    <text>One To Be Taken At Night</text>
+                                </pertinentMedicationDosage>
+                            </pertinentInformation>
+                        </MedicationStatement>
+                    </component>
+                </CompoundStatement>
+            </component>
+            <component contextConductionInd="true" typeCode="COMP">
+                <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                    <id root="DF14ADB4-7250-4CEE-8276-5961D47C34F1"/>
+                    <code code="3457005" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Referral"/>
+                    <statusCode code="COMPLETE"/>
+                    <effectiveTime>
+                        <center nullFlavor="NI"/>
+                    </effectiveTime>
+                    <availabilityTime value="202312061049"/>
+                    <component contextConductionInd="true" typeCode="COMP">
+                        <RequestStatement classCode="OBS" moodCode="RQO">
+                            <id root="9E63CAA9-6863-4ABE-BD7A-DC7B303059FC"/>
+                            <code code="EMISNQRE553" codeSystem="2.16.840.1.113883.2.1.6.3"
+                                  displayName="Referral for back rehabilitation">
+                                <qualifier codeSystem="2.16.840.1.113883.2.1.6.3" inverted="false">
+                                    <name code="RequestType" displayName="RequestType"/>
+                                    <value code="Unknown" displayName="Unknown"/>
+                                </qualifier>
+                            </code>
+                            <text>NHS e-Referral Service, Purpose: Unknown</text>
+                            <statusCode code="COMPLETE"/>
+                            <effectiveTime>
+                                <center nullFlavor="NI"/>
+                            </effectiveTime>
+                            <availabilityTime value="20231206"/>
+                            <priorityCode code="394848005" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                          displayName="Normal">
+                                <originalText>Routine</originalText>
+                            </priorityCode>
+                        </RequestStatement>
+                    </component>
+                </CompoundStatement>
+            </component>
+        </CompoundStatement>
+    </component>
+</ehrComposition>
