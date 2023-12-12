@@ -5,8 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.3.0] - 2023-12-11
+
 ### Added
-* Added code section with specific GP2GP error into Codeable Concept response section
+* In the event of a GP2GP failure, the raw error code is now available in the `/Patient/$gpc.migratestructuredrecord` response section with code system `2.16.840.1.113883.2.1.3.2.4.17.101`.
+
+### Changed
+* Removed surplus references to Medication Statements from the Topic and Category entry arrays. The
+  [GP Connect documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_consultation_guidance.html#clinical-item-references) states Medications should be referenced using the Medication Request resource, which is already done.
+* Updated postman collection to include attachment tests.
 
 ## [1.2.1] - 2023-11-23
 
@@ -16,8 +23,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * A SystmOne attachment split into multiple chunks can arrive with the same filename "Untitled".
   Previously each fragment would be stored using the filename provided, which in the case of SystmOne caused chunks to overwrite each other.
   The adaptor now generates a UUID which is prepended to the filename of a provided chunk to ensure uniqueness.
-* Removed surplus references to Medication Statements from the Topic and Category entry arrays. The 
-[GP Connect documentation](https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_consultation_guidance.html#clinical-item-references) states Medications should be referenced using the Medication Request resource, which is already done. 
 
 ## [1.2.0] - 2023-11-17
 
@@ -34,7 +39,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 * Changed `ReferralRequest` mapping to use `ASAP` instead of the `Stat` value.
-* Updated postman collection to include attachment tests.
 
 ## [1.1.0] - 2023-11-09
 
