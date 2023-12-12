@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [1.3.0] - 2023-12-11
 
 ### Added
-* Added code section with specific GP2GP error into Codeable Concept response section.
+* In the event of a GP2GP failure, the raw error code is now available in the `/Patient/$gpc.migratestructuredrecord` response section with code system `2.16.840.1.113883.2.1.3.2.4.17.101`.
 
 ### Changed
 * Removed surplus references to Medication Statements from the Topic and Category entry arrays. The
