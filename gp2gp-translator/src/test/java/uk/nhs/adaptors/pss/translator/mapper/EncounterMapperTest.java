@@ -179,7 +179,7 @@ public class EncounterMapperTest {
     @Test
     public void testMapValidEncounterWithoutSnomedCode() {
 
-        var codeableConcept = createCodeableConcept("1.2.3.4.5", null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(null, "1.2.3.4.5", CODING_DISPLAY);
 
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
@@ -550,7 +550,7 @@ public class EncounterMapperTest {
 
     private void setUpCodeableConceptMock() {
 
-        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(null, SNOMED_SYSTEM, CODING_DISPLAY);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
             @Override

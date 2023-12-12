@@ -305,7 +305,7 @@ public class ObservationMapperTest {
     @Test
     public void When_MapObservation_WithoutSnomedCodeInCode_Expect_DegradedCodeableConcept() {
 
-        var codeableConcept = createCodeableConcept("1.2.3.4.5", null, CODING_DISPLAY_MOCK);
+        var codeableConcept = createCodeableConcept(null, "1.2.3.4.5", CODING_DISPLAY_MOCK);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
@@ -318,7 +318,7 @@ public class ObservationMapperTest {
     @Test
     public void When_MapObservation_WithSnomedCodeInCode_Expect_MappedWithoutDegrading() {
 
-        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY_MOCK);
+        var codeableConcept = createCodeableConcept(null, SNOMED_SYSTEM, CODING_DISPLAY_MOCK);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");

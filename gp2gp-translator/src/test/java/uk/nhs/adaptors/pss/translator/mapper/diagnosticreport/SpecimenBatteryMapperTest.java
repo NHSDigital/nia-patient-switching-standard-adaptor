@@ -60,7 +60,7 @@ public class SpecimenBatteryMapperTest {
     private static final DateTimeType OBSERVATION_EFFECTIVE = parseToDateTimeType("20100223000000");
     private static final String CODING_DISPLAY_MOCK = "Test Display";
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
-    private static final CodeableConcept CODEABLE_CONCEPT = createCodeableConcept(SNOMED_SYSTEM, null, CODING_DISPLAY_MOCK);
+    private static final CodeableConcept CODEABLE_CONCEPT = createCodeableConcept(null, SNOMED_SYSTEM, CODING_DISPLAY_MOCK);
     private final List<Encounter> encounters = generateEncounters();
 
     @Mock

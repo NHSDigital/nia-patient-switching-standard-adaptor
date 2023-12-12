@@ -37,9 +37,11 @@ import org.springframework.util.CollectionUtils;
 import io.micrometer.core.instrument.util.StringUtils;
 import uk.nhs.adaptors.pss.translator.util.AddressUtil;
 import uk.nhs.adaptors.pss.translator.util.TelecomUtil;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 public class AgentDirectoryMapper {
+
     private static final String PRACT_META_PROFILE = "Practitioner-1";
     private static final String ORG_META_PROFILE = "Organization-1";
     private static final String PRACT_ROLE_META_PROFILE = "PractitionerRole-1";
@@ -221,12 +223,13 @@ public class AgentDirectoryMapper {
     }
 
     private CodeableConcept getText(CV code) {
-        var codeableConcept = new CodeableConcept();
+
         if (code != null) {
             if (StringUtils.isNotEmpty(code.getOriginalText())) {
-                return codeableConcept.setText(code.getOriginalText());
+                return createCodeableConcept(code.getCode(), code.getCodeSystem(),
+                                             code.getDisplayName(), code.getOriginalText());
             } else if (StringUtils.isNotEmpty(code.getDisplayName())) {
-                return codeableConcept.setText(code.getDisplayName());
+                return createCodeableConcept(code.getCode(), code.getCodeSystem(), code.getDisplayName());
             }
         }
 

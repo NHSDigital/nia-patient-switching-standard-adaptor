@@ -252,7 +252,7 @@ public class ConditionMapperTest {
     @Test
     public void mapConditionWithSnomedCodeInCoding() {
 
-        var codeableConcept = createCodeableConcept("http://snomed.info/sct", "123456", "Display");
+        var codeableConcept = createCodeableConcept("123456", "http://snomed.info/sct", "Display");
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
 
