@@ -58,7 +58,7 @@ public class ReferralRequestMapperTest {
     @Test
     public void mapReferralRequestWithValidData() {
 
-        var codeableConcept = createCodeableConcept(SNOMED_SYSTEM, REASON_CODE_1, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(REASON_CODE_1, SNOMED_SYSTEM, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any()))
                 .thenReturn(codeableConcept);
 

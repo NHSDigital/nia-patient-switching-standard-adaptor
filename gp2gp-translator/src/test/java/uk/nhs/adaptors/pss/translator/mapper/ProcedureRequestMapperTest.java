@@ -217,7 +217,7 @@ public class ProcedureRequestMapperTest {
     }
 
     private void setUpCodeableConceptMock() {
-        var codeableConcept = createCodeableConcept(CODING_SYSTEM, CODING_CODE, CODING_DISPLAY);
+        var codeableConcept = createCodeableConcept(CODING_CODE, CODING_SYSTEM, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
     }
 

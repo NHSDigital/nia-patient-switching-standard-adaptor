@@ -321,8 +321,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private CodeableConcept generateCategory() {
-        return createCodeableConcept(CARE_CONNECT_URL,
-                                     PROBLEM_LIST_ITEM_CODE,
+        return createCodeableConcept(PROBLEM_LIST_ITEM_CODE,
+                                     CARE_CONNECT_URL,
                                      PROBLEM_LIST_ITEM_DISPLAY);
     }
 
@@ -347,17 +347,15 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .toList();
 
         // Parse bundle entries into condition reference extensions and return
-        var conditionExtensions = clinicalReferences
+        return clinicalReferences
             .stream()
             .map(BundleEntryComponent::getResource)
             .map(resource -> {
                 var reference = new Reference(resource);
                 reference.setReferenceElement(new StringType(resource.getId()));
-                var extension = buildReferenceExtension(RELATED_CLINICAL_CONTENT_URL, reference);
-                return extension;
+                return buildReferenceExtension(RELATED_CLINICAL_CONTENT_URL, reference);
             }).toList();
 
-        return conditionExtensions;
     }
 
     private List<String> getMedicationRequestIds(RCMRMT030101UK04EhrExtract ehrExtract, List<RCMRMT030101UK04StatementRef> statementRefs) {

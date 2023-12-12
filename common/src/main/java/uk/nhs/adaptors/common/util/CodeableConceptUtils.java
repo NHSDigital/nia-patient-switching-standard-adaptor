@@ -50,7 +50,7 @@ public class CodeableConceptUtils {
      *
      * @return CodeableConcept object with set code, system and display properties
      */
-    public static CodeableConcept createCodeableConcept(String system, String code, String display) {
+    public static CodeableConcept createCodeableConcept(String code, String system, String display) {
         var codeableConcept = new CodeableConcept();
         Coding coding = new Coding();
         coding.setSystem(system);

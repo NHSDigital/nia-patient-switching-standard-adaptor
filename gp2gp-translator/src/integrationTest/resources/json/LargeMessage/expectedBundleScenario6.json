@@ -61,11 +61,13 @@
             "value": "A28009"
           }
         ],
-        "type": [
-          {
-            "text": "General practice (organisation)"
-          }
-        ],
+        "type": [ {
+          "coding": [ {
+            "system": "2.16.840.1.113883.2.1.3.2.4.15",
+            "code": "394745000",
+            "display": "General practice (organisation)"
+          } ]
+        } ],
         "name": "NHS Digital Assurance GP2GP 1",
         "telecom": [
           {
@@ -118,11 +120,13 @@
         "organization": {
           "reference": "Organization/0B98DC27-535D-4BC1-A99F-AA5880A446E1"
         },
-        "code": [
-          {
-            "text": "Partner"
-          }
-        ]
+        "code": [ {
+          "coding": [ {
+            "code": "309394004",
+            "display": "General Practitioner Principal"
+          } ],
+          "text": "Partner"
+        } ]
       }
     },
     {
