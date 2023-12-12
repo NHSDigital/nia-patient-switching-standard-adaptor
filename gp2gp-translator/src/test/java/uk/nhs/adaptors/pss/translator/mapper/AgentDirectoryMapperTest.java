@@ -140,7 +140,7 @@ public class AgentDirectoryMapperTest {
         assertEquals(PRACT_ROLE_META_PROFILE, practitionerRole.getMeta().getProfile().get(0).getValue());
         assertEquals("Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6", practitionerRole.getPractitioner().getReference());
         assertEquals("Organization/94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG", practitionerRole.getOrganization().getReference());
-        assertEquals("General practice", practitionerRole.getCodeFirstRep().getText());
+        assertEquals("General practice", practitionerRole.getCode().get(0).getCoding().get(0).getDisplay());
     }
 
     @Test

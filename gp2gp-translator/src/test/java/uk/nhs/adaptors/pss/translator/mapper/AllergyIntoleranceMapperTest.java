@@ -469,11 +469,11 @@ public class AllergyIntoleranceMapperTest {
     }
 
     private CodeableConcept defaultCodeableConcept() {
-        return createCodeableConcept(SNOMED_CODE_SYSTEM, null, CODING_DISPLAY_1);
+        return createCodeableConcept(null, SNOMED_CODE_SYSTEM, CODING_DISPLAY_1);
     }
 
     private CodeableConcept secondaryCodeableConcept() {
-        return createCodeableConcept(SNOMED_CODE_SYSTEM, null, CODING_DISPLAY_2);
+        return createCodeableConcept(null, SNOMED_CODE_SYSTEM, CODING_DISPLAY_2);
     }
 
     private CodeableConcept tertiaryCodeableConcept() {
@@ -481,7 +481,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     private CodeableConcept nonSnomedCodeableConcept() {
-        return createCodeableConcept(MULTILEX_CODE_SYSTEM, MULTILEX_COCONUT_OIL, CODING_DISPLAY_4);
+        return createCodeableConcept(MULTILEX_COCONUT_OIL, MULTILEX_CODE_SYSTEM, CODING_DISPLAY_4);
     }
 
     @SneakyThrows

@@ -62,7 +62,6 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private static final String TEXT = "Text";
     private static final BigInteger MINUS_ONE = new BigInteger("-1");
 
-
     private final CodeableConceptMapper codeableConceptMapper;
     private final DatabaseImmunizationChecker immunizationChecker;
 
