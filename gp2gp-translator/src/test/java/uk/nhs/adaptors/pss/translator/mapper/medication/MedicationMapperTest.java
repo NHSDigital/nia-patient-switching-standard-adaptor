@@ -76,7 +76,7 @@ public class MedicationMapperTest {
                     <manufacturedProduct classCode="MANU">
                         <manufacturedMaterial classCode="MMAT" determinerCode="KIND">
                             <code code="05652001"
-                            codeSystem="2.16.840.1.113883.2.1.6.4" 
+                            codeSystem="2.16.840.1.113883.2.1.6.4"
                             displayName="AGAROL liquid [WARN/LAMB]"/>
                         </manufacturedMaterial>
                     </manufacturedProduct>
