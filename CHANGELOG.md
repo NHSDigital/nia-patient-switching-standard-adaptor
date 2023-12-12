@@ -5,12 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+* Fixed issue where mapping failed due to a Referral Request Priority not being found. 
+* Additional information (code, display and system) will be provided in PractionionerRole and Organization resources via Codeable Concept
 * Fixed a bug which could lead to medication resource not being mapped if a failure had occurred when processing the previous EhrExtract during the medication mapping stage
+
 
 ## [1.3.0] - 2023-12-11
 
-### Added
-* Additional information (code, display and system) will be provided in PractionionerRole and Organization resources via Codeable Concept  
+### Added 
 * In the event of a GP2GP failure, the raw error code is now available in the `/Patient/$gpc.migratestructuredrecord` response section with code system `2.16.840.1.113883.2.1.3.2.4.17.101`.
 
 ### Changed
