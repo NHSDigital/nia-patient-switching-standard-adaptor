@@ -11,13 +11,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -53,6 +55,10 @@ public class MedicationRequestMapperTest {
 
     @InjectMocks
     private MedicationRequestMapper medicationRequestMapper;
+
+    @Spy
+    @InjectMocks
+    private MedicationRequestMapper medicationRequestMapperStub;
 
     @Test
     public void When_MappingMedicationStatement_Expect_CorrectMappersToBeCalled() {
@@ -218,6 +224,38 @@ public class MedicationRequestMapperTest {
                 .get();
 
         assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAvailabilityTime.getValue());
+    }
+
+    @Test
+    public void When_MedicationRequestMapperThrowsException_ExpectMedicationMapperContextToBeReset() {
+        doThrow(new RuntimeException())
+                .when(medicationRequestMapperStub.mapEhrExtractToFhirResource(any(), any()));
+
+        try {
+            medicationRequestMapperStub.mapResources(any(), any(), any(), any());
+        }
+        catch (Exception ignored) { }
+
+        verify(medicationMapperContext).reset();
+    }
+
+    @Test
+    public void When_MedicationRequestMapperCompletesSuccessfully_ExpectMedicationMapperContextToBeReset() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
+
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any()))
+                .thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any()))
+                .thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any()))
+                .thenReturn(new MedicationStatement());
+        when(medicationMapper.createMedication(any()))
+                .thenReturn(new Medication());
+
+        medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
+
+        verify(medicationMapperContext).reset();
     }
 
     @SneakyThrows
