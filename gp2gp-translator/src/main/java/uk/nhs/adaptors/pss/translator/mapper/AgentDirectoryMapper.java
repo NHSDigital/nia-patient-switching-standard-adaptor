@@ -36,6 +36,7 @@ import org.springframework.util.CollectionUtils;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import uk.nhs.adaptors.pss.translator.util.AddressUtil;
+import uk.nhs.adaptors.pss.translator.util.CodeSystemsUtil;
 import uk.nhs.adaptors.pss.translator.util.TelecomUtil;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
@@ -222,14 +223,17 @@ public class AgentDirectoryMapper {
         return name != null ? name : UNKNOWN;
     }
 
+    /**
+     * @param code <a href="https://data.developer.nhs.uk/dms/mim/4.2.00/Domains/CMETs/Tabular%20View/RCCT_HD120100UK01-NoEdit.htm#Agent">See the code field of Agent in MiM</a>
+     */
     private CodeableConcept getText(CV code) {
-
         if (code != null) {
+            String codeSystem = code.getCodeSystem() != null ? code.getCodeSystem() : "2.16.840.1.113883.2.1.3.2.4.15";
             if (StringUtils.isNotEmpty(code.getOriginalText())) {
-                return createCodeableConcept(code.getCode(), code.getCodeSystem(),
+                return createCodeableConcept(code.getCode(), CodeSystemsUtil.getFhirCodeSystem(codeSystem),
                                              code.getDisplayName(), code.getOriginalText());
             } else if (StringUtils.isNotEmpty(code.getDisplayName())) {
-                return createCodeableConcept(code.getCode(), code.getCodeSystem(), code.getDisplayName());
+                return createCodeableConcept(code.getCode(), CodeSystemsUtil.getFhirCodeSystem(codeSystem), code.getDisplayName());
             }
         }
 

@@ -15,11 +15,14 @@ import org.hl7.fhir.dstu3.model.HumanName.NameUse;
 import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
 import org.junit.jupiter.api.Test;
 
+import javax.xml.bind.JAXBException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.util.List;
 
@@ -72,6 +75,63 @@ public class AgentDirectoryMapperTest {
         assertEquals("Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6", practitionerRole.getPractitioner().getReference());
         assertEquals("Organization/94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG", practitionerRole.getOrganization().getReference());
         assertThat(practitionerRole.getCode()).isEmpty();
+    }
+
+    @Test
+    public void mapPractitionerRoleWithCodeMissingItsCodeSystemField() throws JAXBException {
+        // The MiM states that:
+        //  > The codeSystem attribute will contain an OID with the value "2.16.840.1.113883.6.96";
+        // This is not always the case, and so we manually populate the codeSystem where it has been omitted.
+
+        var agentDirectory = unmarshallString("""
+             <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
+                 <part typeCode="PART">
+                     <Agent classCode="AGNT">
+                         <id root="94F00D99-0601-4A8E-AD1D-1B564307B0A6"/>
+                         <code code="394745000" displayName="General practice" />
+                         <!-- ⚠️ ⬆️️Missing codeSystem attribute -->
+                         <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                             <name>
+                                 <family>Test</family>
+                             </name>
+                         </agentPerson>
+                         <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                             <name>TEMPLE SOWERBY MEDICAL PRACTICE</name>
+                         </representedOrganization>
+                     </Agent>
+                 </part>
+             </agentDirectory>""", RCMRMT030101UK04AgentDirectory.class);
+
+        var agents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        assertThat(((PractitionerRole) agents.get(2)).getCodeFirstRep().getCodingFirstRep().getSystem()).isEqualTo("http://snomed.info/sct");
+    }
+
+    @Test
+    public void mapPractitionerRoleWithNonSnomedCode() throws JAXBException {
+        // The MiM states that:
+        //  > The codeSystem attribute will contain an OID with the value "2.16.840.1.113883.6.96";
+        // We haven't seen any Read codes, but it seems prudent to map the codeSystem if we ever did see it.
+
+        var agentDirectory = unmarshallString("""
+             <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
+                 <part typeCode="PART">
+                     <Agent classCode="AGNT">
+                         <id root="94F00D99-0601-4A8E-AD1D-1B564307B0A6"/>
+                         <code codeSystem="2.16.840.1.113883.2.1.6.2" code="1234" displayName="General practice" />
+                         <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                             <name>
+                                 <family>Test</family>
+                             </name>
+                         </agentPerson>
+                         <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                             <name>TEMPLE SOWERBY MEDICAL PRACTICE</name>
+                         </representedOrganization>
+                     </Agent>
+                 </part>
+             </agentDirectory>""", RCMRMT030101UK04AgentDirectory.class);
+
+        var agents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        assertThat(((PractitionerRole) agents.get(2)).getCodeFirstRep().getCodingFirstRep().getSystem()).isEqualTo("http://read.info/readv2");
     }
 
     @Test
