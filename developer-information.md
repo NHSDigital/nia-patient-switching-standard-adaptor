@@ -51,6 +51,38 @@ Please make sure to load the latest release of Snomed CT UK Edition. See [Config
 First identify which is the most recent commit within GitHub which contains only changes which are marked as Done within Jira.
 You can also review what commits have gone in by using the git log command or IDE.
 
+### Perform a smoke test of the release
+
+Deploy this commit to the AWS Path to Live environment.
+
+1. Clicking through to the successful Jenkins build of your commit
+1. Navigate to the "Push Image" section of the pipeline, looking for an entry which looks like
+   ```
+   docker push ...amazonaws.com/pss_gpc_facade:<TAG_NAME>
+   ```
+1. Make a note of the <TAG_NAME> so it can be deployed in the step below.
+1. Log into the [Jenkins Terraform project][jenkins-terraform] and specify project=`nia`, Environment=`ptl`,
+   component=`pss`, action=`apply`, variables=`pss_build_id=<TAG_NAME>` and click the Build button waiting
+   for the build to finish successfully
+
+[jenkins-terraform]: http://ec2-35-177-12-25.eu-west-2.compute.amazonaws.com/job/Terraform/build?delay=0sec
+
+Perform an end to end smoke test of the adaptor by transferring the patient 9729962871 from C88046 to P83007 using the
+[instructions on Confluence][e2e-ptl-test-instructions].
+This patient record has:
+
+1. An allergy to penicillin
+1. A picture of the Colosseum as a document
+
+Request the patient using the adaptor and check that the allergy is mapped into the Bundle,
+and that the document has been transferred to S3.
+
+Reject the transfer by sending a FAILED_TO_INTEGRATE response, that way we can reuse the same patient.
+
+[e2e-ptl-test-instructions]: https://gpitbjss.atlassian.net/wiki/spaces/NIA/pages/12540018795/Testing+an+NME+winning+scenario+PS+Adaptor
+
+### Performing the release
+
 Make a note of the most recent Release within GitHub, and identify what the next version number to use will be.
 
 Create a new release within GitHub, specifying the tag as the version to use (e.g. 1.2.7), and the target being the commit you identified.
