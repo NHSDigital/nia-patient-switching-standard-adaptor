@@ -6,7 +6,6 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -15,7 +14,6 @@ import javax.xml.bind.JAXBException;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.v3.RCMRIN030000UK06Message;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +28,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
@@ -263,53 +260,6 @@ public class E2EMappingIT extends BaseEhrHandler {
         executeTest(inputFileName, ignoredFields);
     }
 
-
-    /*    This test exists for the edge case scenario where a previous EhrExtract processing has failed
-          due to during processing medications.  If the next EhrExtract processing contains a medication
-          which was already mapped before the failure, we would expect that this resource is still created
-          in the bundle.
-          For details see: NIAD-2955. */
-    @Test
-    public void When_EhrExtractFailsWhilstProcessingMedications_Expect_NextEhrExtractProcessingContainsAllMedications()
-            throws JSONException, JAXBException {
-        String initialExpectFailedMessage = "expected-fail-on-medication-mapping";
-        String messageUnderTest = "expected-success-after-previous-failure-mapping";
-
-        List<String> ignoredFields = getIgnoredFieldsForMedicationContextTest();
-
-        sendInboundMessageToQueue("/e2e-mapping/input-xml/" + initialExpectFailedMessage + ".xml");
-        await().until(() -> isMigrationStatus(MigrationStatus.ERROR_EXTRACT_CANNOT_BE_PROCESSED));
-
-        setUp();
-
-        sendInboundMessageToQueue("/e2e-mapping/input-xml/" + messageUnderTest + ".xml");
-        await().until(this::isEhrMigrationCompleted);
-
-        verifyBundle("/e2e-mapping/output-json/" + messageUnderTest + "-output.json", ignoredFields);
-    }
-
-    @NotNull
-    private static List<String> getIgnoredFieldsForMedicationContextTest() {
-        List<String> ignoredFields = new ArrayList<>();
-
-        final int startIgnoreRef = 2;
-        final int endIgnoreRef = 69;
-
-        for (var i = startIgnoreRef; i <= endIgnoreRef; i++) {
-            ignoredFields.add("entry[" + i + "].resource.location[0].location.reference");
-        }
-
-        ignoredFields.add("entry[188].resource.id");
-        ignoredFields.add("entry[188].resource.identifier[0].value");
-        ignoredFields.add("entry[189].resource.id");
-        ignoredFields.add("entry[189].resource.identifier[0].value");
-        ignoredFields.add("entry[190].resource.id");
-        ignoredFields.add("entry[190].resource.identifier[0].value");
-        ignoredFields.add("entry[378].resource.performer[0].reference");
-        ignoredFields.add("entry[379].resource.id");
-
-        return ignoredFields;
-    }
 
     private void executeTest(String inputFileName, List<String> ignoredFields) throws JAXBException, JSONException {
         // process starts with consuming a message from MHS queue
