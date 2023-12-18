@@ -11,12 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -56,26 +55,30 @@ public class MedicationRequestMapperTest {
     @InjectMocks
     private MedicationRequestMapper medicationRequestMapper;
 
-    @Spy
-    @InjectMocks
-    private MedicationRequestMapper medicationRequestMapperStub;
-
     @Test
     public void When_MappingMedicationStatement_Expect_CorrectMappersToBeCalled() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
 
-        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
-        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
-        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
-        when(medicationMapper.createMedication(any())).thenReturn(new Medication());
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any()))
+                .thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any()))
+                .thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any()))
+                .thenReturn(new MedicationStatement());
+        when(medicationMapper.createMedication(any()))
+                .thenReturn(new Medication());
 
-        var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
-            PRACTISE_CODE);
+        var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
 
-        verify(medicationRequestPlanMapper, times(DOUBLE_INVOCATION)).mapToPlanMedicationRequest(any(), any(), any(), any());
-        verify(medicationRequestOrderMapper, times(SINGLE_INVOCATION)).mapToOrderMedicationRequest(any(), any(), any(), any());
-        verify(medicationStatementMapper, times(DOUBLE_INVOCATION)).mapToMedicationStatement(any(), any(), any(), any(), any());
-        verify(medicationMapper, times(SINGLE_INVOCATION)).createMedication(any());
+        verify(medicationRequestPlanMapper, times(DOUBLE_INVOCATION))
+                .mapToPlanMedicationRequest(any(), any(), any(), any());
+        verify(medicationRequestOrderMapper, times(SINGLE_INVOCATION))
+                .mapToOrderMedicationRequest(any(), any(), any(), any());
+        verify(medicationStatementMapper, times(DOUBLE_INVOCATION))
+                .mapToMedicationStatement(any(), any(), any(), any(), any());
+        verify(medicationMapper, times(SINGLE_INVOCATION))
+                .createMedication(any());
 
         assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
         resources
@@ -104,21 +107,25 @@ public class MedicationRequestMapperTest {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_AvailabilityTimeSetInMedicationStatement.xml");
         var expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20100116");
 
-        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
-        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
-        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
-        when(medicationMapper.createMedication(any())).thenReturn(new Medication());
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any()))
+                .thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any()))
+                .thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any()))
+                .thenReturn(new MedicationStatement());
+        when(medicationMapper.createMedication(any()))
+                .thenReturn(new Medication());
 
-        var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
-                PRACTISE_CODE);
+        var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
 
         assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
 
         var medicationRequest = resources
                 .stream()
-                .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
-                .map(MedicationRequest.class::cast)
-                .findFirst()
+                        .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
+                        .map(MedicationRequest.class::cast)
+                        .findFirst()
                 .get();
 
         assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAvailabilityTime.getValue());
@@ -228,13 +235,18 @@ public class MedicationRequestMapperTest {
 
     @Test
     public void When_MedicationRequestMapperThrowsException_ExpectMedicationMapperContextToBeReset() {
-        doThrow(new RuntimeException())
-                .when(medicationRequestMapperStub.mapEhrExtractToFhirResource(any(), any()));
+        var ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
 
-        try {
-            medicationRequestMapperStub.mapResources(any(), any(), any(), any());
-        }
-        catch (Exception ignored) { }
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any()))
+                .thenThrow(NullPointerException.class);
+
+        assertThrows(
+                NullPointerException.class,
+                () -> medicationRequestMapper.mapResources(
+                        ehrExtract,
+                        (Patient) new Patient().setId(PATIENT_ID),
+                        List.of(),
+                        PRACTISE_CODE));
 
         verify(medicationMapperContext).reset();
     }
@@ -242,15 +254,6 @@ public class MedicationRequestMapperTest {
     @Test
     public void When_MedicationRequestMapperCompletesSuccessfully_ExpectMedicationMapperContextToBeReset() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
-
-        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any()))
-                .thenReturn(new MedicationRequest());
-        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any()))
-                .thenReturn(new MedicationRequest());
-        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any()))
-                .thenReturn(new MedicationStatement());
-        when(medicationMapper.createMedication(any()))
-                .thenReturn(new Medication());
 
         medicationRequestMapper
                 .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
