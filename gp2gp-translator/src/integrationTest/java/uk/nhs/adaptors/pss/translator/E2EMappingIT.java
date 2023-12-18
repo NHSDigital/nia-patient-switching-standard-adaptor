@@ -126,14 +126,14 @@ public class E2EMappingIT extends BaseEhrHandler {
         String inputFileName = "PWTP4";
 
         List<String> ignoredFields = List.of(
-            "entry[6].resource.location[0].location.reference",
-            "entry[7].resource.location[0].location.reference",
-            "entry[8].resource.location[0].location.reference",
-            "entry[9].resource.location[0].location.reference",
-            "entry[10].resource.location[0].location.reference",
-            "entry[11].resource.location[0].location.reference",
-            "entry[44].resource.id",
-            "entry[44].resource.identifier[0].value"
+                "entry[6].resource.location[0].location.reference",
+                "entry[7].resource.location[0].location.reference",
+                "entry[8].resource.location[0].location.reference",
+                "entry[9].resource.location[0].location.reference",
+                "entry[10].resource.location[0].location.reference",
+                "entry[11].resource.location[0].location.reference",
+                "entry[44].resource.id",
+                "entry[44].resource.identifier[0].value"
         );
 
         executeTest(inputFileName, ignoredFields);
@@ -213,7 +213,7 @@ public class E2EMappingIT extends BaseEhrHandler {
                 "entry[24].resource.location[0].location.reference",
                 "entry[89].resource.id",
                 "entry[89].resource.identifier[0].value"
-                );
+        );
 
         executeTest(inputFileName, ignoredFields);
     }
@@ -259,6 +259,7 @@ public class E2EMappingIT extends BaseEhrHandler {
 
         executeTest(inputFileName, ignoredFields);
     }
+
 
     private void executeTest(String inputFileName, List<String> ignoredFields) throws JAXBException, JSONException {
         // process starts with consuming a message from MHS queue

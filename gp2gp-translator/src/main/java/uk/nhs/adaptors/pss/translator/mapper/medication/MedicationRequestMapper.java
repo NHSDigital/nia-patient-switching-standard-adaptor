@@ -25,7 +25,6 @@ import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
-
 import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -40,17 +39,18 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
     private static final String PPRF = "PPRF";
     private static final String PRF = "PRF";
-
     public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
-        var medicationResources =  mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
-            extractAllMedications(component)
-                .filter(Objects::nonNull)
-                .flatMap(medicationStatement
-                    -> mapMedicationStatement(ehrExtract, composition, medicationStatement, patient, encounters, practiseCode)))
-            .toList();
-        medicationMapperContext.reset();
-        return medicationResources;
+        try {
+            return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+                    extractAllMedications(component)
+                            .filter(Objects::nonNull)
+                            .flatMap(medicationStatement -> mapMedicationStatement(
+                                    ehrExtract, composition, medicationStatement, patient, encounters, practiseCode)))
+                    .toList();
+        } finally {
+            medicationMapperContext.reset();
+        }
     }
 
     private Stream<DomainResource> mapMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,

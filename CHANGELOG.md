@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 * Fixed issue where mapping failed due to a Referral Request Priority not being found. 
 * Additional information (code, display and system) will be provided in PractionionerRole and Organization resources via Codeable Concept
+* Fixed a bug which could lead to medication resource not being mapped if a failure had occurred when processing the previous EhrExtract during the medication mapping stage
+
 
 ## [1.3.0] - 2023-12-11
 
