@@ -8,7 +8,7 @@ COPY --chown=gradle:gradle ./config /home/gradle/service/config
 WORKDIR /home/gradle/service/gpc-api-facade
 RUN ./gradlew --build-cache bootJar
 
-FROM eclipse-temurin:17
+FROM eclipse-temurin:17-jre-focal
 
 EXPOSE 8081
 
