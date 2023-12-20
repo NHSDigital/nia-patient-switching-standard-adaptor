@@ -10,7 +10,7 @@ import lombok.SneakyThrows;
 @Service
 public class RequestBuilderService {
 
-    private static final int BYTE_COUNT = 16 * 1024 * 1024;
+    private static final int BYTE_COUNT = 150 * 1024 * 1024;
 
     @SneakyThrows
     public SslContext buildSSLContext() {
