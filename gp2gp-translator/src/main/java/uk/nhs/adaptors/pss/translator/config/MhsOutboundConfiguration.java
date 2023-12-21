@@ -11,6 +11,9 @@ import lombok.Setter;
 @Component
 @ConfigurationProperties(prefix = "mhs")
 public class MhsOutboundConfiguration {
+
     private String url;
+    private int maxRequestSize;
+
 }
 
