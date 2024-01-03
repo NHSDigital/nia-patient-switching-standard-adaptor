@@ -2,16 +2,18 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import lombok.SneakyThrows;
 
-import org.hl7.fhir.dstu3.model.*;
+import org.hl7.fhir.dstu3.model.Address;
 import org.hl7.fhir.dstu3.model.Address.AddressUse;
 import org.hl7.fhir.dstu3.model.Address.AddressType;
+import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.ContactPoint.ContactPointSystem;
 import org.hl7.fhir.dstu3.model.ContactPoint.ContactPointUse;
 import org.hl7.fhir.dstu3.model.HumanName.NameUse;
+import org.hl7.fhir.dstu3.model.Organization;
+import org.hl7.fhir.dstu3.model.Practitioner;
+import org.hl7.fhir.dstu3.model.PractitionerRole;
 import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
 import org.junit.jupiter.api.Test;
-
-import javax.xml.bind.JAXBException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -72,35 +74,6 @@ public class AgentDirectoryMapperTest {
         assertEquals("Practitioner/94F00D99-0601-4A8E-AD1D-1B564307B0A6", practitionerRole.getPractitioner().getReference());
         assertEquals("Organization/94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG", practitionerRole.getOrganization().getReference());
         assertThat(practitionerRole.getCode()).isEmpty();
-    }
-
-    @Test
-    public void mapPractitionerRoleWithCodeMissingItsCodeSystemField() throws JAXBException {
-        // The MiM states that:
-        //  > The codeSystem attribute will contain an OID with the value "2.16.840.1.113883.6.96";
-        // This is not always the case, and so we manually populate the codeSystem where it has been omitted.
-
-        var agentDirectory = unmarshallString("""
-                <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
-                    <part typeCode="PART">
-                        <Agent classCode="AGNT">
-                            <id root="94F00D99-0601-4A8E-AD1D-1B564307B0A6"/>
-                            <code code="394745000" displayName="General practice" />
-                            <!-- ⚠️ ⬆️️Missing codeSystem attribute -->
-                            <agentPerson classCode="PSN" determinerCode="INSTANCE">
-                                <name>
-                                    <family>Test</family>
-                                </name>
-                            </agentPerson>
-                            <representedOrganization classCode="ORG" determinerCode="INSTANCE">
-                                <name>TEMPLE SOWERBY MEDICAL PRACTICE</name>
-                            </representedOrganization>
-                        </Agent>
-                    </part>
-                </agentDirectory>""", RCMRMT030101UK04AgentDirectory.class);
-
-        var agents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
-        assertThat(((PractitionerRole) agents.get(2)).getCodeFirstRep().getCodingFirstRep().getSystem()).isEqualTo("http://snomed.info/sct");
     }
 
     @Test
@@ -328,7 +301,7 @@ public class AgentDirectoryMapperTest {
     }
 
     @Test
-    public void mapAgentDirectoryOnlyAgentOrganizationWithWPAddress() {
+    public void  mapAgentDirectoryOnlyAgentOrganizationWithWPAddress() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_org_wp_address_example.xml");
 
         List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
@@ -345,7 +318,7 @@ public class AgentDirectoryMapperTest {
     }
 
     @Test
-    public void When_AgentContainsCodeWithSnomedSystemCodeProvided_Expect_SnomedSystemCodeIsMappedToCodeSystem() {
+    public void When_AgentContainsCodeWithSnomedSystemCodeProvided_Expect_SnomedCodeSystemUrlIsMappedToSystem() {
         var inputXml = """
                     <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
                         <part typeCode="PART">
@@ -381,7 +354,7 @@ public class AgentDirectoryMapperTest {
     }
 
     @Test
-    public void mapPractitionerRoleWithKnownNonSnomedCode() throws JAXBException {
+    public void When_AgentContainsCodeWithKnownNonSnomedSystemCodeProvided_Expect_CodeSystemUrlIsMappedToSystem() {
         // The MiM states that:
         //  > The codeSystem attribute will contain an OID with the value "2.16.840.1.113883.6.96";
         // We haven't seen any Read codes, but it seems prudent to map the codeSystem if we ever did see it.
@@ -420,24 +393,24 @@ public class AgentDirectoryMapperTest {
     }
 
     @Test
-    public void When_AgentContainsCodeWithNonSnomedSystemCodeProvided_Expect_OriginalCodeSystemIsMappedToCodeSystem() {
+    public void When_AgentContainsCodeWithNonSnomedSystemCodeProvided_Expect_SystemCodeIsMappedToSystem() {
         var inputXml = """
                     <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
                         <part typeCode="PART">
-                        	<Agent classCode="AGNT">
-                        		<id root="E9F2B192-6DC7-11EE-9D98-00155D78C707" />
-                        		<code code="1234"
-                        		codeSystem="1.2.3.4.5.6"
-                        		displayName="Other person" />
-                        		<agentPerson classCode="PSN" determinerCode="INSTANCE">
+                            <Agent classCode="AGNT">
+                                <id root="E9F2B192-6DC7-11EE-9D98-00155D78C707" />
+                                <code code="1234"
+                                codeSystem="1.2.3.4.5.6"
+                                displayName="Other person" />
+                                <agentPerson classCode="PSN" determinerCode="INSTANCE">
                                     <name>
                                         <family>Test</family>
                                     </name>
-                        		</agentPerson>
-                        		<representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                                </agentPerson>
+                                <representedOrganization classCode="ORG" determinerCode="INSTANCE">
                                     <name>TEMPLE SOWERBY MEDICAL PRACTICE</name>
                                 </representedOrganization>
-                        	</Agent>
+                            </Agent>
                         </part>
                     </agentDirectory>
                     """;

@@ -53,7 +53,6 @@ public class AgentDirectoryMapper {
     private static final String PRACTITIONER_ROLE_SUFFIX = "-PR";
     private static final String ORG_ROOT = "2.16.840.1.113883.2.1.4.3";
     private static final String UNKNOWN = "Unknown";
-    private static final String SNOMED_SYSTEM_CODE = "2.16.840.1.113883.2.1.3.2.4.15";
     private static final String GMP_NUMBER_SYSTEM_CODE = "https://fhir.hl7.org.uk/Id/gmp-number";
 
     public List<? extends DomainResource> mapAgentDirectory(RCMRMT030101UK04AgentDirectory agentDirectory) {
@@ -223,22 +222,29 @@ public class AgentDirectoryMapper {
      * @param code <a href="https://data.developer.nhs.uk/dms/mim/4.2.00/Domains/CMETs/Tabular%20View/RCCT_HD120100UK01-NoEdit.htm#Agent">See the code field of Agent in MiM</a>
      */
     private CodeableConcept getText(CV code) {
+
+        // It is unclear if it is valid to have a code without a code system, an assumption has been made for NIAD-2989
+        // that in the case of missing code system we will leave the codeSystem blank.  This may need to be revisited
+        // if this is not the case
+
         if (code != null) {
-            String codeSystem = StringUtils.isEmpty(code.getCodeSystem())
-                    ? SNOMED_SYSTEM_CODE
-                    : code.getCodeSystem();
+
+
+            var codeSystem = code.hasCodeSystem()
+                    ? CodeSystemsUtil.getFhirCodeSystem(code.getCodeSystem())
+                    : null;
 
             if (StringUtils.isNotEmpty(code.getOriginalText())) {
                 return createCodeableConcept(
                         code.getCode(),
-                        CodeSystemsUtil.getFhirCodeSystem(codeSystem),
+                        codeSystem,
                         code.getDisplayName(),
                         code.getOriginalText());
 
             } else if (StringUtils.isNotEmpty(code.getDisplayName())) {
                 return createCodeableConcept(
                         code.getCode(),
-                        CodeSystemsUtil.getFhirCodeSystem(codeSystem),
+                        codeSystem,
                         code.getDisplayName());
             }
         }
