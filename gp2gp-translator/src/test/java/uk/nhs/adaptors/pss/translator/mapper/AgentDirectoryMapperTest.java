@@ -2,13 +2,9 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import lombok.SneakyThrows;
 
-import org.hl7.fhir.dstu3.model.Address;
+import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Address.AddressUse;
 import org.hl7.fhir.dstu3.model.Address.AddressType;
-import org.hl7.fhir.dstu3.model.ContactPoint;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.PractitionerRole;
 import org.hl7.fhir.dstu3.model.ContactPoint.ContactPointSystem;
 import org.hl7.fhir.dstu3.model.ContactPoint.ContactPointUse;
 import org.hl7.fhir.dstu3.model.HumanName.NameUse;
@@ -18,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import javax.xml.bind.JAXBException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -32,7 +29,7 @@ public class AgentDirectoryMapperTest {
     private static final String PRACT_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1";
     private static final String ORG_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Organization-1";
     private static final String PRACT_ROLE_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC"
-        + "-PractitionerRole-1";
+            + "-PractitionerRole-1";
     private final AgentDirectoryMapper agentDirectoryMapper = new AgentDirectoryMapper();
     private static final String ORG_IDENTIFIER_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
     private static final int TELECOM_RANK = 1;
@@ -84,61 +81,33 @@ public class AgentDirectoryMapperTest {
         // This is not always the case, and so we manually populate the codeSystem where it has been omitted.
 
         var agentDirectory = unmarshallString("""
-             <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
-                 <part typeCode="PART">
-                     <Agent classCode="AGNT">
-                         <id root="94F00D99-0601-4A8E-AD1D-1B564307B0A6"/>
-                         <code code="394745000" displayName="General practice" />
-                         <!-- ⚠️ ⬆️️Missing codeSystem attribute -->
-                         <agentPerson classCode="PSN" determinerCode="INSTANCE">
-                             <name>
-                                 <family>Test</family>
-                             </name>
-                         </agentPerson>
-                         <representedOrganization classCode="ORG" determinerCode="INSTANCE">
-                             <name>TEMPLE SOWERBY MEDICAL PRACTICE</name>
-                         </representedOrganization>
-                     </Agent>
-                 </part>
-             </agentDirectory>""", RCMRMT030101UK04AgentDirectory.class);
+                <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
+                    <part typeCode="PART">
+                        <Agent classCode="AGNT">
+                            <id root="94F00D99-0601-4A8E-AD1D-1B564307B0A6"/>
+                            <code code="394745000" displayName="General practice" />
+                            <!-- ⚠️ ⬆️️Missing codeSystem attribute -->
+                            <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                <name>
+                                    <family>Test</family>
+                                </name>
+                            </agentPerson>
+                            <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                                <name>TEMPLE SOWERBY MEDICAL PRACTICE</name>
+                            </representedOrganization>
+                        </Agent>
+                    </part>
+                </agentDirectory>""", RCMRMT030101UK04AgentDirectory.class);
 
         var agents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
         assertThat(((PractitionerRole) agents.get(2)).getCodeFirstRep().getCodingFirstRep().getSystem()).isEqualTo("http://snomed.info/sct");
     }
 
     @Test
-    public void mapPractitionerRoleWithNonSnomedCode() throws JAXBException {
-        // The MiM states that:
-        //  > The codeSystem attribute will contain an OID with the value "2.16.840.1.113883.6.96";
-        // We haven't seen any Read codes, but it seems prudent to map the codeSystem if we ever did see it.
-
-        var agentDirectory = unmarshallString("""
-             <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
-                 <part typeCode="PART">
-                     <Agent classCode="AGNT">
-                         <id root="94F00D99-0601-4A8E-AD1D-1B564307B0A6"/>
-                         <code codeSystem="2.16.840.1.113883.2.1.6.2" code="1234" displayName="General practice" />
-                         <agentPerson classCode="PSN" determinerCode="INSTANCE">
-                             <name>
-                                 <family>Test</family>
-                             </name>
-                         </agentPerson>
-                         <representedOrganization classCode="ORG" determinerCode="INSTANCE">
-                             <name>TEMPLE SOWERBY MEDICAL PRACTICE</name>
-                         </representedOrganization>
-                     </Agent>
-                 </part>
-             </agentDirectory>""", RCMRMT030101UK04AgentDirectory.class);
-
-        var agents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
-        assertThat(((PractitionerRole) agents.get(2)).getCodeFirstRep().getCodingFirstRep().getSystem()).isEqualTo("http://read.info/readv2");
-    }
-
-    @Test
     public void mapAgentDirectoryWithAgentPersonAndGeneralPractitionerNumber() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_org_with_general_practitioner_number.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
         var practitioner = (Practitioner) mappedAgents.get(0);
 
         assertEquals("E7E7B550-09EF-BE85-C20F-34598014166C", practitioner.getId());
@@ -229,6 +198,7 @@ public class AgentDirectoryMapperTest {
         assertThat(mappedAgents).hasSize(1);
 
         var practitioner = (Practitioner) mappedAgents.get(0);
+
         assertThat(practitioner.getId()).isEqualTo("95D00D99-0601-4A8E-AD1D-1B564307B0A6");
         assertThat(practitioner.getMeta().getProfile().get(0).getValue()).isEqualTo(PRACT_META_PROFILE);
         assertThat(practitioner.getNameFirstRep().getUse()).isEqualTo(NameUse.OFFICIAL);
@@ -374,6 +344,117 @@ public class AgentDirectoryMapperTest {
         assertAddress(organization.getAddressFirstRep());
     }
 
+    @Test
+    public void When_AgentContainsCodeWithSnomedSystemCodeProvided_Expect_SnomedSystemCodeIsMappedToCodeSystem() {
+        var inputXml = """
+                    <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
+                        <part typeCode="PART">
+                            <Agent classCode="AGNT">
+                                <id root="94F00D99-0601-4A8E-AD1D-1B564307B0A6"/>
+                                <code codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                code="1234"
+                                displayName="General practice" />
+                                <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                    <name>
+                                        <family>Test</family>
+                                    </name>
+                                </agentPerson>
+                                <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                                    <name>TEMPLE SOWERBY MEDICAL PRACTICE</name>
+                                </representedOrganization>
+                            </Agent>
+                        </part>
+                    </agentDirectory>
+                    """;
+        var agentDirectory = unmarshallAgentDirectoryFromXmlString(inputXml);
+
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+
+        var practitionerRole = (PractitionerRole) mappedAgents.get(2);
+        var coding = practitionerRole.getCode().get(0).getCoding().get(0);
+
+        assertAll(
+                () -> assertEquals("1234", coding.getCode()),
+                () -> assertEquals("http://snomed.info/sct", coding.getSystem()),
+                () -> assertEquals("General practice", coding.getDisplay())
+        );
+    }
+
+    @Test
+    public void mapPractitionerRoleWithKnownNonSnomedCode() throws JAXBException {
+        // The MiM states that:
+        //  > The codeSystem attribute will contain an OID with the value "2.16.840.1.113883.6.96";
+        // We haven't seen any Read codes, but it seems prudent to map the codeSystem if we ever did see it.
+
+        var inputXml = """
+                    <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
+                        <part typeCode="PART">
+                            <Agent classCode="AGNT">
+                                <id root="94F00D99-0601-4A8E-AD1D-1B564307B0A6"/>
+                                <code codeSystem="2.16.840.1.113883.2.1.6.2"
+                                code="1234"
+                                displayName="General practice" />
+                                <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                    <name>
+                                        <family>Test</family>
+                                    </name>
+                                </agentPerson>
+                                <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                                    <name>TEMPLE SOWERBY MEDICAL PRACTICE</name>
+                                </representedOrganization>
+                            </Agent>
+                        </part>
+                    </agentDirectory>
+                    """;
+        var agentDirectory = unmarshallAgentDirectoryFromXmlString(inputXml);
+
+        var agents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var practitionerRole = (PractitionerRole) agents.get(2);
+        var coding = practitionerRole.getCode().get(0).getCoding().get(0);
+
+        assertAll(
+                () -> assertEquals("1234", coding.getCode()),
+                () -> assertEquals("http://read.info/readv2", coding.getSystem()),
+                () -> assertEquals("General practice", coding.getDisplay())
+        );
+    }
+
+    @Test
+    public void When_AgentContainsCodeWithNonSnomedSystemCodeProvided_Expect_OriginalCodeSystemIsMappedToCodeSystem() {
+        var inputXml = """
+                    <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
+                        <part typeCode="PART">
+                        	<Agent classCode="AGNT">
+                        		<id root="E9F2B192-6DC7-11EE-9D98-00155D78C707" />
+                        		<code code="1234"
+                        		codeSystem="1.2.3.4.5.6"
+                        		displayName="Other person" />
+                        		<agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                    <name>
+                                        <family>Test</family>
+                                    </name>
+                        		</agentPerson>
+                        		<representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                                    <name>TEMPLE SOWERBY MEDICAL PRACTICE</name>
+                                </representedOrganization>
+                        	</Agent>
+                        </part>
+                    </agentDirectory>
+                    """;
+        var agentDirectory = unmarshallAgentDirectoryFromXmlString(inputXml);
+
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+
+        var practitionerRole = (PractitionerRole) mappedAgents.get(2);
+        var coding = practitionerRole.getCode().get(0).getCoding().get(0);
+
+        assertAll(
+                () -> assertEquals("1234", coding.getCode()),
+                () -> assertEquals("1.2.3.4.5.6", coding.getSystem()),
+                () -> assertEquals("Other person", coding.getDisplay())
+        );
+    }
+
     private void assertAddress(Address address) {
         assertEquals(AddressUse.WORK, address.getUse());
         assertEquals(AddressType.PHYSICAL, address.getType());
@@ -393,5 +474,10 @@ public class AgentDirectoryMapperTest {
     @SneakyThrows
     private RCMRMT030101UK04AgentDirectory unmarshallAgentDirectoryElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04AgentDirectory.class);
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UK04AgentDirectory unmarshallAgentDirectoryFromXmlString(String inputXml) {
+        return unmarshallString(inputXml, RCMRMT030101UK04AgentDirectory.class);
     }
 }
