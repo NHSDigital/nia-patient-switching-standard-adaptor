@@ -222,14 +222,15 @@ public class AgentDirectoryMapper {
      * @param code <a href="https://data.developer.nhs.uk/dms/mim/4.2.00/Domains/CMETs/Tabular%20View/RCCT_HD120100UK01-NoEdit.htm#Agent">See the code field of Agent in MiM</a>
      */
     private CodeableConcept getText(CV code) {
+        /* It is unclear if it is valid to have a code without a code system, an assumption has been made for NIAD-2989
+           that in the case of missing code system we will leave the codeSystem blank.
+           This may need to be revisited if this is not the case.
 
-        // It is unclear if it is valid to have a code without a code system, an assumption has been made for NIAD-2989
-        // that in the case of missing code system we will leave the codeSystem blank.  This may need to be revisited
-        // if this is not the case
+           See example in gp2gp-translator/src/integrationTest/resources/json/LargeMessage/Scenario_5/uk06.json
+             <code code="309394004" displayName="General Practitioner Principal">
+        */
 
         if (code != null) {
-
-
             var codeSystem = code.hasCodeSystem()
                     ? CodeSystemsUtil.getFhirCodeSystem(code.getCodeSystem())
                     : null;
