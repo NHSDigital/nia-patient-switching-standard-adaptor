@@ -100,7 +100,23 @@ public class ImmunizationMapperTest {
                                     immunization.getPractitioner().get(1).getActor().getReference());
         assertEquals("AP",
                                     immunization.getPractitioner().get(1).getRole().getText());
+    }
 
+    @Test
+    public void mapObservationToImmunizationWhenEhrCompositionWithOneObservationParticipant() {
+        var ehrExtract = unmarshallEhrExtract("immunization_with_ehr_composition_with_one_observation_participant.xml");
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
+
+        var immunization = (Immunization) immunizationList.get(0);
+        assertEquals(2, immunization.getPractitioner().size());
+        assertEquals("Practitioner/9A5D5A78-1F63-434C-9637-1D7E7843341B",
+                     immunization.getPractitioner().get(0).getActor().getReference());
+        assertEquals("AP",
+                     immunization.getPractitioner().get(0).getRole().getText());
+        assertEquals("Practitioner/9A5D5A78-1F63-434C-9637-1D7E7843341B",
+                     immunization.getPractitioner().get(1).getActor().getReference());
+        assertEquals("AP",
+                     immunization.getPractitioner().get(1).getRole().getText());
     }
 
     @Test
