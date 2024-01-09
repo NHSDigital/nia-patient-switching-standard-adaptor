@@ -7524,13 +7524,18 @@
         },
         "date": "2010-01-18T11:41:00+00:00",
         "primarySource": true,
-        "practitioner": [
-          {
-            "actor": {
-              "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-            }
+        "practitioner": [ {
+          "role": {
+            "text": "EP"
+          },
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ],
+        }, {
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        } ],
         "note": [
           {
             "text": "[Manufacturer: Medi-Pete], [Expiry Date: 18-Jan-2011], [Batch Number: 123456], GMS: GMS, Injection site: Left arm"
@@ -7610,13 +7615,18 @@
         },
         "date": "2010-01-18T11:41:00+00:00",
         "primarySource": true,
-        "practitioner": [
-          {
-            "actor": {
-              "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-            }
+        "practitioner": [ {
+          "role": {
+            "text": "EP"
+          },
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ],
+        }, {
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        } ],
         "note": [
           {
             "text": "[Manufacturer: Medi-Pete], [Expiry Date: 29-Jan-2010], [Batch Number: 654321], Injection site: Right arm"
@@ -7692,13 +7702,18 @@
         },
         "date": "2010-01-18T11:41:00+00:00",
         "primarySource": true,
-        "practitioner": [
-          {
-            "actor": {
-              "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-            }
+        "practitioner": [ {
+          "role": {
+            "text": "EP"
+          },
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ],
+        }, {
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        } ],
         "note": [
           {
             "text": "[Manufacturer: Medi - Pete], [Expiry Date: 13-Jan-2010], [Batch Number: 1234567], GMS: GMS, Injection site: Left thigh"
@@ -7778,13 +7793,18 @@
         },
         "date": "2010-01-18T11:41:00+00:00",
         "primarySource": true,
-        "practitioner": [
-          {
-            "actor": {
-              "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-            }
+        "practitioner": [ {
+          "role": {
+            "text": "EP"
+          },
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ],
+        }, {
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        } ],
         "note": [
           {
             "text": "[Manufacturer: Medi Pete], [Expiry Date: 31-Jan-2010], [Batch Number: AB1234], GMS: GMS, Injection site: Right thigh"
@@ -7860,13 +7880,18 @@
         },
         "date": "2010-01-18T11:41:00+00:00",
         "primarySource": true,
-        "practitioner": [
-          {
-            "actor": {
-              "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-            }
+        "practitioner": [ {
+          "role": {
+            "text": "EP"
+          },
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ],
+        }, {
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        } ],
         "note": [
           {
             "text": "[Manufacturer: Medi Pete], [Batch Number: cd32323], GMS: GMS, Injection site: Left buttock"
@@ -7946,13 +7971,18 @@
         },
         "date": "2010-01-18T11:41:00+00:00",
         "primarySource": true,
-        "practitioner": [
-          {
-            "actor": {
-              "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-            }
+        "practitioner": [ {
+          "role": {
+            "text": "EP"
+          },
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ],
+        }, {
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        } ],
         "note": [
           {
             "text": "[Manufacturer: Pete-medicines], [Expiry Date: 07-Feb-2010], [Batch Number: rere2323], Injection site: Right buttock"
@@ -8032,13 +8062,18 @@
         },
         "date": "2010-01-18T11:41:00+00:00",
         "primarySource": true,
-        "practitioner": [
-          {
-            "actor": {
-              "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-            }
+        "practitioner": [ {
+          "role": {
+            "text": "EP"
+          },
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ],
+        }, {
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        } ],
         "note": [
           {
             "text": "[Manufacturer: some company], [Expiry Date: 25-Jan-2030], [Batch Number: future2030], GMS: GMS (Another Practice), Injection site: Left arm"
@@ -8118,13 +8153,18 @@
         },
         "date": "2010-01-18T11:41:00+00:00",
         "primarySource": true,
-        "practitioner": [
-          {
-            "actor": {
-              "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
-            }
+        "practitioner": [ {
+          "role": {
+            "text": "EP"
+          },
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ],
+        }, {
+          "actor": {
+            "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+          }
+        } ],
         "note": [
           {
             "text": "[Manufacturer: another company], [Expiry Date: 17-Jan-2003], [Batch Number: past2003], GMS: Not GMS, Injection site: Right arm"

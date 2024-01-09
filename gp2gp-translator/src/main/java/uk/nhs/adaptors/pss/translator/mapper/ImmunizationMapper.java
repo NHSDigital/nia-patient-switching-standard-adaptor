@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
@@ -79,15 +80,14 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         ImmunizationPractitionerComponent recorder = null;
         ImmunizationPractitionerComponent asserter = null;
 
-        if (recorderAndAsserter.get(RECORDER).isPresent() && recorderAndAsserter.get(ASSERTER).isPresent()) {
-            recorder = getImmunizationPractitioner(recorderAndAsserter.get(RECORDER).get(), "EP");
-            asserter = getImmunizationPractitioner(recorderAndAsserter.get(ASSERTER).get(), "AP");
-        } else {
-            var practitioner = Optional.ofNullable(getParticipantReference(
-                                                            observationStatement.getParticipant(),
-                                                            ehrComposition));
-            recorder = getImmunizationPractitioner(practitioner.get(), "AP");
-            asserter = getImmunizationPractitioner(practitioner.get(), "AP");
+        var practitioner = Optional.ofNullable(getParticipantReference(
+                                                observationStatement.getParticipant(),
+                                                ehrComposition));
+        if (practitioner.isPresent()) {
+            asserter = getImmunizationPractitioner(practitioner.get(), "");
+            if (recorderAndAsserter.get(RECORDER).isPresent()) {
+                recorder = getImmunizationPractitioner(recorderAndAsserter.get(RECORDER).get(), "EP");
+            }
         }
 
         var encounter = getEncounterReference(encounterList, ehrComposition.getId());
@@ -122,8 +122,11 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
     private static ImmunizationPractitionerComponent getImmunizationPractitioner(Reference practitionerReference, String role) {
 
         ImmunizationPractitionerComponent recorder = new ImmunizationPractitionerComponent(practitionerReference);
-        var epRole = new CodeableConcept().setText(role);
-        recorder.setRole(epRole);
+        if (StringUtils.isNotEmpty(role)) {
+            var epRole = new CodeableConcept().setText(role);
+            recorder.setRole(epRole);
+        }
+
         return recorder;
     }
 

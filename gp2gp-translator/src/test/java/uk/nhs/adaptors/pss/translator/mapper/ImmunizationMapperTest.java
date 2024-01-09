@@ -96,10 +96,9 @@ public class ImmunizationMapperTest {
                                     immunization.getPractitioner().get(0).getActor().getReference());
         assertEquals("EP",
                                     immunization.getPractitioner().get(0).getRole().getText());
-        assertEquals("Practitioner/9F2ABD26-1682-FDFE-1E88-19673307C67A",
+        assertEquals("Practitioner/9A5D5A78-1F63-434C-9637-1D7E7843341B",
                                     immunization.getPractitioner().get(1).getActor().getReference());
-        assertEquals("AP",
-                                    immunization.getPractitioner().get(1).getRole().getText());
+        assertNull(immunization.getPractitioner().get(1).getRole().getText());
     }
 
     @Test
@@ -108,15 +107,10 @@ public class ImmunizationMapperTest {
         List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
         var immunization = (Immunization) immunizationList.get(0);
-        assertEquals(2, immunization.getPractitioner().size());
+        assertEquals(1, immunization.getPractitioner().size());
         assertEquals("Practitioner/9A5D5A78-1F63-434C-9637-1D7E7843341B",
                      immunization.getPractitioner().get(0).getActor().getReference());
-        assertEquals("AP",
-                     immunization.getPractitioner().get(0).getRole().getText());
-        assertEquals("Practitioner/9A5D5A78-1F63-434C-9637-1D7E7843341B",
-                     immunization.getPractitioner().get(1).getActor().getReference());
-        assertEquals("AP",
-                     immunization.getPractitioner().get(1).getRole().getText());
+        assertNull(immunization.getPractitioner().get(0).getRole().getText());
     }
 
     @Test
