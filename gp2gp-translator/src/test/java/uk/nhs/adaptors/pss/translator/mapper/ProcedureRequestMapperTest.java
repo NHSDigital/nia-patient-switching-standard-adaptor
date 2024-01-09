@@ -177,8 +177,8 @@ public class ProcedureRequestMapperTest {
     }
 
     @Test
-    public void mapProcedureRequestWithEhrExtractAvailabilityTime() {
-        var ehrExtract = unmarshallCodeElement("ehr_extract_availability_time_example.xml");
+    public void mapProcedureRequestWithAuthorTime() {
+        var ehrExtract = unmarshallCodeElement("ehr_extract_author_time_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
         setUpCodeableConceptMock();
 
@@ -187,7 +187,7 @@ public class ProcedureRequestMapperTest {
 
         assertFixedValues(planStatement, procedureRequest);
         assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
-            DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue()).getValue());
+            DateFormatUtil.parseToDateTimeType(getEhrComposition(ehrExtract).getAuthor().getTime().getValue()).getValue());
         assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
