@@ -36,22 +36,24 @@ import org.springframework.util.CollectionUtils;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import uk.nhs.adaptors.pss.translator.util.AddressUtil;
+import uk.nhs.adaptors.pss.translator.util.CodeSystemsUtil;
 import uk.nhs.adaptors.pss.translator.util.TelecomUtil;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 public class AgentDirectoryMapper {
 
-    private static final String PRACT_META_PROFILE = "Practitioner-1";
+    private static final String PRACTITIONER_META_PROFILE = "Practitioner-1";
     private static final String ORG_META_PROFILE = "Organization-1";
-    private static final String PRACT_ROLE_META_PROFILE = "PractitionerRole-1";
+    private static final String PRACTITIONER_ROLE_META_PROFILE = "PractitionerRole-1";
     private static final String ORG_IDENTIFIER_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
     private static final String ORG_PREFIX = "Organization/";
-    private static final String PRACT_PREFIX = "Practitioner/";
+    private static final String PRACTITIONER_PREFIX = "Practitioner/";
     private static final String ORG_ID_SUFFIX = "-ORG";
-    private static final String PRACT_ROLE_SUFFIX = "-PR";
+    private static final String PRACTITIONER_ROLE_SUFFIX = "-PR";
     private static final String ORG_ROOT = "2.16.840.1.113883.2.1.4.3";
     private static final String UNKNOWN = "Unknown";
+    private static final String GMP_NUMBER_SYSTEM_CODE = "https://fhir.hl7.org.uk/Id/gmp-number";
 
     public List<? extends DomainResource> mapAgentDirectory(RCMRMT030101UK04AgentDirectory agentDirectory) {
         var partList = agentDirectory.getPart();
@@ -99,12 +101,12 @@ public class AgentDirectoryMapper {
         var practitioner = new Practitioner();
 
         practitioner.setId(id);
-        practitioner.setMeta(generateMeta(PRACT_META_PROFILE));
+        practitioner.setMeta(generateMeta(PRACTITIONER_META_PROFILE));
         practitioner.setName(getPractitionerName(agentPerson.getName()));
 
         if (isNotEmpty(gpNumber)) {
             Identifier identifier = new Identifier()
-                .setSystem("https://fhir.hl7.org.uk/Id/gmp-number")
+                .setSystem(GMP_NUMBER_SYSTEM_CODE)
                 .setValue(gpNumber);
             practitioner.setIdentifier(List.of(identifier));
         }
@@ -159,17 +161,7 @@ public class AgentDirectoryMapper {
             organization.getIdentifier().add(identifier.orElseThrow());
         }
 
-        var address = getOrganizationAddress(representedOrg.getAddr());
-        if (address != null) {
-            organization.getAddress().add(address);
-        }
-
-        var telecom = getOrganizationTelecom(representedOrg.getTelecom());
-        if (telecom != null) {
-            organization.getTelecom().add(telecom);
-        }
-
-        return organization;
+        return addOrganisationAddressAndTelecomIfPresent(representedOrg, organization);
     }
 
     private Organization createAgentOrganization(RCCTMT120101UK01Organization agentOrg, String id, CV code) {
@@ -186,9 +178,13 @@ public class AgentDirectoryMapper {
 
         var text = getText(code);
         if (text != null) {
-            organization.getType().add(getText(code));
+            organization.getType().add(text);
         }
 
+        return addOrganisationAddressAndTelecomIfPresent(agentOrg, organization);
+    }
+
+    private Organization addOrganisationAddressAndTelecomIfPresent(RCCTMT120101UK01Organization agentOrg, Organization organization) {
         var address = getOrganizationAddress(agentOrg.getAddr());
         if (address != null) {
             organization.getAddress().add(address);
@@ -222,14 +218,35 @@ public class AgentDirectoryMapper {
         return name != null ? name : UNKNOWN;
     }
 
+    /**
+     * @param code <a href="https://data.developer.nhs.uk/dms/mim/4.2.00/Domains/CMETs/Tabular%20View/RCCT_HD120100UK01-NoEdit.htm#Agent">See the code field of Agent in MiM</a>
+     */
     private CodeableConcept getText(CV code) {
+        /* It is unclear if it is valid to have a code without a code system, an assumption has been made for NIAD-2989
+           that in the case of missing code system we will leave the codeSystem blank.
+           This may need to be revisited if this is not the case.
+
+           See example in gp2gp-translator/src/integrationTest/resources/json/LargeMessage/Scenario_5/uk06.json
+             <code code="309394004" displayName="General Practitioner Principal">
+        */
 
         if (code != null) {
+            var codeSystem = code.hasCodeSystem()
+                    ? CodeSystemsUtil.getFhirCodeSystem(code.getCodeSystem())
+                    : null;
+
             if (StringUtils.isNotEmpty(code.getOriginalText())) {
-                return createCodeableConcept(code.getCode(), code.getCodeSystem(),
-                                             code.getDisplayName(), code.getOriginalText());
+                return createCodeableConcept(
+                        code.getCode(),
+                        codeSystem,
+                        code.getDisplayName(),
+                        code.getOriginalText());
+
             } else if (StringUtils.isNotEmpty(code.getDisplayName())) {
-                return createCodeableConcept(code.getCode(), code.getCodeSystem(), code.getDisplayName());
+                return createCodeableConcept(
+                        code.getCode(),
+                        codeSystem,
+                        code.getDisplayName());
             }
         }
 
@@ -255,9 +272,9 @@ public class AgentDirectoryMapper {
     private PractitionerRole createPractitionerRole(String id, CV code, String organisationId) {
         var practitionerRole = new PractitionerRole();
 
-        practitionerRole.setId(id + PRACT_ROLE_SUFFIX);
-        practitionerRole.setMeta(generateMeta(PRACT_ROLE_META_PROFILE));
-        practitionerRole.setPractitioner(new Reference(PRACT_PREFIX + id));
+        practitionerRole.setId(id + PRACTITIONER_ROLE_SUFFIX);
+        practitionerRole.setMeta(generateMeta(PRACTITIONER_ROLE_META_PROFILE));
+        practitionerRole.setPractitioner(new Reference(PRACTITIONER_PREFIX + id));
         practitionerRole.setOrganization(new Reference(ORG_PREFIX + organisationId));
 
         var text = getText(code);
