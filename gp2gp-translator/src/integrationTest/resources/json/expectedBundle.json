@@ -29799,13 +29799,6 @@
         "date": "2010-01-15",
         "primarySource": true,
         "practitioner": [ {
-          "role": {
-            "text": "EP"
-          },
-          "actor": {
-            "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
-          }
-        }, {
           "actor": {
             "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
           }

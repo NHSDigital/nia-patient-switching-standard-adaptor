@@ -85,7 +85,8 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
                                                 ehrComposition));
         if (practitioner.isPresent()) {
             asserter = getImmunizationPractitioner(practitioner.get(), "");
-            if (recorderAndAsserter.get(RECORDER).isPresent()) {
+            if (recorderAndAsserter.get(RECORDER).isPresent()
+                && !recorderAndAsserter.get(RECORDER).get().getReference().equals(practitioner.get().getReference())) {
                 recorder = getImmunizationPractitioner(recorderAndAsserter.get(RECORDER).get(), "EP");
             }
         }
