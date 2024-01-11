@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * REST buffer size has been set to 150Mb
 
 ### Fixed
+* `ProcedureRequestMapper.authoredOn` is no longer populated with `EhrExtract / availabilityTime` as a fallback,
+  but does use `EhrComposition / author / time` as a fallback instead now.
 * Fixed issue where mapping failed due to a Referral Request Priority not being found.
 * Codings are now provided (code, display and system) in `PractionionerRole.code` and `Organization.type` fields,
   where only the `text` attribute was provided previously.

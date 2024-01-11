@@ -41,13 +41,12 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllPlanStatements(component)
                 .filter(Objects::nonNull)
-                .map(planStatement -> mapToProcedureRequest(ehrExtract, composition, planStatement, patient, encounters, practiseCode)))
+                .map(planStatement -> mapToProcedureRequest(composition, planStatement, patient, encounters, practiseCode)))
             .map(ProcedureRequest.class::cast)
             .toList();
     }
 
     public ProcedureRequest mapToProcedureRequest(
-            RCMRMT030101UK04EhrExtract ehrExtract,
             RCMRMT030101UK04EhrComposition ehrComposition,
             RCMRMT030101UK04PlanStatement planStatement,
             Patient patient,
@@ -60,7 +59,7 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         procedureRequest
             .setStatus(ProcedureRequestStatus.ACTIVE)
             .setIntent(ProcedureRequestIntent.PLAN)
-            .setAuthoredOnElement(getAuthoredOn(planStatement.getAvailabilityTime(), ehrExtract, ehrComposition))
+            .setAuthoredOnElement(getAuthoredOn(planStatement.getAvailabilityTime(), ehrComposition))
             .setOccurrence(getOccurrenceDate(planStatement.getEffectiveTime()))
             .setSubject(new Reference(patient))
             .setMeta(generateMeta(META_PROFILE))
@@ -104,16 +103,13 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         return null;
     }
 
-    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04EhrComposition ehrComposition) {
+    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UK04EhrComposition ehrComposition) {
         if (availabilityTime != null && availabilityTime.hasValue()) {
             return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
-        } else {
-            if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
-                return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
-            } else if (ehrExtract.getAvailabilityTime() != null && ehrExtract.getAvailabilityTime().hasValue()) {
-                return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
-            }
+        } else if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
+        } else if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
         }
 
         return null;
