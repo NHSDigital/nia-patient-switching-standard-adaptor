@@ -41,13 +41,12 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllPlanStatements(component)
                 .filter(Objects::nonNull)
-                .map(planStatement -> mapToProcedureRequest(ehrExtract, composition, planStatement, patient, encounters, practiseCode)))
+                .map(planStatement -> mapToProcedureRequest(composition, planStatement, patient, encounters, practiseCode)))
             .map(ProcedureRequest.class::cast)
             .toList();
     }
 
     public ProcedureRequest mapToProcedureRequest(
-            RCMRMT030101UK04EhrExtract ehrExtract,
             RCMRMT030101UK04EhrComposition ehrComposition,
             RCMRMT030101UK04PlanStatement planStatement,
             Patient patient,
