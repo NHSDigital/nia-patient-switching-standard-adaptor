@@ -28926,21 +28926,7 @@
         ],
         "specimen": {
           "reference": "Specimen/A245DC81-485C-49DF-B8E5-9230C9855A78"
-        },
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/041CC213-A756-467C-8254-3221B58A7F6A"
-            }
-          },
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/8FB20BD2-718D-4FFF-9E9A-E52AFD7BFCFB"
-            }
-          }
-        ]
+        }
       }
     },
     {
@@ -29164,15 +29150,7 @@
         "comment": "CommentType:LABORATORY RESULT                                                                    COMMENT(E141)                                                                    CommentDate:20100223000000                                                                    NEGATIVE                                                                    In normal pregnancies the test will usually be positive from the                                                                    second day after the expected menstruation.                                                                ",
         "specimen": {
           "reference": "Specimen/SPECIMEN_COMPOUND_STATEMENT_ID_1"
-        },
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/6035E061-EEEE-444B-8171-DBEE153FDE2E"
-            }
-          }
-        ]
+        }
       }
     },
     {
@@ -29254,14 +29232,6 @@
               "value": 90
             }
           }
-        ],
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/6035E061-FD34-444B-8171-DBDD243FDE1D"
-            }
-          }
         ]
       }
     },
@@ -29335,15 +29305,7 @@
         "comment": "CommentType:LABORATORY RESULT                                                                    COMMENT(E141)                                                                    CommentDate:20100223000000                                                                    Test not available                                                                ",
         "specimen": {
           "reference": "Specimen/SPECIMEN_COMPOUND_STATEMENT_ID_3"
-        },
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/6035E061-FD34-444B-8171-CCEE354GEF2C"
-            }
-          }
-        ]
+        }
       }
     },
     {
@@ -29477,21 +29439,7 @@
         ],
         "specimen": {
           "reference": "Specimen/1277BE3-481B-4254-AA8E-17B2529244B6"
-        },
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/8877BE3-481B-4254-AA8E-17B2529244B6"
-            }
-          },
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/1177BE3-481B-4254-AA8E-17B2529244B6"
-            }
-          }
-        ]
+        }
       }
     },
     {
@@ -29661,12 +29609,6 @@
           "reference": "Specimen/1277BE3-481B-4254-AA8E-17B2529244B6"
         },
         "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/USER_COMMENT_NARRATIVE_STATEMENT_ID"
-            }
-          },
           {
             "type": "derived-from",
             "target": {
