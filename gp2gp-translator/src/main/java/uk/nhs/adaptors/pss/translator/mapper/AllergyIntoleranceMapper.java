@@ -5,16 +5,14 @@ import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCate
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
 
-import static uk.nhs.adaptors.pss.translator.util.AuthorUtil.getAuthorReference;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
-import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipant2Reference;
+import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.fetchRecorderAndAsserter;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -144,14 +142,6 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                         .setRecorder(reference)
                         .setAsserter(reference));
         }
-    }
-
-    private Map<String, Optional<Reference>> fetchRecorderAndAsserter(RCMRMT030101UK04EhrComposition ehrComposition) {
-
-        var practitioner = Optional.ofNullable(getParticipant2Reference(ehrComposition, "RESP"));
-        var author = getAuthorReference(ehrComposition);
-
-        return Map.of(RECORDER, author, ASSERTER, practitioner);
     }
 
     private void buildExtension(RCMRMT030101UK04EhrComposition ehrComposition, List<Encounter> encounters,

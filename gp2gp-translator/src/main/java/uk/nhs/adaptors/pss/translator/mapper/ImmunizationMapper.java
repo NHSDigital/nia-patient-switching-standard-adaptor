@@ -1,14 +1,17 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatements;
+import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
@@ -27,6 +30,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -42,6 +46,8 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
     private static final String END_DATE_PREFIX = "End Date: ";
     private static final String RECORDED_DATE_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-DateRecorded-1";
+    public static final String ASSERTER = "asserter";
+    public static final String RECORDER = "recorder";
 
     private CodeableConceptMapper codeableConceptMapper;
     private DatabaseImmunizationChecker immunizationChecker;
@@ -70,8 +76,21 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         Immunization immunization = new Immunization();
 
         var id = observationStatement.getId().getRoot();
+        var recorderAndAsserter = ParticipantReferenceUtil.fetchRecorderAndAsserter(ehrComposition);
+        ImmunizationPractitionerComponent recorder = null;
+        ImmunizationPractitionerComponent asserter = null;
 
-        var practitioner = ParticipantReferenceUtil.getParticipantReference(observationStatement.getParticipant(), ehrComposition);
+        var practitioner = Optional.ofNullable(getParticipantReference(
+                                                observationStatement.getParticipant(),
+                                                ehrComposition));
+        if (practitioner.isPresent()) {
+            asserter = getImmunizationPractitioner(practitioner.get(), "");
+            if (recorderAndAsserter.get(RECORDER).isPresent()
+                && !recorderAndAsserter.get(RECORDER).get().getReference().equals(practitioner.get().getReference())) {
+                recorder = getImmunizationPractitioner(recorderAndAsserter.get(RECORDER).get(), "EP");
+            }
+        }
+
         var encounter = getEncounterReference(encounterList, ehrComposition.getId());
 
         immunization.setMeta(generateMeta(META_PROFILE));
@@ -80,7 +99,8 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         immunization.addExtension(createRecordedTimeExtension(ehrComposition));
         immunization
             .setEncounter(encounter)
-            .addPractitioner(new ImmunizationPractitionerComponent(practitioner))
+            .addPractitioner(recorder)
+            .addPractitioner(asserter)
             .setStatus(ImmunizationStatus.COMPLETED)
             .setNotGiven(false)
             .setPrimarySource(true)
@@ -97,6 +117,18 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         immunization.setVaccineCode(new CodeableConcept().setCoding(codingList));
 
         return immunization;
+    }
+
+    @NotNull
+    private static ImmunizationPractitionerComponent getImmunizationPractitioner(Reference practitionerReference, String role) {
+
+        ImmunizationPractitionerComponent recorder = new ImmunizationPractitionerComponent(practitionerReference);
+        if (StringUtils.isNotEmpty(role)) {
+            var epRole = new CodeableConcept().setText(role);
+            recorder.setRole(epRole);
+        }
+
+        return recorder;
     }
 
     private Reference getEncounterReference(List<Encounter> encounterList, II ehrCompositionId) {
