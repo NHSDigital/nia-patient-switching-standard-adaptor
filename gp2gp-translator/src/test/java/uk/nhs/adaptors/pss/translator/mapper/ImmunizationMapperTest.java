@@ -87,6 +87,33 @@ public class ImmunizationMapperTest {
     }
 
     @Test
+    public void mapObservationToImmunizationWhenEhrCompositionWithParticipantAndAuthor() {
+        var ehrExtract = unmarshallEhrExtract("immunization_with_ehr_composition_with_author_and_participant.xml");
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
+
+        var immunization = (Immunization) immunizationList.get(0);
+        assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C",
+                                    immunization.getPractitioner().get(0).getActor().getReference());
+        assertEquals("EP",
+                                    immunization.getPractitioner().get(0).getRole().getText());
+        assertEquals("Practitioner/9A5D5A78-1F63-434C-9637-1D7E7843341B",
+                                    immunization.getPractitioner().get(1).getActor().getReference());
+        assertNull(immunization.getPractitioner().get(1).getRole().getText());
+    }
+
+    @Test
+    public void mapObservationToImmunizationWhenEhrCompositionWithOneObservationParticipant() {
+        var ehrExtract = unmarshallEhrExtract("immunization_with_ehr_composition_with_one_observation_participant.xml");
+        List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
+
+        var immunization = (Immunization) immunizationList.get(0);
+        assertEquals(1, immunization.getPractitioner().size());
+        assertEquals("Practitioner/9A5D5A78-1F63-434C-9637-1D7E7843341B",
+                     immunization.getPractitioner().get(0).getActor().getReference());
+        assertNull(immunization.getPractitioner().get(0).getRole().getText());
+    }
+
+    @Test
     public void mapObservationToImmunizationWithMultipleObservationStatements() {
         var ehrExtract = unmarshallEhrExtract("full_valid_immunization_with_multiple_observation_statements.xml");
         List<Immunization> immunizationList = immunizationMapper.mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
