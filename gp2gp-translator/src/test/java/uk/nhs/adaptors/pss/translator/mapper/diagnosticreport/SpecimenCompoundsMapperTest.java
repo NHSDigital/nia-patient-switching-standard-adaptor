@@ -23,8 +23,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
-import uk.nhs.adaptors.pss.translator.mapper.DateTimeMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class SpecimenCompoundsMapperTest {
@@ -46,12 +44,6 @@ public class SpecimenCompoundsMapperTest {
     private List<Observation> observations;
     private List<Observation> observationComments;
     private List<DiagnosticReport> diagnosticReports;
-
-    @Mock
-    private DateTimeMapper dateTimeMapper;
-
-    @Mock
-    private CodeableConceptMapper codeableConceptMapper;
 
     @Mock
     private SpecimenBatteryMapper specimenBatteryMapper;
@@ -94,18 +86,13 @@ public class SpecimenCompoundsMapperTest {
 
         assertParentSpecimenIsReferenced(observation);
 
+        assertThat(observation.getRelated()).isEmpty();
         assertThat(observationComments.size()).isEqualTo(2);
         assertThat(observationComment.getComment()).isEqualTo(TEST_COMMENT_LINE_1);
         assertThat(observationComment.getRelated()).isNotEmpty();
-        assertThat(observationComment.getRelatedFirstRep().getTarget().getResource()).isNotNull();
-        assertThat(observationComment.getRelatedFirstRep().getTarget().getResource().getIdElement().getValue())
-            .isEqualTo(OBSERVATION_STATEMENT_ID);
-
-        assertThat(observation.getRelated()).isNotEmpty();
-        assertThat(observation.getRelatedFirstRep().getTarget().getResource()).isNotNull();
-        assertThat(observation.getRelatedFirstRep().getTarget().getResource().getIdElement().getValue())
-            .isEqualTo(NARRATIVE_STATEMENT_ID);
-
+        assertThat(observationComment.getRelated().get(0).getTarget().getResource()).isNotNull();
+        assertThat(observationComment.getRelated().get(0).getTarget().getResource().getIdElement().getValue())
+                .isEqualTo(observation.getId());
         assertThat(diagnosticReports.get(0).getResult().size()).isOne();
     }
 
@@ -133,8 +120,12 @@ public class SpecimenCompoundsMapperTest {
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
-        assertThat(observations.get(0).getRelated()).isNotEmpty();
         assertThat(observationComments.size()).isEqualTo(2);
+        assertThat(observationComments.get(0).getRelated()).isNotEmpty();
+        assertThat(observationComments.get(0).getRelated()).isNotEmpty();
+        assertThat(observationComments.get(0).getRelated().get(0).getTarget().getResource()).isNotNull();
+        assertThat(observationComments.get(0).getRelated().get(0).getTarget().getResource().getIdElement().getValue())
+                .isEqualTo(observations.get(0).getId());
         assertThat(observations.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE);
     }
 

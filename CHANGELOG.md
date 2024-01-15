@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * Codings are now provided (code, display and system) in `PractionionerRole.code` and `Organization.type` fields,
   where only the `text` attribute was provided previously.
 * Fixed a bug which could lead to medication resource not being mapped if a failure had occurred when processing the previous EhrExtract during the medication mapping stage
+* Fixed an issue where `Observation Test Group` or `Observation Test Results` were incorrectly creating a relationship to `Filing Comments` using the `has-member` relationship
 
 ## [1.3.0] - 2023-12-11
 
