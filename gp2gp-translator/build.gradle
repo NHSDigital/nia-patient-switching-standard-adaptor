@@ -29,7 +29,7 @@ dependencies {
     implementation project(':schema')
     implementation 'com.github.spullara.mustache.java:compiler:0.9.10'
     implementation 'org.jdbi:jdbi3-core:3.24.1'
-    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'org.jetbrains:annotations:24.1.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
