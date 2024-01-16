@@ -325,7 +325,7 @@ The recommended heap space for the PS Adaptor Translator is 4 GB. Also, it shoul
 
 **Required**
   - `MHS_BASE_URL`: URL of [MHS Outbound Adaptor][mhs-adaptor], default = `http://localhost:8080`
-  - `MAX_REQUEST_SIZE`: Maximum request size of the message that can be sent to MHS Outbound, default = `150 Mb`
+  - `MAX_REQUEST_SIZE`: Maximum request size of the message that can be sent to GP Connect Inbound queue, default = `150 Mb`
 
 #### Attachment storage variables
 

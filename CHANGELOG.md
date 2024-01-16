@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * Assigning a role to a practitioner who records vaccinations
 
 ### Changed
-* Maximum request size of the message that can be sent to MHS Outbound set to 150 Mb
+* Maximum request size of the message that can be sent to GP Connect Inbound queue set to 150 Mb
 
 ### Fixed
 * `ProcedureRequestMapper.authoredOn` is no longer populated with `EhrExtract / availabilityTime` as a fallback,
