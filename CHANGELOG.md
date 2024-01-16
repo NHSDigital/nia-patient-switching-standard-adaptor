@@ -8,19 +8,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 * Assigning a role to a practitioner who records vaccinations
 
+### Fixed
+* `AllergyIntoleranceMapper.assertedDate`  is no longer populated with `EhrExtract / availabilityTime` as a fallback,
+  but does use `EhrComposition / author / time` as a fallback instead now.
+* Fixed an issue where `Observation Test Group` or `Observation Test Results` were incorrectly creating a relationship to `Filing Comments` using the `has-member` relationship
+* `ProcedureRequestMapper.authoredOn` is no longer populated with `EhrExtract / availabilityTime` as a fallback,
+  but does use `EhrComposition / author / time` as a fallback instead now.
+
+## [1.4.0] - 2024-01-10
+
 ### Changed
 * REST buffer size has been set to 150Mb
 
 ### Fixed
-* `AllergyIntoleranceMapper.assertedDate`  is no longer populated with `EhrExtract / availabilityTime` as a fallback,
-  but does use `EhrComposition / author / time` as a fallback instead now.
-* `ProcedureRequestMapper.authoredOn` is no longer populated with `EhrExtract / availabilityTime` as a fallback,
-  but does use `EhrComposition / author / time` as a fallback instead now.
 * Fixed issue where mapping failed due to a Referral Request Priority not being found.
 * Codings are now provided (code, display and system) in `PractionionerRole.code` and `Organization.type` fields,
   where only the `text` attribute was provided previously.
 * Fixed a bug which could lead to medication resource not being mapped if a failure had occurred when processing the previous EhrExtract during the medication mapping stage
-* Fixed an issue where `Observation Test Group` or `Observation Test Results` were incorrectly creating a relationship to `Filing Comments` using the `has-member` relationship
+
 
 ## [1.3.0] - 2023-12-11
 
